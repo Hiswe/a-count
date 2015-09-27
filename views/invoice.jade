@@ -1,0 +1,10 @@
+extends _layout.jade
+
+block content
+  h1 Invoice
+  form(method="post" action="/invoice")
+    fieldset
+      legend Creation
+      label(for="title") Title
+      input(id="title" name="title" type="text")
+    button(type="submit") Create invoice
