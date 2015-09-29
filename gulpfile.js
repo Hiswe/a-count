@@ -1,10 +1,45 @@
 'use strict';
 
-var gulp = require('gulp');
-var $    = require('gulp-load-plugins')();
+var gulp          = require('gulp');
+var $             = require('gulp-load-plugins')();
+var autoprefixer  = require('autoprefixer');
+
+////////
+// CSS
+////////
+
+gulp.task('css', function () {
+  return gulp.src('css/index.styl')
+    .pipe($.sourcemaps.init())
+      .pipe($.stylus({
+        'include css': true,
+        compress: false,
+        define: {
+          isProd: false,
+        }
+      }))
+      .pipe($.postcss([
+        autoprefixer({
+          browsers: ['> 1%', 'IE 9'],
+        }),
+      ]))
+      .pipe($.rename('concompte.css'))
+      .pipe($.sourcemaps.write('.'))
+    .pipe(gulp.dest('public'));
+});
+
+////////
+// DEV
+////////
+
+// gulp.task('dev', ['browser-sync'], function () {
+gulp.task('dev', function () {
+  // gulp.watch('js/**/*.js',              ['js', browserSync.reload]);
+  gulp.watch('css/**/*.styl',           ['css']);
+});
 
 var init = true;
-gulp.task('nodemon', function (cb) {
+gulp.task('nodemon', ['dev'], function (cb) {
   return $.nodemon({
     script: 'server.js',
     nodeArgs: ['--harmony'],
