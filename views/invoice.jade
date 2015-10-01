@@ -29,8 +29,11 @@ block content
             td: input(type="text")
             td: input(type="number")
             td: input(type="number")
-            td: input(type="number")
+            //- TODO put taxes default in conf
+            td: input(type="number", value=0)
             td.total xxxxxx €
+      .detail-actions
+        button.btn-secondary Add a line
 
     .actions
       button.btn(type="submit") Create invoice
