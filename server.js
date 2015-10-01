@@ -4,14 +4,16 @@ var path        = require('path');
 var express 		= require('express');
 var bodyParser 	= require('body-parser');
 
+var home        = require('./server/home');
 var invoice     = require('./server/invoice');
 
 //////
 // DB CONFIG
 //////
 
-var db          = require('./db');
-db.setup();
+var database    = require('./db');
+var db          = database.db;
+database.setup();
 
 //////
 // SERVER CONFIG
@@ -32,12 +34,10 @@ app.use(express.static('./public'));
 // ROUTING
 //////
 
-app.get('/', function getIndex(req, res) {
-  return res.render('home');
-});
-
 app.get('/invoice', invoice.get);
 app.post('/invoice', invoice.post);
+
+app.get('/', home.get);
 
 //////
 // LAUNCHING

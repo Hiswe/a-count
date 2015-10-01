@@ -4,7 +4,33 @@ block content
   h1 Invoice
   form(method="post" action="/invoice")
     fieldset
-      legend Creation
-      label(for="title") Title
-      input(id="title" name="title" type="text")
-    button(type="submit") Create invoice
+      h2.legend General
+
+      .input
+        label.item(for="title") Title
+        input.field(id="title" name="title" type="text")
+
+      .input
+        label.item(for="customer") Customer
+        input.field(id="customer" name="customer" type="text")
+
+    fieldset
+      h2.legend Detail
+      table.table-form(cellspacing=0)
+        thead
+          tr
+            th Désignation
+            th Jours
+            th PU HT
+            th Taxes
+            th Total HT
+        tbody
+          tr
+            td: input(type="text")
+            td: input(type="number")
+            td: input(type="number")
+            td: input(type="number")
+            td.total xxxxxx €
+
+    .actions
+      button.btn(type="submit") Create invoice

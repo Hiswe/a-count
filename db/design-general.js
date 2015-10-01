@@ -20,16 +20,6 @@ module.exports = {
     }
   },
   views: {
-    all: {
-      map: function(doc) {
-        emit(doc.title, {
-          content:doc.content,
-           abstract:doc.abstract,
-           localization: doc.localization,
-           category: doc.category,
-         });
-      },
-    },
     invoice: {
       map: function(doc) {
         if (doc.type === 'invoice') {

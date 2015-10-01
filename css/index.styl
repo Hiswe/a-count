@@ -1,6 +1,235 @@
+@import './_config'
+@import './_mixin'
+
+// Fjalla One and Cantarell
+// http://fontpair.co/#three
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html,
 body {
   margin: 0;
   font-family: Helvetica, Arial, sans-serif;
+  background: #ecf4f8;
+  color: #445;
 }
 
+ul,
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+main {
+  // IE9 +
+  // http://weblog.west-wind.com/posts/2015/Jan/12/main-HTML5-Tag-not-working-in-Internet-Explorer-91011
+  display: block;
+}
+
+header,
+main {
+
+  +mq('centered') {
+    padding-left: 'calc(50% - %s)' % ($max-width / 2);
+    padding-right: @padding-left;
+  }
+
+}
+
+//
+// HEADER
+//
+
+header {
+  background: #222;
+
+
+  li {
+    display: inline-block;
+
+    &:last-child {
+      border-right: 1px solid rgba(white, .1);
+    }
+
+    +mq('centered') {
+      border-left: 1px solid rgba(white, .1);
+    }
+
+    + li {
+      border-left: 1px solid rgba(white, .1);
+    }
+  }
+
+  a {
+    color: #EEE;
+    padding: 1em 2em;
+    display: inline-block;
+
+    &:hover {
+      background: steelblue;
+    }
+  }
+}
+
+//
+// FORMS
+//
+
+input,
+button {
+  font: inherit;
+}
+
+fieldset {
+  background: white;
+  padding: $gutter $gutter $gutter-2 $gutter;
+  border: 0;
+  border-radius: $gutter-4;
+  margin: 0 0 $gutter;
+}
+.actions {
+  padding: 0 $gutter $gutter-2 $gutter;
+}
+.legend {
+  font-size: 18px;
+  font-weight: normal;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0 0 $gutter;
+}
+
+.input {
+  display: flex;
+  margin-bottom: $gutter;
+}
+
+.field {
+  flex: 1;
+}
+.field:not(:first-child) {
+  border-left: 0;
+}
+.field:not(:last-child) {
+  border-right: 0;
+}
+
+.item {
+  background-color: rgba(147, 128, 108, 0.1);
+  color: #666666;
+  font: inherit;
+  font-weight: normal;
+}
+
+.field,
+.item {
+  border: 1px solid rgba(147, 128, 108, 0.25);
+  padding: 0.5em 0.75em;
+}
+.field:first-child,
+.item:first-child {
+  border-radius: 2px 0 0 2px;
+}
+.field:last-child,
+.item:last-child {
+  border-radius: 0 2px 2px 0;
+}
+
+.btn {
+  background: steelblue;
+  color: white;
+  border: 0;
+  padding: .75em 1em;
+  border-radius: $gutter-4;
+}
+
+//
+// TABLES
+//
+
+table {
+  border: 0;
+  width: 100%;
+  text-align: left;
+  border-radius: $gutter-4;
+}
+
+th {
+  // &:first-child {
+  //   border-top-left-radius: $gutter-4;
+  // }
+  // &:last-child {
+  //   border-top-right-radius: $gutter-4;
+  // }
+}
+
+.table-pres {
+  background: white;
+  border-radius: $gutter-4;
+
+  thead {
+    background: #222;
+    color: white;
+  }
+
+  th {
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-transform: uppercase;
+    font-size: 12px;
+    padding: 1em 1.3em;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #EEE;
+  }
+
+  td {
+    padding: .5em 1em;
+  }
+}
+
+.table-form {
+  border: 1px solid rgba(147, 128, 108, 0.25);
+  margin-bottom: $gutter-2;
+
+  thead {
+    border-bottom: 1px solid rgba(147, 128, 108, 0.25);
+  }
+
+  th {
+    background-color: rgba(147, 128, 108, 0.1);
+    color: #666666;
+    font: inherit;
+    font-weight: normal;
+    padding: 0.5em 0.75em;
+    border-bottom: 1px solid rgba(147, 128, 108, 0.25);
+
+    + th {
+      border-left: 1px solid rgba(147, 128, 108, 0.25);
+    }
+  }
+
+  td + td {
+    border-left: 1px solid rgba(147, 128, 108, 0.25);
+  }
+
+  .total,
+  input {
+    padding: 0.5em 0.75em;
+
+  }
+  input {
+    width: 100%;
+    border: 0;
+  }
+}

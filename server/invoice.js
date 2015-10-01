@@ -19,7 +19,7 @@ function post(req, res, next) {
     if (err) {
       console.log(chalk.red(logId));
       console.log(err);
-      res.status(500).send('Error in create invoice');
+      return res.status(500).send('Error in create invoice');
     }
     console.log(logId, chalk.grey('couch response'));
     console.log(couchRes);

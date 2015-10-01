@@ -3,6 +3,7 @@
 var gulp          = require('gulp');
 var $             = require('gulp-load-plugins')();
 var autoprefixer  = require('autoprefixer');
+var browserSync   = require('browser-sync').create();
 
 ////////
 // CSS
@@ -25,7 +26,8 @@ gulp.task('css', function () {
       ]))
       .pipe($.rename('concompte.css'))
       .pipe($.sourcemaps.write('.'))
-    .pipe(gulp.dest('public'));
+    .pipe(gulp.dest('public'))
+    .pipe(browserSync.stream({match: '**/*.css'}));
 });
 
 ////////
@@ -36,6 +38,14 @@ gulp.task('css', function () {
 gulp.task('dev', function () {
   // gulp.watch('js/**/*.js',              ['js', browserSync.reload]);
   gulp.watch('css/**/*.styl',           ['css']);
+});
+
+gulp.task('browser-sync', ['nodemon'], function () {
+  browserSync.init(null, {
+    proxy: 'http://localhost:3000',
+    open: false,
+    port: 7000,
+  });
 });
 
 var init = true;

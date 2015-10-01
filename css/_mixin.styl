@@ -1,0 +1,57 @@
+px2em(px, ref = 16px) {
+  1em * px / ref;
+}
+
+//////
+// MEDIA QUERIES
+//////
+
+$xsmall-range     = 0, px2em(420);
+$small-range      = px2em(421), px2em(640);
+$medium-range     = px2em(641), px2em(800);
+$large-range      = px2em(801), px2em(1024);
+$xlarge-range     = px2em(1025), 0;
+
+mq($$size) {
+  // extra small… for action buttons in cart
+  if ($$size == "<S") {
+    @media only screen and (max-width: $xsmall-range[1]) {
+      {block}
+    }
+  } else if ($$size == ">=S" ) {
+    @media only screen and (min-width: $small-range[0]) {
+      {block}
+    }
+  // This is the BP of the minor layout change on small devices
+  // (used in mini-collection going from 1 to 2 rows, instagram…)
+  } else if ($$size == "<M") {
+    @media only screen and (max-width: $small-range[1]) {
+      {block}
+    }
+  } else if ($$size == ">=M" ) {
+    @media only screen and (min-width: $medium-range[0]) {
+      {block}
+    }
+  } else if ($$size == "<L") {
+    @media only screen and (max-width: $medium-range[1]) {
+      {block}
+    }
+  // This is the BP of the main layout change
+  // (looked as tablet portrait/landscape)
+  } else if ($$size == ">=L") {
+    @media only screen and (min-width: $large-range[0]) {
+      {block}
+    }
+  } else if ($$size == "<XL") {
+    @media only screen and (max-width: $large-range[1]) {
+      {block}
+    }
+  // This is the BP when are on a max-width centered design
+  } else if ($$size == "centered") {
+    @media only screen and (min-width: $xlarge-range[0]) {
+      {block}
+    }
+  } else {
+    {block}
+  }
+}

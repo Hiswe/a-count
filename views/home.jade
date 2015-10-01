@@ -2,4 +2,15 @@ extends _layout.jade
 
 block content
   h1 ConCompte
-  | Hello world
+  table.table-pres(cellspacing=0)
+    thead
+      tr
+        th id
+        th title
+        th customer
+    tbody
+      each invoice in invoices
+        tr
+          td= invoice._id
+          td= invoice.title
+          td= invoice.customer
