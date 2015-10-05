@@ -5,7 +5,7 @@ var express 		= require('express');
 var bodyParser 	= require('body-parser');
 
 var home        = require('./server/home');
-var invoice     = require('./server/invoice');
+var quotation   = require('./server/quotation');
 
 //////
 // DB CONFIG
@@ -34,8 +34,8 @@ app.use(express.static('./public'));
 // ROUTING
 //////
 
-app.get('/invoice', invoice.get);
-app.post('/invoice', invoice.post);
+app.get('/quotation', quotation.get);
+app.post('/quotation', quotation.post);
 
 app.get('/', home.get);
 
