@@ -21,8 +21,8 @@ database.setup();
 
 var app = express();
 
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('views', path.join( __dirname, './views'));
 app.set('view engine', 'jade');

@@ -7,7 +7,10 @@ var db    = require('../db').db;
 var logId = '[HOME]';
 
 function getIndex(req, res) {
-  db.view('general', 'quotation', {include_docs: true}, couchResp);
+  db.view('general', 'quotation', {
+    include_docs: true,
+    reduce: false
+  }, couchResp);
 
   function couchResp(err, body) {
     if (err) {

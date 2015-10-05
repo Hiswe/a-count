@@ -1,19 +1,36 @@
 extends _layout.jade
-include ./mixins/detail-item.jade
+include ./mixins/product.jade
 
 block content
-  h1 Invoice
+  h1
+    | Invoice
+    &nbsp;
+    span.id
+      if quotation
+        | ##{quotation._id}
+      else
+        | #quot-#{quotationId}
   form(method="post" action="/quotation")
+    input(type="hidden", value=quotationId, name="id")
     fieldset
       h2.legend General
 
       .input
         label.item(for="title") Title
-        input.field(id="title" name="title" type="text")
-
+        input.field(
+          id="title"
+          name="title"
+          type="text"
+          value=quotation ? quotation.title : null
+        )
       .input
         label.item(for="customer") Customer
-        input.field(id="customer" name="customer" type="text")
+        input.field(
+          id="customer"
+          name="customer"
+          type="text"
+          value=quotation ? quotation.customer : null
+        )
 
     fieldset
       h2.legend Detail
@@ -26,7 +43,7 @@ block content
             th Taxes
             th Total HT
         tbody
-          +detail-item({num: 0})
+          +product(0)
 
         tfoot
           tr
@@ -35,4 +52,4 @@ block content
         button.btn-secondary Add a line
 
     .actions
-      button.btn(type="submit") Create invoice
+      button.btn(type="submit") Create quotation
