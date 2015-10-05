@@ -4,6 +4,68 @@ var gulp          = require('gulp');
 var $             = require('gulp-load-plugins')();
 var autoprefixer  = require('autoprefixer');
 var browserSync   = require('browser-sync').create();
+var browserify    = require('browserify');
+var vinylBuffer   = require('vinyl-buffer');
+var source        = require('vinyl-source-stream');
+var babelify      = require('babelify');
+
+var jsBasedir     = __dirname + '/js';
+var npmLibs       = [
+  'jquery',
+];
+
+
+////////
+// JS
+////////
+
+//----- LIBRARIES
+
+// gulp.task('js-lib', function () {
+//   return browserify({
+//     basedir: jsBasedir,
+//     noParse: npmLibs,
+//   })
+//   .require(npmLibs)
+//   .bundle()
+//   .pipe(source('conconpte-lib.js'))
+//   .pipe(gulp.dest('public'));
+// });
+
+//----- FRONT APPLICATION
+
+gulp.task('js', function () {
+  return browserify({
+    entries: jsBasedir + '/index.js',
+    basedir: jsBasedir,
+    debug: true,
+    noParse: npmLibs,
+  })
+  // .external(npmLibs)
+  // load the runtime to be able to use Object.assign
+  // http://stackoverflow.com/questions/28400253/how-can-i-get-object-assign-to-work-in-the-browser-when-using-6to5
+  .transform(babelify.configure({optional: ['runtime'] }))
+  // .transform(envify({
+  //   _: 'purge',
+  //   NODE_ENV: isProd ? 'production' : isDev ? 'development' : void(0),
+  //   LOG: hasLog || isDev ? true : false,
+  // }))
+  .bundle()
+  .on('error', function (err) {
+    console.log(err.message);
+    $.util.beep();
+    this.emit('end');
+  })
+  .pipe(source('concompte.js'))
+  .pipe(vinylBuffer())
+  // should convert streams to buffer…
+  // https://www.npmjs.com/package/vinyl-buffer
+  .pipe($.sourcemaps.init({loadMaps: true}))
+  .pipe($.sourcemaps.write('.'))
+  .pipe(gulp.dest('public'));
+});
+
+
 
 ////////
 // CSS
@@ -29,6 +91,21 @@ gulp.task('css', function () {
     .pipe(gulp.dest('public'))
     .pipe(browserSync.stream({match: '**/*.css'}));
 });
+
+////////
+// ASSETS
+////////
+
+//----- FONTS
+
+// gulp.task('fonts', function () {
+//   return gulp
+//     .src('theme-dev/fonts.list')
+//     .pipe($.googleWebfonts())
+//     .pipe($.if(/[.]woff$/, gulp.dest('theme/assets')))
+// });
+
+// gulp.task('assets', ['fonts']);
 
 ////////
 // DEV
