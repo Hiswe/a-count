@@ -19,53 +19,76 @@ var npmLibs       = [
 // JS
 ////////
 
+// https://github.com/vigetlabs/gulp-starter/issues/75#issuecomment-70672188
+
 //----- LIBRARIES
 
-// gulp.task('js-lib', function () {
-//   return browserify({
-//     basedir: jsBasedir,
-//     noParse: npmLibs,
-//   })
-//   .require(npmLibs)
-//   .bundle()
-//   .pipe(source('conconpte-lib.js'))
-//   .pipe(gulp.dest('public'));
-// });
+gulp.task('js-lib', function () {
+  var b = browserify({
+    debug: true,
+    noParse: npmLibs,
+  });
+
+  npmLibs.forEach(function(lib) {
+      b.require(lib);
+  });
+
+  return b
+    .bundle()
+    .pipe(source('concompte-lib.js'))
+    .pipe(gulp.dest('public'));
+});
 
 //----- FRONT APPLICATION
 
-gulp.task('js', function () {
-  return browserify({
-    entries: jsBasedir + '/index.js',
-    basedir: jsBasedir,
-    debug: true,
-    noParse: npmLibs,
-  })
-  // .external(npmLibs)
-  // load the runtime to be able to use Object.assign
-  // http://stackoverflow.com/questions/28400253/how-can-i-get-object-assign-to-work-in-the-browser-when-using-6to5
-  .transform(babelify.configure({optional: ['runtime'] }))
-  // .transform(envify({
-  //   _: 'purge',
-  //   NODE_ENV: isProd ? 'production' : isDev ? 'development' : void(0),
-  //   LOG: hasLog || isDev ? true : false,
-  // }))
-  .bundle()
-  .on('error', function (err) {
-    console.log(err.message);
-    $.util.beep();
-    this.emit('end');
-  })
-  .pipe(source('concompte.js'))
-  .pipe(vinylBuffer())
-  // should convert streams to buffer…
-  // https://www.npmjs.com/package/vinyl-buffer
-  .pipe($.sourcemaps.init({loadMaps: true}))
-  .pipe($.sourcemaps.write('.'))
-  .pipe(gulp.dest('public'));
+gulp.task('js-app', function () {
+  var b = browserify({
+    cache: {},
+    packageCache: {},
+    fullPaths: true,
+    extensions: ['.js'],
+    paths: ['./node_modules','./js/'],
+    debug: true
+  });
+  b.transform(babelify.configure({optional: ['runtime'] }));
+
+  npmLibs.forEach(function(lib) {
+    b.external(lib);
+  });
+
+  // // TODO use node_env instead of "global.buildNoWatch"
+  // if ( !global.buildNoWatch ) {
+  //     b = watchify(b);
+  //     b.on('update', function() {
+  //         gutil.log("Watchify detected change -> Rebuilding bundle");
+  //         return bundleShare(b);
+  //     });
+  // }
+
+  b.require('index.js', {expose: 'concompte'});
+
+  return bundleShare(b);
+
 });
 
+function bundleShare(b) {
+  return b
+    .bundle()
+    .on('error', function (err) {
+      console.log(err.message);
+      $.util.beep();
+      this.emit('end');
+    })
+    .pipe(source('concompte.js'))
+    .pipe(vinylBuffer())
+    .pipe($.sourcemaps.init({loadMaps: true}))
+    .pipe($.sourcemaps.write('.'))
+    .pipe(gulp.dest('./public'))
+    // // TODO use node_env instead of "global.buildNoWatch"
+    // .pipe(gulpif(!global.buildNoWatch, livereload()));
+}
 
+gulp.task('js', ['js-lib', 'js-app']);
 
 ////////
 // CSS
