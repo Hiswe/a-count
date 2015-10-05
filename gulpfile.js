@@ -134,10 +134,9 @@ gulp.task('css', function () {
 // DEV
 ////////
 
-// gulp.task('dev', ['browser-sync'], function () {
 gulp.task('dev', function () {
-  // gulp.watch('js/**/*.js',              ['js', browserSync.reload]);
-  gulp.watch('css/**/*.styl',           ['css']);
+  gulp.watch('js/**/*.js',    ['js-app', browserSync.reload]);
+  gulp.watch('css/**/*.styl', ['css']);
 });
 
 gulp.task('browser-sync', ['nodemon'], function () {

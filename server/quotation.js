@@ -14,8 +14,10 @@ function getQuotation(req, res, next) {
       console.log(err);
       return res.status(500).send('Error in get quotation list');
     }
-    console.log(body);
-    return res.render('quotation', {quotationId: body.rows[0].value});
+    // Reduce of no entries is empty
+    var quotationId = body.rows.length ? body.rows[0].value : 0;
+    //
+    return res.render('quotation', {quotationId: quotationId});
   }
 }
 
