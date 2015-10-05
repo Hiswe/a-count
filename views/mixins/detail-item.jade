@@ -1,0 +1,11 @@
+mixin detail-item(opts)
+  - opts = opts || {};
+  - opts.num  = opts.num || 0;
+
+  tr(id="detail-item-#{opts.num}")
+    td: input(type="text", name="description-#{opts.num}")
+    td: input(type="number", name="quantity-#{opts.num}")
+    td: input(type="number", name="price-#{opts.num}")
+    //- TODO put taxes default in conf
+    td: input(type="number", value=0, name="taxes-#{opts.num}")
+    td.total xxxxxx €

@@ -1,4 +1,5 @@
 extends _layout.jade
+include ./mixins/detail-item.jade
 
 block content
   h1 Invoice
@@ -25,13 +26,11 @@ block content
             th Taxes
             th Total HT
         tbody
+          +detail-item({num: 0})
+
+        tfoot
           tr
-            td: input(type="text")
-            td: input(type="number")
-            td: input(type="number")
-            //- TODO put taxes default in conf
-            td: input(type="number", value=0)
-            td.total xxxxxx €
+            td(colspan=5) € 0
       .detail-actions
         button.btn-secondary Add a line
 
