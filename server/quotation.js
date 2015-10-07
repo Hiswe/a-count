@@ -7,6 +7,7 @@ var db    = require('../db').db;
 var logId = '[QUOTATION]';
 
 function getQuotation(req, res, next) {
+  console.log(chalk.blue(logId), 'GET');
   db.view('general', 'quotation', couchResp);
   function couchResp(err, body) {
     if (err) {
@@ -22,9 +23,9 @@ function getQuotation(req, res, next) {
 }
 
 function post(req, res, next) {
-
+  console.log(chalk.blue(logId), 'POST');
   var body = req.body;
-  console.log(req.body);
+  console.log(req.body.products[0]);
   db.atomic('general', 'quotation', null, req.body, couchDone);
 
   function couchDone(err, couchRes) {

@@ -36,6 +36,7 @@ updates.quotation = function (doc,req) {
   doc.time.lastUpdate = new Date();
   doc.title       = body.title || doc.title || 'New quotation at ' + new Date().toString();
   doc.customer    = body.customer || doc.customer || 'unknown customer!!';
+  doc.products    = body.products || doc.products;
   return[doc,toJSON(doc)];
 };
 

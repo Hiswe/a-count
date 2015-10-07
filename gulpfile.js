@@ -4,10 +4,11 @@ var gulp          = require('gulp');
 var $             = require('gulp-load-plugins')();
 var autoprefixer  = require('autoprefixer');
 var browserSync   = require('browser-sync').create();
-var browserify    = require('browserify');
 var vinylBuffer   = require('vinyl-buffer');
 var source        = require('vinyl-source-stream');
+var browserify    = require('browserify');
 var babelify      = require('babelify');
+var jadeify       = require('jadeify');
 
 var jsBasedir     = __dirname + '/js';
 var npmLibs       = [
@@ -51,6 +52,9 @@ gulp.task('js-app', function () {
     debug: true
   });
   b.transform(babelify.configure({optional: ['runtime'] }));
+  // can't compile mixins
+  // https://github.com/jadejs/jade/issues/1950
+  b.transform(jadeify, { compileDebug: true, pretty: true });
 
   npmLibs.forEach(function(lib) {
     b.external(lib);
@@ -135,8 +139,11 @@ gulp.task('css', function () {
 ////////
 
 gulp.task('dev', function () {
-  gulp.watch('js/**/*.js',    ['js-app', browserSync.reload]);
-  gulp.watch('css/**/*.styl', ['css']);
+  gulp.watch([
+    'js/**/*.js',
+    'views/**/*.jade',
+  ],                                ['js-app', browserSync.reload]);
+  gulp.watch('css/**/*.styl',       ['css']);
 });
 
 gulp.task('browser-sync', ['nodemon'], function () {

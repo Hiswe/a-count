@@ -1,5 +1,5 @@
 extends _layout.jade
-include ./mixins/product.jade
+include ./mixins/_product.jade
 
 block content
   h1
@@ -41,14 +41,14 @@ block content
             th PU HT
             th Taxes
             th Total HT
-        tbody
-          +product(0)
+        tbody.js-products
+          +_product(0)
 
         tfoot
           tr
             td(colspan=5) € 0
       .detail-actions
-        button.btn-secondary Add a line
+        button.js-add-product.btn-secondary(type="button") Add a line
 
     .actions
       button.btn(type="submit") Create quotation
