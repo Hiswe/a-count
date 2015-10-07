@@ -1,12 +1,11 @@
 'use strict';
 
 var chalk = require('chalk');
-
 var db    = require('../db').db;
-
 var logId = '[HOME]';
 
 function getIndex(req, res) {
+  console.log(chalk.blue(logId), 'GET');
   db.view('general', 'quotation', {
     include_docs: true,
     reduce: false

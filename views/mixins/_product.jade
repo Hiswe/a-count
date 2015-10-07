@@ -5,22 +5,23 @@ mixin _product(index, opts)
     td: input.js-product-descriptions(
       type="text"
       name="products[#{index}][description]"
+      value=opts.description
     )
     td: input.js-product-quantity(
       type="number"
       name="products[#{index}][quantity]"
-      value=1
+      value=opts.quantity
     )
     td: input.js-product-price(
       type="number"
       name="products[#{index}][price]"
-      value=350
+      value=opts.price
     )
     //- TODO put taxes default in conf
     td: input.js-product-tax(
       type="number"
-      value=0
       name="products[#{index}][taxes]"
+      value=opts.taxes
     )
     td.total
       | €&nbsp;

@@ -34,8 +34,9 @@ app.use(express.static('./public'));
 // ROUTING
 //////
 
-app.get('/quotation', quotation.get);
-app.post('/quotation', quotation.post);
+app.get('/quotation/:quotationId', quotation.edit);
+app.get('/quotation', quotation.create);
+app.post('/quotation/:quotationId?', quotation.post);
 
 app.get('/', home.get);
 

@@ -2,14 +2,13 @@ extends _layout.jade
 include ./mixins/_product.jade
 
 block content
+  - var id          = quotation ? '#' + quotation._id : '#quot-' + quotationId
+  - var submitMsg   = quotation ? 'Update quotation' : 'Create quotation'
+  - var formAction  = quotation ? '/quotation/' + quotation._id : '/quotation'
   h1
     | Invoice&nbsp;
-    span.id
-      if quotation
-        | ##{quotation._id}
-      else
-        | #quot-#{quotationId}
-  form(method="post" action="/quotation")
+    span.id= id
+  form(method="post" action=formAction)
     input(type="hidden", value=quotationId, name="id")
     fieldset
       h2.legend General
@@ -42,8 +41,11 @@ block content
             th Taxes
             th Total HT
         tbody.js-products
-          +_product(0)
-
+          if quotation
+            each product, i in quotation.products
+              +_product(i, product)
+          else
+            +_product(0, emptyProduct)
         tfoot
           tr
             td(colspan=5) € 0
@@ -51,4 +53,4 @@ block content
         button.js-add-product.btn-secondary(type="button") Add a line
 
     .actions
-      button.btn(type="submit") Create quotation
+      button.btn(type="submit")= submitMsg

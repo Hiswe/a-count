@@ -1,6 +1,8 @@
 import $ from 'jquery';
-import productTmpl from '../views/front/product.jade'
+import productTmpl    from '../views/front/product.jade'
+import defaultConfig  from '../.concompterc-default.js'
 
+console.log(defaultConfig);
 // 'keyup input'
 $('.js-product').on('keyup change', computeProductTotal);
 $('.js-add-product').on('click', addLine);
@@ -20,5 +22,8 @@ function computeProductTotal(e) {
 function addLine(e) {
   e.preventDefault();
   var length = $('.js-product').length;
-  $('.js-products').append(productTmpl({index: length}));
+  $('.js-products').append(productTmpl({
+    index: length,
+    emptyProduct: defaultConfig.defaultProduct,
+  }));
 }

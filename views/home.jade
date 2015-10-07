@@ -11,6 +11,6 @@ block content
     tbody
       each quotation in quotations
         tr
-          td= quotation._id
+          td: a(href="/quotation/#{quotation._id}") ##{quotation._id}
           td= quotation.title
           td= quotation.customer
