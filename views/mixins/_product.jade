@@ -20,8 +20,8 @@ mixin _product(index, opts)
     //- TODO put taxes default in conf
     td: input.js-product-tax(
       type="number"
-      name="products[#{index}][taxes]"
-      value=opts.taxes
+      name="products[#{index}][tax]"
+      value=opts.tax
     )
     td.total
       | €&nbsp;

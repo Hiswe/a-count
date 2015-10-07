@@ -1,22 +1,23 @@
 import $ from 'jquery';
 import productTmpl    from '../views/front/product.jade'
-import defaultConfig  from '../.concompterc-default.js'
+import defaultConfig  from '../shared/default-config'
+import * as math      from '../shared/math'
 
-console.log(defaultConfig);
 // 'keyup input'
-$('.js-product').on('keyup change', computeProductTotal);
+$('.js-products').on('keyup change', computeProductTotal);
 $('.js-add-product').on('click', addLine);
 
 function computeProductTotal(e) {
   var $input      = $(e.target);
   if ($input.hasClass('js-product-descriptions')) return;
-  var $product    = $(e.currentTarget);
-  var quantity    = ~~$product.find('.js-product-quantity').val();
-  var price       = ~~$product.find('.js-product-price').val();
-  var tax         = ~~$product.find('.js-product-tax').val();
-  var total       = quantity * price;
-  var totalTaxed  = total + (total * tax) / 100;
+  var $product    = $input.parents('.js-product');
+  var totalTaxed  = math.productPrice({
+    quantity: $product.find('.js-product-quantity').val(),
+    price:    $product.find('.js-product-price').val(),
+    tax:      $product.find('.js-product-tax').val()
+  });
   $product.find('.js-product-total').text(totalTaxed);
+  computeSubtotal();
 }
 
 function addLine(e) {
@@ -26,4 +27,13 @@ function addLine(e) {
     index: length,
     emptyProduct: defaultConfig.defaultProduct,
   }));
+  computeSubtotal();
+}
+
+function computeSubtotal() {
+  var subtotal = 0;
+  $('.js-product-total').each(function (index, el) {
+    subtotal = subtotal + ~~$(el).text();
+  });
+  $('.js-subtotal').text(subtotal);
 }

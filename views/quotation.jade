@@ -5,6 +5,7 @@ block content
   - var id          = quotation ? '#' + quotation._id : '#quot-' + quotationId
   - var submitMsg   = quotation ? 'Update quotation' : 'Create quotation'
   - var formAction  = quotation ? '/quotation/' + quotation._id : '/quotation'
+  - var subtotal    = quotation ? quotation.total : total
   h1
     | Invoice&nbsp;
     span.id= id
@@ -48,7 +49,9 @@ block content
             +_product(0, emptyProduct)
         tfoot
           tr
-            td(colspan=5) € 0
+            td(colspan=5)
+              |€&nbsp;
+              span.js-subtotal= subtotal
       .detail-actions
         button.js-add-product.btn-secondary(type="button") Add a line
 

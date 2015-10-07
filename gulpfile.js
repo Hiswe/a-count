@@ -141,6 +141,7 @@ gulp.task('css', function () {
 gulp.task('dev', function () {
   gulp.watch([
     'js/**/*.js',
+    'shared/*.js',
     'views/**/*.jade',
   ],                                ['js-app', browserSync.reload]);
   gulp.watch('css/**/*.styl',       ['css']);
@@ -160,7 +161,7 @@ gulp.task('nodemon', ['dev'], function (cb) {
     script: 'server.js',
     nodeArgs: ['--harmony'],
     ext: 'js json',
-    watch: ['server.js', '.concompterc-default.js', 'server/**/*', 'db/**/*'],
+    watch: ['server.js', 'shared/**/*', 'server/**/*', 'db/**/*'],
     env:    { 'NODE_ENV': 'development' }
   }).on('start', function () {
     // https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e#comment-1457582

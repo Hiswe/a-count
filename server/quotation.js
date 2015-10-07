@@ -3,6 +3,7 @@
 var chalk   = require('chalk');
 var config  = require('./config');
 var db      = require('../db').db;
+var math    = require('../shared/math');
 var logId = '[QUOTATION]';
 
 function edit(req, res, next) {
@@ -34,7 +35,8 @@ function create(req, res, next) {
     quotationId = body.rows.length ? body.rows[0].value : 0;
     return res.render('quotation', {
       quotationId:  quotationId,
-      emptyProduct: config.defaultProduct
+      emptyProduct: config.defaultProduct,
+      total: math.productPrice(config.defaultProduct),
     });
   }
 }

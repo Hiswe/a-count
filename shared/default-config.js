@@ -3,6 +3,6 @@ module.exports = {
   "defaultProduct": {
     "quantity": 1,
     "price":    350,
-    "taxes":    0,
+    "tax":    0,
   }
 };
