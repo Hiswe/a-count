@@ -1,9 +1,9 @@
 'use strict';
 
 function productPrice(product) {
-  product.quantity  = ~~product.quantity;
-  product.price     = ~~product.price;
-  product.tax       = ~~product.tax;
+  product.quantity  = parseFloat(product.quantity, 10);
+  product.price     = parseFloat(product.price, 10);
+  product.tax       = parseFloat(product.tax, 10);
   var total         = product.quantity * product.price;
   var totalTaxed    = total + (total * product.tax) / 100;
   return totalTaxed;

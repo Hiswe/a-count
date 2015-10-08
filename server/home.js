@@ -8,10 +8,12 @@ function getIndex(req, res) {
   console.log(chalk.blue(logId), 'GET');
   db.view('general', 'quotation', {
     include_docs: true,
+    descending: true,
     reduce: false
   }, couchResp);
 
   function couchResp(err, body) {
+    console.log(body);
     if (err) {
       console.log(chalk.red(logId));
       console.log(err);

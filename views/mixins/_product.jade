@@ -9,17 +9,23 @@ mixin _product(index, opts)
     )
     td: input.js-product-quantity(
       type="number"
+      min="0"
+      step="0.25"
       name="products[#{index}][quantity]"
       value=opts.quantity
     )
     td: input.js-product-price(
       type="number"
+      min="0"
+      step="10"
       name="products[#{index}][price]"
       value=opts.price
     )
     //- TODO put taxes default in conf
     td: input.js-product-tax(
       type="number"
+      min="0"
+      step="any"
       name="products[#{index}][tax]"
       value=opts.tax
     )

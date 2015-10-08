@@ -20,7 +20,6 @@ function setupDesignDocuments() {
     // -> Add current rev if doc exist
     if (headers && headers.etag) designDocument._rev = headers.etag.replace(/"/g,'');
     // console.log(headers.etag);
-
     // update or create
     db.insert(designDocument, function(err, body) {
       if (err) return  console.log(err);

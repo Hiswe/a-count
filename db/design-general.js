@@ -1,5 +1,7 @@
 'use strict';
 
+// (PR|FA)AAMM-XXXX
+
 var views   = {};
 var updates = {};
 
@@ -10,7 +12,7 @@ var updates = {};
 views.quotation = {
   map: function(doc) {
     if (doc.type === 'quotation') {
-      emit(doc.title, 1);
+      emit(doc.time.lastUpdate, 1);
     }
   },
   reduce: function(keys, values, rereduce) {
@@ -52,19 +54,11 @@ updates.quotation = function (doc,req) {
 };
 
 //////
-// COMPUTE
-//////
-
-// var productPrice     = 'exports.productPrice = ';
-// productPrice         += require('../shared/compute').productPrice.toString();
-// compute.productPrice = productPrice;
-
-//////
 // EXPORTS
 //////
 
 module.exports = {
-  _id: '_design/general',
+  _id:      '_design/general',
   updates:  updates,
   views:    views,
 };
