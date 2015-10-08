@@ -12,7 +12,6 @@ var quotation   = require('./server/quotation');
 //////
 
 var database    = require('./db');
-var db          = database.db;
 database.setup();
 
 //////

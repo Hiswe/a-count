@@ -3,17 +3,22 @@ extends _layout.jade
 block content
   section
     h1 Quotations
-    table.table-pres(cellspacing=0)
-      thead
-        tr
-          th id
-          th title
-          th customer
-      tbody
-        each quotation in quotations
+    if quotations.length
+      table.table-pres(cellspacing=0)
+        thead
           tr
-            td: a(href="/quotation/#{quotation._id}") ##{quotation._id}
-            td= quotation.title
-            td= quotation.customer
+            th id
+            th title
+            th customer
+            th total
+        tbody
+          each quotation in quotations
+            tr
+              td: a(href="/quotation/#{quotation._id}") ##{quotation._id}
+              td= quotation.title
+              td= quotation.customer
+              td € #{quotation.total}
+    else
+      p none (yet)
     a.btn-circular(href="/quotation") +
 
