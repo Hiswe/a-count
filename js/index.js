@@ -16,7 +16,9 @@ function computeProductTotal(e) {
     price:    $product.find('.js-product-price').val(),
     tax:      $product.find('.js-product-tax').val()
   });
-  $product.find('.js-product-total').text(totalTaxed);
+  $product
+    .find('.js-product-total')
+    .text(totalTaxed);
   computeSubtotal();
 }
 

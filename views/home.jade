@@ -1,16 +1,19 @@
 extends _layout.jade
 
 block content
-  h1 ConCompte
-  table.table-pres(cellspacing=0)
-    thead
-      tr
-        th id
-        th title
-        th customer
-    tbody
-      each quotation in quotations
+  section
+    h1 Quotations
+    table.table-pres(cellspacing=0)
+      thead
         tr
-          td: a(href="/quotation/#{quotation._id}") ##{quotation._id}
-          td= quotation.title
-          td= quotation.customer
+          th id
+          th title
+          th customer
+      tbody
+        each quotation in quotations
+          tr
+            td: a(href="/quotation/#{quotation._id}") ##{quotation._id}
+            td= quotation.title
+            td= quotation.customer
+    a.btn-circular(href="/quotation") +
+

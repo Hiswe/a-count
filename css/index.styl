@@ -157,40 +157,7 @@ fieldset {
   border-radius: 0 2px 2px 0;
 }
 
-
-//
-// BUTTONS
-//
-
-$btn {
-  border: 1px solid;
-  padding: .75em 1em;
-  border-radius: $gutter-4;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.btn {
-  @extend $btn;
-  border-color: steelblue;
-  background: steelblue;
-  color: white;
-
-  &:hover {
-    background: white;
-    color: steelblue;
-  }
-}
-.btn-secondary {
-  @extend $btn;
-  border-color: #cddce4;
-  background: #cddce4;
-  color: darken(#cddce4, 30%);
-
-  &:hover {
-    background: white;
-  }
-}
+@import './atomic'
 
 //
 // TABLES

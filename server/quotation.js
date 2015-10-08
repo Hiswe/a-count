@@ -16,7 +16,6 @@ function edit(req, res, next) {
       console.log(err);
       return res.status(500).send('Error in get quotation');
     }
-    console.log(body);
     return res.render('quotation', {quotation: body});
   }
 }
@@ -56,11 +55,8 @@ function post(req, res, next) {
     }
     console.log(logId, chalk.grey('couch response'));
     console.log(couchRes);
-    // return response.redirect(302,'/article/'+body.id);
-    return res.render('quotation', {
-      succes:     true,
-      quotation:  couchRes,
-    });
+    // TODO add a flash message
+    return res.status(302).redirect('/quotation/' + couchRes._id);
   }
 }
 

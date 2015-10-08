@@ -41,6 +41,7 @@ block content
             th PU HT
             th Taxes
             th Total HT
+            th
         tbody.js-products
           if quotation
             each product, i in quotation.products
@@ -49,7 +50,7 @@ block content
             +_product(0, emptyProduct)
         tfoot
           tr
-            td(colspan=5)
+            td(colspan=6)
               |€&nbsp;
               span.js-subtotal= subtotal
       .detail-actions
