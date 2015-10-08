@@ -18,6 +18,10 @@ views.quotation = {
   },
 };
 
+views.lib = {
+  product: 'exports.price = ' + require('../shared/compute').productPrice.toString(),
+};
+
 //////
 // UPDATES
 //////
@@ -37,21 +41,23 @@ updates.quotation = function (doc,req) {
   doc.title           = body.title || doc.title || 'New quotation at ' + new Date().toString();
   doc.customer        = body.customer || doc.customer || 'unknown customer!!';
   doc.products        = body.products || doc.products;
-
-  // TODO use shared/compute
-  var total = 0;
+  // compute price
+  var total   = 0;
   doc.products.forEach(function (product) {
-    product.quantity  = ~~product.quantity;
-    product.price     = ~~product.price;
-    product.tax       = ~~product.tax;
-    var totalTaxed    = product.quantity * product.price;
-    totalTaxed        = totalTaxed + (totalTaxed * product.tax) / 100;
-    total = total + totalTaxed;
+    total     = total + require('views/lib/product').price(product);
   });
-  doc.total           = total;
-  //
+  doc.total   = total;
+
   return [doc, toJSON(doc)];
 };
+
+//////
+// COMPUTE
+//////
+
+// var productPrice     = 'exports.productPrice = ';
+// productPrice         += require('../shared/compute').productPrice.toString();
+// compute.productPrice = productPrice;
 
 //////
 // EXPORTS
