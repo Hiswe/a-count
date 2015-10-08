@@ -1,17 +1,18 @@
 import $ from 'jquery';
 import productTmpl    from '../views/front/product.jade'
 import defaultConfig  from '../shared/default-config'
-import * as math      from '../shared/math'
+import * as compute   from '../shared/compute'
 
 // 'keyup input'
-$('.js-products').on('keyup change', computeProductTotal);
+$('.js-products').on('keyup change', '.js-product', computeProductTotal);
 $('.js-add-product').on('click', addLine);
+$('.js-products').on('click', '.js-product-remove', removeLine);
 
 function computeProductTotal(e) {
   var $input      = $(e.target);
   if ($input.hasClass('js-product-descriptions')) return;
-  var $product    = $input.parents('.js-product');
-  var totalTaxed  = math.productPrice({
+  var $product    = $(e.currentTarget);
+  var totalTaxed  = compute.productPrice({
     quantity: $product.find('.js-product-quantity').val(),
     price:    $product.find('.js-product-price').val(),
     tax:      $product.find('.js-product-tax').val()
@@ -38,4 +39,11 @@ function computeSubtotal() {
     subtotal = subtotal + ~~$(el).text();
   });
   $('.js-subtotal').text(subtotal);
+}
+
+function removeLine(e) {
+  $(e.currentTarget)
+    .parents('.js-product')
+    .remove();
+  computeSubtotal();
 }
