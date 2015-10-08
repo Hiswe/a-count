@@ -21,7 +21,6 @@ mixin _product(index, opts)
       name="products[#{index}][price]"
       value=opts.price
     )
-    //- TODO put taxes default in conf
     td: input.js-product-tax(
       type="number"
       min="0"
@@ -33,4 +32,3 @@ mixin _product(index, opts)
       | €&nbsp;
       span.js-product-total 350
     td: button.js-product-remove.btn-circular(type="button") ×
-

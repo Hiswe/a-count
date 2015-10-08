@@ -13,8 +13,7 @@ function edit(req, res, next) {
   function couchResp(err, body) {
     if (err) {
       console.log(chalk.red(logId), 'can\'t get document');
-      console.log(err);
-      return res.status(500).send('Error in get quotation');
+      return next(err);
     }
     return res.render('quotation', {quotation: body});
   }
@@ -27,8 +26,7 @@ function create(req, res, next) {
   function couchResp(err, body) {
     if (err) {
       console.log(chalk.red(logId), 'can\'t count quotations');
-      console.log(err);
-      return res.status(500).send('Error in get quotation list');
+      return next(err);
     }
     // Reduce of no entries is empty
     quotationId = body.rows.length ? body.rows[0].value : 0;
@@ -44,14 +42,11 @@ function post(req, res, next) {
   var quotationId = req.params.quotationId || null;
   console.log(chalk.blue(logId), 'POST');
   var body = req.body;
-  console.log(req.body.products[0]);
   db.atomic('general', 'quotation', quotationId, req.body, couchDone);
-
   function couchDone(err, couchRes) {
     if (err) {
-      console.log(chalk.red(logId));
-      console.log(err);
-      return res.status(500).send('Error in create quotation');
+      console.log(chalk.red(logId), 'POST');
+      return next(err);
     }
     console.log(logId, chalk.grey('couch response'));
     console.log(couchRes);
@@ -61,7 +56,7 @@ function post(req, res, next) {
 }
 
 module.exports = {
-  create:   create,
-  edit:     edit,
-  post:     post
+  create: create,
+  edit:   edit,
+  post:   post,
 };
