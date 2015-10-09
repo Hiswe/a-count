@@ -20,7 +20,6 @@ function edit(req, res, next) {
 }
 
 function create(req, res, next) {
-  var quotationId = req.params.quotationId;
   console.log(chalk.blue(logId), 'GET without ID');
   db.view('general', 'quotation', couchResp);
   function couchResp(err, body) {
@@ -29,7 +28,7 @@ function create(req, res, next) {
       return next(err);
     }
     // Reduce of no entries is empty
-    quotationId = body.rows.length ? body.rows[0].value : 0;
+    var quotationId = body.rows.length ? body.rows[0].value : 0;
     return res.render('quotation', {
       quotationId:  quotationId,
       emptyProduct: config.defaultProduct,

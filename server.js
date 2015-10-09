@@ -8,6 +8,7 @@ var errorHandler  = require('express-error-handler');
 
 var home          = require('./server/home');
 var quotation     = require('./server/quotation');
+var customer      = require('./server/customer');
 
 //////
 // DB CONFIG
@@ -41,16 +42,22 @@ app.get('/quotation/:quotationId', quotation.edit);
 app.get('/quotation', quotation.create);
 app.post('/quotation/:quotationId?', quotation.post);
 
+app.get('/customer/:customerId', customer.edit);
+app.get('/customer', customer.create);
+app.post('/customer/:customerId?', customer.post);
+
 app.get('/', home.get);
+
+//////
+// ERROR HANDLING
+//////
 
 var handler = errorHandler({
   views: {
     '404': 'error/404',
   },
 });
-
 app.use(errorHandler.httpError(404));
-
 app.use(handler);
 
 //////
@@ -58,5 +65,5 @@ app.use(handler);
 //////
 
 var server = app.listen(3000, function endInit() {
-  console.log("Server is listening on port ", server.address().port);
+  console.log('Server is listening on port ', server.address().port);
 });

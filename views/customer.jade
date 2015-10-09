@@ -1,0 +1,31 @@
+extends _layout.jade
+
+block content
+  - var formAction  = customer ? '/customer/' + customer._id : '/customer'
+  - var submitMsg   = customer ? 'Update customer' : 'Create customer'
+  h1 Customer
+  form(method="post" action=formAction)
+    if customer
+      input(type="hidden", value=customer._id, name="id")
+    fieldset
+      .input-float
+        label.item(for="name") Name
+        input.field(
+          id="name"
+          name="name"
+          type="text"
+          value=customer ? customer.name : null
+        )
+      .input-float
+        label.item(for="address") Address
+        textarea.field(
+          id="address"
+          name="address"
+        )= customer ? customer.address : null
+
+    .actions
+      button.btn(type="submit")= submitMsg
+      if customer
+        | &nbsp;
+        a.btn-secondary(href="/customer") New Customer
+
