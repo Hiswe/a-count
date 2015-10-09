@@ -2,11 +2,10 @@ mixin _product(index, opts)
   - opts = opts || {};
 
   tr.js-product(id="product-#{index}")
-    td: input.js-product-descriptions(
-      type="text"
+    td: textarea.js-product-descriptions(
       name="products[#{index}][description]"
-      value=opts.description
-    )
+      rows=1
+    )= opts.description
     td: input.js-product-quantity(
       type="number"
       min="0"

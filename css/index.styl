@@ -89,7 +89,8 @@ header {
 }
 
 input,
-button {
+button,
+textarea {
   font: inherit;
   color: inherit;
 }
@@ -158,102 +159,4 @@ fieldset {
 }
 
 @import './atomic'
-
-//
-// TABLES
-//
-
-table {
-  border: 0;
-  width: 100%;
-  text-align: left;
-  border-radius: $gutter-4;
-}
-
-.table-pres {
-  background: white;
-  border-radius: $gutter-4;
-
-  thead {
-    background: #222;
-    color: white;
-  }
-
-  a {
-    color: steelblue;
-    &:hover {
-      color: black;
-    }
-  }
-
-  th {
-    font-weight: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-transform: uppercase;
-    font-size: 12px;
-    padding: 1em 1.3em;
-
-    &:first-child {
-      border-top-left-radius: $gutter-4;
-    }
-    &:last-child {
-      border-top-right-radius: $gutter-4;
-    }
-  }
-
-  tbody tr:nth-child(even) {
-    background: #EEE;
-  }
-
-  td {
-    padding: .5em 1em;
-  }
-}
-
-.table-form {
-  border: 1px solid rgba(147, 128, 108, 0.25);
-  margin-bottom: $gutter-2;
-
-  thead {
-    border-bottom: 1px solid rgba(147, 128, 108, 0.25);
-  }
-
-  th {
-    background-color: rgba(147, 128, 108, 0.1);
-    color: #666666;
-    font: inherit;
-    font-weight: normal;
-    padding: 0.5em 0.75em;
-    border-bottom: 1px solid rgba(147, 128, 108, 0.25);
-
-    + th {
-      border-left: 1px solid rgba(147, 128, 108, 0.25);
-    }
-  }
-
-  td + td {
-    border-left: 1px solid rgba(147, 128, 108, 0.25);
-  }
-
-  tr + tr td {
-    border-top: 1px solid rgba(147, 128, 108, 0.25);
-  }
-
-  .total,
-  input {
-    padding: 0.5em 0.75em;
-  }
-  input {
-    width: 100%;
-    border: 0;
-  }
-
-  tfoot td {
-    border-top: 1px solid rgba(147, 128, 108, 0.25);
-    padding: 0.5em 0.75em;
-    background-color: rgba(147, 128, 108, 0.1);
-    text-align: right;
-    font-weight: bold;
-  }
-}
+@import './table'

@@ -13,7 +13,6 @@ function getIndex(req, res, next) {
   }, couchResp);
 
   function couchResp(err, body) {
-    console.log(body);
     if (err) {
       console.log(chalk.red(logId));
       return next(err);

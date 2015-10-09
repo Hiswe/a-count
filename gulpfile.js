@@ -13,8 +13,17 @@ var jadeify       = require('jadeify');
 var jsBasedir     = __dirname + '/js';
 var npmLibs       = [
   'jquery',
+  'autosize',
+  'epiceditor/src/editor',
+  'marked',
 ];
 
+function onError(err) {
+  $.util.beep();
+  if (err.annotated) { return $.util.log(err.annotated); }
+  if (err.message) {   return $.util.log(err.message); }
+  return $.util.log(err);
+}
 
 ////////
 // JS
@@ -100,6 +109,7 @@ gulp.task('js', ['js-lib', 'js-app']);
 
 gulp.task('css', function () {
   return gulp.src('css/index.styl')
+    .pipe($.plumber({errorHandler: onError}))
     .pipe($.sourcemaps.init())
       .pipe($.stylus({
         'include css': true,
