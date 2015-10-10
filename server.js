@@ -2,6 +2,8 @@
 
 var path          = require('path');
 var express       = require('express');
+var chalk         = require('chalk');
+var morgan        = require('morgan');
 var bodyParser    = require('body-parser');
 var compression   = require('compression');
 var errorHandler  = require('express-error-handler');
@@ -31,8 +33,30 @@ app.set('view engine', 'jade');
 
 app.use(compression());
 
+
 // statics
 app.use(express.static('./public'));
+
+// don't want to log static
+function logRequest(tokens, req, res) {
+  var method  = tokens.method(req, res);
+  var url     = tokens.url(req, res);
+  return chalk.blue(method) + ' ' + chalk.grey(url);
+}
+function logResponse(tokens, req, res) {
+  var method      = tokens.method(req, res);
+  var status      = tokens.status(req, res);
+  var url         = tokens.url(req, res);
+  var statusColor = status >= 500
+    ? 'red' : status >= 400
+    ? 'yellow' : status >= 300
+    ? 'cyan' : 'green';
+  return chalk.blue(method) + ' '
+    + chalk.grey(url) + ' '
+    + chalk[statusColor](status);
+}
+app.use(morgan(logRequest, {immediate: true}));
+app.use(morgan(logResponse));
 
 //////
 // ROUTING
@@ -57,6 +81,13 @@ var handler = errorHandler({
     '404': 'error/404',
   },
 });
+app.use(function (err, req, res, next) {
+  console.log(err);
+  // force status for morgan to catch up
+  res.status(err.status || err.statusCode)
+  next(err);
+});
+
 app.use(errorHandler.httpError(404));
 app.use(handler);
 
