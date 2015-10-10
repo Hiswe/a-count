@@ -10,6 +10,7 @@
     "npm": "2.7.x"
   },
   "dependencies": {
+    "async": "^1.4.2",
     "body-parser": "^1.13.3",
     "chalk": "^1.1.0",
     "compression": "^1.6.0",
@@ -30,7 +31,6 @@
     "browser-sync": "^2.9.7",
     "browserify": "^11.2.0",
     "epiceditor": "^0.2.0",
-    "floating-label": "^1.0.0",
     "gulp": "^3.8.10",
     "gulp-google-webfonts": "0.0.6",
     "gulp-load-plugins": "^1.0.0-rc.1",

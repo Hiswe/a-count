@@ -16,7 +16,6 @@ var npmLibs       = [
   'autosize',
   'epiceditor/src/editor',
   'marked',
-  'floating-label',
 ];
 
 function onError(err) {

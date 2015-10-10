@@ -28,7 +28,7 @@ views.lib = {
 // UPDATES
 //////
 
-updates.quotation = function (doc,req) {
+updates.quotation = function (doc, req) {
   var body = JSON.parse(req.body);
   if (!doc) {
     var doc = {
@@ -52,6 +52,23 @@ updates.quotation = function (doc,req) {
 
   return [doc, toJSON(doc)];
 };
+
+updates.customer = function (doc, req) {
+  var body = JSON.parse(req.body);
+  if (!doc) {
+    var doc = {
+      type: 'customer',
+      time: {
+        created: new Date()
+      }
+    };
+  }
+  doc._id     = doc._id || body.id;
+  doc.name    = body.name || doc.name;
+  doc.address = body.address || doc.address;
+
+  return [doc, toJSON(doc)];
+}
 
 //////
 // EXPORTS
