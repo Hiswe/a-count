@@ -7,6 +7,7 @@ var morgan        = require('morgan');
 var bodyParser    = require('body-parser');
 var compression   = require('compression');
 var errorHandler  = require('express-error-handler');
+var marked        = require('marked');
 
 var home          = require('./server/home');
 var quotation     = require('./server/quotation');
@@ -30,6 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('views', path.join( __dirname, './views'));
 app.set('view engine', 'jade');
+app.locals.marked = marked;
 
 app.use(compression());
 
@@ -62,10 +64,13 @@ app.use(morgan(logResponse));
 // ROUTING
 //////
 
+app.get('/quotations', quotation.get);
 app.get('/quotation/:quotationId', quotation.edit);
 app.get('/quotation', quotation.create);
 app.post('/quotation/:quotationId?', quotation.post);
 
+
+app.get('/customers', customer.get);
 app.get('/customer/:customerId', customer.edit);
 app.get('/customer', customer.create);
 app.post('/customer/:customerId?', customer.post);

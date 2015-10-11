@@ -1,0 +1,18 @@
+extends _layout.jade
+
+block content
+  h1
+    | Customers
+    a.btn-circular(href="/customer") +
+
+  if customers.length
+    table.table-pres(cellspacing=0)
+      thead
+        tr
+          th name
+          th address
+      tbody
+        each customer in customers
+          tr
+            td: a(href="/customer/#{customer._id}")= customer.name
+            td!= marked(customer.address)

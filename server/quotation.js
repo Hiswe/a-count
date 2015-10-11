@@ -5,6 +5,20 @@ var config  = require('./config');
 var db      = require('../db').db;
 var compute = require('../shared/compute');
 
+function get(req, res, next) {
+  db.view('general', 'quotation', {
+    include_docs: true,
+    descending: true,
+    reduce: false
+  }, couchResp);
+
+  function couchResp(err, body) {
+    if (err) return next(err);
+    var quotations = body.rows.map(function (row) { return row.doc; });
+    res.render('quotations', {quotations: quotations});
+  }
+}
+
 function edit(req, res, next) {
   var quotationId = req.params.quotationId;
   db.get(quotationId, couchResp);
@@ -44,4 +58,5 @@ module.exports = {
   create: create,
   edit:   edit,
   post:   post,
+  get:    get,
 };

@@ -20,6 +20,14 @@ views.quotation = {
   },
 };
 
+views.customers = {
+  map: function(doc) {
+    if (doc.type === 'customer') {
+      emit(doc._id, 1);
+    }
+  },
+};
+
 views.lib = {
   product: 'exports.price = ' + require('../shared/compute').productPrice.toString(),
 };

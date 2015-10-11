@@ -32,8 +32,22 @@ function post(req, res, next) {
   }
 }
 
+function get(req, res, next) {
+  db.view('general', 'customers', {
+    include_docs: true,
+    reduce: false
+  }, couchResp);
+
+  function couchResp(err, body) {
+    if (err) return next(err);
+    var customers = body.rows.map(function (row) { return row.doc; });
+    return res.render('customers', {customers: customers});
+  }
+}
+
 module.exports = {
   create: create,
   edit:   edit,
   post:   post,
+  get:    get,
 };
