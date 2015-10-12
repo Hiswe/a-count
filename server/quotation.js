@@ -1,6 +1,7 @@
 'use strict';
 
 var chalk   = require('chalk');
+var async   = require('async');
 var config  = require('./config');
 var db      = require('../db').db;
 var compute = require('../shared/compute');
@@ -29,13 +30,28 @@ function edit(req, res, next) {
 }
 
 function create(req, res, next) {
-  db.view('general', 'quotation', couchResp);
+  async.parallel({
+    quotation: function (callback) {
+      db.view('general', 'quotation', callback);
+    },
+    customers: function (callback) {
+      db.view('general', 'customers', {
+        include_docs: true
+      }, callback);
+    },
+  }, couchResp);
+
   function couchResp(err, body) {
     if (err) return next(err);
+    var quotation = body.quotation[0].rows;
+    var customers = body.customers[0].rows.map(function(customer) {
+      return customer.doc;
+    });
     // Reduce of no entries is empty
-    var quotationId = body.rows.length ? body.rows[0].value : 0;
+    var quotationId = quotation.length ? quotation[0].value : 0;
     return res.render('quotation', {
       quotationId:  quotationId,
+      customers: customers,
       emptyProduct: config.defaultProduct,
       total: compute.productPrice(config.defaultProduct),
     });
