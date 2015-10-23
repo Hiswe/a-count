@@ -33,7 +33,7 @@ updates.create = function (doc, req) {
   }
   doc._id     = doc._id || body.id;
   doc.name    = body.name || doc.name;
-  doc.address = body.address || doc.address;
+  doc.address = body.address || doc.address || '';
 
   return [doc, toJSON(doc)];
 }

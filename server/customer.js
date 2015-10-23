@@ -38,6 +38,7 @@ function get(req, res, next) {
   function couchResp(err, body) {
     if (err) return next(err);
     var customers = body.rows.map(function (row) { return row.doc; });
+    console.log(customers);
     return res.render('customers', {customers: customers});
   }
 }

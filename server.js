@@ -31,8 +31,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('views', path.join( __dirname, './views'));
 app.set('view engine', 'jade');
-app.locals.marked = marked;
-
+app.locals.marked = function markdownToHtml(data) {
+  // prevent error while passing unsupported marked datas
+  if (typeof data !== 'string') return '';
+  return marked(data);
+};
 app.use(compression());
 
 
