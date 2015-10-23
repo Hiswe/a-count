@@ -17,7 +17,7 @@ block content
               td: a(href="/quotation/#{quotation._id}") ##{quotation._id}
               td= quotation.title
               td= quotation.customer
-              td € #{quotation.total}
+              td € #{quotation.price.total}
     else
       p none (yet)
     a.btn-circular(href="/quotation") +
