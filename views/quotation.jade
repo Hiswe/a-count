@@ -22,6 +22,16 @@ block content
           type="text"
           value=quotation ? quotation.title : null
         )
+
+      .input
+        label.item(for="tax") tax
+        input.field.js-tax(
+          id="tax"
+          name="tax"
+          type="number"
+          step="any"
+          value=quotation ? quotation.tax : config.tax
+        )
       .input
         //- TODO make an input-select :P
         //- https://ughzoid.wordpress.com/2013/01/19/jquery-html-select-element-with-editable-input-field/
@@ -46,7 +56,6 @@ block content
             th Désignation
             th Jours
             th PU HT
-            th Taxes
             th Total HT
             th
         tbody.js-products
@@ -57,9 +66,23 @@ block content
             +_product(0, emptyProduct)
         tfoot
           tr
-            td(colspan=6)
+            td(colspan=3) Total Net
+            td
               |€&nbsp;
-              span.js-subtotal= subtotal
+              span.js-total-net=quotation ? quotation.price.net : emptyTotal.net
+            td
+          tr
+            td(colspan=3) Taxes
+            td
+              |€&nbsp;
+              span.js-total-tax=quotation ? quotation.price.taxes : emptyTotal.taxes
+            td
+          tr
+            td(colspan=3) Total with taxes
+            td
+              |€&nbsp;
+              span.js-total-all=quotation ? quotation.price.total : emptyTotal.total
+            td
       .detail-actions
         button.js-add-product.btn-secondary(type="button") Add a line
 

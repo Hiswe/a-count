@@ -40,18 +40,24 @@ function create(req, res, next) {
 
   function couchResp(err, body) {
     if (err) return next(err);
-    console.log(body);
     var quotation = body.quotation[0].rows;
     var customers = body.customers[0].rows.map(function(customer) {
       return customer.doc;
     });
     // Reduce of no entries is empty
     var quotationId = quotation.length ? quotation[0].value : 0;
+
+    var emptyTotal = {
+      net: compute.linePrice(config.defaultProduct)
+    };
+    emptyTotal.taxes = compute.taxedPrice(emptyTotal.net, config.tax);
+    emptyTotal.total = emptyTotal.net + emptyTotal.taxes;
+
     return res.render('quotation', {
       quotationId:  quotationId,
       customers: customers,
       emptyProduct: config.defaultProduct,
-      total: compute.productPrice(config.defaultProduct),
+      emptyTotal: emptyTotal,
     });
   }
 }
@@ -68,7 +74,7 @@ function post(req, res, next) {
   }
 
   function updateQuotation() {
-    db.atomic('general', 'quotation', quotationId, req.body, couchDone);
+    db.atomic('quotation', 'create', quotationId, req.body, couchDone);
   }
 
   function couchDone(err, couchRes) {

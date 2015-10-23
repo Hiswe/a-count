@@ -6,9 +6,9 @@ module.exports = {
   //   table:    'concompte',
   // },
   // Default product
+  tax: 5.5,
   defaultProduct: {
     quantity: 1,
     price:    350,
-    tax:    0,
   }
 };

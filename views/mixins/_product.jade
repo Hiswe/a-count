@@ -20,13 +20,6 @@ mixin _product(index, opts)
       name="products[#{index}][price]"
       value=opts.price
     )
-    td: input.js-product-tax(
-      type="number"
-      min="0"
-      step="any"
-      name="products[#{index}][tax]"
-      value=opts.tax
-    )
     td.total
       | €&nbsp;
       span.js-product-total 350

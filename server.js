@@ -9,6 +9,7 @@ var compression   = require('compression');
 var errorHandler  = require('express-error-handler');
 var marked        = require('marked');
 
+var config        = require('./server/config');
 var home          = require('./server/home');
 var quotation     = require('./server/quotation');
 var customer      = require('./server/customer');
@@ -37,6 +38,7 @@ app.locals.marked = function markdownToHtml(data) {
   if (typeof data !== 'string') return '';
   return marked(data);
 };
+app.locals.config = config;
 app.use(compression());
 
 

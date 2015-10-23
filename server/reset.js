@@ -7,7 +7,7 @@ function get(req, res, next) {
 }
 
 function post(req, res, next) {
-  db.view('general', 'all', getAllDone);
+  db.view('general', 'deleteAll', getAllDone);
 
   function getAllDone(err, couchResp) {
     if (err) return next(err);

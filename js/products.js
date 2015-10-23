@@ -16,7 +16,10 @@ function init() {
 }
 
 function bindUI() {
-  $ui.subtotal = $('.js-subtotal');
+  $ui.tax       = $('.js-tax');
+  $ui.netTotal  = $('.js-total-net');
+  $ui.taxTotal  = $('.js-total-tax');
+  $ui.total     = $('.js-total-all');
 }
 
 function bindEvents() {
@@ -28,6 +31,9 @@ function bindEvents() {
     .on('keyup change', '.js-product', computeProductTotal)
     .on('click', '.js-product-remove', removeLine);
 
+  $ui.tax
+    .on('keyup change', computeTotal);
+
   autosize($ui.products.find('textarea'));
 }
 
@@ -35,15 +41,14 @@ function computeProductTotal(e) {
   var $input      = $(e.target);
   if ($input.hasClass('js-product-descriptions')) return;
   var $product    = $(e.currentTarget);
-  var totalTaxed  = compute.productPrice({
+  var totalTaxed  = compute.linePrice({
     quantity: $product.find('.js-product-quantity').val(),
     price:    $product.find('.js-product-price').val(),
-    tax:      $product.find('.js-product-tax').val()
   });
   $product
     .find('.js-product-total')
     .text(totalTaxed);
-  computeSubtotal();
+  computeTotal();
 }
 
 function addLine(e) {
@@ -53,22 +58,25 @@ function addLine(e) {
     index: length,
     emptyProduct: defaultConfig.defaultProduct,
   }));
-  computeSubtotal();
+  computeTotal();
 }
 
-function computeSubtotal() {
-  var subtotal = 0;
+function computeTotal() {
+  var totalNet = 0;
   $('.js-product-total').each(function (index, el) {
-    subtotal = subtotal + ~~$(el).text();
+    totalNet = totalNet + ~~$(el).text();
   });
-  $ui.subtotal.text(subtotal);
+  var taxes = compute.taxedPrice(totalNet, $ui.tax.val());
+  $ui.netTotal.text(totalNet);
+  $ui.taxTotal.text(taxes);
+  $ui.total.text(totalNet + taxes);
 }
 
 function removeLine(e) {
   $(e.currentTarget)
     .parents('.js-product')
     .remove();
-  computeSubtotal();
+  computeTotal();
 }
 
 export {init as default};

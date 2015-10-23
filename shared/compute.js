@@ -1,23 +1,18 @@
 'use strict';
 
-function productPrice(product) {
-  product.quantity  = parseFloat(product.quantity, 10);
-  product.price     = parseFloat(product.price, 10);
-  product.tax       = parseFloat(product.tax, 10);
-  var total         = product.quantity * product.price;
-  var totalTaxed    = total + (total * product.tax) / 100;
-  return totalTaxed;
+function linePrice(product) {
+  var quantity  = parseFloat(product.quantity, 10);
+  var price     = parseFloat(product.price, 10);
+  return quantity * price;
 }
 
-function quotationPrice(products) {
-  var total = 0;
-  products.forEach(function (product) {
-    total = total + productPrice(product);
-  });
-  return total;
-};
+function taxedPrice(total, tax) {
+  total       = parseFloat(total, 10);
+  tax         = parseFloat(tax, 10);
+  return ((total * tax) / 100);
+}
 
 module.exports = {
-  productPrice:   productPrice,
-  quotationPrice: quotationPrice,
+  linePrice:      linePrice,
+  taxedPrice:     taxedPrice,
 };
