@@ -12,6 +12,7 @@ var marked        = require('marked');
 var home          = require('./server/home');
 var quotation     = require('./server/quotation');
 var customer      = require('./server/customer');
+var reset         = require('./server/reset');
 
 //////
 // DB CONFIG
@@ -78,6 +79,9 @@ app.get('/customer/:customerId', customer.edit);
 app.get('/customer', customer.create);
 app.post('/customer/:customerId?', customer.post);
 
+app.get('/reset', reset.get);
+app.post('/reset', reset.post);
+
 app.get('/', home.get);
 
 //////
@@ -86,7 +90,8 @@ app.get('/', home.get);
 
 var handler = errorHandler({
   views: {
-    '404': 'error/404',
+    default:  'error/default',
+    404:      'error/404',
   },
 });
 app.use(function (err, req, res, next) {

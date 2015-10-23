@@ -9,6 +9,18 @@ var updates = {};
 // VIEWS
 //////
 
+views.all = {
+  map: function(doc) {
+    if (doc.type === 'quotation' || doc.type === 'customer') {
+      emit(doc._id, {
+        _id: doc._id,
+        _rev: doc._rev,
+        _deleted: true
+      });
+    }
+  },
+};
+
 views.quotation = {
   map: function(doc) {
     if (doc.type === 'quotation') {

@@ -11,6 +11,7 @@ var db    = nano.use('concompte');
 
 var general   = require('./design-general');
 var customer  = require('./design-customer');
+var quotation = require('./design-quotation');
 
 function insertDesignDocument(designDocument) {
   var name = designDocument._id;
@@ -32,6 +33,7 @@ function insertDesignDocument(designDocument) {
 function setupDesignDocuments() {
   insertDesignDocument(general);
   insertDesignDocument(customer);
+  insertDesignDocument(quotation);
 }
 
 //////

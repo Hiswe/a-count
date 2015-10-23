@@ -1,6 +1,5 @@
 'use strict';
 
-var chalk = require('chalk');
 var db    = require('../db').db;
 
 function getIndex(req, res, next) {
