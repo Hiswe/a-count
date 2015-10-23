@@ -26,6 +26,10 @@ block content
         //- TODO make an input-select :P
         //- https://ughzoid.wordpress.com/2013/01/19/jquery-html-select-element-with-editable-input-field/
         label.item(for="customer") Customer
+        datalist#customer-list
+          if customers && customers.length
+            each customer in customers
+              option(value=customer.name)
         input.field(
           id="customer"
           name="customer"
@@ -33,10 +37,7 @@ block content
           type="text"
           value=quotation ? quotation.customer : null
         )
-        datalist#customer-list
-          if customers && customers.length
-            each customer in customers
-              option(value=customer.name)
+
     fieldset
       h2.legend Detail
       table.table-form(cellspacing=0)

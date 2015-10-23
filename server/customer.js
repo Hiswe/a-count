@@ -5,6 +5,7 @@ var db            = require('../db').db;
 var slug          = require('slug');
 slug.charmap['_'] = '-';
 var logId         = '[CUSTOMER]';
+var customer      = require('../db/customer');
 
 function edit(req, res, next) {
   var customerId = req.params.customerId;
@@ -20,16 +21,12 @@ function create(req, res, next) {
 }
 
 function post(req, res, next) {
-  var customerId = req.params.customerId || null;
-  var body  = req.body;
-  body.id   = slug(req.body.name);
-  db.atomic('general', 'customer', customerId, req.body, couchDone);
-  function couchDone(err, couchRes) {
-    if (err) return next(err);
+  req.body.customerId = req.params.customerId;
+  customer.create(req.body, next, function couchDone(err, couchRes) {
     console.log(couchRes);
     // TODO add a flash message
     return res.status(302).redirect('/customer/' + couchRes._id);
-  }
+  });
 }
 
 function get(req, res, next) {
