@@ -1,10 +1,11 @@
 'use strict';
 
-var chalk   = require('chalk');
-var async   = require('async');
-var config  = require('./config');
-var db      = require('../db').db;
-var compute = require('../shared/compute');
+var chalk     = require('chalk');
+var async     = require('async');
+var config    = require('./config');
+var db        = require('../db').db;
+var customer  = require('../db/customer');
+var compute   = require('../shared/compute');
 
 function get(req, res, next) {
   db.view('general', 'quotation', {
@@ -61,7 +62,18 @@ function create(req, res, next) {
 function post(req, res, next) {
   var quotationId = req.params.quotationId || null;
   var body = req.body;
-  db.atomic('general', 'quotation', quotationId, req.body, couchDone);
+
+  // create customer if none with the same name
+  customer.getByName(body.customer, next, checkCustomerDone);
+  function checkCustomerDone(err, couchResp) {
+    if (couchResp.rows.length) return updateQuotation();
+    return customer.create({name: body.customer}, next, updateQuotation);
+  }
+
+  function updateQuotation() {
+    db.atomic('general', 'quotation', quotationId, req.body, couchDone);
+  }
+
   function couchDone(err, couchRes) {
     if (err) return next(err);
     console.log(couchRes);

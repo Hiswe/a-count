@@ -14,10 +14,15 @@ function create(data, next, done) {
   }
 }
 
-function getByName() {
-
+function getByName(name, next, done) {
+  db.view('customer', 'byName', {key: name}, couchDone);
+  function couchDone(err, couchRes) {
+    if (err) return next(err);
+    done(err, couchRes);
+  }
 }
 
 module.exports = {
-  create: create
+  create: create,
+  getByName: getByName,
 };

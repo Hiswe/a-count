@@ -35,6 +35,9 @@ updates.create = function (doc, req) {
   doc.name    = body.name || doc.name;
   doc.address = body.address || doc.address || '';
 
+  doc.name    = doc.name.trim();
+  doc.address = doc.address.trim();
+
   return [doc, toJSON(doc)];
 }
 
