@@ -17,6 +17,14 @@ views.byName = {
   },
 };
 
+views.byId = {
+  map: function(doc) {
+    if (doc.type === 'customer') {
+      emit(doc._id, 1);
+    }
+  },
+};
+
 //////
 // UPDATES
 //////

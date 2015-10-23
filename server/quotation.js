@@ -5,7 +5,9 @@ var async     = require('async');
 var config    = require('./config');
 var db        = require('../db').db;
 var customer  = require('../db/customer');
+var quotation = require('../db/quotation');
 var compute   = require('../shared/compute');
+
 
 function get(req, res, next) {
   db.view('general', 'quotation', {
@@ -22,11 +24,9 @@ function get(req, res, next) {
 }
 
 function edit(req, res, next) {
-  var quotationId = req.params.quotationId;
-  db.get(quotationId, couchResp);
+  quotation.getById(req.params.quotationId, next, couchResp);
   function couchResp(err, body) {
-    if (err) return next(err);
-    return res.render('quotation', {quotation: body});
+    return res.render('quotation', body);
   }
 }
 
@@ -35,15 +35,12 @@ function create(req, res, next) {
     quotation: function (callback) {
       db.view('general', 'quotation', callback);
     },
-    customers: function (callback) {
-      db.view('general', 'customers', {
-        include_docs: true
-      }, callback);
-    },
+    customers: customer.getAll,
   }, couchResp);
 
   function couchResp(err, body) {
     if (err) return next(err);
+    console.log(body);
     var quotation = body.quotation[0].rows;
     var customers = body.customers[0].rows.map(function(customer) {
       return customer.doc;

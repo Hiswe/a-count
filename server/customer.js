@@ -30,7 +30,7 @@ function post(req, res, next) {
 }
 
 function get(req, res, next) {
-  db.view('general', 'customers', {
+  db.view('customer', 'byId', {
     include_docs: true,
     reduce: false
   }, couchResp);

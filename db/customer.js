@@ -22,7 +22,14 @@ function getByName(name, next, done) {
   }
 }
 
+function getAll(done) {
+  db.view('customer', 'byId', {
+    include_docs: true
+  }, done);
+}
+
 module.exports = {
-  create: create,
-  getByName: getByName,
+  create:     create,
+  getByName:  getByName,
+  getAll:     getAll,
 };
