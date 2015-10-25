@@ -8,6 +8,7 @@ var bodyParser    = require('body-parser');
 var compression   = require('compression');
 var errorHandler  = require('express-error-handler');
 var marked        = require('marked');
+var favicon       = require('serve-favicon');
 
 var config        = require('./server/config');
 var home          = require('./server/home');
@@ -40,6 +41,7 @@ app.locals.marked = function markdownToHtml(data) {
 };
 app.locals.config = config;
 app.use(compression());
+app.use(favicon(__dirname + '/public/favicon.png'));
 
 
 // statics
