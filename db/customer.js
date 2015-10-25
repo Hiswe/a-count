@@ -15,10 +15,21 @@ function create(data, next, done) {
 }
 
 function getByName(name, next, done) {
+  db.view('customer', 'byName', {
+    key: name,
+    include_docs: true,
+  }, couchDone);
+  function couchDone(err, couchRes) {
+    if (err) return next(err);
+    done(err, couchRes.rows[0].doc);
+  }
+}
+
+function exist(name, next, done) {
   db.view('customer', 'byName', {key: name}, couchDone);
   function couchDone(err, couchRes) {
     if (err) return next(err);
-    done(err, couchRes);
+    done(err, couchRes.rows.length > 0);
   }
 }
 
@@ -32,4 +43,5 @@ module.exports = {
   create:     create,
   getByName:  getByName,
   getAll:     getAll,
+  exist:      exist,
 };

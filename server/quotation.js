@@ -67,9 +67,9 @@ function post(req, res, next) {
   var body = req.body;
 
   // create customer if none with the same name
-  customer.getByName(body.customer, next, checkCustomerDone);
-  function checkCustomerDone(err, couchResp) {
-    if (couchResp.rows.length) return updateQuotation();
+  customer.exist(body.customer, next, checkCustomerDone);
+  function checkCustomerDone(customerExist) {
+    if (customerExist) return updateQuotation();
     return customer.create({name: body.customer}, next, updateQuotation);
   }
 

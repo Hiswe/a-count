@@ -1,7 +1,7 @@
 doctype html
 html(lang="en")
   head
-    title ConCompte
+    title #{doc._id} – #{doc.title}
     meta(http-equiv="Content-Language", content="en")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     link(rel='stylesheet', href="/concompte.css")
@@ -9,6 +9,46 @@ html(lang="en")
 
   body
     main(role="main")
-      | print
+      .row
+        .cell!= marked(config.address)
+        .cell
+          h1= customer.name
+          div!= marked(customer.address)
 
+      dl
+        dt date
+        dd 22 décembre 2015
+      dl
+        dt= doc.type
+        dd= doc.title
+      table.table(cellspacing=0)
+        thead
+          tr
+            th Désignation
+            th Jours
+            th PU HT
+            th Total HT
+        tbody.js-products
+          each product, i in doc.products
+            td= product.description
+            td= product.quantity
+            td= product.price
+            td= product.total
+        tfoot
+          tr
+            td(colspan=3) Total Net
+            td
+              |€&nbsp;
+              span.js-total-net= doc.price.net
+          tr
+            td(colspan=3) Taxes
+            td
+              |€&nbsp;
+              span.js-total-tax= doc.price.taxes
+          tr
+            td(colspan=3) Total with taxes
+            td
+              |€&nbsp;
+              span.js-total-all= doc.price.total
+      div!= marked(config.quotation.mentions)
 
