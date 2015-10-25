@@ -21,17 +21,6 @@ views.deleteAll = {
   },
 };
 
-views.quotation = {
-  map: function(doc) {
-    if (doc.type === 'quotation') {
-      emit(doc.time.lastUpdate, 1);
-    }
-  },
-  reduce: function(keys, values, rereduce) {
-    return sum(values);
-  },
-};
-
 //////
 // UPDATES
 //////

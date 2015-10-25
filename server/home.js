@@ -3,7 +3,7 @@
 var db    = require('../db').db;
 
 function getIndex(req, res, next) {
-  db.view('general', 'quotation', {
+  db.view('quotation', 'byTime', {
     include_docs: true,
     descending: true,
     reduce: false

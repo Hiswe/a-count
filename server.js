@@ -15,6 +15,7 @@ var home          = require('./server/home');
 var quotation     = require('./server/quotation');
 var customer      = require('./server/customer');
 var reset         = require('./server/reset');
+var print         = require('./server/print');
 
 //////
 // DB CONFIG
@@ -31,18 +32,21 @@ var app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(compression());
+app.use(favicon(__dirname + '/public/favicon.png'));
 
+
+// templates
 app.set('views', path.join( __dirname, './views'));
 app.set('view engine', 'jade');
+
+// templates global datas
 app.locals.marked = function markdownToHtml(data) {
   // prevent error while passing unsupported marked datas
   if (typeof data !== 'string') return '';
   return marked(data);
 };
 app.locals.config = config;
-app.use(compression());
-app.use(favicon(__dirname + '/public/favicon.png'));
-
 
 // statics
 app.use(express.static('./public'));
@@ -85,6 +89,9 @@ app.post('/customer/:customerId?', customer.post);
 
 app.get('/reset', reset.get);
 app.post('/reset', reset.post);
+
+// http://maxlapides.com/forcing-browsers-print-backgrounds/
+app.get('/print/:docId', print.get);
 
 app.get('/', home.get);
 

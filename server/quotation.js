@@ -10,7 +10,7 @@ var compute   = require('../shared/compute');
 
 
 function get(req, res, next) {
-  db.view('general', 'quotation', {
+  db.view('quotation', 'byTime', {
     include_docs: true,
     descending: true,
     reduce: false
@@ -33,7 +33,7 @@ function edit(req, res, next) {
 function create(req, res, next) {
   async.parallel({
     quotation: function (callback) {
-      db.view('general', 'quotation', callback);
+      db.view('quotation', 'byTime', callback);
     },
     customers: customer.getAll,
   }, couchResp);

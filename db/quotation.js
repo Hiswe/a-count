@@ -26,7 +26,6 @@ function getById(id, next, done) {
       customers: customers,
     });
   }
-
 }
 
 module.exports = {

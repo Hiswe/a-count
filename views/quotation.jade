@@ -11,9 +11,37 @@ block content
     span.id= id
   form(method="post" action=formAction)
     input(type="hidden", value=quotationId, name="id")
+    .row
+      .cell: fieldset
+        h2.legend Customer
+        .input
+          //- TODO make an input-select :P
+          //- https://ughzoid.wordpress.com/2013/01/19/jquery-html-select-element-with-editable-input-field/
+          label.item(for="customer") Customer
+          datalist#customer-list
+            if customers && customers.length
+              each customer in customers
+                option(value=customer.name)
+          input.field(
+            id="customer"
+            name="customer"
+            list="customer-list"
+            type="text"
+            value=quotation ? quotation.customer : null
+          )
+      .cell-1-3: fieldset
+        h2.legend Meta informations
+        .input
+          label.item(for="tax") tax
+          input.field.js-tax(
+            id="tax"
+            name="tax"
+            type="number"
+            step="any"
+            value=quotation ? quotation.tax : config.tax
+          )
     fieldset
-      h2.legend General
-
+      h2.legend Body
       .input
         label.item(for="title") Title
         input.field(
@@ -22,34 +50,6 @@ block content
           type="text"
           value=quotation ? quotation.title : null
         )
-
-      .input
-        label.item(for="tax") tax
-        input.field.js-tax(
-          id="tax"
-          name="tax"
-          type="number"
-          step="any"
-          value=quotation ? quotation.tax : config.tax
-        )
-      .input
-        //- TODO make an input-select :P
-        //- https://ughzoid.wordpress.com/2013/01/19/jquery-html-select-element-with-editable-input-field/
-        label.item(for="customer") Customer
-        datalist#customer-list
-          if customers && customers.length
-            each customer in customers
-              option(value=customer.name)
-        input.field(
-          id="customer"
-          name="customer"
-          list="customer-list"
-          type="text"
-          value=quotation ? quotation.customer : null
-        )
-
-    fieldset
-      h2.legend Detail
       table.table-form(cellspacing=0)
         thead
           tr
@@ -87,7 +87,11 @@ block content
         button.js-add-product.btn-secondary(type="button") Add a line
 
     .actions
-      button.btn(type="submit")= submitMsg
+      button.btn(type="submit", name="convertToInvoice", value="false")= submitMsg
       if quotation
+        //- | &nbsp;
+        //- button.btn(type="submit", name="convertToInvoice", value="true") Convert To Invoice
+        | &nbsp;
+        a.btn-secondary(href="/print/#{quotation._id}") Print
         | &nbsp;
         a.btn-secondary(href="/quotation") New quotation
