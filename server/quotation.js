@@ -65,10 +65,11 @@ function create(req, res, next) {
 function post(req, res, next) {
   var quotationId = req.params.quotationId || null;
   var body = req.body;
+  console.log(body);
 
   // create customer if none with the same name
   customer.exist(body.customer, next, checkCustomerDone);
-  function checkCustomerDone(customerExist) {
+  function checkCustomerDone(err, customerExist) {
     if (customerExist) return updateQuotation();
     return customer.create({name: body.customer}, next, updateQuotation);
   }

@@ -41,15 +41,28 @@ updates.create = function (doc, req) {
     var doc = {
       type:   'quotation',
       time:   {
-        created: new Date()
+        created:    new Date(),
+        send:       false,
+        validated:  false,
+        signed:     false,
+        done:       false,
       }
     };
   }
+
   doc._id             = doc._id || 'quot-' + body.id;
-  doc.time.lastUpdate = new Date();
   doc.title           = body.title || doc.title || 'New quotation at ' + new Date().toString();
   doc.customer        = body.customer || doc.customer || 'unknown customer!!';
   doc.products        = body.products || doc.products;
+
+  // times
+  var time    = doc.time;
+  var status  = body.status || {};
+  time.lastUpdate = new Date();
+  if (status.send === 'on' && !time.send) time.send = new Date();
+  if (status.validated === 'on' && !time.validated) time.validated = new Date();
+  if (status.signed === 'on' && !time.signed) time.signed = new Date();
+  if (status.done === 'on' && !time.done) time.done = new Date();
 
   // compute price
   doc.tax             = typeof body.tax !== 'undefined' ? body.tax : doc.tax || 1;

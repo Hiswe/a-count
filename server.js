@@ -9,6 +9,7 @@ var compression   = require('compression');
 var errorHandler  = require('express-error-handler');
 var marked        = require('marked');
 var favicon       = require('serve-favicon');
+var moment        = require('moment');
 
 var config        = require('./server/config');
 var home          = require('./server/home');
@@ -46,6 +47,10 @@ app.locals.marked = function markdownToHtml(data) {
   if (typeof data !== 'string') return '';
   return marked(data);
 };
+app.locals.formatDate = function formatDate(data) {
+  var formatedDate = moment(data).format('DD/MM/YYYY HH:mm');
+  return formatedDate === 'Invalid date' ? '' : formatedDate;
+}
 app.locals.config = config;
 
 // statics

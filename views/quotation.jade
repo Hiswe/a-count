@@ -12,8 +12,7 @@ block content
   form(method="post" action=formAction)
     input(type="hidden", value=quotationId, name="id")
     .row
-      .cell: fieldset
-        h2.legend Customer
+      fieldset.cell.card
         .input
           //- TODO make an input-select :P
           //- https://ughzoid.wordpress.com/2013/01/19/jquery-html-select-element-with-editable-input-field/
@@ -29,8 +28,53 @@ block content
             type="text"
             value=quotation ? quotation.customer : null
           )
-      .cell-1-3: fieldset
-        h2.legend Meta informations
+        if quotation
+          .row
+            .cell-1-4
+              .input
+                label.item(for="send") send
+                input.field.js-send(
+                  id="send"
+                  name="status[send]"
+                  type="checkbox"
+                  checked=quotation && quotation.time.send !== false
+                  disabled=quotation && quotation.time.send !== false
+                )
+              div=quotation && formatDate(quotation.time.send)
+            .cell-1-4
+              .input
+                label.item(for="validated") validated
+                input.field.js-validated(
+                  id="validated"
+                  name="status[validated]"
+                  type="checkbox"
+                  checked=quotation && quotation.time.validated !== false
+                  disabled=quotation && quotation.time.validated !== false
+                )
+              div=quotation && formatDate(quotation.time.validated)
+            .cell-1-4
+              .input
+                label.item(for="signed") signed
+                input.field.js-signed(
+                  id="signed"
+                  name="status[signed]"
+                  type="checkbox"
+                  checked=quotation && quotation.time.signed !== false
+                  disabled=quotation && quotation.time.signed !== false
+                )
+              div=quotation && formatDate(quotation.time.signed)
+            .cell-1-4
+              .input
+                label.item(for="done") done
+                input.field.js-done(
+                  id="done"
+                  name="status[done]"
+                  type="checkbox"
+                  checked=quotation && quotation.time.done !== false
+                  disabled=quotation && quotation.time.done !== false
+                )
+              div=quotation && formatDate(quotation.time.done)
+      fieldset.cell-1-5.card
         .input
           label.item(for="tax") tax
           input.field.js-tax(
@@ -40,8 +84,8 @@ block content
             step="any"
             value=quotation ? quotation.tax : config.tax
           )
+
     fieldset
-      h2.legend Body
       .input
         label.item(for="title") Title
         input.field(
