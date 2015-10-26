@@ -80,7 +80,7 @@ function post(req, res, next) {
 
   function couchDone(err, couchRes) {
     if (err) return next(err);
-    console.log(couchRes);
+    // console.log(couchRes);
     // TODO add a flash message
     return res.status(302).redirect('/quotation/' + couchRes._id);
   }

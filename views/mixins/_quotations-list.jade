@@ -1,0 +1,31 @@
+mixin quotations-list(quotations)
+  table.table-pres(cellspacing=0)
+    thead
+      tr
+        th id
+        th title
+        th customer
+        th status
+        th total
+    tbody
+      each quotation in quotations
+        tr
+          td: a(href="/quotation/#{quotation._id}") ##{quotation._id}
+          td= quotation.title
+          td= quotation.customer
+          td
+            if quotation.time.done
+              | done
+              p=formatDate(quotation.time.done)
+            else if quotation.time.signed
+              | signed
+              p=formatDate(quotation.time.signed)
+            else if quotation.time.validated
+              | validated
+              p=formatDate(quotation.time.validated)
+            else if quotation.time.send
+              | send
+              p=formatDate(quotation.time.send)
+            else
+              | -
+          td € #{quotation.price.total}

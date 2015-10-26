@@ -159,9 +159,10 @@ gulp.task('dev', function () {
 
 gulp.task('browser-sync', ['nodemon'], function () {
   browserSync.init(null, {
-    proxy: 'http://localhost:3000',
-    open: false,
-    port: 7000,
+    proxy:      'http://localhost:3000',
+    open:       false,
+    port:       7000,
+    ghostMode:  false,
   });
 });
 
