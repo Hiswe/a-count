@@ -1,22 +1,27 @@
 'use strict';
 
-var path          = require('path');
-var express       = require('express');
-var chalk         = require('chalk');
-var morgan        = require('morgan');
-var bodyParser    = require('body-parser');
-var compression   = require('compression');
-var errorHandler  = require('express-error-handler');
-var marked        = require('marked');
-var favicon       = require('serve-favicon');
-var moment        = require('moment');
+require('babel-core/register')({
+  presets: ['es2015', 'react']
+});
 
-var config        = require('./server/config');
-var home          = require('./server/home');
-var quotation     = require('./server/quotation');
-var customer      = require('./server/customer');
-var reset         = require('./server/reset');
-var print         = require('./server/print');
+var path            = require('path');
+var express         = require('express');
+var chalk           = require('chalk');
+var morgan          = require('morgan');
+var bodyParser      = require('body-parser');
+var compression     = require('compression');
+var errorHandler    = require('express-error-handler');
+var marked          = require('marked');
+var favicon         = require('serve-favicon');
+var moment          = require('moment');
+var ReactDOMServer  = require('react-dom/server');
+
+var config          = require('./server/config');
+var home            = require('./server/home');
+var quotation       = require('./server/quotation');
+var customer        = require('./server/customer');
+var reset           = require('./server/reset');
+var print           = require('./server/print');
 
 //////
 // DB CONFIG
@@ -96,6 +101,15 @@ app.post('/reset', reset.post);
 
 // http://maxlapides.com/forcing-browsers-print-backgrounds/
 app.get('/print/:docId', print.get);
+
+// REACT TEST
+var React = require('react');
+var TestBox = React.createFactory(require('./views/test.jsx').default);
+app.get('/test', function (req, res, next) {
+  res.render('empty-layout', {
+    reactDom: ReactDOMServer.renderToString(TestBox({}))
+  });
+});
 
 app.get('/', home.get);
 

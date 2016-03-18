@@ -173,7 +173,7 @@ var init = true;
 gulp.task('nodemon', ['dev'], function (cb) {
   return $.nodemon({
     script: 'server.js',
-    nodeArgs: ['--harmony'],
+    // nodeArgs: ['--harmony_modules'],
     ext: 'js json',
     watch: ['server.js', 'shared/**/*', 'server/**/*', 'db/**/*'],
     env:    { 'NODE_ENV': 'development' }
