@@ -2,13 +2,8 @@
 
 var gulp          = require('gulp');
 var $             = require('gulp-load-plugins')();
-var autoprefixer  = require('autoprefixer');
-var browserSync   = require('browser-sync').create();
-var vinylBuffer   = require('vinyl-buffer');
-var source        = require('vinyl-source-stream');
-var browserify    = require('browserify');
-var babelify      = require('babelify');
-var jadeify       = require('jadeify');
+var browserSync   = require('browser-sync');
+var run           = require('run-sequence');
 
 var jsBasedir     = __dirname + '/js';
 var npmLibs       = [
@@ -28,6 +23,12 @@ function onError(err) {
 ////////
 // JS
 ////////
+
+var browserify    = require('browserify');
+var babelify      = require('babelify');
+var jadeify       = require('jadeify');
+var source        = require('vinyl-source-stream');
+var vinylBuffer   = require('vinyl-buffer');
 
 // https://github.com/vigetlabs/gulp-starter/issues/75#issuecomment-70672188
 
@@ -106,6 +107,8 @@ gulp.task('js', ['js-lib', 'js-app']);
 ////////
 // CSS
 ////////
+
+var autoprefixer  = require('autoprefixer');
 
 gulp.task('css', function () {
   return gulp.src('css/index.styl')

@@ -86,7 +86,6 @@ app.get('/quotation/:quotationId', quotation.edit);
 app.get('/quotation', quotation.create);
 app.post('/quotation/:quotationId?', quotation.post);
 
-
 app.get('/customers', customer.get);
 app.get('/customer/:customerId', customer.edit);
 app.get('/customer', customer.create);
@@ -113,7 +112,7 @@ var handler = errorHandler({
 app.use(function (err, req, res, next) {
   console.log(err);
   // force status for morgan to catch up
-  res.status(err.status || err.statusCode)
+  res.status(err.status || err.statusCode);
   next(err);
 });
 

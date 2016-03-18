@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "gulp browser-sync"
+    "start": "gulp browser-sync",
+    "dev": "gulp browser-sync"
   },
   "engines": {
-    "node": "0.12.x",
-    "npm": "2.7.x"
+    "node": "5.0.0"
   },
   "dependencies": {
     "async": "^1.4.2",
