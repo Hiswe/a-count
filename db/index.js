@@ -14,26 +14,31 @@ var customer  = require('./design-customer');
 var quotation = require('./design-quotation');
 
 function insertDesignDocument(designDocument) {
-  var name = designDocument._id;
-  db.head(name, function(err, res, headers) {
-    // Send error if something else than no document
-    if (err && err.statusCode !== 404) return console.log(err);
-    // to be updated, couch docs needs the last revision in parameter
-    // -> Add current rev if doc exist
-    if (headers && headers.etag) designDocument._rev = headers.etag.replace(/"/g,'');
-    // update or create
-    db.insert(designDocument, function(err, body) {
-      if (err) return  console.log(err);
-      console.log(chalk.green('design documents done'), name);
+  let name    = designDocument._id;
+  let promise = new Promise(function (resolve, reject) {
+    db.head(name, function(err, res, headers) {
+      // Send error if something else than no document
+      if (err && err.statusCode !== 404) return reject(err);
+      // to be updated, couch docs needs the last revision in parameter
+      // -> Add current rev if doc exist
+      if (headers && headers.etag) designDocument._rev = headers.etag.replace(/"/g,'');
+      // update or create
+      db.insert(designDocument, function(err, body) {
+        if (err) return reject(err);
+        console.log(chalk.green('design documents done'), name);
+        resolve(body);
+      });
     });
   });
-
+  return promise;
 }
 
 function setupDesignDocuments() {
-  insertDesignDocument(general);
-  insertDesignDocument(customer);
-  insertDesignDocument(quotation);
+  return Promise.all([
+    insertDesignDocument(general),
+    insertDesignDocument(customer),
+    insertDesignDocument(quotation)
+  ]);
 }
 
 //////

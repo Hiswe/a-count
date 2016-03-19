@@ -1,9 +1,5 @@
 'use strict';
 
-require('babel-core/register')({
-  presets: ['es2015', 'react']
-});
-
 var path            = require('path');
 var express         = require('express');
 var chalk           = require('chalk');
@@ -22,13 +18,6 @@ var quotation       = require('./server/quotation');
 var customer        = require('./server/customer');
 var reset           = require('./server/reset');
 var print           = require('./server/print');
-
-//////
-// DB CONFIG
-//////
-
-var database    = require('./db');
-database.setup();
 
 //////
 // SERVER CONFIG
@@ -83,8 +72,35 @@ app.use(morgan(logRequest, {immediate: true}));
 app.use(morgan(logResponse));
 
 //////
+// DB CONFIG
+//////
+
+var database    = require('./db');
+let dbStatus    = true;
+database
+  .setup()
+  .then(function () {
+    console.log(chalk.green('db setup is done'))
+  })
+  .catch(function (err) {
+    console.log(chalk.red('db setup FAIL'));
+    dbStatus = err;
+    if (err.code !== 'ECONNREFUSED') return console.log(err);
+    console.log(chalk.yellow('db is not acessible\nlaunch it for god sake'));
+  });
+
+//////
 // ROUTING
 //////
+
+// Don't show anything if database is not up…
+app.all('*', function (req, res, next) {
+  if (dbStatus === true) return next();
+  let err     = new Error('enable to connect to database');
+  err.status  = 500;
+  err.reason  = 'enable to connect to database';
+  return next(dbStatus);
+});
 
 app.get('/quotations', quotation.get);
 app.get('/quotation/:quotationId', quotation.edit);
@@ -104,7 +120,8 @@ app.get('/print/:docId', print.get);
 
 // REACT TEST
 var React = require('react');
-var TestBox = React.createFactory(require('./views/test.jsx').default);
+import ReactTestBox from './views/test.jsx';
+var TestBox = React.createFactory(ReactTestBox);
 app.get('/test', function (req, res, next) {
   res.render('empty-layout', {
     reactDom: ReactDOMServer.renderToString(TestBox({}))

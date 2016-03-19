@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "gulp browser-sync",
+    "start": "node index.js",
     "dev": "gulp browser-sync"
   },
   "engines": {
