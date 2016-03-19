@@ -2,9 +2,10 @@
 
 var chalk         = require('chalk');
 
-import {db, view}   from '../db';
-import {render}     from './_react';
-import CustomerList from '../views/customer-list.jsx';
+import {db, view, dbGet}  from '../db';
+import {render}           from './_react';
+import CustomerList       from '../views/customer-list.jsx';
+import CustomerForm       from '../views/customer-form.jsx';
 
 var slug          = require('slug');
 slug.charmap['_'] = '-';
@@ -12,12 +13,11 @@ var logId         = '[CUSTOMER]';
 var customer      = require('../db/customer');
 
 function edit(req, res, next) {
-  var customerId = req.params.customerId;
-  db.get(customerId, couchResp);
-  function couchResp(err, body) {
-    if (err) return next(err);
-    return res.render('customer', {customer: body});
-  }
+  dbGet(req.params.customerId)
+    .then( function (customer) {
+      res.render('empty-layout', {reactDom: render(CustomerForm, {customer}) });
+    })
+    .catch(next);
 }
 
 function create(req, res, next) {

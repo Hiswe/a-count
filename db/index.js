@@ -45,12 +45,12 @@ function setupDesignDocuments() {
 // PROMISE SHORTCUT
 //////
 
-let defaultParams = {
+const viewDefaultParams = {
   include_docs: true,
   reduce: false
 };
 function view(designname, viewname, params = {}) {
-  params = Object.assign(defaultParams, params);
+  params = Object.assign(viewDefaultParams, params);
   return new Promise(function (resolve, reject) {
     db.view(designname, viewname, params, function (err, body) {
       if (err) return reject(err);
@@ -61,6 +61,15 @@ function view(designname, viewname, params = {}) {
   });
 }
 
+function dbGet(id) {
+  return new Promise(function (resolve, reject) {
+    db.get(id, function (err, body) {
+      if (err) return reject(err);
+      return resolve(body);
+    });
+  });
+}
+
 //////
 // EXPORTS
 //////
@@ -68,5 +77,6 @@ function view(designname, viewname, params = {}) {
 module.exports = {
   db:     db,
   setup:  setupDesignDocuments,
+  dbGet,
   view:   view,
 };
