@@ -2,7 +2,6 @@
 
 import {db}           from '../db';
 import {render}       from './_react';
-import QuotationList  from '../views/quotation-list.jsx';
 import Home           from '../views/home.jsx';
 
 function getIndex(req, res, next) {

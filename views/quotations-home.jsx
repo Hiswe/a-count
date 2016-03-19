@@ -1,9 +1,8 @@
 import React from 'React';
 
-import QuotationList from './quotation-list.jsx';
+import QuotationsList from './quotation-list.jsx';
 
-// in HOMEPAGE there will be more tables
-var Home = React.createClass({
+var QuotationsHome = React.createClass({
   render: function() {
     return (
       <section>
@@ -11,10 +10,10 @@ var Home = React.createClass({
           Quotations
           <a href="/quotation" className="btn-circular">+</a>
         </h1>
-        <QuotationList {...this.props} />
+        <QuotationsList {...this.props} />
       </section>
     );
   }
 });
 
-export {Home as default};
+export {QuotationsHome as default};

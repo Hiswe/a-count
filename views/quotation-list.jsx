@@ -76,7 +76,7 @@ var QuotationBody = React.createClass({
 
 //----- ALL
 
-var QuotationList = React.createClass({
+var QuotationTable = React.createClass({
   render: function() {
     return (
       <table className="table-pres" cellSpacing="0">
@@ -84,6 +84,21 @@ var QuotationList = React.createClass({
         <QuotationBody data={this.props.quotations} />
       </table>
     );
+  }
+});
+
+var Empty = React.createClass({
+  render: function () {
+    return (
+      <p>none (yet)</p>
+    );
+  }
+});
+
+var QuotationList = React.createClass({
+  render: function() {
+    let hasQuotations = this.props.quotations.length;
+    return hasQuotations ? <QuotationTable {...this.props} /> : <Empty />;
   }
 });
 
