@@ -21,7 +21,7 @@ function edit(req, res, next) {
 }
 
 function create(req, res, next) {
-  return res.render('customer');
+  res.render('empty-layout', {reactDom: render(CustomerForm, {}) });
 }
 
 function post(req, res, next) {

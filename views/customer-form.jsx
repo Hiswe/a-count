@@ -10,7 +10,7 @@ var CreateBtn = React.createClass({
 
 var CustomerForm = React.createClass({
   render: function () {
-    let customer    = this.props.customer;
+    let customer    = this.props.customer || {};
     console.log('CustomerForm', customer ? true : false);
     let formAction  = customer ? `/customer/${customer._id}` : '/customer'
     let submitMsg   = customer ? 'Update customer' : 'Create customer';
