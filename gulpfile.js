@@ -175,7 +175,7 @@ gulp.task('nodemon', ['dev'], function (cb) {
     script: 'index.js',
     // nodeArgs: ['--harmony_modules'],
     ext: 'js json jsx',
-    watch: ['server.js', 'shared/**/*', 'server/**/*', 'db/**/*', 'views/**/*'],
+    watch: ['server.js', 'index.js',  'shared/**/*', 'server/**/*', 'db/**/*', 'views/**/*'],
     env:    { 'NODE_ENV': 'development' }
   }).on('start', function () {
     // https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e#comment-1457582
