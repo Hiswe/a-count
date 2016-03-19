@@ -120,11 +120,11 @@ app.get('/print/:docId', print.get);
 
 // REACT TEST
 var React = require('react');
-import ReactTestBox from './views/test.jsx';
-var TestBox = React.createFactory(ReactTestBox);
+import ReactTestWrapper from './views/test-wrapper.jsx';
+var TestWrapper = React.createFactory(ReactTestWrapper);
 app.get('/test', function (req, res, next) {
   res.render('empty-layout', {
-    reactDom: ReactDOMServer.renderToString(TestBox({}))
+    reactDom: ReactDOMServer.renderToString(TestWrapper({}))
   });
 });
 

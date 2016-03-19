@@ -1,8 +1,6 @@
-// var React = require('React');
 import React from 'React';
 
 var TestBox = React.createClass({
-  // displayName: 'TestBox',
   render: function() {
      return (
       <div className="commentList">
@@ -13,5 +11,3 @@ var TestBox = React.createClass({
 });
 
 export {TestBox as default};
-// export {init as default};
-// module.exports = TestBox;
