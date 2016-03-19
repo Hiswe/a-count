@@ -1,8 +1,11 @@
 'use strict';
 
 var chalk         = require('chalk');
-var db            = require('../db').db;
-var view          = require('../db').view;
+
+import {db, view}   from '../db';
+import {render}     from './_react';
+import CustomerList from '../views/customer-list.jsx';
+
 var slug          = require('slug');
 slug.charmap['_'] = '-';
 var logId         = '[CUSTOMER]';
@@ -32,9 +35,10 @@ function post(req, res, next) {
 
 function get(req, res, next) {
   view('customer', 'byId')
-    .then(function (body) {
-      console.log(body);
-      return res.render('customers', {customers: body});
+    .then(function (customers) {
+      res.render('empty-layout', {
+        reactDom: render(CustomerList, {customers}),
+      });
     })
     .catch(next)
 }

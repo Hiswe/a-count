@@ -1,6 +1,7 @@
-import React from 'React';
+import React          from 'React';
 
-import {formatStatus} from './_format'
+import {formatStatus} from './_format';
+import {Empty}        from './empty-listing';
 
 //----- THEAD
 
@@ -83,14 +84,6 @@ var QuotationTable = React.createClass({
         <QuotationHeader />
         <QuotationBody data={this.props.quotations} />
       </table>
-    );
-  }
-});
-
-var Empty = React.createClass({
-  render: function () {
-    return (
-      <p>none (yet)</p>
     );
   }
 });

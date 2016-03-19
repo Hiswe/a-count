@@ -6,9 +6,9 @@ import Home     from '../views/home.jsx';
 
 function getIndex(req, res, next) {
   view('quotation', 'byTime', {descending: true})
-    .then(function (body) {
+    .then(function (quotations) {
       res.render('empty-layout', {
-        reactDom: render(Home, {quotations: body}),
+        reactDom: render(Home, {quotations}),
       });
     })
     .catch(next);
