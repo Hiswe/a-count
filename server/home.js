@@ -1,12 +1,15 @@
 'use strict';
 
-var db    = require('../db').db;
+import {db}           from '../db';
+import {render}       from './_react';
+import QuotationList  from '../views/quotation-list.jsx';
+import Home           from '../views/home.jsx';
 
 function getIndex(req, res, next) {
   db.view('quotation', 'byTime', {
     include_docs: true,
-    descending: true,
-    reduce: false
+    descending:   true,
+    reduce:       false
   }, couchResp);
 
   function couchResp(err, body) {
@@ -14,8 +17,8 @@ function getIndex(req, res, next) {
     var quotations = body.rows.map(function (row) {
       return row.doc;
     });
-    res.render('home', {
-      quotations: quotations,
+    res.render('empty-layout', {
+      reactDom: render(Home, {quotations}),
     });
   }
 }

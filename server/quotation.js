@@ -2,12 +2,12 @@
 
 var chalk     = require('chalk');
 var async     = require('async');
+
 var config    = require('./config');
 var db        = require('../db').db;
 var customer  = require('../db/customer');
 var quotation = require('../db/quotation');
 var compute   = require('../shared/compute');
-
 
 function get(req, res, next) {
   db.view('quotation', 'byTime', {

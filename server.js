@@ -10,7 +10,6 @@ var errorHandler    = require('express-error-handler');
 var marked          = require('marked');
 var favicon         = require('serve-favicon');
 var moment          = require('moment');
-var ReactDOMServer  = require('react-dom/server');
 
 var config          = require('./server/config');
 var home            = require('./server/home');
@@ -117,16 +116,6 @@ app.post('/reset', reset.post);
 
 // http://maxlapides.com/forcing-browsers-print-backgrounds/
 app.get('/print/:docId', print.get);
-
-// REACT TEST
-var React = require('react');
-import ReactTestWrapper from './views/test-wrapper.jsx';
-var TestWrapper = React.createFactory(ReactTestWrapper);
-app.get('/test', function (req, res, next) {
-  res.render('empty-layout', {
-    reactDom: ReactDOMServer.renderToString(TestWrapper({}))
-  });
-});
 
 app.get('/', home.get);
 
