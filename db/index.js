@@ -42,10 +42,31 @@ function setupDesignDocuments() {
 }
 
 //////
+// PROMISE SHORTCUT
+//////
+
+let defaultParams = {
+  include_docs: true,
+  reduce: false
+};
+function view(designname, viewname, params = {}) {
+  params = Object.assign(defaultParams, params);
+  return new Promise(function (resolve, reject) {
+    db.view(designname, viewname, params, function (err, body) {
+      if (err) return reject(err);
+      // we want to access docs when using include_docs
+      body = params.include_docs ? body.rows.map( row => row.doc) : body;
+      return resolve(body);
+    })
+  });
+}
+
+//////
 // EXPORTS
 //////
 
 module.exports = {
   db:     db,
   setup:  setupDesignDocuments,
+  view:   view,
 };

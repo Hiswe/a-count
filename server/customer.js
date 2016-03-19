@@ -2,6 +2,7 @@
 
 var chalk         = require('chalk');
 var db            = require('../db').db;
+var view          = require('../db').view;
 var slug          = require('slug');
 slug.charmap['_'] = '-';
 var logId         = '[CUSTOMER]';
@@ -30,17 +31,12 @@ function post(req, res, next) {
 }
 
 function get(req, res, next) {
-  db.view('customer', 'byId', {
-    include_docs: true,
-    reduce: false
-  }, couchResp);
-
-  function couchResp(err, body) {
-    if (err) return next(err);
-    var customers = body.rows.map(function (row) { return row.doc; });
-    console.log(customers);
-    return res.render('customers', {customers: customers});
-  }
+  view('customer', 'byId')
+    .then(function (body) {
+      console.log(body);
+      return res.render('customers', {customers: body});
+    })
+    .catch(next)
 }
 
 module.exports = {

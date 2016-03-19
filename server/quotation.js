@@ -3,7 +3,7 @@
 var chalk     = require('chalk');
 var async     = require('async');
 
-import {db}           from '../db';
+import {db, view}     from '../db';
 import {render}       from './_react';
 import QuotationsHome from '../views/quotations-home.jsx';
 var config    = require('./config');
@@ -12,19 +12,13 @@ var quotation = require('../db/quotation');
 var compute   = require('../shared/compute');
 
 function get(req, res, next) {
-  db.view('quotation', 'byTime', {
-    include_docs: true,
-    descending: true,
-    reduce: false
-  }, couchResp);
-
-  function couchResp(err, body) {
-    if (err) return next(err);
-    var quotations = body.rows.map(function (row) { return row.doc; });
-    res.render('empty-layout', {
-      reactDom: render(QuotationsHome, {quotations}),
-    });
-  }
+  view('quotation', 'byTime', {descending: true})
+    .then(function (body) {
+      res.render('empty-layout', {
+        reactDom: render(QuotationsHome, {quotations: body}),
+      });
+    })
+    .catch(next)
 }
 
 function edit(req, res, next) {
