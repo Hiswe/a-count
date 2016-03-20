@@ -10,6 +10,7 @@ var errorHandler    = require('express-error-handler');
 var marked          = require('marked');
 var favicon         = require('serve-favicon');
 var moment          = require('moment');
+var session         = require('express-session')
 
 var config          = require('./server/config');
 var home            = require('./server/home');
@@ -28,7 +29,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(compression());
 app.use(favicon(__dirname + '/public/favicon.png'));
-
+app.use(session({
+  secret: 'con con con compte',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
 
 // templates
 app.set('views', path.join( __dirname, './views'));

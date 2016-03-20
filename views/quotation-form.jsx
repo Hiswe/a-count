@@ -96,21 +96,34 @@ var Status        = React.createClass({
 //     span.js-product-total 350
 //   td: button.js-product-remove.btn-circular(type="button") ×
 
+var Price         = React.createClass({
+  render: function () {
+    return (
+      <p className="amount">
+        {'€\u00A0'} <span>{this.props.amount}</span>
+      </p>
+    );
+  }
+})
+
 var Line          = React.createClass({
   render: function () {
+    let product = this.props.product;
+    let total   = product.quantity * product.price;
+    let i       = `products[${this.props.index}]`;
     return (
       <tr>
         <td>
-          <textarea />
+          <textarea name={`${i}[description]`} rows="1" defaultValue={product.description} />
         </td>
         <td>
-          <input type="number" min="0" step="0.25" />
+          <input type="number" min="0" step="0.25" name={`${i}[quantity]`} defaultValue={product.quantity} />
         </td>
         <td>
-          <input type="number" min="0" step="10" />
+          <input type="number" min="0" step="10" name={`${i}[price]`} defaultValue={product.price} />
         </td>
         <td className="total">
-          {'€\u00A0'} <span></span>
+          <Price amount={total} />
         </td>
         <td>
           <button className="btn-circular" type="button">×</button>
@@ -122,33 +135,40 @@ var Line          = React.createClass({
 
 var ListingBody   = React.createClass({
   render: function () {
+    let products  = this.props.products;
+    let body      = products.map( (p, i) => ( <Line key={i} index={i} product={p} /> ) );
     return (
       <tbody>
-        <Line />
+        {body}
       </tbody>
     );
   },
 });
 
-// tfoot
-//   tr
-//     td(colspan=3) Total Net
-//     td
-//       |€&nbsp;
-//       span.js-total-net=quotation ? quotation.price.net : emptyTotal.net
-//     td
-//   tr
-//     td(colspan=3) Taxes
-//     td
-//       |€&nbsp;
-//       span.js-total-tax=quotation ? quotation.price.taxes : emptyTotal.taxes
-//     td
-//   tr
-//     td(colspan=3) Total with taxes
-//     td
-//       |€&nbsp;
-//       span.js-total-all=quotation ? quotation.price.total : emptyTotal.total
-//     td
+var ListingFooter = React.createClass({
+  render: function () {
+    return (
+      <tfoot>
+        <tr>
+          <td colSpan="3">Total net</td>
+          <td><Price amount={this.props.net} /></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colSpan="3">Taxes</td>
+          <td><Price amount={this.props.taxes} /></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colSpan="3">Total with taxes</td>
+          <td><Price amount={this.props.total} /></td>
+          <td></td>
+        </tr>
+      </tfoot>
+    );
+
+  }
+});
 
 var Listing       = React.createClass({
   render: function () {
@@ -163,24 +183,8 @@ var Listing       = React.createClass({
             <th></th>
           </tr>
         </thead>
-        <ListingBody />
-        <tfoot>
-          <tr>
-            <td colSpan="3">Total net</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td colSpan="3">Taxes</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td colSpan="3">Total with taxes</td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tfoot>
+        <ListingBody products={this.props.quotation.products} />
+        <ListingFooter {...this.props.quotation.price} />
       </table>
     )
   },
@@ -189,9 +193,11 @@ var Listing       = React.createClass({
 var QuotationForm = React.createClass({
   render: function () {
     let quotation   = this.props.quotation;
-    let id          = quotation ? '#' + quotation._id : '#quot-' + this.props.quotationId;
-    let formAction  = quotation ? '/quotation/' + quotation._id : '/quotation';
-    let status      = quotation ? <Status /> : null;
+    let isNew       = quotation._id == null;
+    let id          = isNew ? `#quot-${quotation.id}` : `#${quotation._id}`;
+    let formAction  = isNew ? '/quotation/' + quotation._id : '/quotation';
+    let status      = isNew ? null : <Status />;
+    let idInput     = isNew ? <input type="hidden" value={quotation.id} name="id" /> : null;
 
     return (
       <section>
@@ -200,21 +206,21 @@ var QuotationForm = React.createClass({
           <span className="id">{id}</span>
         </h1>
         <form action={formAction}>
-          <input type="hidden" value={this.props.quotationId} name="id" />
+          {idInput}
           <div className="row">
             <fieldset className="cell card">
               <Customer />
               {status}
             </fieldset>
             <fieldset className="cell-1-5 card">
-              <Input name="tax" type="number" step="any" />
+              <Input name="tax" type="number" step="any" value={quotation.tax} />
             </fieldset>
           </div>
           <fieldset>
             <Input name="title" />
-            <Listing />
+            <Listing quotation={this.props.quotation} />
             <div className="detail-actions">
-              <button className="btn-secondary" formAction="/quotation/add-line" formMethod="post" name="addline" value="true">
+              <button className="btn-secondary" formAction="/quotation/add-line" formMethod="post" name="realProductId" value={quotation._id}>
                 Add a line
               </button>
             </div>

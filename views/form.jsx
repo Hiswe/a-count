@@ -32,7 +32,7 @@ var Input = React.createClass({
     if (type === 'textarea') {
       input = (<textarea name={name} id={name} value={value} />);
     } else {
-      input = (<input className="field" name={name} id={name} value={value} {...additionalFields} />);
+      input = (<input className="field" name={name} id={name} defaultValue={value} {...additionalFields} />);
     }
 
 
