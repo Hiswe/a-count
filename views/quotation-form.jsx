@@ -153,44 +153,35 @@ var ListingBody   = React.createClass({
 var Listing       = React.createClass({
   render: function () {
     return (
-      <fieldset>
-        <Input name="title" />
-        <table className="table-form" cellSpacing="0">
-          <thead>
-            <tr>
-              <th>Désignation</th>
-              <th>Jours</th>
-              <th>PU HT</th>
-              <th>Total HT</th>
-              <th></th>
-            </tr>
-          </thead>
-          <ListingBody />
-          <tfoot>
-            <tr>
-              <td colSpan="3">Total net</td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan="3">Taxes</td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td colSpan="3">Total with taxes</td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tfoot>
-        </table>
-        <div className="detail-actions">
-          <button className="btn-secondary" type="button">
-            Add a line
-          </button>
-        </div>
-      </fieldset>
-
+      <table className="table-form" cellSpacing="0">
+        <thead>
+          <tr>
+            <th>Désignation</th>
+            <th>Jours</th>
+            <th>PU HT</th>
+            <th>Total HT</th>
+            <th></th>
+          </tr>
+        </thead>
+        <ListingBody />
+        <tfoot>
+          <tr>
+            <td colSpan="3">Total net</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colSpan="3">Taxes</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colSpan="3">Total with taxes</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
     )
   },
 })
@@ -219,7 +210,15 @@ var QuotationForm = React.createClass({
               <Input name="tax" type="number" step="any" />
             </fieldset>
           </div>
-          <Listing />
+          <fieldset>
+            <Input name="title" />
+            <Listing />
+            <div className="detail-actions">
+              <button className="btn-secondary" formAction="/quotation/add-line" formMethod="post" name="addline" value="true">
+                Add a line
+              </button>
+            </div>
+          </fieldset>
         </form>
         <div className="action">
         </div>

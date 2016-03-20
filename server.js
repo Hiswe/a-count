@@ -102,8 +102,10 @@ app.all('*', function (req, res, next) {
 });
 
 app.get('/quotations', quotation.get);
+
 app.get('/quotation/:quotationId', quotation.edit);
 app.get('/quotation', quotation.create);
+app.post('/quotation/add-line', quotation.addLine);
 app.post('/quotation/:quotationId?', quotation.post);
 
 app.get('/customers', customer.get);

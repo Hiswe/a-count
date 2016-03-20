@@ -3,11 +3,11 @@
 var chalk     = require('chalk');
 var async     = require('async');
 
-import {db, view}     from '../db';
-import {render}       from './_react';
-import QuotationsHome from '../views/quotations-home.jsx';
-import QuotationForm  from '../views/quotation-form.jsx';
-import {emptyProduct} from './config';
+import {db, view}       from '../db';
+import {render}         from './_react';
+import QuotationsHome   from '../views/quotations-home.jsx';
+import QuotationForm    from '../views/quotation-form.jsx';
+import {defaultProduct} from './config';
 
 var config    = require('./config');
 var customer  = require('../db/customer');
@@ -52,7 +52,7 @@ function create(req, res, next) {
         customers: customers,
         emptyProduct: config.defaultProduct,
         emptyTotal: emptyTotal,
-        // reactDom: render(QuotationForm, {quotationId, customers, emptyTotal}),
+        reactDom: render(QuotationForm, {quotationId, customers, emptyTotal, defaultProduct}),
       });
     })
     .catch(next)
@@ -82,8 +82,15 @@ function post(req, res, next) {
   }
 }
 
+// NO-JS add line function
+function addLine(req, res, next) {
+  console.log('add line');
+  res.redirect('/quotation');
+}
+
 module.exports = {
   create: create,
+  addLine,
   edit:   edit,
   post:   post,
   get:    get,
