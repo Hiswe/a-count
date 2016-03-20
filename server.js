@@ -130,6 +130,7 @@ var handler = errorHandler({
   },
 });
 app.use(function (err, req, res, next) {
+  if (err.reason == null) err.reason = err.toString();
   console.log(err);
   // force status for morgan to catch up
   res.status(err.status || err.statusCode);

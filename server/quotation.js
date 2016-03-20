@@ -6,6 +6,9 @@ var async     = require('async');
 import {db, view}     from '../db';
 import {render}       from './_react';
 import QuotationsHome from '../views/quotations-home.jsx';
+import QuotationForm  from '../views/quotation-form.jsx';
+import {emptyProduct} from './config';
+
 var config    = require('./config');
 var customer  = require('../db/customer');
 var quotation = require('../db/quotation');
@@ -29,35 +32,30 @@ function edit(req, res, next) {
 }
 
 function create(req, res, next) {
-  async.parallel({
-    quotation: function (callback) {
-      db.view('quotation', 'byTime', callback);
-    },
-    customers: customer.getAll,
-  }, couchResp);
+  let quotationPromise = view('quotation', 'byTime', {
+    include_docs: false,
+    reduce: true,
+  });
+  Promise.
+    all([quotationPromise, view('customer', 'byId')])
+    .then(function (body) {
+      let quotationId, customers;
+      [quotationId, customers] = body;
+      var emptyTotal = {
+        net: compute.linePrice(config.defaultProduct)
+      };
+      emptyTotal.taxes = compute.taxedPrice(emptyTotal.net, config.tax);
+      emptyTotal.total = emptyTotal.net + emptyTotal.taxes;
 
-  function couchResp(err, body) {
-    if (err) return next(err);
-    var quotation = body.quotation[0].rows;
-    var customers = body.customers[0].rows.map(function(customer) {
-      return customer.doc;
-    });
-    // Reduce of no entries is empty
-    var quotationId = quotation.length ? quotation[0].value : 0;
-
-    var emptyTotal = {
-      net: compute.linePrice(config.defaultProduct)
-    };
-    emptyTotal.taxes = compute.taxedPrice(emptyTotal.net, config.tax);
-    emptyTotal.total = emptyTotal.net + emptyTotal.taxes;
-
-    return res.render('quotation', {
-      quotationId:  quotationId,
-      customers: customers,
-      emptyProduct: config.defaultProduct,
-      emptyTotal: emptyTotal,
-    });
-  }
+      return res.render('quotation', {
+        quotationId:  quotationId,
+        customers: customers,
+        emptyProduct: config.defaultProduct,
+        emptyTotal: emptyTotal,
+        // reactDom: render(QuotationForm, {quotationId, customers, emptyTotal}),
+      });
+    })
+    .catch(next)
 }
 
 function post(req, res, next) {

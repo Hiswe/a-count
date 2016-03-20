@@ -1,6 +1,6 @@
 import React    from 'React';
 
-import Floating from './form-floating.jsx';
+import {Floating} from './form.jsx';
 
 var CreateBtn = React.createClass({
   render: function () {

@@ -50,12 +50,21 @@ const viewDefaultParams = {
   reduce: false
 };
 function view(designname, viewname, params = {}) {
-  params = Object.assign(viewDefaultParams, params);
+  params = Object.assign({}, viewDefaultParams, params);
+  // take care of query_parse_error
+  // Reduce should invalidate include_docs?
+  if (!params.include_docs) delete params.include_docs;
+  if (params.reduce)        delete params.reduce;
+  //
   return new Promise(function (resolve, reject) {
     db.view(designname, viewname, params, function (err, body) {
       if (err) return reject(err);
       // we want to access docs when using include_docs
-      body = params.include_docs ? body.rows.map( row => row.doc) : body;
+      if (params.include_docs) body = body.rows.map( row => row.doc);
+      // Reduce of no entries is empty
+      if (params.reduce == null) {
+        body = body.rows.length ? body.rows[0].value : 0;
+      }
       return resolve(body);
     })
   });
