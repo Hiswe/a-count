@@ -179,8 +179,7 @@ var QuotationForm = React.createClass({
     let isNew       = quotation._id == null;
     let id          = isNew ? `#quot-${quotation.id}` : `#${quotation._id}`;
     let formAction  = isNew ? '/quotation' : `/quotation/${quotation._id}`;
-    let status      = isNew ? null : <Status {...quotation.time} />;
-    let idInput     = isNew ? <input type="hidden" value={quotation.id} name="id" /> : null;
+    // {isNew ? <input type="hidden" value={quotation.id} name="id" /> : <input type="hidden" value={quotation._id} name="_id" />}
 
     return (
       <section>
@@ -189,11 +188,11 @@ var QuotationForm = React.createClass({
           <span className="id">{id}</span>
         </h1>
         <form action={formAction} method="post">
-          {idInput}
+          <input type="hidden" value={quotation[isNew ? 'id' : '_id']} name={isNew ? 'id' : '_id' } />
           <div className="row">
             <fieldset className="cell card">
               <Customer list={this.props.customers} current={quotation.customer} />
-              {status}
+              {isNew ? null : <Status {...quotation.time} />}
             </fieldset>
             <fieldset className="cell-1-5 card">
               <Input name="tax" type="number" step="any" value={quotation.tax} />

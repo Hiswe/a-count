@@ -49,8 +49,15 @@ function createEmptyQuotation() {
 function editOrCreate(req, res, next) {
   let isCreating        = req.params.id == null;
   console.log('[QUOTATION] is creating?', isCreating);
+  // console.log(req.flash('quotation'));
   let customersPromise  = customer.getAll();
-  let quotationPromise  = isCreating ? createEmptyQuotation() : dbGet(req.params.id);
+  let quotationPromise  = req.flash('quotation')[0];
+
+  if (quotationPromise) {
+    quotationPromise = Promise.resolve(quotationPromise)
+  } else {
+    quotationPromise = isCreating ? createEmptyQuotation() : dbGet(req.params.id);
+  }
 
   Promise
     .all([
@@ -119,11 +126,12 @@ function addLine(req, res, next) {
   console.log(req.body);
 
   req.body.products.push(defaultProduct);
-  // console.log(req.sessionID);
-  req.session.quotation = req.body;
+  req.flash('quotation', req.body);
+
+  let url = req.body._id == null ? '/quotation' : `/quotation/${req.body._id}`;
 
   // TODO redirect using realProductId when working on an existing product
-  res.redirect('/quotation');
+  res.redirect(url);
 }
 
 
