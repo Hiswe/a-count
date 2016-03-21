@@ -147,7 +147,7 @@ var Customer      = React.createClass({
         <datalist id="customer-list">
           {customers}
         </datalist>
-        <input className="field" id="customer" list="customer-list" type="text" defaultValue={this.props.current} />
+        <input className="field" id="customer" name="customer" list="customer-list" type="text" defaultValue={this.props.current} />
       </div>
     );
   },

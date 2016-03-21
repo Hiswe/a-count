@@ -23,11 +23,39 @@ function get(req, res, next) {
     .catch(next)
 }
 
-function edit(req, res, next) {
+function createEmptyQuotation() {
+  console.log('create empty quotation');
+  return view('quotation', 'byTime', {
+    include_docs: false,
+    reduce: true,
+  })
+    .then(function(id) {
+      let net = compute.linePrice(defaultProduct);
+      return Promise.resolve({
+        id,
+        tax,
+        price: {
+          net,
+          taxes: compute.taxedPrice(net, tax),
+          total: net + compute.taxedPrice(net, tax),
+        },
+        products: [
+          defaultProduct,
+        ]
+      });
+    });
+}
+
+function editOrCreate(req, res, next) {
+  let isCreating        = req.params.id == null;
+  console.log('[QUOTATION] is creating?', isCreating);
+  let customersPromise  = customer.getAll();
+  let quotationPromise  = isCreating ? createEmptyQuotation() : dbGet(req.params.id);
+
   Promise
     .all([
-      customer.getAll(),
-      dbGet(req.params.quotationId),
+      customersPromise,
+      quotationPromise,
     ])
     .then(function (body) {
       let [customers, quotation] = body;
@@ -83,26 +111,6 @@ function post(req, res, next) {
 }
 
 ////////
-// UTILS
-////////
-
-function createEmptyQuotation(id) {
-  let net = compute.linePrice(defaultProduct);
-  return {
-    id,
-    tax,
-    price: {
-      net,
-      taxes: compute.taxedPrice(net, tax),
-      total: net + compute.taxedPrice(net, tax),
-    },
-    products: [
-      defaultProduct,
-    ]
-  };
-}
-
-////////
 // NO-JS SPECIFIC
 ////////
 
@@ -140,7 +148,7 @@ module.exports = {
   addLine,
   removeLine,
   recompute,
-  edit,
+  editOrCreate,
   post,
   get,
 };
