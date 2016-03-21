@@ -1,100 +1,40 @@
-import React    from 'React';
-import {Empty}  from './empty-listing';
-import {Input}  from './form';
+import React        from 'React';
 
-var Customer      = React.createClass({
+import {Empty}      from './empty-listing';
+import {Input}      from './form';
+import {formatDate} from './_format';
+
+////////
+// META INFORMATIONS (top of form)
+////////
+
+var StatusLine    = React.createClass({
   render: function () {
-    // value=quotation ? quotation.customer : null
+    let id        = this.props.name;
+    let name      = `status[${id}]`;
+    let isChecked = this.props.value !== false;
+
     return (
-      <div className="input">
-        <label className="item" htmlFor="customer">Customer</label>
-        <datalist id="customer-list"></datalist>
-        <input className="field" id="customer" list="customer-list" type="text" />
+      <div className="cell-1-4">
+        <Input id={id} name={name} type="checkbox" checked={isChecked} disabled={isChecked} />
+        <div>{formatDate(this.props.value)}</div>
       </div>
     );
   },
 });
 
-// .cell-1-4
-//   .input
-//     label.item(for="send") send
-//     input.field.js-send(
-//       id="send"
-//       name="status[send]"
-//       type="checkbox"
-//       checked=quotation && quotation.time.send !== false
-//       disabled=quotation && quotation.time.send !== false
-//     )
-//   div=quotation && formatDate(quotation.time.send)
-// .cell-1-4
-//   .input
-//     label.item(for="validated") validated
-//     input.field.js-validated(
-//       id="validated"
-//       name="status[validated]"
-//       type="checkbox"
-//       checked=quotation && quotation.time.validated !== fals
-//       disabled=quotation && quotation.time.validated !== fal
-//     )
-//   div=quotation && formatDate(quotation.time.validated)
-// .cell-1-4
-//   .input
-//     label.item(for="signed") signed
-//     input.field.js-signed(
-//       id="signed"
-//       name="status[signed]"
-//       type="checkbox"
-//       checked=quotation && quotation.time.signed !== false
-//       disabled=quotation && quotation.time.signed !== false
-//     )
-//   div=quotation && formatDate(quotation.time.signed)
-// .cell-1-4
-//   .input
-//     label.item(for="done") done
-//     input.field.js-done(
-//       id="done"
-//       name="status[done]"
-//       type="checkbox"
-//       checked=quotation && quotation.time.done !== false
-//       disabled=quotation && quotation.time.done !== false
-//     )
-//   div=quotation && formatDate(quotation.time.done)
-
 var Status        = React.createClass({
   render: function () {
+    let steps     = ['send', 'validated', 'signed', 'done']
+    let checkbox  = steps.map((s, i) => <StatusLine key={i} name={s} value={this.props[s]} />);
+
     return (
       <div className="row">
-        <div className="cell-1-4">
-
-        </div>
+        {checkbox}
       </div>
     );
   }
 });
-
-// tr.js-product(id="product-#{index}")
-//   td: textarea.js-product-descriptions(
-//     name="products[#{index}][description]"
-//     rows=1
-//   )= opts.description
-//   td: input.js-product-quantity(
-//     type="number"
-//     min="0"
-//     step="0.25"
-//     name="products[#{index}][quantity]"
-//     value=opts.quantity
-//   )
-//   td: input.js-product-price(
-//     type="number"
-//     min="0"
-//     step="10"
-//     name="products[#{index}][price]"
-//     value=opts.price
-//   )
-//   td.total
-//     | €&nbsp;
-//     span.js-product-total 350
-//   td: button.js-product-remove.btn-circular(type="button") ×
 
 var Price         = React.createClass({
   render: function () {
@@ -104,7 +44,11 @@ var Price         = React.createClass({
       </p>
     );
   }
-})
+});
+
+////////
+// LISTING BLOCK
+////////
 
 var Line          = React.createClass({
   render: function () {
@@ -188,7 +132,26 @@ var Listing       = React.createClass({
       </table>
     )
   },
-})
+});
+
+var Customer      = React.createClass({
+  render: function () {
+    let customers = this.props.list.map( (c, i) => <option key={i} value={c.name} />)
+    return (
+      <div className="input">
+        <label className="item" htmlFor="customer">Customer</label>
+        <datalist id="customer-list">
+          {customers}
+        </datalist>
+        <input className="field" id="customer" list="customer-list" type="text" defaultValue={this.props.current} />
+      </div>
+    );
+  },
+});
+
+////////
+// WHOLE PAGE
+////////
 
 var QuotationForm = React.createClass({
   render: function () {
@@ -196,7 +159,7 @@ var QuotationForm = React.createClass({
     let isNew       = quotation._id == null;
     let id          = isNew ? `#quot-${quotation.id}` : `#${quotation._id}`;
     let formAction  = isNew ? '/quotation/' + quotation._id : '/quotation';
-    let status      = isNew ? null : <Status />;
+    let status      = isNew ? null : <Status {...quotation.time} />;
     let idInput     = isNew ? <input type="hidden" value={quotation.id} name="id" /> : null;
 
     return (
@@ -209,7 +172,7 @@ var QuotationForm = React.createClass({
           {idInput}
           <div className="row">
             <fieldset className="cell card">
-              <Customer />
+              <Customer list={this.props.customers} current={quotation.customer} />
               {status}
             </fieldset>
             <fieldset className="cell-1-5 card">
@@ -217,7 +180,7 @@ var QuotationForm = React.createClass({
             </fieldset>
           </div>
           <fieldset>
-            <Input name="title" />
+            <Input name="title" defaultValue={quotation.title} />
             <Listing quotation={this.props.quotation} />
             <div className="detail-actions">
               <button className="btn-secondary" formAction="/quotation/add-line" formMethod="post" name="realProductId" value={quotation._id}>

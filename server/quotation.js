@@ -3,7 +3,7 @@
 var chalk     = require('chalk');
 var async     = require('async');
 
-import {db, view}             from '../db';
+import {db, view, dbGet}      from '../db';
 import {render}               from './_react';
 import QuotationsHome         from '../views/quotations-home.jsx';
 import QuotationForm          from '../views/quotation-form.jsx';
@@ -11,7 +11,6 @@ import {defaultProduct, tax}  from './config';
 
 var config    = require('./config');
 var customer  = require('../db/customer');
-var quotation = require('../db/quotation');
 var compute   = require('../shared/compute');
 
 function get(req, res, next) {
@@ -25,26 +24,20 @@ function get(req, res, next) {
 }
 
 function edit(req, res, next) {
-  quotation.getById(req.params.quotationId, next, couchResp);
-  function couchResp(err, body) {
-    return res.render('quotation', body);
-  }
-}
-
-function createEmptyQuotation(id) {
-  let net = compute.linePrice(defaultProduct);
-  return {
-    id,
-    tax,
-    price: {
-      net,
-      taxes: compute.taxedPrice(net, tax),
-      total: net + compute.taxedPrice(net, tax),
-    },
-    products: [
-      defaultProduct,
-    ]
-  };
+  Promise
+  .all([
+    customer.getAll(),
+    dbGet(req.params.quotationId),
+  ])
+  .then(function (body) {
+    let [customers, quotation] = body;
+    res.render('quotation', {
+      customers,
+      quotation,
+      reactDom: render(QuotationForm, {customers, quotation})
+    });
+  })
+  .catch(next)
 }
 
 function create(req, res, next) {
@@ -106,20 +99,65 @@ function post(req, res, next) {
   }
 }
 
-// NO-JS add line function
+////////
+// UTILS
+////////
+
+function createEmptyQuotation(id) {
+  let net = compute.linePrice(defaultProduct);
+  return {
+    id,
+    tax,
+    price: {
+      net,
+      taxes: compute.taxedPrice(net, tax),
+      total: net + compute.taxedPrice(net, tax),
+    },
+    products: [
+      defaultProduct,
+    ]
+  };
+}
+
+////////
+// NO-JS SPECIFIC
+////////
+
 function addLine(req, res, next) {
   console.log('add line');
   console.log(req.body);
+
   req.body.products.push(defaultProduct);
   // console.log(req.sessionID);
   req.session.quotation = req.body;
+
+  // TODO redirect using realProductId when working on an existing product
   res.redirect('/quotation');
 }
 
+
+// a reload without loosing datas.
+// just to have a fresh computation
+function removeLine(req, res, next) {
+
+}
+
+// a reload without loosing datas.
+// just to have a fresh computation
+function recompute(req, res, next) {
+
+}
+
+////////
+// EXPORTS
+////////
+
 module.exports = {
-  create: create,
+  create,
   addLine,
-  edit:   edit,
-  post:   post,
-  get:    get,
+  removeLine,
+  recompute,
+  edit,
+  post,
+  get,
 };

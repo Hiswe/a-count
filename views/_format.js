@@ -9,6 +9,7 @@ function marked(data) {
 };
 
 function formatDate(data) {
+  if (typeof data !== 'string') return '';
   var formatedDate = moment(data).format('DD/MM/YYYY HH:mm');
   return formatedDate === 'Invalid date' ? '' : formatedDate;
 }

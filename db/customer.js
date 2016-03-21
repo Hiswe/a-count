@@ -1,5 +1,6 @@
 'use strict';
 
+import  {view} from './index';
 var db            = require('./index').db;
 var slug          = require('slug');
 slug.charmap['_'] = '-';
@@ -34,9 +35,7 @@ function exist(name, next, done) {
 }
 
 function getAll(done) {
-  db.view('customer', 'byId', {
-    include_docs: true
-  }, done);
+  return view('customer', 'byId');
 }
 
 module.exports = {

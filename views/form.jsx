@@ -25,20 +25,21 @@ var Floating = React.createClass({
 var Input = React.createClass({
   render: function () {
     let name  = this.props.name;
+    let id    = this.props.id ? this.props.id : name;
     let type  = this.props.type ? this.props.type : 'text';
     let value = this.props.value ? this.props.value : null;
     let additionalFields = omit(this.props, ['name', 'value'])
     let input;
     if (type === 'textarea') {
-      input = (<textarea name={name} id={name} value={value} />);
+      input = (<textarea name={name} id={id} value={value} />);
     } else {
-      input = (<input className="field" name={name} id={name} defaultValue={value} {...additionalFields} />);
+      input = (<input className="field" name={name} id={id} defaultValue={value} {...additionalFields} />);
     }
 
 
     return (
       <div className="input">
-        <label className="item" htmlFor={name}>{name}</label>
+        <label className="item" htmlFor={id}>{id}</label>
         {input}
       </div>
     );

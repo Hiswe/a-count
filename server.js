@@ -29,6 +29,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(compression());
 app.use(favicon(__dirname + '/public/favicon.png'));
+
+// see Warning here
+// https://github.com/expressjs/session#sessionoptions
+// https://www.npmjs.com/package/session-file-store
 app.use(session({
   secret: 'con con con compte',
   resave: false,
@@ -47,6 +51,7 @@ app.locals.marked = function markdownToHtml(data) {
   return marked(data);
 };
 app.locals.formatDate = function formatDate(data) {
+  if (typeof data !== 'string') return '';
   var formatedDate = moment(data).format('DD/MM/YYYY HH:mm');
   return formatedDate === 'Invalid date' ? '' : formatedDate;
 }
