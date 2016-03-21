@@ -119,6 +119,7 @@ app.get('/quotations', quotation.get);
 app.get('/quotation/:id?', quotation.editOrCreate);
 // app.get('/quotation', quotation.create);
 app.post('/quotation/add-line', quotation.addLine);
+app.post('/quotation/recompute', quotation.recompute);
 app.post('/quotation/:quotationId?', quotation.post);
 
 app.get('/customers', customer.get);

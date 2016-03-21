@@ -167,6 +167,8 @@ var QuotationActions = React.createClass({
         <button className="btn" type="submit" name="convertToInvoice" value="false">
           {hasId ? 'Update quotation' : 'Create quotation'}
         </button>
+        {'\u00A0'}
+        <button className="btn-secondary" formAction="/quotation/recompute" formMethod="post">recompute</button>
         {hasId ? ['\u00A0', newQuot, '\u00A0', print] : null}
       </div>
     );
@@ -179,7 +181,6 @@ var QuotationForm = React.createClass({
     let isNew       = quotation._id == null;
     let id          = isNew ? `#quot-${quotation.id}` : `#${quotation._id}`;
     let formAction  = isNew ? '/quotation' : `/quotation/${quotation._id}`;
-    // {isNew ? <input type="hidden" value={quotation.id} name="id" /> : <input type="hidden" value={quotation._id} name="_id" />}
 
     return (
       <section>
@@ -202,7 +203,7 @@ var QuotationForm = React.createClass({
             <Input name="title" defaultValue={quotation.title} />
             <Listing quotation={this.props.quotation} />
             <div className="detail-actions">
-              <button className="btn-secondary" formAction="/quotation/add-line" formMethod="post" name="realProductId" value={quotation._id}>
+              <button className="btn-secondary" formAction="/quotation/add-line" formMethod="post">
                 Add a line
               </button>
             </div>
