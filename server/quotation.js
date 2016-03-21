@@ -121,32 +121,31 @@ function post(req, res, next) {
 // NO-JS SPECIFIC
 ////////
 
+function getRedirectUrl(body) {
+  return body._id == null ? '/quotation' : `/quotation/${body._id}`;
+}
+
 function addLine(req, res, next) {
-  console.log('add line');
-  console.log(req.body);
   req.body.products.push(defaultProduct);
   req.body.price = compute.price(req.body);
   req.flash('quotation', req.body);
-
-  let url = req.body._id == null ? '/quotation' : `/quotation/${req.body._id}`;
-  // TODO redirect using realProductId when working on an existing product
-  res.redirect(url);
+  res.redirect(getRedirectUrl(req.body));
 }
 
-
-// a reload without loosing datas.
-// just to have a fresh computation
 function removeLine(req, res, next) {
-
+  let index       = ~~req.body.index;
+  req.body.products.splice(index, 1);
+  req.body.price  = compute.price(req.body);
+  req.flash('quotation', req.body);
+  res.redirect(getRedirectUrl(req.body));
 }
 
 // a reload without loosing datas.
 // just to have a fresh computation
 function recompute(req, res, next) {
-  req.flash('quotation', req.body);
   req.body.price = compute.price(req.body);
-  let url = req.body._id == null ? '/quotation' : `/quotation/${req.body._id}`;
-  res.redirect(url);
+  req.flash('quotation', req.body);
+  res.redirect(getRedirectUrl(req.body));
 }
 
 ////////

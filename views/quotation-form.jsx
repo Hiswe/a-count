@@ -74,7 +74,7 @@ var Line          = React.createClass({
           <Price amount={total} />
         </td>
         <td>
-          <button className="btn-circular" type="button">×</button>
+          <button className="btn-circular" formAction="/quotation/remove-line" formMethod="post" name="removeIndex" value={this.props.index}>×</button>
         </td>
       </tr>
     );
