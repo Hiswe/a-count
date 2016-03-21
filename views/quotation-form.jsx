@@ -5,6 +5,20 @@ import {Input}      from './form';
 import {formatDate} from './_format';
 
 ////////
+// MISC
+////////
+
+var Price         = React.createClass({
+  render: function () {
+    return (
+      <p className="amount">
+        {'€\u00A0'} <span>{this.props.amount}</span>
+      </p>
+    );
+  }
+});
+
+////////
 // META INFORMATIONS (top of form)
 ////////
 
@@ -32,16 +46,6 @@ var Status        = React.createClass({
       <div className="row">
         {checkbox}
       </div>
-    );
-  }
-});
-
-var Price         = React.createClass({
-  render: function () {
-    return (
-      <p className="amount">
-        {'€\u00A0'} <span>{this.props.amount}</span>
-      </p>
     );
   }
 });
@@ -153,12 +157,28 @@ var Customer      = React.createClass({
 // WHOLE PAGE
 ////////
 
+var QuotationActions = React.createClass({
+  render: function () {
+    let hasId     = this.props.id != null;
+    let newQuot   = <a key="newQuot" href="/quotation" className="btn-secondary">New quotation</a>;
+    let print     = <a key="print" href={`/print/${this.props.id}`} className="btn-secondary">Print</a>;
+    return (
+      <div className="action">
+        <button className="btn" type="submit" name="convertToInvoice" value="false">
+          {hasId ? 'Update quotation' : 'Create quotation'}
+        </button>
+        {hasId ? ['\u00A0', newQuot, '\u00A0', print] : null}
+      </div>
+    );
+  }
+});
+
 var QuotationForm = React.createClass({
   render: function () {
     let quotation   = this.props.quotation;
     let isNew       = quotation._id == null;
     let id          = isNew ? `#quot-${quotation.id}` : `#${quotation._id}`;
-    let formAction  = isNew ? '/quotation/' + quotation._id : '/quotation';
+    let formAction  = isNew ? '/quotation' : `/quotation/${quotation._id}`;
     let status      = isNew ? null : <Status {...quotation.time} />;
     let idInput     = isNew ? <input type="hidden" value={quotation.id} name="id" /> : null;
 
@@ -168,7 +188,7 @@ var QuotationForm = React.createClass({
           Invoice
           <span className="id">{id}</span>
         </h1>
-        <form action={formAction}>
+        <form action={formAction} method="post">
           {idInput}
           <div className="row">
             <fieldset className="cell card">
@@ -188,9 +208,8 @@ var QuotationForm = React.createClass({
               </button>
             </div>
           </fieldset>
+          <QuotationActions id={quotation._id} />
         </form>
-        <div className="action">
-        </div>
       </section>
     );
   },

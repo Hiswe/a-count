@@ -18,19 +18,9 @@ var CustomerRow = React.createClass({
   }
 });
 
-var CustomerBody = React.createClass({
-  render: function() {
-    let body = this.props.customers.map( c => ( <CustomerRow customer={c} /> ) )
-    return (
-      <tbody>
-        {body}
-      </tbody>
-    );
-  }
-});
-
 var CustomerTable = React.createClass({
   render: function () {
+    let body = this.props.customers.map( (c, i) => ( <CustomerRow key={i} customer={c} /> ) )
     return (
       <table className="table-pres" cellSpacing="0">
         <thead>
@@ -39,7 +29,9 @@ var CustomerTable = React.createClass({
             <th>address</th>
           </tr>
         </thead>
-        <CustomerBody {...this.props} />
+        <tbody>
+          {body}
+        </tbody>
       </table>
     );
   }

@@ -15,13 +15,13 @@ var customer      = require('../db/customer');
 function edit(req, res, next) {
   dbGet(req.params.customerId)
     .then( function (customer) {
-      res.render('empty-layout', {reactDom: render(CustomerForm, {customer}) });
+      res.render('_react-layout', {dom: render(CustomerForm, {customer}) });
     })
     .catch(next);
 }
 
 function create(req, res, next) {
-  res.render('empty-layout', {reactDom: render(CustomerForm, {}) });
+  res.render('_react-layout', {dom: render(CustomerForm, {}) });
 }
 
 function post(req, res, next) {
@@ -36,8 +36,8 @@ function post(req, res, next) {
 function get(req, res, next) {
   view('customer', 'byId')
     .then(function (customers) {
-      res.render('empty-layout', {
-        reactDom: render(CustomerList, {customers}),
+      res.render('_react-layout', {
+        dom: render(CustomerList, {customers}),
       });
     })
     .catch(next)

@@ -15,9 +15,9 @@ var compute   = require('../shared/compute');
 
 function get(req, res, next) {
   view('quotation', 'byTime', {descending: true})
-    .then(function (body) {
-      res.render('empty-layout', {
-        reactDom: render(QuotationsHome, {quotations: body}),
+    .then(function (quotations) {
+      res.render('_react-layout', {
+        dom: render(QuotationsHome, {quotations}),
       });
     })
     .catch(next)
@@ -25,19 +25,17 @@ function get(req, res, next) {
 
 function edit(req, res, next) {
   Promise
-  .all([
-    customer.getAll(),
-    dbGet(req.params.quotationId),
-  ])
-  .then(function (body) {
-    let [customers, quotation] = body;
-    res.render('quotation', {
-      customers,
-      quotation,
-      reactDom: render(QuotationForm, {customers, quotation})
-    });
-  })
-  .catch(next)
+    .all([
+      customer.getAll(),
+      dbGet(req.params.quotationId),
+    ])
+    .then(function (body) {
+      let [customers, quotation] = body;
+      res.render('_react-layout', {
+        dom: render(QuotationForm, {customers, quotation}),
+      });
+    })
+    .catch(next)
 }
 
 function create(req, res, next) {
@@ -47,29 +45,14 @@ function create(req, res, next) {
     include_docs: false,
     reduce: true,
   });
-  Promise.
-    all([quotationPromise, view('customer', 'byId')])
+  Promise
+    .all([quotationPromise, view('customer', 'byId')])
     .then(function (body) {
       let [id, customers] = body;
-
-      // create an empty product
-      let net       = compute.linePrice(defaultProduct);
       let quotation = isFromRedirect ? req.session.quotation : createEmptyQuotation(id);
       delete req.session.quotation;
-
-      // old stuff
-      var emptyTotal = {
-        net: compute.linePrice(config.defaultProduct)
-      };
-      emptyTotal.taxes = compute.taxedPrice(emptyTotal.net, config.tax);
-      emptyTotal.total = emptyTotal.net + emptyTotal.taxes;
-
-      return res.render('quotation', {
-        quotationId:  id,
-        customers:    customers,
-        emptyProduct: config.defaultProduct,
-        emptyTotal:   emptyTotal,
-        reactDom:     render(QuotationForm, {quotation, customers}),
+      res.render('_react-layout', {
+        dom: render(QuotationForm, {customers, quotation}),
       });
     })
     .catch(next)

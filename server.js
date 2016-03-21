@@ -10,7 +10,8 @@ var errorHandler    = require('express-error-handler');
 var marked          = require('marked');
 var favicon         = require('serve-favicon');
 var moment          = require('moment');
-var session         = require('express-session')
+var session         = require('express-session');
+var flash           = require('connect-flash');
 
 var config          = require('./server/config');
 var home            = require('./server/home');
@@ -39,6 +40,7 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false }
 }));
+app.use(flash());
 
 // templates
 app.set('views', path.join( __dirname, './views'));
