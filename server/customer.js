@@ -2,10 +2,10 @@
 
 var chalk         = require('chalk');
 
-import {db, view, dbGet}  from '../db';
-import {render}           from './_react';
-import CustomerList       from '../views/customer-list.jsx';
-import CustomerForm       from '../views/customer-form.jsx';
+import {db, view, get as dbGet}   from '../db';
+import {render}                   from './_react';
+import CustomerList               from '../views/customer-list.jsx';
+import CustomerForm               from '../views/customer-form.jsx';
 
 var slug          = require('slug');
 slug.charmap['_'] = '-';
@@ -26,11 +26,13 @@ function create(req, res, next) {
 
 function post(req, res, next) {
   req.body.customerId = req.params.customerId;
-  customer.create(req.body, next, function couchDone(err, couchRes) {
-    console.log(couchRes);
-    // TODO add a flash message
-    return res.status(302).redirect('/customer/' + couchRes._id);
-  });
+  customer
+    .create(req.body)
+    .then(function (couchRes) {
+      console.log(couchRes);
+      // TODO add a flash message
+      return res.status(302).redirect('/customer/' + couchRes._id);
+    });
 }
 
 function get(req, res, next) {

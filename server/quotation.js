@@ -3,7 +3,7 @@
 var chalk     = require('chalk');
 var async     = require('async');
 
-import {db, view, dbGet}      from '../db';
+import {db, view, get as dbGet, atomic} from '../db';
 import {render}               from './_react';
 import QuotationsHome         from '../views/quotations-home.jsx';
 import QuotationForm          from '../views/quotation-form.jsx';
@@ -94,27 +94,25 @@ function create(req, res, next) {
 }
 
 function post(req, res, next) {
-  var quotationId = req.params.quotationId || null;
-  var body = req.body;
+  var quotationId = req.params.id || null;
+  var body        = req.body;
   console.log(body);
-
-  // create customer if none with the same name
-  customer.exist(body.customer, next, checkCustomerDone);
-  function checkCustomerDone(err, customerExist) {
-    if (customerExist) return updateQuotation();
-    return customer.create({name: body.customer}, next, updateQuotation);
-  }
-
-  function updateQuotation() {
-    db.atomic('quotation', 'create', quotationId, req.body, couchDone);
-  }
-
-  function couchDone(err, couchRes) {
-    if (err) return next(err);
-    // console.log(couchRes);
-    // TODO add a flash message
-    return res.status(302).redirect('/quotation/' + couchRes._id);
-  }
+  customer
+    .exist(body.customer)
+    .then(function(isCustomer) {
+      console.log('is Customer', isCustomer);
+      if (!isCustomer) return customer.create({name: body.customer});
+      return Promise.resolve(isCustomer);
+    })
+    .then(function () {
+      console.log('create quotation');
+      return atomic('quotation', 'create', quotationId, req.body);
+    })
+    .then(function (couchRes) {
+      console.log('creation response');
+      return res.status(302).redirect('/quotation/' + couchRes._id);
+    })
+    .catch(next);
 }
 
 ////////

@@ -1,18 +1,14 @@
 'use strict';
 
-import  {view} from './index';
+import  {view, atomic} from './index';
 var db            = require('./index').db;
 var slug          = require('slug');
 slug.charmap['_'] = '-';
 
-function create(data, next, done) {
-  var customerId = data.customerId || null;
-  data.id   = slug(data.name);
-  db.atomic('customer', 'create', customerId, data, couchDone);
-  function couchDone(err, couchRes) {
-    if (err) return next(err);
-    done(err, couchRes);
-  }
+function create(data) {
+  var customerId  = data.customerId || null;
+  data.id         = slug(data.name);
+  return atomic('customer', 'create', customerId, data);
 }
 
 function getByName(name, next, done) {
@@ -26,12 +22,15 @@ function getByName(name, next, done) {
   }
 }
 
-function exist(name, next, done) {
-  db.view('customer', 'byName', {key: name}, couchDone);
-  function couchDone(err, couchRes) {
-    if (err) return next(err);
-    done(err, couchRes.rows.length > 0);
-  }
+function exist(name) {
+  return view('customer', 'byName', {
+    key: name,
+    include_docs: false,
+    reduce: true
+  })
+    .then(function (count) {
+      return Promise.resolve(count > 0)
+    });
 }
 
 function getAll(done) {

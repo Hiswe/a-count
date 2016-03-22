@@ -70,7 +70,7 @@ function view(designname, viewname, params = {}) {
   });
 }
 
-function dbGet(id) {
+function get(id) {
   return new Promise(function (resolve, reject) {
     db.get(id, function (err, body) {
       if (err) return reject(err);
@@ -79,13 +79,25 @@ function dbGet(id) {
   });
 }
 
+function atomic(designname, updatename, docname, body) {
+  return new Promise(function (resolve, reject) {
+    db.atomic(designname, updatename, docname, body, function (err, body) {
+      if (err) return reject(err);
+      return resolve(body);
+    });
+  });
+
+}
+
 //////
 // EXPORTS
 //////
 
 module.exports = {
-  db:     db,
+  db,
   setup:  setupDesignDocuments,
-  dbGet,
-  view:   view,
+  view,
+  atomic,
+  get,
+  dbGet: get,
 };
