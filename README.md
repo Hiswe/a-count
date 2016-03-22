@@ -36,3 +36,4 @@ npm run dev
 #### Routing
 
 - https://github.com/reactjs/react-router/blob/master/docs/guides/ServerRendering.md
+- https://css-tricks.com/learning-react-router/

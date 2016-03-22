@@ -180,7 +180,7 @@ var QuotationForm = React.createClass({
           {isNew ? null : print}
         </header>
         <form action={formAction} method="post">
-          <input type="hidden" value={quotation.index.quotation} name="index" />
+          <input type="hidden" value={quotation.index.quotation} name="index[quotation]" />
           <input type="hidden" value={quotation.time.created} name="time[created]" />
           {isNew ? null : <input type="hidden" value={quotation._id} name="_id" /> }
           {isNew ? null : <input type="hidden" value={fakeId} name="fakeId" /> }

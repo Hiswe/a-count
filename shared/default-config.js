@@ -23,6 +23,6 @@ module.exports = {
   },
   invoice: {
     prefix:     'FA',
-    startingAt: 350,
+    startingAt: 700,
   }
 };

@@ -5,7 +5,8 @@ var chalk     = require('chalk');
 // db
 import {db, view, get as dbGet, atomic} from '../db';
 import * as Quotation         from '../db/quotation'
-import * as Invoice             from '../db/invoice';
+import * as Invoice           from '../db/invoice';
+import * as businessForm      from '../db/business-form';
 // views
 import {render}               from './_react';
 import QuotationsHome         from '../views/quotations-home.jsx';
@@ -29,8 +30,8 @@ function get(req, res, next) {
 }
 
 function createEmptyQuotation() {
-  return Quotation
-    .getNextIndex()
+  return businessForm
+    .getNextIndex('quotation')
     .then(function(index) {
       let net = compute.linePrice(defaultProduct);
       return Promise.resolve({
@@ -61,7 +62,7 @@ function editOrCreate(req, res, next) {
   if (quotationPromise) {
     quotationPromise = Promise.resolve(quotationPromise)
   } else {
-    quotationPromise = isCreating ? createEmptyQuotation() : Quotation.getByFakeId(req.params.fakeId);
+    quotationPromise = isCreating ? createEmptyQuotation() : businessForm.getByFakeId(req.params.fakeId, 'quotation');
   }
 
   Promise
@@ -102,11 +103,20 @@ function post(req, res, next) {
 
 function convert(req, res, next) {
   var body        = req.body;
-  var quotationId = body._id;
   createCustomerIfNew(body.customer)
-    .then(Invoice.getNextId)
-    .then(function (id) {
-      return res.status(302).redirect('/quotation/' + quotationId);
+    .then(function () {
+      return businessForm.getNextIndex('invoice');
+    })
+    .then(function (invoiceIndex) {
+      console.log('convert', invoiceIndex);
+      body.index.invoice = invoiceIndex;
+      console.log(body);
+      return atomic('quotation', 'convertToInvoice', body._id, body);
+    })
+    .then(function (couchRes) {
+      console.log(couchRes);
+      // return res.status(302).redirect('/quotation/' + body.fakeId);
+      return res.status(302).redirect('/');
     })
     .catch(next)
 }

@@ -16,6 +16,7 @@ var flash           = require('connect-flash');
 var config          = require('./server/config');
 var home            = require('./server/home');
 var quotation       = require('./server/quotation');
+var invoice         = require('./server/invoice');
 var customer        = require('./server/customer');
 var reset           = require('./server/reset');
 var print           = require('./server/print');
@@ -122,6 +123,8 @@ app.post('/quotation/remove-line',                quotation.removeLine);
 app.post('/quotation/recompute',                  quotation.recompute);
 app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
 app.post('/quotation/:fakeId?',                   quotation.post);
+
+app.get('/invoice/:fakeId',                       invoice.get);
 
 app.get('/customers',               customer.get);
 app.get('/customer/:customerId',    customer.edit);

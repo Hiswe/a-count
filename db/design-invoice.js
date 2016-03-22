@@ -12,11 +12,19 @@ var updates = {};
 views.byTime =  {
   map: function(doc) {
     if (doc.type === 'invoice') {
-      emit(doc.time.created, 1);
+      emit(doc.time.converted, doc.index.invoice);
     }
   },
   reduce: function(keys, values, rereduce) {
     return sum(values);
+  },
+};
+
+views.byIndex =  {
+  map: function(doc) {
+    if (doc.type === 'invoice') {
+      emit(~~doc.index.quotation, doc._id);
+    }
   },
 };
 

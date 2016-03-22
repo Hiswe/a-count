@@ -67,7 +67,7 @@ updates.create = function (doc, req) {
       // store only counting
       // displaying will be made by server
       index:  {
-        quotation: body.index,
+        quotation: ~~body.index.quotation,
       },
       time:   {
         created:    new Date(),
@@ -102,16 +102,24 @@ updates.create = function (doc, req) {
 };
 
 updates.convertToInvoice = function (doc, req) {
+  var body              = JSON.parse(req.body);
   doc.type              = 'invoice';
-  doc.quotation         = doc._id;
+  doc.index.invoice     = body.index.invoice;
+
+  doc.title           = body.title    || doc.title || 'New invoice at ' + new Date().toString();
+  doc.customer        = body.customer || doc.customer || 'unknown customer!!';
+  doc.products        = body.products || doc.products;
   // times
   var time              = doc.time;
   time.lastUpdate       = new Date();
+  time.converted        = new Date();
   if (!time.send)       time.send       = new Date();
   if (!time.validated)  time.validated  = new Date();
   if (!time.signed)     time.signed     = new Date();
   if (!time.done)       time.done       = new Date();
 
+  // taxes
+  doc.tax = typeof body.tax !== 'undefined' ? body.tax : doc.tax || 1;
   // compute prices
   doc.price     = require('views/lib/compute').computePrice(doc);
 
