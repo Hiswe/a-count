@@ -1,6 +1,5 @@
 import  {view, atomic}  from './index';
 import  config          from '../server/config';
-console.log(config);
 
 // can't just count if we want to delete a quotation…
 function getNextIndex() {
@@ -10,11 +9,9 @@ function getNextIndex() {
     descending:   true,
     limit:        1
   }).then(function (body) {
-    console.log('get next index');
-    console.log(body);
     let rows  = body.rows;
     if (!rows.length) return Promise.resolve(0);
-    return Promise.resolve(~~/\d*$/.exec(body.rows[0].id)[0] + 1);
+    return Promise.resolve(~~body.rows[0].value + 1 );
   })
   ;
 };
