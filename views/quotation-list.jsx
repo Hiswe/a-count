@@ -50,7 +50,7 @@ var QuotationRow = React.createClass({
     return (
       <tr>
         <td>
-          <a href={url}>#{fakeId}</a>
+          <a href={url}>{fakeId}</a>
         </td>
         <td>{this.props.data.title}</td>
         <td>{this.props.data.customer}</td>

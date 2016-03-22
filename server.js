@@ -132,7 +132,7 @@ app.get('/reset',   reset.get);
 app.post('/reset',  reset.post);
 
 // http://maxlapides.com/forcing-browsers-print-backgrounds/
-app.get('/print/:docId', print.get);
+app.get('/print/:fakeId', print.get);
 
 app.get('/', home.get);
 

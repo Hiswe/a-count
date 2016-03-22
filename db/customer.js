@@ -12,14 +12,9 @@ function create(data) {
 }
 
 function getByName(name, next, done) {
-  db.view('customer', 'byName', {
+  return view('customer', 'byName', {
     key: name,
-    include_docs: true,
-  }, couchDone);
-  function couchDone(err, couchRes) {
-    if (err) return next(err);
-    done(err, couchRes.rows[0].doc);
-  }
+  });
 }
 
 // can't use a head request as we use the name
