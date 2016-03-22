@@ -14,14 +14,12 @@ var updates = {};
 // VIEWS
 //////
 
+// take creation time as a basis
 views.byTime =  {
   map: function(doc) {
     if (doc.type === 'quotation') {
       emit(doc.time.created, doc.index.quotation);
     }
-  },
-  reduce: function(keys, values, rereduce) {
-    return sum(values);
   },
 };
 
@@ -112,7 +110,9 @@ updates.convertToInvoice = function (doc, req) {
   // times
   var time              = doc.time;
   time.lastUpdate       = new Date();
+  // this is for having an accurate view ordered byTime
   time.converted        = new Date();
+  //
   if (!time.send)       time.send       = new Date();
   if (!time.validated)  time.validated  = new Date();
   if (!time.signed)     time.signed     = new Date();

@@ -9,15 +9,13 @@ var updates = {};
 // VIEWS
 //////
 
+// take converted time as a basis
 views.byTime =  {
   map: function(doc) {
     if (doc.type === 'invoice') {
       emit(doc.time.converted, doc.index.invoice);
     }
-  },
-  reduce: function(keys, values, rereduce) {
-    return sum(values);
-  },
+  }
 };
 
 views.byIndex =  {
