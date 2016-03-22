@@ -1,6 +1,6 @@
 import React          from 'React';
 
-import {formatStatus} from './_format';
+import {formatStatus, id as formatId} from './_format';
 import {Empty}        from './_utils';
 
 //----- THEAD
@@ -43,13 +43,14 @@ var EmptyQuotationStatus = React.createClass({
 
 var QuotationRow = React.createClass({
   render: function () {
-    let url     = `/quotation/${this.props.data._id}`;
+    let fakeId  = formatId('quotation', this.props.data);
+    let url     = `/quotation/${fakeId}`;
     let status  = formatStatus(this.props.data.time);
     status      = status.date ? <QuotationStatus status={status} /> : <EmptyQuotationStatus />;
     return (
       <tr>
         <td>
-          <a href={url}>#{this.props.data._id}</a>
+          <a href={url}>#{fakeId}</a>
         </td>
         <td>{this.props.data.title}</td>
         <td>{this.props.data.customer}</td>

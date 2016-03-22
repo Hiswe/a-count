@@ -1,6 +1,8 @@
 'use strict';
 
 var compute = require('../shared/compute');
+var format  = require('../shared/format');
+var config  = require('../server/config');
 
 // IDS should be
 // (PR|FA)AAMM-XXXX
@@ -15,13 +17,25 @@ var updates = {};
 views.byTime =  {
   map: function(doc) {
     if (doc.type === 'quotation') {
-      emit(doc.time.created, 1);
+      emit(doc.time.created, doc.index.quotation);
     }
   },
   reduce: function(keys, values, rereduce) {
     return sum(values);
   },
 };
+
+views.byIndex =  {
+  map: function(doc) {
+    if (doc.type === 'quotation') {
+      emit(~~doc.index.quotation, doc._id);
+    }
+  },
+};
+
+//////
+// COMPUTE FUNCTIONS
+//////
 
 var computePrice  = compute.computePrice.toString();
 computePrice      = computePrice.replace('linePrice', "require('views/lib/compute').linePrice");
@@ -36,7 +50,8 @@ views.lib = {
         + ';\n'
         + 'exports.computePrice = '
         + computePrice
-        + ';\n'
+        + ';\n',
+  config: config.quotation,
 };
 
 //////
@@ -44,10 +59,16 @@ views.lib = {
 //////
 
 updates.create = function (doc, req) {
-  var body = JSON.parse(req.body);
+  var body    = JSON.parse(req.body);
   if (!doc) {
     var doc = {
+      _id:    req.uuid,
       type:   'quotation',
+      // store only counting
+      // displaying will be made by server
+      index:  {
+        quotation: body.index,
+      },
       time:   {
         created:    new Date(),
         send:       false,
@@ -58,8 +79,7 @@ updates.create = function (doc, req) {
     };
   }
 
-  doc._id             = doc._id || 'quot-' + body.id;
-  doc.title           = body.title || doc.title || 'New quotation at ' + new Date().toString();
+  doc.title           = body.title    || doc.title || 'New quotation at ' + new Date().toString();
   doc.customer        = body.customer || doc.customer || 'unknown customer!!';
   doc.products        = body.products || doc.products;
 
@@ -81,12 +101,16 @@ updates.create = function (doc, req) {
   return [doc, toJSON(doc)];
 };
 
-updates.archive = function (doc, req) {
-  time.lastUpdate = new Date();
-  if (!time.send) time.send = new Date();
-  if (!time.validated) time.validated = new Date();
-  if (!time.signed) time.signed = new Date();
-  if (!time.done) time.done = new Date();
+updates.convertToInvoice = function (doc, req) {
+  doc.type              = 'invoice';
+  doc.quotation         = doc._id;
+  // times
+  var time              = doc.time;
+  time.lastUpdate       = new Date();
+  if (!time.send)       time.send       = new Date();
+  if (!time.validated)  time.validated  = new Date();
+  if (!time.signed)     time.signed     = new Date();
+  if (!time.done)       time.done       = new Date();
 
   // compute prices
   doc.price     = require('views/lib/compute').computePrice(doc);

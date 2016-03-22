@@ -1,8 +1,8 @@
 import React        from 'React';
 
-import {Input}      from './form';
-import {formatDate} from './_format';
-import {Amount}     from './_utils';
+import {Input}                      from './form';
+import {formatDate, id as formatId} from './_format';
+import {Amount}                     from './_utils';
 
 ////////
 // META INFORMATIONS (top of form)
@@ -25,8 +25,9 @@ var StatusLine    = React.createClass({
 
 var Status        = React.createClass({
   render: function () {
+    // done is for when work is finished
     let steps     = ['send', 'validated', 'signed', 'done']
-    let checkbox  = steps.map((s, i) => <StatusLine key={i} name={s} value={this.props[s]} />);
+    let checkbox  = steps.map((s, i) => <StatusLine key={`status-${i}`} name={s} value={this.props[s]} />);
 
     return (
       <div className="row">
@@ -42,9 +43,9 @@ var Status        = React.createClass({
 
 var Line          = React.createClass({
   render: function () {
-    let product = this.props.product;
-    let total   = product.quantity * product.price;
-    let i       = `products[${this.props.index}]`;
+    let product     = this.props.product;
+    let total       = product.quantity * product.price;
+    let i           = `products[${this.props.index}]`;
     return (
       <tr>
         <td>
@@ -145,14 +146,16 @@ var Customer      = React.createClass({
 
 var QuotationActions = React.createClass({
   render: function () {
-    let hasId     = this.props.id != null;
-    let newQuot   = <a key="newQuot" href="/quotation" className="btn-secondary">New quotation</a>;
+    let hasId         = this.props.id != null;
+    let convertRoute  = `/quotation/convert-to-invoice/${this.props.id}`;
+    let newQuot       = <a key="action-newQuot" href="/quotation" className="btn-secondary">New quotation</a>;
+    let convert       = <button key="action-convert" className="btn-secondary" formAction={convertRoute} formMethod="post">Convert to invoice</button>;
     return (
       <div className="action">
         <button className="btn" type="submit" name="convertToInvoice" value="false">
           {hasId ? 'Update quotation' : 'Create quotation'}
         </button>
-        {hasId ? ['\u00A0', newQuot] : null}
+        {hasId ? ['\u00A0', newQuot, '\u00A0', convert] : null}
       </div>
     );
   }
@@ -161,22 +164,26 @@ var QuotationActions = React.createClass({
 var QuotationForm = React.createClass({
   render: function () {
     let quotation   = this.props.quotation;
+    console.log(quotation);
     let isNew       = quotation._id == null;
-    let id          = isNew ? `#quot-${quotation.id}` : `#${quotation._id}`;
-    let formAction  = isNew ? '/quotation' : `/quotation/${quotation._id}`;
-    let print       = <a key="print" href={`/print/${quotation._id}`} className="btn">Print</a>;
+    let fakeId      = formatId('quotation', quotation);
+    let formAction  = isNew   ? '/quotation' : `/quotation/${fakeId}`;
+    let print       = <a key="print" href={`/print/${fakeId }`} className="btn">Print</a>;
 
     return (
       <section>
         <header>
           <h1>
             {'Quotation\u00A0'}
-            <span className="id">{id}</span>
+            <span className="id">{fakeId}</span>
           </h1>
           {isNew ? null : print}
         </header>
         <form action={formAction} method="post">
-          <input type="hidden" value={quotation[isNew ? 'id' : '_id']} name={isNew ? 'id' : '_id' } />
+          <input type="hidden" value={quotation.index.quotation} name="index" />
+          <input type="hidden" value={quotation.time.created} name="time[created]" />
+          {isNew ? null : <input type="hidden" value={quotation._id} name="_id" /> }
+          {isNew ? null : <input type="hidden" value={fakeId} name="fakeId" /> }
           <div className="row">
             <fieldset className="cell card">
               <Customer list={this.props.customers} current={quotation.customer} />
@@ -188,7 +195,7 @@ var QuotationForm = React.createClass({
           </div>
           <fieldset>
             <Input name="title" defaultValue={quotation.title} />
-            <Listing quotation={this.props.quotation} />
+            <Listing quotation={this.props.quotation}/>
             <div className="detail-actions">
               <button className="btn-secondary" formAction="/quotation/recompute" formMethod="post">
                 recompute

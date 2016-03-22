@@ -12,6 +12,7 @@ var db    = nano.use('concompte');
 var general   = require('./design-general');
 var customer  = require('./design-customer');
 var quotation = require('./design-quotation');
+var invoice   = require('./design-invoice');
 
 function insertDesignDocument(designDocument) {
   let name    = designDocument._id;
@@ -37,7 +38,8 @@ function setupDesignDocuments() {
   return Promise.all([
     insertDesignDocument(general),
     insertDesignDocument(customer),
-    insertDesignDocument(quotation)
+    insertDesignDocument(quotation),
+    insertDesignDocument(invoice),
   ]);
 }
 

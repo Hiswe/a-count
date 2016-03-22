@@ -1,6 +1,8 @@
 var moment          = require('moment');
 var marked          = require('marked');
 
+import config from '../server/config';
+
 // templates global datas
 function marked(data) {
   // prevent error while passing unsupported marked datas
@@ -12,6 +14,12 @@ function formatDate(data) {
   if (typeof data !== 'string') return '';
   var formatedDate = moment(data).format('DD/MM/YYYY HH:mm');
   return formatedDate === 'Invalid date' ? '' : formatedDate;
+}
+
+function id(type, businessForm) {
+  let {prefix, startingAt}  = config[type];
+  var createdAt             = moment(businessForm.time.created).format('YYMM');
+  return  `${prefix}${createdAt}-${startingAt + ~~businessForm.index[type]}`;
 }
 
 function formatStatus(status) {
@@ -34,4 +42,4 @@ function formatStatus(status) {
   return {message, date};
 }
 
-export {marked, formatDate, formatStatus}
+export {marked, formatDate, formatStatus, id}

@@ -1,14 +1,18 @@
 'use strict';
 
 var chalk     = require('chalk');
-var async     = require('async');
 
+// db
 import {db, view, get as dbGet, atomic} from '../db';
 import * as Quotation         from '../db/quotation'
+import * as Invoice             from '../db/invoice';
+// views
 import {render}               from './_react';
 import QuotationsHome         from '../views/quotations-home.jsx';
 import QuotationForm          from '../views/quotation-form.jsx';
 import {defaultProduct, tax}  from './config';
+import * as format            from '../shared/format';
+import {id as formatId}       from '../views/_format';
 
 var config    = require('./config');
 var Customer  = require('../db/customer');
@@ -27,12 +31,18 @@ function get(req, res, next) {
 function createEmptyQuotation() {
   console.log('create empty quotation');
   return Quotation
-    .getNextId()
-    .then(function(id) {
+    .getNextIndex()
+    .then(function(index) {
       let net = compute.linePrice(defaultProduct);
+      // id: format.id(config.quotation, id + config.quotation.startingAt),
       return Promise.resolve({
-        id,
+        index: {
+          quotation: index,
+        },
         tax,
+        time:   {
+          created: new Date(),
+        },
         price: {
           net,
           taxes: compute.taxedPrice(net, tax),
@@ -48,14 +58,13 @@ function createEmptyQuotation() {
 function editOrCreate(req, res, next) {
   let isCreating        = req.params.id == null;
   console.log('[QUOTATION] is creating?', isCreating);
-  // console.log(req.flash('quotation'));
   let customersPromise  = Customer.getAll();
   let quotationPromise  = req.flash('quotation')[0];
 
   if (quotationPromise) {
     quotationPromise = Promise.resolve(quotationPromise)
   } else {
-    quotationPromise = isCreating ? createEmptyQuotation() : dbGet(req.params.id);
+    quotationPromise = isCreating ? createEmptyQuotation() : Quotation.getByFakeId(req.params.id);
   }
 
   Promise
@@ -72,46 +81,64 @@ function editOrCreate(req, res, next) {
     .catch(next)
 }
 
-function create(req, res, next) {
-  console.log(req.session.quotation);
-  let isFromRedirect    = req.session.quotation != null;
-  let quotationPromise  = view('quotation', 'byTime', {
-    include_docs: false,
-    reduce: true,
-  });
-  Promise
-    .all([quotationPromise, view('customer', 'byId')])
-    .then(function (body) {
-      let [id, customers] = body;
-      let quotation = isFromRedirect ? req.session.quotation : createEmptyQuotation(id);
-      delete req.session.quotation;
-      res.render('_react-layout', {
-        dom: render(QuotationForm, {customers, quotation}),
-      });
-    })
-    .catch(next)
+// function create(req, res, next) {
+//   console.log(req.session.quotation);
+//   let isFromRedirect    = req.session.quotation != null;
+//   let quotationPromise  = view('quotation', 'byTime', {
+//     include_docs: false,
+//     reduce: true,
+//   });
+//   Promise
+//     .all([quotationPromise, view('customer', 'byId')])
+//     .then(function (body) {
+//       let [id, customers] = body;
+//       let quotation = isFromRedirect ? req.session.quotation : createEmptyQuotation(id);
+//       delete req.session.quotation;
+//       res.render('_react-layout', {
+//         dom: render(QuotationForm, {customers, quotation}),
+//       });
+//     })
+//     .catch(next)
+// }
+
+function createCustomerIfNew(customerName) {
+  return Customer
+    .exist(customerName)
+    .then(function(isCustomer) {
+      console.log('is Customer', isCustomer);
+      if (!isCustomer) return Customer.create({name: customerName});
+      return Promise.resolve(isCustomer);
+    });
 }
 
 function post(req, res, next) {
-  var quotationId = req.params.id || null;
   var body        = req.body;
+  var quotationId = body._id || null;
   console.log(body);
-  Customer
-    .exist(body.customer)
-    .then(function(isCustomer) {
-      console.log('is Customer', isCustomer);
-      if (!isCustomer) return Customer.create({name: body.customer});
-      return Promise.resolve(isCustomer);
-    })
+  createCustomerIfNew(body.customer)
     .then(function () {
       console.log('create quotation');
       return atomic('quotation', 'create', quotationId, req.body);
     })
     .then(function (couchRes) {
       console.log('creation response');
-      return res.status(302).redirect('/quotation/' + couchRes._id);
+      return res.status(302).redirect(`/quotation/${formatId('quotation', couchRes)}`);
     })
     .catch(next);
+}
+
+function convert(req, res, next) {
+  var body        = req.body;
+  var quotationId = body._id;
+  console.log(body)
+  createCustomerIfNew(body.customer)
+    .then(Invoice.getNextId)
+    .then(function (id) {
+      console.log('convert to');
+      console.log(id);
+      return res.status(302).redirect('/quotation/' + quotationId);
+    })
+    .catch(next)
 }
 
 ////////
@@ -119,7 +146,7 @@ function post(req, res, next) {
 ////////
 
 function getRedirectUrl(body) {
-  return body._id == null ? '/quotation' : `/quotation/${body._id}`;
+  return body.fakeId == null ? '/quotation' : `/quotation/${body.fakeId}`;
 }
 
 function addLine(req, res, next) {
@@ -130,7 +157,7 @@ function addLine(req, res, next) {
 }
 
 function removeLine(req, res, next) {
-  let index       = ~~req.body.index;
+  let index       = ~~req.body.removeIndex;
   req.body.products.splice(index, 1);
   req.body.price  = compute.price(req.body);
   req.flash('quotation', req.body);
@@ -150,11 +177,12 @@ function recompute(req, res, next) {
 ////////
 
 module.exports = {
-  create,
+  // create,
   addLine,
   removeLine,
   recompute,
   editOrCreate,
   post,
   get,
+  convert,
 };

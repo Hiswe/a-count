@@ -15,7 +15,6 @@ function taxedPrice(total, tax) {
   return ((total * tax) / 100);
 }
 
-
 function computePrice(businessForm) {
   let tax       = businessForm.tax;
   let totalNet  = 0;
