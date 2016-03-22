@@ -1,6 +1,5 @@
 import  {view, atomic} from './index';
 
-
 // can't just count if we want to delete a quotation…
 function getNextId() {
   return view('quotation', 'byTime', {
@@ -17,4 +16,8 @@ function getNextId() {
   ;
 };
 
-export {getNextId}
+function getAllActive() {
+  return view('quotation', 'byTime', {descending: true})
+}
+
+export {getNextId, getAllActive}

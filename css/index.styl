@@ -29,11 +29,20 @@ main {
   padding-bottom: $gutter;
 }
 
-header,
+.main-header,
 main {
   +mq('centered') {
     padding-left: 'calc(50% - %s)' % ($max-width / 2);
     padding-right: @padding-left;
+  }
+}
+
+section header {
+  display: flex;
+  align-items: center;
+
+  h1 {
+    margin-right: auto;
   }
 }
 

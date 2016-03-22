@@ -1,22 +1,8 @@
 import React        from 'React';
 
-import {Empty}      from './empty-listing';
 import {Input}      from './form';
 import {formatDate} from './_format';
-
-////////
-// MISC
-////////
-
-var Price         = React.createClass({
-  render: function () {
-    return (
-      <p className="amount">
-        {'€\u00A0'} <span>{this.props.amount}</span>
-      </p>
-    );
-  }
-});
+import {Amount}     from './_utils';
 
 ////////
 // META INFORMATIONS (top of form)
@@ -71,7 +57,7 @@ var Line          = React.createClass({
           <input type="number" min="0" step="10" name={`${i}[price]`} defaultValue={product.price} />
         </td>
         <td className="total">
-          <Price amount={total} />
+          <Amount value={total} />
         </td>
         <td>
           <button className="btn-circular" formAction="/quotation/remove-line" formMethod="post" name="removeIndex" value={this.props.index}>×</button>
@@ -99,17 +85,17 @@ var ListingFooter = React.createClass({
       <tfoot>
         <tr>
           <td colSpan="3">Total net</td>
-          <td><Price amount={this.props.net} /></td>
+          <td><Amount value={this.props.net} /></td>
           <td></td>
         </tr>
         <tr>
           <td colSpan="3">Taxes</td>
-          <td><Price amount={this.props.taxes} /></td>
+          <td><Amount value={this.props.taxes} /></td>
           <td></td>
         </tr>
         <tr>
           <td colSpan="3">Total with taxes</td>
-          <td><Price amount={this.props.total} /></td>
+          <td><Amount value={this.props.total} /></td>
           <td></td>
         </tr>
       </tfoot>
@@ -161,15 +147,12 @@ var QuotationActions = React.createClass({
   render: function () {
     let hasId     = this.props.id != null;
     let newQuot   = <a key="newQuot" href="/quotation" className="btn-secondary">New quotation</a>;
-    let print     = <a key="print" href={`/print/${this.props.id}`} className="btn-secondary">Print</a>;
     return (
       <div className="action">
         <button className="btn" type="submit" name="convertToInvoice" value="false">
           {hasId ? 'Update quotation' : 'Create quotation'}
         </button>
-        {'\u00A0'}
-        <button className="btn-secondary" formAction="/quotation/recompute" formMethod="post">recompute</button>
-        {hasId ? ['\u00A0', newQuot, '\u00A0', print] : null}
+        {hasId ? ['\u00A0', newQuot] : null}
       </div>
     );
   }
@@ -181,13 +164,17 @@ var QuotationForm = React.createClass({
     let isNew       = quotation._id == null;
     let id          = isNew ? `#quot-${quotation.id}` : `#${quotation._id}`;
     let formAction  = isNew ? '/quotation' : `/quotation/${quotation._id}`;
+    let print       = <a key="print" href={`/print/${quotation._id}`} className="btn">Print</a>;
 
     return (
       <section>
-        <h1>
-          {'Quotation\u00A0'}
-          <span className="id">{id}</span>
-        </h1>
+        <header>
+          <h1>
+            {'Quotation\u00A0'}
+            <span className="id">{id}</span>
+          </h1>
+          {isNew ? null : print}
+        </header>
         <form action={formAction} method="post">
           <input type="hidden" value={quotation[isNew ? 'id' : '_id']} name={isNew ? 'id' : '_id' } />
           <div className="row">
@@ -203,6 +190,10 @@ var QuotationForm = React.createClass({
             <Input name="title" defaultValue={quotation.title} />
             <Listing quotation={this.props.quotation} />
             <div className="detail-actions">
+              <button className="btn-secondary" formAction="/quotation/recompute" formMethod="post">
+                recompute
+              </button>
+              {'\u00A0'}
               <button className="btn-secondary" formAction="/quotation/add-line" formMethod="post">
                 Add a line
               </button>

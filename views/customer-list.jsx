@@ -1,7 +1,7 @@
 import React    from 'React';
 
 import {marked} from './_format'
-import {Empty}  from './empty-listing';
+import {Empty}  from './_utils';
 
 var CustomerRow = React.createClass({
   render: function () {

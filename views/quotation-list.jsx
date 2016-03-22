@@ -1,7 +1,7 @@
 import React          from 'React';
 
 import {formatStatus} from './_format';
-import {Empty}        from './empty-listing';
+import {Empty}        from './_utils';
 
 //----- THEAD
 

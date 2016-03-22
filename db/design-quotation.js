@@ -2,6 +2,7 @@
 
 var compute = require('../shared/compute');
 
+// IDS should be
 // (PR|FA)AAMM-XXXX
 
 var views   = {};
@@ -22,13 +23,20 @@ views.byTime =  {
   },
 };
 
+var computePrice  = compute.computePrice.toString();
+computePrice      = computePrice.replace('linePrice', "require('views/lib/compute').linePrice");
+computePrice      = computePrice.replace('taxedPrice', "require('views/lib/compute').taxedPrice");
+
 views.lib = {
   compute: 'exports.linePrice = '
         + compute.linePrice.toString()
         + ';\n'
         + 'exports.taxedPrice = '
         + compute.taxedPrice.toString()
-        + ';\n',
+        + ';\n'
+        + 'exports.computePrice = '
+        + computePrice
+        + ';\n'
 };
 
 //////
@@ -64,22 +72,27 @@ updates.create = function (doc, req) {
   if (status.signed === 'on' && !time.signed) time.signed = new Date();
   if (status.done === 'on' && !time.done) time.done = new Date();
 
-  // compute price
-  doc.tax             = typeof body.tax !== 'undefined' ? body.tax : doc.tax || 1;
-  var totalNet  = 0;
-  doc.products.forEach(function (product) {
-    totalNet    = totalNet + require('views/lib/compute').linePrice(product);
-  });
-  var taxes     = require('views/lib/compute').taxedPrice(totalNet, doc.tax);
+  // taxes
+  doc.tax = typeof body.tax !== 'undefined' ? body.tax : doc.tax || 1;
 
-  doc.price     = {
-    net:    totalNet,
-    taxes:  taxes,
-    total:  totalNet + taxes
-  };
+  // compute prices
+  doc.price     = require('views/lib/compute').computePrice(doc);
 
   return [doc, toJSON(doc)];
 };
+
+updates.archive = function (doc, req) {
+  time.lastUpdate = new Date();
+  if (!time.send) time.send = new Date();
+  if (!time.validated) time.validated = new Date();
+  if (!time.signed) time.signed = new Date();
+  if (!time.done) time.done = new Date();
+
+  // compute prices
+  doc.price     = require('views/lib/compute').computePrice(doc);
+
+  return [doc, toJSON(doc)];
+}
 
 //////
 // EXPORTS

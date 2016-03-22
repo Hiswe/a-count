@@ -22,6 +22,7 @@ function getByName(name, next, done) {
   }
 }
 
+// can't use a head request as we use the name
 function exist(name) {
   return view('customer', 'byName', {
     key: name,

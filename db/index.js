@@ -70,9 +70,9 @@ function view(designname, viewname, params = {}) {
   });
 }
 
-function get(id) {
+function get(name) {
   return new Promise(function (resolve, reject) {
-    db.get(id, function (err, body) {
+    db.get(name, function (err, body) {
       if (err) return reject(err);
       return resolve(body);
     });
@@ -86,7 +86,6 @@ function atomic(designname, updatename, docname, body) {
       return resolve(body);
     });
   });
-
 }
 
 //////

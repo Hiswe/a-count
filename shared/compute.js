@@ -15,10 +15,11 @@ function taxedPrice(total, tax) {
   return ((total * tax) / 100);
 }
 
-function computePrice(quotation) {
-  let tax       = quotation.tax;
+
+function computePrice(businessForm) {
+  let tax       = businessForm.tax;
   let totalNet  = 0;
-  quotation.products.forEach(function (product) {
+  businessForm.products.forEach(function (product) {
     totalNet    = totalNet + linePrice(product);
   });
   var taxes     = taxedPrice(totalNet, tax);

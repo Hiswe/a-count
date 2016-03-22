@@ -1,11 +1,13 @@
 'use strict';
 
-import {view}   from '../db';
-import {render} from './_react';
-import Home     from '../views/home.jsx';
+import {view}         from '../db';
+import * as Quotation from '../db/quotation'
+import {render}       from './_react';
+import Home           from '../views/home.jsx';
 
 function getIndex(req, res, next) {
-  view('quotation', 'byTime', {descending: true})
+  Quotation
+    .getAllActive()
     .then(function (quotations) {
       res.render('empty-layout', {
         reactDom: render(Home, {quotations}),
