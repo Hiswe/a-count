@@ -185,7 +185,7 @@ var QuotationForm = React.createClass({
     return (
       <section>
         <h1>
-          Invoice
+          {'Quotation\u00A0'}
           <span className="id">{id}</span>
         </h1>
         <form action={formAction} method="post">

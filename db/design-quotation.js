@@ -14,7 +14,7 @@ var updates = {};
 views.byTime =  {
   map: function(doc) {
     if (doc.type === 'quotation') {
-      emit(doc.time.lastUpdate, 1);
+      emit(doc.time.created, 1);
     }
   },
   reduce: function(keys, values, rereduce) {

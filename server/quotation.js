@@ -4,13 +4,14 @@ var chalk     = require('chalk');
 var async     = require('async');
 
 import {db, view, get as dbGet, atomic} from '../db';
+import * as Quotation         from '../db/quotation'
 import {render}               from './_react';
 import QuotationsHome         from '../views/quotations-home.jsx';
 import QuotationForm          from '../views/quotation-form.jsx';
 import {defaultProduct, tax}  from './config';
 
 var config    = require('./config');
-var customer  = require('../db/customer');
+var Customer  = require('../db/customer');
 var compute   = require('../shared/compute');
 
 function get(req, res, next) {
@@ -25,10 +26,8 @@ function get(req, res, next) {
 
 function createEmptyQuotation() {
   console.log('create empty quotation');
-  return view('quotation', 'byTime', {
-    include_docs: false,
-    reduce: true,
-  })
+  return Quotation
+    .getNextId()
     .then(function(id) {
       let net = compute.linePrice(defaultProduct);
       return Promise.resolve({
@@ -50,7 +49,7 @@ function editOrCreate(req, res, next) {
   let isCreating        = req.params.id == null;
   console.log('[QUOTATION] is creating?', isCreating);
   // console.log(req.flash('quotation'));
-  let customersPromise  = customer.getAll();
+  let customersPromise  = Customer.getAll();
   let quotationPromise  = req.flash('quotation')[0];
 
   if (quotationPromise) {
@@ -97,11 +96,11 @@ function post(req, res, next) {
   var quotationId = req.params.id || null;
   var body        = req.body;
   console.log(body);
-  customer
+  Customer
     .exist(body.customer)
     .then(function(isCustomer) {
       console.log('is Customer', isCustomer);
-      if (!isCustomer) return customer.create({name: body.customer});
+      if (!isCustomer) return Customer.create({name: body.customer});
       return Promise.resolve(isCustomer);
     })
     .then(function () {
