@@ -1,5 +1,6 @@
-import React    from 'React';
+import React      from 'React';
 
+import Layout     from './_layout.jsx';
 import {Floating} from './form.jsx';
 
 var CreateBtn = React.createClass({
@@ -18,7 +19,7 @@ var CustomerForm = React.createClass({
     let secondaryAction = customer ? <CreateBtn /> : null;
 
     return (
-      <section>
+      <Layout>
         <h1>Customer</h1>
         <form method="post" action={formAction}>
           {customerId}
@@ -31,7 +32,7 @@ var CustomerForm = React.createClass({
             {secondaryAction}
           </div>
         </form>
-      </section>
+      </Layout>
     );
   }
 });

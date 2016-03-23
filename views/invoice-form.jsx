@@ -1,5 +1,6 @@
 import React        from 'React';
 
+import Layout                       from './_layout.jsx';
 import {Input}                      from './form';
 import {formatDate, id as formatId} from './_format';
 import {Amount}                     from './_utils';
@@ -156,7 +157,7 @@ var InvoiceForm = React.createClass({
     let print       = <a key="print" href={`/print/${fakeId }`} className="btn">Print</a>;
 
     return (
-      <section>
+      <Layout>
         <header>
           <h1>
             {'Invoice\u00A0'}
@@ -193,7 +194,7 @@ var InvoiceForm = React.createClass({
           </fieldset>
           <InvoiceActions id={invoice._id} />
         </form>
-      </section>
+      </Layout>
     );
   },
 });

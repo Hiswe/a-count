@@ -124,6 +124,9 @@ app.post('/quotation/recompute',                  quotation.recompute);
 app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
 app.post('/quotation/:fakeId?',                   quotation.post);
 
+app.get('/invoices', function (req, res, next) {
+  res.redirect('/');
+});
 app.get('/invoice/:fakeId',                       invoice.get);
 
 app.get('/customers',               customer.get);
@@ -162,9 +165,7 @@ app.use(errorHandler.httpError(404));
 app.use(handler);
 
 //////
-// LAUNCHING
+// EXPORTS
 //////
 
-var server = app.listen(3000, function endInit() {
-  console.log('Server is listening on port ', server.address().port);
-});
+export {app as default};

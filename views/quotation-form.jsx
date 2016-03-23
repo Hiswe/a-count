@@ -1,5 +1,6 @@
 import React        from 'React';
 
+import Layout                       from './_layout.jsx';
 import {Input}                      from './form';
 import {formatDate, id as formatId} from './_format';
 import {Amount}                     from './_utils';
@@ -170,7 +171,7 @@ var QuotationForm = React.createClass({
     let print       = <a key="print" href={`/print/${fakeId }`} className="btn">Print</a>;
 
     return (
-      <section>
+      <Layout>
         <header>
           <h1>
             {'Quotation\u00A0'}
@@ -207,7 +208,7 @@ var QuotationForm = React.createClass({
           </fieldset>
           <QuotationActions id={quotation._id} />
         </form>
-      </section>
+      </Layout>
     );
   },
 });

@@ -1,5 +1,6 @@
 import React    from 'React';
 
+import Layout   from './_layout.jsx'
 import {marked} from './_format'
 import {Empty}  from './_utils';
 
@@ -42,13 +43,13 @@ var CustomerList = React.createClass({
     let hasCustomer = this.props.customers.length;
     let body = hasCustomer ? <CustomerTable {...this.props} /> : <Empty />;
     return (
-      <section>
+      <Layout>
         <h1>
           Customers
           <a href="/customer" className="btn-fab">+</a>
         </h1>
         {body}
-      </section>
+      </Layout>
     );
   }
 });

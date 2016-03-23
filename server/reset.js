@@ -5,7 +5,7 @@ import {render}       from './_react';
 import Reset          from '../views/reset.jsx';
 
 function get(req, res, next) {
-  return res.render('_react-layout', {
+  return res.render('_layout', {
     dom: render(Reset),
   });
 }

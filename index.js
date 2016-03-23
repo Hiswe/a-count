@@ -8,4 +8,8 @@ require('babel-core/register')({
   },
 });
 
-require('./server.js');
+var app = require('./server.js').default;
+
+var server = app.listen(3000, function endInit() {
+  console.log('Server is listening on port ', server.address().port);
+});

@@ -10,7 +10,7 @@ function get(req, res, next) {
   businessForm
     .getByFakeId(req.params.fakeId, 'invoice')
     .then(function (invoice) {
-      res.render('_react-layout', {
+      res.render('_layout', {
         dom: render(InvoiceForm, {invoice}),
       });
     })

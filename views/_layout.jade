@@ -9,17 +9,12 @@ html(lang="en")
     meta(name="apple-mobile-web-app-capable",content="yes")
 
     link(rel='stylesheet', href="/concompte.css")
-    //- link(rel='icon', href='media/favicon.png', type='image/png')
+    link(rel='icon', href='/favicon.png', type='image/png')
 
   body
-    header.main-header: ul
-      li: a(href="/") home
-      li: a(href="/quotations") quotations
-      li: a(href="/customers") customers
-      li: a(href="/reset") reset
-      //- li: a(href="/invoice") invoice
-    main(role="main")
-      block content
+    #react-main-mount
+      | !{dom}
+
     script(src="/concompte-lib.js")
     script(src="/concompte.js")
     script.

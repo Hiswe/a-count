@@ -37,3 +37,12 @@ npm run dev
 
 - https://github.com/reactjs/react-router/blob/master/docs/guides/ServerRendering.md
 - https://css-tricks.com/learning-react-router/
+- http://stackoverflow.com/questions/30626410/server-side-rendering-with-react-react-router-and-express
+
+
+- https://medium.com/front-end-developers/handcrafting-an-isomorphic-redux-application-with-love-40ada4468af4#.ozit517mb
+- https://github.com/bananaoomarang/isomorphic-redux/tree/tutorial
+
+#### components
+
+- https://www.muicss.com/docs/v1/react/forms

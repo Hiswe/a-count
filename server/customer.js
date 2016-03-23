@@ -4,7 +4,7 @@ var chalk         = require('chalk');
 
 import {db, view, get as dbGet}   from '../db';
 import {render}                   from './_react';
-import CustomerList               from '../views/customer-list.jsx';
+import CustomerHome               from '../views/customer-home.jsx';
 import CustomerForm               from '../views/customer-form.jsx';
 
 var slug          = require('slug');
@@ -15,13 +15,13 @@ var customer      = require('../db/customer');
 function edit(req, res, next) {
   dbGet(req.params.customerId)
     .then( function (customer) {
-      res.render('_react-layout', {dom: render(CustomerForm, {customer}) });
+      res.render('_layout', {dom: render(CustomerForm, {customer}) });
     })
     .catch(next);
 }
 
 function create(req, res, next) {
-  res.render('_react-layout', {dom: render(CustomerForm, {}) });
+  res.render('_layout', {dom: render(CustomerForm, {}) });
 }
 
 function post(req, res, next) {
@@ -37,8 +37,8 @@ function post(req, res, next) {
 function get(req, res, next) {
   view('customer', 'byId')
     .then(function (customers) {
-      res.render('_react-layout', {
-        dom: render(CustomerList, {customers}),
+      res.render('_layout', {
+        dom: render(CustomerHome, {customers}),
       });
     })
     .catch(next)

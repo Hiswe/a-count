@@ -5,14 +5,15 @@ import * as Quotation from '../db/quotation'
 import * as Invoice   from '../db/invoice'
 import {render}       from './_react';
 import Home           from '../views/home.jsx';
+import Layout         from '../views/_layout.jsx'
 
 function getIndex(req, res, next) {
   Promise
     .all([Quotation.getAllActive(), Invoice.getAllActive()])
     .then(function (couchres) {
       let [quotations, invoices] = couchres;
-      res.render('_react-layout', {
-        dom: render(Home, {quotations, invoices}),
+      res.render('_layout', {
+        dom: render(Home, { quotations, invoices }),
       });
     })
     .catch(next);

@@ -23,7 +23,7 @@ var compute   = require('../shared/compute');
 function get(req, res, next) {
   view('quotation', 'byTime', {descending: true})
     .then(function (quotations) {
-      res.render('_react-layout', {
+      res.render('_layout', {
         dom: render(QuotationsHome, {quotations}),
       });
     })
@@ -66,7 +66,7 @@ function editOrCreate(req, res, next) {
     ])
     .then(function (body) {
       let [customers, quotation] = body;
-      res.render('_react-layout', {
+      res.render('_layout', {
         dom: render(QuotationForm, {customers, quotation}),
       });
     })
