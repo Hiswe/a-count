@@ -11,8 +11,8 @@ function getIndex(req, res, next) {
     .all([Quotation.getAllActive(), Invoice.getAllActive()])
     .then(function (couchres) {
       let [quotations, invoices] = couchres;
-      res.render('empty-layout', {
-        reactDom: render(Home, {quotations, invoices}),
+      res.render('_react-layout', {
+        dom: render(Home, {quotations, invoices}),
       });
     })
     .catch(next);

@@ -151,8 +151,7 @@ var handler = errorHandler({
 });
 app.use(function (err, req, res, next) {
   if (err.reason == null) err.reason = err.toString();
-  console.log(err);
-  if (err.stack) console.log(err.stack);
+  console.trace(err);
   err.stacktrace = err.stacktrace || err.stack || false;
   // force status for morgan to catch up
   res.status(err.status || err.statusCode);
