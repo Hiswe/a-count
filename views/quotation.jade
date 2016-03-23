@@ -6,6 +6,7 @@ block content
   - var submitMsg   = quotation ? 'Update quotation' : 'Create quotation'
   - var formAction  = quotation ? '/quotation/' + quotation._id : '/quotation'
   - var subtotal    = quotation ? quotation.total : total
+  | !{reactDom}
   h1
     | Invoice&nbsp;
     span.id= id

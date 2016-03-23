@@ -1,27 +1,20 @@
 'use strict';
 
-var db        = require('../db').db;
-var customer  = require('../db/customer');
+import * as Quotation from '../db/quotation'
+import * as Customer  from '../db/customer'
 
 function get(req, res, next) {
-  var doc;
-
-  db.get(req.params.docId, docResp);
-
-  function docResp(err, body) {
-    if (err) return next(err);
-    doc = body;
-    customer.getByName(body.customer, next, customerResp);
-  }
-
-  function customerResp(err, body) {
-    res.render('print', {
-      doc:      doc,
-      customer: body,
-    });
-  }
+  let doc;
+  Quotation
+    .getByFakeId(req.params.fakeId)
+    .then(function (body) {
+      doc = body;
+      return Customer.getByName(body.customer);
+    })
+    .then(function (customer) {
+      res.render('print', {doc, customer: customer[0]});
+    })
+    .catch(next)
 }
 
-module.exports = {
-  get: get,
-};
+export { get };

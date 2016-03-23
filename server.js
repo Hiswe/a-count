@@ -1,29 +1,25 @@
 'use strict';
 
-var path          = require('path');
-var express       = require('express');
-var chalk         = require('chalk');
-var morgan        = require('morgan');
-var bodyParser    = require('body-parser');
-var compression   = require('compression');
-var errorHandler  = require('express-error-handler');
-var marked        = require('marked');
-var favicon       = require('serve-favicon');
-var moment        = require('moment');
+var path            = require('path');
+var express         = require('express');
+var chalk           = require('chalk');
+var morgan          = require('morgan');
+var bodyParser      = require('body-parser');
+var compression     = require('compression');
+var errorHandler    = require('express-error-handler');
+var marked          = require('marked');
+var favicon         = require('serve-favicon');
+var moment          = require('moment');
+var session         = require('express-session');
+var flash           = require('connect-flash');
 
-var config        = require('./server/config');
-var home          = require('./server/home');
-var quotation     = require('./server/quotation');
-var customer      = require('./server/customer');
-var reset         = require('./server/reset');
-var print         = require('./server/print');
-
-//////
-// DB CONFIG
-//////
-
-var database    = require('./db');
-database.setup();
+var config          = require('./server/config');
+var home            = require('./server/home');
+var quotation       = require('./server/quotation');
+var invoice         = require('./server/invoice');
+var customer        = require('./server/customer');
+var reset           = require('./server/reset');
+var print           = require('./server/print');
 
 //////
 // SERVER CONFIG
@@ -36,6 +32,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(compression());
 app.use(favicon(__dirname + '/public/favicon.png'));
 
+// see Warning here
+// https://github.com/expressjs/session#sessionoptions
+// https://www.npmjs.com/package/session-file-store
+app.use(session({
+  secret: 'con con con compte',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
+app.use(flash());
 
 // templates
 app.set('views', path.join( __dirname, './views'));
@@ -48,6 +54,7 @@ app.locals.marked = function markdownToHtml(data) {
   return marked(data);
 };
 app.locals.formatDate = function formatDate(data) {
+  if (typeof data !== 'string') return '';
   var formatedDate = moment(data).format('DD/MM/YYYY HH:mm');
   return formatedDate === 'Invalid date' ? '' : formatedDate;
 }
@@ -78,24 +85,57 @@ app.use(morgan(logRequest, {immediate: true}));
 app.use(morgan(logResponse));
 
 //////
+// DB CONFIG
+//////
+
+var database    = require('./db');
+let dbStatus    = true;
+database
+  .setup()
+  .then(function () {
+    console.log(chalk.green('db setup is done'))
+  })
+  .catch(function (err) {
+    console.log(chalk.red('db setup FAIL'));
+    dbStatus = err;
+    if (err.code !== 'ECONNREFUSED') return console.log(err);
+    console.log(chalk.yellow('db is not acessible\nlaunch it for god sake'));
+  });
+
+//////
 // ROUTING
 //////
 
+// Don't show anything if database is not up…
+app.all('*', function (req, res, next) {
+  if (dbStatus === true) return next();
+  let err     = new Error('enable to connect to database');
+  err.status  = 500;
+  err.reason  = 'enable to connect to database';
+  return next(dbStatus);
+});
+
 app.get('/quotations', quotation.get);
-app.get('/quotation/:quotationId', quotation.edit);
-app.get('/quotation', quotation.create);
-app.post('/quotation/:quotationId?', quotation.post);
 
-app.get('/customers', customer.get);
-app.get('/customer/:customerId', customer.edit);
-app.get('/customer', customer.create);
-app.post('/customer/:customerId?', customer.post);
+app.get('/quotation/:fakeId?',                    quotation.editOrCreate);
+app.post('/quotation/add-line',                   quotation.addLine);
+app.post('/quotation/remove-line',                quotation.removeLine);
+app.post('/quotation/recompute',                  quotation.recompute);
+app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
+app.post('/quotation/:fakeId?',                   quotation.post);
 
-app.get('/reset', reset.get);
-app.post('/reset', reset.post);
+app.get('/invoice/:fakeId',                       invoice.get);
+
+app.get('/customers',               customer.get);
+app.get('/customer/:customerId',    customer.edit);
+app.get('/customer',                customer.create);
+app.post('/customer/:customerId?',  customer.post);
+
+app.get('/reset',   reset.get);
+app.post('/reset',  reset.post);
 
 // http://maxlapides.com/forcing-browsers-print-backgrounds/
-app.get('/print/:docId', print.get);
+app.get('/print/:fakeId', print.get);
 
 app.get('/', home.get);
 
@@ -110,7 +150,10 @@ var handler = errorHandler({
   },
 });
 app.use(function (err, req, res, next) {
+  if (err.reason == null) err.reason = err.toString();
   console.log(err);
+  if (err.stack) console.log(err.stack);
+  err.stacktrace = err.stacktrace || err.stack || false;
   // force status for morgan to catch up
   res.status(err.status || err.statusCode);
   next(err);

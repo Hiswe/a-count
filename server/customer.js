@@ -1,46 +1,47 @@
 'use strict';
 
 var chalk         = require('chalk');
-var db            = require('../db').db;
+
+import {db, view, get as dbGet}   from '../db';
+import {render}                   from './_react';
+import CustomerList               from '../views/customer-list.jsx';
+import CustomerForm               from '../views/customer-form.jsx';
+
 var slug          = require('slug');
 slug.charmap['_'] = '-';
 var logId         = '[CUSTOMER]';
 var customer      = require('../db/customer');
 
 function edit(req, res, next) {
-  var customerId = req.params.customerId;
-  db.get(customerId, couchResp);
-  function couchResp(err, body) {
-    if (err) return next(err);
-    return res.render('customer', {customer: body});
-  }
+  dbGet(req.params.customerId)
+    .then( function (customer) {
+      res.render('_react-layout', {dom: render(CustomerForm, {customer}) });
+    })
+    .catch(next);
 }
 
 function create(req, res, next) {
-  return res.render('customer');
+  res.render('_react-layout', {dom: render(CustomerForm, {}) });
 }
 
 function post(req, res, next) {
   req.body.customerId = req.params.customerId;
-  customer.create(req.body, next, function couchDone(err, couchRes) {
-    console.log(couchRes);
-    // TODO add a flash message
-    return res.status(302).redirect('/customer/' + couchRes._id);
-  });
+  customer
+    .create(req.body)
+    .then(function (couchRes) {
+      // TODO add a flash message
+      return res.status(302).redirect('/customer/' + couchRes._id);
+    });
 }
 
 function get(req, res, next) {
-  db.view('customer', 'byId', {
-    include_docs: true,
-    reduce: false
-  }, couchResp);
-
-  function couchResp(err, body) {
-    if (err) return next(err);
-    var customers = body.rows.map(function (row) { return row.doc; });
-    console.log(customers);
-    return res.render('customers', {customers: customers});
-  }
+  view('customer', 'byId')
+    .then(function (customers) {
+      res.render('_react-layout', {
+        dom: render(CustomerList, {customers}),
+      });
+    })
+    .catch(next)
 }
 
 module.exports = {

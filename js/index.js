@@ -12,5 +12,8 @@ global.$      = $;
 //   delegateEvents: true,
 // });
 
-products();
+// products();
+
+// only init floating labels for now
+// Products should be managed by react
 floatingLabel();

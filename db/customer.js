@@ -1,42 +1,36 @@
 'use strict';
 
+import  {view, atomic} from './index';
 var db            = require('./index').db;
 var slug          = require('slug');
 slug.charmap['_'] = '-';
 
-function create(data, next, done) {
-  var customerId = data.customerId || null;
-  data.id   = slug(data.name);
-  db.atomic('customer', 'create', customerId, data, couchDone);
-  function couchDone(err, couchRes) {
-    if (err) return next(err);
-    done(err, couchRes);
-  }
+function create(data) {
+  var customerId  = data.customerId || null;
+  data.id         = slug(data.name);
+  return atomic('customer', 'create', customerId, data);
 }
 
 function getByName(name, next, done) {
-  db.view('customer', 'byName', {
+  return view('customer', 'byName', {
     key: name,
-    include_docs: true,
-  }, couchDone);
-  function couchDone(err, couchRes) {
-    if (err) return next(err);
-    done(err, couchRes.rows[0].doc);
-  }
+  });
 }
 
-function exist(name, next, done) {
-  db.view('customer', 'byName', {key: name}, couchDone);
-  function couchDone(err, couchRes) {
-    if (err) return next(err);
-    done(err, couchRes.rows.length > 0);
-  }
+// can't use a head request as we use the name
+function exist(name) {
+  return view('customer', 'byName', {
+    key: name,
+    include_docs: false,
+    reduce: true
+  })
+    .then(function (count) {
+      return Promise.resolve(count > 0)
+    });
 }
 
 function getAll(done) {
-  db.view('customer', 'byId', {
-    include_docs: true
-  }, done);
+  return view('customer', 'byId');
 }
 
 module.exports = {

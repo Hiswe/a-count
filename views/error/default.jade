@@ -2,9 +2,13 @@ extends ../_layout.jade
 
 block content
   h1 ERROR
-  p= reason
-  code= description
+  pre= reason
+  pre= description
   hr
-  code= error
-
-
+  if error
+    pre= error
+  if stacktrace
+    if Array.isArray(stacktrace)
+      pre= stacktrace.join('\n')
+    else
+      code= stacktrace

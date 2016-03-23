@@ -1,9 +1,13 @@
 'use strict';
 
-var db            = require('../db').db;
+import {db}           from '../db';
+import {render}       from './_react';
+import Reset          from '../views/reset.jsx';
 
 function get(req, res, next) {
-  return res.render('reset');
+  return res.render('empty-layout', {
+    reactDom: render(Reset),
+  });
 }
 
 function post(req, res, next) {

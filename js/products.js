@@ -1,5 +1,5 @@
 import autosize       from 'autosize';
-import productTmpl    from '../views/front/product.jade';
+// import productTmpl    from '../views/front/product.jade';
 import defaultConfig  from '../shared/default-config';
 import * as compute   from '../shared/compute';
 import logger         from './_logger';
@@ -53,12 +53,12 @@ function computeProductTotal(e) {
 
 function addLine(e) {
   e.preventDefault();
-  var length = $('.js-product').length;
-  $ui.products.append(productTmpl({
-    index: length,
-    emptyProduct: defaultConfig.defaultProduct,
-  }));
-  computeTotal();
+//   var length = $('.js-product').length;
+//   $ui.products.append(productTmpl({
+//     index: length,
+//     emptyProduct: defaultConfig.defaultProduct,
+//   }));
+//   computeTotal();
 }
 
 function computeTotal() {
