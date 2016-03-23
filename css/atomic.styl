@@ -7,7 +7,7 @@
 //
 
 $btn {
-  border: 1px solid;
+  border: 2px solid;
   padding: .75em 1em;
   border-radius: $gutter-4;
   cursor: pointer;
@@ -16,13 +16,13 @@ $btn {
 
 .btn {
   @extend $btn;
-  border-color: steelblue;
-  background: steelblue;
+  border-color: $c-primary;
+  background: $c-primary;
   color: white;
 
   &:hover {
     background: white;
-    color: steelblue;
+    color: $c-primary;
   }
 }
 .btn-secondary {
@@ -49,6 +49,30 @@ $btn {
   h1 & {
     font-size: 24px;
     float: right;
+  }
+}
+// circular fixed positioned button;
+.btn-fab {
+  cursor: pointer;
+  color: white;
+  background: $c-accent;
+  font-size: 2.5rem;
+  width: 1.75em;
+  height: @width;
+  line-height: (@width * .9);
+  border-radius: @width;
+  padding: 0;
+  text-align: center;
+  position: fixed;
+  bottom: .5em;
+  right: .5em;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background: lighten(@background, 15%);
+  }
+  &:active {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   }
 }
 

@@ -21,7 +21,7 @@ views.byTime =  {
 views.byIndex =  {
   map: function(doc) {
     if (doc.type === 'invoice') {
-      emit(~~doc.index.quotation, doc._id);
+      emit(~~doc.index.invoice, doc._id);
     }
   },
 };

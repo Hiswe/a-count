@@ -12,7 +12,7 @@ function marked(data) {
 
 function formatDate(data) {
   if (typeof data !== 'string') return '';
-  var formatedDate = moment(data).format('DD/MM/YYYY HH:mm');
+  var formatedDate = moment(data).format('DD/MM/YY HH:mm');
   return formatedDate === 'Invalid date' ? '' : formatedDate;
 }
 
@@ -42,4 +42,31 @@ function formatStatus(status) {
   return {message, date};
 }
 
-export {marked, formatDate, formatStatus, id}
+function invoiceStatus(status) {
+  let message, date;
+  switch(status) {
+    case status.fullyPaid:
+      message = 'fully paid';
+      date    = formatDate(status.paid);
+      break;
+    case status.paritally:
+      message = 'fully paid';
+      date    = formatDate(status.paid);
+      break;
+    case status.invoiceSend:
+      message = 'send';
+      date    = formatDate(status.invoiceSend);
+      break;
+    default:
+      drink = 'Unknown drink!';
+  }
+  return {message, date};
+
+};
+
+export {
+  marked,
+  formatDate,
+  formatStatus,
+  id,
+}

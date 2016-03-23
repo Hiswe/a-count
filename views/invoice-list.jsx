@@ -14,7 +14,7 @@ var InvoiceHeader = React.createClass({
           <th>title</th>
           <th>customer</th>
           <th>status</th>
-          <th>total</th>
+          <th>total HT</th>
         </tr>
       </thead>
     );
@@ -46,7 +46,6 @@ var Row = React.createClass({
     let fakeId  = formatId('invoice', this.props.data);
     let url     = `/invoice/${fakeId}`;
     let status  = formatStatus(this.props.data.time);
-    status      = status.date ? <InvoiceStatus status={status} /> : <EmptyInvoiceStatus />;
     return (
       <tr>
         <td>
@@ -54,8 +53,8 @@ var Row = React.createClass({
         </td>
         <td>{this.props.data.title}</td>
         <td>{this.props.data.customer}</td>
-        {status}
-        <td>€ {this.props.data.price.total}</td>
+        {status.date ? <InvoiceStatus status={status} /> : <td>-</td>}
+        <td>€ {this.props.data.price.net}</td>
       </tr>
     );
   }
@@ -63,7 +62,7 @@ var Row = React.createClass({
 
 var InvoiceBody = React.createClass({
   render: function () {
-    let Line = this.props.data.map((invoice, i) => <Row key={i} data={invoice} /> );
+    let Line = this.props.data.map((invoice, i) => <Row key={`invoice-${i}`} data={invoice} /> );
     return (
       <tbody>
         {Line}

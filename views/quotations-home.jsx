@@ -8,7 +8,7 @@ var QuotationsHome = React.createClass({
       <section>
         <h1>
           Quotations
-          <a href="/quotation" className="btn-circular">+</a>
+          <a href="/quotation" className="btn-fab">+</a>
         </h1>
         <QuotationsList {...this.props} />
       </section>

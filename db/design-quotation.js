@@ -1,8 +1,9 @@
 'use strict';
 
-var compute = require('../shared/compute');
-var format  = require('../shared/format');
-var config  = require('../server/config');
+var compute       = require('../shared/compute');
+var format        = require('../shared/format');
+var emptyProduct  = require('../shared/blank-business-form');
+var config        = require('../server/config');
 
 // IDS should be
 // (PR|FA)AAMM-XXXX
@@ -49,7 +50,9 @@ views.lib = {
         + 'exports.computePrice = '
         + computePrice
         + ';\n',
-  config: config.quotation,
+  empty: 'exports.create = '
+        + emptyProduct.createBlank.toString()
+        + ';\n',
 };
 
 //////
@@ -59,22 +62,8 @@ views.lib = {
 updates.create = function (doc, req) {
   var body    = JSON.parse(req.body);
   if (!doc) {
-    var doc = {
-      _id:    req.uuid,
-      type:   'quotation',
-      // store only counting
-      // displaying will be made by server
-      index:  {
-        quotation: ~~body.index.quotation,
-      },
-      time:   {
-        created:    new Date(),
-        send:       false,
-        validated:  false,
-        signed:     false,
-        done:       false,
-      }
-    };
+    var doc = require('views/lib/empty').create(~~body.index.quotation);
+    doc._id = req.uuid;
   }
 
   doc.title           = body.title    || doc.title || 'New quotation at ' + new Date().toString();
@@ -90,8 +79,16 @@ updates.create = function (doc, req) {
   if (status.signed === 'on' && !time.signed) time.signed = new Date();
   if (status.done === 'on' && !time.done) time.done = new Date();
 
+  // // payments
+  // var payments    = body.payments || {};
+  // var advance     = payments.advance || {};
+  // if (advance.amount !== doc.payments.advance) {
+  //   doc.payments.advance.amount = advance.amount;
+  //   doc.payments.advance.time   = new Date();
+  // }
+
   // taxes
-  doc.tax = typeof body.tax !== 'undefined' ? body.tax : doc.tax || 1;
+  doc.tax = typeof body.tax !== 'undefined' ? body.tax : doc.tax;
 
   // compute prices
   doc.price     = require('views/lib/compute').computePrice(doc);
@@ -119,7 +116,7 @@ updates.convertToInvoice = function (doc, req) {
   if (!time.done)       time.done       = new Date();
 
   // taxes
-  doc.tax = typeof body.tax !== 'undefined' ? body.tax : doc.tax || 1;
+  doc.tax = typeof body.tax !== 'undefined' ? body.tax : doc.tax;
   // compute prices
   doc.price     = require('views/lib/compute').computePrice(doc);
 

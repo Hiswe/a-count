@@ -9,7 +9,7 @@ let badType     = new Error('type unknow');
 badType.status  = 500;
 badType         = Promise.reject(badType);
 function chekType(type) {
-  return type !== 'quotation' || type !== 'invoice';
+  return ['quotation', 'invoice'].indexOf(type) !== -1;
 };
 
 ////////
@@ -17,7 +17,7 @@ function chekType(type) {
 ////////
 
 function getNextIndex(type) {
-  if (!chekType()) return badType;
+  if (!chekType(type)) return badType;
   return view(type, 'byTime', {
     include_docs: false,
     reduce:       false,
@@ -31,7 +31,7 @@ function getNextIndex(type) {
 };
 
 function getByFakeId(id, type) {
-  if (!chekType()) return badType;
+  if (!chekType(type)) return badType;
   id        = /\d*$/.exec(id);
   let index = ~~id - config[type].startingAt;
   return view(type, 'byIndex', {

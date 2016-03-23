@@ -61,7 +61,7 @@ var Line          = React.createClass({
           <Amount value={total} />
         </td>
         <td>
-          <button className="btn-circular" formAction="/quotation/remove-line" formMethod="post" name="removeIndex" value={this.props.index}>×</button>
+          <button className="btn-circular" formAction="/invoice/remove-line" formMethod="post" name="removeIndex" value={this.props.index}>×</button>
         </td>
       </tr>
     );
@@ -118,25 +118,10 @@ var Listing       = React.createClass({
             <th></th>
           </tr>
         </thead>
-        <ListingBody products={this.props.quotation.products} />
-        <ListingFooter {...this.props.quotation.price} />
+        <ListingBody products={this.props.invoice.products} />
+        <ListingFooter {...this.props.invoice.price} />
       </table>
     )
-  },
-});
-
-var Customer      = React.createClass({
-  render: function () {
-    let customers = this.props.list.map( (c, i) => <option key={i} value={c.name} />)
-    return (
-      <div className="input">
-        <label className="item" htmlFor="customer">Customer</label>
-        <datalist id="customer-list">
-          {customers}
-        </datalist>
-        <input className="field" id="customer" name="customer" list="customer-list" type="text" defaultValue={this.props.current} />
-      </div>
-    );
   },
 });
 
@@ -144,16 +129,16 @@ var Customer      = React.createClass({
 // WHOLE PAGE
 ////////
 
-var QuotationActions = React.createClass({
+var InvoiceActions = React.createClass({
   render: function () {
     let hasId         = this.props.id != null;
-    let convertRoute  = `/quotation/convert-to-invoice/${this.props.id}`;
-    let newQuot       = <a key="action-newQuot" href="/quotation" className="btn-fab">+</a>;
+    let convertRoute  = `/invoice/convert-to-invoice/${this.props.id}`;
+    let newQuot       = <a key="action-newQuot" href="/invoice" className="btn-fab">+</a>;
     let convert       = <button key="action-convert" className="btn-secondary" formAction={convertRoute} formMethod="post">Convert to invoice</button>;
     return (
       <div className="action">
         <button className="btn" type="submit" name="convertToInvoice" value="false">
-          {hasId ? 'Update quotation' : 'Create quotation'}
+          {hasId ? 'Update invoice' : 'Create invoice'}
         </button>
         {hasId ? ['\u00A0', newQuot, '\u00A0', convert] : null}
       </div>
@@ -161,55 +146,56 @@ var QuotationActions = React.createClass({
   }
 });
 
-var QuotationForm = React.createClass({
+var InvoiceForm = React.createClass({
   render: function () {
-    let quotation   = this.props.quotation;
-    let isNew       = quotation._id == null;
-    let fakeId      = formatId('quotation', quotation);
-    let formAction  = isNew   ? '/quotation' : `/quotation/${fakeId}`;
+    console.log(this.props.invoice);
+    let invoice     = this.props.invoice;
+    let isNew       = invoice._id == null;
+    let fakeId      = formatId('invoice', invoice);
+    let formAction  = isNew   ? '/invoice' : `/invoice/${fakeId}`;
     let print       = <a key="print" href={`/print/${fakeId }`} className="btn">Print</a>;
 
     return (
       <section>
         <header>
           <h1>
-            {'Quotation\u00A0'}
+            {'Invoice\u00A0'}
             <span className="id">{fakeId}</span>
           </h1>
           {isNew ? null : print}
         </header>
         <form action={formAction} method="post">
-          <input type="hidden" value={quotation.index.quotation} name="index[quotation]" />
-          <input type="hidden" value={quotation.time.created} name="time[created]" />
-          {isNew ? null : <input type="hidden" value={quotation._id} name="_id" /> }
+          <input type="hidden" value={invoice.index.invoice} name="index[invoice]" />
+          <input type="hidden" value={invoice.time.created} name="time[created]" />
+          {isNew ? null : <input type="hidden" value={invoice._id} name="_id" /> }
           {isNew ? null : <input type="hidden" value={fakeId} name="fakeId" /> }
           <div className="row">
             <fieldset className="cell-2-3 card">
-              <Customer list={this.props.customers} current={quotation.customer} />
-              {isNew ? null : <Status {...quotation.time} />}
+              <Input name="customer" value={invoice.customer} readOnly />
+              {isNew ? null : <Status {...invoice.time} />}
             </fieldset>
             <fieldset className="cell-1-3 card">
-              <Input name="tax" type="number" step="any" value={quotation.tax} />
+              <Input name="tax" type="number" step="any" value={invoice.tax} />
             </fieldset>
           </div>
           <fieldset>
-            <Input name="title" defaultValue={quotation.title} />
-            <Listing quotation={this.props.quotation}/>
+            <Input name="title" defaultValue={invoice.title} />
+            <Listing invoice={this.props.invoice}/>
             <div className="detail-actions">
-              <button className="btn-secondary" formAction="/quotation/recompute" formMethod="post">
+              <button className="btn-secondary" formAction="/invoice/recompute" formMethod="post">
                 recompute
               </button>
               {'\u00A0'}
-              <button className="btn-secondary" formAction="/quotation/add-line" formMethod="post">
+              <button className="btn-secondary" formAction="/invoice/add-line" formMethod="post">
                 Add a line
               </button>
             </div>
           </fieldset>
-          <QuotationActions id={quotation._id} />
+          <InvoiceActions id={invoice._id} />
         </form>
       </section>
     );
   },
 });
 
-export {QuotationForm as default};
+export {InvoiceForm as default};

@@ -26,20 +26,19 @@ var Input = React.createClass({
   render: function () {
     let name  = this.props.name;
     let id    = this.props.id ? this.props.id : name;
+    let label = this.props.label ? this.props.label : id;
     let type  = this.props.type ? this.props.type : 'text';
     let value = this.props.value ? this.props.value : null;
-    let additionalFields = omit(this.props, ['name', 'value'])
+    let additionalFields = omit(this.props, ['name', 'value', 'label'])
     let input;
     if (type === 'textarea') {
       input = (<textarea name={name} id={id} value={value} />);
     } else {
       input = (<input className="field" name={name} id={id} defaultValue={value} {...additionalFields} />);
     }
-
-
     return (
       <div className="input">
-        <label className="item" htmlFor={id}>{id}</label>
+        <label className="item" htmlFor={id}>{label}</label>
         {input}
       </div>
     );

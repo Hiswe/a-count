@@ -14,7 +14,7 @@ var QuotationHeader = React.createClass({
           <th>title</th>
           <th>customer</th>
           <th>status</th>
-          <th>total</th>
+          <th>total HT</th>
         </tr>
       </thead>
     );
@@ -33,20 +33,12 @@ var QuotationStatus = React.createClass({
     );
   }
 });
-var EmptyQuotationStatus = React.createClass({
-  render: function () {
-    return (
-      <td>-</td>
-    );
-  }
-});
 
 var QuotationRow = React.createClass({
   render: function () {
     let fakeId  = formatId('quotation', this.props.data);
     let url     = `/quotation/${fakeId}`;
     let status  = formatStatus(this.props.data.time);
-    status      = status.date ? <QuotationStatus status={status} /> : <EmptyQuotationStatus />;
     return (
       <tr>
         <td>
@@ -54,8 +46,8 @@ var QuotationRow = React.createClass({
         </td>
         <td>{this.props.data.title}</td>
         <td>{this.props.data.customer}</td>
-        {status}
-        <td>€ {this.props.data.price.total}</td>
+        {status.date ? <QuotationStatus status={status} /> : <td>-</td>}
+        <td>€ {this.props.data.price.net}</td>
       </tr>
     );
   }
@@ -63,11 +55,7 @@ var QuotationRow = React.createClass({
 
 var QuotationBody = React.createClass({
   render: function () {
-    let quotationLines = this.props.data.map(function (quotation) {
-      return (
-        <QuotationRow data={quotation} />
-      );
-    });
+    let quotationLines = this.props.data.map( (quotation, i) => <QuotationRow key={`quot-${i}`} data={quotation} /> );
     return (
       <tbody>
         {quotationLines}

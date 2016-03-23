@@ -45,7 +45,7 @@ var CustomerList = React.createClass({
       <section>
         <h1>
           Customers
-          <a href="/customer" className="btn-circular">+</a>
+          <a href="/customer" className="btn-fab">+</a>
         </h1>
         {body}
       </section>

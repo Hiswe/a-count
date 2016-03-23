@@ -7,6 +7,7 @@ import {db, view, get as dbGet, atomic} from '../db';
 import * as Quotation         from '../db/quotation'
 import * as Invoice           from '../db/invoice';
 import * as businessForm      from '../db/business-form';
+import {createBlank}          from '../shared/blank-business-form';
 // views
 import {render}               from './_react';
 import QuotationsHome         from '../views/quotations-home.jsx';
@@ -33,24 +34,17 @@ function createEmptyQuotation() {
   return businessForm
     .getNextIndex('quotation')
     .then(function(index) {
-      let net = compute.linePrice(defaultProduct);
-      return Promise.resolve({
-        index: {
-          quotation: index,
-        },
+      let net   = compute.linePrice(defaultProduct);
+      let base = createBlank(index);
+      return Promise.resolve(Object.assign(base, {
         tax,
-        time:   {
-          created: new Date(),
-        },
         price: {
           net,
           taxes: compute.taxedPrice(net, tax),
           total: net + compute.taxedPrice(net, tax),
         },
-        products: [
-          defaultProduct,
-        ]
-      });
+        products: [ defaultProduct ]
+      }));
     });
 }
 
@@ -108,13 +102,10 @@ function convert(req, res, next) {
       return businessForm.getNextIndex('invoice');
     })
     .then(function (invoiceIndex) {
-      console.log('convert', invoiceIndex);
       body.index.invoice = invoiceIndex;
-      console.log(body);
       return atomic('quotation', 'convertToInvoice', body._id, body);
     })
     .then(function (couchRes) {
-      console.log(couchRes);
       // return res.status(302).redirect('/quotation/' + body.fakeId);
       return res.status(302).redirect('/');
     })
