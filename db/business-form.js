@@ -1,5 +1,8 @@
 import  {view, atomic}  from './index';
+import {createBlank}    from '../shared/blank-business-form'
+import * as compute     from '../shared/compute'
 import  config          from '../server/config';
+const { defaultProduct,  tax} = config
 
 ////////
 // UTILS
@@ -47,7 +50,26 @@ function getByFakeId(id, type) {
     });
 }
 
+function getEmptyQuotation(index) {
+  return getNextIndex('quotation')
+    .then(function(index) {
+      let net             = compute.linePrice(defaultProduct);
+      let base            = createBlank(index);
+      let emptyQuotation  = Object.assign(base, {
+        tax,
+        price: {
+          net,
+          taxes: compute.taxedPrice(net, tax),
+          total: net + compute.taxedPrice(net, tax),
+        },
+        products: [ defaultProduct ]
+      });
+      return Promise.resolve(emptyQuotation);
+    })
+}
+
 export {
   getNextIndex,
   getByFakeId,
+  getEmptyQuotation,
 }

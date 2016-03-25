@@ -119,7 +119,16 @@ import 'isomorphic-fetch';
 import routes from './shared/routes';
 import {bootApi} from './server/api';
 
-function buildApiUrl(req, route) {
+function buildApiUrl(req, route, params) {
+  // construct routes with react params
+  Object.keys(params).forEach(function (name) {
+    let val = params[name];
+    if (route.indexOf(name) < 0) return;
+    let param = `/:${name}`;
+    route = route.replace(new RegExp(param), val ? `/${val}` : '');
+  });
+  // node-fetch only use absolute url
+  // https://www.npmjs.com/package/node-fetch#url
   let {protocol, hostname} = req;
   return `${protocol}://${hostname}:${config.PORT}${route}`;
 }
@@ -135,7 +144,6 @@ app.use('/api', api);
 app.use(function (req, res, next) {
   const location = req.url;
 
-
   match({routes, location }, function (error, redirectLocation, renderProps) {
     if (error) return next(err);
     if (redirectLocation) {
@@ -144,15 +152,19 @@ app.use(function (req, res, next) {
     if (renderProps) {
       let {components, params, location, route} = renderProps;
       let apiCalls  = [];
+      // fetch all necessary datas
       renderProps.components.forEach( function (component) {
         if (!component.load) return;
-        let apiReq = fetch(buildApiUrl(req, component.load))
+        let apiReq = fetch(buildApiUrl(req, component.load, params))
           .then(function (response) {
-            // console.log('fetch', response.status);
+            if (response.status >= 400) {
+              let err = new Error(response.statusText);
+              err.status = response.status;
+              throw err;
+            }
             return Promise.resolve(response.json());
           })
         apiReq.then(function (result) {
-          // console.log(result);
           component.datas = result;
         });
         apiCalls.push(apiReq);
@@ -167,12 +179,8 @@ app.use(function (req, res, next) {
         .catch(next);
     }
   });
-  // according to doc :
-  // req.url here should be the full URL path fromthe original request, including the query string.
-  // https://github.com/reactjs/react-router/blob/master/docs/guides/ServerRendering.md#server-rendering
 });
 
-// app.get('/quotation/:fakeId?',                    quotation.editOrCreate);
 app.post('/quotation/add-line',                   quotation.addLine);
 app.post('/quotation/remove-line',                quotation.removeLine);
 app.post('/quotation/recompute',                  quotation.recompute);

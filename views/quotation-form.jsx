@@ -1,6 +1,5 @@
 import React        from 'React';
 
-import Layout                       from './_layout.jsx';
 import {Input}                      from './form';
 import {formatDate, id as formatId} from './_format';
 import {Amount}                     from './_utils';
@@ -163,6 +162,12 @@ var QuotationActions = React.createClass({
 });
 
 var QuotationForm = React.createClass({
+  statics: {
+    load: '/api/quotation/:fakeId',
+  },
+  componentWillMount: function () {
+    if (this.constructor.datas) this.props = this.constructor.datas;
+  },
   render: function () {
     let quotation   = this.props.quotation;
     let isNew       = quotation._id == null;
@@ -171,7 +176,7 @@ var QuotationForm = React.createClass({
     let print       = <a key="print" href={`/print/${fakeId }`} className="btn">Print</a>;
 
     return (
-      <Layout>
+      <div>
         <header>
           <h1>
             {'Quotation\u00A0'}
@@ -208,7 +213,7 @@ var QuotationForm = React.createClass({
           </fieldset>
           <QuotationActions id={quotation._id} />
         </form>
-      </Layout>
+      </div>
     );
   },
 });

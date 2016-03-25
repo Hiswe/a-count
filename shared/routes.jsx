@@ -9,13 +9,14 @@ import Home           from '../views/home.jsx';
 import Settings       from '../views/settings.jsx';
 import QuotationHome  from '../views/quotations-home.jsx';
 import CustomerHome   from '../views/customer-home.jsx';
+import QuotationForm  from '../views/quotation-form.jsx';
 // import InvoiceList    from '../views/invoice-list.jsx';
 
 export default (
   <Route path="/" component={Layout}>
     <IndexRoute component={Home} />
     <Route path="quotations" component={QuotationHome} />
-    <Route path="quotation(/:fakeId)" component={test.QuotationForm} />
+    <Route path="quotation(/:fakeId)" component={QuotationForm} />
     <Redirect from="invoices" to="/" />
     <Route path="customers" component={CustomerHome} />
     <Route path="customer">

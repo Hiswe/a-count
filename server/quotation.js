@@ -20,49 +20,6 @@ var config    = require('./config');
 var Customer  = require('../db/customer');
 var compute   = require('../shared/compute');
 
-function createEmptyQuotation() {
-  return businessForm
-    .getNextIndex('quotation')
-    .then(function(index) {
-      let net   = compute.linePrice(defaultProduct);
-      let base = createBlank(index);
-      return Promise.resolve(Object.assign(base, {
-        tax,
-        price: {
-          net,
-          taxes: compute.taxedPrice(net, tax),
-          total: net + compute.taxedPrice(net, tax),
-        },
-        products: [ defaultProduct ]
-      }));
-    });
-}
-
-function editOrCreate(req, res, next) {
-  let isCreating        = req.params.fakeId == null;
-  let customersPromise  = Customer.getAll();
-  let quotationPromise  = req.flash('quotation')[0];
-
-  if (quotationPromise) {
-    quotationPromise = Promise.resolve(quotationPromise)
-  } else {
-    quotationPromise = isCreating ? createEmptyQuotation() : businessForm.getByFakeId(req.params.fakeId, 'quotation');
-  }
-
-  Promise
-    .all([
-      customersPromise,
-      quotationPromise,
-    ])
-    .then(function (body) {
-      let [customers, quotation] = body;
-      res.render('_layout', {
-        dom: render(QuotationForm, {customers, quotation}),
-      });
-    })
-    .catch(next)
-}
-
 function createCustomerIfNew(customerName) {
   return Customer
     .exist(customerName)
@@ -141,7 +98,6 @@ module.exports = {
   addLine,
   removeLine,
   recompute,
-  editOrCreate,
   post,
   convert,
 };
