@@ -114,13 +114,26 @@ import React                    from 'react';
 import { RouterContext, match } from 'react-router';
 import createLocation           from 'history/lib/createLocation';
 import {renderToString}         from 'react-dom/server'
+import 'isomorphic-fetch';
 
 import routes from './shared/routes';
 import {bootApi} from './server/api';
 
+function buildApiUrl(req, route) {
+  let {protocol, hostname} = req;
+  return `${protocol}://${hostname}:${config.PORT}${route}`;
+}
+
+//----- API
+
+import api from './server/api';
+
+app.use('/api', api);
+
+//----- REACT
+
 app.use(function (req, res, next) {
   const location = req.url;
-  console.log(req.url);
 
 
   match({routes, location }, function (error, redirectLocation, renderProps) {
@@ -131,21 +144,22 @@ app.use(function (req, res, next) {
     if (renderProps) {
       let {components, params, location, route} = renderProps;
       let apiCalls  = [];
-      // could use isomorphic-fetch
-      // https://www.npmjs.com/package/isomorphic-fetch
       renderProps.components.forEach( function (component) {
         if (!component.load) return;
-        let datas = bootApi[component.load]();
-        datas.then(function (result) {
+        let apiReq = fetch(buildApiUrl(req, component.load))
+          .then(function (response) {
+            // console.log('fetch', response.status);
+            return Promise.resolve(response.json());
+          })
+        apiReq.then(function (result) {
+          // console.log(result);
           component.datas = result;
-        })
-        apiCalls.push(datas);
-
+        });
+        apiCalls.push(apiReq);
       });
-      let results = apiCalls.length === 0 ? Promise.resolve() : apiCalls.length === 1 ? apiCalls[0] : Promise.all(apiCalls);
+      // wait for all datas to be resolved
       Promise.all(apiCalls)
         .then(function (results) {
-          renderProps.datas = results;
           return res.render('_layout', {
             dom: renderToString(<RouterContext {...renderProps} />),
           });
@@ -170,7 +184,6 @@ app.post('/quotation/:fakeId?',                   quotation.post);
 // });
 // app.get('/invoice/:fakeId',                       invoice.get);
 
-// app.get('/customers',               customer.get);
 // app.get('/customer/:customerId',    customer.edit);
 // app.get('/customer',                customer.create);
 app.post('/customer/:customerId?',  customer.post);
@@ -180,14 +193,6 @@ app.post('/reset',    reset.post);
 
 // http://maxlapides.com/forcing-browsers-print-backgrounds/
 app.get('/print/:fakeId', print.get);
-
-
-//----- API
-
-import api from './server/api';
-
-app.use('/api', api);
-// app.get('/', home.get);
 
 //////
 // ERROR HANDLING

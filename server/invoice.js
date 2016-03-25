@@ -5,8 +5,6 @@ import {render}               from './_react';
 import InvoiceForm            from '../views/invoice-form.jsx';
 
 function get(req, res, next) {
-  console.log('invoice get', req.params.fakeId);
-
   businessForm
     .getByFakeId(req.params.fakeId, 'invoice')
     .then(function (invoice) {

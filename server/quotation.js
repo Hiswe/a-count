@@ -20,16 +20,6 @@ var config    = require('./config');
 var Customer  = require('../db/customer');
 var compute   = require('../shared/compute');
 
-function get(req, res, next) {
-  view('quotation', 'byTime', {descending: true})
-    .then(function (quotations) {
-      res.render('_layout', {
-        dom: render(QuotationsHome, {quotations}),
-      });
-    })
-    .catch(next)
-}
-
 function createEmptyQuotation() {
   return businessForm
     .getNextIndex('quotation')
@@ -153,6 +143,5 @@ module.exports = {
   recompute,
   editOrCreate,
   post,
-  get,
   convert,
 };

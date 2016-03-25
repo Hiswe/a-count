@@ -39,17 +39,22 @@ var CustomerTable = React.createClass({
 });
 
 var CustomerList = React.createClass({
+  statics: {
+    load: '/api/customers',
+  },
+  componentWillMount: function () {
+    if (this.constructor.datas) this.props = this.constructor.datas;
+  },
   render: function() {
-    let hasCustomer = this.props.customers.length;
-    let body = hasCustomer ? <CustomerTable {...this.props} /> : <Empty />;
+    let hasCustomer = this.props.customers && this.props.customers.length;
     return (
-      <Layout>
+      <div>
         <h1>
           Customers
           <a href="/customer" className="btn-fab">+</a>
         </h1>
-        {body}
-      </Layout>
+        {hasCustomer ? <CustomerTable {...this.props} /> : <Empty />}
+      </div>
     );
   }
 });

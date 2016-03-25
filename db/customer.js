@@ -11,7 +11,7 @@ function create(data) {
   return atomic('customer', 'create', customerId, data);
 }
 
-function getByName(name, next, done) {
+function getByName(name) {
   return view('customer', 'byName', {
     key: name,
   });
@@ -29,7 +29,7 @@ function exist(name) {
     });
 }
 
-function getAll(done) {
+function getAll() {
   return view('customer', 'byId');
 }
 
