@@ -14,7 +14,6 @@ var session         = require('express-session');
 var flash           = require('connect-flash');
 
 var config          = require('./server/config');
-var home            = require('./server/home');
 var quotation       = require('./server/quotation');
 var invoice         = require('./server/invoice');
 var customer        = require('./server/customer');
@@ -44,24 +43,19 @@ app.use(session({
 app.use(flash());
 
 // templates
+// even if React is used for the most part…
+// … Jade is used for wrappers & error
 app.set('views', path.join( __dirname, './views'));
 app.set('view engine', 'jade');
 
-// templates global datas
-app.locals.marked = function markdownToHtml(data) {
-  // prevent error while passing unsupported marked datas
-  if (typeof data !== 'string') return '';
-  return marked(data);
-};
-app.locals.formatDate = function formatDate(data) {
-  if (typeof data !== 'string') return '';
-  var formatedDate = moment(data).format('DD/MM/YYYY HH:mm');
-  return formatedDate === 'Invalid date' ? '' : formatedDate;
-}
 app.locals.config = config;
 
 // statics
 app.use(express.static('./public'));
+
+//////
+// LOGGING
+//////
 
 // don't want to log static
 function logRequest(tokens, req, res) {
@@ -107,7 +101,7 @@ database
 //////
 
 // Don't show anything if database is not up…
-app.all('*', function (req, res, next) {
+app.use(function (req, res, next) {
   if (dbStatus === true) return next();
   let err     = new Error('enable to connect to database');
   err.status  = 500;
@@ -115,32 +109,85 @@ app.all('*', function (req, res, next) {
   return next(dbStatus);
 });
 
-app.get('/quotations', quotation.get);
+import React                    from 'react';
+// react-router need history module
+import { RouterContext, match } from 'react-router';
+import createLocation           from 'history/lib/createLocation';
+import {renderToString}         from 'react-dom/server'
 
-app.get('/quotation/:fakeId?',                    quotation.editOrCreate);
+import routes from './shared/routes';
+import {bootApi} from './server/api';
+
+app.use(function (req, res, next) {
+  const location = req.url;
+  console.log(req.url);
+
+
+  match({routes, location }, function (error, redirectLocation, renderProps) {
+    if (error) return next(err);
+    if (redirectLocation) {
+      return res.redirect(redirectLocation.pathname + redirectLocation.search);
+    }
+    if (renderProps) {
+      let {components, params, location, route} = renderProps;
+      let apiCalls  = [];
+      // could use isomorphic-fetch
+      // https://www.npmjs.com/package/isomorphic-fetch
+      renderProps.components.forEach( function (component) {
+        if (!component.load) return;
+        let datas = bootApi[component.load]();
+        datas.then(function (result) {
+          component.datas = result;
+        })
+        apiCalls.push(datas);
+
+      });
+      let results = apiCalls.length === 0 ? Promise.resolve() : apiCalls.length === 1 ? apiCalls[0] : Promise.all(apiCalls);
+      Promise.all(apiCalls)
+        .then(function (results) {
+          renderProps.datas = results;
+          return res.render('_layout', {
+            dom: renderToString(<RouterContext {...renderProps} />),
+          });
+        })
+        .catch(next);
+    }
+  });
+  // according to doc :
+  // req.url here should be the full URL path fromthe original request, including the query string.
+  // https://github.com/reactjs/react-router/blob/master/docs/guides/ServerRendering.md#server-rendering
+});
+
+// app.get('/quotation/:fakeId?',                    quotation.editOrCreate);
 app.post('/quotation/add-line',                   quotation.addLine);
 app.post('/quotation/remove-line',                quotation.removeLine);
 app.post('/quotation/recompute',                  quotation.recompute);
 app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
 app.post('/quotation/:fakeId?',                   quotation.post);
 
-app.get('/invoices', function (req, res, next) {
-  res.redirect('/');
-});
-app.get('/invoice/:fakeId',                       invoice.get);
+// app.get('/invoices', function (req, res, next) {
+//   res.redirect('/');
+// });
+// app.get('/invoice/:fakeId',                       invoice.get);
 
-app.get('/customers',               customer.get);
-app.get('/customer/:customerId',    customer.edit);
-app.get('/customer',                customer.create);
+// app.get('/customers',               customer.get);
+// app.get('/customer/:customerId',    customer.edit);
+// app.get('/customer',                customer.create);
 app.post('/customer/:customerId?',  customer.post);
 
-app.get('/reset',   reset.get);
-app.post('/reset',  reset.post);
+// app.get('/settings',    reset.get);
+app.post('/reset',    reset.post);
 
 // http://maxlapides.com/forcing-browsers-print-backgrounds/
 app.get('/print/:fakeId', print.get);
 
-app.get('/', home.get);
+
+//----- API
+
+import api from './server/api';
+
+app.use('/api', api);
+// app.get('/', home.get);
 
 //////
 // ERROR HANDLING

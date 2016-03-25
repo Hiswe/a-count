@@ -78,9 +78,23 @@ var QuotationTable = React.createClass({
 });
 
 var QuotationList = React.createClass({
+  static: {
+    load: '/api/quotations',
+  },
+  componentWillMount: function () {
+    console.log('----------- QuotationList : componentWillMount');
+  },
   render: function() {
-    let hasQuotations = this.props.quotations.length;
-    return hasQuotations ? <QuotationTable {...this.props} /> : <Empty />;
+    console.log('--------- QuotationList');
+    console.log(this.props);
+    console.log(this.props.quotations != null && this.props.quotations.length);
+    let hasQuotations = this.props.quotations && this.props.quotations.length;
+    return (
+      <section>
+        <h1>quotations</h1>
+        {hasQuotations ? <QuotationTable {...this.props} /> : <Empty />}
+      </section>
+    )
   }
 });
 

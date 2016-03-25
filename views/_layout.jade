@@ -1,21 +1,10 @@
-doctype html
-html(lang="en")
-  head
-    title ConCompte
-    meta(http-equiv="Content-Language", content="en")
-    meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    //- Mobile
-    meta(name="viewport",content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1.0, user-scalable=0")
-    meta(name="apple-mobile-web-app-capable",content="yes")
+extends ./_base-layout.jade
 
-    link(rel='stylesheet', href="/concompte.css")
-    link(rel='icon', href='/favicon.png', type='image/png')
+block content
+  #react-main-mount
+    | !{dom}
 
-  body
-    #react-main-mount
-      | !{dom}
-
-    script(src="/concompte-lib.js")
-    script(src="/concompte.js")
-    script.
-      require('concompte');
+  script(src="/concompte-lib.js")
+  script(src="/concompte.js")
+  script.
+    require('concompte');
