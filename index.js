@@ -8,7 +8,7 @@ require('babel-core/register')({
   },
 });
 
-var config  = require('./server/config');
+var config  = require('./shared/config');
 var app     = require('./server.js').default;
 
 var server = app.listen(config.PORT, function endInit() {

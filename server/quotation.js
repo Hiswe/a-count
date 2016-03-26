@@ -8,14 +8,12 @@ import * as Quotation         from '../db/quotation'
 import * as Invoice           from '../db/invoice';
 import * as businessForm      from '../db/business-form';
 import {createBlank}          from '../shared/blank-business-form';
-// views
-import QuotationsHome         from '../views/quotations-home.jsx';
-import QuotationForm          from '../views/quotation-form.jsx';
-import {defaultProduct, tax}  from './config';
+
 import * as format            from '../shared/format';
+import config                 from '../shared/config'
+
 import {id as formatId}       from '../views/_format';
 
-var config    = require('./config');
 var Customer  = require('../db/customer');
 var compute   = require('../shared/compute');
 
@@ -67,7 +65,9 @@ function getRedirectUrl(body) {
 }
 
 function addLine(req, res, next) {
-  req.body.products.push(defaultProduct);
+  console.log(config.defaultProduct);
+  req.body.products.push(config.defaultProduct);
+  console.log(req.body);
   req.body.price = compute.price(req.body);
   req.flash('quotation', req.body);
   res.redirect(getRedirectUrl(req.body));

@@ -13,7 +13,8 @@ var moment          = require('moment');
 var session         = require('express-session');
 var flash           = require('connect-flash');
 
-var config          = require('./server/config');
+var config          = require('./shared/config');
+
 var quotation       = require('./server/quotation');
 var invoice         = require('./server/invoice');
 var customer        = require('./server/customer');
@@ -47,8 +48,6 @@ app.use(flash());
 // … Jade is used for wrappers & error
 app.set('views', path.join( __dirname, './views'));
 app.set('view engine', 'jade');
-
-app.locals.config = config;
 
 // statics
 app.use(express.static('./public'));
@@ -139,7 +138,7 @@ import api from './server/api';
 
 app.use('/api', api);
 
-//----- REACT
+//----- NO-JS BACKUP
 
 app.post('/quotation/add-line',                   quotation.addLine);
 app.post('/quotation/remove-line',                quotation.removeLine);
@@ -153,14 +152,16 @@ app.post('/quotation/:fakeId?',                   quotation.post);
 // app.get('/invoice/:fakeId',                       invoice.get);
 app.post('/customer/:customerId?',  customer.post);
 
-// app.get('/settings',    reset.get);
 app.post('/reset',    reset.post);
 
 // http://maxlapides.com/forcing-browsers-print-backgrounds/
 app.get('/print/:fakeId', print.get);
 
+//----- REACT
+
 app.use(function (req, res, next) {
   const location = req.url;
+  console.log(req.flash());
 
   match({routes, location }, function (error, redirectLocation, renderProps) {
     if (error) return next(err);
@@ -168,10 +169,10 @@ app.use(function (req, res, next) {
       return res.redirect(redirectLocation.pathname + redirectLocation.search);
     }
     if (renderProps) {
-      let {components, params, location, route} = renderProps;
+      let {components, params} = renderProps;
       let apiCalls  = [];
       // fetch all necessary datas
-      renderProps.components.forEach( function (component) {
+      components.forEach( function (component) {
         if (!component.load) return;
         let apiReq = fetch(buildApiUrl(req, component.load, params))
           .then(function (response) {
@@ -182,14 +183,26 @@ app.use(function (req, res, next) {
             }
             return Promise.resolve(response.json());
           })
-        apiReq.then(function (result) {
-          component.datas = result;
-        });
+        // apiReq.then(function (result) {
+        //   component.datas = result;
+        // });
         apiCalls.push(apiReq);
       });
       // wait for all datas to be resolved
       Promise.all(apiCalls)
         .then(function (results) {
+          // console.log(results)
+          let datas = {};
+          results.forEach(r => datas = Object.assign(datas, r))
+          components[0].datas = datas;
+
+          // renderProps.data = datas;
+          renderProps.data = {
+            datas
+          };
+          // let RouterContext = <RouterContext {...renderProps} />;
+          // React.cloneElement(RouterContext)
+
           return res.render('_layout', {
             dom: renderToString(<RouterContext {...renderProps} />),
           });
@@ -198,8 +211,6 @@ app.use(function (req, res, next) {
     }
   });
 });
-
-
 
 //////
 // ERROR HANDLING

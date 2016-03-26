@@ -3,7 +3,7 @@
 var compute       = require('../shared/compute');
 var format        = require('../shared/format');
 var emptyProduct  = require('../shared/blank-business-form');
-var config        = require('../server/config');
+var config        = require('../shared/config');
 
 // IDS should be
 // (PR|FA)AAMM-XXXX

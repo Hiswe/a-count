@@ -165,9 +165,6 @@ var QuotationForm = React.createClass({
   statics: {
     load: '/api/quotation/:fakeId',
   },
-  componentWillMount: function () {
-    if (this.constructor.datas) this.props = this.constructor.datas;
-  },
   render: function () {
     let quotation   = this.props.quotation;
     let isNew       = quotation._id == null;

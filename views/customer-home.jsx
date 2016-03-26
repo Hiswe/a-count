@@ -42,9 +42,6 @@ var CustomerList = React.createClass({
   statics: {
     load: '/api/customers',
   },
-  componentWillMount: function () {
-    if (this.constructor.datas) this.props = this.constructor.datas;
-  },
   render: function() {
     let hasCustomer = this.props.customers && this.props.customers.length;
     return (

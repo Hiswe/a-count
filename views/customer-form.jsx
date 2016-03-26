@@ -12,9 +12,6 @@ var CustomerForm = React.createClass({
   statics: {
     load: '/api/customer/:customerId',
   },
-  componentWillMount: function () {
-    if (this.constructor.datas) this.props = this.constructor.datas;
-  },
   render: function () {
     let hasCustomer = this.props.customer != null
     let customer    = this.props.customer || {}

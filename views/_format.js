@@ -1,7 +1,7 @@
 var moment          = require('moment');
 var marked          = require('marked');
 
-import config from '../server/config';
+import config from '../shared/config';
 
 // templates global datas
 function marked(data) {

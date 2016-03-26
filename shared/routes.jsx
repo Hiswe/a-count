@@ -9,11 +9,12 @@ import Home           from '../views/home.jsx'
 import QuotationHome  from '../views/quotations-home.jsx'
 import QuotationForm  from '../views/quotation-form.jsx'
 
+// import InvoiceList    from '../views/invoice-list.jsx';
+
 import CustomerHome   from '../views/customer-home.jsx'
 import CustomerForm   from '../views/customer-form.jsx'
 
 import Settings       from '../views/settings.jsx'
-// import InvoiceList    from '../views/invoice-list.jsx';
 
 export default (
   <Route path="/" component={Layout}>

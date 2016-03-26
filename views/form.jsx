@@ -8,9 +8,9 @@ var Floating = React.createClass({
     let value = this.props.value ? this.props.value : null;
     let input;
     if (type === 'textarea') {
-      input = (<textarea name={name} id={name} value={value} />);
+      input = (<textarea name={name} id={name} defaultValue={value} />);
     } else {
-      input = (<input name={name} id={name} value={value} type={type} />);
+      input = (<input name={name} id={name} defaultValue={value} type={type} />);
     }
 
     return (

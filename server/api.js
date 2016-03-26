@@ -30,14 +30,6 @@ api
   })
 
 api
-  .route('/quotations')
-  .get(function (req, res, next) {
-    Quotation.getAllActive()
-      .then(quotations => res.json({quotations}) )
-      .catch(next)
-  })
-
-api
   .route('/invoices')
   .get(function (req, res, next) {
     Invoice.getAllActive()
@@ -65,6 +57,14 @@ api
   })
 
 //----- QUOTATIONS
+
+api
+  .route('/quotations')
+  .get(function (req, res, next) {
+    Quotation.getAllActive()
+      .then(quotations => res.json({quotations}) )
+      .catch(next)
+  })
 
 api
   .route('/quotation/:fakeId?')

@@ -3,38 +3,39 @@
 // no ES6 here.
 // It goes partly on couchDb -> can't babelify
 
-function linePrice(product) {
+function line(product) {
+  if (!product) return 0;
   var quantity  = parseFloat(product.quantity, 10);
   var price     = parseFloat(product.price, 10);
   return quantity * price;
 }
 
-function taxedPrice(total, tax) {
+function taxed(total, tax) {
   total       = parseFloat(total, 10);
   tax         = parseFloat(tax, 10);
   return ((total * tax) / 100);
 }
 
-function computePrice(businessForm) {
+function price(businessForm) {
   let tax       = businessForm.tax;
-  let totalNet  = 0;
+  let net       = 0;
   businessForm.products.forEach(function (product) {
-    totalNet    = totalNet + linePrice(product);
+    net    = net + line(product);
   });
-  var taxes     = taxedPrice(totalNet, tax);
+  var taxes     = taxed(net, tax);
   return  {
-    net:    totalNet,
+    net:    net,
     taxes:  taxes,
-    total:  totalNet + taxes
+    total:  net + taxes
   };
 }
 
 module.exports = {
-  linePrice:    linePrice,
-  taxedPrice:   taxedPrice,
-  computePrice: computePrice,
+  line:   line,
+  taxed:  taxed,
+  price:  price,
   // aliases
-  line:         linePrice,
-  taxed:        taxedPrice,
-  price:        computePrice,
+  linePrice:    line,
+  taxedPrice:   taxed,
+  computePrice: price,
 };

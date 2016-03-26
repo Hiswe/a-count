@@ -1,7 +1,7 @@
 import  {view, atomic}  from './index';
 import {createBlank}    from '../shared/blank-business-form'
 import * as compute     from '../shared/compute'
-import  config          from '../server/config';
+import  config          from '../shared/config';
 const { defaultProduct,  tax} = config
 
 ////////

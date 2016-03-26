@@ -2,11 +2,10 @@ import React        from 'React';
 import { Link }     from 'react-router';
 
 var Layout = React.createClass({
+  // React.cloneElement is needed to pass additional datas to childrens
+  // https://github.com/reactjs/react-router/blob/master/upgrade-guides/v1.0.0.md#routehandler
+  // http://stackoverflow.com/questions/33741832/react-changing-props-on-grandchildren-object-is-not-extensible-tree-traversin#33746523
   render: function() {
-    // should use Link WITHOUT href when there is a react-router
-    // https://github.com/reactjs/react-router/blob/master/modules/Link.js#L106
-    // <li><Link to="/">home</Link></li>
-    // <li><Link to="/" href="/">home</Link></li>
     return (
       <div id="react-wrapper">
         <header className="main-header">
@@ -19,7 +18,7 @@ var Layout = React.createClass({
           </ul>
         </header>
         <main role="main">
-          {this.props.children}
+          {React.cloneElement(this.props.children, this.constructor.datas)}
         </main>
       </div>
     );

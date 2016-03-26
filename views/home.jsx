@@ -7,9 +7,6 @@ var Home = React.createClass({
   statics: {
     load: '/api/home',
   },
-  componentWillMount: function () {
-    if (this.constructor.datas) this.props = this.constructor.datas;
-  },
   render: function() {
     return (
       <div>
