@@ -146,10 +146,6 @@ app.post('/quotation/recompute',                  quotation.recompute);
 app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
 app.post('/quotation/:fakeId?',                   quotation.post);
 
-// app.get('/invoices', function (req, res, next) {
-//   res.redirect('/');
-// });
-// app.get('/invoice/:fakeId',                       invoice.get);
 app.post('/customer/:customerId?',  customer.post);
 
 app.post('/reset',    reset.post);
@@ -161,54 +157,52 @@ app.get('/print/:fakeId', print.get);
 
 app.use(function (req, res, next) {
   const location = req.url;
-  console.log(req.flash());
-
   match({routes, location }, function (error, redirectLocation, renderProps) {
     if (error) return next(err);
     if (redirectLocation) {
       return res.redirect(redirectLocation.pathname + redirectLocation.search);
     }
-    if (renderProps) {
-      let {components, params} = renderProps;
-      let apiCalls  = [];
-      // fetch all necessary datas
-      components.forEach( function (component) {
-        if (!component.load) return;
-        let apiReq = fetch(buildApiUrl(req, component.load, params))
-          .then(function (response) {
-            if (response.status >= 400) {
-              let err = new Error(response.statusText);
-              err.status = response.status;
-              throw err;
-            }
-            return Promise.resolve(response.json());
-          })
-        // apiReq.then(function (result) {
-        //   component.datas = result;
-        // });
-        apiCalls.push(apiReq);
-      });
-      // wait for all datas to be resolved
-      Promise.all(apiCalls)
-        .then(function (results) {
-          // console.log(results)
-          let datas = {};
-          results.forEach(r => datas = Object.assign(datas, r))
-          components[0].datas = datas;
+    if (!renderProps) return next();
 
-          // renderProps.data = datas;
-          renderProps.data = {
-            datas
-          };
-          // let RouterContext = <RouterContext {...renderProps} />;
-          // React.cloneElement(RouterContext)
+    let {components, params} = renderProps;
+    let apiCalls        = [];
+    let cashedData      = req.flash();
+    let cashedDataKeys  = Object.keys(cashedData);
 
-          return res.render('_layout', {
-            dom: renderToString(<RouterContext {...renderProps} />),
-          });
+    // get all datas
+    components.forEach( function (component) {
+      if (!component.load) return;
+      let apiReq = fetch(buildApiUrl(req, component.load, params))
+        .then(function (response) {
+          if (response.status >= 400) {
+            let err = new Error(response.statusText);
+            err.status = response.status;
+            throw err;
+          }
+          return Promise.resolve(response.json());
         })
-        .catch(next);
-    }
+      apiCalls.push(apiReq);
+    })
+
+    // wait for all datas to be resolved
+    Promise.all(apiCalls)
+      .then(function (results) {
+        // merge all datas
+        let datas = {};
+        results.forEach(r => datas = Object.assign(datas, r))
+        // update datas with in memory updated datas
+        if (cashedDataKeys.length) {
+          cashedDataKeys.forEach(function (key) {
+            datas[key] = Object.assign( datas[key] || {}, cashedData[key][0])
+          })
+        }
+        components[0].datas = datas;
+        return res.render('_layout', {
+          dom: renderToString(<RouterContext {...renderProps} />),
+        });
+      })
+      .catch(next);
+
   });
 });
 

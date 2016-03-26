@@ -127,7 +127,9 @@ var Listing       = React.createClass({
 
 var Customer      = React.createClass({
   render: function () {
-    let customers = this.props.list.map( (c, i) => <option key={i} value={c.name} />)
+    let hasCustomer = this.props.list != null;
+    if (!hasCustomer) return <p>not customers founded</p>;
+    let customers   = this.props.list.map( (c, i) => <option key={i} value={c.name} />)
     return (
       <div className="input">
         <label className="item" htmlFor="customer">Customer</label>

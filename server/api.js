@@ -92,6 +92,19 @@ api
       .catch(next)
   })
 
+//----- INVOICES
+
+api
+  .route('/invoice/:fakeId?')
+  .get(function (req, res, next) {
+    BusinessForm
+      .getByFakeId(req.params.fakeId, 'invoice')
+      .then(function (invoice) {
+        return res.json({invoice})
+      })
+      .catch(next)
+  })
+
 api.use(function (req, res, next) {
   console.log('api 404')
   res.sendStatus(404)
