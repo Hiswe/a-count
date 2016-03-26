@@ -1,6 +1,5 @@
 import React      from 'React';
 
-import Layout     from './_layout.jsx';
 import {Floating} from './form.jsx';
 
 var CreateBtn = React.createClass({
@@ -10,15 +9,22 @@ var CreateBtn = React.createClass({
 });
 
 var CustomerForm = React.createClass({
+  statics: {
+    load: '/api/customer/:customerId',
+  },
+  componentWillMount: function () {
+    if (this.constructor.datas) this.props = this.constructor.datas;
+  },
   render: function () {
-    let customer    = this.props.customer || {};
-    let formAction  = customer ? `/customer/${customer._id}` : '/customer'
-    let submitMsg   = customer ? 'Update customer' : 'Create customer';
-    let customerId  = customer ? (<input type="hidden" value={customer._id} name="id" />) : null;
-    let secondaryAction = customer ? <CreateBtn /> : null;
+    let hasCustomer = this.props.customer != null
+    let customer    = this.props.customer || {}
+    let formAction  = hasCustomer ? `/customer/${customer._id}` : '/customer'
+    let submitMsg   = hasCustomer ? 'Update customer' : 'Create customer';
+    let customerId  = hasCustomer ? (<input type="hidden" value={customer._id} name="id" />) : null;
+    let secondaryAction = hasCustomer ? <CreateBtn /> : null;
 
     return (
-      <Layout>
+      <section>
         <h1>Customer</h1>
         <form method="post" action={formAction}>
           {customerId}
@@ -31,7 +37,7 @@ var CustomerForm = React.createClass({
             {secondaryAction}
           </div>
         </form>
-      </Layout>
+      </section>
     );
   }
 });

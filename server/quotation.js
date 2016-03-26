@@ -9,7 +9,6 @@ import * as Invoice           from '../db/invoice';
 import * as businessForm      from '../db/business-form';
 import {createBlank}          from '../shared/blank-business-form';
 // views
-import {render}               from './_react';
 import QuotationsHome         from '../views/quotations-home.jsx';
 import QuotationForm          from '../views/quotation-form.jsx';
 import {defaultProduct, tax}  from './config';

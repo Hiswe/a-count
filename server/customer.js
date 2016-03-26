@@ -3,7 +3,6 @@
 var chalk         = require('chalk');
 
 import {db, view, get as dbGet}   from '../db';
-import {render}                   from './_react';
 import CustomerHome               from '../views/customer-home.jsx';
 import CustomerForm               from '../views/customer-form.jsx';
 

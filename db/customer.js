@@ -1,6 +1,6 @@
 'use strict';
 
-import  {view, atomic} from './index';
+import  {view, atomic, get} from './index';
 var db            = require('./index').db;
 var slug          = require('slug');
 slug.charmap['_'] = '-';
@@ -15,6 +15,10 @@ function getByName(name) {
   return view('customer', 'byName', {
     key: name,
   });
+}
+
+function byId(id) {
+  return get(id)
 }
 
 // can't use a head request as we use the name
@@ -38,4 +42,5 @@ module.exports = {
   getByName:  getByName,
   getAll:     getAll,
   exist:      exist,
+  byId:       byId,
 };

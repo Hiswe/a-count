@@ -1,7 +1,6 @@
 'use strict';
 
 import {db}           from '../db';
-import {render}       from './_react';
 import Reset          from '../views/reset.jsx';
 
 function get(req, res, next) {

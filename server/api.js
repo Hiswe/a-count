@@ -45,11 +45,22 @@ api
       .catch(next)
   })
 
+//----- CUSTOMER
+
 api
   .route('/customers')
   .get(function (req, res, next) {
     Customer.getAll()
       .then(customers => res.json({customers}) )
+      .catch(next)
+  })
+
+api
+  .route('/customer/:customerId?')
+  .get(function (req, res, next) {
+    if (req.params.customerId == null) return res.json({})
+    Customer.byId(req.params.customerId)
+      .then(customer => res.json({customer}) )
       .catch(next)
   })
 

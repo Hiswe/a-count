@@ -141,6 +141,24 @@ app.use('/api', api);
 
 //----- REACT
 
+app.post('/quotation/add-line',                   quotation.addLine);
+app.post('/quotation/remove-line',                quotation.removeLine);
+app.post('/quotation/recompute',                  quotation.recompute);
+app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
+app.post('/quotation/:fakeId?',                   quotation.post);
+
+// app.get('/invoices', function (req, res, next) {
+//   res.redirect('/');
+// });
+// app.get('/invoice/:fakeId',                       invoice.get);
+app.post('/customer/:customerId?',  customer.post);
+
+// app.get('/settings',    reset.get);
+app.post('/reset',    reset.post);
+
+// http://maxlapides.com/forcing-browsers-print-backgrounds/
+app.get('/print/:fakeId', print.get);
+
 app.use(function (req, res, next) {
   const location = req.url;
 
@@ -181,26 +199,7 @@ app.use(function (req, res, next) {
   });
 });
 
-app.post('/quotation/add-line',                   quotation.addLine);
-app.post('/quotation/remove-line',                quotation.removeLine);
-app.post('/quotation/recompute',                  quotation.recompute);
-app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
-app.post('/quotation/:fakeId?',                   quotation.post);
 
-// app.get('/invoices', function (req, res, next) {
-//   res.redirect('/');
-// });
-// app.get('/invoice/:fakeId',                       invoice.get);
-
-// app.get('/customer/:customerId',    customer.edit);
-// app.get('/customer',                customer.create);
-app.post('/customer/:customerId?',  customer.post);
-
-// app.get('/settings',    reset.get);
-app.post('/reset',    reset.post);
-
-// http://maxlapides.com/forcing-browsers-print-backgrounds/
-app.get('/print/:fakeId', print.get);
 
 //////
 // ERROR HANDLING
