@@ -1,4 +1,4 @@
-import React    from 'React';
+import React    from 'react';
 import omit     from 'lodash.omit';
 
 var Floating = React.createClass({

@@ -1,13 +1,7 @@
 'use strict';
 
 import {db}           from '../db';
-import Reset          from '../views/reset.jsx';
 
-function get(req, res, next) {
-  return res.render('_layout', {
-    dom: render(Reset),
-  });
-}
 
 function post(req, res, next) {
   db.view('general', 'deleteAll', getAllDone);
@@ -27,6 +21,5 @@ function post(req, res, next) {
 }
 
 module.exports = {
-  get:  get,
   post: post,
 };

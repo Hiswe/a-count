@@ -39,7 +39,11 @@ var npmLibs       = [
   // 'epiceditor/src/editor',
   // 'marked',
   'react',
+  'react-dom',
   'react-router',
+  'lodash.omit',
+  'moment',
+  'marked',
 ];
 
 gulp.task('js-lib', function () {
@@ -50,7 +54,7 @@ gulp.task('js-lib', function () {
   });
 
   npmLibs.forEach(function(lib) {
-      b.require(lib);
+    b.require(lib);
   });
 
   b.transform(envify({
@@ -72,22 +76,27 @@ gulp.task('js-app', function () {
     cache:        {},
     packageCache: {},
     debug:        isDev,
+    extensions:   ['.js', '.jsx'],
     entries:      ['./js/index.js']
   })
   .external(npmLibs)
-  // .transform(envify({
-  //   _: 'purge',
-  //   NODE_ENV: isDev ? 'development' : 'production',
-  //   LOG: isDev,
-  // }))
   .transform(babelify, {
     presets: ['es2015', 'react'],
     // plugins: ['transform-object-assign'],
   })
 
+  // .transform(envify({
+  //   _: 'purge',
+  //   NODE_ENV: isDev ? 'development' : 'production',
+  //   LOG: isDev,
+  // }))
+
+
   if (isDev) {
+    $.util.log('init watchify');
     b = watchify(b);
     b.on('update', function () {
+      $.util.log('update bundle');
       bundleShare(b);
     });
   }
@@ -106,8 +115,8 @@ function bundleShare(b) {
     })
     .pipe(source('concompte.js'))
     .pipe(vinylBuffer())
-    .pipe($.sourcemaps.init({loadMaps: true}))
-    .pipe($.sourcemaps.write('.'))
+    // .pipe($.sourcemaps.init({loadMaps: true}))
+    // .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest('./public'))
 }
 

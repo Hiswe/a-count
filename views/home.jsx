@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 
 import QuotationList  from './quotation-list.jsx';
 import InvoiceList    from './invoice-list.jsx';

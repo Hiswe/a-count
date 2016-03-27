@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 
 import InvoiceList from './invoice-list.jsx';
 

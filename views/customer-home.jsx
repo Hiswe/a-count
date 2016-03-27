@@ -1,8 +1,8 @@
-import React    from 'React';
+import React    from 'react';
 
 import Layout   from './_layout.jsx'
 import {marked} from './_format'
-import {Empty}  from './_utils';
+import {Empty}  from './_utils.jsx';
 
 var CustomerRow = React.createClass({
   render: function () {

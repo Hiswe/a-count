@@ -1,6 +1,6 @@
 import React              from 'react'
 import {
-  Router, Route,
+  Route,
   IndexRoute, Redirect }  from 'react-router'
 
 import Layout         from '../views/_layout.jsx'

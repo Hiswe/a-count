@@ -1,8 +1,8 @@
-import React        from 'React';
+import React        from 'react';
 
-import {Input}                      from './form';
+import {Input}                      from './form.jsx';
 import {formatDate, id as formatId} from './_format';
-import {Amount}                     from './_utils';
+import {Amount}                     from './_utils.jsx';
 
 ////////
 // META INFORMATIONS (top of form)

@@ -1,7 +1,7 @@
-import React          from 'React';
+import React          from 'react';
 
 import {formatStatus, id as formatId} from './_format';
-import {Empty}        from './_utils';
+import {Empty}        from './_utils.jsx';
 
 //----- THEAD
 
