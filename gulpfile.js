@@ -4,14 +4,11 @@ var gulp          = require('gulp');
 var $             = require('gulp-load-plugins')();
 var browserSync   = require('browser-sync');
 var run           = require('run-sequence');
-
+var args          = require('yargs').argv;
+// var isDev         = args.dev != null;
+var isDev         = args.prod !== true;
 var jsBasedir     = __dirname + '/js';
-var npmLibs       = [
-  'jquery',
-  'autosize',
-  'epiceditor/src/editor',
-  'marked',
-];
+
 
 function onError(err) {
   $.util.beep();
@@ -26,6 +23,8 @@ function onError(err) {
 
 var browserify    = require('browserify');
 var babelify      = require('babelify');
+var watchify      = require('watchify');
+var envify        = require('envify');
 var jadeify       = require('jadeify');
 var source        = require('vinyl-source-stream');
 var vinylBuffer   = require('vinyl-buffer');
@@ -34,15 +33,30 @@ var vinylBuffer   = require('vinyl-buffer');
 
 //----- LIBRARIES
 
+var npmLibs       = [
+  // 'jquery',
+  // 'autosize',
+  // 'epiceditor/src/editor',
+  // 'marked',
+  'react',
+  'react-router',
+];
+
 gulp.task('js-lib', function () {
   var b = browserify({
     debug: true,
-    noParse: npmLibs,
+    // need to parse for envify
+    // noParse: npmLibs,
   });
 
   npmLibs.forEach(function(lib) {
       b.require(lib);
   });
+
+  b.transform(envify({
+    _: 'purge',
+    NODE_ENV: isDev ? 'development' : 'production',
+  }))
 
   return b
     .bundle()
@@ -53,33 +67,30 @@ gulp.task('js-lib', function () {
 //----- FRONT APPLICATION
 
 gulp.task('js-app', function () {
+
   var b = browserify({
-    cache: {},
+    cache:        {},
     packageCache: {},
-    fullPaths: true,
-    extensions: ['.js'],
-    paths: ['./node_modules','./js/'],
-    debug: true
-  });
-  b.transform(babelify.configure({optional: ['runtime'] }));
-  // can't compile mixins
-  // https://github.com/jadejs/jade/issues/1950
-  b.transform(jadeify, { compileDebug: true, pretty: true });
+    debug:        isDev,
+    entries:      ['./js/index.js']
+  })
+  .external(npmLibs)
+  // .transform(envify({
+  //   _: 'purge',
+  //   NODE_ENV: isDev ? 'development' : 'production',
+  //   LOG: isDev,
+  // }))
+  .transform(babelify, {
+    presets: ['es2015', 'react'],
+    // plugins: ['transform-object-assign'],
+  })
 
-  npmLibs.forEach(function(lib) {
-    b.external(lib);
-  });
-
-  // // TODO use node_env instead of "global.buildNoWatch"
-  // if ( !global.buildNoWatch ) {
-  //     b = watchify(b);
-  //     b.on('update', function() {
-  //         gutil.log("Watchify detected change -> Rebuilding bundle");
-  //         return bundleShare(b);
-  //     });
-  // }
-
-  b.require('index.js', {expose: 'concompte'});
+  if (isDev) {
+    b = watchify(b);
+    b.on('update', function () {
+      bundleShare(b);
+    });
+  }
 
   return bundleShare(b);
 
@@ -98,8 +109,6 @@ function bundleShare(b) {
     .pipe($.sourcemaps.init({loadMaps: true}))
     .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest('./public'))
-    // // TODO use node_env instead of "global.buildNoWatch"
-    // .pipe(gulpif(!global.buildNoWatch, livereload()));
 }
 
 gulp.task('js', ['js-lib', 'js-app']);
@@ -151,7 +160,7 @@ gulp.task('css', function () {
 // DEV
 ////////
 
-gulp.task('dev', function () {
+gulp.task('dev', ['js'], function () {
   gulp.watch([
     'js/**/*.js',
     'shared/*.js',
@@ -173,7 +182,6 @@ var init = true;
 gulp.task('nodemon', ['dev'], function (cb) {
   return $.nodemon({
     script: 'index.js',
-    // nodeArgs: ['--harmony_modules'],
     ext: 'js json jsx',
     watch: ['server.js', 'index.js',  'shared/**/*', 'server/**/*', 'db/**/*', 'views/**/*'],
     env:    { 'NODE_ENV': 'development' }

@@ -1,11 +1,14 @@
-import $              from 'jquery';
+import React          from 'react';
+// import $              from 'jquery';
 // import floatingLabel  from 'floating-label'
 
-import products       from './products.js';
-import floatingLabel  from './floating-label.js';
+console.log('hello world');
+// import products       from './products.js';
+// import floatingLabel  from './floating-label.js';
 
-global.jQuery = $;
-global.$      = $;
+
+// global.jQuery = $;
+// global.$      = $;
 
 // floatingLabel.init({
 //   floatingClassName: 'is-floating',
@@ -16,4 +19,4 @@ global.$      = $;
 
 // only init floating labels for now
 // Products should be managed by react
-floatingLabel();
+// floatingLabel();
