@@ -85,17 +85,12 @@ var InvoiceTable = React.createClass({
 });
 
 var InvoiceList = React.createClass({
-  static: {
+  statics: {
     load: '/api/invoices',
   },
   render: function() {
     let hasInvoices = this.props.invoices && this.props.invoices.length;
-    return (
-      <section>
-        <h1>invoices</h1>
-        {hasInvoices ? <InvoiceTable {...this.props} /> : <Empty />}
-      </section>
-    );
+    return hasInvoices ? <InvoiceTable {...this.props} /> : <Empty />
   }
 });
 

@@ -17,7 +17,10 @@ var Home = React.createClass({
           </h1>
           <QuotationList quotations={this.props.quotations} />
         </section>
-        <InvoiceList invoices={this.props.invoices} />
+        <section>
+          <h1>invoices</h1>
+          <InvoiceList invoices={this.props.invoices} />
+        </section>
       </div>
     );
   }

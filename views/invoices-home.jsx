@@ -1,19 +1,18 @@
 import React from 'React';
 
-import QuotationsList from './quotation-list.jsx';
+import InvoiceList from './invoice-list.jsx';
 
 var QuotationsHome = React.createClass({
   statics: {
-    load: '/api/quotations',
+    load: '/api/invoices',
   },
   render: function() {
     return (
       <div>
         <h1>
-          Quotations
-          <a href="/quotation" className="btn-fab">+</a>
+          Invoices
         </h1>
-        <QuotationsList {...this.props} />
+        <InvoiceList {...this.props} />
       </div>
     );
   }

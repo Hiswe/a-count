@@ -1,6 +1,5 @@
 import React        from 'React';
 
-import Layout                       from './_layout.jsx';
 import {Input}                      from './form';
 import {formatDate, id as formatId} from './_format';
 import {Amount}                     from './_utils';
@@ -132,48 +131,42 @@ var Listing       = React.createClass({
 
 var InvoiceActions = React.createClass({
   render: function () {
-    let hasId         = this.props.id != null;
-    let convertRoute  = `/invoice/convert-to-invoice/${this.props.id}`;
-    let newQuot       = <a key="action-newQuot" href="/invoice" className="btn-fab">+</a>;
-    let convert       = <button key="action-convert" className="btn-secondary" formAction={convertRoute} formMethod="post">Convert to invoice</button>;
     return (
       <div className="action">
-        <button className="btn" type="submit" name="convertToInvoice" value="false">
-          {hasId ? 'Update invoice' : 'Create invoice'}
-        </button>
-        {hasId ? ['\u00A0', newQuot, '\u00A0', convert] : null}
+        <button className="btn" type="submit">Update invoice</button>
+        <a key="action-newQuot" href="/invoice" className="btn-fab">+</a>
       </div>
     );
   }
 });
 
 var InvoiceForm = React.createClass({
+  statics: {
+    load: '/api/invoice/:fakeId',
+  },
   render: function () {
-    console.log(this.props.invoice);
     let invoice     = this.props.invoice;
-    let isNew       = invoice._id == null;
     let fakeId      = formatId('invoice', invoice);
-    let formAction  = isNew   ? '/invoice' : `/invoice/${fakeId}`;
-    let print       = <a key="print" href={`/print/${fakeId }`} className="btn">Print</a>;
+    let formAction  = `/invoice/${fakeId}`;
 
     return (
-      <Layout>
+      <div>
         <header>
           <h1>
             {'Invoice\u00A0'}
             <span className="id">{fakeId}</span>
           </h1>
-          {isNew ? null : print}
+          <a key="print" href={`/print/${fakeId }`} className="btn">Print</a>
         </header>
         <form action={formAction} method="post">
           <input type="hidden" value={invoice.index.invoice} name="index[invoice]" />
           <input type="hidden" value={invoice.time.created} name="time[created]" />
-          {isNew ? null : <input type="hidden" value={invoice._id} name="_id" /> }
-          {isNew ? null : <input type="hidden" value={fakeId} name="fakeId" /> }
+          <input type="hidden" value={invoice._id} name="_id" />
+          <input type="hidden" value={fakeId} name="fakeId" />
           <div className="row">
             <fieldset className="cell-2-3 card">
               <Input name="customer" value={invoice.customer} readOnly />
-              {isNew ? null : <Status {...invoice.time} />}
+              <Status {...invoice.time} />
             </fieldset>
             <fieldset className="cell-1-3 card">
               <Input name="tax" type="number" step="any" value={invoice.tax} />
@@ -194,7 +187,7 @@ var InvoiceForm = React.createClass({
           </fieldset>
           <InvoiceActions id={invoice._id} />
         </form>
-      </Layout>
+      </div>
     );
   },
 });
