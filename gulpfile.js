@@ -44,6 +44,8 @@ var npmLibs       = [
   'lodash.omit',
   'moment',
   'marked',
+  'redux',
+  'react-redux',
 ];
 
 gulp.task('js-lib', function () {

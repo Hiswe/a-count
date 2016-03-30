@@ -1,31 +1,23 @@
-import React          from 'react'
-import { render }     from 'react-dom'
-import { Router, Route, Link, browserHistory } from 'react-router'
-import routes         from '../shared/routes.jsx'
-// import $              from 'jquery';
-// import floatingLabel  from 'floating-label'
+import React                      from 'react'
+import { render }                 from 'react-dom'
+import { Router, browserHistory } from 'react-router'
 
-console.log('hello world');
+import { createStore }            from 'redux'
+import { Provider }               from 'react-redux'
+import reducer                    from '../shared/redux-reducers'
 
-// render((
-//   <Router history={browserHistory}>
-//     {routes}
-//   </Router>
-// ), document.body);
-// import products       from './products.js';
-// import floatingLabel  from './floating-label.js';
+import routes         from '../shared/react-routes.jsx'
+
+const $root         = document.querySelector('#react-main-mount')
+const initialState  = window.__INITIAL_STATE__ || {}
+const store         = createStore(reducer, initialState)
+console.log(initialState)
 
 
-// global.jQuery = $;
-// global.$      = $;
-
-// floatingLabel.init({
-//   floatingClassName: 'is-floating',
-//   delegateEvents: true,
-// });
-
-// products();
-
-// only init floating labels for now
-// Products should be managed by react
-// floatingLabel();
+render((
+  <Provider store={store}>
+    <Router history={browserHistory}>
+      {routes}
+    </Router>
+  </Provider>
+), $root)
