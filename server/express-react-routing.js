@@ -7,43 +7,37 @@ import {
 // Redux
 import { createStore }      from 'redux'
 import { Provider }         from 'react-redux'
-import {
-  normalize,
-  Schema,
-  arrayOf }                 from 'normalizr'
 
+
+import { getInitialState }  from '../db'
 import routes               from '../shared/react-routes'
 import reducer              from '../shared/redux-reducers'
-
-// https://github.com/gaearon/normalizr
-const quotation = new Schema('quotation')
-
-let initialState = {quotations: [
-  {id: 13, name: 'pouic'},
-  {id: 25, name: 'clapou'},
-]}
-
-initialState = normalize(initialState, {
-  quotations: arrayOf(quotation)
-})
+// import { setFakeId }        from '../shared/_format'
 
 function reactRoutingMiddleware(req, res, next) {
   const location  = req.url;
-  const store     = createStore(reducer, initialState);
+
   match({routes, location }, function (error, redirectLocation, renderProps) {
     if (error) return next(err)
     if (redirectLocation) {
       return res.redirect(redirectLocation.pathname + redirectLocation.search)
     }
     if (!renderProps) return next()
-    return res.render('_layout', {
-      dom: renderToString(
-        <Provider store={store}>
-          <RouterContext {...renderProps} />
-        </Provider>
-      ),
-      initialState
-    });
+    getInitialState()
+      .then( initialState => {
+        // Redux store init!
+        const store     = createStore(reducer, initialState);
+        return res.render('_layout', {
+          dom: renderToString(
+            <Provider store={store}>
+              <RouterContext {...renderProps} />
+            </Provider>
+          ),
+          // send initial state for front app initialization
+          initialState
+        })
+      })
+      .catch(next)
   });
 }
 

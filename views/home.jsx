@@ -29,7 +29,7 @@ import InvoiceList    from './invoice-list.jsx';
 // });
 
 function mapStateToProp(state) {
-  // console.log(state);
+  if (!state.result || !state.result.quotations) return {ids: []}
   return {
     ids: state.result.quotations,
   }

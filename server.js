@@ -21,7 +21,7 @@ var customer        = require('./server/customer');
 var reset           = require('./server/reset');
 var print           = require('./server/print');
 
-import reactRoutingMiddleware from './server/handleReactRouting';
+import reactRoutingMiddleware from './server/express-react-routing';
 
 //////
 // SERVER CONFIG
@@ -84,11 +84,12 @@ app.use(morgan(logResponse));
 //////
 
 var database    = require('./db');
+import {db} from './db/index'
 let dbStatus    = true;
 database
   .setup()
   .then(function () {
-    console.log(chalk.green('db setup is done'))
+    console.log(chalk.green('db setup is done'));
   })
   .catch(function (err) {
     console.log(chalk.red('db setup FAIL'));
@@ -130,7 +131,7 @@ function buildApiUrl(req, route, params) {
 
 import api from './server/api';
 
-app.use('/api', api);
+app.use('/api/v1', api);
 
 //----- NO-JS BACKUP
 

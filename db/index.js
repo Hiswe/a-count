@@ -1,9 +1,13 @@
 'use strict';
 
-var chalk = require('chalk');
-var host  = 'http://admin:admin@localhost:5984';
-var nano  = require('nano')(host);
-var db    = nano.use('concompte');
+var chalk         = require('chalk');
+var host          = 'http://admin:admin@localhost:5984';
+var nano          = require('nano')(host);
+export const db   = nano.use('concompte');
+
+import { normalize, Schema, arrayOf } from 'normalizr'
+
+import { setFakeId }        from '../shared/_format'
 
 //////
 // DB SETUP FUNCTION
@@ -43,6 +47,8 @@ function setupDesignDocuments() {
   ]);
 }
 
+export {setupDesignDocuments as setup}
+
 //////
 // PROMISE SHORTCUT
 //////
@@ -51,7 +57,7 @@ const viewDefaultParams = {
   include_docs: true,
   reduce: false
 };
-function view(designname, viewname, params = {}) {
+export function view(designname, viewname, params = {}) {
   params = Object.assign({}, viewDefaultParams, params);
   // take care of query_parse_error
   // Reduce should invalidate include_docs?
@@ -72,7 +78,7 @@ function view(designname, viewname, params = {}) {
   });
 }
 
-function get(name) {
+export function get(name) {
   return new Promise(function (resolve, reject) {
     db.get(name, function (err, body) {
       if (err) return reject(err);
@@ -81,7 +87,9 @@ function get(name) {
   });
 }
 
-function atomic(designname, updatename, docname, body) {
+export {get as dbGet}
+
+ export function atomic(designname, updatename, docname, body) {
   return new Promise(function (resolve, reject) {
     db.atomic(designname, updatename, docname, body, function (err, body) {
       if (err) return reject(err);
@@ -90,15 +98,34 @@ function atomic(designname, updatename, docname, body) {
   });
 }
 
+export function viewWithList(designname, viewname, listname, params = {}) {
+  return new Promise( (resolve, reject ) => {
+    db.viewWithList(designname, viewname, listname, params, (err, body) => {
+      if (err) return reject(err)
+      return resolve(body)
+    })
+  })
+}
+
 //////
-// EXPORTS
+// “GLOBAL” METHOD
 //////
 
-module.exports = {
-  db,
-  setup:  setupDesignDocuments,
-  view,
-  atomic,
-  get,
-  dbGet: get,
-};
+const quotations = new Schema('quotations', { idAttribute:  'id' })
+const invoices   = new Schema('invoices', { idAttribute:    'id' })
+const customers  = new Schema('customers', { idAttribute: '_id' })
+
+export function getInitialState() {
+  return viewWithList('general', 'getAll', 'getState')
+    .then( initialState => {
+      // we don't want raw index to appear on window.__initialState__
+      initialState.quotations = initialState.quotations.map(setFakeId)
+      initialState.invoices   = initialState.invoices.map(setFakeId)
+      // normalize datas for better handling with Redux
+      return Promise.resolve(normalize(initialState, {
+        quotations: arrayOf(quotations),
+        invoices:   arrayOf(invoices),
+        customers:  arrayOf(customers),
+      }))
+    })
+}
