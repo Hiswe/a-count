@@ -80,4 +80,4 @@ const Home = () => (
 
 // export default connect()(Home)
 
-export {Home as default};
+export { Home as default }

@@ -87,5 +87,4 @@ let InvoiceList = (props) => (
 
 InvoiceList = connect(mapStateToPropIL)(InvoiceList)
 
-
 export {InvoiceList as default};

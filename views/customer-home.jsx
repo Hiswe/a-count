@@ -1,59 +1,27 @@
-import React    from 'react';
+import React              from 'react'
+import { connect }        from 'react-redux'
 
-import Layout   from './_layout.jsx'
-import {marked} from './_format'
-import {Empty}  from './_utils.jsx';
+import { Empty }          from './_utils.jsx'
+import CustomerTable      from './customer-list.jsx'
 
-var CustomerRow = React.createClass({
-  render: function () {
-    let url      = `/customer/${this.props.customer._id}`;
-    let address  = { __html: marked(this.props.customer.address)};
-    return (
-      <tr>
-        <td>
-          <a href={url}>#{this.props.customer.name}</a>
-        </td>
-        <td dangerouslySetInnerHTML={address} />
-      </tr>
-    );
+function mapStateToProp(state) {
+  let hasCustomers = state.result && state.result.customers
+  hasCustomers     = hasCustomers && state.result.customers.length
+  return {
+    hasCustomers
   }
-});
+}
 
-var CustomerTable = React.createClass({
-  render: function () {
-    let body = this.props.customers.map( (c, i) => ( <CustomerRow key={i} customer={c} /> ) )
-    return (
-      <table className="table-pres" cellSpacing="0">
-        <thead>
-          <tr>
-            <th>name</th>
-            <th>address</th>
-          </tr>
-        </thead>
-        <tbody>
-          {body}
-        </tbody>
-      </table>
-    );
-  }
-});
+let CustomerHome = (props) => (
+  <div>
+    <h1>
+      Customers
+      <a href="/customer" className="btn-fab">+</a>
+    </h1>
+    {props.hasCustomers ? <CustomerTable /> : <Empty />}
+  </div>
+)
 
-var CustomerList = React.createClass({
-  statics: {
-    load: '/api/customers',
-  },
-  render: function() {
-    let hasCustomer = this.props.customers && this.props.customers.length;
-    return (
-      <div>
-        <h1>
-          Customers
-          <a href="/customer" className="btn-fab">+</a>
-        </h1>
-        {hasCustomer ? <CustomerTable {...this.props} /> : <Empty />}
-      </div>
-    );
-  }
-});
+CustomerHome = connect(mapStateToProp)(CustomerHome)
 
-export {CustomerList as default};
+export { CustomerHome as default }
