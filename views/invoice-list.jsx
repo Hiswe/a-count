@@ -1,97 +1,91 @@
 import React          from 'react';
+import { connect }    from 'react-redux'
 
 import {formatStatus, id as formatId} from './_format';
 import {Empty}        from './_utils.jsx';
 
 //----- THEAD
 
-var InvoiceHeader = React.createClass({
-  render: function () {
-    return (
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>title</th>
-          <th>customer</th>
-          <th>status</th>
-          <th>total HT</th>
-        </tr>
-      </thead>
-    );
-  }
-});
+const InvoiceHeader = () => (
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>title</th>
+      <th>customer</th>
+      <th>status</th>
+      <th>total HT</th>
+    </tr>
+  </thead>
+)
 
 //----- TBODY
 
-var InvoiceStatus = React.createClass({
-  render: function () {
-    return (
+const InvoiceStatus = (props) => (
+  <td>
+    {props.status.message}
+    <p>{props.status.date}</p>
+  </td>
+)
+
+
+const Row = function (props) {
+  let invoice = props.invoice
+  let status  = formatStatus(invoice.time)
+  return (
+    <tr>
       <td>
-        {this.props.status.message}
-        <p>{this.props.status.date}</p>
+        <a href={`/invoice/${invoice.id}`}>{invoice.id}</a>
       </td>
-    );
-  }
-});
-var EmptyInvoiceStatus = React.createClass({
-  render: function () {
-    return (
-      <td>-</td>
-    );
-  }
-});
+      <td>{invoice.title}</td>
+      <td>{invoice.customer}</td>
+      {status.date ? <InvoiceStatus status={status} /> : <td>-</td>}
+      <td>€ {invoice.price.net}</td>
+    </tr>
+  )
+}
 
-var Row = React.createClass({
-  render: function () {
-    let fakeId  = formatId('invoice', this.props.data);
-    let url     = `/invoice/${fakeId}`;
-    let status  = formatStatus(this.props.data.time);
-    return (
-      <tr>
-        <td>
-          <a href={url}>{fakeId}</a>
-        </td>
-        <td>{this.props.data.title}</td>
-        <td>{this.props.data.customer}</td>
-        {status.date ? <InvoiceStatus status={status} /> : <td>-</td>}
-        <td>€ {this.props.data.price.net}</td>
-      </tr>
-    );
+function mapStateToPropIB(state) {
+  return {
+    ids:      state.result.invoices,
+    invoices: state.entities.invoices,
   }
-});
+}
 
-var InvoiceBody = React.createClass({
-  render: function () {
-    let Line = this.props.data.map((invoice, i) => <Row key={`invoice-${i}`} data={invoice} /> );
-    return (
-      <tbody>
-        {Line}
-      </tbody>
-    );
-  }
-})
+let InvoiceBody = function (props) {
+  let invoicesLine = props.ids.map((id, i) => (
+    <Row key={id} invoice={props.invoices[id]} />
+  ))
+  return (
+    <tbody>
+      {invoicesLine}
+    </tbody>
+  )
+}
+
+InvoiceBody = connect(mapStateToPropIB)(InvoiceBody)
 
 //----- ALL
 
-var InvoiceTable = React.createClass({
-  render: function() {
-    return (
-      <table className="table-pres" cellSpacing="0">
-        <InvoiceHeader />
-        <InvoiceBody data={this.props.invoices} />
-      </table>
-    );
-  }
-});
+const InvoiceTable = () => (
+  <table className="table-pres" cellSpacing="0">
+    <InvoiceHeader />
+    <InvoiceBody />
+  </table>
+)
 
-var InvoiceList = React.createClass({
-  statics: {
-    load: '/api/invoices',
-  },
-  render: function() {
-    let hasInvoices = this.props.invoices && this.props.invoices.length;
-    return hasInvoices ? <InvoiceTable {...this.props} /> : <Empty />
+function mapStateToPropIL(state) {
+  let hasInvoices = state.result && state.result.invoices
+  hasInvoices     = hasInvoices && state.result.invoices.length
+  return {
+    hasInvoices
   }
-});
+}
+
+let InvoiceList = (props) => (
+  props.hasInvoices ? <InvoiceTable /> : <Empty />
+)
+
+InvoiceList = connect(mapStateToPropIL)(InvoiceList)
+
 
 export {InvoiceList as default};

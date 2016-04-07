@@ -39,11 +39,10 @@ const QuotationRow = function (props) {
       <td><a href={`/quotation/${quotation.id}`}>{quotation.id}</a></td>
       <td>{quotation.title}</td>
       <td>{quotation.customer}</td>
-      {status.date ? <td>pouic</td> : <td>-</td>}
+      {status.date ? <QuotationStatus status={status} /> : <td>-</td>}
       <td>€ {quotation.price.net}</td>
     </tr>
   )
-
 }
 
 function mapStateToPropQB(state) {
