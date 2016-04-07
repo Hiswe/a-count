@@ -1,12 +1,8 @@
 import React from 'react';
 
-var Empty = React.createClass({
-  render: function () {
-    return (
-      <p>none (yet)</p>
-    );
-  }
-});
+const Empty = () => (
+  <p>none (yet)</p>
+)
 
 var Amount         = React.createClass({
   render: function () {

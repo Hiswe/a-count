@@ -1,25 +1,22 @@
-import React          from 'react';
+import React          from 'react'
+import { connect }    from 'react-redux'
 
 import {formatStatus, id as formatId} from './_format';
 import {Empty}        from './_utils.jsx';
 
 //----- THEAD
 
-var QuotationHeader = React.createClass({
-  render: function () {
-    return (
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>title</th>
-          <th>customer</th>
-          <th>status</th>
-          <th>total HT</th>
-        </tr>
-      </thead>
-    );
-  }
-});
+const QuotationHeader = () => (
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>title</th>
+      <th>customer</th>
+      <th>status</th>
+      <th>total HT</th>
+    </tr>
+  </thead>
+)
 
 //----- TBODY
 
@@ -34,54 +31,63 @@ var QuotationStatus = React.createClass({
   }
 });
 
-var QuotationRow = React.createClass({
-  render: function () {
-    let fakeId  = formatId('quotation', this.props.data);
-    let url     = `/quotation/${fakeId}`;
-    let status  = formatStatus(this.props.data.time);
-    return (
-      <tr>
-        <td>
-          <a href={url}>{fakeId}</a>
-        </td>
-        <td>{this.props.data.title}</td>
-        <td>{this.props.data.customer}</td>
-        {status.date ? <QuotationStatus status={status} /> : <td>-</td>}
-        <td>€ {this.props.data.price.net}</td>
-      </tr>
-    );
-  }
-});
+const QuotationRow = function (props) {
+  let quotation = props.quotation
+  let status    = formatStatus(quotation.time)
+  return (
+    <tr>
+      <td><a href={`/quotation/${quotation.id}`}>{quotation.id}</a></td>
+      <td>{quotation.title}</td>
+      <td>{quotation.customer}</td>
+      {status.date ? <td>pouic</td> : <td>-</td>}
+      <td>€ {quotation.price.net}</td>
+    </tr>
+  )
 
-var QuotationBody = React.createClass({
-  render: function () {
-    let quotationLines = this.props.data.map( (quotation, i) => <QuotationRow key={`quot-${i}`} data={quotation} /> );
-    return (
-      <tbody>
-        {quotationLines}
-      </tbody>
-    );
+}
+
+function mapStateToPropQB(state) {
+  return {
+    ids:        state.result.quotations,
+    quotations: state.entities.quotations,
   }
-})
+}
+
+let QuotationBody = function (props) {
+  let quotationLines = props.ids.map( (id, i) => (
+    <QuotationRow key={id} quotation={props.quotations[id]} />
+  ))
+
+  return (
+    <tbody>
+      {quotationLines}
+    </tbody>
+  )
+}
+
+QuotationBody = connect(mapStateToPropQB)(QuotationBody)
 
 //----- ALL
 
-var QuotationTable = React.createClass({
-  render: function() {
-    return (
-      <table className="table-pres" cellSpacing="0">
-        <QuotationHeader />
-        <QuotationBody data={this.props.quotations} />
-      </table>
-    );
-  }
-});
+const QuotationTable = () => (
+  <table className="table-pres" cellSpacing="0">
+    <QuotationHeader />
+    <QuotationBody />
+  </table>
+)
 
-var QuotationList = React.createClass({
-  render: function() {
-    let hasQuotations = this.props.quotations && this.props.quotations.length;
-    return hasQuotations ? <QuotationTable {...this.props} /> : <Empty />
+function mapStateToPropQL(state) {
+  let hasQuotations = state.result && state.result.quotations
+  hasQuotations     = hasQuotations && state.result.quotations.length
+  return {
+    hasQuotations
   }
-});
+}
+
+let QuotationList = (props) => (
+  props.hasQuotations ? <QuotationTable /> : <Empty />
+)
+
+QuotationList = connect(mapStateToPropQL)(QuotationList)
 
 export {QuotationList as default};
