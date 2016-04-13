@@ -1,5 +1,6 @@
 import React          from 'react'
 import { connect }    from 'react-redux'
+import { Link }       from 'react-router'
 
 import {formatStatus, id as formatId} from './_format';
 import {Empty}        from './_utils.jsx';

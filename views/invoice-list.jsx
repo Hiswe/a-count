@@ -1,8 +1,9 @@
-import React          from 'react';
+import React          from 'react'
 import { connect }    from 'react-redux'
+import { Link }       from 'react-router'
 
-import {formatStatus, id as formatId} from './_format';
-import {Empty}        from './_utils.jsx';
+import {formatStatus, id as formatId} from './_format'
+import {Empty}        from './_utils.jsx'
 
 //----- THEAD
 
@@ -34,7 +35,7 @@ const Row = function (props) {
   return (
     <tr>
       <td>
-        <a href={`/invoice/${invoice.id}`}>{invoice.id}</a>
+        <Link to={`/invoice/${invoice.id}`}>{invoice.id}</Link>
       </td>
       <td>{invoice.title}</td>
       <td>{invoice.customer}</td>

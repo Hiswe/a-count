@@ -1,5 +1,6 @@
 import React        from 'react'
 import { connect }  from 'react-redux'
+import { Link }     from 'react-router'
 
 import QuotationList  from './quotation-list.jsx'
 import InvoiceList    from './invoice-list.jsx'
@@ -33,7 +34,7 @@ const Home = () => (
     <h1>Home</h1>
     <section>
       <h1>quotations
-      <a href="/quotation" className="btn-circular">+</a>
+      <Link to="/quotation" className="btn-circular">+</Link>
       </h1>
       <QuotationList />
     </section>
