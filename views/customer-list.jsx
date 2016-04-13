@@ -1,4 +1,5 @@
 import React        from 'react'
+import { Link }     from 'react-router'
 import { connect }  from 'react-redux'
 
 import { marked }   from './_format'
@@ -10,7 +11,7 @@ const CustomerRow = function (props) {
   return (
     <tr>
       <td>
-        <a href={url}>#{customer.name}</a>
+        <Link to={url}>#{customer.name}</Link>
       </td>
       <td dangerouslySetInnerHTML={address} />
     </tr>

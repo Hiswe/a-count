@@ -1,5 +1,6 @@
 import React              from 'react'
 import { connect }        from 'react-redux'
+import { Link }           from 'react-router'
 
 import { Empty }          from './_utils.jsx'
 import CustomerTable      from './customer-list.jsx'
@@ -16,7 +17,7 @@ let CustomerHome = (props) => (
   <div>
     <h1>
       Customers
-      <a href="/customer" className="btn-fab">+</a>
+      <Link to="/customer" className="btn-fab">+</Link>
     </h1>
     {props.hasCustomers ? <CustomerTable /> : <Empty />}
   </div>

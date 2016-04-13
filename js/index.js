@@ -20,12 +20,12 @@ const initialState      = window.__INITIAL_STATE__ || {}
 const loggerMiddleware  = createLogger()
 const store             = createStore(reducer, initialState, applyMiddleware(loggerMiddleware))
 
-console.log(initialState)
+// console.log(initialState)
 
 render((
   <Provider store={store}>
     <Router history={browserHistory}>
-      {routes}
+      {routes(store)}
     </Router>
   </Provider>
 ), $root)

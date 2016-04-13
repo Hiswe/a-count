@@ -19,20 +19,43 @@ import Settings       from '../views/settings.jsx'
 import _404           from '../views/404.jsx'
 // <Redirect from="invoices" to="/" />
 
-export default (
-  <Route path="/" component={Layout}>
-    <IndexRoute component={Home} />
+function provideRouter(store) {
 
-    <Route path="quotations" component={QuotationHome} />
-    <Route path="quotation(/:fakeId)" component={QuotationForm} />
+  function onEnter(type) {
+    const paramName = type === 'customers' ? 'customerId' : 'fakeId';
 
-    <Route path="invoices" component={InvoiceHome} />
-    <Route path="invoice/:fakeId" component={InvoiceForm} />
+    return function (nextState, replace) {
+      const state       = store.getState()
+      const hasParam    = nextState.params[paramName] != null
+      const isUnvalidId = state.result[type].indexOf(nextState.params[paramName]) < 0
+      if (hasParam && isUnvalidId) return replace('/404')
+    }
+  }
 
-    <Route path="customers" component={CustomerHome} />
-    <Route path="customer(/:customerId)" component={CustomerForm} />
+  // function onEnterCustomer(nextState, replace) {
+  //   let state           = store.getState()
+  //   let { customerId }  = nextState.params
+  //   if (state.result.customers.indexOf(customerId) < 0) return replace('/404')
+  // }
 
-    <Route path="settings" component={Settings} />
-    <Route path="*" component={_404} />
-  </Route>
-);
+  return (
+    <Route path="/" component={Layout}>
+      <IndexRoute component={Home} />
+
+      <Route path="quotations" component={QuotationHome} />
+      <Route path="quotation(/:fakeId)" component={QuotationForm} onEnter={onEnter('quotations')} />
+
+      <Route path="invoices" component={InvoiceHome} />
+      <Route path="invoice/:fakeId" component={InvoiceForm} onEnter={onEnter('invoices')} />
+
+      <Route path="customers" component={CustomerHome} />
+      <Route path="customer(/:customerId)" component={CustomerForm} onEnter={onEnter('customers')} />
+
+      <Route path="settings" component={Settings} />
+      <Route path="404" component={_404} />
+      <Route path="*" component={_404} />
+    </Route>
+  )
+}
+
+export { provideRouter as default }
