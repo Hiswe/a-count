@@ -1,41 +1,17 @@
-import React        from 'react';
+import React        from 'react'
+import { connect }  from 'react-redux'
+import { Link }     from 'react-router'
 
 import {Input}                      from './form.jsx';
 import {formatDate, id as formatId} from './_format';
-import {Amount}                     from './_utils.jsx';
-
-////////
-// META INFORMATIONS (top of form)
-////////
-
-var StatusLine    = React.createClass({
-  render: function () {
-    let id        = this.props.name;
-    let name      = `status[${id}]`;
-    let isChecked = this.props.value !== false;
-
-    return (
-      <div className="cell-1-4">
-        <Input id={id} name={name} type="checkbox" checked={isChecked} disabled={isChecked} />
-        <div>{formatDate(this.props.value)}</div>
-      </div>
-    );
-  },
-});
-
-var Status        = React.createClass({
-  render: function () {
-    // done is for when work is finished
-    let steps     = ['send', 'validated', 'signed', 'done']
-    let checkbox  = steps.map((s, i) => <StatusLine key={`status-${i}`} name={s} value={this.props[s]} />);
-
-    return (
-      <div className="row">
-        {checkbox}
-      </div>
-    );
-  }
-});
+import {
+  Amount,
+  getInformationsFromFakeId,
+} from './_utils.jsx'
+import {
+  PrintBtn,
+  Meta,
+} from './business-form-meta.jsx'
 
 ////////
 // LISTING BLOCK
@@ -125,96 +101,125 @@ var Listing       = React.createClass({
   },
 });
 
-var Customer      = React.createClass({
-  render: function () {
-    let hasCustomer = this.props.list != null;
-    if (!hasCustomer) return <p>not customers founded</p>;
-    let customers   = this.props.list.map( (c, i) => <option key={i} value={c.name} />)
-    return (
-      <div className="input">
-        <label className="item" htmlFor="customer">Customer</label>
-        <datalist id="customer-list">
-          {customers}
-        </datalist>
-        <input className="field" id="customer" name="customer" list="customer-list" type="text" defaultValue={this.props.current} />
-      </div>
-    );
-  },
-});
-
 ////////
 // WHOLE PAGE
 ////////
 
-var QuotationActions = React.createClass({
-  render: function () {
-    let hasId         = this.props.id != null;
-    let convertRoute  = `/quotation/convert-to-invoice/${this.props.id}`;
-    let newQuot       = <a key="action-newQuot" href="/quotation" className="btn-fab">+</a>;
-    let convert       = <button key="action-convert" className="btn-secondary" formAction={convertRoute} formMethod="post">Convert to invoice</button>;
-    return (
-      <div className="action">
-        <button className="btn" type="submit" name="convertToInvoice" value="false">
-          {hasId ? 'Update quotation' : 'Create quotation'}
-        </button>
-        {hasId ? ['\u00A0', newQuot, '\u00A0', convert] : null}
-      </div>
-    );
+let Actions = (props) => {
+  let newQuot       = <a key="action-newQuot" href="/quotation" className="btn-fab">+</a>
+  let convertRoute  = `/quotation/convert-to-invoice/${props.businessForm.id}`;
+  let convert       = <button key="action-convert" className="btn-secondary" formAction={convertRoute} formMethod="post">Convert to invoice</button>;
+
+  return (
+    <div className="action">
+      <button className="btn" type="submit" name="convertToInvoice" value="false">
+        {props.isNew ? 'Create quotation' : 'Update quotation'}
+      </button>
+      {props.isNew ? null : ['\u00A0', newQuot, '\u00A0', convert]}
+    </div>
+  )
+}
+
+function mapActions(state, ownProps) {
+  let infos = getInformationsFromFakeId(state, ownProps)
+  return infos
+}
+
+Actions = connect(mapActions)(Actions)
+
+// var QuotationForm = React.createClass({
+//   render: function () {
+//     let quotation   = this.props.quotation;
+//     let isNew       = quotation._id == null;
+//     let fakeId      = formatId('quotation', quotation);
+//     let formAction  = isNew   ? '/quotation' : `/quotation/${fakeId}`;
+//     let print       = <a key="print" href={`/print/${fakeId }`} className="btn">Print</a>;
+
+//     return (
+//       <div>
+//         <header>
+//           <h1>
+//             {'Quotation\u00A0'}
+//             <span className="id">{fakeId}</span>
+//           </h1>
+//           {isNew ? null : print}
+//         </header>
+//         <form action={formAction} method="post">
+//           <input type="hidden" value={quotation.index.quotation} name="index[quotation]" />
+//           <input type="hidden" value={quotation.time.created} name="time[created]" />
+//           {isNew ? null : <input type="hidden" value={quotation._id} name="_id" /> }
+//           {isNew ? null : <input type="hidden" value={fakeId} name="fakeId" /> }
+//           <div className="row">
+//             <fieldset className="cell-2-3 card">
+//               <Customer list={this.props.customers} current={quotation.customer} />
+//               {isNew ? null : <Status {...quotation.time} />}
+//             </fieldset>
+//             <fieldset className="cell-1-3 card">
+//               <Input name="tax" type="number" step="any" value={quotation.tax} />
+//             </fieldset>
+//           </div>
+//           <fieldset>
+//             <Input name="title" defaultValue={quotation.title} />
+//             <Listing quotation={this.props.quotation}/>
+//             <div className="detail-actions">
+//               <button className="btn-secondary" formAction="/quotation/recompute" formMethod="post">
+//                 recompute
+//               </button>
+//               {'\u00A0'}
+//               <button className="btn-secondary" formAction="/quotation/add-line" formMethod="post">
+//                 Add a line
+//               </button>
+//             </div>
+//           </fieldset>
+//           <QuotationActions id={quotation._id} />
+//         </form>
+//       </div>
+//     );
+//   },
+// });
+
+const HiddenInputs = (props) => (
+  <div className="hidden-inputs">
+  </div>
+)
+
+let QuotationForm = (props) => (
+  <div>
+    <header>
+      <h1>
+        {'Quotation\u00A0'}
+      </h1>
+      <PrintBtn {...props.params} />
+    </header>
+    <form method="post" action={props.formAction}>
+      {props.isNew ? null : <HiddenInputs /> }
+      <Meta {...props} />
+      <Actions {...props.params} />
+    </form>
+  </div>
+)
+
+function mapStateToProps(state, ownProps) {
+  return {}
+  const customerId  = ownProps.params.customerId
+  const newCustomer = typeof customerId === 'undefined'
+  const submitMsg   = newCustomer ? 'Create customer' : 'Update customer'
+  if (newCustomer) {
+    return {
+      formAction: '/customer',
+      newCustomer,
+      submitMsg,
+      customer: {},
+    }
   }
-});
+  const customer = state.entities.customers[customerId]
+  return {
+    formAction: `/customer/${customer._id}`,
+    newCustomer,
+    submitMsg,
+    customer,
+  }
+}
 
-var QuotationForm = React.createClass({
-  statics: {
-    load: '/api/quotation/:fakeId',
-  },
-  render: function () {
-    let quotation   = this.props.quotation;
-    let isNew       = quotation._id == null;
-    let fakeId      = formatId('quotation', quotation);
-    let formAction  = isNew   ? '/quotation' : `/quotation/${fakeId}`;
-    let print       = <a key="print" href={`/print/${fakeId }`} className="btn">Print</a>;
-
-    return (
-      <div>
-        <header>
-          <h1>
-            {'Quotation\u00A0'}
-            <span className="id">{fakeId}</span>
-          </h1>
-          {isNew ? null : print}
-        </header>
-        <form action={formAction} method="post">
-          <input type="hidden" value={quotation.index.quotation} name="index[quotation]" />
-          <input type="hidden" value={quotation.time.created} name="time[created]" />
-          {isNew ? null : <input type="hidden" value={quotation._id} name="_id" /> }
-          {isNew ? null : <input type="hidden" value={fakeId} name="fakeId" /> }
-          <div className="row">
-            <fieldset className="cell-2-3 card">
-              <Customer list={this.props.customers} current={quotation.customer} />
-              {isNew ? null : <Status {...quotation.time} />}
-            </fieldset>
-            <fieldset className="cell-1-3 card">
-              <Input name="tax" type="number" step="any" value={quotation.tax} />
-            </fieldset>
-          </div>
-          <fieldset>
-            <Input name="title" defaultValue={quotation.title} />
-            <Listing quotation={this.props.quotation}/>
-            <div className="detail-actions">
-              <button className="btn-secondary" formAction="/quotation/recompute" formMethod="post">
-                recompute
-              </button>
-              {'\u00A0'}
-              <button className="btn-secondary" formAction="/quotation/add-line" formMethod="post">
-                Add a line
-              </button>
-            </div>
-          </fieldset>
-          <QuotationActions id={quotation._id} />
-        </form>
-      </div>
-    );
-  },
-});
-
-export {QuotationForm as default};
+// export {QuotationForm as default};
+export default connect(mapStateToProps)(QuotationForm)

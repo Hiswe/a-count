@@ -19,6 +19,7 @@ import Settings       from '../views/settings.jsx'
 import _404           from '../views/404.jsx'
 // <Redirect from="invoices" to="/" />
 
+// wrap in a function for router to have access the state
 function provideRouter(store) {
 
   function onEnter(type) {
@@ -31,12 +32,6 @@ function provideRouter(store) {
       if (hasParam && isUnvalidId) return replace('/404')
     }
   }
-
-  // function onEnterCustomer(nextState, replace) {
-  //   let state           = store.getState()
-  //   let { customerId }  = nextState.params
-  //   if (state.result.customers.indexOf(customerId) < 0) return replace('/404')
-  // }
 
   return (
     <Route path="/" component={Layout}>

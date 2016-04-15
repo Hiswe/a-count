@@ -146,75 +146,12 @@ app.post('/customer/:customerId?',  customer.post);
 app.post('/reset',    reset.post);
 
 // http://maxlapides.com/forcing-browsers-print-backgrounds/
+// TODO should be handled by react?
 app.get('/print/:fakeId', print.get);
 
 //----- REACT
 
 app.use(reactRoutingMiddleware);
-
-// import React                    from 'react';
-// import {renderToString}         from 'react-dom/server'
-// // react-router need history module
-// import { RouterContext, match } from 'react-router';
-// // Redux
-// import { createStore }          from 'redux'
-// import { Provider }             from 'react-redux'
-
-// import 'isomorphic-fetch';
-
-// import routes from './shared/routes';
-// app.use(function (req, res, next) {
-//   const location = req.url;
-//   match({routes, location }, function (error, redirectLocation, renderProps) {
-//     if (error) return next(err);
-//     if (redirectLocation) {
-//       return res.redirect(redirectLocation.pathname + redirectLocation.search);
-//     }
-//     if (!renderProps) return next();
-
-//     let {components, params} = renderProps;
-//     let apiCalls        = [];
-//     let cashedData      = req.flash();
-//     let cashedDataKeys  = Object.keys(cashedData);
-
-//     // get all datas
-//     components.forEach( function (component) {
-//       if (!component.load) return;
-//       let apiReq = fetch(buildApiUrl(req, component.load, params))
-//         .then(function (response) {
-//           if (response.status >= 400) {
-//             let err = new Error(response.statusText);
-//             err.status = response.status;
-//             throw err;
-//           }
-//           return Promise.resolve(response.json());
-//         })
-//       apiCalls.push(apiReq);
-//     })
-
-//     wait for all datas to be resolved
-//     Promise.all(apiCalls)
-//       .then(function (results) {
-//         // merge all datas
-//         let datas = {};
-//         results.forEach(r => datas = Object.assign(datas, r))
-//         // update datas with in memory updated datas
-//         if (cashedDataKeys.length) {
-//           cashedDataKeys.forEach(function (key) {
-//             datas[key] = Object.assign( datas[key] || {}, cashedData[key][0])
-//           })
-//         }
-//         // console.log();
-//         components[0].datas = datas;
-//         return res.render('_layout', {
-//           dom:          renderToString(<RouterContext {...renderProps} />),
-//           initialState: datas,
-//         });
-//       })
-//       .catch(next);
-
-//   });
-// });
 
 //////
 // ERROR HANDLING
