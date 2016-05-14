@@ -5,16 +5,18 @@ var $             = require('gulp-load-plugins')();
 var browserSync   = require('browser-sync');
 var run           = require('run-sequence');
 var args          = require('yargs').argv;
-// var isDev         = args.dev != null;
-var isDev         = args.prod !== true;
-var jsBasedir     = __dirname + '/js';
+
+var reload        = browserSync.reload
+var isDev         = args.prod !== true
+var jsBasedir     = __dirname + '/js'
 
 
 function onError(err) {
   $.util.beep();
-  if (err.annotated) { return $.util.log(err.annotated); }
-  if (err.message) {   return $.util.log(err.message); }
-  return $.util.log(err);
+  if (err.annotated)      { $.util.log(err.annotated); }
+  else if (err.message)   { $.util.log(err.message); }
+  else                    { $.util.log(err); }
+  return this.emit('end');
 }
 
 ////////

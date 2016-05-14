@@ -23,7 +23,7 @@ let PrintBtn = function (props) {
 
 PrintBtn = connect(getInformationsFromFakeId)(PrintBtn)
 
-export {PrintBtn}
+export { PrintBtn }
 
 ////////
 // TOP LEFT BLOCK
@@ -103,7 +103,6 @@ Tax = connect(getInformationsFromFakeId)(Tax)
 ////////
 // WHOLE BLOCK
 ////////
-
 
 const Meta = (props) => (
   <div className="row">

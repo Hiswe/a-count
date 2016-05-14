@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { createBlank }  from '../shared/blank-business-form'
+
 export const Empty = () => (
   <p>none (yet)</p>
 )
