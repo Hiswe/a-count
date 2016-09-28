@@ -15,6 +15,15 @@ const apiRouting = {
 
 let bootApi = {};
 
+api
+.route('/')
+.get((req, res, next) => {
+  res.json({
+    name: 'concompte API',
+    version: '1.0.0'
+  })
+})
+
 //----- HOME PAGES
 
 api
@@ -22,8 +31,7 @@ api
   .get(function (req, res, next) {
     Promise
       .all([Quotation.getAllActive(), Invoice.getAllActive()])
-      .then(function (results) {
-        let [quotations, invoices] = results
+      .then(([quotations, invoices]) => {
         res.json({quotations, invoices})
       })
       .catch(next)
@@ -50,7 +58,7 @@ api
 api
   .route('/customer/:customerId?')
   .get(function (req, res, next) {
-    if (req.params.customerId == null) return res.json({})
+    if (req.params.customerId == null) return res.sendStatus(404)
     Customer.byId(req.params.customerId)
       .then(customer => res.json({customer}) )
       .catch(next)
@@ -59,38 +67,53 @@ api
 //----- QUOTATIONS
 
 api
-  .route('/quotations')
-  .get(function (req, res, next) {
-    Quotation.getAllActive()
-      .then(quotations => res.json({quotations}) )
-      .catch(next)
-  })
+.route('/quotations')
+.get(function (req, res, next) {
+  Quotation.getAllActive()
+    .then(quotations => res.json({quotations}) )
+    .catch(next)
+})
 
 api
-  .route('/quotation/:fakeId?')
-  .get(function (req, res, next) {
-    let isCreating        = req.params.fakeId == null
-    let customersPromise  = Customer.getAll()
-    let quotationPromise  = req.flash('quotation')[0]
+.route('/quotation/:fakeId?')
+.get(function (req, res, next) {
+  let isCreating        = req.params.fakeId == null
+  let customersPromise  = Customer.getAll()
+  let quotationPromise  = req.flash('quotation')[0]
 
-    if (quotationPromise) {
-      quotationPromise = Promise.resolve(quotationPromise)
+  if (quotationPromise) {
+    quotationPromise = Promise.resolve(quotationPromise)
+  } else {
+    if (isCreating) {
+      quotationPromise = BusinessForm.getEmptyQuotation()
     } else {
-      if (isCreating) {
-        quotationPromise = BusinessForm.getEmptyQuotation()
-      } else {
-        quotationPromise = BusinessForm.getByFakeId(req.params.fakeId, 'quotation')
-      }
+      quotationPromise = Quotation.getByFakeId(req.params.fakeId)
     }
+  }
 
-    Promise
-      .all([ customersPromise, quotationPromise, ])
-      .then(function (body) {
-        let [customers, quotation] = body
-        return res.json({customers, quotation})
-      })
-      .catch(next)
+  Promise
+    .all([ customersPromise, quotationPromise, ])
+    .then(function (body) {
+      let [customers, quotation] = body
+      return res.json({customers, quotation})
+    })
+    .catch(next)
+})
+.post( (req, res, next) => {
+  console.log(req.body)
+  const isCreating        = req.params.fakeId == null
+  let customersPromise    = Customer.getAll()
+  let nextIndex           = Quotation.getNextIndex()
+
+  Promise
+  .all([customersPromise, nextIndex])
+  .then( ([customers, nextIndex]) => {
+    res.json({
+      customers: customers,
+      nextIndex: nextIndex,
+    })
   })
+})
 
 //----- INVOICES
 

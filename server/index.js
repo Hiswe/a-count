@@ -13,15 +13,15 @@ var moment          = require('moment');
 var session         = require('express-session');
 var flash           = require('connect-flash');
 
-var config          = require('./shared/config');
+var config          = require('../shared/config');
 
-var quotation       = require('./server/quotation');
-var invoice         = require('./server/invoice');
-var customer        = require('./server/customer');
-var reset           = require('./server/reset');
-var print           = require('./server/print');
+var quotation       = require('./quotation');
+var invoice         = require('./invoice');
+var customer        = require('./customer');
+var reset           = require('./reset');
+var print           = require('./print');
 
-import reactRoutingMiddleware from './server/express-react-routing';
+import reactRoutingMiddleware from './express-react-routing';
 
 //////
 // SERVER CONFIG
@@ -32,7 +32,7 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(compression());
-app.use(favicon(__dirname + '/public/favicon.png'));
+app.use(favicon(__dirname + '/../public/favicon.png'));
 
 // see Warning here
 // https://github.com/expressjs/session#sessionoptions
@@ -47,12 +47,13 @@ app.use(flash());
 
 // templates
 // even if React is used for the most part…
-// … Jade is used for wrappers & error
-app.set('views', path.join( __dirname, './views'));
+// …Jade is still used for wrappers & error
+app.set('views', path.join( __dirname, '../views'));
 app.set('view engine', 'jade');
 
 // statics
-app.use(express.static('./public'));
+
+app.use(express.static(path.join(__dirname, '../public')));
 
 //////
 // LOGGING
@@ -83,8 +84,8 @@ app.use(morgan(logResponse));
 // DB CONFIG
 //////
 
-var database    = require('./db');
-import {db} from './db/index'
+var database    = require('../db');
+import {db} from '../db/index'
 let dbStatus    = true;
 database
   .setup()
@@ -111,7 +112,7 @@ app.use(function (req, res, next) {
   return next(dbStatus);
 });
 
-import {bootApi} from './server/api';
+import {bootApi} from './api';
 
 function buildApiUrl(req, route, params) {
   // construct routes with react params
@@ -129,7 +130,7 @@ function buildApiUrl(req, route, params) {
 
 //----- API
 
-import api from './server/api';
+import api from './api';
 
 app.use('/api/v1', api);
 
