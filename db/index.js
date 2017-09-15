@@ -5,7 +5,7 @@ var host          = 'http://admin:admin@localhost:5984';
 var nano          = require('nano')(host);
 export const db   = nano.use('concompte');
 
-import { normalize, Schema, arrayOf } from 'normalizr'
+import { normalize, schema } from 'normalizr'
 
 import { setFakeId }        from '../shared/_format'
 
@@ -89,7 +89,7 @@ export function get(name) {
 
 export {get as dbGet}
 
- export function atomic(designname, updatename, docname, body) {
+export function atomic(designname, updatename, docname, body) {
   return new Promise(function (resolve, reject) {
     db.atomic(designname, updatename, docname, body, function (err, body) {
       if (err) return reject(err);
@@ -111,9 +111,9 @@ export function viewWithList(designname, viewname, listname, params = {}) {
 // “GLOBAL” METHOD
 //////
 
-const quotations = new Schema('quotations', { idAttribute:  'id' })
-const invoices   = new Schema('invoices', { idAttribute:    'id' })
-const customers  = new Schema('customers', { idAttribute: '_id' })
+const quotations = new schema.Entity('quotations', { idAttribute:  'id' })
+const invoices   = new schema.Entity('invoices', { idAttribute:    'id' })
+const customers  = new schema.Entity('customers', { idAttribute: '_id' })
 
 export function getInitialState() {
   return viewWithList('general', 'getAll', 'getState')
@@ -123,9 +123,9 @@ export function getInitialState() {
       initialState.invoices   = initialState.invoices.map(setFakeId)
       // normalize datas for better handling with Redux
       return Promise.resolve(normalize(initialState, {
-        quotations: arrayOf(quotations),
-        invoices:   arrayOf(invoices),
-        customers:  arrayOf(customers),
+        quotations: new schema.Array( quotations ),
+        invoices:   new schema.Array( invoices ),
+        customers:  new schema.Array( customers ),
       }))
     })
 }
