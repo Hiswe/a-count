@@ -1,8 +1,6 @@
 var moment          = require('moment');
 var marked          = require('marked');
 
-import config from '../shared/config';
-
 // templates global datas
 function marked(data) {
   // prevent error while passing unsupported marked datas
@@ -16,7 +14,7 @@ function formatDate(data) {
   return formatedDate === 'Invalid date' ? '' : formatedDate;
 }
 
-function id(type, businessForm) {
+function id(type, businessForm, config) {
   let {prefix, startingAt}  = config[type];
   var createdAt             = moment(businessForm.time.created).format('YYMM');
   return  `${prefix}${createdAt}-${startingAt + ~~businessForm.index[type]}`;

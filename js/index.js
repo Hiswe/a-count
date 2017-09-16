@@ -8,10 +8,10 @@ import {
 import {
   createStore,
   applyMiddleware
-}                     from 'redux'
-import { Provider }   from 'react-redux'
-import createLogger   from 'redux-logger'
-import reducer        from '../shared/redux-reducers'
+}                       from 'redux'
+import { Provider }     from 'react-redux'
+import { createLogger } from 'redux-logger'
+import reducer          from '../shared/redux-reducers'
 
 import routes         from '../shared/react-routes.jsx'
 

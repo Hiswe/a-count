@@ -12,7 +12,6 @@ import { Provider }         from 'react-redux'
 import { getInitialState }  from '../db'
 import routes               from '../shared/react-routes'
 import reducer              from '../shared/redux-reducers'
-// import { setFakeId }        from '../shared/_format'
 
 function reactRoutingMiddleware(req, res, next) {
   const location  = req.url;

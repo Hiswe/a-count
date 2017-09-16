@@ -1,8 +1,6 @@
 import moment from 'moment'
 
-import config from './config'
-
-export function setFakeId(businessForm) {
+export function setFakeId(businessForm, config) {
   let type      = businessForm.type
   let {
     prefix,

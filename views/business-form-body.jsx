@@ -4,7 +4,7 @@ import { connect }      from 'react-redux'
 import { Link }         from 'react-router'
 
 import { Input }        from './form.jsx'
-import { getInformationsFromFakeId, Amount }   from './_utils'
+import { getInformationsFromFakeId, Amount }   from './_utils.jsx'
 
 ////////
 // META

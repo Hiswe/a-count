@@ -2,7 +2,7 @@ import React from 'react'
 
 import { createBlank }  from '../shared/blank-business-form'
 
-export const Empty = () => (
+const Empty = () => (
   <p>none (yet)</p>
 )
 
@@ -22,7 +22,7 @@ const Amount = (props) => (
 // });
 
 // used by react-redux to connect id Param & datas
-export function getInformationsFromFakeId(state, ownProps) {
+function getInformationsFromFakeId(state, ownProps) {
   let isNew         = ownProps.fakeId == null
   let fakeId        = ownProps.fakeId
   let isInvoice     = !isNew && state.entities.invoices[fakeId] != null
@@ -38,4 +38,8 @@ export function getInformationsFromFakeId(state, ownProps) {
 }
 
 // export {Empty, Amount}
-export { Amount }
+export {
+  Empty,
+  Amount,
+  getInformationsFromFakeId,
+}

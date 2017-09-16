@@ -6,7 +6,7 @@ import { Input }        from './form.jsx'
 
 import { createBlank }  from '../shared/blank-business-form'
 import { formatDate }   from './_format'
-import { getInformationsFromFakeId }   from './_utils'
+import { getInformationsFromFakeId }   from './_utils.jsx'
 
 // shared components between quotation & invoice form
 

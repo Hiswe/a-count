@@ -7,6 +7,7 @@ export const db   = nano.use('concompte');
 
 import { normalize, schema } from 'normalizr'
 
+import config               from '../shared/config'
 import { setFakeId }        from '../shared/_format'
 
 //////
@@ -119,8 +120,8 @@ export function getInitialState() {
   return viewWithList('general', 'getAll', 'getState')
     .then( initialState => {
       // we don't want raw index to appear on window.__initialState__
-      initialState.quotations = initialState.quotations.map(setFakeId)
-      initialState.invoices   = initialState.invoices.map(setFakeId)
+      initialState.quotations = initialState.quotations.map( q => setFakeId(q, config) )
+      initialState.invoices   = initialState.invoices.map(  i => setFakeId(i, config) )
       // normalize datas for better handling with Redux
       return Promise.resolve(normalize(initialState, {
         quotations: new schema.Array( quotations ),

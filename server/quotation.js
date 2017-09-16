@@ -34,7 +34,7 @@ function post(req, res, next) {
       return atomic('quotation', 'create', quotationId, req.body);
     })
     .then(function (couchRes) {
-      return res.status(302).redirect(`/quotation/${formatId('quotation', couchRes)}`);
+      return res.status(302).redirect(`/quotation/${formatId('quotation', couchRes, config)}`);
     })
     .catch(next);
 }
