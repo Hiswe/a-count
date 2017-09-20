@@ -21,7 +21,6 @@ import _404           from '../views/404.jsx'
 
 // wrap in a function for router to have access the state
 function provideRouter(store) {
-
   function onEnter(type) {
     const paramName = type === 'customers' ? 'customerId' : 'fakeId';
 

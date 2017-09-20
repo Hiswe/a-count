@@ -21,10 +21,6 @@ const onError = err => {
 }
 
 ////////
-// JS
-////////
-
-////////
 // CSS
 ////////
 
@@ -73,13 +69,13 @@ css.description = `Build CSS`
 // DEV
 ////////
 
-const watch = _ => {
+const watch = () => {
   gulp.watch( `views/**/*.jade`, css )
   gulp.watch( `css/**/*.styl`, css)
   // isomorphic app doesn't need module hot reload
   bundler.watch(  {}, (err, stats) => {
-    // console.log(stats);
-    if (!err) reload()
+    if (err) return onError( err )
+    reload()
   })
 }
 
@@ -93,7 +89,7 @@ const bs = _ => {
 }
 
 const runServer = cb => {
-  return nodemon({
+  return $.nodemon({
     script: `index.js`,
     ext:    `js json jsx`,
     watch: [
