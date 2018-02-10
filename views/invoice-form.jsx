@@ -139,7 +139,7 @@ import { Body } from  './business-form-body.jsx'
 // WHOLE PAGE
 ////////
 
-let Actions = (props) => (
+let Actions = props => (
   <div className="action">
     <button className="btn" type="submit">Update invoice</button>
     <a key="action-newQuot" href="/invoice" className="btn-fab">+</a>
@@ -199,12 +199,12 @@ let Actions = (props) => (
 //   },
 // });
 
-const HiddenInputs = (props) => (
+const HiddenInputs = props => (
   <div className="hidden-inputs">
   </div>
 )
 
-let InvoiceForm = (props) => (
+let InvoiceForm = props => (
   <div>
     <header>
       <h1>

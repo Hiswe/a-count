@@ -2,19 +2,22 @@ import  {
   view,
   atomic
 }  from './index'
-import * as businessForm  from './business-form'
+// import * as businessForm  from './business-form'
 import  config            from '../shared/config'
 
 function getAllActive() {
-  return view('quotation', 'byTime', {descending: true})
+  return Promise.resolve([])
+  // return view('quotation', 'byTime', {descending: true})
 }
 
 function getNextIndex() {
-  return businessForm.getNextIndex('quotation')
+  return 666
+  // return businessForm.getNextIndex('quotation')
 }
 
 function getByFakeId(fakeId) {
-  BusinessForm.getByFakeId(fakeId, 'quotation')
+  return Promise.resolve({})
+  // BusinessForm.getByFakeId(fakeId, 'quotation')
 }
 
 export {

@@ -1,47 +1,54 @@
-import React                from 'react'
-import { renderToString }   from 'react-dom/server'
-// react-router need history module
-import {
-  RouterContext,
-  match }                   from 'react-router'
+import express from 'express'
+import React from 'react'
+import { renderToString } from 'react-dom/server'
+import { StaticRouter } from 'react-router-dom'
+import { renderRoutes, matchRoutes } from 'react-router-config'
 // Redux
-import { createStore }      from 'redux'
-import { Provider }         from 'react-redux'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
 
+import routes from '../shared/routes'
+import asyncMiddleware from './express-async-middleware'
+import reducer from '../shared/ducks/combined-reducers.js'
 
-import { getInitialState }  from '../db'
-import routes               from '../shared/react-routes'
-import reducer              from '../shared/redux-reducers'
+const router = express.Router();
 
-function reactRoutingMiddleware(req, res, next) {
-  const location  = req.url;
+const store = createStore(reducer, {}, applyMiddleware(thunk))
 
-  function initRouting(initialState) {
+async function reactRoutingToExpress(req, res) {
 
-    const store = createStore(reducer, initialState)
-    match({routes: routes(store), location }, reactMatchRoute)
+  // wait for every component to fetch his data
+  const branch      = matchRoutes(routes, req.url)
+  const initFetches = branch
+    .filter( ({route}) => route.component.fetchData instanceof Function )
+    .map( ({route}) => route.component.fetchData(store) )
+  await Promise.all( initFetches )
 
-    function reactMatchRoute(error, redirectLocation, renderProps) {
-      if (error) return next(err)
-      if (redirectLocation) {
-        return res.redirect(redirectLocation.pathname + redirectLocation.search)
-      }
-      if (!renderProps) return next()
-        return res.render('_layout', {
-        dom: renderToString(
-          <Provider store={store}>
-            <RouterContext {...renderProps} />
-          </Provider>
-        ),
-        // send initial state for front app initialization
-        initialState
-      })
-    }
+  // render with un updated store
+  let context = {} // context is mutable
+  const content = renderToString(
+    <Provider store={store}>
+      <StaticRouter location={req.url} context={context}>
+        {/* renderRoutes will render the right components */}
+        { renderRoutes(routes) }
+      </StaticRouter>
+    </Provider>
+  )
+
+  // reflect status from react-router to express
+  if (context.status === 302) {
+    return res.redirect(302, context.url)
   }
-
-  getInitialState()
-    .then(initRouting)
-    .catch(next)
+  if (context.status === 404) {
+    res.status(404)
+  }
+  res.render(`_layout`, {
+    initialState: store.getState(),
+    dom: content,
+  })
 }
 
-export { reactRoutingMiddleware as default }
+router.get('*', asyncMiddleware( reactRoutingToExpress ))
+
+export { router as default }

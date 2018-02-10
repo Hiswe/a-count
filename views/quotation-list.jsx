@@ -1,6 +1,6 @@
 import React          from 'react'
 import { connect }    from 'react-redux'
-import { Link }       from 'react-router'
+import { Link }     from 'react-router-dom'
 
 import {formatStatus, id as formatId} from './_format';
 import {Empty}        from './_utils.jsx';
@@ -21,18 +21,16 @@ const QuotationHeader = () => (
 
 //----- TBODY
 
-var QuotationStatus = React.createClass({
-  render: function () {
-    return (
-      <td>
-        {this.props.status.message}
-        <p>{this.props.status.date}</p>
-      </td>
-    );
-  }
-});
+const QuotationStatus = props => {
+  return (
+    <td>
+      {props.status.message}
+      <p>{props.status.date}</p>
+    </td>
+  )
+}
 
-const QuotationRow = function (props) {
+const QuotationRow = props => {
   let quotation = props.quotation
   let status    = formatStatus(quotation.time)
   return (

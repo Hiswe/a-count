@@ -88,8 +88,9 @@ const bs = _ => {
   })
 }
 
-const runServer = cb => {
-  return $.nodemon({
+let init = true
+const runServer = done => {
+  $.nodemon({
     script: `index.js`,
     ext:    `js json jsx`,
     watch: [
@@ -107,16 +108,12 @@ const runServer = cb => {
     // https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e#comment-1457582
     if (init) {
       init = false
-      cb()
+      done()
     }
   })
 }
 
-const dev = _ => {
-  runServer()
-  watch()
-  bs()
-}
+const dev = gulp.series(runServer, watch, bs)
 
 gulp.task( 'css', css )
 gulp.task( 'dev', dev )

@@ -1,59 +1,62 @@
-'use strict';
+'use strict'
 
-var chalk     = require('chalk');
+import chalk from 'chalk'
 
 // db
-import {db, view, get as dbGet, atomic} from '../db';
-import * as Quotation         from '../db/quotation'
-import * as Invoice           from '../db/invoice';
-import * as businessForm      from '../db/business-form';
-import {createBlank}          from '../shared/blank-business-form';
+// import {db, view, get as dbGet, atomic} from '../db';
+// import * as Quotation         from '../db/quotation'
+// import * as Invoice           from '../db/invoice';
+// import * as businessForm      from '../db/business-form';
+// import {createBlank}          from '../shared/blank-business-form';
 
 import * as format            from '../shared/format';
 import config                 from '../shared/config'
 
-import {id as formatId}       from '../views/_format';
+// import {id as formatId}       from '../views/_format';
 
-var Customer  = require('../db/customer');
-var compute   = require('../shared/compute');
+// var Customer  = require('../db/customer');
+// var compute   = require('../shared/compute');
 
 function createCustomerIfNew(customerName) {
-  return Customer
-    .exist(customerName)
-    .then(function(isCustomer) {
-      if (!isCustomer) return Customer.create({name: customerName});
-      return Promise.resolve(isCustomer);
-    });
+  // return Customer
+  //   .exist(customerName)
+  //   .then(function(isCustomer) {
+  //     if (!isCustomer) return Customer.create({name: customerName});
+  //     return Promise.resolve(isCustomer);
+  //   });
+  return Promise.resolve( {} )
 }
 
 function post(req, res, next) {
   var body        = req.body;
   var quotationId = body._id || null;
-  createCustomerIfNew(body.customer)
-    .then(function () {
-      return atomic('quotation', 'create', quotationId, req.body);
-    })
-    .then(function (couchRes) {
-      return res.status(302).redirect(`/quotation/${formatId('quotation', couchRes, config)}`);
-    })
-    .catch(next);
+  return resolve.redirect( req.originalUrl )
+  // createCustomerIfNew(body.customer)
+  //   .then(function () {
+  //     return atomic('quotation', 'create', quotationId, req.body);
+  //   })
+  //   .then(function (couchRes) {
+  //     return res.status(302).redirect(`/quotation/${formatId('quotation', couchRes, config)}`);
+  //   })
+  //   .catch(next);
 }
 
 function convert(req, res, next) {
   var body        = req.body;
-  createCustomerIfNew(body.customer)
-    .then(function () {
-      return businessForm.getNextIndex('invoice');
-    })
-    .then(function (invoiceIndex) {
-      body.index.invoice = invoiceIndex;
-      return atomic('quotation', 'convertToInvoice', body._id, body);
-    })
-    .then(function (couchRes) {
-      // return res.status(302).redirect('/quotation/' + body.fakeId);
-      return res.status(302).redirect('/');
-    })
-    .catch(next)
+  return res.status(302).redirect('/');
+  // createCustomerIfNew(body.customer)
+  //   .then(function () {
+  //     return businessForm.getNextIndex('invoice');
+  //   })
+  //   .then(function (invoiceIndex) {
+  //     body.index.invoice = invoiceIndex;
+  //     return atomic('quotation', 'convertToInvoice', body._id, body);
+  //   })
+  //   .then(function (couchRes) {
+  //     // return res.status(302).redirect('/quotation/' + body.fakeId);
+  //     return res.status(302).redirect('/');
+  //   })
+  //   .catch(next)
 }
 
 ////////

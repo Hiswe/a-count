@@ -1,12 +1,12 @@
 import React        from 'react'
-import { Link }     from 'react-router'
+import { Link }     from 'react-router-dom'
 import { connect }  from 'react-redux'
 
 import { marked }   from './_format'
 
-const CustomerRow = function (props) {
+const CustomerRow = (props) => {
   let customer = props.customer
-  let url      = `/customer/${customer._id}`
+  let url      = `/customer/${customer.id}`
   let address  = { __html: marked(customer.address)}
   return (
     <tr>
@@ -18,9 +18,9 @@ const CustomerRow = function (props) {
   )
 }
 
-let CustomerList = function (props) {
-  let body = props.ids.map( (id, i) => (
-    <CustomerRow key={id} customer={props.customers[id]} />
+const CustomerList = (props) => {
+  let body = props.customers.map( (customer, i) => (
+    <CustomerRow key={customer.id} customer={customer} />
   ))
   return (
     <table className="table-pres" cellSpacing="0">
@@ -39,11 +39,8 @@ let CustomerList = function (props) {
 
 function mapStateToProp(state) {
   return {
-    ids:        state.result.customers,
-    customers:  state.entities.customers,
+    customers: state.customers && state.customers.list
   }
 }
 
-CustomerList = connect(mapStateToProp)(CustomerList)
-
-export { CustomerList as default }
+export default connect(mapStateToProp)(CustomerList)

@@ -1,46 +1,22 @@
 import React        from 'react'
 import { connect }  from 'react-redux'
-import { Link }     from 'react-router'
+import { Link }     from 'react-router-dom'
 
-import QuotationList  from './quotation-list.jsx'
-import InvoiceList    from './invoice-list.jsx'
-
-
-// var Home = React.createClass({
-//   statics: {
-//     load: '/api/home',
-//   },
-//   render: function() {
-//     return (
-//       <div>
-//         <h1>Home</h1>
-//         <section>
-//           <h1>quotations
-//           <a href="/quotation" className="btn-circular">+</a>
-//           </h1>
-//           <QuotationList quotations={this.props.quotations} />
-//         </section>
-//         <section>
-//           <h1>invoices</h1>
-//           <InvoiceList invoices={this.props.invoices} />
-//         </section>
-//       </div>
-//     );
-//   }
-// });
+// import QuotationList  from './quotation-list.jsx'
+// import InvoiceList    from './invoice-list.jsx'
 
 const Home = () => (
   <div>
     <h1>Home</h1>
     <section>
       <h1>quotations
-      <Link to="/quotation" className="btn-circular">+</Link>
+      {/* <Link to="/quotation" className="btn-circular">+</Link> */}
       </h1>
-      <QuotationList />
+      {/* <QuotationList /> */}
     </section>
     <section>
       <h1>invoices</h1>
-      <InvoiceList />
+      {/* <InvoiceList /> */}
     </section>
   </div>
 )

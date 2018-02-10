@@ -1,20 +1,20 @@
 import React        from 'react'
 import { connect }  from 'react-redux'
-import { Link }     from 'react-router'
+import { Link } from 'react-router-dom'
 
 import { Floating } from './form.jsx'
 
 const CreateBtn = () =>  (
-  <Link to="/customer" className="btn-secondary">New Customer</Link>
+  <Link to="/customers/new" className="btn-secondary">New Customer</Link>
 )
 
 function mapStateToProps(state, ownProps) {
-  const customerId  = ownProps.params.customerId
+  const customerId  = void 0
   const newCustomer = typeof customerId === 'undefined'
   const submitMsg   = newCustomer ? 'Create customer' : 'Update customer'
   if (newCustomer) {
     return {
-      formAction: '/customer',
+      formAction: '/customers/new',
       newCustomer,
       submitMsg,
       customer: {},

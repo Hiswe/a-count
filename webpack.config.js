@@ -7,7 +7,7 @@ const args    = require( `yargs` ).argv
 const isDev   = args.prod !== true
 
 const entry   = {
-  app:      `./js/index.js`,
+  app:      `./client/index.jsx`,
 }
 const output  = {
   filename: `concompte.js`,
@@ -30,7 +30,7 @@ const rules = [
   {
     test:     /\.jsx?$/,
     include: [
-      path.resolve( __dirname, 'js' ),
+      path.resolve( __dirname, 'client' ),
       path.resolve( __dirname, 'shared' ),
       path.resolve( __dirname, 'views' ),
     ],
