@@ -29,7 +29,15 @@ class CustomerForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.customer !== nextProps.customer) {
+    const { history }     = this.props
+    const currentCustomer = this.props.customer
+    const nextCustomer    = nextProps.customer
+    // redirect if new customer
+    if (!currentCustomer.id && nextCustomer.id) {
+      history.push(`/customers/${nextCustomer.id}`)
+    }
+    // update state on redux status change
+    if (currentCustomer !== nextCustomer) {
       this.setState( nextProps.customer )
     }
   }

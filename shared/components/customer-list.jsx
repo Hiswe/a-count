@@ -6,7 +6,7 @@ import { marked }   from './_format'
 
 const CustomerRow = (props) => {
   let customer = props.customer
-  let url      = `/customer/${customer.id}`
+  let url      = `/customers/${customer.id}`
   let address  = { __html: marked(customer.address)}
   return (
     <tr>

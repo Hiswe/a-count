@@ -34,6 +34,15 @@ const Customer = sequelize.define( `customer`, {
   },
 })
 
+// Don't use upsert as it didn't return an instance but only a status
+// http://docs.sequelizejs.com/class/lib/model.js~Model.html#static-method-upsert
+Customer.updateOrCreate = async function( id, params ) {
+  // https://medium.com/@griffinmichl/async-await-with-ternary-operators-af19f374215
+  const user = await ( id ? this.findById(id) : new Customer() )
+  if ( !id && !user ) return null
+  return user.update( params )
+}
+
 export {
   Customer as default,
 }

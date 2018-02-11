@@ -22,7 +22,9 @@ async function reactRoutingToExpress(req, res) {
   const branch      = matchRoutes(routes, req.url)
   const initFetches = branch
     .filter( ({route}) => route.component.fetchData instanceof Function )
-    .map( ({route}) => route.component.fetchData(store) )
+    .map( ({route, match}) => {
+      return route.component.fetchData(store, match.params)
+    } )
   await Promise.all( initFetches )
 
   // render with un updated store

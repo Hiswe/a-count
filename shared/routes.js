@@ -19,6 +19,10 @@ const routes = [{
     exact: true,
     component: CustomerForm,
   }, {
+  path: `/customers/:id`,
+    exact: true,
+    component: CustomerForm,
+  }, {
     path: `*`,
     component: NotFound,
   }],

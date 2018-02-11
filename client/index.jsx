@@ -10,9 +10,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import routes from '../shared/routes'
 import reducers from '../shared/ducks/combined-reducers'
-// import customers from '../shared/ducks/customers'
-// import reducer from '../shared/redux-reducers'
-// import App from '../shared/app.jsx'
 
 const $root             = document.querySelector('#react-main-mount')
 const initialState      = window.__INITIAL_STATE__ || {}
