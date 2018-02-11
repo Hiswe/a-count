@@ -1,7 +1,7 @@
 # concompte
 
-personal project for having quotations and invoice.  
-based on (codemancer code)[https://crypt.codemancers.com/posts/2017-06-03-reactjs-server-side-rendering-with-router-v4-and-redux/]
+Personal project for having quotations and invoice in an universal application.  
+Based on [codemancer code](https://crypt.codemancers.com/posts/2017-06-03-reactjs-server-side-rendering-with-router-v4-and-redux/)
 
 ## prerequisite
 
@@ -24,7 +24,7 @@ npm run dev
 
 ## Documentation
 
-### Isomorphic application
+### Universal Application
 
 - https://crypt.codemancers.com/posts/2017-06-03-reactjs-server-side-rendering-with-router-v4-and-redux/
 
