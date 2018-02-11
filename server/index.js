@@ -47,7 +47,7 @@ app.use(flash());
 // even if React is used for the most part…
 // …Jade is still used for wrappers & error
 app.set('views', path.join( __dirname, './views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 // statics
 

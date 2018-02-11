@@ -1,49 +1,96 @@
-import React        from 'react'
-import { connect }  from 'react-redux'
+import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { Floating } from './form.jsx'
+import { fetchCustomer, createUpdateCustomer } from '../ducks/customers'
 
 const CreateBtn = () =>  (
   <Link to="/customers/new" className="btn-secondary">New Customer</Link>
 )
 
-function mapStateToProps(state, ownProps) {
-  const customerId  = void 0
-  const newCustomer = typeof customerId === 'undefined'
-  const submitMsg   = newCustomer ? 'Create customer' : 'Update customer'
-  if (newCustomer) {
-    return {
-      formAction: '/customers/new',
-      newCustomer,
-      submitMsg,
-      customer: {},
+class CustomerForm extends Component {
+
+  static fetchData(store, params) {
+    return store.dispatch( fetchCustomer( params ) )
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = Object.assign( {}, this.props.customer )
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  componentDidMount() {
+    const { params } = this.props.match
+    this.props.fetchCustomer( params )
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.customer !== nextProps.customer) {
+      this.setState( nextProps.customer )
     }
   }
-  const customer = state.entities.customers[customerId]
-  return {
-    formAction: `/customer/${customer._id}`,
-    newCustomer,
-    submitMsg,
-    customer,
+
+  handleSubmit(event) {
+    event.preventDefault()
+    const formData = new FormData(event.target)
+    const result    = {}
+    for (const [key, value] of formData.entries()) {
+      result[key] = value
+    }
+    this.props.createUpdateCustomer( result )
+  }
+
+  handleChange(event) {
+    const { target }    = event
+    const modification  = {
+      [ target.getAttribute('name') ]: target.value,
+    }
+    this.setState( modification )
+  }
+
+  render() {
+    const { props, state } = this
+    return (
+      <section>
+        <form onSubmit={this.handleSubmit}>
+          <h1>Customer</h1>
+          {props.isNew ? null : <input type="hidden" defaultValue={state.id} name="id" />  }
+          <fieldset>
+            <Floating key="name" name="name" value={state.name} onChange={this.handleChange}/>
+            <Floating key="address" name="address" type="textarea" value={state.address} onChange={this.handleChange} />
+          </fieldset>
+          <div className="actions">
+            <button className="btn" type="submit">{props.submitMsg}</button>
+            {props.isNew ? null : <CreateBtn />}
+          </div>
+        </form>
+      </section>
+    )
   }
 }
 
-let CustomerForm = (props) => (
-  <section>
-    <form method="post" action={props.formAction}>
-      <h1>Customer</h1>
-      {props.newCustomer ? null : <input type="hidden" value={props.customer._id} name="id" />  }
-      <fieldset>
-        <Floating key="name" name="name" value={props.customer.name} />
-        <Floating key="address" name="address" type="textarea" value={props.customer.address} />
-      </fieldset>
-      <div className="actions">
-        <button className="btn" type="submit">{props.submitMsg}</button>
-        {props.newCustomer ? null : <CreateBtn />}
-      </div>
-    </form>
-  </section>
-)
+function mapStateToProps(state, ownProps) {
+  const customer  = state.customers && state.customers.current
+  const isNew     = customer.id == null
+  const submitMsg = isNew ? 'Create customer' : 'Update customer'
+  const result    = {
+    submitMsg:   `${isNew ? 'Create' : 'Update'} customer`,
+    isNew,
+    customer,
+  }
+  return result
+}
 
-export default connect(mapStateToProps)(CustomerForm)
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    fetchCustomer,
+    createUpdateCustomer,
+  }, dispatch)
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerForm)
