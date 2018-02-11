@@ -4,9 +4,9 @@ function createBlank(quotationIndex) {
     type: 'quotation',
     // store only counting
     // displaying ID will be made by server
-    index: {
-      quotation: quotationIndex,
-    },
+    // index: {
+    //   quotation: quotationIndex,
+    // },
     time: {
       created:    new Date(),
       send:       false,
