@@ -1,4 +1,6 @@
 import path from 'path'
+import { URL } from 'url'
+import 'isomorphic-fetch'
 import chalk from 'chalk'
 import moment from 'moment'
 import { inspect } from 'util'
@@ -10,6 +12,7 @@ import logger  from 'koa-logger'
 import views from 'koa-views'
 import json from 'koa-json'
 import Router from 'koa-router'
+
 
 import config from '../shared/config'
 import { sequelize } from '../db'
@@ -47,23 +50,6 @@ import api from '../db/api'
 
 router.use( `/api/v1`, api.routes() )
 
-// //----- NO-JS BACKUP
-
-// app.post('/quotation/add-line',                   quotation.addLine);
-// app.post('/quotation/remove-line',                quotation.removeLine);
-// app.post('/quotation/recompute',                  quotation.recompute);
-// app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
-// app.post('/quotation/:fakeId?',                   quotation.post);
-
-// app.post( '/customer/:customerId?',  customer.post);
-// app.post( `/customers/new`,          customer.create )
-
-// app.post('/reset',    reset.post);
-
-// // http://maxlapides.com/forcing-browsers-print-backgrounds/
-// // TODO should be handled by react?
-// app.get('/print/:fakeId', print.get);
-
 //----- ERROR HANDLING
 
 router.use(async (ctx, next) => {
@@ -79,9 +65,50 @@ router.use(async (ctx, next) => {
   }
 })
 
+//----- NO-JS BACKUP
+
+const proxyRequest = async (ctx, next) => {
+  const { url, body } = ctx.request
+  const apiCallUrl    = new URL( config.apiEndpoint )
+  apiCallUrl.pathname = apiCallUrl.pathname + url
+  const fetchResult = await fetch( apiCallUrl.href,  {
+    method:   `POST`,
+    headers:  { 'Content-Type': `application/json` },
+    body:     JSON.stringify( body ),
+  })
+  ctx.state.result = await fetchResult.json()
+  next()
+}
+// app.post('/quotation/add-line',                   quotation.addLine);
+// app.post('/quotation/remove-line',                quotation.removeLine);
+// app.post('/quotation/recompute',                  quotation.recompute);
+// app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
+// app.post('/quotation/:fakeId?',                   quotation.post);
+
+router.post( `/customers/new`, proxyRequest, async (ctx, next) => {
+  const { result } = ctx.state
+  ctx.redirect( `/customers/${ result.id }` )
+})
+router.post( `/customers/:id`, proxyRequest, async (ctx, next) => {
+  const { url } = ctx.request
+  ctx.redirect( ctx.request.url )
+})
+
+
+// app.post('/reset',    reset.post);
+
+// // http://maxlapides.com/forcing-browsers-print-backgrounds/
+// // TODO should be handled by react?
+// app.get('/print/:fakeId', print.get);
+
 //----- MOUNT REACT ROUTER
 
 router.use( reactRoutes.routes() )
+
+router.use( async (ctx) => {
+  ctx.status = 404
+  await ctx.render(`error/404`)
+})
 
 //----- MOUNT ROUTER TO APPLICATION
 

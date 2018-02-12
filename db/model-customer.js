@@ -39,7 +39,7 @@ const Customer = sequelize.define( `customer`, {
 Customer.updateOrCreate = async function( id, params ) {
   // https://medium.com/@griffinmichl/async-await-with-ternary-operators-af19f374215
   const user = await ( id ? this.findById(id) : new Customer() )
-  if ( !id && !user ) return null
+  if ( !user ) return null
   return user.update( params )
 }
 

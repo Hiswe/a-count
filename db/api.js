@@ -14,6 +14,7 @@ router.use(async (ctx, next) => {
   try {
     await next()
   } catch (err) {
+    console.log( inspect(err, {colors: true}) )
     ctx.status = err.statusCode || err.status || 500
     ctx.body = {
       name:    `concompte API`,
@@ -64,7 +65,8 @@ customersRoutes
   ctx.body = blankCustomer
 })
 .post(`/new`,  async (ctx, next) => {
-  const customer = await Customer.updateOrCreate( false, req.body )
+  const { body } = ctx.request
+  const customer = await Customer.updateOrCreate( false, body )
   ctx.body = customer
 })
 //----- EDIT
@@ -73,10 +75,13 @@ customersRoutes
   ctx.body = customer
 })
 .post(`/:id`, async (ctx, next) => {
-  const customer = await Customer.updateOrCreate( ctx.body.id, ctx.body )
+  const { body } = ctx.request
+  const customer = await Customer.updateOrCreate( body.id, body )
   ctx.body = customer
 })
 
-router.use( customersRoutes.routes() )
+router
+  .use( customersRoutes.routes() )
+  .use( customersRoutes.allowedMethods() )
 
 export { router as default }

@@ -64,7 +64,7 @@ class CustomerForm extends Component {
     const { props, state } = this
     return (
       <section>
-        <form onSubmit={this.handleSubmit}>
+        <form method="post"onSubmit={this.handleSubmit}>
           <h1>Customer</h1>
           {props.isNew ? null : <input type="hidden" defaultValue={state.id} name="id" />  }
           <fieldset>
