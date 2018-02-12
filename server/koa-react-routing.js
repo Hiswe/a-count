@@ -1,4 +1,4 @@
-import express from 'express'
+import Router from 'koa-router'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom'
@@ -9,17 +9,16 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 
 import routes from '../shared/routes'
-import asyncMiddleware from './express-async-middleware'
 import reducer from '../shared/ducks/combined-reducers.js'
 
-const router = express.Router();
+const router = new Router()
 
 const store = createStore(reducer, {}, applyMiddleware(thunk))
 
-async function reactRoutingToExpress(req, res) {
-
+router.get('*', async (ctx, next) => {
+  const { url }     = ctx
   // wait for every component to fetch his data
-  const branch      = matchRoutes(routes, req.url)
+  const branch      = matchRoutes(routes, url)
   const initFetches = branch
     .filter( ({route}) => route.component.fetchData instanceof Function )
     .map( ({route, match}) => {
@@ -31,7 +30,7 @@ async function reactRoutingToExpress(req, res) {
   let context = {} // context is mutable
   const content = renderToString(
     <Provider store={store}>
-      <StaticRouter location={req.url} context={context}>
+      <StaticRouter location={url} context={context}>
         {/* renderRoutes will render the right components */}
         { renderRoutes(routes) }
       </StaticRouter>
@@ -40,17 +39,16 @@ async function reactRoutingToExpress(req, res) {
 
   // reflect status from react-router to express
   if (context.status === 302) {
-    return res.redirect(302, context.url)
+    ctx.status = 302
+    return ctx.redirect(context.url)
   }
   if (context.status === 404) {
-    res.status(404)
+    ctx.status = 404
   }
-  res.render(`_layout`, {
+  await ctx.render(`_layout`, {
     initialState: store.getState(),
     dom: content,
   })
-}
-
-router.get('*', asyncMiddleware( reactRoutingToExpress ))
+})
 
 export { router as default }

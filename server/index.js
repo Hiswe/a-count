@@ -1,133 +1,51 @@
 import path from 'path'
-import express from 'express'
 import chalk from 'chalk'
-import morgan from 'morgan'
-import bodyParser from 'body-parser'
-import compression from 'compression'
-import errorHandler from 'express-error-handler'
-import marked from 'marked'
-import favicon from 'serve-favicon'
 import moment from 'moment'
-import session from 'express-session'
-import flash from 'connect-flash'
 import { inspect } from 'util'
+import Koa from 'koa'
+import bodyParser from 'koa-body'
+import serveStatic from 'koa-static'
+import compress from 'koa-compress'
+import logger  from 'koa-logger'
+import views from 'koa-views'
+import json from 'koa-json'
+import Router from 'koa-router'
 
 import config from '../shared/config'
-// import quotation from './quotation'
-// import invoice from './invoice'
-// import customer from './customer'
-// import reset from './reset'
-// import print from './print'
 import { sequelize } from '../db'
-import reactRoutingMiddleware from './express-react-routing'
+import reactRoutes from './koa-react-routing'
 
 //////
 // SERVER CONFIG
 //////
 
-var app = express()
+const app = new Koa()
+const router = new Router()
 
-app.use( bodyParser.json() )
-app.use( bodyParser.urlencoded({ extended: true }) )
-app.use( compression() )
-app.use( favicon(__dirname + '/../public/favicon.png') )
+app.use( bodyParser() )
+app.use( compress() )
+app.use( serveStatic(path.join(__dirname, `../public`)) )
 
-// see Warning here
-// https://github.com/expressjs/session#sessionoptions
-// https://www.npmjs.com/package/session-file-store
-app.use(session({
-  secret: 'con con con compte',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
-}));
-app.use(flash());
-
+// format json https://github.com/koajs/json
+app.use( json() )
 // templates
 // even if React is used for the most part…
-// …Jade is still used for wrappers & error
-app.set('views', path.join( __dirname, './views'));
-app.set('view engine', 'pug');
+// …Pug is still used for wrappers & error
+app.use( views(path.join( __dirname, `./views`), {extension: `pug`}) )
 
-// statics
+//----- LOGGING
 
-app.use(express.static(path.join(__dirname, '../public')));
-
-//////
-// LOGGING
-//////
-
-// don't want to log static
-function logRequest(tokens, req, res) {
-  var method  = tokens.method(req, res);
-  var url     = tokens.url(req, res);
-  return chalk.blue(method) + ' ' + chalk.grey(url);
-}
-function logResponse(tokens, req, res) {
-  var method      = tokens.method(req, res);
-  var status      = tokens.status(req, res);
-  var url         = tokens.url(req, res);
-  var statusColor = status >= 500
-    ? 'red' : status >= 400
-    ? 'yellow' : status >= 300
-    ? 'cyan' : 'green';
-  return chalk.blue(method) + ' '
-    + chalk.grey(url) + ' '
-    + chalk[statusColor](status);
-}
-app.use(morgan(logRequest, {immediate: true}));
-app.use(morgan(logResponse));
-
-//////
-// DB CONFIG
-//////
-
-// database
-//   .setup()
-//   .then(function () {
-//     console.log(chalk.green('db setup is done'));
-//   })
-//   .catch(function (err) {
-//     console.log(chalk.red('db setup FAIL'));
-//     dbStatus = err;
-//     if (err.code !== 'ECONNREFUSED') return console.log(err);
-//     console.log(chalk.yellow('db is not acessible\nlaunch it for god sake'));
-//   });
+app.use( logger() )
 
 //////
 // ROUTING
 //////
 
-// // Don't show anything if database is not up…
-// app.use(function (req, res, next) {
-//   if (dbStatus === true) return next();
-//   let err     = new Error('enable to connect to database');
-//   err.status  = 500;
-//   err.reason  = 'enable to connect to database';
-//   return next(dbStatus);
-// });
-
-// import {bootApi} from './api';
-
-// function buildApiUrl(req, route, params) {
-//   // construct routes with react params
-//   Object.keys(params).forEach(function (name) {
-//     let val = params[name];
-//     if (route.indexOf(name) < 0) return;
-//     let param = `/:${name}`;
-//     route = route.replace(new RegExp(param), val ? `/${val}` : '');
-//   });
-//   // node-fetch only use absolute url
-//   // https://www.npmjs.com/package/node-fetch#url
-//   let {protocol, hostname} = req;
-//   return `${protocol}://${hostname}:${config.PORT}${route}`;
-// }
-
 //----- API
 
 import api from '../db/api'
 
-app.use('/api/v1', api)
+router.use( `/api/v1`, api.routes() )
 
 // //----- NO-JS BACKUP
 
@@ -146,31 +64,28 @@ app.use('/api/v1', api)
 // // TODO should be handled by react?
 // app.get('/print/:fakeId', print.get);
 
+//----- ERROR HANDLING
+
+router.use(async (ctx, next) => {
+  try {
+    await next()
+  } catch (err) {
+    ctx.status = err.statusCode || err.status || 500
+    console.log( inspect(err, {colors: true}) )
+    await ctx.render(`error/default`, {
+      reason: err.message,
+      stacktrace: err.stacktrace || err.stack || false,
+    })
+  }
+})
+
 //----- MOUNT REACT ROUTER
 
-app.use(`/`, reactRoutingMiddleware);
+router.use( reactRoutes.routes() )
 
-//////
-// ERROR HANDLING
-//////
+//----- MOUNT ROUTER TO APPLICATION
 
-const handler = errorHandler({
-  views: {
-    default:  'error/default',
-    404:      'error/404',
-  },
-});
-app.use( (err, req, res, next) => {
-  if (err.reason == null) err.reason = err.toString();
-  console.log( inspect(err, {colors: true}) )
-  err.stacktrace = err.stacktrace || err.stack || false;
-  // force status for morgan to catch up
-  res.status(err.status || err.statusCode);
-  next(err);
-});
-
-app.use(errorHandler.httpError(404));
-app.use(handler);
+app.use( router.routes() )
 
 //////
 // EXPORTS
