@@ -13,7 +13,6 @@ import views from 'koa-views'
 import json from 'koa-json'
 import Router from 'koa-router'
 
-
 import config from '../shared/config'
 import { sequelize } from '../db'
 import reactRoutes from './koa-react-routing'
