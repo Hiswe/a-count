@@ -12,6 +12,7 @@ import logger  from 'koa-logger'
 import views from 'koa-views'
 import json from 'koa-json'
 import Router from 'koa-router'
+import session from 'koa-session'
 
 import config from '../shared/config'
 import { sequelize } from '../db'
@@ -21,8 +22,8 @@ import reactRoutes from './koa-react-routing'
 // SERVER CONFIG
 //////
 
-const app = new Koa()
-const router = new Router()
+const app     = new Koa()
+const router  = new Router()
 
 app.use( bodyParser() )
 app.use( compress() )
@@ -38,6 +39,14 @@ app.use( views(path.join( __dirname, `./views`), {extension: `pug`}) )
 //----- LOGGING
 
 app.use( logger() )
+
+//----- SESSIONS
+
+app.keys = [`con con con compte`]
+const sessionConfig = {
+  renew: true,
+}
+app.use( session(sessionConfig, app) )
 
 //////
 // ROUTING
@@ -70,12 +79,22 @@ const proxyRequest = async (ctx, next) => {
   const { url, body } = ctx.request
   const apiCallUrl    = new URL( config.apiEndpoint )
   apiCallUrl.pathname = apiCallUrl.pathname + url
-  const fetchResult = await fetch( apiCallUrl.href,  {
+  const fetchResult   = await fetch( apiCallUrl.href,  {
     method:   `POST`,
     headers:  { 'Content-Type': `application/json` },
     body:     JSON.stringify( body ),
   })
-  ctx.state.result = await fetchResult.json()
+  const result      = await fetchResult.json()
+  // take care of response errors
+  if (!fetchResult.ok) {
+    throw({
+      status:     fetchResult.status,
+      statusText: fetchResult.statusText,
+      message:    result.message,
+      stacktrace: result.stacktrace,
+    })
+  }
+  ctx.state.result = result
   next()
 }
 // app.post('/quotation/add-line',                   quotation.addLine);
