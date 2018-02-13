@@ -4,7 +4,15 @@ import { inspect } from 'util'
 
 import Customer from './model-customer'
 
-const router = new Router()
+const router  = new Router()
+const version = `1.0.0`
+const name    = `concompte API`
+
+const formatResponse = (payload = {}) => ({
+  version,
+  name,
+  payload,
+})
 
 //////
 // ERRORS
@@ -14,14 +22,12 @@ router.use(async (ctx, next) => {
   try {
     await next()
   } catch (err) {
-    console.log( inspect(err, {colors: true}) )
-    ctx.status = err.statusCode || err.status || 500
-    ctx.body = {
-      name:    `concompte API`,
-      version: `1.0.0`,
-      message: err.message,
+    console.log( inspect(err, {colors: true, depth: 1}) )
+    ctx.status  = err.statusCode || err.status || 500
+    ctx.body    = Object.assign(formatResponse(), {
+      message:    err.message,
       stacktrace: err.stacktrace || err.stack || false,
-    }
+    })
   }
 })
 
@@ -31,10 +37,7 @@ router.use(async (ctx, next) => {
 
 router
 .get( `/`, (ctx, next) => {
-  ctx.body = {
-    name:    `concompte API`,
-    version: `1.0.0`,
-  }
+  ctx.body = formatResponse()
 })
 
 //////
@@ -46,8 +49,9 @@ const customersRoutes = new Router({prefix: `/customers`})
 customersRoutes
 .get(`/`, async (ctx, next) => {
   const customers = await Customer.findAll()
-  ctx.body = customers
+  ctx.body = formatResponse(customers)
 })
+
 //----- NEW
 .get(`/new`, async (ctx, next) => {
   const customerTemplate = await Customer.describe()
@@ -62,26 +66,28 @@ customersRoutes
       blankCustomer[ key ] = ``
     }
   })
-  ctx.body = blankCustomer
+  ctx.body = formatResponse(blankCustomer)
 })
 .post(`/new`,  async (ctx, next) => {
-  const { body } = ctx.request
-  const customer = await Customer.updateOrCreate( false, body )
-  ctx.body = customer
+  const { body }  = ctx.request
+  const customer  = await Customer.updateOrCreate( false, body )
+  ctx.body        = formatResponse(customer)
 })
+
 //----- EDIT
 .get(`/:id`, async (ctx, next) => {
-  const customer = await Customer.findById( ctx.params.id )
-  ctx.body = customer
+  const { id }    = ctx.params
+  const customer  = await Customer.findById( id )
+  ctx.body        = formatResponse(customer)
 })
 .post(`/:id`, async (ctx, next) => {
-  const { body } = ctx.request
-  const customer = await Customer.updateOrCreate( body.id, body )
-  ctx.body = customer
+  const { id }    = ctx.params
+  const { body }  = ctx.request
+  const customer  = await Customer.updateOrCreate( id, body )
+  ctx.body        = formatResponse(customer)
 })
 
 router
   .use( customersRoutes.routes() )
-  .use( customersRoutes.allowedMethods() )
 
 export { router as default }

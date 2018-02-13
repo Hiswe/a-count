@@ -11,7 +11,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case CUSTOMERS_LOADED:
-      return Object.assign({}, state, { list: action.customers })
+      return Object.assign({}, state, {list: action.customers})
 
     case CUSTOMER_LOADED:
       return Object.assign({}, state, {current: action.customer})
@@ -27,10 +27,10 @@ export default function reducer(state = initialState, action) {
 export const fetchCustomers = () => dispatch => {
   return fetch(`http://localhost:3000/api/v1/customers`)
     .then(res => res.json() )
-    .then(customers => {
+    .then(res => {
       dispatch({
-        type: CUSTOMERS_LOADED,
-        customers,
+        type:       CUSTOMERS_LOADED,
+        customers:  res.payload,
       })
     })
 }
@@ -39,10 +39,10 @@ export const fetchCustomer = ({id}) => dispatch => {
   id = id ? id : `new`
   return fetch(`http://localhost:3000/api/v1/customers/${id}`)
     .then(res => res.json() )
-    .then(customer => {
+    .then(res => {
       dispatch({
-        type: CUSTOMER_LOADED,
-        customer,
+        type:     CUSTOMER_LOADED,
+        customer: res.payload,
       })
     })
 }
@@ -59,10 +59,10 @@ export const createUpdateCustomer = (body) => dispatch => {
     body: JSON.stringify( body )
   })
     .then(res => res.json() )
-    .then(customer => {
+    .then(res => {
       dispatch({
-        type: CUSTOMER_SAVED,
-        customer,
+        type:     CUSTOMER_SAVED,
+        customer: res.payload,
       })
     })
 }
