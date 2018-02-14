@@ -25,7 +25,7 @@ class QuotationsHome extends Component {
           Quotations
           <Link to="/quotations/new" className="btn-fab">+</Link>
         </h1>
-        {this.props.hasQuotations ? <QuotationsTable /> : <Empty />}
+        {props.hasQuotations ? <QuotationsTable /> : <Empty />}
       </div>
     )
   }

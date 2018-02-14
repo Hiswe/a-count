@@ -1,25 +1,35 @@
-import {get, post} from './helpers'
+import crio from 'crio'
+
+import {fetchGet, fetchPost} from './helpers'
 
 const NAME = `customers`
 
-export const GET_ALL = `@concompte/${NAME}/loaded`;
-export const GET_ONE = `@concompte/${NAME}/loaded-one`;
+export const GET_ALL  = `@concompte/${NAME}/loaded`;
+export const GET_ONE  = `@concompte/${NAME}/loaded-one`;
+export const EDIT_ONE  = `@concompte/${NAME}/edit-one`;
 export const SAVE_ONE = `@concompte/${NAME}/saved-one`;
 
 const initialState = {
-  list: [],
+  list:     [],
+  current:  {},
+  editCopy: {},
 }
 
 export default function reducer(state = initialState, action) {
+  if (!crio.isCrio(state)) state = crio( state )
   switch (action.type) {
     case GET_ALL:
-      return Object.assign({}, state, {list: action.payload})
+      return state.set( `list`, action.payload)
 
     case GET_ONE:
-      return Object.assign({}, state, {current: action.payload})
+      const newState = state.set( `current`, action.payload)
+      return newState.set( `editCopy`, action.payload)
+
+    case EDIT_ONE:
+      return state.merge( `editCopy`, action.payload)
 
     case SAVE_ONE:
-      return Object.assign({}, state, {current: action.payload})
+      return state.set( `current`, action.payload)
 
     default:
       return state
@@ -27,7 +37,7 @@ export default function reducer(state = initialState, action) {
 }
 
 export const getAll = () => dispatch => {
-  return get(NAME)
+  return fetchGet(NAME)
     .then(payload => {
       dispatch({
         type: GET_ALL,
@@ -36,9 +46,9 @@ export const getAll = () => dispatch => {
     })
 }
 
-export const fetchOne = ({id}) => dispatch => {
+export const getOne = ({id}) => dispatch => {
   id = id ? id : `new`
-  return get(`${NAME}/${id}`)
+  return fetchPost(`${NAME}/${id}`)
     .then(payload => {
       dispatch({
         type: GET_ONE,
@@ -47,10 +57,17 @@ export const fetchOne = ({id}) => dispatch => {
     })
 }
 
+export const editOne = (payload) => {
+  return {
+    type: EDIT_ONE,
+    payload,
+  }
+}
+
 export const saveOne = (body) => dispatch => {
   let {id} = body
   id = id ? id : `new`
-  return post(`${NAME}/${id}`, body)
+  return fetchPost(`${NAME}/${id}`, body)
     .then(payload => {
       dispatch({
         type: SAVE_ONE,

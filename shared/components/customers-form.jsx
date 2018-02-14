@@ -10,15 +10,16 @@ const CreateBtn = () =>  (
   <Link to="/customers/new" className="btn-secondary">New Customer</Link>
 )
 
+// https://hackernoon.com/the-constructor-is-dead-long-live-the-constructor-c10871bea599
+
 class CustomerForm extends Component {
 
   static fetchData(store, params) {
-    return store.dispatch( customers.fetchOne( params ) )
+    return store.dispatch( customers.getOne( params ) )
   }
 
   constructor(props) {
     super(props)
-    this.state = Object.assign( {}, this.props.customer )
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
@@ -29,16 +30,14 @@ class CustomerForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { history }     = this.props
-    const currentCustomer = this.props.customer
-    const nextCustomer    = nextProps.customer
+    const { history, editCopy, current } = this.props
     // redirect if new customer
-    if (!currentCustomer.id && nextCustomer.id) {
-      history.push(`/customers/${nextCustomer.id}`)
+    if (!editCopy.id && current.id) {
+      history.push(`/customers/${current.id}`)
     }
     // update state on redux status change
-    if (currentCustomer !== nextCustomer) {
-      this.setState( nextProps.customer )
+    if (editCopy !== current) {
+      // this.setState( nextProps.customer )
     }
   }
 
@@ -54,22 +53,24 @@ class CustomerForm extends Component {
 
   handleChange(event) {
     const { target }    = event
+    const { props: { editOne} } = this
     const modification  = {
       [ target.getAttribute('name') ]: target.value,
     }
-    this.setState( modification )
+    editOne( modification )
   }
 
   render() {
-    const { props, state } = this
+    const { props } = this
+    const { editCopy } = props
     return (
       <section>
         <form method="post"onSubmit={this.handleSubmit}>
           <h1>Customer</h1>
-          {props.isNew ? null : <input type="hidden" defaultValue={state.id} name="id" />  }
+          {props.isNew ? null : <input type="hidden" defaultValue={editCopy.id} name="id" />  }
           <fieldset>
-            <Floating key="name" name="name" value={state.name} onChange={this.handleChange}/>
-            <Floating key="address" name="address" type="textarea" value={state.address} onChange={this.handleChange} />
+            <Floating key="name" name="name" value={editCopy.name} onChange={this.handleChange}/>
+            <Floating key="address" name="address" type="textarea" value={editCopy.address} onChange={this.handleChange} />
           </fieldset>
           <div className="actions">
             <button className="btn" type="submit">{props.submitMsg}</button>
@@ -82,21 +83,23 @@ class CustomerForm extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const customer  = state.customers && state.customers.current
-  const isNew     = customer.id == null
+  const { editCopy, current } = state.customers
+  const isNew     = editCopy.id == null
   const submitMsg = isNew ? 'Create customer' : 'Update customer'
   const result    = {
     submitMsg:   `${isNew ? 'Create' : 'Update'} customer`,
     isNew,
-    customer,
+    current,
+    editCopy,
   }
   return result
 }
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    fetchOne: customers.fetchOne,
+    getOne:   customers.getOne,
     saveOne:  customers.saveOne,
+    editOne:  customers.editOne,
   }, dispatch)
 }
 

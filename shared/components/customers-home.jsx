@@ -31,7 +31,7 @@ class CustomerHome extends Component {
 }
 
 const mapStateToProp = (state) => {
-  const customers = state.customers && state.customers.list
+  const customers   = state.customers && state.customers.list
   const hasCustomers = customers && customers.length
   return {
     hasCustomers,
@@ -40,7 +40,7 @@ const mapStateToProp = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    getAll: customers.getAll(),
+    getAll: customers.getAll,
   }, dispatch)
 }
 

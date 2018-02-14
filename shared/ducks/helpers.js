@@ -6,13 +6,13 @@ import 'isomorphic-fetch'
 
 const apiEndpoint = `http://localhost:3000/api/v1/`
 
-const get = async (url) => {
+const fetchGet = async (url) => {
   const fetchResult = await fetch(`${apiEndpoint}${url}`)
   const result      = await fetchResult.json()
   return result.payload
 }
 
-const post = async (url, body) => {
+const fetchPost = async (url, body) => {
   const fetchResult = await fetch(`${apiEndpoint}${url}`, {
     method: `POST`,
     headers: {
@@ -24,4 +24,4 @@ const post = async (url, body) => {
   return result.payload
 }
 
-export { get, post }
+export { fetchGet, fetchPost }
