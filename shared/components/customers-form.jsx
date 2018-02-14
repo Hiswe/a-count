@@ -10,8 +10,6 @@ const CreateBtn = () =>  (
   <Link to="/customers/new" className="btn-secondary">New Customer</Link>
 )
 
-// https://hackernoon.com/the-constructor-is-dead-long-live-the-constructor-c10871bea599
-
 class CustomerForm extends Component {
 
   static fetchData(store, params) {
@@ -85,7 +83,6 @@ class CustomerForm extends Component {
 function mapStateToProps(state, ownProps) {
   const { editCopy, current } = state.customers
   const isNew     = editCopy.id == null
-  const submitMsg = isNew ? 'Create customer' : 'Update customer'
   const result    = {
     submitMsg:   `${isNew ? 'Create' : 'Update'} customer`,
     isNew,

@@ -48,7 +48,7 @@ export const getAll = () => dispatch => {
 
 export const getOne = ({id}) => dispatch => {
   id = id ? id : `new`
-  return fetchPost(`${NAME}/${id}`)
+  return fetchGet(`${NAME}/${id}`)
     .then(payload => {
       dispatch({
         type: GET_ONE,

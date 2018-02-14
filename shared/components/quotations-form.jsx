@@ -1,17 +1,20 @@
-import React        from 'react'
-import { connect }  from 'react-redux'
-import { Link }     from 'react-router-dom'
+import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-import {Input}                      from './form.jsx';
-import {formatDate, id as formatId} from './_format';
+import * as quotations from '../ducks/quotations'
+import * as customers from '../ducks/customers'
+// import {Input}                      from './form.jsx';
+// import {formatDate, id as formatId} from './_format';
 import {
   Amount,
   // getInformationsFromFakeId,
 } from './_utils.jsx'
-// import {
-//   PrintBtn,
+import {
+  PrintBtn,
 //   Meta,
-// } from './business-form-meta.jsx'
+} from './business-form'
 
 // import { Body } from  './business-form-body.jsx'
 
@@ -51,29 +54,115 @@ import {
 //   </div>
 // )
 
-let QuotationForm = (props) => (
-  <div>
-    <header>
-      <h1>
-        {'Quotation\u00A0'}
-      </h1>
-      {/* <PrintBtn {...props.params} /> */}
-    </header>
-    <form method="post">
-      {/* {props.isNew ? null : <HiddenInputs /> }
-      <Meta {...props} />
-      <Body {...props} />
-      <Actions {...props.params} /> */}
-    </form>
-  </div>
-)
+// let QuotationForm = (props) => (
+//   <div>
+//     <header>
+//       <h1>
+//         {'Quotation\u00A0'}
+//       </h1>
+//     </header>
+//     <form method="post">
+//       {/* {props.isNew ? null : <HiddenInputs /> }
+//       <Meta {...props} />
+//       <Body {...props} />
+//       <Actions {...props.params} /> */}
+//     </form>
+//   </div>
+// )
 
-function mapQuotationForm(state, ownProps) {
-  // let infos = getInformationsFromFakeId(state, ownProps.params)
-  return {
-    // isNew: infos.isNew,
-    // formAction: infos.isNew ? '/quotation' : `/quotation/${infos.businessForm.id}`
+class QuotationForm extends Component {
+
+  static fetchData(store, params) {
+    return Promise.all([
+      store.dispatch( quotations.getOne( params ) ),
+      store.dispatch( customers.getAll() ),
+    ])
   }
+
+  constructor(props) {
+    super(props)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  componentDidMount() {
+    const { params } = this.props.match
+    this.props.getOne( params )
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { history, editCopy, current } = this.props
+    // redirect if new customer
+    if (!editCopy.id && current.id) {
+      history.push(`/customers/${current.id}`)
+    }
+    // update state on redux status change
+    if (editCopy !== current) {
+      // this.setState( nextProps.customer )
+    }
+  }
+
+  handleSubmit(event) {
+    event.preventDefault()
+    const formData = new FormData(event.target)
+    const result    = {}
+    for (const [key, value] of formData.entries()) {
+      result[key] = value
+    }
+    this.props.saveOne( result )
+  }
+
+  handleChange(event) {
+    const { target }    = event
+    const { props: { editOne} } = this
+    const modification  = {
+      [ target.getAttribute('name') ]: target.value,
+    }
+    editOne( modification )
+  }
+
+  render() {
+    const { props } = this
+    const { editCopy } = props
+    return (
+      <div>
+        <header>
+          <h1>
+            {'Quotation\u00A0'}
+            <PrintBtn {...props} />
+          </h1>
+        </header>
+        <form method="post">
+          {/* {props.isNew ? null : <HiddenInputs /> }
+          <Meta {...props} />
+          <Body {...props} />
+          <Actions {...props.params} /> */}
+        </form>
+      </div>
+    )
+  }
+
 }
 
-export default connect(mapQuotationForm)(QuotationForm)
+function mapStateToProps(state, ownProps) {
+  const { editCopy, current } = state.quotations
+  const isNew = editCopy.id == null
+  const result = {
+    submitMsg:   `${isNew ? 'Create' : 'Update'} quotation`,
+    isNew,
+    current,
+    editCopy,
+    customers: state.customers,
+  }
+  return result
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    getOne:   quotations.getOne,
+    saveOne:  quotations.saveOne,
+    editOne:  quotations.editOne,
+  }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuotationForm)

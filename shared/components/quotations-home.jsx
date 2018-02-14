@@ -42,7 +42,7 @@ const mapStateToProp = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    getAll: quotations.getAll(),
+    getAll: quotations.getAll,
   }, dispatch)
 }
 
