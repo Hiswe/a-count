@@ -94,7 +94,8 @@ const proxyRequest = async (ctx, next) => {
       stacktrace: result.stacktrace,
     })
   }
-  ctx.state.result = result
+  // all API call send the result in `payload`
+  ctx.state.result = result.payload
   next()
 }
 // app.post('/quotation/add-line',                   quotation.addLine);

@@ -8,8 +8,10 @@ const Layout = ({ route }) => {
       <header className="main-header">
         <ul>
           <li><NavLink to="/" activeClassName="is-active">home</NavLink></li>
-          {/* <li><NavLink to="/quotations">quotations</NavLink></li>
-          <li><NavLink to="/invoices">invoices</NavLink></li> */}
+          <li><NavLink to="/quotations">quotations</NavLink></li>
+          {/*
+          <li><NavLink to="/invoices">invoices</NavLink></li>
+          */}
           <li><NavLink to="/customers" activeClassName="is-active">customers</NavLink></li>
           {/* <li><NavLink to="/settings">settings</NavLink></li> */}
         </ul>

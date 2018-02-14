@@ -1,6 +1,6 @@
 import {get, post} from './helpers'
 
-const NAME = `customers`
+const NAME = `quotations`
 
 export const GET_ALL = `@concompte/${NAME}/loaded`;
 export const GET_ONE = `@concompte/${NAME}/loaded-one`;

@@ -3,22 +3,17 @@ import chalk from 'chalk'
 import { inspect } from 'util'
 
 import Customer from './model-customer'
+import Quotation from './model-quotation'
+import { formatResponse } from './api-helpers'
+import createRoutes from './api-create-router'
 
-const router  = new Router()
-const version = `1.0.0`
-const name    = `concompte API`
-
-const formatResponse = (payload = {}) => ({
-  version,
-  name,
-  payload,
-})
+const apiRouter = new Router()
 
 //////
 // ERRORS
 //////
 
-router.use(async (ctx, next) => {
+apiRouter.use(async (ctx, next) => {
   try {
     await next()
   } catch (err) {
@@ -35,59 +30,23 @@ router.use(async (ctx, next) => {
 // INFOS
 //////
 
-router
+apiRouter
 .get( `/`, (ctx, next) => {
   ctx.body = formatResponse()
 })
 
 //////
-// CUSTOMERS
+// ENTRIES
 //////
 
-const customersRoutes = new Router({prefix: `/customers`})
+const customersRoutes = createRoutes( `customers`, Customer )
+const quotationsRoutes = createRoutes( `quotations`, Quotation )
 
-customersRoutes
-.get(`/`, async (ctx, next) => {
-  const customers = await Customer.findAll()
-  ctx.body = formatResponse(customers)
-})
+//////
+// MOUNT
+//////
 
-//----- NEW
-.get(`/new`, async (ctx, next) => {
-  const customerTemplate = await Customer.describe()
-  const blankCustomer = {}
-  Object
-  .entries( customerTemplate)
-  .forEach( ([key, value]) => {
-    if (value.defaultValue !== null) {
-      return blankCustomer[ key ] = value.defaultValue
-    }
-    if (value.type === `TEXT` || value.type === `CHARACTER VARYING(255)` ) {
-      blankCustomer[ key ] = ``
-    }
-  })
-  ctx.body = formatResponse(blankCustomer)
-})
-.post(`/new`,  async (ctx, next) => {
-  const { body }  = ctx.request
-  const customer  = await Customer.updateOrCreate( false, body )
-  ctx.body        = formatResponse(customer)
-})
+apiRouter.use( customersRoutes.routes() )
+apiRouter.use( quotationsRoutes.routes() )
 
-//----- EDIT
-.get(`/:id`, async (ctx, next) => {
-  const { id }    = ctx.params
-  const customer  = await Customer.findById( id )
-  ctx.body        = formatResponse(customer)
-})
-.post(`/:id`, async (ctx, next) => {
-  const { id }    = ctx.params
-  const { body }  = ctx.request
-  const customer  = await Customer.updateOrCreate( id, body )
-  ctx.body        = formatResponse(customer)
-})
-
-router
-  .use( customersRoutes.routes() )
-
-export { router as default }
+export { apiRouter as default }

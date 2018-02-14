@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { Floating } from './form.jsx'
-import { fetchCustomer, createUpdateCustomer } from '../ducks/customers'
+import * as customers from '../ducks/customers'
 
 const CreateBtn = () =>  (
   <Link to="/customers/new" className="btn-secondary">New Customer</Link>
@@ -13,7 +13,7 @@ const CreateBtn = () =>  (
 class CustomerForm extends Component {
 
   static fetchData(store, params) {
-    return store.dispatch( fetchCustomer( params ) )
+    return store.dispatch( customers.fetchOne( params ) )
   }
 
   constructor(props) {
@@ -25,7 +25,7 @@ class CustomerForm extends Component {
 
   componentDidMount() {
     const { params } = this.props.match
-    this.props.fetchCustomer( params )
+    this.props.getOne( params )
   }
 
   componentWillReceiveProps(nextProps) {
@@ -49,7 +49,7 @@ class CustomerForm extends Component {
     for (const [key, value] of formData.entries()) {
       result[key] = value
     }
-    this.props.createUpdateCustomer( result )
+    this.props.saveOne( result )
   }
 
   handleChange(event) {
@@ -95,8 +95,8 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    fetchCustomer,
-    createUpdateCustomer,
+    fetchOne: customers.fetchOne,
+    saveOne:  customers.saveOne,
   }, dispatch)
 }
 
