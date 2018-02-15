@@ -1,3 +1,4 @@
+import crio from 'crio'
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -18,6 +19,7 @@ class CustomerForm extends Component {
 
   constructor(props) {
     super(props)
+    this.state = this.props.current
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
@@ -28,15 +30,16 @@ class CustomerForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { history, editCopy, current } = this.props
+    const { history, current }     = this.props
+    const nextCustomer    = nextProps.customer
     // redirect if new customer
-    if (!editCopy.id && current.id) {
-      history.push(`/customers/${current.id}`)
+    if (!current.id && nextCustomer.id) {
+      history.push(`/customers/${nextCustomer.id}`)
     }
     // update state on redux status change
-    if (editCopy !== current) {
-      // this.setState( nextProps.customer )
-    }
+    if (current !== nextCustomer) {
+      this.setState( nextProps.customer )
+}
   }
 
   handleSubmit(event) {
@@ -51,24 +54,22 @@ class CustomerForm extends Component {
 
   handleChange(event) {
     const { target }    = event
-    const { props: { editOne} } = this
     const modification  = {
       [ target.getAttribute('name') ]: target.value,
     }
-    editOne( modification )
+    this.setState( modification )
   }
 
   render() {
-    const { props } = this
-    const { editCopy } = props
+    const { props, state } = this
     return (
       <section>
         <form method="post"onSubmit={this.handleSubmit}>
           <h1>Customer</h1>
-          {props.isNew ? null : <input type="hidden" defaultValue={editCopy.id} name="id" />  }
+          {props.isNew ? null : <input type="hidden" defaultValue={state.id} name="id" />  }
           <fieldset>
-            <Floating key="name" name="name" value={editCopy.name} onChange={this.handleChange}/>
-            <Floating key="address" name="address" type="textarea" value={editCopy.address} onChange={this.handleChange} />
+            <Floating key="name" name="name" value={state.name} onChange={this.handleChange}/>
+            <Floating key="address" name="address" type="textarea" value={state.address} onChange={this.handleChange} />
           </fieldset>
           <div className="actions">
             <button className="btn" type="submit">{props.submitMsg}</button>
@@ -81,13 +82,12 @@ class CustomerForm extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { editCopy, current } = state.customers
-  const isNew     = editCopy.id == null
-  const result    = {
+  const { current } = state.customers
+  const isNew   = current.id == null
+  const result  = {
     submitMsg:   `${isNew ? 'Create' : 'Update'} customer`,
     isNew,
     current,
-    editCopy,
   }
   return result
 }
@@ -96,7 +96,6 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     getOne:   customers.getOne,
     saveOne:  customers.saveOne,
-    editOne:  customers.editOne,
   }, dispatch)
 }
 

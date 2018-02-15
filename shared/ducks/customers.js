@@ -6,13 +6,11 @@ const NAME = `customers`
 
 export const GET_ALL  = `@concompte/${NAME}/loaded`;
 export const GET_ONE  = `@concompte/${NAME}/loaded-one`;
-export const EDIT_ONE  = `@concompte/${NAME}/edit-one`;
 export const SAVE_ONE = `@concompte/${NAME}/saved-one`;
 
 const initialState = {
   list:     [],
   current:  {},
-  editCopy: {},
 }
 
 export default function reducer(state = initialState, action) {
@@ -22,11 +20,7 @@ export default function reducer(state = initialState, action) {
       return state.set( `list`, action.payload)
 
     case GET_ONE:
-      const newState = state.set( `current`, action.payload)
-      return newState.set( `editCopy`, action.payload)
-
-    case EDIT_ONE:
-      return state.merge( `editCopy`, action.payload)
+      return state.set( `current`, action.payload)
 
     case SAVE_ONE:
       return state.set( `current`, action.payload)
@@ -55,13 +49,6 @@ export const getOne = ({id}) => dispatch => {
         payload,
       })
     })
-}
-
-export const editOne = (payload) => {
-  return {
-    type: EDIT_ONE,
-    payload,
-  }
 }
 
 export const saveOne = (body) => dispatch => {
