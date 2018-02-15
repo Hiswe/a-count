@@ -5,44 +5,16 @@ import { Link } from 'react-router-dom'
 
 import * as quotations from '../ducks/quotations'
 import * as customers from '../ducks/customers'
+import { Floating } from './form.jsx'
 // import {Input}                      from './form.jsx';
 // import {formatDate, id as formatId} from './_format';
 import {
   Amount,
   // getInformationsFromFakeId,
 } from './_utils.jsx'
-import {
-  PrintBtn,
-//   Meta,
-} from './business-form'
+import { PrintBtn, Meta, CustomerField } from './business-form'
 
 // import { Body } from  './business-form-body.jsx'
-
-// ////////
-// // WHOLE PAGE
-// ////////
-
-// let Actions = (props) => {
-//   let newQuot       = <a key="action-newQuot" href="/quotation" className="btn-fab">+</a>
-//   let convertRoute  = `/quotation/convert-to-invoice/${props.businessForm.id}`;
-//   let convert       = <button key="action-convert" className="btn-secondary" formAction={convertRoute} formMethod="post">Convert to invoice</button>;
-
-//   return (
-//     <div className="action">
-//       <button className="btn" type="submit" name="convertToInvoice" value="false">
-//         {props.isNew ? 'Create quotation' : 'Update quotation'}
-//       </button>
-//       {props.isNew ? null : ['\u00A0', newQuot, '\u00A0', convert]}
-//     </div>
-//   )
-// }
-
-// function mapActions(state, ownProps) {
-//   let infos = getInformationsFromFakeId(state, ownProps)
-//   return infos
-// }
-
-// Actions = connect(mapActions)(Actions)
 
 // <input type="hidden" value={quotation.index.quotation} name="index[quotation]" />
 // <input type="hidden" value={quotation.time.created} name="time[created]" />
@@ -54,21 +26,20 @@ import {
 //   </div>
 // )
 
-// let QuotationForm = (props) => (
-//   <div>
-//     <header>
-//       <h1>
-//         {'Quotation\u00A0'}
-//       </h1>
-//     </header>
-//     <form method="post">
-//       {/* {props.isNew ? null : <HiddenInputs /> }
-//       <Meta {...props} />
-//       <Body {...props} />
-//       <Actions {...props.params} /> */}
-//     </form>
-//   </div>
-// )
+let Actions = (props) => {
+  let newQuot       = <a key="action-newQuot" href="/quotation" className="btn-fab">+</a>
+  let convertRoute  = `/quotation/convert-to-invoice/${props.businessForm.id}`;
+  let convert       = <button key="action-convert" className="btn-secondary" formAction={convertRoute} formMethod="post">Convert to invoice</button>;
+
+  return (
+    <div className="action">
+      <button className="btn" type="submit" name="convertToInvoice" value="false">
+        {props.isNew ? 'Create quotation' : 'Update quotation'}
+      </button>
+      {props.isNew ? null : ['\u00A0', newQuot, '\u00A0', convert]}
+    </div>
+  )
+}
 
 class QuotationForm extends Component {
 
@@ -81,6 +52,9 @@ class QuotationForm extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      formData: this.props.current,
+    }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
@@ -91,21 +65,24 @@ class QuotationForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { history, editCopy, current } = this.props
+    const { history, current } = this.props
+    const next = nextProps.current
     // redirect if new customer
-    if (!editCopy.id && current.id) {
-      history.push(`/customers/${current.id}`)
+    if (!current.id && next.id) {
+      history.push(`/customers/${next.id}`)
     }
     // update state on redux status change
-    if (editCopy !== current) {
-      // this.setState( nextProps.customer )
-    }
+    if (current === next)  return
+    this.setState( (prevState, props) => {
+      const updated = prevState.formData.merge( null, props.current )
+      return { formData: updated }
+    })
   }
 
   handleSubmit(event) {
     event.preventDefault()
     const formData = new FormData(event.target)
-    const result    = {}
+    const result = {}
     for (const [key, value] of formData.entries()) {
       result[key] = value
     }
@@ -113,30 +90,43 @@ class QuotationForm extends Component {
   }
 
   handleChange(event) {
-    const { target }    = event
-    const { props: { editOne} } = this
-    const modification  = {
-      [ target.getAttribute('name') ]: target.value,
-    }
-    editOne( modification )
+    const { target } = event
+    const { value } = target
+    const key = target.getAttribute(`name`)
+    this.setState( (prevState) => {
+      const updated = prevState.formData.set(key, value)
+      return { formData: updated }
+    })
   }
 
   render() {
-    const { props } = this
-    const { editCopy } = props
+    const { props, state } = this
+    const { formData } = state
     return (
       <div>
         <header>
           <h1>
             {'Quotation\u00A0'}
-            <PrintBtn {...props} />
           </h1>
+          <PrintBtn {...formData} />
         </header>
-        <form method="post">
-          {/* {props.isNew ? null : <HiddenInputs /> }
-          <Meta {...props} />
-          <Body {...props} />
-          <Actions {...props.params} /> */}
+        <form method="post" className="business-form" >
+          <fieldset className="business-form__item business-form__item--meta">
+            <CustomerField {...props} {...state} onChange={this.handleChange}/>
+            {/* <Status {...props.params} /> */}
+          </fieldset>
+          <fieldset className="business-form__item business-form__item--tax">
+            {/* <Tax {...props.params} /> */}
+          </fieldset>
+          <fieldset className="business-form__item business-form__item--body">
+            <Floating key="name" name="name" value={formData.name} onChange={this.handleChange} />
+          </fieldset>
+          <div className="business-form__actions">
+            <button className="btn" type="submit">{props.submitMsg}</button>
+            {/* {props.isNew ? null : ['\u00A0', newQuot, '\u00A0', convert]} */}
+          </div>
+          {/* {props.isNew ? null : <HiddenInputs /> } */}
+          {/* <Body {...props} /> */}
         </form>
       </div>
     )
@@ -145,13 +135,12 @@ class QuotationForm extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { editCopy, current } = state.quotations
-  const isNew = editCopy.id == null
+  const { current } = state.quotations
+  const isNew = current.id == null
   const result = {
     submitMsg:   `${isNew ? 'Create' : 'Update'} quotation`,
     isNew,
     current,
-    editCopy,
     customers: state.customers,
   }
   return result
@@ -161,7 +150,6 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     getOne:   quotations.getOne,
     saveOne:  quotations.saveOne,
-    editOne:  quotations.editOne,
   }, dispatch)
 }
 

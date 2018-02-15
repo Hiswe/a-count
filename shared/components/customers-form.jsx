@@ -1,4 +1,3 @@
-import crio from 'crio'
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -19,7 +18,9 @@ class CustomerForm extends Component {
 
   constructor(props) {
     super(props)
-    this.state = this.props.current
+    this.state = {
+      formData: this.props.current,
+    }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
@@ -30,22 +31,24 @@ class CustomerForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { history, current }     = this.props
-    const nextCustomer    = nextProps.customer
+    const { history, current } = this.props
+    const next = nextProps.current
     // redirect if new customer
-    if (!current.id && nextCustomer.id) {
-      history.push(`/customers/${nextCustomer.id}`)
+    if (!current.id && next.id) {
+      history.push(`/customers/${next.id}`)
     }
     // update state on redux status change
-    if (current !== nextCustomer) {
-      this.setState( nextProps.customer )
-}
+    if (current === next) return
+    this.setState( (prevState, props) => {
+      const updated = prevState.formData.merge( null, props.current )
+      return { formData: updated }
+    })
   }
 
   handleSubmit(event) {
     event.preventDefault()
     const formData = new FormData(event.target)
-    const result    = {}
+    const result = {}
     for (const [key, value] of formData.entries()) {
       result[key] = value
     }
@@ -53,23 +56,26 @@ class CustomerForm extends Component {
   }
 
   handleChange(event) {
-    const { target }    = event
-    const modification  = {
-      [ target.getAttribute('name') ]: target.value,
-    }
-    this.setState( modification )
+    const { target } = event
+    const { value } = target
+    const key = target.getAttribute(`name`)
+    this.setState( (prevState) => {
+      const updated = prevState.formData.set(key, value)
+      return { formData: updated }
+    })
   }
 
   render() {
     const { props, state } = this
+    const { formData } = state
     return (
       <section>
         <form method="post"onSubmit={this.handleSubmit}>
           <h1>Customer</h1>
-          {props.isNew ? null : <input type="hidden" defaultValue={state.id} name="id" />  }
+          {props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" />  }
           <fieldset>
-            <Floating key="name" name="name" value={state.name} onChange={this.handleChange}/>
-            <Floating key="address" name="address" type="textarea" value={state.address} onChange={this.handleChange} />
+            <Floating key="name" name="name" value={formData.name} onChange={this.handleChange}/>
+            <Floating key="address" name="address" type="textarea" value={formData.address} onChange={this.handleChange} />
           </fieldset>
           <div className="actions">
             <button className="btn" type="submit">{props.submitMsg}</button>
@@ -85,7 +91,7 @@ function mapStateToProps(state, ownProps) {
   const { current } = state.customers
   const isNew   = current.id == null
   const result  = {
-    submitMsg:   `${isNew ? 'Create' : 'Update'} customer`,
+    submitMsg: `${isNew ? 'Create' : 'Update'} customer`,
     isNew,
     current,
   }

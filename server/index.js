@@ -23,7 +23,6 @@ import reactRoutes from './koa-react-routing'
 //////
 
 const app     = new Koa()
-const router  = new Router()
 
 app.use( bodyParser() )
 app.use( compress() )
@@ -52,17 +51,16 @@ app.use( session(sessionConfig, app) )
 // ROUTING
 //////
 
-//----- API
-
-import api from '../db/api'
-
-router.use( `/api/v1`, api.routes() )
-
 //----- ERROR HANDLING
 
-router.use(async (ctx, next) => {
+app.use(async (ctx, next) => {
+  console.log( )
   try {
     await next()
+    console.log( `error ${ctx.status}` )
+    if (ctx.status === 404) {
+      await ctx.render(`error/404`)
+    }
   } catch (err) {
     ctx.status = err.statusCode || err.status || 500
     console.log( inspect(err, {colors: true}) )
@@ -72,6 +70,14 @@ router.use(async (ctx, next) => {
     })
   }
 })
+
+const router  = new Router()
+
+//----- API
+
+import api from '../db/api'
+
+router.use( `/api/v1`, api.routes() )
 
 //----- NO-JS BACKUP
 
@@ -104,6 +110,15 @@ const proxyRequest = async (ctx, next) => {
 // app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
 // app.post('/quotation/:fakeId?',                   quotation.post);
 
+router.post( `/quotations/new`, proxyRequest, async (ctx, next) => {
+  const { result } = ctx.state
+  ctx.redirect( `/quotations/${ result.id }` )
+})
+router.post( `/quotations/:id`, proxyRequest, async (ctx, next) => {
+  const { url } = ctx.request
+  ctx.redirect( ctx.request.url )
+})
+
 router.post( `/customers/new`, proxyRequest, async (ctx, next) => {
   const { result } = ctx.state
   ctx.redirect( `/customers/${ result.id }` )
@@ -112,7 +127,6 @@ router.post( `/customers/:id`, proxyRequest, async (ctx, next) => {
   const { url } = ctx.request
   ctx.redirect( ctx.request.url )
 })
-
 
 // app.post('/reset',    reset.post);
 
@@ -124,17 +138,13 @@ router.post( `/customers/:id`, proxyRequest, async (ctx, next) => {
 
 router.use( reactRoutes.routes() )
 
-router.use( async (ctx) => {
-  ctx.status = 404
-  await ctx.render(`error/404`)
-})
-
 //----- MOUNT ROUTER TO APPLICATION
 
 app.use( router.routes() )
+// app.use( router.allowedMethods() )
 
 //////
 // EXPORTS
 //////
 
-export {app as default}
+export { app as default }
