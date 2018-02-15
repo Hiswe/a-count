@@ -124,6 +124,7 @@ class QuotationForm extends Component {
           <div className="business-form__actions">
             <button className="btn" type="submit">{props.submitMsg}</button>
             {/* {props.isNew ? null : ['\u00A0', newQuot, '\u00A0', convert]} */}
+            {props.isNew ? null : <Link to="/quotations/new" className="btn-secondary">New Quotation</Link>}
           </div>
           {/* {props.isNew ? null : <HiddenInputs /> } */}
           {/* <Body {...props} /> */}

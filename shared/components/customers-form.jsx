@@ -6,10 +6,6 @@ import { Link } from 'react-router-dom'
 import { Floating } from './form.jsx'
 import * as customers from '../ducks/customers'
 
-const CreateBtn = () =>  (
-  <Link to="/customers/new" className="btn-secondary">New Customer</Link>
-)
-
 class CustomerForm extends Component {
 
   static fetchData(store, params) {
@@ -79,7 +75,7 @@ class CustomerForm extends Component {
           </fieldset>
           <div className="actions">
             <button className="btn" type="submit">{props.submitMsg}</button>
-            {props.isNew ? null : <CreateBtn />}
+            {props.isNew ? null : <Link to="/customers/new" className="btn-secondary">New Customer</Link>}
           </div>
         </form>
       </section>

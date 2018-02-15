@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { Empty } from './_utils.jsx'
-import QuotationsTable from './quotations-list.jsx'
+import QuotationsList from './quotations-list.jsx'
 import * as quotations from '../ducks/quotations'
 
 class QuotationsHome extends Component {
@@ -25,7 +25,7 @@ class QuotationsHome extends Component {
           Quotations
           <Link to="/quotations/new" className="btn-fab">+</Link>
         </h1>
-        {props.hasQuotations ? <QuotationsTable /> : <Empty />}
+        <QuotationsList {...props} />
       </div>
     )
   }
@@ -37,6 +37,7 @@ const mapStateToProp = (state) => {
   const hasQuotations = quotations && quotations.length
   return {
     hasQuotations,
+    quotations,
   }
 }
 

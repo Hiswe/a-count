@@ -54,10 +54,8 @@ app.use( session(sessionConfig, app) )
 //----- ERROR HANDLING
 
 app.use(async (ctx, next) => {
-  console.log( )
   try {
     await next()
-    console.log( `error ${ctx.status}` )
     if (ctx.status === 404) {
       await ctx.render(`error/404`)
     }
