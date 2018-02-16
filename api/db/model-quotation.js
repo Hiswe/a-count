@@ -5,6 +5,13 @@ import Sequelize from 'sequelize'
 import sequelize from './db-connection'
 import * as h from './helpers'
 
+const steps = [
+  {key: `sendAt`,       name: `send`},
+  {key: `validatedAt`,  name: `validated`},
+  {key: `signedAt`,     name: `signed`},
+  {key: `archivedAt`,   name: `done`},
+]
+
 const Quotation = sequelize.define( `quotation`, {
   id: {
     type:         Sequelize.UUID,
@@ -28,10 +35,6 @@ const Quotation = sequelize.define( `quotation`, {
     type:         Sequelize.DATE,
     allowNull:    true,
   },
-  sendAt: {
-    type:         Sequelize.DATE,
-    allowNull:    true,
-  },
   validatedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
@@ -43,6 +46,14 @@ const Quotation = sequelize.define( `quotation`, {
   archivedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
+  },
+  steps: {
+    type: new Sequelize.VIRTUAL(Sequelize.JSON, steps.map( s => s.key)),
+    get: function () {
+      return steps.map( s => {
+        return {[s.key]: typeof this.get( s.key ) !== `undefined`}
+      })
+    },
   },
   products: {
     type:         Sequelize.ARRAY( Sequelize.JSON ),

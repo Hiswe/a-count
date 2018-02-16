@@ -4,15 +4,16 @@ const { inspect } = require( 'util' )
 
 require('babel-core/register')({
   presets: ['es2015', 'react'],
-  ignore: function(filename) {
+  ignore: (filename) => {
     if (/node_module/.test(filename)) return true;
     return /design-/.test(filename);
   },
 })
 
-const config  = require('./shared/config').default
+const appConfig  = require('./shared/config').default
+const apiConfig  = require('./api/config').default
 
-if ( config.isDev ) {
+if ( appConfig.isDev ) {
   console.log( `listening to unhandledRejection` )
   process.on( `unhandledRejection`, (reason, p) => {
     console.log( `Unhandled Promise Rejection with reason:`, reason)
@@ -20,10 +21,15 @@ if ( config.isDev ) {
   })
 }
 
-const app     = require( `./server/index.js` ).default
+const app = require( `./server/index.js` ).default
+const api = require( `./api/index.js` ).default
 
-const server = app.listen(config.PORT, function endInit() {
-  console.log('Server is listening on port', server.address().port)
+const appServer = app.listen(appConfig.PORT, function endInit() {
+  console.log('Server is listening on port', appServer.address().port)
+})
+
+const apiServer = api.listen(apiConfig.PORT, function endInit() {
+  console.log('Server is listening on port', apiServer.address().port)
 })
 
 

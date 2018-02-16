@@ -98,7 +98,7 @@ const runServer = done => {
       'index.js',
       'shared/**/*',
       'server/**/*',
-      'db/**/*',
+      'api/**/*',
       'views/**/*'
     ],
     env: {

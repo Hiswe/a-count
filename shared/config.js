@@ -1,13 +1,8 @@
-`use strict`
 
-const rc            = require( `rc` )
+import rc from 'rc'
 
 const config      = rc( `concompte`, {
-  log: {
-    db: false,
-  },
-  database:     `postgres://localhost:5432/concompte`,
-  apiEndpoint:  `http://localhost:3000/api/v1`,
+  API_URL:  `http://localhost:4040`,
   // Default product
   address: '# Nom prénom  \n18 park road  \n5000 City',
   quotation: {

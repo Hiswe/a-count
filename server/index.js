@@ -15,14 +15,13 @@ import Router from 'koa-router'
 import session from 'koa-session'
 
 import config from '../shared/config'
-import { sequelize } from '../db'
 import reactRoutes from './koa-react-routing'
 
 //////
 // SERVER CONFIG
 //////
 
-const app     = new Koa()
+const app = new Koa()
 
 app.use( bodyParser() )
 app.use( compress() )
@@ -71,17 +70,11 @@ app.use(async (ctx, next) => {
 
 const router  = new Router()
 
-//----- API
-
-import api from '../db/api'
-
-router.use( `/api/v1`, api.routes() )
-
 //----- NO-JS BACKUP
 
 const proxyRequest = async (ctx, next) => {
   const { url, body } = ctx.request
-  const apiCallUrl    = new URL( config.apiEndpoint )
+  const apiCallUrl    = new URL( config.API_URL )
   apiCallUrl.pathname = apiCallUrl.pathname + url
   const fetchResult   = await fetch( apiCallUrl.href,  {
     method:   `POST`,
