@@ -11,6 +11,7 @@
     "npm": "5.3.0"
   },
   "dependencies": {
+    "@koa/cors": "2",
     "chalk": "2.3.0",
     "crio": "^5.0.0",
     "formattor": "^0.0.2",

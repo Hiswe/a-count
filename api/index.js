@@ -7,6 +7,7 @@ import morgan from 'koa-morgan'
 import json from 'koa-json'
 import Router from 'koa-router'
 import session from 'koa-session'
+import cors from '@koa/cors'
 
 import { formatResponse } from './helpers'
 import './db'
@@ -38,7 +39,10 @@ const sessionConfig = {
 }
 app.use( session(sessionConfig, app) )
 
-const apiRouter = new Router()
+//----- CORS
+
+app.use(cors())
+
 
 //////
 // ERRORS
@@ -60,6 +64,8 @@ app.use(async (ctx, next) => {
 //////
 // INFOS
 //////
+
+const apiRouter = new Router()
 
 apiRouter
 .get( `/`, (ctx, next) => {

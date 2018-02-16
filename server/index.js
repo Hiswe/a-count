@@ -74,8 +74,7 @@ const router  = new Router()
 
 const proxyRequest = async (ctx, next) => {
   const { url, body } = ctx.request
-  const apiCallUrl    = new URL( config.API_URL )
-  apiCallUrl.pathname = apiCallUrl.pathname + url
+  const apiCallUrl    = new URL( url, config.API_URL )
   const fetchResult   = await fetch( apiCallUrl.href,  {
     method:   `POST`,
     headers:  { 'Content-Type': `application/json` },
@@ -87,7 +86,7 @@ const proxyRequest = async (ctx, next) => {
     throw({
       status:     fetchResult.status,
       statusText: fetchResult.statusText,
-      message:    result.message,
+      message:    `[API] ${result.message}`,
       stacktrace: result.stacktrace,
     })
   }

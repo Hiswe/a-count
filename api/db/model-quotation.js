@@ -55,6 +55,14 @@ const Quotation = sequelize.define( `quotation`, {
       })
     },
   },
+  customerName: {
+    type: new Sequelize.VIRTUAL(Sequelize.STRING, [`customer`]),
+    get: function() {
+      const customer = this.get(`customer`)
+      if (!customer) return ``
+      return customer.name
+    }
+  },
   products: {
     type:         Sequelize.ARRAY( Sequelize.JSON ),
     allowNull:    false,
