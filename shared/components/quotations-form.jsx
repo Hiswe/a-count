@@ -94,7 +94,6 @@ class QuotationForm extends Component {
     const { target } = event
     const value = target.type === 'checkbox' ? target.checked : target.value
     const key = target.getAttribute(`name`)
-    console.log( {[key]: value} )
     this.setState( (prevState) => {
       const updated = prevState.formData.set(key, value)
       return { formData: updated }

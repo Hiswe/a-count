@@ -9,9 +9,9 @@ function safeMarked(data) {
 };
 
 function formatDate(data) {
-  if (typeof data !== 'string') return '';
-  var formatedDate = moment(data).format('DD/MM/YY HH:mm');
-  return formatedDate === 'Invalid date' ? '' : formatedDate;
+  if (typeof data !== `string`) return ``
+  const formatedDate = moment(data).format(`DD/MM/YY HH:mm:ss`)
+  return formatedDate === `Invalid date` ? `` : formatedDate
 }
 
 function id(type, businessForm, config) {

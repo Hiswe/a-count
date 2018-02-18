@@ -14,7 +14,7 @@ const updateOrCreate = Model => async function( id, params ) {
   return instance.update( params )
 }
 
-const setNormalizedString = key => function(val) {
+const setNormalizedString = key => function( val ) {
   this.setDataValue( key, normalizeString( val ) )
 }
 
@@ -24,9 +24,24 @@ const getNormalizedDate = key => function() {
   return date
 }
 
+const setNormalizedDate = key => function( val ) {
+  const date = this.getDataValue( key )
+  // dates can comes in array (checkbox + hidden input backup)
+  // if this is the case, just take care of the last value
+  if ( Array.isArray(val) ) val = val.pop()
+  // when sending `true` just put the current date
+  // update is done ONLY if no current date is already setted
+  const isTrue = val === `true`
+  if (isTrue && !date) return this.setDataValue( key, new Date() )
+  // TBD should be able to set a date
+  // fallback
+  this.setDataValue( key, date )
+}
+
 export {
   normalizeString,
   updateOrCreate,
   setNormalizedString,
   getNormalizedDate,
+  setNormalizedDate,
 }

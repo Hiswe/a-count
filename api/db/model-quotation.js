@@ -34,22 +34,26 @@ const Quotation = sequelize.define( `quotation`, {
   sendAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    get:          h.getNormalizedDate( `sendAt` )
+    get:          h.getNormalizedDate( `sendAt` ),
+    set:          h.setNormalizedDate( `sendAt` ),
   },
   validatedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    get:          h.getNormalizedDate( `validatedAt` )
+    get:          h.getNormalizedDate( `validatedAt` ),
+    set:          h.setNormalizedDate( `validatedAt` ),
   },
   signedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    get:          h.getNormalizedDate( `signedAt` )
+    get:          h.getNormalizedDate( `signedAt` ),
+    set:          h.setNormalizedDate( `signedAt` ),
   },
   archivedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    get:          h.getNormalizedDate( `archivedAt` )
+    get:          h.getNormalizedDate( `archivedAt` ),
+    set:          h.setNormalizedDate( `archivedAt` ),
   },
   steps: {
     type: new Sequelize.VIRTUAL(Sequelize.JSON, steps.map( s => s.key)),
