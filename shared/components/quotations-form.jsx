@@ -12,7 +12,7 @@ import {
   Amount,
   // getInformationsFromFakeId,
 } from './_utils.jsx'
-import { PrintBtn, Status, CustomerField } from './business-form'
+import { PrintBtn, Status, CustomerField, ProductTable } from './business-form'
 
 // import { Body } from  './business-form-body.jsx'
 
@@ -25,6 +25,21 @@ import { PrintBtn, Status, CustomerField } from './business-form'
 //   <div className="hidden-inputs">
 //   </div>
 // )
+
+// let Actions = (props) => {
+//   if (props.isInvoice) return null
+//   return (
+//     <div className="detail-actions">
+//       <button className="btn-secondary" formAction="/quotation/recompute" formMethod="post">
+//         recompute
+//       </button>
+//       {'\u00A0'}
+//       <button className="btn-secondary" formAction="/quotation/add-line" formMethod="post">
+//         Add a line
+//       </button>
+//     </div>
+//   )
+// }
 
 let Actions = (props) => {
   let newQuot       = <a key="action-newQuot" href="/quotation" className="btn-fab">+</a>
@@ -119,6 +134,7 @@ class QuotationForm extends Component {
           </fieldset>
           <fieldset className="business-form__item business-form__item--body">
             <Floating key="name" name="name" value={formData.name} onChange={this.handleChange} />
+            <ProductTable />
           </fieldset>
           <div className="business-form__actions">
             <button className="btn" type="submit">{props.submitMsg}</button>

@@ -4,8 +4,6 @@ import config from '../config'
 import sequelize from './db-connection'
 import * as h from './helpers'
 
-console.log( config )
-
 const steps = [
   {key: `sendAt`,       name: `send`},
   {key: `validatedAt`,  name: `validated`},
