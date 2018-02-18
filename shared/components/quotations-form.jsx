@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { diff } from 'deep-object-diff'
+import crio from 'crio'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -12,7 +14,7 @@ import {
   Amount,
   // getInformationsFromFakeId,
 } from './_utils.jsx'
-import { PrintBtn, Meta, CustomerField } from './business-form'
+import { PrintBtn, Status, CustomerField } from './business-form'
 
 // import { Body } from  './business-form-body.jsx'
 
@@ -62,6 +64,7 @@ class QuotationForm extends Component {
   componentDidMount() {
     const { params } = this.props.match
     this.props.getOne( params )
+    this.props.getAllCustomers( params )
   }
 
   componentWillReceiveProps(nextProps) {
@@ -71,11 +74,9 @@ class QuotationForm extends Component {
     if (!current.id && next.id) {
       history.push(`/customers/${next.id}`)
     }
-    // update state on redux status change
-    if (current === next)  return
+    if (current === next) return
     this.setState( (prevState, props) => {
-      const updated = prevState.formData.merge( null, props.current )
-      return { formData: updated }
+      return { formData: props.current }
     })
   }
 
@@ -91,8 +92,9 @@ class QuotationForm extends Component {
 
   handleChange(event) {
     const { target } = event
-    const { value } = target
+    const value = target.type === 'checkbox' ? target.checked : target.value
     const key = target.getAttribute(`name`)
+    console.log( {[key]: value} )
     this.setState( (prevState) => {
       const updated = prevState.formData.set(key, value)
       return { formData: updated }
@@ -112,8 +114,8 @@ class QuotationForm extends Component {
         </header>
         <form method="post" className="business-form" >
           <fieldset className="business-form__item business-form__item--meta">
-            <CustomerField {...props} {...state} onChange={this.handleChange}/>
-            {/* <Status {...props.params} /> */}
+            <CustomerField {...props} {...state} onChange={this.handleChange} />
+            <Status {...props} {...state} onChange={this.handleChange} />
           </fieldset>
           <fieldset className="business-form__item business-form__item--tax">
             {/* <Tax {...props.params} /> */}
@@ -132,14 +134,13 @@ class QuotationForm extends Component {
       </div>
     )
   }
-
 }
 
 function mapStateToProps(state, ownProps) {
   const { current } = state.quotations
   const isNew = current.id == null
   const result = {
-    submitMsg:   `${isNew ? 'Create' : 'Update'} quotation`,
+    submitMsg: `${isNew ? 'Create' : 'Update'} quotation`,
     isNew,
     current,
     customers: state.customers,
@@ -149,8 +150,9 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    getOne:   quotations.getOne,
-    saveOne:  quotations.saveOne,
+    getOne: quotations.getOne,
+    saveOne: quotations.saveOne,
+    getAllCustomers: customers.getAll,
   }, dispatch)
 }
 

@@ -1,16 +1,19 @@
-import React    from 'react';
-import omit     from 'lodash.omit';
+import React from 'react'
+import omit from 'lodash.omit'
+
+const omittedKeys = [`name`, `value`, `label`,  `onChange`]
 
 const Floating = props => {
-  let name  = props.name
-  let type  = props.type ? props.type : 'text'
-  let value = props.value ? props.value : ``
-  let additionalFields = omit(props, ['name', 'value', 'label'])
+  const name  = props.name
+  const type  = props.type ? props.type : `text`
+  const value = props.value ? props.value : ``
+  const additionalFields = omit(props, omittedKeys)
   let input
-  if (type === 'textarea') {
-    input = (<textarea name={name} id={name} value={value} {...additionalFields} />)
+  if (type === `textarea`) {
+    input = (<textarea name={name} id={name} value={value}  onChange={props.onChange} {...additionalFields} />)
   } else {
-    input = (<input name={name} id={name} value={value} type={type} {...additionalFields} />)
+    input = (<input onChange={props.onChange}
+      name={name} id={name} value={value} type={type} {...additionalFields} />)
   }
 
   return (
@@ -21,18 +24,25 @@ const Floating = props => {
   )
 }
 
+const InputLabel = props => (
+  <div className="input">
+    <label className="item" htmlFor={props.id}>{props.label}</label>
+    { props.children }
+  </div>
+)
+
 const Input = props => {
-  let name  = props.name
-  let id    = props.id ? props.id : name
-  let label = props.label ? props.label : id
-  let type  = props.type ? props.type : 'text'
-  let value = props.value ? props.value : ``
-  let additionalFields = omit(props, ['name', 'value', 'label'])
-  let input
+  const name  = props.name
+  const id    = props.id ? props.id : name
+  const label = props.label ? props.label : id
+  const type  = props.type ? props.type : 'text'
+  const value = props.value ? props.value : ``
+  const additionalFields = omit(props, omittedKeys)
+  let input = null
   if (type === 'textarea') {
     input = (<textarea name={name} id={id} value={value} {...additionalFields} />)
   } else {
-    input = (<input className="field" name={name} id={id} value={value} {...additionalFields} />)
+    input = (<input className="field" name={name} id={id} value={value} onChange={props.onChange} {...additionalFields} />)
   }
   return (
     <div className="input">
@@ -42,4 +52,4 @@ const Input = props => {
   )
 }
 
-export {Floating, Input};
+export {Floating, Input, InputLabel}

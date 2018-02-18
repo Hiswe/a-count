@@ -1,11 +1,11 @@
-var moment          = require('moment');
-var marked          = require('marked');
+import moment from 'moment'
+import marked from 'marked'
 
 // templates global datas
-function marked(data) {
+function safeMarked(data) {
   // prevent error while passing unsupported marked datas
-  if (typeof data !== 'string') return '';
-  return marked(data);
+  if (typeof data !== 'string') return ''
+  return marked(data)
 };
 
 function formatDate(data) {
@@ -63,7 +63,7 @@ function invoiceStatus(status) {
 };
 
 export {
-  marked,
+  safeMarked,
   formatDate,
   formatStatus,
   id,

@@ -2,12 +2,12 @@ import React        from 'react'
 import { Link }     from 'react-router-dom'
 import { connect }  from 'react-redux'
 
-import { marked }   from './_format'
+import { safeMarked }    from './_format'
 
 const CustomerRow = (props) => {
   let customer = props.customer
   let url      = `/customers/${customer.id}`
-  let address  = { __html: marked(customer.address)}
+  let address  = { __html: safeMarked(customer.address) }
   return (
     <tr>
       <td>

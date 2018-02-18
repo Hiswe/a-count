@@ -9,38 +9,6 @@ import { Link } from 'react-router-dom'
 
 // shared components between quotation & invoice form
 
-// ////////
-// // TOP LEFT BLOCK
-// ////////
-
-// //----- CUSTOMER FIELD
-
-// let CustomerDataList = (props) => (
-//   <datalist id="customer-list">
-//     { props.customers.map( (c, i) => <option key={c.name} value={c.name} />) }
-//   </datalist>
-// )
-
-// function mapDataList(state) {
-//   return {
-//     customers: state.result.customers.map( id => state.entities.customers[id] )
-//   }
-// }
-
-// CustomerDataList = connect(mapDataList)(CustomerDataList)
-
-// let CustomerField = function (props) {
-//   return (
-//     <div className="input">
-//       <label className="item" htmlFor="customer">Customer</label>
-//       {props.isInvoice ? null : <CustomerDataList />}
-//       <input className="field" id="customer" name="customer" list="customer-list" type="text" defaultValue={props.businessForm.customer} />
-//     </div>
-//   )
-// }
-
-// CustomerField = connect(getInformationsFromFakeId)(CustomerField)
-
 //----- STATUS
 
 const StatusLine = (props) => (
@@ -49,7 +17,6 @@ const StatusLine = (props) => (
     <div>{props.time}</div>
   </div>
 )
-
 
 // function mapStatus(state, ownProps) {
 //   let infos = getInformationsFromFakeId(state, ownProps)

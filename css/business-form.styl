@@ -22,3 +22,14 @@
     grid-area: actions;
   }
 }
+
+.status {
+  display: grid;
+  grid-template-columns: repeat( 4, 1fr);
+  gutter: var(--half-gutter);
+
+  .field {
+    flex-shrink: 0;
+    width: auto;
+  }
+}

@@ -18,8 +18,15 @@ const setNormalizedString = key => function(val) {
   this.setDataValue( key, normalizeString( val ) )
 }
 
+const getNormalizedDate = key => function() {
+  const date = this.getDataValue( key )
+  if (!date) return ``
+  return date
+}
+
 export {
   normalizeString,
   updateOrCreate,
   setNormalizedString,
+  getNormalizedDate,
 }

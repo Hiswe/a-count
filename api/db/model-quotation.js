@@ -34,24 +34,32 @@ const Quotation = sequelize.define( `quotation`, {
   sendAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
+    get:          h.getNormalizedDate( `sendAt` )
   },
   validatedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
+    get:          h.getNormalizedDate( `validatedAt` )
   },
   signedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
+    get:          h.getNormalizedDate( `signedAt` )
   },
   archivedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
+    get:          h.getNormalizedDate( `archivedAt` )
   },
   steps: {
     type: new Sequelize.VIRTUAL(Sequelize.JSON, steps.map( s => s.key)),
     get: function () {
       return steps.map( s => {
-        return {[s.key]: typeof this.get( s.key ) !== `undefined`}
+        const val   = this.get( s.key )
+        return {
+          key: s.key,
+          name: s.name,
+        }
       })
     },
   },
@@ -60,7 +68,7 @@ const Quotation = sequelize.define( `quotation`, {
     get: function() {
       const customer = this.get(`customer`)
       if (!customer) return ``
-      return customer.name
+      return customer.get(`name`)
     }
   },
   products: {
