@@ -1,5 +1,3 @@
-'use strict'
-
 import Sequelize, { Op } from 'sequelize'
 
 import config from  '../config'

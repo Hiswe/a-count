@@ -7,9 +7,7 @@ import { Link } from 'react-router-dom'
 
 import * as quotations from '../ducks/quotations'
 import * as customers from '../ducks/customers'
-import { Floating } from './form.jsx'
-// import {Input}                      from './form.jsx';
-// import {formatDate, id as formatId} from './_format';
+import { Floating, Input } from './form.jsx'
 import {
   Amount,
   // getInformationsFromFakeId,
@@ -117,7 +115,7 @@ class QuotationForm extends Component {
             <Status {...props} {...state} onChange={this.handleChange} />
           </fieldset>
           <fieldset className="business-form__item business-form__item--tax">
-            {/* <Tax {...props.params} /> */}
+            <Input name="tax" type="number" step="any" value={formData.tax} onChange={this.handleChange} />
           </fieldset>
           <fieldset className="business-form__item business-form__item--body">
             <Floating key="name" name="name" value={formData.name} onChange={this.handleChange} />

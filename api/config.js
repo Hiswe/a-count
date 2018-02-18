@@ -1,12 +1,16 @@
 import rc from 'rc'
 
 const config = rc( `concompte-api`, {
+  VERSION:  `1.0.0`,
+  NAME:     `concompte API`,
   db: {
     log: false,
     uri: `postgres://localhost:5432/concompte`,
   },
-  VERSION:  `1.0.0`,
-  NAME:     `concompte API`,
+  businessDefault: {
+    currency: `€`,
+    tax:      5.5,
+  },
 })
 
 config.PORT       = config.PORT || process.env.PORT || 4040

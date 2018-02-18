@@ -1,9 +1,10 @@
-'use strict'
-
 import Sequelize from 'sequelize'
 
+import config from '../config'
 import sequelize from './db-connection'
 import * as h from './helpers'
+
+console.log( config )
 
 const steps = [
   {key: `sendAt`,       name: `send`},
@@ -28,8 +29,12 @@ const Quotation = sequelize.define( `quotation`, {
   },
   tax: {
     type:         Sequelize.FLOAT,
-    defaultValue: 0,
-    allowNull:    false,
+    allowNull:    true,
+    get:          function() {
+      const val = this.getDataValue( `tax` )
+      if (val === null) return config.businessDefault.tax
+      return val
+    },
   },
   sendAt: {
     type:         Sequelize.DATE,
