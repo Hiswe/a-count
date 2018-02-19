@@ -4,27 +4,26 @@ import { Input } from '../form.jsx'
 import { Amount } from '../_utils.jsx'
 
 const Product = (props) => {
-  const { product, onChange, handleRemoveProduct, defaultProduct, isNewProduct } = props
+  const { product, index, onChange, handleRemoveProduct, isLast } = props
   if (!product) return null
-  const i = `products[${props.index}]`
-  const safeProduct = isNewProduct ? product : defaultProduct.merge(null, product )
-  const total = safeProduct.quantity * safeProduct.price
+  const i = `products[${index}]`
+  const total = product.quantity * product.price
   return (
     <tr>
       <td>
-        <textarea name={`${i}[description]`} rows="1" value={safeProduct.description} onChange={onChange} />
+        <textarea name={`${i}[description]`} rows="1" value={product.description} onChange={onChange} />
       </td>
       <td>
-        <input type="number" min="0" step="0.25" name={`${i}[quantity]`} value={safeProduct.quantity} onChange={onChange} />
+        <input type="number" min="0" step="0.25" name={`${i}[quantity]`} value={product.quantity} onChange={onChange} />
       </td>
       <td>
-        <input type="number" min="0" step="10" name={`${i}[price]`} value={safeProduct.price} onChange={onChange} />
+        <input type="number" min="0" step="10" name={`${i}[price]`} value={product.price} onChange={onChange} />
       </td>
       <td className="total">
         <Amount value={total} />
       </td>
       <td>
-        { !isNewProduct && <button onClick={handleRemoveProduct} type="button" value={i}>remove</button> }
+        { !isLast && <button onClick={() => handleRemoveProduct(index, i)} type="button" value={i}>remove</button> }
       </td>
     </tr>
   )
@@ -51,14 +50,14 @@ const ProductTable = (props) => {
         </tr>
       </thead>
       <tbody>
-        { hasProducts && formData.products.map( (p, i) => {
-            return (
-              <Product key={i} index={i} product={p} defaultProduct={formData.defaultProduct} handleRemoveProduct={handleRemoveProduct} onChange={onChange} />
-            )
-          })
-        }
-        <Product key={productsLength} index={productsLength} product={formData.defaultProduct}
-          isNewProduct={true} onChange={onChange} />
+      { hasProducts && formData.products.map( (p, i) => {
+        const isLast = i === productsLength -1
+          return (
+            <Product key={i} index={i} isLast={isLast} product={p}
+              handleRemoveProduct={handleRemoveProduct} onChange={onChange} />
+          )
+        })
+      }
       </tbody>
       <tfoot>
         <tr>

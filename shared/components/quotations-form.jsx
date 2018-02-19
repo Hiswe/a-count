@@ -73,20 +73,27 @@ class QuotationForm extends Component {
     const { target } = event
     const value = target.type === 'checkbox' ? target.checked : target.value
     const key = target.getAttribute(`name`)
+
     this.setState( (prevState) => {
-      const updated = prevState.formData.set(key, value)
+      let updated = prevState.formData.set(key, value)
+      // add an empty line in case a user just type something on the blank one
+      const defaultProduct  = prevState.formData.get( `defaultProduct` )
+      const products        = updated.get( `products` )
+      const lastProduct     = products.get( products.length -1 )
+      const isNewProductLine = Object.keys( lastProduct )
+        .map( key => lastProduct[ key ] === defaultProduct[ key ] )
+        .reduce( (acc, curr) => { return acc === true && curr === true}, true )
+      updated = isNewProductLine ? updated
+        : updated.set( `products[${products.length}]`, defaultProduct )
       return { formData: updated }
     })
   }
 
-  handleRemoveProduct(event) {
+  handleRemoveProduct(index, value) {
     const { formData } = this.state
-    const { target } = event
-    const value = target.value
     const line = formData.get(value)
     if (!line) return
     this.setState( (prevState) => {
-      const index = prevState.formData.products.indexOf( line )
       const updatedProducts = prevState.formData.products.splice(index, 1)
       const updated = prevState.formData.set(`products`, updatedProducts)
       return { formData: updated }

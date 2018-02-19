@@ -46,6 +46,12 @@ const Quotation = sequelize.define( `quotation`, {
     type:         Sequelize.ARRAY( Sequelize.JSON ),
     allowNull:    false,
     defaultValue: [],
+    get: function() {
+      const products = this.getDataValue( `products` )
+      const defaultProduct = this.get( `defaultProduct` )
+      products.push( defaultProduct )
+      return products
+    },
     set: function (products) {
       const defaultProduct = this.get( `defaultProduct` )
       products = products
@@ -83,7 +89,7 @@ const Quotation = sequelize.define( `quotation`, {
   totalNet: {
     type: new Sequelize.VIRTUAL(Sequelize.FLOAT, [`products`]),
     get: function () {
-      const products = this.get( `products` )
+      const products = this.getDataValue( `products` )
       const total = products.reduce( (accumulator, currentValue)  => {
         return accumulator + currentValue.quantity * currentValue.price
       }, 0)
