@@ -10,6 +10,8 @@ const config = rc( `concompte-api`, {
   businessDefault: {
     currency: `€`,
     tax:      5.5,
+    quantity: 0,
+    price:    350,
   },
 })
 

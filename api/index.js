@@ -43,7 +43,6 @@ app.use( session(sessionConfig, app) )
 
 app.use(cors())
 
-
 //////
 // ERRORS
 //////
@@ -52,7 +51,7 @@ app.use(async (ctx, next) => {
   try {
     await next()
   } catch (err) {
-    console.log( inspect(err, {colors: true, depth: 1}) )
+    console.log( inspect(err.original ? err.orignal : err, {colors: true, depth: 1}) )
     ctx.status  = err.statusCode || err.status || 500
     ctx.body    = Object.assign(formatResponse(), {
       message:    err.message,

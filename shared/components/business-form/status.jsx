@@ -21,6 +21,7 @@ const StatusLine = props => {
 
 const Status = props => {
   const { formData, onChange } = props
+  if (!Array.isArray(formData.steps)) return (<div className="status"></div>)
   return (
     <div className="status">
     {

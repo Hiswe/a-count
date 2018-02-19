@@ -122,7 +122,9 @@ class QuotationForm extends Component {
           <h1>
             {'Quotation\u00A0'}
           </h1>
-          <PrintBtn {...formData} />
+          {/* deactivated for now */}
+          {/* TODO render a new webpage when clicked */}
+          {/* <PrintBtn {...formData} /> */}
         </header>
         <form method="post" className="business-form" >
           <fieldset className="business-form__item business-form__item--meta">
@@ -133,8 +135,8 @@ class QuotationForm extends Component {
             <Input name="tax" type="number" step="any" value={formData.tax} onChange={this.handleChange} />
           </fieldset>
           <fieldset className="business-form__item business-form__item--body">
-            <Floating key="name" name="name" value={formData.name} onChange={this.handleChange} />
-            <ProductTable />
+            <Input key="name" name="name" value={formData.name} onChange={this.handleChange} />
+            <ProductTable {...state} />
           </fieldset>
           <div className="business-form__actions">
             <button className="btn" type="submit">{props.submitMsg}</button>
@@ -142,7 +144,6 @@ class QuotationForm extends Component {
             {props.isNew ? null : <Link to="/quotations/new" className="btn-secondary">New Quotation</Link>}
           </div>
           {/* {props.isNew ? null : <HiddenInputs /> } */}
-          {/* <Body {...props} /> */}
         </form>
       </div>
     )

@@ -1,12 +1,11 @@
 import moment from 'moment'
 import marked from 'marked'
 
-// templates global datas
-function safeMarked(data) {
-  // prevent error while passing unsupported marked datas
+// prevent error while passing unsupported marked datas
+const safeMarked = data => {
   if (typeof data !== 'string') return ''
   return marked(data)
-};
+}
 
 function formatDate(data) {
   if (typeof data !== `string`) return ``

@@ -1,4 +1,5 @@
 import Sequelize from 'sequelize'
+import isNil from 'lodash/isnil'
 
 import config from '../config'
 import sequelize from './db-connection'
@@ -29,11 +30,60 @@ const Quotation = sequelize.define( `quotation`, {
     type:         Sequelize.FLOAT,
     allowNull:    true,
     get:          function() {
-      const val = this.getDataValue( `tax` )
-      if (val === null) return config.businessDefault.tax
-      return val
+      const tax = this.getDataValue( `tax` )
+      if ( isNil(tax) ) return config.businessDefault.tax
+      return tax
+    },
+    set:          function(val) {
+      if ( isNil(val) || val === `` ) {
+        return this.setDataValue( `tax`, config.businessDefault.tax )
+      }
+      this.setDataValue( `tax`, val )
     },
   },
+  // PRODUCTS
+  products: {
+    type:         Sequelize.ARRAY( Sequelize.JSON ),
+    allowNull:    false,
+    defaultValue: [],
+  },
+  defaultProduct: {
+    type: new Sequelize.VIRTUAL(Sequelize.JSON),
+    get: function () {
+      return {
+        description:  ``,
+        quantity:     config.businessDefault.quantity,
+        price:        config.businessDefault.price,
+      }
+    },
+  },
+  totalNet: {
+    type: new Sequelize.VIRTUAL(Sequelize.FLOAT, [`products`]),
+    get: function () {
+      const products = this.get( `products` )
+      const total = products.reduce( (accumulator, currentValue)  => {
+        return accumulator + currentValue.quantity * currentValue.price
+      }, 0)
+      return total
+    },
+  },
+  totalTax: {
+    type: new Sequelize.VIRTUAL(Sequelize.FLOAT, [`totalNet`, `tax`]),
+    get: function () {
+      const totalNet = this.get( `totalNet` )
+      const tax = this.get( `tax` )
+      return totalNet * tax / 100
+    },
+  },
+  total: {
+    type: new Sequelize.VIRTUAL(Sequelize.FLOAT, [`totalNet`,`totalTax` ]),
+    get: function () {
+      const totalNet = this.get( `totalNet` )
+      const totalTax = this.get( `totalTax` )
+      return totalNet + totalTax
+    },
+  },
+  // STATUS
   sendAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
@@ -77,11 +127,6 @@ const Quotation = sequelize.define( `quotation`, {
       if (!customer) return ``
       return customer.get(`name`)
     }
-  },
-  products: {
-    type:         Sequelize.ARRAY( Sequelize.JSON ),
-    allowNull:    false,
-    defaultValue: [{description: ``, quantity: 0, price: 350}]
   },
 })
 
