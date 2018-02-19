@@ -46,6 +46,29 @@ const Quotation = sequelize.define( `quotation`, {
     type:         Sequelize.ARRAY( Sequelize.JSON ),
     allowNull:    false,
     defaultValue: [],
+    set: function (products) {
+      const defaultProduct = this.get( `defaultProduct` )
+      products = products
+        // force numeric values for quantity & price
+        .map( product => {
+          ;[`quantity`, `price`].forEach( key => {
+            const num = parseFloat( product[key], 10 )
+            product[key] = Number.isNaN( num ) ? defaultProduct[key] : num
+          })
+          product.description = product.description.trim()
+          return product
+        })
+        // Don't save a default product
+        .filter( product => {
+          const isSameAsDefault = Object.keys( defaultProduct )
+          .map( key => product[key] === defaultProduct[key])
+          .reduce( (accumulator, currentValue) => {
+            return accumulator === true && currentValue === true
+          }, true)
+        return !isSameAsDefault
+      })
+      this.setDataValue( `products`, products )
+    }
   },
   defaultProduct: {
     type: new Sequelize.VIRTUAL(Sequelize.JSON),
