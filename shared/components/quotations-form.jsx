@@ -8,51 +8,13 @@ import { Link } from 'react-router-dom'
 import * as quotations from '../ducks/quotations'
 import * as customers from '../ducks/customers'
 import { Floating, Input } from './form.jsx'
-import {
-  Amount,
-  // getInformationsFromFakeId,
-} from './_utils.jsx'
+import { Amount } from './_utils.jsx'
 import { PrintBtn, Status, CustomerField, ProductTable } from './business-form'
 
-// import { Body } from  './business-form-body.jsx'
-
-// <input type="hidden" value={quotation.index.quotation} name="index[quotation]" />
-// <input type="hidden" value={quotation.time.created} name="time[created]" />
-// {isNew ? null : <input type="hidden" value={quotation._id} name="_id" /> }
-// {isNew ? null : <input type="hidden" value={fakeId} name="fakeId" /> }
-
-// const HiddenInputs = (props) => (
-//   <div className="hidden-inputs">
-//   </div>
-// )
-
-// let Actions = (props) => {
-//   if (props.isInvoice) return null
-//   return (
-//     <div className="detail-actions">
-//       <button className="btn-secondary" formAction="/quotation/recompute" formMethod="post">
-//         recompute
-//       </button>
-//       {'\u00A0'}
-//       <button className="btn-secondary" formAction="/quotation/add-line" formMethod="post">
-//         Add a line
-//       </button>
-//     </div>
-//   )
-// }
-
-let Actions = (props) => {
-  let newQuot       = <a key="action-newQuot" href="/quotation" className="btn-fab">+</a>
-  let convertRoute  = `/quotation/convert-to-invoice/${props.businessForm.id}`;
-  let convert       = <button key="action-convert" className="btn-secondary" formAction={convertRoute} formMethod="post">Convert to invoice</button>;
-
+const ConvertButton = (props) => {
+  const convertRoute  = `/quotation/convert-to-invoice/${props.businessForm.id}`
   return (
-    <div className="action">
-      <button className="btn" type="submit" name="convertToInvoice" value="false">
-        {props.isNew ? 'Create quotation' : 'Update quotation'}
-      </button>
-      {props.isNew ? null : ['\u00A0', newQuot, '\u00A0', convert]}
-    </div>
+    <button key="action-convert" className="btn-secondary" formAction={convertRoute} formMethod="post">Convert to invoice</button>
   )
 }
 
@@ -136,14 +98,14 @@ class QuotationForm extends Component {
           </fieldset>
           <fieldset className="business-form__item business-form__item--body">
             <Input key="name" name="name" value={formData.name} onChange={this.handleChange} />
-            <ProductTable {...state} />
+            <ProductTable {...state} onChange={this.handleChange} />
           </fieldset>
           <div className="business-form__actions">
             <button className="btn" type="submit">{props.submitMsg}</button>
-            {/* {props.isNew ? null : ['\u00A0', newQuot, '\u00A0', convert]} */}
+            {/* TODO add the convert button if all steps are set */}
+            {/* <ConvertButton /> */}
             {props.isNew ? null : <Link to="/quotations/new" className="btn-secondary">New Quotation</Link>}
           </div>
-          {/* {props.isNew ? null : <HiddenInputs /> } */}
         </form>
       </div>
     )

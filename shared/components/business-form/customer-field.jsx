@@ -1,17 +1,7 @@
 import React from 'react'
 
-{/* <datalist id="customer-list">
-{ customers.list.map( (c, i) => (
-  <option key={c.name} value={c.name} />
-)) }
-</datalist>
-<input className="field"
-  id="customerName" name="customerName"
-  list="customer-list"
-  onChange={props.onChange}
-  type="text"
-  value={formData.customerName}
-/> */}
+// TODO this should fetch the customers itself
+// TODO we should be able to create a new customer from here
 
 const CustomerField = props => {
   const { customers, formData } = props

@@ -3,10 +3,9 @@ import React from 'react'
 import { Input } from '../form.jsx'
 import { Amount } from '../_utils.jsx'
 
-//----- TBODY
-
-let Line          = (props) => {
-  const product = props.product
+const Line = (props) => {
+  const { product } = props
+  if (!product) return null
   const total = product.quantity * product.price
   const i = `products[${props.index}]`
   return (
@@ -31,12 +30,6 @@ let Line          = (props) => {
     </tr>
   )
 }
-
-let Tbody = (props) => (
-  <tbody>
-    {props.products.map( (p, i) => ( <Line key={i} index={i} product={p} /> ) )}
-  </tbody>
-)
 
 ////////
 // WHOLE BLOCK
@@ -65,25 +58,24 @@ const ProductTable = (props) => {
         <Line key={productsLength} index={productsLength} product={formData.defaultProduct} defaultProduct={true} />
       </tbody>
       <tfoot>
-    <tr>
-      <td colSpan="3">Total net</td>
-      <td><Amount value={formData.totalNet} /></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td colSpan="3">Taxes</td>
-      <td><Amount value={formData.totalTax} /></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td colSpan="3">Total with taxes</td>
-      <td><Amount value={formData.total} /></td>
-      <td></td>
-    </tr>
-  </tfoot>
+        <tr>
+          <td colSpan="3">Total net</td>
+          <td><Amount value={formData.totalNet} /></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colSpan="3">Taxes</td>
+          <td><Amount value={formData.totalTax} /></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colSpan="3">Total with taxes</td>
+          <td><Amount value={formData.total} /></td>
+          <td></td>
+        </tr>
+      </tfoot>
     </table>
   )
-    // <Actions {...props.params} />
 }
 
 export { ProductTable as default }

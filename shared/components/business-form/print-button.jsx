@@ -1,4 +1,4 @@
-import React            from 'react'
+import React from 'react'
 
 const PrintBtn = (props)  => {
   if (!props.id) return null

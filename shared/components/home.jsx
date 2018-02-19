@@ -10,7 +10,7 @@ const Home = () => (
     <h1>Home</h1>
     <section>
       <h1>quotations
-      {/* <Link to="/quotation" className="btn-circular">+</Link> */}
+      <Link to="/quotations/new" className="btn-circular">+</Link>
       </h1>
       {/* <QuotationList /> */}
     </section>
