@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import isUndefined from 'lodash/isundefined'
 import { diff } from 'deep-object-diff'
 import crio from 'crio'
 import { bindActionCreators } from 'redux'
@@ -14,7 +15,9 @@ import { PrintBtn, Status, CustomerField, ProductTable } from './business-form'
 const ConvertButton = (props) => {
   const convertRoute  = `/quotation/convert-to-invoice/${props.businessForm.id}`
   return (
-    <button key="action-convert" className="btn-secondary" formAction={convertRoute} formMethod="post">Convert to invoice</button>
+    <button key="action-convert" className="btn-secondary" formAction={convertRoute} formMethod="post">
+      Convert to invoice
+    </button>
   )
 }
 
@@ -34,6 +37,7 @@ class QuotationForm extends Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleRemoveProduct = this.handleRemoveProduct.bind(this)
   }
 
   componentDidMount() {
@@ -75,6 +79,20 @@ class QuotationForm extends Component {
     })
   }
 
+  handleRemoveProduct(event) {
+    const { formData } = this.state
+    const { target } = event
+    const value = target.value
+    const line = formData.get(value)
+    if (!line) return
+    this.setState( (prevState) => {
+      const index = prevState.formData.products.indexOf( line )
+      const updatedProducts = prevState.formData.products.splice(index, 1)
+      const updated = prevState.formData.set(`products`, updatedProducts)
+      return { formData: updated }
+    })
+  }
+
   render() {
     const { props, state } = this
     const { formData } = state
@@ -98,7 +116,7 @@ class QuotationForm extends Component {
           </fieldset>
           <fieldset className="business-form__item business-form__item--body">
             <Input key="name" name="name" value={formData.name} onChange={this.handleChange} />
-            <ProductTable {...state} onChange={this.handleChange} />
+            <ProductTable {...state} onChange={this.handleChange} handleRemoveProduct={this.handleRemoveProduct} />
           </fieldset>
           <div className="business-form__actions">
             <button className="btn" type="submit">{props.submitMsg}</button>

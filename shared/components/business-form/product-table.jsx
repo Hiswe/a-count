@@ -3,29 +3,28 @@ import React from 'react'
 import { Input } from '../form.jsx'
 import { Amount } from '../_utils.jsx'
 
-const Line = (props) => {
-  const { product } = props
+const Product = (props) => {
+  const { product, onChange, handleRemoveProduct, defaultProduct, isNewProduct } = props
   if (!product) return null
-  const total = product.quantity * product.price
   const i = `products[${props.index}]`
+  const safeProduct = isNewProduct ? product : defaultProduct.merge(null, product )
+  const total = safeProduct.quantity * safeProduct.price
   return (
     <tr>
       <td>
-        <textarea name={`${i}[description]`} rows="1" defaultValue={product.description} />
+        <textarea name={`${i}[description]`} rows="1" value={safeProduct.description} onChange={onChange} />
       </td>
       <td>
-        <input type="number" min="0" step="0.25" name={`${i}[quantity]`} defaultValue={product.quantity} />
+        <input type="number" min="0" step="0.25" name={`${i}[quantity]`} value={safeProduct.quantity} onChange={onChange} />
       </td>
       <td>
-        <input type="number" min="0" step="10" name={`${i}[price]`} defaultValue={product.price} />
+        <input type="number" min="0" step="10" name={`${i}[price]`} value={safeProduct.price} onChange={onChange} />
       </td>
       <td className="total">
         <Amount value={total} />
       </td>
       <td>
-        { props.defaultProduct ? null
-        : <button className="" formAction="/quotation/remove-line" formMethod="post" name="removeIndex" value={props.index}>remove</button>
-        }
+        { !isNewProduct && <button onClick={handleRemoveProduct} type="button" value={i}>remove</button> }
       </td>
     </tr>
   )
@@ -36,7 +35,7 @@ const Line = (props) => {
 ////////
 
 const ProductTable = (props) => {
-  const { formData } = props
+  const { formData, onChange, handleRemoveProduct } = props
   const { products } = formData
   const hasProducts = Array.isArray( products )
   const productsLength = hasProducts ? products.length : 0
@@ -52,10 +51,14 @@ const ProductTable = (props) => {
         </tr>
       </thead>
       <tbody>
-        { !hasProducts ? null
-          : formData.products.map( (p, i) => (<Line key={i} index={i} product={p} />) )
+        { hasProducts && formData.products.map( (p, i) => {
+            return (
+              <Product key={i} index={i} product={p} defaultProduct={formData.defaultProduct} handleRemoveProduct={handleRemoveProduct} onChange={onChange} />
+            )
+          })
         }
-        <Line key={productsLength} index={productsLength} product={formData.defaultProduct} defaultProduct={true} />
+        <Product key={productsLength} index={productsLength} product={formData.defaultProduct}
+          isNewProduct={true} onChange={onChange} />
       </tbody>
       <tfoot>
         <tr>

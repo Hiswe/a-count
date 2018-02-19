@@ -21,11 +21,10 @@ const StatusLine = props => {
 
 const Status = props => {
   const { formData, onChange } = props
-  if (!Array.isArray(formData.steps)) return (<div className="status"></div>)
   return (
     <div className="status">
     {
-      formData.steps.map( step => (
+      Array.isArray(formData.steps) && formData.steps.map( step => (
         <StatusLine key={step.key} value={formData[step.key]} step={step} onChange={onChange} />
       ))
     }
