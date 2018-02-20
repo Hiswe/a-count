@@ -46,12 +46,6 @@ const Quotation = sequelize.define( `quotation`, {
     type:         Sequelize.ARRAY( Sequelize.JSON ),
     allowNull:    false,
     defaultValue: [],
-    get: function() {
-      const products = this.getDataValue( `products` )
-      const defaultProduct = this.get( `defaultProduct` )
-      products.push( defaultProduct )
-      return products
-    },
     set: function (products) {
       const defaultProduct = this.get( `defaultProduct` )
       products = products
@@ -64,13 +58,11 @@ const Quotation = sequelize.define( `quotation`, {
           product.description = product.description.trim()
           return product
         })
-        // Don't save a default product
+        // Filter all default product
         .filter( product => {
           const isSameAsDefault = Object.keys( defaultProduct )
-          .map( key => product[key] === defaultProduct[key])
-          .reduce( (accumulator, currentValue) => {
-            return accumulator === true && currentValue === true
-          }, true)
+          .map( key => product[key] === defaultProduct[key] )
+          .reduce( (acc, curr) => acc && curr, true)
         return !isSameAsDefault
       })
       this.setDataValue( `products`, products )

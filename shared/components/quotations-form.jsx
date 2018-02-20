@@ -77,15 +77,26 @@ class QuotationForm extends Component {
 
     this.setState( (prevState) => {
       let updated = prevState.formData.set(key, value)
-      // add an empty line in case a user just type something on the blank one
+      // filter empty lines
       const defaultProduct  = prevState.formData.get( `defaultProduct` )
+      const defaultKeys     = Object.keys( defaultProduct )
       const products        = updated.get( `products` )
-      const lastProduct     = products.get( products.length -1 )
-      const isNewProductLine = Object.keys( lastProduct )
-        .map( key => lastProduct[ key ] === defaultProduct[ key ] )
-        .reduce( (acc, curr) => { return acc === true && curr === true}, true )
-      updated = isNewProductLine ? updated
-        : updated.set( `products[${products.length}]`, defaultProduct )
+        .filter( product => {
+          const isSameAsDefault = Object
+            .keys( defaultProduct )
+            .map( key => {
+              let val = product[ key ]
+              const valDefault = defaultProduct[ key ]
+              if (typeof valDefault === 'number' ) val = parseFloat( val, 10 )
+              return val === valDefault
+            })
+            .reduce( (acc, curr) => acc && curr, true )
+          return !isSameAsDefault
+        })
+        // add an empty line in case a user just type something on the blank one
+        .push( Object.assign({}, defaultProduct) )
+      //
+      updated = updated.set( `products`, products )
       // recompute totals
       const totalNet  = round( updated.get(`products`)
         .reduce( (acc, val)  => acc + val.quantity * val.price, 0), 2)

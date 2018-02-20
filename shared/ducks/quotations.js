@@ -44,6 +44,10 @@ export const getOne = ({id}) => dispatch => {
   id = id ? id : `new`
   return fetchGet(`${NAME}/${id}`)
     .then(payload => {
+      // make an empty line at the bottom of the products list
+      // this help the form when no-js
+      // & also avoid to ta had this on componentWillReceiveProps
+      payload.products.push( Object.assign({}, payload.defaultProduct))
       dispatch({
         type: GET_ONE,
         payload,
