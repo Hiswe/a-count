@@ -5,6 +5,7 @@ import crio from 'crio'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import round from 'lodash/round'
 
 import * as quotations from '../ducks/quotations'
 import * as customers from '../ducks/customers'
@@ -85,6 +86,12 @@ class QuotationForm extends Component {
         .reduce( (acc, curr) => { return acc === true && curr === true}, true )
       updated = isNewProductLine ? updated
         : updated.set( `products[${products.length}]`, defaultProduct )
+      // recompute totals
+      const totalNet  = round( updated.get(`products`)
+        .reduce( (acc, val)  => acc + val.quantity * val.price, 0), 2)
+      const totalTax  = round(totalNet * updated.get(`tax`) / 100, 2)
+      const total     = totalNet + totalTax
+      updated = updated.merge(null, {totalNet, totalTax, total})
       return { formData: updated }
     })
   }
