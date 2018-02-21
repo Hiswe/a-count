@@ -3,6 +3,7 @@ import isNil from 'lodash/isnil'
 
 import config from '../config'
 import sequelize from './db-connection'
+import QuotationCount from './model-quotation-count'
 import * as h from './helpers'
 
 const steps = [
@@ -40,6 +41,14 @@ const Quotation = sequelize.define( `quotation`, {
       }
       this.setDataValue( `tax`, val )
     },
+  },
+  count: {
+    type:         new Sequelize.VIRTUAL(Sequelize.FLOAT, [`quotation-count`]),
+    get:          function() {
+      const quotationCount = this.get( `quotation-count` )
+      if (!quotationCount) return false
+      return quotationCount.get(`count`)
+    }
   },
   // PRODUCTS
   products: {
@@ -151,7 +160,16 @@ const Quotation = sequelize.define( `quotation`, {
   },
 })
 
-Quotation.updateOrCreate = h.updateOrCreate( Quotation )
+// Don't use upsert as it didn't return an instance but only a status
+// http://docs.sequelizejs.com/class/lib/model.js~Model.html#static-method-upsert
+// https://medium.com/@griffinmichl/async-await-with-ternary-operators-af19f374215
+Quotation.updateOrCreate = async function( id, params ) {
+  const instance = await ( id ? this.findById(id) : new Quotation() )
+  if ( !instance ) return null
+  const updated = await instance.update( params )
+  if ( !id ) await QuotationCount.create({quotationId: updated.id})
+  return updated
+}
 
 export {
   Quotation as default,

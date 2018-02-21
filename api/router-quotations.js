@@ -4,6 +4,7 @@ import { formatResponse } from './helpers'
 import { normalizeString } from './db/helpers'
 import Customer from './db/model-customer'
 import Quotation from './db/model-quotation'
+import QuotationCount from './db/model-quotation-count'
 
 const prefix = `quotations`
 const router = new Router({prefix: `/${prefix}`})
@@ -43,6 +44,7 @@ router
 })
 .post(`/new`,  async (ctx, next) => {
   const { body }      = ctx.request
+  // TODO check if customer exist!
   // const customer      = await getUserByName(body)
   // body.customerId = customer.get(`id`)
   const instance  = await Quotation.updateOrCreate( false, body )
@@ -56,6 +58,10 @@ router
     where: { id,},
     include: [{
       model: Customer,
+      attributes: [`id`, `name`, `address`],
+    }, {
+      model: QuotationCount,
+      attributes: [`count`]
     }],
   })
   ctx.body = formatResponse(instance)

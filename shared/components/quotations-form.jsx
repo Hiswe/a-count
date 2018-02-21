@@ -126,6 +126,8 @@ class QuotationForm extends Component {
         <header>
           <h1>
             {'Quotation\u00A0'}
+            {formData.count && '-\u00A0'}
+            {formData.count && (<span>PR { formData.count+350 }</span>)}
           </h1>
           {/* deactivated for now */}
           {/* TODO render a new webpage when clicked */}
