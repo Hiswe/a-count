@@ -1,35 +1,27 @@
-.id {
-  opacity: .5;
-}
-
-//
-// BUTTONS
-//
-
-$btn {
+%btn {
   border: 2px solid;
   padding: .75em 1em;
-  border-radius: $gutter-4;
+  border-radius: var(--s-quarter-gutter);
   cursor: pointer;
   display: inline-block;
 }
 
 .btn {
-  @extend $btn;
-  border-color: $c-primary;
-  background: $c-primary;
+  @extend %btn;
+  border-color: var(--c-primary);
+  background: var(--c-primary);
   color: white;
 
   &:hover {
     background: white;
-    color: $c-primary;
+    color: var(--c-primary);
   }
 }
 .btn-secondary {
-  @extend $btn;
-  border-color: #cddce4;
-  background: #cddce4;
-  color: darken(#cddce4, 30%);
+  @extend %btn;
+  border-color: white;
+  background: white;
+  color: var(--c-black);
 
   &:hover {
     background: white;
@@ -37,12 +29,13 @@ $btn {
 }
 
 .btn-circular {
-  @extend .btn;
+  @extend %btn;
+  $size: 1.75em;
   font-size: 1.5em;
   width: 1.75em;
-  height: @width;
-  line-height: (@width * .9);
-  border-radius: @width;
+  height: $size;
+  line-height: ($size * .9);
+  border-radius: $size;
   padding: 0;
   text-align: center;
 
@@ -54,13 +47,14 @@ $btn {
 // circular fixed positioned button;
 .btn-fab {
   cursor: pointer;
+  $size: 1.75em;
   color: white;
   background: $c-accent;
   font-size: 2.5rem;
   width: 1.75em;
-  height: @width;
-  line-height: (@width * .9);
-  border-radius: @width;
+  height: $size;
+  line-height: ($size * .9);
+  border-radius: $size;
   padding: 0;
   text-align: center;
   position: fixed;
@@ -69,20 +63,9 @@ $btn {
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.2);
 
   &:hover {
-    background: lighten(@background, 15%);
+    // background: lighten(@background, 15%);
   }
   &:active {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   }
-}
-
-//
-// CARD
-//
-
-.card {
-  background: white;
-  padding: $gutter $gutter $gutter-2 $gutter;
-  border: 0;
-  border-radius: $gutter-4;
 }

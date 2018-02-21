@@ -2,7 +2,7 @@ table {
   border: 0;
   width: 100%;
   text-align: left;
-  border-radius: $gutter-4;
+  border-radius: var(--s-quarter-gutter);
   table-layout: fixed;
 }
 
@@ -12,15 +12,15 @@ tr {
 
 .table-pres {
   background: white;
-  border-radius: $gutter-4;
+  border-radius: var(--s-quarter-gutter);
 
   thead {
-    background: $c-black;
+    background: var(--c-black);
     color: white;
   }
 
   a {
-    color: $c-primary;
+    color: var(--c-primary);
     &:hover {
       color: black;
     }
@@ -35,10 +35,10 @@ tr {
     padding: 1em 1.3em;
 
     &:first-child {
-      border-top-left-radius: $gutter-4;
+      border-top-left-radius: var(--s-quarter-gutter);
     }
     &:last-child {
-      border-top-right-radius: $gutter-4;
+      border-top-right-radius: var(--s-quarter-gutter);
     }
   }
 
@@ -56,11 +56,11 @@ tr {
 }
 
 .table-form {
-  border: 1px solid rgba(147, 128, 108, 0.25);
-  margin-bottom: $gutter-2;
+  border: 1px solid var(--c-border);
+  margin-bottom: var(--s-half-gutter);
 
   thead {
-    border-bottom: 1px solid rgba(147, 128, 108, 0.25);
+    border-bottom: 1px solid  var(--c-border);
   }
 
   th:nth-child(1) {
@@ -77,24 +77,24 @@ tr {
   }
 
   th {
-    background-color: rgba(147, 128, 108, 0.1);
-    color: #666666;
+    background-color:  var(--c-border);
+    color: white;
     font: inherit;
     font-weight: normal;
     padding: 0.5em 0.75em;
-    border-bottom: 1px solid rgba(147, 128, 108, 0.25);
+    border-bottom: 1px solid var(--c-border);
 
     + th {
-      border-left: 1px solid rgba(147, 128, 108, 0.25);
+      border-left: 1px solid var(--c-border);
     }
   }
 
   td + td {
-    border-left: 1px solid rgba(147, 128, 108, 0.25);
+    border-left: 1px solid var(--c-border);
   }
 
   tr + tr td {
-    border-top: 1px solid rgba(147, 128, 108, 0.25);
+    border-top: 1px solid var(--c-border);
   }
 
   .amount {
@@ -112,9 +112,9 @@ tr {
     border: 0;
   }
   tfoot td {
-    border-top: 1px solid rgba(147, 128, 108, 0.25);
+    border-top: 1px solid var(--c-border);
     padding: 0.5em 0.75em;
-    background-color: rgba(147, 128, 108, 0.1);
+    background-color: var(--c-border);
     text-align: right;
     font-weight: bold;
   }

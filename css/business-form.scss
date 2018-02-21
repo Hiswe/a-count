@@ -2,15 +2,15 @@
   display: grid;
   grid-template-columns: 1fr 35%;
   grid-template-rows: auto;
-  grid-gap: var(--gutter);
+  grid-gap: var(---s-gutter);
   grid-template-areas:
-    "meta     tax"\
-    "body     body"\
+    "meta     tax"
+    "body     body"
     "actions  actions";
 
   &__item {
     background: white;
-    padding: var(--gutter);
+    padding: var(---s-gutter);
     border: 0;
     border-radius: var(--quarter-gutter);
 
@@ -26,7 +26,7 @@
 .status {
   display: grid;
   grid-template-columns: repeat( 4, 1fr);
-  gutter: var(--half-gutter);
+  // gutter: var(--s-half-gutter);
 
   .field {
     flex-shrink: 0;

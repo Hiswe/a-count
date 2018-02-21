@@ -1,5 +1,5 @@
 .main-header {
-  background: $c-black;
+  background: var(--c-black);
 
   ul,
   li {
@@ -15,7 +15,7 @@
       border-right: 1px solid rgba(white, .1);
     }
 
-    +mq('centered') {
+    @media #{$mq-big} {
       border-left: 1px solid rgba(white, .1);
     }
 
@@ -30,7 +30,7 @@
     display: inline-block;
 
     &:hover {
-      background: $c-primary;
+      background: var(--c-primary);
     }
   }
 }

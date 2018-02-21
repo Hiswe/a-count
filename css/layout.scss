@@ -1,0 +1,52 @@
+
+// Fjalla One and Cantarell
+// http://fontpair.co/#three
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  background: var(--c-background);
+  color: var(--c-black);
+}
+
+a {
+  text-decoration: none;
+}
+
+main {
+  padding-bottom: var(--s-gutter);
+}
+
+.main-header,
+main {
+  @media #{$mq-big} {
+    $padding-left-right: calc(50% - var(--s-max-width) / 2);
+    padding-left: $padding-left-right;
+    padding-right: $padding-left-right;
+  }
+}
+
+header {
+  display: flex;
+  align-items: center;
+
+  h1 {
+    margin-right: auto;
+  }
+}
+
+
+.card {
+  background: white;
+  padding: var(--s-gutter);
+  padding-bottom: var(--s-half-gutter);
+  border: 0;
+  border-radius: var(--s-quarter-gutter);
+}

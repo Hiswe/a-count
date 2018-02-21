@@ -1,0 +1,42 @@
+///////
+// SIZES
+///////
+
+$gutter: 20px;
+$half-gutter: ($gutter / 2);
+$quarter-gutter: ($gutter / 4);
+
+$max-width: 1024px;
+
+//----- MEDIA QUERIES
+
+$mq-big: '(min-width: #{$max-width})';
+
+///////
+// COLORS
+///////
+
+$c-primary:     #4595BA;
+$c-accent:      #ff0078;
+$c-background:  #ecf4f8;
+$c-border:      rgb(73, 73, 73);
+$c-black:       #445;
+
+///////
+// CSS VARS
+///////
+
+:root {
+  --c-primary:      $c-primary;
+  --c-accent:       $c-accent;
+  --c-background:   $c-background;
+  --c-black:        $c-black;
+  --c-border:       $c-border;
+
+  --s-gutter:         $gutter;
+  --s-half-gutter:    $half-gutter;
+  --s-quarter-gutter: $quarter-gutter;
+
+  --s-max-width:    $max-width;
+
+}

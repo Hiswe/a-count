@@ -1,22 +1,24 @@
 'use strict'
 
-const gulp                  = require( `gulp` )
-const $                     = require( `gulp-load-plugins` )()
-const browserSync           = require( `browser-sync` ).create()
-const { reload }            = browserSync
-const nodemon               = require( `nodemon` )
-const webpack               = require( `webpack` )
-const args                  = require( `yargs` ).argv
+const gulp        = require( `gulp` )
+const $           = require( `gulp-load-plugins` )()
+const browserSync = require( `browser-sync` ).create()
+const { reload }  = browserSync
+const nodemon     = require( `nodemon` )
+const webpack     = require( `webpack` )
+const args        = require( `yargs` ).argv
+const beep        = require( `beeper` )
+const log         = require( `fancy-log` )
 
 const isDev       = args.prod !== true
 const jsBasedir   = __dirname + '/js'
 const bundler     = webpack( require(`./webpack.config.js`) )
 
 const onError = err => {
-  $.util.beep()
-  if (err.annotated)      { $.util.log(err.annotated) }
-  else if (err.message)   { $.util.log(err.message) }
-  else                    { $.util.log(err) }
+  beep()
+  if (err.annotated)      { log(err.annotated) }
+  else if (err.message)   { log(err.message) }
+  else                    { log(err) }
   return this.emit('end')
 }
 
@@ -26,18 +28,12 @@ const onError = err => {
 
 const autoprefixer  = require( 'autoprefixer' )
 
-const css = _ => {
+function css() {
   return gulp
-  .src( 'css/index.styl' )
+  .src( 'css/index.scss' )
   .pipe( $.plumber(onError) )
   .pipe( $.sourcemaps.init() )
-  .pipe($.stylus({
-    'include css': true,
-    compress: false,
-    define: {
-      isProd: false,
-    }
-  }))
+  .pipe( $.sass() )
   .pipe( $.postcss([
     autoprefixer( {} ),
   ]) )
@@ -70,8 +66,8 @@ css.description = `Build CSS`
 ////////
 
 const watch = () => {
-  gulp.watch( `views/**/*.jade`, css )
-  gulp.watch( `css/**/*.styl`, css)
+  // gulp.watch( `views/**/*.jade`, css )
+  gulp.watch( `css/**/*.{scss,css}`, css)
   // isomorphic app doesn't need module hot reload
   bundler.watch(  {}, (err, stats) => {
     if (err) return onError( err )
@@ -115,5 +111,6 @@ const runServer = done => {
 
 const dev = gulp.series(runServer, watch, bs)
 
+gulp.task( 'build', gulp.parallel(css) )
 gulp.task( 'css', css )
 gulp.task( 'dev', dev )
