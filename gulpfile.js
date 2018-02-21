@@ -14,7 +14,7 @@ const isDev       = args.prod !== true
 const jsBasedir   = __dirname + '/js'
 const bundler     = webpack( require(`./webpack.config.js`) )
 
-const onError = err => {
+function onError(err) {
   beep()
   if (err.annotated)      { log(err.annotated) }
   else if (err.message)   { log(err.message) }

@@ -11,7 +11,7 @@ import * as quotations from '../ducks/quotations'
 import * as customers from '../ducks/customers'
 import { Floating, Input } from './form.jsx'
 import { Amount } from './_utils.jsx'
-import { PrintBtn, Status, CustomerField, ProductTable } from './business-form'
+import { PrintBtn, Status, ProductTable } from './business-form'
 
 const ConvertButton = (props) => {
   const convertRoute  = `/quotation/convert-to-invoice/${props.businessForm.id}`
@@ -120,6 +120,7 @@ class QuotationForm extends Component {
 
   render() {
     const { props, state } = this
+    console.log( props.customers )
     const { formData } = state
     return (
       <div>
@@ -135,7 +136,11 @@ class QuotationForm extends Component {
         </header>
         <form method="post" className="business-form" >
           <fieldset className="business-form__item business-form__item--meta">
-            <CustomerField {...props} {...state} onChange={this.handleChange} />
+            {/* <CustomerField {...props} {...state} onChange={this.handleChange} /> */}
+            <Input label="customer" key="name" name="customerId" type="select"
+                    value={formData.customerId} entries={props.customers}
+                    onChange={this.handleChange}
+            />
             <Status {...props} {...state} onChange={this.handleChange} />
           </fieldset>
           <fieldset className="business-form__item business-form__item--tax">
@@ -164,7 +169,7 @@ function mapStateToProps(state, ownProps) {
     submitMsg: `${isNew ? 'Create' : 'Update'} quotation`,
     isNew,
     current,
-    customers: state.customers,
+    customers: state.customers && state.customers.list,
   }
   return result
 }

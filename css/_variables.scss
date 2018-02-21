@@ -16,7 +16,11 @@ $mq-big: '(min-width: #{$max-width})';
 // COLORS
 ///////
 
-$c-primary:     #4595BA;
+
+$c-primary:     hsl(199, 46%, 50%);
+$c-primary-h:   199;
+$c-primary-s:   46%;
+$c-primary-l:   50%;
 $c-accent:      #ff0078;
 $c-background:  #ecf4f8;
 $c-border:      rgb(73, 73, 73);
@@ -27,7 +31,16 @@ $c-black:       #445;
 ///////
 
 :root {
-  --c-primary:      $c-primary;
+  --c-primary-h:    $c-primary-h;
+  --c-primary-s:    $c-primary-s;
+  --c-primary-l:    $c-primary-l;
+
+  // Keep `hsl` in Uppercase
+  // https://github.com/sass/node-sass/issues/2251#issuecomment-365861645
+  --c-primary-lightest: HSL(var(--c-primary-h), var(--c-primary-s), 90%);
+  --c-primary-lighter:  HSL(var(--c-primary-h), var(--c-primary-s), 80%);
+  --c-primary:      HSL(var(--c-primary-h), var(--c-primary-s), var(--c-primary-l));
+
   --c-accent:       $c-accent;
   --c-background:   $c-background;
   --c-black:        $c-black;

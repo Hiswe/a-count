@@ -56,11 +56,11 @@ tr {
 }
 
 .table-form {
-  border: 1px solid var(--c-border);
+  border: 1px solid var(--c-primary-lighter);
   margin-bottom: var(--s-half-gutter);
 
   thead {
-    border-bottom: 1px solid  var(--c-border);
+    border-bottom: 1px solid var(--c-primary-lighter);
   }
 
   th:nth-child(1) {
@@ -77,24 +77,24 @@ tr {
   }
 
   th {
-    background-color:  var(--c-border);
-    color: white;
+    background-color:  var(--c-primary-lightest);
+    color: var(--c-primary);
     font: inherit;
     font-weight: normal;
     padding: 0.5em 0.75em;
-    border-bottom: 1px solid var(--c-border);
+    border-bottom: 1px solid var(--c-primary-lighter);
 
     + th {
-      border-left: 1px solid var(--c-border);
+      border-left: 1px solid var(--c-primary-lighter);
     }
   }
 
   td + td {
-    border-left: 1px solid var(--c-border);
+    border-left: 1px solid var(--c-primary-lighter);
   }
 
   tr + tr td {
-    border-top: 1px solid var(--c-border);
+    border-top: 1px solid var(--c-primary-lighter);
   }
 
   .amount {
@@ -112,9 +112,9 @@ tr {
     border: 0;
   }
   tfoot td {
-    border-top: 1px solid var(--c-border);
+    border-top: 1px solid var(--c-primary-lighter);
     padding: 0.5em 0.75em;
-    background-color: var(--c-border);
+    background-color: var(--c-primary-lightest);
     text-align: right;
     font-weight: bold;
   }
