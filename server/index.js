@@ -81,6 +81,7 @@ const proxyRequest = async (ctx, next) => {
     body:     JSON.stringify( body ),
   })
   const result      = await fetchResult.json()
+
   // take care of response errors
   if (!fetchResult.ok) {
     throw({

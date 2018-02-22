@@ -64,6 +64,7 @@ router
       attributes: [`count`]
     }],
   })
+  ctx.assert(customer, 404, `Quotation not found`)
   ctx.body = formatResponse(instance)
 })
 .post(`/:id`, async (ctx, next) => {

@@ -18,8 +18,8 @@ $mq-big: '(min-width: #{$max-width})';
 
 
 $c-primary:     hsl(199, 46%, 50%);
-$c-primary-h:   199;
-$c-primary-s:   46%;
+$c-primary-h:   hue($c-primary);
+$c-primary-s:   saturation($c-primary);
 $c-primary-l:   50%;
 $c-accent:      #ff0078;
 $c-background:  #ecf4f8;

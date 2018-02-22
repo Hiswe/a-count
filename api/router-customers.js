@@ -29,6 +29,7 @@ router
 .get(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
   const instance  = await Customer.findById( id )
+  ctx.assert(instance, 404, `Customer not found`)
   ctx.body        = formatResponse(instance)
 })
 .post(`/:id`, async (ctx, next) => {
