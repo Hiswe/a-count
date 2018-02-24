@@ -32,7 +32,15 @@ const getUserByName = async (body) => {
 
 router
 .get(`/`, async (ctx, next) => {
-  const all = await Quotation.findAll()
+  const all = await Quotation.findAll({
+    include: [{
+      model: Customer,
+      attributes: [`id`, `name`, `address`],
+    }, {
+      model: QuotationCount,
+      attributes: [`count`]
+    }],
+  })
   ctx.body = formatResponse(all)
 })
 
@@ -64,7 +72,7 @@ router
       attributes: [`count`]
     }],
   })
-  ctx.assert(customer, 404, `Quotation not found`)
+  ctx.assert(instance, 404, `Quotation not found`)
   ctx.body = formatResponse(instance)
 })
 .post(`/:id`, async (ctx, next) => {
@@ -76,4 +84,3 @@ router
   const instance  = await Quotation.updateOrCreate( id, body )
   ctx.body        = formatResponse(instance)
 })
-

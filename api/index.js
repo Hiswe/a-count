@@ -1,5 +1,4 @@
 import chalk from 'chalk'
-import { inspect } from 'util'
 import Koa from 'koa'
 import bodyParser from 'koa-body'
 import compress from 'koa-compress'
@@ -9,10 +8,8 @@ import Router from 'koa-router'
 import session from 'koa-session'
 import cors from '@koa/cors'
 
-import { formatResponse } from './helpers'
 import './db'
-import routerCustomers from './router-customers'
-import routerQuotations from './router-quotations'
+import router from './router'
 
 //////
 // SERVER CONFIG
@@ -43,43 +40,8 @@ app.use( session(sessionConfig, app) )
 
 app.use(cors())
 
-//////
-// ERRORS
-//////
-
-app.use(async (ctx, next) => {
-  try {
-    await next()
-  } catch (err) {
-    console.log( inspect(err.original ? err.orignal : err, {colors: true, depth: 1}) )
-    ctx.status  = err.statusCode || err.status || 500
-    ctx.body    = Object.assign(formatResponse(), {
-      message:    err.message,
-      stacktrace: err.stacktrace || err.stack || false,
-    })
-  }
-})
-
-//////
-// INFOS
-//////
-
-const apiRouter = new Router()
-
-apiRouter
-.get( `/`, (ctx, next) => {
-  ctx.body = formatResponse()
-})
-
-//////
-// MOUNT
-//////
-
-apiRouter.use( routerCustomers.routes() )
-apiRouter.use( routerQuotations.routes() )
-
 //----- MOUNT ROUTER TO APPLICATION
 
-app.use( apiRouter.routes() )
+app.use( router.routes() )
 
 export { app as default }
