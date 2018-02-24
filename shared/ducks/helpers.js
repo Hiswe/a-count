@@ -15,7 +15,14 @@ const cleanUrl = url => {
 const fetchGet = async (url) => {
   url = cleanUrl(url)
   const fetchResult = await fetch(`${API_URL}${url}`)
-  const result      = await fetchResult.json()
+  const result = await fetchResult.json()
+  if (!fetchResult.ok) {
+    Object.assign( result, {
+      error:      true,
+      status:     fetchResult.status,
+      statusText: fetchResult.statusText,
+    })
+  }
   return result.payload
 }
 
@@ -28,7 +35,14 @@ const fetchPost = async (url, body) => {
     },
     body: JSON.stringify( body )
   })
-  const result      = await fetchResult.json()
+  const result = await fetchResult.json()
+  if (!fetchResult.ok) {
+    Object.assign( result, {
+      error:      true,
+      status:     fetchResult.status,
+      statusText: fetchResult.statusText,
+    })
+  }
   return result.payload
 }
 

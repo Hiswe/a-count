@@ -3,8 +3,11 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { Floating } from './form.jsx'
 import * as customers from '../ducks/customers'
+import { needRedirect } from './_helpers.js'
+
+import { Floating } from './form.jsx'
+import { RenderError } from './_utils.jsx'
 
 class CustomerForm extends Component {
 
@@ -29,12 +32,13 @@ class CustomerForm extends Component {
   componentWillReceiveProps(nextProps) {
     const { history, current } = this.props
     const next = nextProps.current
-    // redirect if new customer
-    if (!current.id && next.id) {
-      history.push(`/customers/${next.id}`)
-    }
+
     // update state on redux status change
     if (current === next) return
+
+    // redirect if new customer
+    if ( needRedirect(current, next) ) history.push(`/customers/${next.id}`)
+
     this.setState( (prevState, props) => {
       const updated = prevState.formData.merge( null, props.current )
       return { formData: updated }
@@ -63,7 +67,11 @@ class CustomerForm extends Component {
 
   render() {
     const { props, state } = this
+    const { current } = props
     const { formData } = state
+
+    if ( current.error ) return ( <RenderError {...current} /> )
+
     return (
       <section>
         <form method="post"onSubmit={this.handleSubmit}>

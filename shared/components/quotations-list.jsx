@@ -2,8 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { formatStatus, id as formatId} from './_format';
-import { Empty } from './_utils.jsx';
+import { Empty, RenderFakeId } from './_utils.jsx'
 
 //----- TBODY
 
@@ -21,9 +20,17 @@ const QuotationRow = props => {
   // let status    = formatStatus(quotation.time)
   return (
     <tr>
-      <td><Link to={`/quotations/${quotation.id}`}>{quotation.id}</Link></td>
+      <td>
+        <Link to={`/quotations/${quotation.id}`}>
+          <RenderFakeId count={quotation.count} />
+        </Link>
+      </td>
       <td>{quotation.name}</td>
-      <td>{quotation.customer}</td>
+      <td>
+        <Link to={`customers/${quotation.customerId}`}>
+          {quotation.customerName}
+        </Link>
+      </td>
       <td></td>
       {/* {status.date ? <QuotationStatus status={status} /> : <td>-</td>} */}
       <td></td>

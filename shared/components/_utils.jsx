@@ -15,7 +15,25 @@ const Amount = (props) => {
   </p>
 )}
 
+const RenderError = (props) => {
+  return (
+    <div>
+      <h1>An error has ocurred</h1>
+      <p>{ props.message }</p>
+    </div>
+  )
+}
+
+const RenderFakeId = ({prefix = `PR`, startAt = 350 , count}) => {
+  if ( !Number.isFinite(count) ) return null
+  return (
+    <span>{prefix}-{ count + startAt }</span>
+  )
+}
+
 export {
   Empty,
   Amount,
+  RenderError,
+  RenderFakeId,
 }

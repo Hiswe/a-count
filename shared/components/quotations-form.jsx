@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import isUndefined from 'lodash/isundefined'
-import { diff } from 'deep-object-diff'
 import crio from 'crio'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -9,8 +7,10 @@ import round from 'lodash/round'
 
 import * as quotations from '../ducks/quotations'
 import * as customers from '../ducks/customers'
+import { needRedirect } from './_helpers.js'
+
 import { Floating, Input } from './form.jsx'
-import { Amount } from './_utils.jsx'
+import { Amount, RenderError } from './_utils.jsx'
 import { PrintBtn, Status, ProductTable } from './business-form'
 
 const ConvertButton = (props) => {
@@ -50,11 +50,13 @@ class QuotationForm extends Component {
   componentWillReceiveProps(nextProps) {
     const { history, current } = this.props
     const next = nextProps.current
-    // redirect if new customer
-    if (!current.id && next.id) {
-      history.push(`/customers/${next.id}`)
-    }
+
+    // update state on redux status change
     if (current === next) return
+
+    // redirect if new quotation
+    if ( needRedirect(current, next) ) history.push(`/quotations/${next.id}`)
+
     this.setState( (prevState, props) => {
       return { formData: props.current }
     })
@@ -110,7 +112,9 @@ class QuotationForm extends Component {
   handleRemoveProduct(index, value) {
     const { formData } = this.state
     const line = formData.get(value)
+
     if (!line) return
+
     this.setState( (prevState) => {
       const updatedProducts = prevState.formData.products.splice(index, 1)
       const updated = prevState.formData.set(`products`, updatedProducts)
@@ -120,8 +124,11 @@ class QuotationForm extends Component {
 
   render() {
     const { props, state } = this
-    console.log( props.customers )
+    const { current } = props
     const { formData } = state
+
+    if ( current.error ) return ( <RenderError {...current} /> )
+
     return (
       <div>
         <header>

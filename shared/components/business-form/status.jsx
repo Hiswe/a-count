@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react'
 
+import { formatDate } from '../_helpers.js'
+
 import { Input } from '../form.jsx'
-import { formatDate } from '../_format.js'
 
 const StatusLine = props => {
   const { step, onChange, value } = props

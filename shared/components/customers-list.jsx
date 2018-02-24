@@ -2,7 +2,7 @@ import React        from 'react'
 import { Link }     from 'react-router-dom'
 import { connect }  from 'react-redux'
 
-import { safeMarked }    from './_format'
+import { safeMarked }    from './_helpers'
 
 const CustomerRow = (props) => {
   let customer = props.customer
