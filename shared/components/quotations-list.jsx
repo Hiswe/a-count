@@ -16,8 +16,7 @@ const QuotationStatus = props => {
 }
 
 const QuotationRow = props => {
-  let quotation = props.quotation
-  // let status    = formatStatus(quotation.time)
+  const { quotation } = props
   return (
     <tr>
       <td>
