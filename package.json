@@ -74,8 +74,6 @@
     "gulp-svg-symbols": "3.0.0",
     "nodemon": "^1.14.12",
     "redux-devtools-extension": "^2.13.2",
-    "vinyl-buffer": "1.0.1",
-    "vinyl-source-stream": "2.0.0",
     "webpack": "^3.6.0",
     "yargs": "11.0.0"
   }

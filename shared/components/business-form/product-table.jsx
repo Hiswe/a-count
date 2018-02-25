@@ -6,12 +6,13 @@ import { Amount } from '../_utils.jsx'
 const Product = (props) => {
   const { product, index, onChange, handleRemoveProduct, isLast } = props
   if (!product) return null
+  const rowsHeight = Math.max(1, product.description.split('\n').length)
   const i = `products[${index}]`
   const total = product.quantity * product.price
   return (
     <tr>
       <td>
-        <textarea name={`${i}[description]`} rows="1" value={product.description} onChange={onChange} />
+        <textarea name={`${i}[description]`} rows={rowsHeight} value={product.description} onChange={onChange} />
       </td>
       <td>
         <input type="number" min="0" step="0.25" name={`${i}[quantity]`} value={product.quantity} onChange={onChange} />

@@ -79,12 +79,11 @@ class QuotationForm extends Component {
 
     this.setState( (prevState) => {
       let updated = prevState.formData.set(key, value)
-      // filter empty lines
+      // - de-dupe defaultProduct lines
+      // - add an empty line a the end
+      //   in case a user just type something on the blank one
       const defaultProduct  = prevState.formData.get( `defaultProduct` )
       const defaultKeys = Object.keys( defaultProduct )
-      // de-dupe defaultProduct lines
-      // and add an empty line a the end
-      // in case a user just type something on the blank one
       const products = filterObjectInArrayWith( defaultProduct, updated.get(`products`) )
         .push( Object.assign({}, defaultProduct) )
       updated = updated.set( `products`, products )

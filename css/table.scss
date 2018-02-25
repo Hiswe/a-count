@@ -101,6 +101,10 @@ tr {
     margin: 0;
   }
 
+  textarea {
+    resize: none;
+  }
+
   .total,
   input,
   textarea {
