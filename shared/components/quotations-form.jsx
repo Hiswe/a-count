@@ -7,7 +7,7 @@ import round from 'lodash/round'
 
 import * as quotations from '../ducks/quotations'
 import * as customers from '../ducks/customers'
-import { needRedirect } from './_helpers.js'
+import { needRedirect, filterObjectInArrayWith, computeTotals } from './_helpers.js'
 
 import { Floating, Input } from './form.jsx'
 import { Amount, RenderError } from './_utils.jsx'
@@ -81,30 +81,16 @@ class QuotationForm extends Component {
       let updated = prevState.formData.set(key, value)
       // filter empty lines
       const defaultProduct  = prevState.formData.get( `defaultProduct` )
-      const defaultKeys     = Object.keys( defaultProduct )
-      const products        = updated.get( `products` )
-        .filter( product => {
-          const isSameAsDefault = Object
-            .keys( defaultProduct )
-            .map( key => {
-              let val = product[ key ]
-              const valDefault = defaultProduct[ key ]
-              if (typeof valDefault === 'number' ) val = parseFloat( val, 10 )
-              return val === valDefault
-            })
-            .reduce( (acc, curr) => acc && curr, true )
-          return !isSameAsDefault
-        })
-        // add an empty line in case a user just type something on the blank one
+      const defaultKeys = Object.keys( defaultProduct )
+      // de-dupe defaultProduct lines
+      // and add an empty line a the end
+      // in case a user just type something on the blank one
+      const products = filterObjectInArrayWith( defaultProduct, updated.get(`products`) )
         .push( Object.assign({}, defaultProduct) )
-      //
       updated = updated.set( `products`, products )
       // recompute totals
-      const totalNet  = round( updated.get(`products`)
-        .reduce( (acc, val)  => acc + val.quantity * val.price, 0), 2)
-      const totalTax  = round(totalNet * updated.get(`tax`) / 100, 2)
-      const total     = totalNet + totalTax
-      updated = updated.merge(null, {totalNet, totalTax, total})
+      const totals = computeTotals( updated.get(`products`), updated.get(`tax`) )
+      updated = updated.merge(null, totals)
       return { formData: updated }
     })
   }
