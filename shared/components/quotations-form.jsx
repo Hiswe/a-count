@@ -72,6 +72,22 @@ class QuotationForm extends Component {
     this.props.saveOne( result )
   }
 
+  recomputeTotals(formData) {
+    // - de-dupe defaultProduct lines
+    // - add an empty line a the end
+    //   in case a user just type something on the blank one
+    const defaultProduct  = formData.get( `defaultProduct` )
+    const defaultKeys = Object.keys( defaultProduct )
+    const currentProducts = formData.get(`products`)
+    const products = filterObjectInArrayWith( defaultProduct, currentProducts )
+      .push( Object.assign({}, defaultProduct) )
+    let updated = formData.set( `products`, products )
+    // recompute totals
+    const totals = computeTotals( updated.get(`products`), updated.get(`tax`) )
+    updated = updated.merge(null, totals)
+    return { formData: updated }
+  }
+
   handleChange(event) {
     const { target } = event
     const value = target.type === 'checkbox' ? target.checked : target.value
@@ -79,18 +95,10 @@ class QuotationForm extends Component {
 
     this.setState( (prevState) => {
       let updated = prevState.formData.set(key, value)
-      // - de-dupe defaultProduct lines
-      // - add an empty line a the end
-      //   in case a user just type something on the blank one
-      const defaultProduct  = prevState.formData.get( `defaultProduct` )
-      const defaultKeys = Object.keys( defaultProduct )
-      const products = filterObjectInArrayWith( defaultProduct, updated.get(`products`) )
-        .push( Object.assign({}, defaultProduct) )
-      updated = updated.set( `products`, products )
-      // recompute totals
-      const totals = computeTotals( updated.get(`products`), updated.get(`tax`) )
-      updated = updated.merge(null, totals)
-      return { formData: updated }
+      const isProductChange = /^products\[\d+\]/.test(key)
+      const isTaxChange = key === 'tax'
+      if ( !isProductChange && !isTaxChange ) return { formData: updated }
+      return this.recomputeTotals( updated )
     })
   }
 
@@ -103,7 +111,7 @@ class QuotationForm extends Component {
     this.setState( (prevState) => {
       const updatedProducts = prevState.formData.products.splice(index, 1)
       const updated = prevState.formData.set(`products`, updatedProducts)
-      return { formData: updated }
+      return this.recomputeTotals( updated )
     })
   }
 
