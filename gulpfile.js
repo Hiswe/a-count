@@ -90,12 +90,10 @@ const runServer = done => {
     script: `index.js`,
     ext:    `js json jsx`,
     watch: [
-      'server.js',
       'index.js',
       'shared/**/*',
       'server/**/*',
       'api/**/*',
-      'views/**/*'
     ],
     env: {
       'NODE_ENV': 'development' ,

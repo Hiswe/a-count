@@ -1,7 +1,7 @@
 import Router from 'koa-router'
 
-import { formatResponse } from './helpers'
-import { normalizeString } from './db/helpers'
+import { formatResponse } from './_helpers'
+import { normalizeString } from './db/_helpers'
 import Customer from './db/model-customer'
 import Quotation from './db/model-quotation'
 import QuotationCount from './db/model-quotation-count'

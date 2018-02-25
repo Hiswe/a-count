@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { Empty, RenderFakeId } from './_utils.jsx'
+import { Empty, RenderFakeId, Amount } from './_utils.jsx'
 
 //----- TBODY
 
@@ -32,8 +32,8 @@ const QuotationRow = props => {
       </td>
       <td></td>
       {/* {status.date ? <QuotationStatus status={status} /> : <td>-</td>} */}
-      <td></td>
-      {/* <td>€ {quotation.price.net}</td> */}
+      <td><Amount value={quotation.totalNet} /></td>
+      <td><Amount value={quotation.total} /></td>
     </tr>
   )
 }
@@ -48,6 +48,7 @@ const QuotationTable = (props) => (
         <th>customer</th>
         <th>status</th>
         <th>total HT</th>
+        <th>total</th>
       </tr>
     </thead>
     <tbody>

@@ -4,7 +4,7 @@ import isNil from 'lodash/isnil'
 import config from '../config'
 import sequelize from './db-connection'
 import QuotationCount from './model-quotation-count'
-import * as h from './helpers'
+import * as h from './_helpers'
 
 const steps = [
   {key: `sendAt`,       name: `send`},
@@ -93,10 +93,11 @@ const Quotation = sequelize.define( `quotation`, {
     type: new Sequelize.VIRTUAL(Sequelize.FLOAT, [`products`]),
     get: function () {
       const products = this.getDataValue( `products` )
+      if ( !products ) return 0;
       const total = products.reduce( (accumulator, currentValue)  => {
         return accumulator + currentValue.quantity * currentValue.price
       }, 0)
-      return total
+      return h.roundToNearestQuarter( total )
     },
   },
   totalTax: {
@@ -104,7 +105,7 @@ const Quotation = sequelize.define( `quotation`, {
     get: function () {
       const totalNet = this.get( `totalNet` )
       const tax = this.get( `tax` )
-      return totalNet * tax / 100
+      return h.roundToNearestQuarter( totalNet * tax / 100 )
     },
   },
   total: {

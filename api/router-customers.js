@@ -1,7 +1,9 @@
 import Router from 'koa-router'
 
-import { formatResponse } from './helpers'
+import { formatResponse } from './_helpers'
 import Customer from './db/model-customer'
+import Quotation from './db/model-quotation'
+import QuotationCount from './db/model-quotation-count'
 
 const prefix = `customers`
 const router = new Router({prefix: `/${prefix}`})
@@ -9,7 +11,16 @@ export default router
 
 router
 .get(`/`, async (ctx, next) => {
-  const all = await Customer.findAll()
+  const all = await Customer.findAll({
+    attributes: {
+      include: [
+      ],
+    },
+    include: [{
+      model: Quotation,
+      attributes: [`id`],
+    }],
+  })
   ctx.body = formatResponse(all)
 })
 
@@ -28,7 +39,16 @@ router
 //----- EDIT
 .get(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
-  const instance  = await Customer.findById( id )
+  const instance  = await Customer.findOne({
+    where: { id },
+    include: [{
+      model: Quotation,
+      include: [{
+        model: QuotationCount,
+        attributes: [`count`],
+      }]
+    }],
+  })
   ctx.assert(instance, 404, `Customer not found`)
   ctx.body        = formatResponse(instance)
 })

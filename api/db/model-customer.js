@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize'
 
 import sequelize from './db-connection'
-import * as h from './helpers'
+import * as h from './_helpers'
 
 const Customer = sequelize.define( `customer`, {
   id: {

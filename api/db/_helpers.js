@@ -36,10 +36,16 @@ const setNormalizedDate = key => function( val ) {
   this.setDataValue( key, date )
 }
 
+const roundToNearestQuarter = number => {
+  const rounded = Math.round(number * 4) / 4
+  return parseFloat(rounded.toFixed(2), 10)
+}
+
 export {
   normalizeString,
   updateOrCreate,
   setNormalizedString,
   getNormalizedDate,
   setNormalizedDate,
+  roundToNearestQuarter,
 }

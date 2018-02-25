@@ -14,6 +14,7 @@ const CustomerRow = (props) => {
         <Link to={url}>{customer.name}</Link>
       </td>
       <td dangerouslySetInnerHTML={address} />
+      <td>{customer.quotations && customer.quotations.length}</td>
     </tr>
   )
 }
@@ -28,6 +29,7 @@ const CustomerList = (props) => {
         <tr>
           <th>name</th>
           <th>address</th>
+          <th>numbers of quotations</th>
         </tr>
       </thead>
       <tbody>
