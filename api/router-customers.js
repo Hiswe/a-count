@@ -1,5 +1,7 @@
 import Router from 'koa-router'
+// import Sequelize from 'sequelize'
 
+import { sequelize } from './db'
 import { formatResponse } from './_helpers'
 import Customer from './db/model-customer'
 import Quotation from './db/model-quotation'
@@ -11,16 +13,16 @@ export default router
 
 router
 .get(`/`, async (ctx, next) => {
-  const all = await Customer.findAll({
-    attributes: {
-      include: [
-      ],
-    },
-    include: [{
-      model: Quotation,
-      attributes: [`id`],
-    }],
-  })
+  // didn't achieve to use only sequelize API
+  const all = await sequelize.query(`
+    SELECT
+      *,
+      ( SELECT COUNT(*)
+        FROM quotations as quotation
+        WHERE "quotation"."customerId" = customer.id
+      ) AS "quotationsCount"
+    FROM customers AS customer
+  `, { model: Quotation })
   ctx.body = formatResponse(all)
 })
 
