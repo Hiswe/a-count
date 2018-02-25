@@ -47,7 +47,10 @@ export const getOne = ({id}) => dispatch => {
       // make an empty line at the bottom of the products list
       // this help the form when no-js
       // & also avoid to ta had this on componentWillReceiveProps
-      payload.products.push( Object.assign({}, payload.defaultProduct))
+      if ( Array.isArray( payload.products ) ) {
+        const copiedDefaultProduct = Object.assign( {}, payload.defaultProduct )
+        payload.products.push( copiedDefaultProduct )
+      }
       dispatch({
         type: GET_ONE,
         payload,
@@ -60,6 +63,10 @@ export const saveOne = (body) => dispatch => {
   id = id ? id : `new`
   return fetchPost(`${NAME}/${id}`, body)
     .then(payload => {
+      if ( Array.isArray( payload.products ) ) {
+        const copiedDefaultProduct = Object.assign( {}, payload.defaultProduct )
+        payload.products.push( copiedDefaultProduct )
+      }
       dispatch({
         type: SAVE_ONE,
         payload,

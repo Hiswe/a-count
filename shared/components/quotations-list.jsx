@@ -26,7 +26,7 @@ const QuotationRow = props => {
       </td>
       <td>{quotation.name}</td>
       <td>
-        <Link to={`customers/${quotation.customerId}`}>
+        <Link to={`/customers/${quotation.customerId}`}>
           {quotation.customerName}
         </Link>
       </td>

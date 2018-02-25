@@ -3,7 +3,7 @@ import crio from 'crio'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import round from 'lodash/round'
+import serialize from 'form-serialize'
 
 import * as quotations from '../ducks/quotations'
 import * as customers from '../ducks/customers'
@@ -50,13 +50,10 @@ class QuotationForm extends Component {
   componentWillReceiveProps(nextProps) {
     const { history, current } = this.props
     const next = nextProps.current
-
     // update state on redux status change
     if (current === next) return
-
     // redirect if new quotation
     if ( needRedirect(current, next) ) history.push(`/quotations/${next.id}`)
-
     this.setState( (prevState, props) => {
       return { formData: props.current }
     })
@@ -64,15 +61,12 @@ class QuotationForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    const formData = new FormData(event.target)
-    const result = {}
-    for (const [key, value] of formData.entries()) {
-      result[key] = value
-    }
+    const result = serialize( event.target, { hash: true } )
+    // const result = serialize( event.target, { hash: true, empty: true } )
     this.props.saveOne( result )
   }
 
-  recomputeTotals(formData) {
+  recomputeProducts(formData) {
     // - de-dupe defaultProduct lines
     // - add an empty line a the end
     //   in case a user just type something on the blank one
@@ -98,7 +92,7 @@ class QuotationForm extends Component {
       const isProductChange = /^products\[\d+\]/.test(key)
       const isTaxChange = key === 'tax'
       if ( !isProductChange && !isTaxChange ) return { formData: updated }
-      return this.recomputeTotals( updated )
+      return this.recomputeProducts( updated )
     })
   }
 
@@ -111,7 +105,7 @@ class QuotationForm extends Component {
     this.setState( (prevState) => {
       const updatedProducts = prevState.formData.products.splice(index, 1)
       const updated = prevState.formData.set(`products`, updatedProducts)
-      return this.recomputeTotals( updated )
+      return this.recomputeProducts( updated )
     })
   }
 
@@ -134,9 +128,9 @@ class QuotationForm extends Component {
           {/* TODO render a new webpage when clicked */}
           {/* <PrintBtn {...formData} /> */}
         </header>
-        <form method="post" className="business-form" >
+        <form method="post" className="business-form" onSubmit={this.handleSubmit}>
           <fieldset className="business-form__item business-form__item--meta">
-            {/* <CustomerField {...props} {...state} onChange={this.handleChange} /> */}
+            { props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" /> }
             <Input label="customer" key="name" name="customerId" type="select"
                     value={formData.customerId} entries={props.customers}
                     onChange={this.handleChange}

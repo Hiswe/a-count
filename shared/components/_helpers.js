@@ -19,7 +19,7 @@ function needRedirect( currentState, nextState ) {
   const currentId = currentState.id
   const nextId = nextState.id
   const result = !currentId && nextId ? true
-    : currentId === nextId
+    : currentId !== nextId
   return result
 }
 

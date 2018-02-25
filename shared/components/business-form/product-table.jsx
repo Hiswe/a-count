@@ -6,7 +6,9 @@ import { Amount } from '../_utils.jsx'
 const Product = (props) => {
   const { product, index, onChange, handleRemoveProduct, isLast } = props
   if (!product) return null
-  const rowsHeight = Math.max(1, product.description.split('\n').length)
+  const hasDescription = typeof product.description === 'string'
+  const rowsHeight = !hasDescription ? 1
+    : Math.max(1, product.description.split('\n').length)
   const i = `products[${index}]`
   const total = product.quantity * product.price
   return (

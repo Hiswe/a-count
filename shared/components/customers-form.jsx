@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import serialize from 'form-serialize'
 
 import * as customers from '../ducks/customers'
 import { needRedirect } from './_helpers.js'
@@ -47,11 +48,7 @@ class CustomerForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    const formData = new FormData(event.target)
-    const result = {}
-    for (const [key, value] of formData.entries()) {
-      result[key] = value
-    }
+    const result = serialize( event.target, { hash: true, empty: true } )
     this.props.saveOne( result )
   }
 
@@ -74,7 +71,7 @@ class CustomerForm extends Component {
 
     return (
       <section>
-        <form method="post"onSubmit={this.handleSubmit}>
+        <form method="post" onSubmit={this.handleSubmit}>
           <h1>Customer</h1>
           {props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" />  }
           <fieldset>

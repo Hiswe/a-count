@@ -57,15 +57,17 @@ const Quotation = sequelize.define( `quotation`, {
     defaultValue: [],
     set: function (products) {
       const defaultProduct = this.get( `defaultProduct` )
-      products = products
+      const updatedProducts = products
         // force numeric values for quantity & price
         .map( product => {
+          const normalizedProduct = {}
           ;[`quantity`, `price`].forEach( key => {
             const num = parseFloat( product[key], 10 )
-            product[key] = Number.isNaN( num ) ? defaultProduct[key] : num
+            normalizedProduct[key] = Number.isNaN( num ) ? defaultProduct[key] : num
           })
-          product.description = product.description.trim()
-          return product
+          const hasDesc = typeof product.description === `string`
+          normalizedProduct.description = hasDesc ? product.description.trim() : ``
+          return normalizedProduct
         })
         // Filter all default product
         .filter( product => {
@@ -74,7 +76,7 @@ const Quotation = sequelize.define( `quotation`, {
           .reduce( (acc, curr) => acc && curr, true)
         return !isSameAsDefault
       })
-      this.setDataValue( `products`, products )
+      this.setDataValue( `products`, updatedProducts )
     }
   },
   defaultProduct: {

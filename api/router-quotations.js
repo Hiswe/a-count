@@ -13,17 +13,17 @@ export default router
 //////
 // UTILITIES
 //////
-
-const getUserByName = async (body) => {
-  const customerName = normalizeString(body[`customerName`])
-  let customer = await Customer.findOne( {
-    where: {name: customerName},
+const getQuotationById = (id) => {
+  return Quotation.findOne( {
+    where: { id,},
+    include: [{
+      model: Customer,
+      attributes: [`id`, `name`, `address`],
+    }, {
+      model: QuotationCount,
+      attributes: [`count`]
+    }],
   })
-  if (!customer) {
-    customer = new Customer({ name: customerName})
-    await customer.save()
-  }
-  return customer
 }
 
 //////
@@ -53,34 +53,28 @@ router
 .post(`/new`,  async (ctx, next) => {
   const { body }      = ctx.request
   // TODO check if customer exist!
-  // const customer      = await getUserByName(body)
-  // body.customerId = customer.get(`id`)
+  const customer      = await Customer.findById( body.customerId )
+  ctx.assert(customer, 500, `Can't ${ id ? 'create' : 'update'} Quotation. The associated customer isn't found`)
   const instance  = await Quotation.updateOrCreate( false, body )
-  ctx.body        = formatResponse(instance)
+  const result    = await getQuotationById( instance.id )
+  ctx.assert(result, 404, `Quotation not found`)
+  ctx.body        = formatResponse(result)
 })
 
 //----- EDIT
 .get(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
-  const instance  = await Quotation.findOne( {
-    where: { id,},
-    include: [{
-      model: Customer,
-      attributes: [`id`, `name`, `address`],
-    }, {
-      model: QuotationCount,
-      attributes: [`count`]
-    }],
-  })
+  const instance  = await getQuotationById( id )
   ctx.assert(instance, 404, `Quotation not found`)
   ctx.body = formatResponse(instance)
 })
 .post(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
   const { body }  = ctx.request
-
-  // const customer  = await getUserByName(body)
-  // body.customerId = customer.get(`id`)
+  const customer  = await Customer.findById( body.customerId )
+  ctx.assert(customer, 500, `Can't ${ id ? 'create' : 'update'} Quotation. The associated customer isn't found`)
   const instance  = await Quotation.updateOrCreate( id, body )
-  ctx.body        = formatResponse(instance)
+  const result    = await getQuotationById( instance.id )
+  ctx.assert(result, 404, `Quotation not found`)
+  ctx.body        = formatResponse(result)
 })
