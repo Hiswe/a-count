@@ -5,8 +5,8 @@ const { inspect } = require( 'util' )
 require('babel-core/register')({
   presets: ['es2015', 'react'],
   ignore: (filename) => {
-    if (/node_module/.test(filename)) return true;
-    return /design-/.test(filename);
+    if (/node_module/.test(filename)) return true
+    return false
   },
 })
 
@@ -31,6 +31,3 @@ const appServer = app.listen(appConfig.PORT, function endInit() {
 const apiServer = api.listen(apiConfig.PORT, function endInit() {
   console.log('Server is listening on port', apiServer.address().port)
 })
-
-
-
