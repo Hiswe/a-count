@@ -66,7 +66,7 @@ css.description = `Build CSS`
 ////////
 
 let hash
-const watch = () => {
+const watch = done => {
   gulp.watch( `css/**/*.{scss,css}`, css)
   // isomorphic app doesn't need module hot reload
   bundler.watch({
@@ -84,15 +84,17 @@ const watch = () => {
       log(`…BUNDLED`)
     }
   })
+  done()
 }
 
-const bs = _ => {
-  return browserSync.init({
+const bs = done => {
+  browserSync.init({
     proxy:      `http://localhost:3000`,
     open:       false,
     port:       7000,
     ghostMode:  false,
   })
+  done()
 }
 
 let init = true
