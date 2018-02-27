@@ -1,5 +1,5 @@
 import path from 'path'
-import { URL } from 'url'
+import urlJoin from 'url-join'
 import 'isomorphic-fetch'
 import chalk from 'chalk'
 import moment from 'moment'
@@ -14,7 +14,7 @@ import json from 'koa-json'
 import Router from 'koa-router'
 import session from 'koa-session'
 
-import config from '../shared/config'
+import config from './config'
 import reactRoutes from './koa-react-routing'
 
 //////
@@ -56,12 +56,12 @@ app.use(async (ctx, next) => {
   try {
     await next()
     if (ctx.status === 404) {
-      await ctx.render(`error/404`)
+      await ctx.render(`error-404`)
     }
   } catch (err) {
     ctx.status = err.statusCode || err.status || 500
     console.log( inspect(err, {colors: true}) )
-    await ctx.render(`error/default`, {
+    await ctx.render(`error-default`, {
       reason: err.message,
       stacktrace: err.stacktrace || err.stack || false,
     })
@@ -74,7 +74,8 @@ const router  = new Router()
 
 const proxyRequest = async (ctx, next) => {
   const { url, body } = ctx.request
-  const apiCallUrl    = new URL( url, config.API_URL )
+  // API_URL is defined by webpack
+  const apiCallUrl    = urlJoin(API_URL, url)
   const fetchResult   = await fetch( apiCallUrl.href,  {
     method:   `POST`,
     headers:  { 'Content-Type': `application/json` },
@@ -129,6 +130,12 @@ router.use( reactRoutes.routes() )
 
 app.use( router.routes() )
 // app.use( router.allowedMethods() )
+
+//----- LAUNCH THE MAGIC
+
+const server = app.listen(config.PORT, function endInit() {
+  console.log( `Server is listening on port`, server.address().port )
+})
 
 //////
 // EXPORTS

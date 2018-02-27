@@ -12,4 +12,12 @@ html(lang="en")
     link(rel='icon', href='/favicon.png', type='image/png')
 
   body
-    block content
+    #react-main-mount
+      | !{dom}
+    if initialState
+      script.
+        window.__INITIAL_STATE__ = !{JSON.stringify(initialState)}
+
+    script(src="/vendor.concompte.js")
+    script(src="/concompte.js")
+

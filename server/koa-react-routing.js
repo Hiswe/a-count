@@ -25,9 +25,10 @@ router.get('*', async (ctx, next) => {
       return route.component.fetchData(store, match.params)
     } )
   await Promise.all( initFetches )
-
   // render with un updated store
-  let context = {} // context is mutable
+  // context is mutable
+  // it will change during the server rendering process
+  let context = {}
   const content = renderToString(
     <Provider store={store}>
       <StaticRouter location={url} context={context}>
@@ -45,7 +46,8 @@ router.get('*', async (ctx, next) => {
   if (context.status === 404) {
     ctx.status = 404
   }
-  await ctx.render(`_layout`, {
+
+  await ctx.render(`react-boilerplate`, {
     initialState: store.getState(),
     dom: content,
   })

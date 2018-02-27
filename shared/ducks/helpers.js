@@ -1,10 +1,5 @@
 import 'isomorphic-fetch'
-
-// TODO check how we can import config in a Universal app
-//   - don't want to embed rc browser-side
-//   - has to be different while compiled in 'dev' or 'prod' environment
-
-const API_URL = `http://localhost:4040/`
+import urlJoin from 'url-join'
 
 const leadingSlash = /^\//
 const cleanUrl = url => {
@@ -12,9 +7,11 @@ const cleanUrl = url => {
   return url
 }
 
+// API_URL is defined by webpack
+
 const fetchGet = async (url) => {
   url = cleanUrl(url)
-  const fetchResult = await fetch(`${API_URL}${url}`)
+  const fetchResult = await fetch( urlJoin(API_URL, url) )
   const result = await fetchResult.json()
   if (!fetchResult.ok) {
     Object.assign( result, {
@@ -28,7 +25,7 @@ const fetchGet = async (url) => {
 
 const fetchPost = async (url, body) => {
   url = cleanUrl(url)
-  const fetchResult = await fetch(`${API_URL}${url}`, {
+  const fetchResult = await fetch( urlJoin(API_URL, url), {
     method: `POST`,
     headers: {
       'Content-Type': `application/json`,

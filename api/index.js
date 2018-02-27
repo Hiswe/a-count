@@ -9,6 +9,7 @@ import session from 'koa-session'
 import cors from '@koa/cors'
 
 import './db'
+import config from './config'
 import router from './router'
 
 //////
@@ -43,5 +44,11 @@ app.use(cors())
 //----- MOUNT ROUTER TO APPLICATION
 
 app.use( router.routes() )
+
+//----- LAUNCH THE MAGIC
+
+const server = app.listen(config.PORT, function endInit() {
+  console.log( `API is listening on port`, server.address().port )
+})
 
 export { app as default }

@@ -4,54 +4,107 @@ const path    = require( `path` )
 const webpack = require( `webpack` )
 const args    = require( `yargs` ).argv
 const nodeExternals = require(`webpack-node-externals`)
+const mergeDeep = require(`lodash/merge`)
 
 const isDev = args.prod !== true
 const env = isDev ? `development` : `production`
+
+const sharedServerConfig = {
+  target: `node`,
+  // get the right __dirname inside bundled files
+  // https://webpack.js.org/configuration/node/#node-__dirname
+  node: {
+    __dirname: true,
+  },
+  context: __dirname,
+
+  mode:   env,
+  entry:  `./path/to/index.js`,
+  output: {
+    path:     path.resolve(__dirname, `dist`),
+    filename: 'output-filename.js',
+  },
+  // https://www.npmjs.com/package/webpack-node-externals#quick-usage
+  externals: [
+    nodeExternals(),
+  ],
+  // https://medium.com/@muthuks/creating-a-server-bundle-with-webpack-for-universal-rendering-50bf0b71af79
+  devtool:    `inline-source-map`,
+  plugins: [
+    // …
+  ],
+  module: {
+    rules: []
+  },
+}
+
+const createBabelLoader = includePathName => {
+  return {
+    test: /\.jsx?$/,
+    include: [
+      path.resolve( __dirname, includePathName ),
+      path.resolve( __dirname, `shared` ),
+    ],
+    use: {
+      loader: 'babel-loader',
+      options: {
+        presets: ['es2015', 'react'],
+      },
+    },
+  }
+}
+
+const serverSourceMapPlugin = () => new webpack.BannerPlugin({
+  banner: 'require("source-map-support").install();',
+  raw: true,
+  entryOnly: false
+})
+
+const definePlugin = () => new webpack.DefinePlugin({
+  API_URL: JSON.stringify( `http://localhost:4040` ),
+})
 
 ////////
 // SERVER
 ////////
 
-// can't make it requireable with the right value :(
+const server = mergeDeep({}, sharedServerConfig, {
+  entry:  path.join( __dirname, `./server/index.js` ),
+  // context: path.join(__dirname, `server`),
+  // context: __dirname,
+  output: {
+    filename: `server.js`,
+  },
+  plugins: [
+    serverSourceMapPlugin(),
+    definePlugin(),
+  ],
+  module: {
+    rules: [
+      createBabelLoader( `server` )
+    ]
+  }
+})
 
-// const server = {
-//   target: `node`,
-//   mode:   env,
-//   entry:  `./server/index.js`,
-//   output: {
-//     path:     path.resolve(__dirname, `dist`),
-//     filename: 'server.js',
-//     libraryTarget: "umd",
-//   },
-//   // https://www.npmjs.com/package/webpack-node-externals#quick-usage
-//   externals: [
-//     nodeExternals(),
-//   ],
-//   // https://medium.com/@muthuks/creating-a-server-bundle-with-webpack-for-universal-rendering-50bf0b71af79
-//   devtool:    `inline-source-map`,
-//   plugins: [
-//     new webpack.BannerPlugin({
-//       banner: 'require("source-map-support").install();',
-//       raw: true,
-//       entryOnly: false
-//     }),
-//   ],
-//   module: {
-//     rules: [{
-//       test: /\.jsx?$/,
-//       include: [
-//         path.resolve( __dirname, `server` ),
-//         path.resolve( __dirname, `shared` ),
-//       ],
-//       use: {
-//         loader: 'babel-loader',
-//         options: {
-//           presets: ['es2015', 'react'],
-//         },
-//       },
-//     }]
-//   },
-// }
+////////
+// API
+////////
+
+const api = mergeDeep({}, sharedServerConfig, {
+  entry:  path.join( __dirname, `./api/index.js` ),
+  context: path.join(__dirname, `api`),
+  output: {
+    filename: 'api.js',
+  },
+  plugins: [
+    serverSourceMapPlugin(),
+  ],
+  module: {
+    rules: [
+      createBabelLoader( `api` )
+    ]
+  }
+})
 
 ////////
 // CLIENT
@@ -65,6 +118,9 @@ const client = {
     filename: `concompte.js`,
     path:     path.resolve( __dirname, 'public' )
   },
+  plugins: [
+    definePlugin(),
+  ],
   devtool:    `inline-source-map`,
   // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
   optimization: {
@@ -96,4 +152,4 @@ const client = {
   },
 }
 
-module.exports = [client]
+module.exports = [client, api, server]

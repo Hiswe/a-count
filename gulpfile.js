@@ -65,13 +65,24 @@ css.description = `Build CSS`
 // DEV
 ////////
 
+let hash
 const watch = () => {
-  // gulp.watch( `views/**/*.jade`, css )
   gulp.watch( `css/**/*.{scss,css}`, css)
   // isomorphic app doesn't need module hot reload
-  bundler.watch(  {}, (err, stats) => {
+  bundler.watch({
+    watch: true,
+    progress: true,
+    ignored: /node_modules/,
+  }, (err, stats) => {
+    log(`webpack watch bundle…`)
     if (err) return onError( err )
-    reload()
+    const info = stats.toJson()
+    if ( stats.hasErrors() ) return log( info.errors )
+    if ( stats.hasWarnings() ) log( info.warnings )
+    if ( hash !== stats.hash ) {
+      hash = stats.hash
+      log(`…BUNDLED`)
+    }
   })
 }
 
@@ -86,28 +97,39 @@ const bs = _ => {
 
 let init = true
 const runServer = done => {
-  $.nodemon({
-    script: `index.js`,
-    ext:    `js json jsx`,
-    watch: [
-      'index.js',
-      'shared/**/*',
-      'server/**/*',
-      'api/**/*',
-    ],
-    env: {
-      'NODE_ENV': 'development' ,
-    }
-  }).on('start', _ => {
-    // https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e#comment-1457582
-    if (init) {
-      init = false
-      done()
-    }
+  bundler.run((err, stats) => {
+    if (err) return onError( err )
+    const info = stats.toJson()
+    if ( stats.hasErrors() ) return log( info.errors )
+    log( `webpack initial bundle` )
+
+    $.nodemon({
+      script: `index.js`,
+      ext:    `js json jsx`,
+      watch: [
+        `index.js`,
+        `dist/*`,
+        // 'shared/**/*',
+        // 'server/**/*',
+        // 'api/**/*',
+      ],
+      env: {
+        'NODE_ENV': 'development' ,
+      }
+    }).on('start', _ => {
+      // https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e#comment-1457582
+      if (init) {
+        init = false
+        log( `server init done` )
+        done()
+      }
+    })
   })
+
+
 }
 
-const dev = gulp.series(runServer, watch, bs)
+const dev = gulp.series(runServer, watch, bs )
 
 gulp.task( 'build', gulp.parallel(css) )
 gulp.task( 'css', css )

@@ -2,7 +2,6 @@
 import rc from 'rc'
 
 const config      = rc( `concompte`, {
-  API_URL:  `http://localhost:4040`,
   // Default product
   address: '# Nom prénom  \n18 park road  \n5000 City',
   quotation: {

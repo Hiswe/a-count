@@ -1,5 +1,4 @@
 import Router from 'koa-router'
-// import Sequelize from 'sequelize'
 
 import { sequelize } from './db'
 import { formatResponse } from './_helpers'
