@@ -27,6 +27,8 @@ npm run dev
 ### Universal Application
 
 - https://crypt.codemancers.com/posts/2017-06-03-reactjs-server-side-rendering-with-router-v4-and-redux/
+- https://medium.com/front-end-developers/handcrafting-an-isomorphic-redux-application-with-love-40ada4468af4
+- https://www.npmjs.com/package/react-isomorphic-render
 
 #### components
 
@@ -36,4 +38,3 @@ npm run dev
 
 - https://github.com/pburtchaell/redux-promise-middleware
 - http://redux.js.org/
-

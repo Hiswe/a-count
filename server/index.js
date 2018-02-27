@@ -55,9 +55,8 @@ app.use( session(sessionConfig, app) )
 app.use(async (ctx, next) => {
   try {
     await next()
-    if (ctx.status === 404) {
-      await ctx.render(`error-404`)
-    }
+    // 404 are already handled by REACT
+    // no need to render the 404 here ^^
   } catch (err) {
     ctx.status = err.statusCode || err.status || 500
     console.log( inspect(err, {colors: true}) )

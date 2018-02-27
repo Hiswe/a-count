@@ -10,6 +10,7 @@ const isDev = args.prod !== true
 const env = isDev ? `development` : `production`
 
 const sharedServerConfig = {
+  // this will prevent bundling node native modules
   target: `node`,
   // get the right __dirname inside bundled files
   // https://webpack.js.org/configuration/node/#node-__dirname
@@ -17,21 +18,24 @@ const sharedServerConfig = {
     __dirname: true,
   },
   context: __dirname,
-
+  //
   mode:   env,
   entry:  `./path/to/index.js`,
   output: {
     path:     path.resolve(__dirname, `dist`),
     filename: 'output-filename.js',
   },
+  // prevent bundling node_modules on server
+  // just ignore them :)
   // https://www.npmjs.com/package/webpack-node-externals#quick-usage
   externals: [
     nodeExternals(),
   ],
+  // Get the source map working on the server
   // https://medium.com/@muthuks/creating-a-server-bundle-with-webpack-for-universal-rendering-50bf0b71af79
   devtool:    `inline-source-map`,
   plugins: [
-    // …
+    // serverSourceMapPlugin(),
   ],
   module: {
     rules: []
