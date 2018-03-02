@@ -18,12 +18,12 @@ $mq-big: '(min-width: #{$max-width})';
 
 
 $c-primary:     hsl(199, 46%, 50%);
-$c-primary-h:   hue($c-primary);
+// need a value without deg to work in Chrome/Safari
+// https://stackoverflow.com/questions/7169625/using-sass-how-to-convert-a-percentage-to-a-decimal/7180653
+$c-primary-h:   hue($c-primary) / 1deg;
 $c-primary-s:   saturation($c-primary);
 $c-primary-l:   50%;
 $c-accent:      #ff0078;
-$c-background:  #ecf4f8;
-$c-border:      rgb(73, 73, 73);
 $c-black:       #445;
 
 ///////
@@ -37,14 +37,17 @@ $c-black:       #445;
 
   // Keep `hsl` in Uppercase
   // https://github.com/sass/node-sass/issues/2251#issuecomment-365861645
+  --c-primary-darkest: HSL(var(--c-primary-h), var(--c-primary-s), 30%);
   --c-primary-lightest: HSL(var(--c-primary-h), var(--c-primary-s), 90%);
   --c-primary-lighter:  HSL(var(--c-primary-h), var(--c-primary-s), 80%);
   --c-primary:      HSL(var(--c-primary-h), var(--c-primary-s), var(--c-primary-l));
 
   --c-accent:       $c-accent;
-  --c-background:   $c-background;
+  --c-background:   HSL(var(--c-primary-h), var(--c-primary-s), 95%);
   --c-black:        $c-black;
-  --c-border:       $c-border;
+
+  --c-header: var(--c-primary-darkest);
+  --c-table-header: var(--c-header);
 
   --s-gutter:         $gutter;
   --s-half-gutter:    $half-gutter;

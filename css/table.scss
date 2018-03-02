@@ -14,11 +14,6 @@ tr {
   background: white;
   border-radius: var(--s-quarter-gutter);
 
-  thead {
-    background: var(--c-black);
-    color: white;
-  }
-
   a {
     color: var(--c-primary);
     &:hover {
@@ -33,6 +28,8 @@ tr {
     text-transform: uppercase;
     font-size: 12px;
     padding: 1em 1.3em;
+    background: var(--c-table-header);
+    color: white;
 
     &:first-child {
       border-top-left-radius: var(--s-quarter-gutter);
