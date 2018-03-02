@@ -40,11 +40,25 @@ function css() {
   .pipe( $.sourcemaps.write() )
   .pipe( $.rename('concompte.css') )
   .pipe( gulp.dest('public') )
-  .pipe( reload({stream: true}) )
-
+  .pipe( browserSync.stream() )
 }
 
 css.description = `Build CSS`
+
+////////
+// JS
+////////
+
+const js = done  => {
+  bundler.run((err, stats) => {
+    if (err) return onError( err )
+    const info = stats.toJson()
+    if ( stats.hasErrors() ) log( info.errors )
+    done()
+  })
+}
+
+js.description = `Bundle front-app, app server & api-server`
 
 ////////
 // ASSETS
@@ -97,42 +111,32 @@ const bs = done => {
   done()
 }
 
+
 let init = true
 const runServer = done => {
-  bundler.run((err, stats) => {
-    if (err) return onError( err )
-    const info = stats.toJson()
-    if ( stats.hasErrors() ) return log( info.errors )
-    log( `webpack initial bundle` )
-
-    $.nodemon({
-      script: `index.js`,
-      ext:    `js json jsx`,
-      watch: [
-        `index.js`,
-        `dist/*`,
-        // 'shared/**/*',
-        // 'server/**/*',
-        // 'api/**/*',
-      ],
-      env: {
-        'NODE_ENV': 'development' ,
-      }
-    }).on('start', _ => {
-      // https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e#comment-1457582
-      if (init) {
-        init = false
-        log( `server init done` )
-        done()
-      }
-    })
+  $.nodemon({
+    script: `index.js`,
+    ext:    `js json jsx`,
+    watch: [
+      `index.js`,
+      `dist/*`,
+    ],
+    env: {
+      'NODE_ENV': 'development' ,
+    }
+  }).on('start', _ => {
+    // https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e#comment-1457582
+    if (init) {
+      init = false
+      log( `server init done` )
+      done()
+    }
   })
-
-
 }
 
-const dev = gulp.series(runServer, watch, bs )
+const build = gulp.parallel(js, css)
+const dev = gulp.series(build, runServer, watch, bs )
 
-gulp.task( 'build', gulp.parallel(css) )
+gulp.task( 'build', build  )
 gulp.task( 'css', css )
 gulp.task( 'dev', dev )
