@@ -51,14 +51,16 @@ css.description = `Build CSS`
 
 const js = done  => {
   bundler.run((err, stats) => {
-    if (err) return onError( err )
+    if (err) return done( err )
     const info = stats.toJson()
-    if ( stats.hasErrors() ) log( info.errors )
+    if ( stats.hasErrors() ) return done( stats.toString({colors: true}) )
     done()
   })
 }
 
 js.description = `Bundle front-app, app server & api-server`
+
+gulp.task( `js`, js )
 
 ////////
 // ASSETS

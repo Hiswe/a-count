@@ -38,3 +38,7 @@ npm run dev
 
 - https://github.com/pburtchaell/redux-promise-middleware
 - http://redux.js.org/
+
+### test
+
+- https://semaphoreci.com/community/tutorials/testing-react-components-with-ava

@@ -52,7 +52,10 @@ const createBabelLoader = includePathName => {
     use: {
       loader: 'babel-loader',
       options: {
-        presets: ['es2015', 'react'],
+        presets: [
+          [`@babel/preset-env`, {targets: {node: `current`}}],
+          `@babel/preset-react`,
+        ],
       },
     },
   }
@@ -74,8 +77,6 @@ const definePlugin = () => new webpack.DefinePlugin({
 
 const server = mergeDeep({}, sharedServerConfig, {
   entry:  path.join( __dirname, `./server/index.js` ),
-  // context: path.join(__dirname, `server`),
-  // context: __dirname,
   output: {
     filename: `server.js`,
   },
@@ -149,7 +150,13 @@ const client = {
       use: {
         loader: `babel-loader`,
         options: {
-          presets: [`es2015`, `react`],
+          plugins: [
+            `@babel/transform-runtime`,
+          ],
+          presets: [
+            `@babel/preset-env`,
+            `@babel/preset-react`,
+          ],
         },
       },
     }],
