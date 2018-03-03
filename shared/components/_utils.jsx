@@ -1,5 +1,13 @@
 import React from 'react'
 
+const CardCentered = props => (
+  <div className="card card--centered">
+    <header className="card__in">
+      { props.children }
+    </header>
+  </div>
+)
+
 const Empty = () => (
   <p>none (yet)</p>
 )
@@ -32,6 +40,7 @@ const RenderFakeId = ({prefix = `PR`, startAt = 350 , count}) => {
 }
 
 export {
+  CardCentered,
   Empty,
   Amount,
   RenderError,

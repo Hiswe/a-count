@@ -1,5 +1,7 @@
 import Layout from './components/_layout.jsx'
 import Home from './components/home.jsx'
+import Login from './components/login.jsx'
+import Register from './components/register.jsx'
 import QuotationsHome from './components/quotations-home.jsx'
 import QuotationsForm from './components/quotations-form.jsx'
 import CustomersHome from './components/customers-home.jsx'
@@ -12,6 +14,14 @@ const routes = [{
     path: `/`,
     exact: true,
     component: Home,
+  }, {
+    path: `/login`,
+    exact: true,
+    component: Login,
+  }, {
+    path: `/register`,
+    exact: true,
+    component: Register,
   }, {
     path: `/quotations`,
     exact: true,

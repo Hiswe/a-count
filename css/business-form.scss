@@ -12,7 +12,7 @@
     background: white;
     padding: var(--s-gutter);
     border: 0;
-    border-radius: var(--s-quarter-gutter);
+    border-radius: var(--s-border-radius);
 
     &--meta { grid-area: meta; }
     &--tax {  grid-area: tax; }

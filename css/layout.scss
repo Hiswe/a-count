@@ -20,11 +20,11 @@ a {
   text-decoration: none;
 }
 
-main {
-  padding-bottom: var(--s-gutter);
+#react-wrapper {
+  min-height: 100vh;
 }
 
-.main-header,
+.header,
 main {
   @media #{$mq-big} {
     $padding-left-right: calc(50% - var(--s-max-width) / 2);
@@ -42,11 +42,18 @@ header {
   }
 }
 
-
 .card {
-  background: white;
-  padding: var(--s-gutter);
-  padding-bottom: var(--s-half-gutter);
-  border: 0;
-  border-radius: var(--s-quarter-gutter);
+  height: calc(100vh - var(--s-header-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .card__in {
+    background: white;
+    padding: var(--s-big-gutter);
+    min-width: 500px;
+    border: 0;
+    border-radius: var(--s-border-radius);
+  }
 }
+
