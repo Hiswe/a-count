@@ -7,11 +7,11 @@ const Empty = () => (
 const Amount = (props) => {
   const { value } = props
   const isValid = Number.isFinite( value )
-  const unit = isValid ? `€\u00A0` : ``
+  const unit = isValid ? `€` : ``
   const display = isValid ? value : `#error`
   return (
   <p className="amount">
-    {unit} <span>{display}</span>
+    <span className="amount__unit">{unit}</span> <span className="amount__value">{display}</span>
   </p>
 )}
 
