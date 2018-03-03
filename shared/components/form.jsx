@@ -41,13 +41,13 @@ const Input = props => {
   if (type === 'select') {
     input = (
       <select className="input__field" name={name} id={id} onChange={props.onChange} value={value}>
-        { props.entries && props.entries.map( (c, i) => (
+        { Array.isArray(props.entries) && props.entries.map( (c, i) => (
           <option key={c.id} value={c.id}>{c.name}</option>
         )) }
       </select>
     )
   } else if (type === 'textarea') {
-    input = (<textarea name={name} id={id} value={value} {...additionalFields} />)
+    input = (<textarea className="input__field" name={name} id={id} value={value} {...additionalFields} />)
   } else {
     input = (<input className="input__field" name={name} id={id} value={value} onChange={props.onChange} {...additionalFields} />)
   }

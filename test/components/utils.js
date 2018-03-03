@@ -14,7 +14,7 @@ import { Amount } from '../../shared/components/_utils.jsx'
 // AMOUNT
 ////////
 
-const amountTitle = `<Amount />`;
+const amountTitle = `<Amount>`
 const amountWrapperClass = `.amount`
 const amountValueClass = `${amountWrapperClass}__value`
 const amountUnitClass = `${amountWrapperClass}__unit`
