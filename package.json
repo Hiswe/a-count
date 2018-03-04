@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@koa/cors": "2",
+    "bcryptjs": "^2.4.3",
     "chalk": "2.3.1",
     "crio": "^5.0.0",
     "form-serialize": "^0.7.2",
@@ -54,6 +55,7 @@
     "normalizr": "3.2.4",
     "pg": "^7.4.1",
     "pug": "^2.0.0-rc.4",
+    "rand-token": "^0.4.0",
     "rc": "1.2.5",
     "react": "16.2.0",
     "react-dom": "16.2.0",

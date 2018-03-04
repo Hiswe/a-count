@@ -48,12 +48,18 @@ header {
   align-items: center;
   justify-content: center;
 
-  .card__in {
+
+
+  &__in {
     background: white;
     padding: var(--s-big-gutter);
     min-width: 500px;
     border: 0;
     border-radius: var(--s-border-radius);
+
+    form {
+      width: 100%;
+    }
   }
 }
 

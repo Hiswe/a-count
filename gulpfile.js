@@ -98,6 +98,7 @@ const watch = done => {
     if ( hash !== stats.hash ) {
       hash = stats.hash
       log(`…BUNDLED`)
+      setTimeout( reload, 400 )
     }
   })
   done()

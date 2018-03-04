@@ -4,7 +4,6 @@ import { formatResponse } from './_helpers'
 import { normalizeString } from './db/_helpers'
 import Customer from './db/model-customer'
 import Quotation from './db/model-quotation'
-import QuotationCount from './db/model-quotation-count'
 
 const prefix = `quotations`
 const router = new Router({prefix: `/${prefix}`})
@@ -20,8 +19,8 @@ const getQuotationById = (id) => {
       model: Customer,
       attributes: [`id`, `name`, `address`],
     }, {
-      model: QuotationCount,
-      attributes: [`count`]
+      // model: QuotationCount,
+      // attributes: [`count`]
     }],
   })
 }
@@ -37,8 +36,8 @@ router
       model: Customer,
       attributes: [`id`, `name`, `address`],
     }, {
-      model: QuotationCount,
-      attributes: [`count`]
+      // model: QuotationCount,
+      // attributes: [`count`]
     }],
   })
   ctx.body = formatResponse(all)

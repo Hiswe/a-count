@@ -42,25 +42,6 @@ const sharedServerConfig = {
   },
 }
 
-const createBabelLoader = includePathName => {
-  return {
-    test: /\.jsx?$/,
-    include: [
-      path.resolve( __dirname, includePathName ),
-      path.resolve( __dirname, `shared` ),
-    ],
-    use: {
-      loader: 'babel-loader',
-      options: {
-        presets: [
-          [`@babel/preset-env`, {targets: {node: `current`}}],
-          `@babel/preset-react`,
-        ],
-      },
-    },
-  }
-}
-
 const serverSourceMapPlugin = () => new webpack.BannerPlugin({
   banner: 'require("source-map-support").install();',
   raw: true,
@@ -85,9 +66,22 @@ const server = mergeDeep({}, sharedServerConfig, {
     definePlugin(),
   ],
   module: {
-    rules: [
-      createBabelLoader( `server` )
-    ]
+    rules: [{
+      test: /\.jsx?$/,
+      include: [
+        path.resolve( __dirname, `server` ),
+        path.resolve( __dirname, `shared` ),
+      ],
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            [`@babel/preset-env`, {targets: {node: `current`}}],
+            `@babel/preset-react`,
+          ],
+        },
+      },
+    }]
   }
 })
 
@@ -105,9 +99,20 @@ const api = mergeDeep({}, sharedServerConfig, {
     serverSourceMapPlugin(),
   ],
   module: {
-    rules: [
-      createBabelLoader( `api` )
-    ]
+    rules: [{
+      test: /\.jsx?$/,
+      include: [
+        path.resolve( __dirname, `api` ),
+      ],
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            [`@babel/preset-env`, {targets: {node: `current`}}],
+          ],
+        },
+      },
+    }]
   }
 })
 

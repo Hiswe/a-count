@@ -75,7 +75,7 @@ const proxyRequest = async (ctx, next) => {
   const { url, body } = ctx.request
   // API_URL is defined by webpack
   const apiCallUrl    = urlJoin(API_URL, url)
-  const fetchResult   = await fetch( apiCallUrl.href,  {
+  const fetchResult   = await fetch( apiCallUrl,  {
     method:   `POST`,
     headers:  { 'Content-Type': `application/json` },
     body:     JSON.stringify( body ),
@@ -97,6 +97,11 @@ const proxyRequest = async (ctx, next) => {
 }
 // app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
 
+router.post( `/users/new`, proxyRequest, async (ctx, next) => {
+  const { result } = ctx.state
+  ctx.redirect( `/users/${ result.id }` )
+})
+
 router.post( `/quotations/new`, proxyRequest, async (ctx, next) => {
   const { result } = ctx.state
   ctx.redirect( `/quotations/${ result.id }` )
@@ -114,12 +119,6 @@ router.post( `/customers/:id`, proxyRequest, async (ctx, next) => {
   const { url } = ctx.request
   ctx.redirect( ctx.request.url )
 })
-
-// app.post('/reset',    reset.post);
-
-// // http://maxlapides.com/forcing-browsers-print-backgrounds/
-// // TODO should be handled by react?
-// app.get('/print/:fakeId', print.get);
 
 //----- MOUNT REACT ROUTER
 

@@ -3,7 +3,6 @@ import isNil from 'lodash/isnil'
 
 import config from '../config'
 import sequelize from './db-connection'
-import QuotationCount from './model-quotation-count'
 import * as h from './_helpers'
 
 const steps = [
@@ -46,6 +45,7 @@ const Quotation = sequelize.define( `quotation`, {
     type:         new Sequelize.VIRTUAL(Sequelize.FLOAT, [`quotation-count`]),
     get:          function() {
       const quotationCount = this.get( `quotation-count` )
+      return false
       if (!quotationCount) return false
       return quotationCount.get(`count`)
     }
@@ -170,7 +170,7 @@ Quotation.updateOrCreate = async function( id, params ) {
   const instance = await ( id ? this.findById(id) : new Quotation() )
   if ( !instance ) return null
   const updated = await instance.update( params )
-  if ( !id ) await QuotationCount.create({quotationId: updated.id})
+  // if ( !id ) await QuotationCount.create({quotationId: updated.id})
   return updated
 }
 

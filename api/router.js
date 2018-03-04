@@ -2,6 +2,7 @@ import { inspect } from 'util'
 import Router from 'koa-router'
 
 import { formatResponse } from './_helpers'
+import routerUsers from './router-users'
 import routerCustomers from './router-customers'
 import routerQuotations from './router-quotations'
 
@@ -41,6 +42,7 @@ apiRouter
 
 //----- MOUNT
 
+apiRouter.use( routerUsers.routes() )
 apiRouter.use( routerCustomers.routes() )
 apiRouter.use( routerQuotations.routes() )
 

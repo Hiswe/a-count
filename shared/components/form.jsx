@@ -30,6 +30,15 @@ const Floating = props => {
   )
 }
 
+const InputWrapper = props => {
+  return (
+    <div className="input">
+      <label className="input__label" htmlFor={props.id}>{props.label}</label>
+      { props.children }
+    </div>
+  )
+}
+
 const Input = props => {
   const name  = props.name
   const id    = props.id ? props.id : name
@@ -59,4 +68,4 @@ const Input = props => {
   )
 }
 
-export { Floating, Input }
+export { Floating, Input, InputWrapper }

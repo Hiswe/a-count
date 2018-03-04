@@ -52,4 +52,8 @@ const routes = [{
   }],
 }]
 
+// for the `/quotations/:id/print`
+//     and `/customers/:id/print`
+// http://maxlapides.com/forcing-browsers-print-backgrounds/
+
 export { routes as default}
