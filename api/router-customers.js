@@ -4,7 +4,6 @@ import { sequelize } from './db'
 import { formatResponse } from './_helpers'
 import Customer from './db/model-customer'
 import Quotation from './db/model-quotation'
-import QuotationCount from './db/model-quotation-count'
 
 const prefix = `customers`
 const router = new Router({prefix: `/${prefix}`})
@@ -12,16 +11,16 @@ export default router
 
 router
 .get(`/`, async (ctx, next) => {
-  // didn't achieve to use only sequelize API
-  const all = await sequelize.query(`
-    SELECT
-      *,
-      ( SELECT COUNT(*)
-        FROM quotations as quotation
-        WHERE "quotation"."customerId" = customer.id
-      ) AS "quotationsCount"
-    FROM customers AS customer
-  `, { model: Quotation })
+  // const all = await sequelize.query(`
+  //   SELECT
+  //     *,
+  //     ( SELECT COUNT(*)
+  //       FROM quotations as quotation
+  //       WHERE "quotation"."customerId" = customer.id
+  //     ) AS "quotationsCount"
+  //   FROM customers AS customer
+  // `, { model: Quotation })
+  const all = await Customer.findAll()
   ctx.body = formatResponse(all)
 })
 
@@ -44,10 +43,6 @@ router
     where: { id },
     include: [{
       model: Quotation,
-      include: [{
-        model: QuotationCount,
-        attributes: [`count`],
-      }]
     }],
   })
   ctx.assert(instance, 404, `Customer not found`)

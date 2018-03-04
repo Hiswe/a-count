@@ -8,6 +8,7 @@ const config = rc( `concompte-api`, {
     forceSync:  false,
     uri:        `postgres://localhost:5432/concompte`,
   },
+  jwt_secret:   `don't speak so loud`,
   businessDefault: {
     currency: `€`,
     tax:      5.5,

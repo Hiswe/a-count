@@ -6,7 +6,7 @@ import { InputWrapper } from './form.jsx'
 const Register = () => {
   return (
     <CardCentered>
-      <form method="post" action="/users/new">
+      <form method="post" action="/register">
         <h2>Register</h2>
         <InputWrapper id="email" label="Email">
           <input className="input__field" id="email" name="email" type="email" />

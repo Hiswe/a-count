@@ -97,7 +97,7 @@ const proxyRequest = async (ctx, next) => {
 }
 // app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
 
-router.post( `/users/new`, proxyRequest, async (ctx, next) => {
+router.post( `/register`, proxyRequest, async (ctx, next) => {
   const { result } = ctx.state
   ctx.redirect( `/users/${ result.id }` )
 })

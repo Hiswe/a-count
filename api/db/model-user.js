@@ -10,6 +10,10 @@ function encodePassword(password) {
   return bcrypt.hashSync(password, 10)
 }
 
+//////
+// MODEL DEFINITION
+//////
+
 const User = sequelize.define( `user`, {
   id:  {
     type:         Sequelize.UUID,
@@ -99,8 +103,14 @@ const User = sequelize.define( `user`, {
   },
 })
 
-// export default User
+//////
+// INSTANCE METHODS
+//////
 
-export {
-  User as default,
+User.prototype.comparePassword = function (password) {
+  const userPassword = this.getDataValue('password')
+  if (!userPassword) return Promise.resolve( false )
+  return bcrypt.compare( password, this.getDataValue('password') )
 }
+
+export default User

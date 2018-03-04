@@ -18,9 +18,6 @@ const getQuotationById = (id) => {
     include: [{
       model: Customer,
       attributes: [`id`, `name`, `address`],
-    }, {
-      // model: QuotationCount,
-      // attributes: [`count`]
     }],
   })
 }
@@ -35,9 +32,6 @@ router
     include: [{
       model: Customer,
       attributes: [`id`, `name`, `address`],
-    }, {
-      // model: QuotationCount,
-      // attributes: [`count`]
     }],
   })
   ctx.body = formatResponse(all)
@@ -51,7 +45,8 @@ router
 })
 .post(`/new`,  async (ctx, next) => {
   const { body }      = ctx.request
-  // TODO check if customer exist!
+  // TODO: increment user quotation count
+  // http://docs.sequelizejs.com/manual/tutorial/instances.html#incrementing
   const customer      = await Customer.findById( body.customerId )
   ctx.assert(customer, 500, `Can't ${ id ? 'create' : 'update'} Quotation. The associated customer isn't found`)
   const instance  = await Quotation.updateOrCreate( false, body )
