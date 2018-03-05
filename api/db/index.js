@@ -2,7 +2,7 @@ import chalk from 'chalk'
 import { inspect } from 'util'
 import { normalize, schema } from 'normalizr'
 
-import sequelize from './db-connection'
+import sequelize from './connection'
 
 import config from  '../config'
 import Customer from './model-customer'

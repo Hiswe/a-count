@@ -16,7 +16,7 @@ export default router
       exclude: [`password`],
     },
   })
-  ctx.assert(instance, 404, `Quotation not found`)
+  ctx.assert(instance, 404, `User not found`)
   ctx.body = formatResponse(instance)
 })
 .post(`/:id`, async (ctx, next) => {

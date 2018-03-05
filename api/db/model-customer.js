@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize'
 
-import sequelize from './db-connection'
+import sequelize from './connection'
 import * as h from './_helpers'
 
 const Customer = sequelize.define( `customer`, {

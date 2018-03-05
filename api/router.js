@@ -1,10 +1,10 @@
 import { inspect } from 'util'
+import omit from 'lodash.omit'
+import merge from 'lodash.merge'
 import moment from 'moment'
 import Router from 'koa-router'
-import jwt from 'koa-jwt'
-import jsonwebtoken from 'jsonwebtoken'
-import omit from 'lodash.omit'
 
+import redis from './redis'
 import { formatResponse } from './_helpers'
 import routerUsers from './router-users'
 import routerCustomers from './router-customers'
@@ -28,38 +28,32 @@ apiRouter.use(async (ctx, next) => {
     ctx.status  = err.statusCode || err.status || 500
     const { status }  = ctx
     const { message } = err
-    ctx.body    = Object.assign(
-      formatResponse({
-        error: true,
-        status,
-        message,
-      }), {
+    ctx.body = formatResponse({
+      error: true,
+      status,
       message,
       stacktrace: err.stacktrace || err.stack || false,
     })
   }
 })
 
-//----- SESSIONS
+//----- API INFOS
 
-apiRouter.use( jwt({
-  secret: config.jwt_secret,
-}).unless({
-  path: [
-    `/login`,
-    `/logout`,
-    `/register`,
-    `/`,
-  ]
-}) )
+apiRouter
+.get( `/`, (ctx, next) => {
+  console.log( ctx.session )
+  ctx.body = formatResponse()
+})
 
-apiRouter.post(`/register`,  async (ctx, next) => {
+//----- AUTHENTICATION
+
+apiRouter.post(`/register`, async (ctx, next) => {
   const { body }  = ctx.request
   const user      = await User.create( body )
   ctx.body        = formatResponse(user)
 })
 
-apiRouter.post(`/login`,  async (ctx, next) => {
+apiRouter.post(`/login`, async (ctx, next) => {
   const { body }  = ctx.request
   const user      = await User.findOne({
     where: { email: normalizeString( body.email ), }
@@ -71,20 +65,21 @@ apiRouter.post(`/login`,  async (ctx, next) => {
 
   // https://github.com/clintmod/koa-jwt-login-example/blob/master/src/app.js
   const userWithoutPassword = omit( user.get({plain: true}), [`password`] )
-  const token = jsonwebtoken.sign({
-    data: userWithoutPassword,
-    // // exp in seconds
-    // // TODO: use moment.js
-    // exp: Math.floor(Date.now() / 1000) - (60 * 60) // 60 seconds * 60 minutes = 1 hour
-  }, config.jwt_secret)
-  ctx.body = Object.assign( formatResponse(), {token} )
+  ctx.session.user = userWithoutPassword
+  ctx.body = formatResponse( {message: `connected as ${userWithoutPassword.email}`} )
 })
 
-//----- API INFOS
+apiRouter.get(`/logout`, async (ctx, next) => {
+  ctx.session = null
+  ctx.body = formatResponse({ message: `bye bye` })
+})
 
-apiRouter
-.get( `/`, (ctx, next) => {
-  ctx.body = formatResponse()
+apiRouter.use( async (ctx, next) => {
+  // console.log( `PROTECTED ROUTE` )
+  // console.log( ctx.session )
+  ctx.assert( ctx.session && ctx.session.user, 401, `Not connected` )
+  // console.log( `OK` )
+  await next()
 })
 
 //----- MOUNT

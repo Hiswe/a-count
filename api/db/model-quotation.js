@@ -2,7 +2,7 @@ import Sequelize from 'sequelize'
 import isNil from 'lodash/isnil'
 
 import config from '../config'
-import sequelize from './db-connection'
+import sequelize from './connection'
 import * as h from './_helpers'
 
 const steps = [

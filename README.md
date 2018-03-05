@@ -6,7 +6,8 @@ Based on [codemancer code](https://crypt.codemancers.com/posts/2017-06-03-reactj
 ## prerequisite
 
 - [node js >= 8.9.4](https://nodejs.org/en/)
-- [PostgreSQL](https://www.postgresql.org/)
+- [PostgreSQL](https://www.postgresql.org/) >=9.6 ([postgresapp](http://postgresapp.com/) on a mac)
+- [Redis](https://redis.io/) (`brew install redis` on mac `redis-server` to start)
 
 ## build
 

@@ -8,7 +8,19 @@ const config = rc( `concompte-api`, {
     forceSync:  false,
     uri:        `postgres://localhost:5432/concompte`,
   },
-  jwt_secret:   `don't speak so loud`,
+  redis: {
+    log: false,
+    port: 6379,
+    host: `127.0.0.1`,
+  },
+  // To generate a new secret:
+  // node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"
+  jwt_secret: `49e3bd8b1935f3d17ce23146eb602fdb321e5b4f41eb7dd7f898e61426970086`,
+  session: {
+    key: 'koa:sess:api-concompte',
+    maxAge: 86400000,
+    renew: true,
+  },
   businessDefault: {
     currency: `€`,
     tax:      5.5,

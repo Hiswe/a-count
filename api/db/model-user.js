@@ -2,7 +2,7 @@ import Sequelize from 'sequelize'
 import bcrypt from 'bcryptjs'
 import randtoken from 'rand-token'
 
-import sequelize from './db-connection'
+import sequelize from './connection'
 import * as h from './_helpers'
 
 function encodePassword(password) {

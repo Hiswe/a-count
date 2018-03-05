@@ -1,9 +1,11 @@
+import { inspect } from 'util'
 import Router from 'koa-router'
 
 import { formatResponse } from './_helpers'
 import { normalizeString } from './db/_helpers'
 import Customer from './db/model-customer'
 import Quotation from './db/model-quotation'
+import User from './db/model-user'
 
 const prefix = `quotations`
 const router = new Router({prefix: `/${prefix}`})
@@ -28,13 +30,19 @@ const getQuotationById = (id) => {
 
 router
 .get(`/`, async (ctx, next) => {
+  console.log( inspect(ctx.state, {colors: true}) )
   const all = await Quotation.findAll({
+    where: {
+      userId: ctx.session.user.id,
+    },
     include: [{
       model: Customer,
       attributes: [`id`, `name`, `address`],
+    }, {
+      model: User,
     }],
   })
-  ctx.body = formatResponse(all)
+  ctx.body = formatResponse( all )
 })
 
 //----- NEW
