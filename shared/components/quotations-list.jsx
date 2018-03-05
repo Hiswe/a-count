@@ -39,28 +39,31 @@ const QuotationRow = props => {
 }
 //----- ALL
 
-const QuotationTable = (props) => (
-  <table className="table-pres" cellSpacing="0">
-    <thead>
-      <tr>
-        <th>id</th>
-        <th>title</th>
-        <th>customer</th>
-        <th>status</th>
-        <th>total HT</th>
-        <th>total</th>
-      </tr>
-    </thead>
-    <tbody>
-      { props.quotations.map( (q, i) => (
-        <QuotationRow key={q.id} quotation={q} />
-      ))}
-    </tbody>
-  </table>
-)
-
-const QuotationList = (props) => (
-  props.hasQuotations ? <QuotationTable {...props} /> : <Empty />
-)
+const QuotationTable = (props) => {
+  const { quotations } = props
+  const hasQuotations = Array.isArray( quotations ) && quotations.length
+  return (
+    <table className="table-pres" cellSpacing="0">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>title</th>
+          <th>customer</th>
+          <th>status</th>
+          <th>total HT</th>
+          <th>total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          !hasQuotations ? ( <Empty /> )
+          : props.quotations.map( (q, i) => (
+            <QuotationRow key={q.id} quotation={q} />
+          ))
+        }
+      </tbody>
+    </table>
+  )
+}
 
 export { QuotationTable as default }

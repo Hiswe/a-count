@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { CardCentered } from './_utils.jsx'
+import { InputWrapper } from './form.jsx'
 
 const Login = () => {
   return (
