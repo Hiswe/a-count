@@ -1,13 +1,13 @@
-import Router from 'koa-router'
+const Router = require( 'koa-router' )
 
-import { sequelize } from './db'
-import { formatResponse } from './_helpers'
-import Customer from './db/model-customer'
-import Quotation from './db/model-quotation'
+const { sequelize } = require( './db' )
+const { formatResponse } = require( './_helpers' )
+const Customer = require( './db/model-customer' )
+const Quotation = require( './db/model-quotation' )
 
 const prefix = `customers`
 const router = new Router({prefix: `/${prefix}`})
-export default router
+module.exports = router
 
 router
 .get(`/`, async (ctx, next) => {

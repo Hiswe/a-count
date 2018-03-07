@@ -1,10 +1,14 @@
-import merge from 'lodash.merge'
+const merge = require( 'lodash.merge' )
 
-import config from  './config'
+const config = require(  './config' )
 
-export const formatResponse = (payload = {}) => {
+const formatResponse = (payload = {}) => {
   return merge({
     _version:  config.VERSION,
     _name:     config.NAME,
   }, payload)
+}
+
+module.exports = {
+  formatResponse
 }

@@ -1,13 +1,13 @@
-import chalk from 'chalk'
-import { inspect } from 'util'
-import { normalize, schema } from 'normalizr'
+const chalk = require( 'chalk' )
+const { inspect } = require( 'util' )
+const { normalize, schema } = require( 'normalizr' )
 
-import sequelize from './connection'
+const sequelize = require( './connection' )
 
-import config from  '../config'
-import Customer from './model-customer'
-import Quotation from './model-quotation'
-import User from './model-user'
+const config = require(  '../config' )
+const Customer = require( './model-customer' )
+const Quotation = require( './model-quotation' )
+const User = require( './model-user' )
 
 //////
 // RELATIONS
@@ -55,4 +55,6 @@ sequelize
     console.log( inspect(err, {colors: true}) )
   })
 
-export { sequelize }
+module.exports = {
+  sequelize
+}

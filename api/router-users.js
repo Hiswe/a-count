@@ -1,12 +1,12 @@
-import Router from 'koa-router'
+const Router = require( 'koa-router' )
 
-import { formatResponse } from './_helpers'
-import { normalizeString } from './db/_helpers'
-import User from './db/model-user'
+const { formatResponse } = require( './_helpers' )
+const { normalizeString } = require( './db/_helpers' )
+const User = require( './db/model-user' )
 
 const prefix = `users`
 const router = new Router({prefix: `/${prefix}`})
-export default router
+module.exports = router
 
 //----- EDIT
 .get(`/:id`, async (ctx, next) => {

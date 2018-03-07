@@ -1,18 +1,18 @@
-import chalk from 'chalk'
-import merge from 'lodash.merge'
-import Koa from 'koa'
-import bodyParser from 'koa-body'
-import compress from 'koa-compress'
-import morgan from 'koa-morgan'
-import json from 'koa-json'
-import Router from 'koa-router'
-import session from 'koa-session'
-import cors from '@koa/cors'
+const chalk = require( 'chalk' )
+const merge = require( 'lodash.merge' )
+const Koa = require( 'koa' )
+const bodyParser = require( 'koa-body' )
+const compress = require( 'koa-compress' )
+const morgan = require( 'koa-morgan' )
+const json = require( 'koa-json' )
+const Router = require( 'koa-router' )
+const session = require( 'koa-session' )
+const cors = require( '@koa/cors' )
 
-import './db'
-import redis from './redis'
-import config from './config'
-import router from './router'
+require( './db' )
+const redis = require( './redis' )
+const config = require( './config' )
+const router = require( './router' )
 
 //////
 // SERVER CONFIG
@@ -30,10 +30,14 @@ app.use( json() )
 
 // to have better logs: don't use the same logger as server
 app.use( morgan(`dev`) )
+// app.use( async (ctx, next) => {
+//   console.log( ctx.cookies )
+//   await next()
+// })
 
 //----- CORS
 
-app.use(cors())
+app.use( cors() )
 
 //----- SESSIONS
 
@@ -76,4 +80,4 @@ const server = app.listen(config.PORT, function endInit() {
   console.log( `API is listening on port`, server.address().port )
 })
 
-export { app as default }
+module.exports = app

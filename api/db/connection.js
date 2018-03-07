@@ -1,10 +1,11 @@
-import { debuglog } from 'util'
-import Sequelize, { Op } from 'sequelize'
-import formattor from 'formattor'
+const { debuglog } = require( 'util' )
+const Sequelize = require( 'sequelize' )
+const formattor = require( 'formattor' )
 
-import config from  '../config'
+const config = require(  '../config' )
 
 const log = debuglog( `db` )
+const { Op } = Sequelize
 
 // Aliases all operators to the equivalent Symbols
 // see comment on the new connection
@@ -23,4 +24,4 @@ const sequelize = new Sequelize( config.db.uri, {
   operatorsAliases,
 })
 
-export { sequelize as default }
+module.exports = sequelize

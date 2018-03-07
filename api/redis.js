@@ -1,7 +1,7 @@
-import { promisify, debuglog } from 'util'
-import redis from 'redis'
+const { promisify, debuglog } = require( 'util' )
+const redis = require( 'redis' )
 
-import config from './config'
+const config = require( './config' )
 
 const log = debuglog( `redis` )
 const client = redis.createClient( config.redis.port, config.redis.host )
@@ -25,7 +25,7 @@ const get = promisify( client.get ).bind( client )
 const set = promisify( client.set ).bind( client )
 const del = promisify( client.del ).bind( client )
 
-export default {
+module.exports = {
   get,
   set,
   del,

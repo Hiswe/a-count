@@ -41,7 +41,7 @@ const roundToNearestQuarter = number => {
   return parseFloat(rounded.toFixed(2), 10)
 }
 
-export {
+module.exports = {
   normalizeString,
   updateOrCreate,
   setNormalizedString,

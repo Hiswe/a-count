@@ -1,22 +1,23 @@
-import { inspect } from 'util'
-import omit from 'lodash.omit'
-import merge from 'lodash.merge'
-import moment from 'moment'
-import Router from 'koa-router'
+const { inspect } = require( 'util' )
+const omit = require( 'lodash.omit' )
+const merge = require( 'lodash.merge' )
+const moment = require( 'moment' )
+const Router = require( 'koa-router' )
 
-import redis from './redis'
-import { formatResponse } from './_helpers'
-import routerUsers from './router-users'
-import routerCustomers from './router-customers'
-import routerQuotations from './router-quotations'
-import config from './config'
-import User from './db/model-user'
-import { normalizeString } from './db/_helpers'
+const redis = require( './redis' )
+const { formatResponse } = require( './_helpers' )
+const routerUsers = require( './router-users' )
+const routerCustomers = require( './router-customers' )
+const routerQuotations = require( './router-quotations' )
+const config = require( './config' )
+const User = require( './db/model-user' )
+const { normalizeString } = require( './db/_helpers' )
 
 const apiRouter = new Router({
   // TODO: should have a prefix
   // prefix: `/v1`,
 })
+module.exports = apiRouter
 
 //----- ERRORS
 
@@ -87,5 +88,3 @@ apiRouter.use( async (ctx, next) => {
 apiRouter.use( routerUsers.routes() )
 apiRouter.use( routerCustomers.routes() )
 apiRouter.use( routerQuotations.routes() )
-
-export default apiRouter

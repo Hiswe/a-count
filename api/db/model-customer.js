@@ -1,7 +1,7 @@
-import Sequelize from 'sequelize'
+const Sequelize = require( 'sequelize' )
 
-import sequelize from './connection'
-import * as h from './_helpers'
+const sequelize = require( './connection' )
+const h = require( './_helpers' )
 
 const Customer = sequelize.define( `customer`, {
   id: {
@@ -32,6 +32,4 @@ const Customer = sequelize.define( `customer`, {
 
 Customer.updateOrCreate = h.updateOrCreate( Customer )
 
-export {
-  Customer as default,
-}
+module.exports = Customer

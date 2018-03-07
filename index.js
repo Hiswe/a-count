@@ -22,7 +22,7 @@
 // }
 
 require( `./dist/server.js` )
-require( `./dist/api.js` )
+require( `./api` )
 // const api = require( `./api/index.js` )
 // const app = require( `./server/index.js` ).default
 // const api = require( `./api/index.js` ).default

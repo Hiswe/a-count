@@ -1,4 +1,4 @@
-import rc from 'rc'
+const rc = require( 'rc' )
 
 const config = rc( `concompte-api`, {
   VERSION:  `1.0.0`,
@@ -35,4 +35,4 @@ config.NODE_ENV   = config.NODE_ENV || process.env.NODE_ENV || `development`
 config.isDev      = config.NODE_ENV === `development`
 config.isProd     = config.NODE_ENV === `production`
 
-export { config as default }
+module.exports = config

@@ -1,9 +1,9 @@
-import Sequelize from 'sequelize'
-import isNil from 'lodash/isnil'
+const Sequelize = require( 'sequelize' )
+const isNil = require( 'lodash/isnil' )
 
-import config from '../config'
-import sequelize from './connection'
-import * as h from './_helpers'
+const config = require( '../config' )
+const sequelize = require( './connection' )
+const h = require( './_helpers' )
 
 const steps = [
   {key: `sendAt`,       name: `send`},
@@ -174,6 +174,4 @@ Quotation.updateOrCreate = async function( id, params ) {
   return updated
 }
 
-export {
-  Quotation as default,
-}
+module.exports = Quotation

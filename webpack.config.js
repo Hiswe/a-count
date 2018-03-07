@@ -86,37 +86,6 @@ const server = mergeDeep({}, sharedServerConfig, {
 })
 
 ////////
-// API
-////////
-
-const api = mergeDeep({}, sharedServerConfig, {
-  entry:  path.join( __dirname, `./api/index.js` ),
-  context: path.join(__dirname, `api`),
-  output: {
-    filename: 'api.js',
-  },
-  plugins: [
-    serverSourceMapPlugin(),
-  ],
-  module: {
-    rules: [{
-      test: /\.jsx?$/,
-      include: [
-        path.resolve( __dirname, `api` ),
-      ],
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: [
-            [`@babel/preset-env`, {targets: {node: `current`}}],
-          ],
-        },
-      },
-    }]
-  }
-})
-
-////////
 // CLIENT
 ////////
 
@@ -168,4 +137,4 @@ const client = {
   },
 }
 
-module.exports = [client, api, server]
+module.exports = [client, server]

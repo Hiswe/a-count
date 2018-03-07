@@ -1,9 +1,9 @@
-import Sequelize from 'sequelize'
-import bcrypt from 'bcryptjs'
-import randtoken from 'rand-token'
+const Sequelize = require( 'sequelize' )
+const bcrypt = require( 'bcryptjs' )
+const randtoken = require( 'rand-token' )
 
-import sequelize from './connection'
-import * as h from './_helpers'
+const sequelize = require( './connection' )
+const h = require( './_helpers' )
 
 function encodePassword(password) {
   if (typeof password === `undefined`) return null
@@ -69,6 +69,7 @@ const User = sequelize.define( `user`, {
       isIn: [[`$`, `€`]],
     },
   },
+  // TODO: move default Quotation & default invoice to it's own table
   defaultQuantity: {
     type:         Sequelize.FLOAT,
     defaultValue: 0,
@@ -113,4 +114,4 @@ User.prototype.comparePassword = function (password) {
   return bcrypt.compare( password, this.getDataValue('password') )
 }
 
-export default User
+module.exports = User

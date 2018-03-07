@@ -123,6 +123,7 @@ const runServer = done => {
     watch: [
       `index.js`,
       `dist/*`,
+      `api/**/*.js`
     ],
     env: {
       'NODE_ENV': 'development' ,
