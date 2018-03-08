@@ -16,19 +16,22 @@ const router = new Router()
 const store = createStore(reducer, {}, applyMiddleware(thunk))
 
 router.get('*', async (ctx, next) => {
-  const { url }     = ctx
+  const { url, header }     = ctx
   // wait for every component to fetch his data
   const branch      = matchRoutes(routes, url)
   const initFetches = branch
     .filter( ({route}) => route.component.fetchData instanceof Function )
     .map( ({route, match}) => {
-      return route.component.fetchData(store, match.params)
+      // Pass here the cookies
+      // fetch will need it to maintain authentication
+      return route.component.fetchData(store, match.params, header.cookie)
     } )
   await Promise.all( initFetches )
-  // render with un updated store
-  // context is mutable
-  // it will change during the server rendering process
-  let context = {}
+
+  // context is mutable & provided only on server-side rendering
+  // • Because it's mutable, it will change during the server rendering process
+  // • So that's a good way to pass router's data here to the server
+  const context = {}
   const content = renderToString(
     <Provider store={store}>
       <StaticRouter location={url} context={context}>

@@ -9,8 +9,8 @@ import * as customers from '../ducks/customers'
 
 class CustomerHome extends Component {
 
-  static fetchData(store) {
-    return store.dispatch( customers.getAll() )
+  static fetchData(store, params, cookies) {
+    return store.dispatch( customers.getAll(params, cookies) )
   }
 
   componentDidMount() {

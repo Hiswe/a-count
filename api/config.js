@@ -17,7 +17,7 @@ const config = rc( `concompte-api`, {
   // node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"
   jwt_secret: `49e3bd8b1935f3d17ce23146eb602fdb321e5b4f41eb7dd7f898e61426970086`,
   session: {
-    key: 'koa:sess:api-concompte',
+    key: 'session:api-concompte',
     maxAge: 86400000,
     renew: true,
   },

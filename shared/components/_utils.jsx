@@ -8,9 +8,17 @@ const CardCentered = props => (
   </div>
 )
 
-const Empty = () => (
-  <p>none (yet)</p>
-)
+const Empty = props => {
+  const message = `none (yet)`
+  if (props.colspan) {
+    return (
+      <tr>
+        <td colSpan={props.colspan} style={{textAlign: `center`}}>{message}</td>
+      </tr>
+    )
+  }
+  return ( <p>{message}</p> )
+}
 
 const Amount = (props) => {
   const { value } = props

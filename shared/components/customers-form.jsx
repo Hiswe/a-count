@@ -12,8 +12,8 @@ import { RenderError } from './_utils.jsx'
 
 class CustomerForm extends Component {
 
-  static fetchData(store, params) {
-    return store.dispatch( customers.getOne( params ) )
+  static fetchData(store, params, cookies) {
+    return store.dispatch( customers.getOne( params, cookies ) )
   }
 
   constructor(props) {

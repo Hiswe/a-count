@@ -56,8 +56,8 @@ const QuotationTable = (props) => {
       </thead>
       <tbody>
         {
-          !hasQuotations ? ( <Empty /> )
-          : props.quotations.map( (q, i) => (
+          !hasQuotations ? ( <Empty colspan="6" /> )
+          : quotations.map( (q, i) => (
             <QuotationRow key={q.id} quotation={q} />
           ))
         }

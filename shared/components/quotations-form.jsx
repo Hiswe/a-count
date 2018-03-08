@@ -24,10 +24,10 @@ const ConvertButton = (props) => {
 
 class QuotationForm extends Component {
 
-  static fetchData(store, params) {
+  static fetchData(store, params, cookies) {
     return Promise.all([
-      store.dispatch( quotations.getOne( params ) ),
-      store.dispatch( customers.getAll() ),
+      store.dispatch( quotations.getOne(params, cookies) ),
+      store.dispatch( customers.getAll(params, cookies) ),
     ])
   }
 
@@ -59,14 +59,13 @@ class QuotationForm extends Component {
     })
   }
 
-  handleSubmit(event) {
+  handleSubmit( event ) {
     event.preventDefault()
     const result = serialize( event.target, { hash: true } )
-    // const result = serialize( event.target, { hash: true, empty: true } )
-    this.props.saveOne( result )
+    this.props.saveOne( {result} )
   }
 
-  recomputeProducts(formData) {
+  recomputeProducts( formData ) {
     // - de-dupe defaultProduct lines
     // - add an empty line a the end
     //   in case a user just type something on the blank one
@@ -125,7 +124,7 @@ class QuotationForm extends Component {
             {formData.count && (<span>PR { formData.count+350 }</span>)}
           </h1>
           {/* deactivated for now */}
-          {/* TODO render a new webpage when clicked */}
+          {/* TODO: render a new webpage when clicked */}
           {/* <PrintBtn {...formData} /> */}
         </header>
         <form method="post" className="business-form" onSubmit={this.handleSubmit}>
@@ -146,7 +145,7 @@ class QuotationForm extends Component {
           </fieldset>
           <div className="business-form__actions">
             <button className="btn" type="submit">{props.submitMsg}</button>
-            {/* TODO add the convert button if all steps are set */}
+            {/* TODO: add the convert button if all steps are set */}
             {/* <ConvertButton /> */}
             {props.isNew ? null : <Link to="/quotations/new" className="btn-secondary">New Quotation</Link>}
           </div>

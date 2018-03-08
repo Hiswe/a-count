@@ -55,17 +55,18 @@ app.use( async (ctx, next) => {
   const color = colorCodes.hasOwnProperty(s) ? colorCodes[s] : 0
   console.log( chalk.grey(`  <==`), logMethod, logPath, chalk[color](status), time(start) )
 })
-app.use( async (ctx, next) => {
-  console.log( ctx.request.header.cookie )
-  await next()
-  console.log( `API`, ctx.response.header.cookie )
-})
 
 //----- CORS
 
-app.use( cors() )
+app.use( cors({
+  credentials: true,
+}) )
 
 //----- SESSIONS
+
+// • We don't use JWT: no easy session invalidation
+//   http://cryto.net/%7Ejoepie91/blog/2016/06/19/stop-using-jwt-for-sessions-part-2-why-your-solution-doesnt-work/
+// • session won't work at the router level: needs to put it with app
 
 app.keys = [`api-concompte`]
 
@@ -91,9 +92,6 @@ const sessionsConfig = merge( {}, config.session, {
   }
 })
 
-// We don't use JWT
-// http://cryto.net/%7Ejoepie91/blog/2016/06/19/stop-using-jwt-for-sessions-part-2-why-your-solution-doesnt-work/
-// session won't work at the router level
 app.use( session(sessionsConfig, app) )
 
 //----- MOUNT ROUTER TO APPLICATION

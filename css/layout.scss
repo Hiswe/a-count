@@ -43,7 +43,7 @@ header {
 }
 
 .card {
-  height: calc(100vh - var(--s-header-height));
+  min-height: calc(100vh - var(--s-header-height));
   display: flex;
   align-items: center;
   justify-content: center;

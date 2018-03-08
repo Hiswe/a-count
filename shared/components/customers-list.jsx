@@ -20,9 +20,8 @@ const CustomerRow = (props) => {
 }
 
 const CustomerList = (props) => {
-  let body = props.customers.map( (customer, i) => (
-    <CustomerRow key={customer.id} customer={customer} />
-  ))
+  const { customers } = props
+  const hasCustomer = Array.isArray( customers ) && customers.length
   return (
     <table className="table-pres" cellSpacing="0">
       <thead>
@@ -33,7 +32,12 @@ const CustomerList = (props) => {
         </tr>
       </thead>
       <tbody>
-        {body}
+        {
+          !hasQuhasCustomerotations ? ( <Empty colspan="3" /> )
+          : props.quotations.map( (customer, i) => (
+            <CustomerRow key={q.id} customer={customer} />
+          ))
+        }
       </tbody>
     </table>
   )

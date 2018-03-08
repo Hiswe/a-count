@@ -1,9 +1,10 @@
 import crio from 'crio'
 
-import {fetchGet, fetchPost} from './helpers'
+import {get, post} from '../iso-fetch'
 
 const NAME = `customers`
 
+export const ERROR  = `@concompte/${NAME}/error`;
 export const GET_ALL  = `@concompte/${NAME}/loaded`;
 export const GET_ONE  = `@concompte/${NAME}/loaded-one`;
 export const SAVE_ONE = `@concompte/${NAME}/saved-one`;
@@ -30,35 +31,55 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export const getAll = () => dispatch => {
-  return fetchGet(NAME)
-    .then(payload => {
-      dispatch({
-        type: GET_ALL,
-        payload,
-      })
+export const getAll = (params, cookie) => async dispatch => {
+  const fetchOptions = {
+    url: `${NAME}`,
+  }
+  try {
+    const { payload } = await get( fetchOptions, cookie )
+    dispatch({
+      type: GET_ALL,
+      payload,
     })
+  } catch( e ) {
+    dispatch({
+      type: ERROR,
+      payload: e,
+    })
+  }
 }
 
-export const getOne = ({id}) => dispatch => {
+export const getOne = (params, cookie) => async dispatch => {
+  let { id } = params
   id = id ? id : `new`
-  return fetchGet(`${NAME}/${id}`)
-    .then(payload => {
-      dispatch({
-        type: GET_ONE,
-        payload,
-      })
+  const fetchOptions = {
+    url: `${NAME}/${id}`,
+  }
+  try {
+    const { payload } = await get( fetchOptions, cookie )
+    dispatch({
+      type: GET_ONE,
+      payload,
     })
+  } catch(e) {
+    dispatch({
+      type: ERROR,
+      payload: e,
+    })
+  }
 }
 
-export const saveOne = (body) => dispatch => {
+export const saveOne = (params, cookies) => async dispatch => {
+  const { body } = params
   let {id} = body
   id = id ? id : `new`
-  return fetchPost(`${NAME}/${id}`, body)
-    .then(payload => {
-      dispatch({
-        type: SAVE_ONE,
-        payload,
-      })
-    })
+  const fetchOptions = {
+    url: `${NAME}/${id}`,
+    body,
+  }
+  const { payload } = await post( fetchOptions, cookie )
+  dispatch({
+    type: SAVE_ONE,
+    payload,
+  })
 }

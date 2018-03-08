@@ -1,9 +1,10 @@
 import crio from 'crio'
 
-import {fetchGet, fetchPost} from './helpers'
+import {get, post} from '../iso-fetch'
 
 const NAME = `quotations`
 
+export const ERROR  = `@concompte/${NAME}/error`;
 export const GET_ALL  = `@concompte/${NAME}/loaded`;
 export const GET_ONE  = `@concompte/${NAME}/loaded-one`;
 export const SAVE_ONE = `@concompte/${NAME}/saved-one`;
@@ -30,46 +31,59 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export const getAll = () => dispatch => {
-  return fetchGet(NAME)
-    .then(payload => {
-      dispatch({
-        type: GET_ALL,
-        payload,
-      })
+export const getAll = (params, cookie) => async dispatch => {
+  const fetchOptions = {
+    url: `${NAME}`,
+  }
+  try {
+    const { payload } = await get( fetchOptions, cookie )
+    dispatch({
+      type: GET_ALL,
+      payload,
     })
+  } catch(e) {
+    dispatch({
+      type: ERROR,
+      payload: e,
+    })
+  }
 }
 
-export const getOne = ({id}) => dispatch => {
+export const getOne = (params, cookie) => async dispatch => {
+  let { id } = params
   id = id ? id : `new`
-  return fetchGet(`${NAME}/${id}`)
-    .then(payload => {
-      // make an empty line at the bottom of the products list
-      // this help the form when no-js
-      // & also avoid to ta had this on componentWillReceiveProps
-      if ( Array.isArray( payload.products ) ) {
-        const copiedDefaultProduct = Object.assign( {}, payload.defaultProduct )
-        payload.products.push( copiedDefaultProduct )
-      }
-      dispatch({
-        type: GET_ONE,
-        payload,
-      })
-    })
+  const fetchOptions = {
+    url: `${NAME}/${id}`,
+  }
+  const { payload } = await get( fetchOptions, cookie )
+  // make an empty line at the bottom of the products list
+  // this help the form when no-js
+  // & also avoid to ta had this on componentWillReceiveProps
+  if ( Array.isArray( payload.products ) ) {
+    const copiedDefaultProduct = Object.assign( {}, payload.defaultProduct )
+    payload.products.push( copiedDefaultProduct )
+  }
+  dispatch({
+    type: GET_ONE,
+    payload,
+  })
 }
 
-export const saveOne = (body) => dispatch => {
-  let {id} = body
+export const saveOne = (params, cookie) => async dispatch => {
+  const { body } = params
+  let { id } = body
   id = id ? id : `new`
-  return fetchPost(`${NAME}/${id}`, body)
-    .then(payload => {
-      if ( Array.isArray( payload.products ) ) {
-        const copiedDefaultProduct = Object.assign( {}, payload.defaultProduct )
-        payload.products.push( copiedDefaultProduct )
-      }
-      dispatch({
-        type: SAVE_ONE,
-        payload,
-      })
-    })
+  const fetchOptions = {
+    url: `${NAME}/${id}`,
+    body,
+  }
+  const { payload } = await post( fetchOptions, cookie )
+  if ( Array.isArray( payload.products ) ) {
+    const copiedDefaultProduct = Object.assign( {}, payload.defaultProduct )
+    payload.products.push( copiedDefaultProduct )
+  }
+  dispatch({
+    type: SAVE_ONE,
+    payload,
+  })
 }

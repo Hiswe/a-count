@@ -1,9 +1,9 @@
 import path from 'path'
+import { inspect } from 'util'
 import urlJoin from 'url-join'
-import 'isomorphic-fetch'
 import chalk from 'chalk'
 import moment from 'moment'
-import { inspect } from 'util'
+import cookie from 'cookie'
 import Koa from 'koa'
 import bodyParser from 'koa-body'
 import serveStatic from 'koa-static'
@@ -12,10 +12,10 @@ import logger  from 'koa-logger'
 import views from 'koa-views'
 import json from 'koa-json'
 import Router from 'koa-router'
-import session from 'koa-session'
 
 import config from './config'
-import reactRoutes from './koa-react-routing'
+import reactRoutes from './koa-react-routing.jsx'
+import { get, post } from '../shared/iso-fetch'
 
 //////
 // SERVER CONFIG
@@ -29,8 +29,7 @@ app.use( serveStatic(path.join(__dirname, `../public`)) )
 
 // format json https://github.com/koajs/json
 app.use( json() )
-// templates
-// even if React is used for the most part…
+// templates: even if React is used for the most part…
 // …Pug is still used for wrappers & error
 app.use( views(path.join( __dirname, `./views`), {extension: `pug`}) )
 
@@ -38,21 +37,13 @@ app.use( views(path.join( __dirname, `./views`), {extension: `pug`}) )
 
 app.use( logger() )
 
-//----- SESSIONS
-
-app.keys = [`con con con compte`]
-const sessionConfig = {
-  renew: true,
-}
-app.use( session(sessionConfig, app) )
-
 //////
 // ROUTING
 //////
 
 //----- ERROR HANDLING
 
-app.use(async (ctx, next) => {
+app.use( async (ctx, next) => {
   try {
     await next()
     // 404 are already handled by REACT
@@ -69,37 +60,56 @@ app.use(async (ctx, next) => {
 
 const router  = new Router()
 
-//----- NO-JS BACKUP
+//----- NO FETCH BACKUP
+
+// • in case of direct post without react handling
+// • or JS isn't activated on the client side
 
 const proxyRequest = async (ctx, next) => {
-  const { url, body } = ctx.request
-  // API_URL is defined by webpack
-  const apiCallUrl    = urlJoin(API_URL, url)
-  const fetchResult   = await fetch( apiCallUrl,  {
-    method:   `POST`,
-    headers:  { 'Content-Type': `application/json` },
-    body:     JSON.stringify( body ),
-  })
-  const result      = await fetchResult.json()
-
-  // take care of response errors
-  if (!fetchResult.ok) {
+  const { url, body, header } = ctx.request
+  const fetchOptions = {
+    url,
+    body,
+  }
+  const { response, payload } = await post( fetchOptions, header.cookie )
+  if (!response.ok) {
     throw({
-      status:     fetchResult.status,
-      statusText: fetchResult.statusText,
-      message:    `[API] ${result.message}`,
-      stacktrace: result.stacktrace,
+      status:     response.status,
+      statusText: response.statusText,
+      message:    `[FROM API] ${result.message}`,
+      stacktrace: response.stacktrace,
     })
   }
-  // all API call send the result in `payload`
-  ctx.state.result = result.payload
+  // response.headers.get('set-cookie') doesn't seem to retrieve all cookies…
+  // should investigate more…
+  // https://github.com/matthew-andrews/isomorphic-fetch/issues/153#issuecomment-346745405
+  // So resolve into getting the raw version of the header:
+  // https://github.com/bitinn/node-fetch/issues/251#issuecomment-287519538
+  const cookies = response.headers.raw()[`set-cookie`]
+  if ( Array.isArray(cookies) ) {
+    const parsedCookies = cookie.parse(cookies.join(`; `))
+    Object
+    .entries( parsedCookies )
+    .forEach( ([key, value]) => {
+      if ([`path`, `expires`].includes(key) ) return
+      ctx.cookies.set(key, value, {
+        path: parsedCookies.path,
+        expires: new Date(parsedCookies.expires),
+      })
+    })
+  }
+  ctx.state.result = payload
   next()
 }
 // app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
 
 router.post( `/register`, proxyRequest, async (ctx, next) => {
   const { result } = ctx.state
-  ctx.redirect( `/users/${ result.id }` )
+  ctx.redirect( `/login` )
+})
+router.post( `/login`, proxyRequest, async (ctx, next) => {
+  const { result } = ctx.state
+  ctx.redirect( `/` )
 })
 
 router.post( `/quotations/new`, proxyRequest, async (ctx, next) => {

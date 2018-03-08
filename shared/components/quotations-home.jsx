@@ -9,8 +9,8 @@ import * as quotations from '../ducks/quotations'
 
 class QuotationsHome extends Component {
 
-  static fetchData(store) {
-    return store.dispatch( quotations.getAll() )
+  static fetchData(store, params, cookies) {
+    return store.dispatch( quotations.getAll(params, cookies) )
   }
 
   componentDidMount() {
