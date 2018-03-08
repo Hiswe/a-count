@@ -76,7 +76,7 @@ const proxyRequest = async (ctx, next) => {
     throw({
       status:     response.status,
       statusText: response.statusText,
-      message:    `[FROM API] ${result.message}`,
+      message:    `[FROM API] ${payload.message}`,
       stacktrace: response.stacktrace,
     })
   }
@@ -100,7 +100,7 @@ const proxyRequest = async (ctx, next) => {
       })
     })
   }
-  // Set result to state for further reuse
+  // Save payload to state for further reuse
   ctx.state.payload = payload
   next()
 }
@@ -126,7 +126,7 @@ router.post( `/quotations/:id`, proxyRequest, async (ctx, next) => {
 
 router.post( `/customers/new`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
-  ctx.redirect( `/customers/${ result.id }` )
+  ctx.redirect( `/customers/${ payload.id }` )
 })
 router.post( `/customers/:id`, proxyRequest, async (ctx, next) => {
   const { url } = ctx.request

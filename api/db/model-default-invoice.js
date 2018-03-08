@@ -25,8 +25,9 @@ const DefaultInvoice = sequelize.define( `defaultInvoice`, {
     allowNull:    false,
   },
   mentions: {
-    type:         Sequelize.STRING,
+    type:         Sequelize.TEXT,
     defaultValue: `invoice mentions`,
+    set:          h.setNormalizedString(`mentions`),
   },
 }, { timestamps: false })
 

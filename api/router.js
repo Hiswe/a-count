@@ -42,32 +42,21 @@ apiRouter.use(async (ctx, next) => {
 
 apiRouter
 .get( `/`, (ctx, next) => {
-  console.log( ctx.session )
   ctx.body = formatResponse()
 })
 
 //----- AUTHENTICATION
 
 apiRouter.post(`/register`, async (ctx, next) => {
-  const { body }  = ctx.request
-  const user      = await User.create( body )
-  ctx.body        = formatResponse(user)
+  // 308 to redirect with a POST
+  // https://github.com/koajs/koa/issues/1057#issuecomment-329182602
+  ctx.status = 308
+  ctx.redirect( `/users/new` )
 })
 
 apiRouter.post(`/login`, async (ctx, next) => {
-  const { body }  = ctx.request
-  const user      = await User.findOne({
-    where: { email: normalizeString( body.email ), }
-  })
-  ctx.assert( user, 404, `User not found` )
-
-  const isPasswordValid = await user.comparePassword( body.password )
-  ctx.assert( user, 401, `Invalid password` )
-
-  // https://github.com/clintmod/koa-jwt-login-example/blob/master/src/app.js
-  const userWithoutPassword = omit( user.get({plain: true}), [`password`] )
-  ctx.session.user = userWithoutPassword
-  ctx.body = formatResponse( {message: `connected as ${userWithoutPassword.email}`} )
+  ctx.status = 308
+  ctx.redirect( `/users/auth` )
 })
 
 apiRouter.get(`/logout`, async (ctx, next) => {
@@ -75,11 +64,9 @@ apiRouter.get(`/logout`, async (ctx, next) => {
   ctx.body = formatResponse({ message: `bye bye` })
 })
 
+// authentication guard middleware
 apiRouter.use( async (ctx, next) => {
-  // console.log( `PROTECTED ROUTE` )
-  // console.log( ctx.session )
   ctx.assert( ctx.session && ctx.session.user, 401, `Not connected` )
-  // console.log( `OK` )
   await next()
 })
 

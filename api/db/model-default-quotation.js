@@ -3,6 +3,13 @@ const Sequelize = require( 'sequelize' )
 const sequelize = require( './connection' )
 const h = require( './_helpers' )
 
+const defaultMention = `** Method of payment: ** 40% after acceptance of the quote
+Payment of 60% in the month following delivery. * (10% Late Penalty Rate) *
+** Delivery Date: ** Delivery in 1 month or less from the date of acceptance of the quote.
+** To accept this quote: **
+sign below with ”good for agreement“
+return it
+`
 const DefaultQuotation = sequelize.define( `defaultQuotation`, {
   id: {
     type:         Sequelize.UUID,
@@ -25,8 +32,9 @@ const DefaultQuotation = sequelize.define( `defaultQuotation`, {
     allowNull:    false,
   },
   mentions: {
-    type:         Sequelize.STRING,
-    defaultValue: `** Method of payment: ** 40% after acceptance of the quote \ nPayment of 60% in the month following delivery. * (10% Late Penalty Rate) * \ n ** Delivery Date: ** Delivery in 1 month or less from the date of acceptance of the quote. \ n ** To accept this quote: ** \ n- sign below with "good for agreement" \ n- return it`
+    type:         Sequelize.TEXT,
+    defaultValue: defaultMention,
+    set:          h.setNormalizedString(`mentions`),
   },
 }, { timestamps: false })
 

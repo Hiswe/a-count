@@ -33,7 +33,7 @@ const User = sequelize.define( `user`, {
     set:          h.setNormalizedString(`name`),
   },
   address: {
-    type:         Sequelize.STRING,
+    type:         Sequelize.TEXT,
     allowNull:    true,
     set:          h.setNormalizedString(`address`),
   },

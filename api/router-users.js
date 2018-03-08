@@ -1,14 +1,49 @@
+const merge = require( 'lodash.merge' )
 const Router = require( 'koa-router' )
 
 const { formatResponse } = require( './_helpers' )
 const { normalizeString } = require( './db/_helpers' )
 const User = require( './db/model-user' )
+const DefaultQuotation = require( './db/model-default-quotation' )
+const DefaultInvoice = require( './db/model-default-invoice' )
+const DefaultProduct = require( './db/model-default-product' )
 
 const prefix = `users`
 const router = new Router({prefix: `/${prefix}`})
 module.exports = router
 
 router
+.post(`/new`, async (ctx, next) => {
+  const { body }  = ctx.request
+  const data = merge( body, {
+    defaultQuotation: {},
+    defaultInvoice: {},
+    defaultProduct: {},
+  })
+  const user = await User.create( data, {
+    include: [
+      DefaultQuotation,
+      DefaultInvoice,
+      DefaultProduct,
+    ]
+  })
+  ctx.body = formatResponse( user.toJSON() )
+})
+.post(`/auth`, async (ctx, next) => {
+  const { body }  = ctx.request
+  const user      = await User.findOne({
+    where: { email: normalizeString( body.email ), }
+  })
+  ctx.assert( user, 404, `User not found` )
+
+  const isPasswordValid = await user.comparePassword( body.password )
+  ctx.assert( user, 401, `Invalid password` )
+
+  // https://github.com/clintmod/koa-jwt-login-example/blob/master/src/app.js
+  const userWithoutPassword = omit( user.get({plain: true}), [`password`] )
+  ctx.session.user = userWithoutPassword
+  ctx.body = formatResponse( {message: `connected as ${userWithoutPassword.email}`} )
+})
 //----- EDIT
 .get(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params

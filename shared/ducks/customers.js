@@ -1,9 +1,8 @@
 import crio from 'crio'
 
-import {get, post} from '../iso-fetch'
+import { get, post } from '../iso-fetch'
 
 const NAME = `customers`
-
 export const ERROR  = `@concompte/${NAME}/error`;
 export const GET_ALL  = `@concompte/${NAME}/loaded`;
 export const GET_ONE  = `@concompte/${NAME}/loaded-one`;
