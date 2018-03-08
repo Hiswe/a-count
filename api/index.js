@@ -3,7 +3,6 @@ const merge = require( 'lodash.merge' )
 const Koa = require( 'koa' )
 const bodyParser = require( 'koa-body' )
 const compress = require( 'koa-compress' )
-const morgan = require( 'koa-morgan' )
 const json = require( 'koa-json' )
 const Router = require( 'koa-router' )
 const session = require( 'koa-session' )
@@ -29,11 +28,38 @@ app.use( json() )
 //----- LOGGING
 
 // to have better logs: don't use the same logger as server
-app.use( morgan(`dev`) )
-// app.use( async (ctx, next) => {
-//   console.log( ctx.cookies )
-//   await next()
-// })
+const colorCodes = {
+  7: 'magenta',
+  5: 'red',
+  4: 'yellow',
+  3: 'cyan',
+  2: 'green',
+  1: 'green',
+  0: 'yellow'
+}
+const time = start => {
+  const delta = Date.now() - start
+  return delta < 10000
+    ? delta + 'ms'
+    : Math.round(delta / 1000) + 's'
+}
+app.use( async (ctx, next) => {
+  const { method, path } = ctx.request
+  const start = Date.now()
+  const logPath = chalk.grey(`api: ${path}`)
+  const logMethod = method.toUpperCase()
+  console.log( chalk.grey(`  ==>`), logMethod, logPath  )
+  await next()
+  const { status } = ctx.response
+  const s = status / 100 | 0
+  const color = colorCodes.hasOwnProperty(s) ? colorCodes[s] : 0
+  console.log( chalk.grey(`  <==`), logMethod, logPath, chalk[color](status), time(start) )
+})
+app.use( async (ctx, next) => {
+  console.log( ctx.request.header.cookie )
+  await next()
+  console.log( `API`, ctx.response.header.cookie )
+})
 
 //----- CORS
 
