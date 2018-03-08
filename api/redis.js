@@ -1,3 +1,5 @@
+'use strict'
+
 const { promisify, debuglog } = require( 'util' )
 const redis = require( 'redis' )
 

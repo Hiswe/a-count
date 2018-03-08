@@ -1,3 +1,5 @@
+'use strict'
+
 const Sequelize = require( 'sequelize' )
 
 const sequelize = require( './connection' )
@@ -29,7 +31,5 @@ const Customer = sequelize.define( `customer`, {
     defaultValue: false,
   },
 })
-
-Customer.updateOrCreate = h.updateOrCreate( Customer )
 
 module.exports = Customer

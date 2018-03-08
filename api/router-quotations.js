@@ -1,3 +1,5 @@
+'use strict'
+
 const { inspect } = require( 'util' )
 const Router = require( 'koa-router' )
 

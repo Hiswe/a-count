@@ -1,3 +1,5 @@
+'use strict'
+
 const Sequelize = require( 'sequelize' )
 const isNil = require( 'lodash/isnil' )
 
@@ -162,16 +164,5 @@ const Quotation = sequelize.define( `quotation`, {
     }
   },
 })
-
-// Don't use upsert as it didn't return an instance but only a status
-// http://docs.sequelizejs.com/class/lib/model.js~Model.html#static-method-upsert
-// https://medium.com/@griffinmichl/async-await-with-ternary-operators-af19f374215
-Quotation.updateOrCreate = async function( id, params ) {
-  const instance = await ( id ? this.findById(id) : new Quotation() )
-  if ( !instance ) return null
-  const updated = await instance.update( params )
-  // if ( !id ) await QuotationCount.create({quotationId: updated.id})
-  return updated
-}
 
 module.exports = Quotation

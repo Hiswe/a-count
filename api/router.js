@@ -1,3 +1,5 @@
+'use strict'
+
 const { inspect } = require( 'util' )
 const omit = require( 'lodash.omit' )
 const merge = require( 'lodash.merge' )

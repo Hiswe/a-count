@@ -1,3 +1,5 @@
+'use strict'
+
 const { debuglog } = require( 'util' )
 const Sequelize = require( 'sequelize' )
 const formattor = require( 'formattor' )

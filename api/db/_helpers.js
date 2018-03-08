@@ -1,15 +1,8 @@
+'use strict'
+
 const normalizeString = string => {
   string = `${string}`
   return string.trim().toLowerCase()
-}
-
-// Don't use upsert as it didn't return an instance but only a status
-// http://docs.sequelizejs.com/class/lib/model.js~Model.html#static-method-upsert
-// https://medium.com/@griffinmichl/async-await-with-ternary-operators-af19f374215
-const updateOrCreate = Model => async function( id, params ) {
-  const instance = await ( id ? this.findById(id) : new Model() )
-  if ( !instance ) return null
-  return instance.update( params )
 }
 
 const setNormalizedString = key => function( val ) {
@@ -43,7 +36,6 @@ const roundToNearestQuarter = number => {
 
 module.exports = {
   normalizeString,
-  updateOrCreate,
   setNormalizedString,
   getNormalizedDate,
   setNormalizedDate,

@@ -1,3 +1,5 @@
+'use strict'
+
 const rc = require( 'rc' )
 
 const config = rc( `concompte-api`, {

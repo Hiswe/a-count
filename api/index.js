@@ -1,3 +1,5 @@
+'use strict'
+
 const chalk = require( 'chalk' )
 const merge = require( 'lodash.merge' )
 const Koa = require( 'koa' )
