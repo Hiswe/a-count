@@ -80,11 +80,13 @@ const proxyRequest = async (ctx, next) => {
       stacktrace: response.stacktrace,
     })
   }
-  // response.headers.get('set-cookie') doesn't seem to retrieve all cookies…
-  // should investigate more…
-  // https://github.com/matthew-andrews/isomorphic-fetch/issues/153#issuecomment-346745405
-  // So resolve into getting the raw version of the header:
-  // https://github.com/bitinn/node-fetch/issues/251#issuecomment-287519538
+  // copy all received cookies to our response
+  // • needed to maintain authentication
+  // • response.headers.get('set-cookie') doesn't seem to retrieve all cookies…
+  //   should investigate more…
+  //   https://github.com/matthew-andrews/isomorphic-fetch/issues/153#issuecomment-346745405
+  // • So resolve into getting the raw version of the header:
+  //   https://github.com/bitinn/node-fetch/issues/251#issuecomment-287519538
   const cookies = response.headers.raw()[`set-cookie`]
   if ( Array.isArray(cookies) ) {
     const parsedCookies = cookie.parse(cookies.join(`; `))
@@ -98,23 +100,24 @@ const proxyRequest = async (ctx, next) => {
       })
     })
   }
-  ctx.state.result = payload
+  // Set result to state for further reuse
+  ctx.state.payload = payload
   next()
 }
 // app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
 
 router.post( `/register`, proxyRequest, async (ctx, next) => {
-  const { result } = ctx.state
+  const { payload } = ctx.state
   ctx.redirect( `/login` )
 })
 router.post( `/login`, proxyRequest, async (ctx, next) => {
-  const { result } = ctx.state
+  const { payload } = ctx.state
   ctx.redirect( `/` )
 })
 
 router.post( `/quotations/new`, proxyRequest, async (ctx, next) => {
-  const { result } = ctx.state
-  ctx.redirect( `/quotations/${ result.id }` )
+  const { payload } = ctx.state
+  ctx.redirect( `/quotations/${ payload.id }` )
 })
 router.post( `/quotations/:id`, proxyRequest, async (ctx, next) => {
   const { url } = ctx.request
@@ -122,7 +125,7 @@ router.post( `/quotations/:id`, proxyRequest, async (ctx, next) => {
 })
 
 router.post( `/customers/new`, proxyRequest, async (ctx, next) => {
-  const { result } = ctx.state
+  const { payload } = ctx.state
   ctx.redirect( `/customers/${ result.id }` )
 })
 router.post( `/customers/:id`, proxyRequest, async (ctx, next) => {

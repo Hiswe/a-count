@@ -32,6 +32,11 @@ const User = sequelize.define( `user`, {
     allowNull:    true,
     set:          h.setNormalizedString(`name`),
   },
+  address: {
+    type:         Sequelize.STRING,
+    allowNull:    true,
+    set:          h.setNormalizedString(`address`),
+  },
   lang: {
     type:         Sequelize.CHAR(2),
     defaultValue: 'en',
@@ -56,51 +61,6 @@ const User = sequelize.define( `user`, {
   },
   isDeactivated: {
     type:         Sequelize.BOOLEAN,
-  },
-  // CONFIG
-  tax: {
-    type:         Sequelize.FLOAT,
-    defaultValue: 0,
-  },
-  currency: {
-    type:         Sequelize.CHAR(2),
-    defaultValue: `$`,
-    validate: {
-      isIn: [[`$`, `€`]],
-    },
-  },
-  // TODO: move default Quotation & default invoice to it's own table
-  defaultQuantity: {
-    type:         Sequelize.FLOAT,
-    defaultValue: 0,
-  },
-  defaultPrice: {
-    type:         Sequelize.FLOAT,
-    defaultValue: 350,
-  },
-  quotationPrefix: {
-    type:         Sequelize.STRING,
-    defaultValue: `PR`,
-  },
-  quotationStartingAt: {
-    type:         Sequelize.INTEGER,
-    defaultValue: 400,
-  },
-  quotationCount: {
-    type:         Sequelize.BIGINT,
-    defaultValue: 0,
-  },
-  invoicePrefix: {
-    type:         Sequelize.STRING,
-    defaultValue: `FA`,
-  },
-  invoiceStartingAt: {
-    type:         Sequelize.INTEGER,
-    defaultValue: 800,
-  },
-  invoiceCount: {
-    type:         Sequelize.BIGINT,
-    defaultValue: 0,
   },
 })
 

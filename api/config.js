@@ -21,12 +21,6 @@ const config = rc( `concompte-api`, {
     maxAge: 86400000,
     renew: true,
   },
-  businessDefault: {
-    currency: `€`,
-    tax:      5.5,
-    quantity: 0,
-    price:    350,
-  },
 })
 
 config.PORT       = config.PORT || process.env.PORT || 4040

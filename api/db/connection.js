@@ -4,7 +4,7 @@ const formattor = require( 'formattor' )
 
 const config = require(  '../config' )
 
-const log = debuglog( `db` )
+const log = debuglog( `db-query` )
 const { Op } = Sequelize
 
 // Aliases all operators to the equivalent Symbols
