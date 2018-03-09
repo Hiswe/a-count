@@ -29,12 +29,25 @@ router
       DefaultProduct,
     ]
   })
-  ctx.body = formatResponse( user )
+  ctx.body = formatResponse( user, ctx )
 })
 .post(`/auth`, async (ctx, next) => {
   const { body }  = ctx.request
   const user      = await User.findOne({
-    where: { email: normalizeString( body.email ), }
+    where: {
+      email: normalizeString( body.email ),
+      isDeactivated:  { $not: true },
+    },
+    attributes: {
+      exclude: [`token`, `tokenExpire`, `createdAt`, `updatedAt`],
+    },
+    include: [{
+      model: DefaultQuotation,
+    }, {
+      model: DefaultInvoice,
+    }, {
+      model: DefaultProduct,
+    }]
   })
   ctx.assert( user, 404, `User not found` )
 
@@ -42,9 +55,12 @@ router
   ctx.assert( user, 401, `Invalid password` )
 
   // https://github.com/clintmod/koa-jwt-login-example/blob/master/src/app.js
-  const userWithoutPassword = omit( user.get({plain: true}), [`password`] )
+  const userWithoutPassword = user.toJSON()
+  delete userWithoutPassword.password
   ctx.session.user = userWithoutPassword
-  ctx.body = formatResponse( {message: `connected as ${userWithoutPassword.email}`} )
+  ctx.body = formatResponse( {
+    message: `connected as ${userWithoutPassword.email}`
+  }, ctx )
 })
 //----- EDIT
 .get(`/:id`, async (ctx, next) => {
@@ -55,7 +71,7 @@ router
     },
   })
   ctx.assert(instance, 404, `User not found`)
-  ctx.body = formatResponse(instance)
+  ctx.body = formatResponse( instance, ctx )
 })
 .post(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
@@ -63,5 +79,5 @@ router
   const instance  = await User.findById( id )
   ctx.assert(instance, 404, `Can't find User. The associated user isn't found`)
   const result    = await instance.update( body )
-  ctx.body        = formatResponse(result)
+  ctx.body        = formatResponse( result, ctx )
 })

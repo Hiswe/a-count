@@ -14,6 +14,7 @@ require( './db' )
 const redis = require( './redis' )
 const config = require( './config' )
 const router = require( './router' )
+const { log } = require( './_helpers' )
 
 //////
 // SERVER CONFIG
@@ -50,12 +51,12 @@ app.use( async (ctx, next) => {
   const start = Date.now()
   const logPath = chalk.grey(`api: ${path}`)
   const logMethod = method.toUpperCase()
-  console.log( chalk.grey(`  ==>`), logMethod, logPath  )
+  log( chalk.grey(`  ==>`), logMethod, logPath  )
   await next()
   const { status } = ctx.response
   const s = status / 100 | 0
   const color = colorCodes.hasOwnProperty(s) ? colorCodes[s] : 0
-  console.log( chalk.grey(`  <==`), logMethod, logPath, chalk[color](status), time(start) )
+  log( chalk.grey(`  <==`), logMethod, logPath, chalk[color](status), time(start) )
 })
 
 //----- CORS
@@ -103,7 +104,7 @@ app.use( router.routes() )
 //----- LAUNCH THE MAGIC
 
 const server = app.listen(config.PORT, function endInit() {
-  console.log( `API is listening on port`, server.address().port )
+  log( `API is listening on port`, server.address().port )
 })
 
 module.exports = app

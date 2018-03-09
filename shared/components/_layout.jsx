@@ -16,6 +16,7 @@ const Layout = ({ route }) => {
           {/* <li><NavLink to="/settings">settings</NavLink></li> */}
           <li className="header__item header__item--separator"><NavLink to="/login" activeClassName="is-active">login</NavLink></li>
           <li><NavLink className="header__item" to="/register" activeClassName="is-active">register</NavLink></li>
+          <li><a className="header__item" href="/logout">logout</a></li>
         </ul>
       </header>
       <main role="main">

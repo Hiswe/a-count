@@ -40,7 +40,7 @@ apiRouter.use( async function handleError(ctx, next) {
       status,
       message,
       stacktrace: err.stacktrace || err.stack || false,
-    })
+    }, ctx)
   }
 })
 
@@ -48,7 +48,7 @@ apiRouter.use( async function handleError(ctx, next) {
 
 apiRouter
 .get( `/`, (ctx, next) => {
-  ctx.body = formatResponse()
+  ctx.body = formatResponse( {}, ctx )
 })
 
 //----- AUTHENTICATION
@@ -67,11 +67,16 @@ apiRouter.post(`/login`, async (ctx, next) => {
 
 apiRouter.get(`/logout`, async (ctx, next) => {
   ctx.session = null
-  ctx.body = formatResponse({ message: `bye bye` })
+  ctx.body = formatResponse( { message: `bye bye` }, ctx )
 })
 
 // authentication guard middleware
+const authorizedRoute = [
+  `/users/new`,
+  `/users/auth`
+]
 apiRouter.use( async function isAuthorizedRoute(ctx, next) {
+  if ( authorizedRoute.includes( ctx.request.path) ) return await next()
   ctx.assert( ctx.session && ctx.session.user, 401, `Not connected` )
   await next()
 })
