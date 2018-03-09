@@ -29,7 +29,7 @@ router
       DefaultProduct,
     ]
   })
-  ctx.body = formatResponse( user.toJSON() )
+  ctx.body = formatResponse( user )
 })
 .post(`/auth`, async (ctx, next) => {
   const { body }  = ctx.request

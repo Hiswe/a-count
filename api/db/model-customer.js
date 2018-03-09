@@ -14,7 +14,7 @@ const Customer = sequelize.define( `customer`, {
   name: {
     type:         Sequelize.STRING,
     allowNull:    false,
-    validate:     {
+    validate: {
       notEmpty: true,
     },
     unique:       true,
