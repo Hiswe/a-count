@@ -23,14 +23,18 @@ module.exports = apiRouter
 
 //----- ERRORS
 
-apiRouter.use(async (ctx, next) => {
+apiRouter.use( async function handleError(ctx, next) {
   try {
     await next()
   } catch (err) {
-    console.log( inspect(err.original ? err.original : err, {colors: true, depth: 1}) )
     ctx.status  = err.statusCode || err.status || 500
     const { status }  = ctx
     const { message } = err
+    // only log errors >= 500
+    const s = status / 100 | 0
+    if (s > 4) {
+      console.log( inspect(err.original ? err.original : err, {colors: true, depth: 1}) )
+    }
     ctx.body = formatResponse({
       error: true,
       status,
@@ -67,7 +71,7 @@ apiRouter.get(`/logout`, async (ctx, next) => {
 })
 
 // authentication guard middleware
-apiRouter.use( async (ctx, next) => {
+apiRouter.use( async function isAuthorizedRoute(ctx, next) {
   ctx.assert( ctx.session && ctx.session.user, 401, `Not connected` )
   await next()
 })
