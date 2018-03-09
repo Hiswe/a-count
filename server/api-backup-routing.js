@@ -5,7 +5,9 @@ import * as isoFetch from '../shared/iso-fetch'
 
 const router  = new Router()
 
-//----- NO FETCH BACKUP
+//////
+// NO FETCH BACKUP
+//////
 
 // • in case of direct post without react handling
 // • or JS isn't activated on the client side
@@ -50,14 +52,14 @@ const proxyRequest = async (ctx, next) => {
   ctx.state.payload = payload
   next()
 }
-// app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
+
+//----- SESSIONS
 
 router.get( `/logout`, proxyRequest, async (ctx, next) => {
   console.log( `LOGOUT` )
   const { payload } = ctx.state
   ctx.redirect( `/login` )
 })
-
 router.post( `/register`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
   ctx.redirect( `/login` )
@@ -67,6 +69,8 @@ router.post( `/login`, proxyRequest, async (ctx, next) => {
   ctx.redirect( `/` )
 })
 
+//----- QUOTATIONS
+
 router.post( `/quotations/new`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
   ctx.redirect( `/quotations/${ payload.id }` )
@@ -75,6 +79,9 @@ router.post( `/quotations/:id`, proxyRequest, async (ctx, next) => {
   const { url } = ctx.request
   ctx.redirect( ctx.request.url )
 })
+// app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
+
+//----- CUSTOMERS
 
 router.post( `/customers/new`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
