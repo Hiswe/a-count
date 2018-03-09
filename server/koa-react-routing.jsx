@@ -15,7 +15,7 @@ const router = new Router()
 
 const store = createStore(reducer, {}, applyMiddleware(thunk))
 
-router.get('*', async (ctx, next) => {
+router.get( '*', async (ctx, next) => {
   const { url, header }     = ctx
   // wait for every component to fetch his data
   const branch      = matchRoutes(routes, url)

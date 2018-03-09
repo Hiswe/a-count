@@ -1,6 +1,6 @@
 import crio from 'crio'
 
-import {get, post} from '../iso-fetch'
+import { get, post } from '../iso-fetch'
 
 const NAME = `quotations`
 
@@ -15,16 +15,16 @@ const initialState = {
 }
 
 export default function reducer(state = initialState, action) {
-  if (!crio.isCrio(state)) state = crio( state )
+  if ( !crio.isCrio(state) ) state = crio( state )
   switch (action.type) {
     case GET_ALL:
-      return state.set( `list`, action.payload)
+      return state.set( `list`, action.payload )
 
     case GET_ONE:
-      return state.set( `current`, action.payload)
+      return state.set( `current`, action.payload )
 
     case SAVE_ONE:
-      return state.set( `current`, action.payload)
+      return state.set( `current`, action.payload )
 
     default:
       return state
@@ -35,18 +35,9 @@ export const getAll = (params, cookie) => async dispatch => {
   const fetchOptions = {
     url: `${NAME}`,
   }
-  try {
-    const { payload } = await get( fetchOptions, cookie )
-    dispatch({
-      type: GET_ALL,
-      payload,
-    })
-  } catch(e) {
-    dispatch({
-      type: ERROR,
-      payload: e,
-    })
-  }
+  const { payload } = await get( fetchOptions, cookie )
+  const type = payload.error ? ERROR : GET_ALL
+  dispatch( {type, payload} )
 }
 
 export const getOne = (params, cookie) => async dispatch => {

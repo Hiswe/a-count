@@ -3,7 +3,7 @@ import crio from 'crio'
 import { get, post } from '../iso-fetch'
 
 const NAME = `customers`
-export const ERROR  = `@concompte/${NAME}/error`;
+export const ERROR    = `@concompte/${NAME}/error`;
 export const GET_ALL  = `@concompte/${NAME}/loaded`;
 export const GET_ONE  = `@concompte/${NAME}/loaded-one`;
 export const SAVE_ONE = `@concompte/${NAME}/saved-one`;
@@ -34,18 +34,9 @@ export const getAll = (params, cookie) => async dispatch => {
   const fetchOptions = {
     url: `${NAME}`,
   }
-  try {
-    const { payload } = await get( fetchOptions, cookie )
-    dispatch({
-      type: GET_ALL,
-      payload,
-    })
-  } catch( e ) {
-    dispatch({
-      type: ERROR,
-      payload: e,
-    })
-  }
+  const { payload } = await get( fetchOptions, cookie )
+  const type = payload.error ? ERROR : GET_ALL
+  dispatch( {type, payload} )
 }
 
 export const getOne = (params, cookie) => async dispatch => {
