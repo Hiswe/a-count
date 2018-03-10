@@ -3,8 +3,8 @@ import { renderRoutes } from 'react-router-config'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import MainNav from './main-nav.jsx'
-import * as auth from '../../ducks/auth'
+import * as auth from '../ducks/auth'
+import MainNav from '../components/layout/main-nav.jsx'
 
 class Layout extends Component {
 

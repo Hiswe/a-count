@@ -32,7 +32,6 @@ const getQuotationById = (id) => {
 
 router
 .get(`/`, async (ctx, next) => {
-  console.log( inspect(ctx.state, {colors: true}) )
   const all = await Quotation.findAll({
     where: {
       userId: ctx.session.user.id,

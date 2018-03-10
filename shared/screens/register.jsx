@@ -3,9 +3,9 @@ import serialize from 'form-serialize'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import * as auth from '../ducks/auth'
 import CardCentered from '../components/layout/card-centered.jsx'
 import { InputWrapper } from '../components/form.jsx'
-import * as auth from '../ducks/auth'
 
 class Register extends Component {
 

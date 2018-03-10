@@ -3,12 +3,12 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+import * as customers from '../../ducks/customers'
 import { Empty } from '../../components/_utils.jsx'
 import CustomersTable from '../../components/customers-list.jsx'
-import * as customers from '../../ducks/customers'
 import FullPage from '../../components/layout/full-page.jsx'
 
-class CustomerHome extends Component {
+class Customers extends Component {
 
   static fetchData(store, params, cookies) {
     return store.dispatch( customers.getAll(params, cookies) )
@@ -42,4 +42,4 @@ const mapDispatchToProps = (dispatch) => {
   }, dispatch)
 }
 
-export default connect(mapStateToProp, mapDispatchToProps)(CustomerHome)
+export default connect(mapStateToProp, mapDispatchToProps)( Customers )

@@ -1,18 +1,18 @@
 import authenticationRequired from './authentication-required.jsx'
 import authenticationForbidden from './authentication-forbidden.jsx'
 
-import Layout from './components/layout/index.jsx'
+import Root from './screens/root.jsx'
 import Login from './screens/login.jsx'
 import Register from './screens/register.jsx'
 import Home from './screens/home.jsx'
-import QuotationsHome from './components/quotations-home.jsx'
+import QuotationsList from './screens/quotations/list.jsx'
 import QuotationsForm from './components/quotations-form.jsx'
 import CustomersList from './screens/customers/list.jsx'
 import CustomersForm from './components/customers-form.jsx'
 import NotFound from './screens/not-found.jsx'
 
 const routes = [{
-  component: Layout,
+  component: Root,
   routes: [{
     path: `/login`,
     exact: true,
@@ -28,7 +28,7 @@ const routes = [{
   }, {
     path: `/quotations`,
     exact: true,
-    component: authenticationRequired( QuotationsHome ),
+    component: authenticationRequired( QuotationsList ),
   }, {
     path: `/quotations/new`,
     exact: true,

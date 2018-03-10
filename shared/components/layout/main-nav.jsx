@@ -61,6 +61,7 @@ function mapStateToProps(state, ownProps) {
     email: state.auth.user.email,
   }
 }
-// withRouter is needed for the nav to catch-up
+
+// withRouter is needed for the <NavLink> to catch-up route changes
 // • https://reacttraining.com/react-router/web/api/withRouter
 export default withRouter( connect( mapStateToProps )( MainNav ) )

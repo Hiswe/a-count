@@ -3,11 +3,12 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { Empty } from './_utils.jsx'
-import QuotationsList from './quotations-list.jsx'
-import * as quotations from '../ducks/quotations'
+import * as quotations from '../../ducks/quotations'
+import { Empty } from '../../components/_utils.jsx'
+import QuotationsList from '../../components/quotations-list.jsx'
+import FullPage from '../../components/layout/full-page.jsx'
 
-class QuotationsHome extends Component {
+class Quotations extends Component {
 
   static fetchData(store, params, cookies) {
     return store.dispatch( quotations.getAll(params, cookies) )
@@ -20,13 +21,10 @@ class QuotationsHome extends Component {
   render() {
     const { props } = this
     return (
-      <div>
-        <h1>
-          Quotations
-          <Link to="/quotations/new" className="btn-fab">+</Link>
-        </h1>
+      <FullPage title="Quotations">
+        <Link to="/quotations/new" className="btn-fab">+</Link>
         <QuotationsList {...props} />
-      </div>
+      </FullPage>
     )
   }
 
@@ -47,4 +45,4 @@ const mapDispatchToProps = (dispatch) => {
   }, dispatch)
 }
 
-export default connect(mapStateToProp, mapDispatchToProps)(QuotationsHome)
+export default connect(mapStateToProp, mapDispatchToProps)( Quotations )
