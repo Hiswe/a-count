@@ -31,7 +31,9 @@
     padding: 1em 2em;
     display: block;
 
-    &.hover,
+    &:hover {
+      background: var(--c-primary-darkest);
+    }
     &.is-active {
       background: var(--c-primary-lighter);
     }

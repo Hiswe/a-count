@@ -1,4 +1,4 @@
-import Layout from './components/_layout.jsx'
+import Layout from './components/layout/index.jsx'
 import Home from './components/home.jsx'
 import Login from './components/login.jsx'
 import Register from './components/register.jsx'

@@ -19,7 +19,7 @@ a {
 main > div[class=""],
 main > div:not([class]) {
   background: white;
-  max-width: 1024px;
+  max-width: var(--s-max-width);
   padding: var(--s-gutter);
   margin: var(--s-gutter) auto;
 }
