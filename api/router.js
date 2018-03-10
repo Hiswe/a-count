@@ -75,6 +75,7 @@ const authorizedRoute = [
   `/users/new`,
   `/users/auth`
 ]
+
 apiRouter.use( async function isAuthorizedRoute(ctx, next) {
   if ( authorizedRoute.includes( ctx.request.path) ) return await next()
   ctx.assert( ctx.session && ctx.session.user, 401, `Not connected` )

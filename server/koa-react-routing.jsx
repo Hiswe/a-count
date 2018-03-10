@@ -29,7 +29,7 @@ router.get( '*', async (ctx, next) => {
   await Promise.all( initFetches )
 
   // context is mutable & provided only on server-side rendering
-  // • Because it's mutable, it will change during the server rendering process
+  // • Because it's mutable, it will change during the React's server rendering process
   // • So that's a good way to pass router's data here to the server
   const context = {}
   const content = renderToString(

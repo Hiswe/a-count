@@ -11,6 +11,7 @@ const router  = new Router()
 
 // • in case of direct post without react handling
 // • or JS isn't activated on the client side
+// • in any case this is OPTIONAL IF WE want to DEFER everything to the FRONT REACT APP
 
 const proxyRequest = async (ctx, next) => {
   const { url, body, header } = ctx.request

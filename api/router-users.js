@@ -31,6 +31,10 @@ router
   })
   ctx.body = formatResponse( user, ctx )
 })
+.get( `/auth`, async (ctx, next) => {
+  ctx.assert( ctx.session && ctx.session.user, 401, `Not connected` )
+  ctx.body = formatResponse( {user: ctx.session.user}, ctx )
+})
 .post(`/auth`, async (ctx, next) => {
   const { body }  = ctx.request
   const user      = await User.findOne({
@@ -43,10 +47,19 @@ router
     },
     include: [{
       model: DefaultQuotation,
+      attributes: {
+        exclude: [`id`, `userId`]
+      },
     }, {
       model: DefaultInvoice,
+      attributes: {
+        exclude: [`id`, `userId`]
+      },
     }, {
       model: DefaultProduct,
+      attributes: {
+        exclude: [`id`, `userId`]
+      },
     }]
   })
   ctx.assert( user, 404, `User not found` )
