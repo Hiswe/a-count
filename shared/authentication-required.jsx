@@ -4,6 +4,9 @@ import { Redirect } from 'react-router-dom'
 
 // Protect the route if NOT authenticate
 // • based on https://crysislinux.com/limit-access-to-redux-apps-with-higher-order-components/
+
+const PUBLIC_ROOT = `/login`
+
 export function authenticationRequired( Component ) {
 
   const AuthenticatedComponent = props => {
@@ -11,12 +14,11 @@ export function authenticationRequired( Component ) {
 
     if ( props.isAuthenticated ) return <Component {...props}/>
 
-    const redirectUrl = `/login`
     if ( staticContext ) {
       staticContext.status = 302
-      staticContext.url = redirectUrl
+      staticContext.url = PUBLIC_ROOT
     }
-    return <Redirect to={redirectUrl} />
+    return <Redirect to={ PUBLIC_ROOT } />
   }
 
   const mapStateToProps = (state) => ({

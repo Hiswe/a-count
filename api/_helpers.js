@@ -4,8 +4,6 @@ const chalk = require( 'chalk' )
 const merge = require( 'lodash.merge' )
 const { debuglog } = require( 'util' )
 
-const config = require(  './config' )
-
 const log = debuglog( `api` )
 
 const formatResponse = ( payload = {}, ctx = false ) => {
@@ -13,10 +11,7 @@ const formatResponse = ( payload = {}, ctx = false ) => {
   // get an object from a sequelize instance
   // • avoid circular references when merged
   if ( typeof payload.toJSON === `function` ) payload = payload.toJSON()
-  const defaultResponse = {
-    _version:  config.VERSION,
-    _name:     config.NAME,
-  }
+  const defaultResponse = {}
   if ( ctx && ctx.session && ctx.session.user ) {
     defaultResponse._user = ctx.session.user
   }

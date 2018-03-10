@@ -49,7 +49,7 @@ const serverSourceMapPlugin = () => new webpack.BannerPlugin({
 })
 
 const definePlugin = () => new webpack.DefinePlugin({
-  API_URL: JSON.stringify( `http://localhost:4040` ),
+  API_URL: JSON.stringify( `http://localhost:4040/v1` ),
 })
 
 ////////

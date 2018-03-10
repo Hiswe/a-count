@@ -17,8 +17,7 @@ const User = require( './db/model-user' )
 const { normalizeString } = require( './db/_helpers' )
 
 const apiRouter = new Router({
-  // TODO: should have a prefix
-  // prefix: `/v1`,
+  prefix: `/v1`,
 })
 module.exports = apiRouter
 
@@ -49,7 +48,10 @@ apiRouter.use( async function handleError(ctx, next) {
 
 apiRouter
 .get( `/`, (ctx, next) => {
-  ctx.body = formatResponse( {}, ctx )
+  ctx.body = formatResponse( {
+    name: config.NAME,
+    version: config.VERSION,
+  }, ctx )
 })
 
 //----- AUTHENTICATION
