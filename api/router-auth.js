@@ -13,6 +13,37 @@ const DefaultProduct = require( './db/model-default-product' )
 const router = new Router()
 module.exports = router
 
+const getUserParams = {
+  where: {
+    isDeactivated:  { $not: true },
+  },
+  attributes: {
+    exclude: [`token`, `tokenExpire`, `createdAt`, `updatedAt`],
+  },
+  include: [{
+    model: DefaultQuotation,
+    attributes: {
+      exclude: [`id`, `userId`]
+    },
+  }, {
+    model: DefaultInvoice,
+    attributes: {
+      exclude: [`id`, `userId`]
+    },
+  }, {
+    model: DefaultProduct,
+    attributes: {
+      exclude: [`id`, `userId`]
+    },
+  }]
+}
+
+const removePassword = user => {
+  user = typeof user.toJSON === `function` ? user.toJSON() : user
+  delete user.password
+  return user
+}
+
 router
 .get( `/auth`, async (ctx, next) => {
   ctx.assert( ctx.session && ctx.session.user, 401, `Not connected` )
@@ -25,55 +56,35 @@ router
     defaultInvoice: {},
     defaultProduct: {},
   })
-  const user = await User.create( data, {
+  const newUser = await User.create( data, {
     include: [
       DefaultQuotation,
       DefaultInvoice,
       DefaultProduct,
     ]
   })
-  // TODO: should connect automatically
-  ctx.body = formatResponse( user, ctx )
+  const user = await User.findOne( merge(
+    getUserParams,
+    { where: { id: newUser.id } }
+  ))
+  const userWithoutPassword = removePassword( user )
+  ctx.session.user = userWithoutPassword
+  ctx.body = formatResponse( userWithoutPassword, ctx )
 })
 .post( `/login`, async (ctx, next) => {
   const { body }  = ctx.request
-  const user      = await User.findOne({
-    where: {
-      email: normalizeString( body.email ),
-      isDeactivated:  { $not: true },
-    },
-    attributes: {
-      exclude: [`token`, `tokenExpire`, `createdAt`, `updatedAt`],
-    },
-    include: [{
-      model: DefaultQuotation,
-      attributes: {
-        exclude: [`id`, `userId`]
-      },
-    }, {
-      model: DefaultInvoice,
-      attributes: {
-        exclude: [`id`, `userId`]
-      },
-    }, {
-      model: DefaultProduct,
-      attributes: {
-        exclude: [`id`, `userId`]
-      },
-    }]
-  })
+  const user      = await User.findOne( merge(
+    getUserParams,
+    { where: { email: normalizeString( body.email ) } }
+  ))
   ctx.assert( user, 404, `User not found` )
 
   const isPasswordValid = await user.comparePassword( body.password )
   ctx.assert( user, 401, `Invalid password` )
 
-  // https://github.com/clintmod/koa-jwt-login-example/blob/master/src/app.js
-  const userWithoutPassword = user.toJSON()
-  delete userWithoutPassword.password
+  const userWithoutPassword = removePassword( user )
   ctx.session.user = userWithoutPassword
-  ctx.body = formatResponse( {
-    message: `connected as ${userWithoutPassword.email}`
-  }, ctx )
+  ctx.body = formatResponse( userWithoutPassword, ctx )
 })
 .get( `/logout`, async (ctx, next) => {
   ctx.session = null

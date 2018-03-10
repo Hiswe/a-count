@@ -6,7 +6,7 @@ import { createStore,  applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 import routes from '../shared/routes'
 import reducers from '../shared/ducks/combined-reducers'

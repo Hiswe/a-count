@@ -13,6 +13,7 @@ export const ERROR  = `@concompte/${NAME}/error`
 export const GET  = `@concompte/${NAME}/get`
 export const LOGIN  = `@concompte/${NAME}/login`
 export const LOGOUT  = `@concompte/${NAME}/logout`
+export const REGISTER  = `@concompte/${NAME}/register`
 
 // determine current connection status
 // • listen to every action
@@ -42,6 +43,9 @@ export default function reducer(state = initialState, action) {
     case LOGOUT:
       state = state.set( `user`, {} )
       return state.set( `isAuthenticated`, false )
+
+    case REGISTER:
+      return state.set( `user`, payload )
 
     default:
       return state
@@ -74,5 +78,16 @@ export const logout = (params, cookie) => async dispatch => {
   }
   const { payload } = await isoFetch.get( fetchOptions, cookie )
   const type = payload.error ? ERROR : LOGOUT
+  dispatch( {type, payload} )
+}
+
+export const register = ( params, cookie) => async dispatch => {
+  const { body } = params
+  const fetchOptions = {
+    url: `/register`,
+    body,
+  }
+  const { payload } = await isoFetch.post( fetchOptions, cookie )
+  const type = payload.error ? ERROR : REGISTER
   dispatch( {type, payload} )
 }

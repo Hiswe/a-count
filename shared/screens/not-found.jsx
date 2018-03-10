@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import { CardCentered } from './_utils.jsx'
+import CardCentered from '../components/layout/card-centered.jsx'
 
 const NotFound = () => (
   // we need a route to have access to staticContext
@@ -11,11 +11,8 @@ const NotFound = () => (
       staticContext.status = 404
     }
     return (
-      <CardCentered>
-        <div>
-          <h1>404</h1>
-          <h2>not found</h2>
-        </div>
+      <CardCentered title="404">
+        <h2>not found</h2>
       </CardCentered>
     )
   }}/>
