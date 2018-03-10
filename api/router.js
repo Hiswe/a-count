@@ -11,6 +11,7 @@ const { formatResponse } = require( './_helpers' )
 const routerUsers = require( './router-users' )
 const routerCustomers = require( './router-customers' )
 const routerQuotations = require( './router-quotations' )
+const routerAuth = require( './router-auth' )
 const config = require( './config' )
 const User = require( './db/model-user' )
 const { normalizeString } = require( './db/_helpers' )
@@ -53,31 +54,11 @@ apiRouter
 
 //----- AUTHENTICATION
 
-apiRouter.post(`/register`, async (ctx, next) => {
-  // 308 to redirect with a POST
-  // https://github.com/koajs/koa/issues/1057#issuecomment-329182602
-  ctx.status = 308
-  ctx.redirect( `/users/new` )
-})
-
-apiRouter.post(`/login`, async (ctx, next) => {
-  ctx.status = 308
-  ctx.redirect( `/users/auth` )
-})
-
-apiRouter.get(`/logout`, async (ctx, next) => {
-  ctx.session = null
-  ctx.body = formatResponse( { message: `bye bye` }, ctx )
-})
+apiRouter.use( routerAuth.routes() )
 
 // authentication guard middleware
-const authorizedRoute = [
-  `/users/new`,
-  `/users/auth`
-]
 
 apiRouter.use( async function isAuthorizedRoute(ctx, next) {
-  if ( authorizedRoute.includes( ctx.request.path) ) return await next()
   ctx.assert( ctx.session && ctx.session.user, 401, `Not connected` )
   await next()
 })
