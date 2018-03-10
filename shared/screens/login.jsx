@@ -16,6 +16,8 @@ class Login extends Component {
   }
 
   render() {
+    const { props } = this
+
     return (
       <CardCentered title="login">
         <form method="post" action="/login" onSubmit={ e => this.handleSubmit(e) } >
@@ -36,7 +38,7 @@ function mapStateToProps(state, ownProps) {
   return {}
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return bindActionCreators({
     login: auth.login,
   }, dispatch)

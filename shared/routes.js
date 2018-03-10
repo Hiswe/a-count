@@ -1,4 +1,6 @@
-import requireAuthentication from './require-authentication.jsx'
+import authenticationRequired from './authentication-required.jsx'
+import authenticationForbidden from './authentication-forbidden.jsx'
+
 import Layout from './components/layout/index.jsx'
 import Home from './components/home.jsx'
 import Login from './screens/login.jsx'
@@ -14,39 +16,39 @@ const routes = [{
   routes: [{
     path: `/`,
     exact: true,
-    component: requireAuthentication( Home ),
+    component: authenticationRequired( Home ),
   }, {
     path: `/login`,
     exact: true,
-    component: Login,
+    component: authenticationForbidden( Login ),
   }, {
     path: `/register`,
     exact: true,
-    component: Register,
+    component: authenticationForbidden( Register ),
   }, {
     path: `/quotations`,
     exact: true,
-    component: requireAuthentication( QuotationsHome ),
+    component: authenticationRequired( QuotationsHome ),
   }, {
     path: `/quotations/new`,
     exact: true,
-    component: requireAuthentication( QuotationsForm ),
+    component: authenticationRequired( QuotationsForm ),
   }, {
   path: `/quotations/:id`,
     exact: true,
-    component: requireAuthentication( QuotationsForm ),
+    component: authenticationRequired( QuotationsForm ),
   }, {
     path: `/customers`,
     exact: true,
-    component: requireAuthentication( CustomersHome ),
+    component: authenticationRequired( CustomersHome ),
   }, {
     path: `/customers/new`,
     exact: true,
-    component: requireAuthentication( CustomersForm ),
+    component: authenticationRequired( CustomersForm ),
   }, {
   path: `/customers/:id`,
     exact: true,
-    component: requireAuthentication( CustomersForm ),
+    component: authenticationRequired( CustomersForm ),
   }, {
     path: `*`,
     component: NotFound,

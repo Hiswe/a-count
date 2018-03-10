@@ -2,9 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
-// based on
-// https://crysislinux.com/limit-access-to-redux-apps-with-higher-order-components/
-export function requireAuthentication( Component ) {
+// Protect the route if NOT authenticate
+// • based on https://crysislinux.com/limit-access-to-redux-apps-with-higher-order-components/
+export function authenticationRequired( Component ) {
 
   const AuthenticatedComponent = props => {
     const { staticContext } = props
@@ -26,4 +26,4 @@ export function requireAuthentication( Component ) {
   return connect( mapStateToProps )( AuthenticatedComponent )
 }
 
-export default requireAuthentication
+export default authenticationRequired
