@@ -9,8 +9,10 @@ const initialState = {
   user: {},
 }
 
-export const GET  = `@concompte/${NAME}/get`;
-export const LOGOUT  = `@concompte/${NAME}/logout`;
+export const ERROR  = `@concompte/${NAME}/error`
+export const GET  = `@concompte/${NAME}/get`
+export const LOGIN  = `@concompte/${NAME}/login`
+export const LOGOUT  = `@concompte/${NAME}/logout`
 
 // determine current connection status
 // • listen to every action
@@ -27,10 +29,18 @@ export default function reducer(state = initialState, action) {
   switch (type) {
     case GET:
       if ( isUnauthorized ) return state.set( `user`, {} )
-      return state.set( `user`, payload)
+      return state.set( `user`, payload )
+
+    case ERROR: {
+      state = state.set( `user`, {} )
+      return state.set( `isAuthenticated`, false )
+    }
+
+    case LOGIN:
+      return state.set( `user`, payload )
 
     case LOGOUT:
-      return state.set( `user`, {})
+      return state.set( `user`, {} )
 
     default:
       return state
@@ -43,6 +53,17 @@ export const get = (params, cookie) => async dispatch => {
   }
   const { payload } = await isoFetch.get( fetchOptions, cookie )
   const type = GET
+  dispatch( {type, payload} )
+}
+
+export const login = ( params, cookie) => async dispatch => {
+  const { body } = params
+  const fetchOptions = {
+    url: `/login`,
+    body,
+  }
+  const { payload } = await isoFetch.post( fetchOptions, cookie )
+  const type = payload.error ? ERROR : LOGIN
   dispatch( {type, payload} )
 }
 

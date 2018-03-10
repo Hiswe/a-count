@@ -44,19 +44,31 @@ const post = async ({url, body}, cookie) => {
     body: JSON.stringify( body )
   }
   if ( cookie ) options.headers.Cookie = cookie
-  const response = await fetch( urlJoin(API_URL, url), options )
-  const payload = await response.json()
-  if (!response.ok) {
-    merge( payload, {
-      error:      true,
-      status:     response.status,
-      statusText: response.statusText,
-    })
+  try {
+    const response = await fetch( urlJoin(API_URL, url), options )
+    const payload = await response.json()
+    if (!response.ok) {
+      merge( payload, {
+        error:      true,
+        status:     response.status,
+        statusText: response.statusText,
+      })
+    }
+    return {
+      response,
+      payload,
+    }
+  } catch(e) {
+    const error = merge( {
+      error: true,
+      status: 500,
+      statusText: e.message,
+    }, e )
+    return {
+      payload: error,
+    }
   }
-  return {
-    response,
-    payload,
-  }
+
 }
 
 export { get, post }
