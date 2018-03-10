@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
+// based on
+// https://crysislinux.com/limit-access-to-redux-apps-with-higher-order-components/
 export function requireAuthentication( Component ) {
 
   const AuthenticatedComponent = props => {

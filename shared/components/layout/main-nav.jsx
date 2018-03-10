@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 const ConnectedNav = props => {
@@ -58,5 +58,6 @@ function mapStateToProps(state, ownProps) {
     isAuthenticated: state.auth.isAuthenticated,
   }
 }
-
-export default connect( mapStateToProps )( MainNav )
+// withRouter is needed for the nav to catch-up
+// • https://reacttraining.com/react-router/web/api/withRouter
+export default withRouter( connect( mapStateToProps )( MainNav ) )
