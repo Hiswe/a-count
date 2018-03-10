@@ -7,7 +7,7 @@ import Register from './screens/register.jsx'
 import Home from './screens/home.jsx'
 import QuotationsHome from './components/quotations-home.jsx'
 import QuotationsForm from './components/quotations-form.jsx'
-import CustomersHome from './components/customers-home.jsx'
+import CustomersList from './screens/customers/list.jsx'
 import CustomersForm from './components/customers-form.jsx'
 import NotFound from './screens/not-found.jsx'
 
@@ -40,7 +40,7 @@ const routes = [{
   }, {
     path: `/customers`,
     exact: true,
-    component: authenticationRequired( CustomersHome ),
+    component: authenticationRequired( CustomersList ),
   }, {
     path: `/customers/new`,
     exact: true,

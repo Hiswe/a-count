@@ -3,9 +3,10 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { Empty } from './_utils.jsx'
-import CustomersTable from './customers-list.jsx'
-import * as customers from '../ducks/customers'
+import { Empty } from '../../components/_utils.jsx'
+import CustomersTable from '../../components/customers-list.jsx'
+import * as customers from '../../ducks/customers'
+import FullPage from '../../components/layout/full-page.jsx'
 
 class CustomerHome extends Component {
 
@@ -19,13 +20,10 @@ class CustomerHome extends Component {
 
   render() {
     return (
-      <div>
-        <h1>
-          Customers
-          <Link to="/customers/new" className="btn-fab">+</Link>
-        </h1>
+      <FullPage title="Customers">
+        <Link to="/customers/new" className="btn-fab">+</Link>
         {this.props.hasCustomers ? <CustomersTable /> : <Empty />}
-      </div>
+      </FullPage>
     )
   }
 }
