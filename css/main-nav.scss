@@ -1,0 +1,39 @@
+.main-nav {
+  $root: &;
+  background: var(--c-nav);
+
+  &__in,
+  &__item {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  &__in {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  &__item {
+    text-align: center;
+
+    &--separator {
+      margin-top: auto;
+    }
+  }
+  &__logo {
+    font-weight: 100;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: white;
+  }
+  a {
+    color: var(--c-primary-lightest);
+    padding: 1em 2em;
+    display: block;
+
+    &.hover,
+    &.is-active {
+      background: var(--c-primary-lighter);
+    }
+  }
+}

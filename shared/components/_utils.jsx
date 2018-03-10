@@ -2,9 +2,9 @@ import React from 'react'
 
 const CardCentered = props => (
   <div className="card card--centered">
-    <header className="card__in">
+    <div className="card__in">
       { props.children }
-    </header>
+    </div>
   </div>
 )
 
