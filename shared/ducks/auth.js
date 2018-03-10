@@ -40,7 +40,8 @@ export default function reducer(state = initialState, action) {
       return state.set( `user`, payload )
 
     case LOGOUT:
-      return state.set( `user`, {} )
+      state = state.set( `user`, {} )
+      return state.set( `isAuthenticated`, false )
 
     default:
       return state
@@ -49,7 +50,7 @@ export default function reducer(state = initialState, action) {
 
 export const get = (params, cookie) => async dispatch => {
   const fetchOptions = {
-    url: `/users/auth`,
+    url: `/auth`,
   }
   const { payload } = await isoFetch.get( fetchOptions, cookie )
   const type = GET
@@ -72,6 +73,6 @@ export const logout = (params, cookie) => async dispatch => {
     url: `/logout`,
   }
   const { payload } = await isoFetch.get( fetchOptions, cookie )
-  const type = LOGOUT
+  const type = payload.error ? ERROR : LOGOUT
   dispatch( {type, payload} )
 }

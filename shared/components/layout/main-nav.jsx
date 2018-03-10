@@ -2,6 +2,8 @@ import React, { Fragment } from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import LogoutButton from './logout-button.jsx'
+
 const ConnectedNav = props => {
   return (
     <Fragment>
@@ -17,7 +19,7 @@ const ConnectedNav = props => {
       </li>
       {/* <li><NavLink to="/settings">settings</NavLink></li> */}
       <li className="main-nav__item main-nav__item--separator">
-        <a href="/logout">logout</a>
+        <LogoutButton />
       </li>
     </Fragment>
   )
