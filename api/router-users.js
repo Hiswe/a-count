@@ -24,7 +24,7 @@ router
     },
   })
   ctx.assert(instance, 404, `User not found`)
-  ctx.body = formatResponse( instance, ctx )
+  ctx.body = formatResponse( instance )
 })
 .post(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
@@ -32,5 +32,5 @@ router
   const instance  = await User.findById( id )
   ctx.assert(instance, 404, `Can't find User. The associated user isn't found`)
   const result    = await instance.update( body )
-  ctx.body        = formatResponse( result, ctx )
+  ctx.body        = formatResponse( result )
 })

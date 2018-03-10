@@ -23,19 +23,19 @@ router
   //   FROM customers AS customer
   // `, { model: Quotation })
   const all = await Customer.findAll()
-  ctx.body = formatResponse( all, ctx )
+  ctx.body = formatResponse( all )
 })
 
 //----- NEW
 .get(`/new`, async (ctx, next) => {
   const modelTemplate = new Customer().toJSON()
   delete modelTemplate.id
-  ctx.body = formatResponse( modelTemplate, ctx )
+  ctx.body = formatResponse( modelTemplate )
 })
 .post(`/new`,  async (ctx, next) => {
   const { body }  = ctx.request
   const instance  = await Customer.updateOrCreate( false, body )
-  ctx.body        = formatResponse( instance, ctx )
+  ctx.body        = formatResponse( instance )
 })
 
 //----- EDIT
@@ -48,11 +48,11 @@ router
     }],
   })
   ctx.assert(instance, 404, `Customer not found`)
-  ctx.body        = formatResponse( instance, ctx )
+  ctx.body        = formatResponse( instance )
 })
 .post(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
   const { body }  = ctx.request
   const instance  = await Customer.updateOrCreate( id, body )
-  ctx.body        = formatResponse( instance, ctx )
+  ctx.body        = formatResponse( instance )
 })

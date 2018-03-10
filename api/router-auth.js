@@ -47,7 +47,7 @@ const removePassword = user => {
 router
 .get( `/auth`, async (ctx, next) => {
   ctx.assert( ctx.session && ctx.session.user, 401, `Not connected` )
-  ctx.body = formatResponse( {user: ctx.session.user}, ctx )
+  ctx.body = formatResponse( ctx.session.user )
 })
 .post(`/register`, async (ctx, next) => {
   const { body }  = ctx.request
@@ -84,9 +84,9 @@ router
 
   const userWithoutPassword = removePassword( user )
   ctx.session.user = userWithoutPassword
-  ctx.body = formatResponse( userWithoutPassword, ctx )
+  ctx.body = formatResponse( userWithoutPassword )
 })
 .get( `/logout`, async (ctx, next) => {
   ctx.session = null
-  ctx.body = formatResponse( { message: `bye bye` }, ctx )
+  ctx.body = formatResponse( { message: `bye bye` } )
 })

@@ -49,8 +49,8 @@ apiRouter.use( async function handleError(ctx, next) {
 apiRouter
 .get( `/`, (ctx, next) => {
   ctx.body = formatResponse( {
-    name: config.NAME,
-    version: config.VERSION,
+    name:     config.NAME,
+    version:  config.VERSION,
   }, ctx )
 })
 

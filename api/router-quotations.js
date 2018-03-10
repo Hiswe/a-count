@@ -44,7 +44,7 @@ router
       model: User,
     }],
   })
-  ctx.body = formatResponse( all, ctx )
+  ctx.body = formatResponse( all )
 })
 
 //----- NEW
@@ -62,7 +62,7 @@ router
   const instance  = await Quotation.updateOrCreate( false, body )
   const result    = await getQuotationById( instance.id )
   ctx.assert(result, 404, `Quotation not found`)
-  ctx.body        = formatResponse( result, ctx )
+  ctx.body        = formatResponse( result )
 })
 
 //----- EDIT
@@ -70,7 +70,7 @@ router
   const { id }    = ctx.params
   const instance  = await getQuotationById( id )
   ctx.assert(instance, 404, `Quotation not found`)
-  ctx.body = formatResponse( instance, ctx )
+  ctx.body = formatResponse( instance )
 })
 .post(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
@@ -80,5 +80,5 @@ router
   const instance  = await Quotation.updateOrCreate( id, body )
   const result    = await getQuotationById( instance.id )
   ctx.assert(result, 404, `Quotation not found`)
-  ctx.body        = formatResponse( result, ctx )
+  ctx.body        = formatResponse( result )
 })
