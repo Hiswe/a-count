@@ -48,6 +48,10 @@ available:
 
 - https://www.muicss.com/docs/v1/react/forms
 
+#### components architecture
+
+- https://hackernoon.com/structuring-projects-and-naming-components-in-react-1261b6e18d76
+
 #### redux
 
 - https://github.com/pburtchaell/redux-promise-middleware

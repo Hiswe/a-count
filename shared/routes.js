@@ -1,3 +1,4 @@
+import requireAuthentication from './require-authentication.jsx'
 import Layout from './components/layout/index.jsx'
 import Home from './components/home.jsx'
 import Login from './components/login.jsx'
@@ -13,7 +14,7 @@ const routes = [{
   routes: [{
     path: `/`,
     exact: true,
-    component: Home,
+    component: requireAuthentication( Home ),
   }, {
     path: `/login`,
     exact: true,
@@ -25,27 +26,27 @@ const routes = [{
   }, {
     path: `/quotations`,
     exact: true,
-    component: QuotationsHome,
+    component: requireAuthentication( QuotationsHome ),
   }, {
     path: `/quotations/new`,
     exact: true,
-    component: QuotationsForm,
+    component: requireAuthentication( QuotationsForm ),
   }, {
   path: `/quotations/:id`,
     exact: true,
-    component: QuotationsForm,
+    component: requireAuthentication( QuotationsForm ),
   }, {
     path: `/customers`,
     exact: true,
-    component: CustomersHome,
+    component: requireAuthentication( CustomersHome ),
   }, {
     path: `/customers/new`,
     exact: true,
-    component: CustomersForm,
+    component: requireAuthentication( CustomersForm ),
   }, {
   path: `/customers/:id`,
     exact: true,
-    component: CustomersForm,
+    component: requireAuthentication( CustomersForm ),
   }, {
     path: `*`,
     component: NotFound,

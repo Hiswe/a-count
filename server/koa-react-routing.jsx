@@ -28,13 +28,13 @@ router.get( '*', async (ctx, next) => {
     } )
   await Promise.all( initFetches )
 
-  // context is mutable & provided only on server-side rendering
+  // staticContext is mutable & provided only on server-side rendering
   // • Because it's mutable, it will change during the React's server rendering process
   // • So that's a good way to pass router's data here to the server
-  const context = {}
+  const staticContext = {}
   const content = renderToString(
     <Provider store={store}>
-      <StaticRouter location={url} context={context}>
+      <StaticRouter location={url} context={staticContext}>
         {/* renderRoutes will render the right components */}
         { renderRoutes(routes) }
       </StaticRouter>
@@ -42,11 +42,12 @@ router.get( '*', async (ctx, next) => {
   )
 
   // reflect status from react-router to express
-  if (context.status === 302) {
+  if ( staticContext.status === 302 ) {
     ctx.status = 302
-    return ctx.redirect(context.url)
+    console.log( `redirect` )
+    return ctx.redirect( staticContext.url )
   }
-  if (context.status === 404) {
+  if ( staticContext.status === 404 ) {
     ctx.status = 404
   }
 

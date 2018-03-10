@@ -8,8 +8,8 @@ import * as auth from '../../ducks/auth'
 
 class Layout extends Component {
 
+  // always get the session
   static fetchData(store, params, cookies) {
-    console.log( 'layout fetchData' )
     return store.dispatch( auth.get(params, cookies) )
   }
 

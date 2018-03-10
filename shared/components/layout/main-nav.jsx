@@ -6,7 +6,7 @@ const ConnectedNav = props => {
   return (
     <Fragment>
       <li className="main-nav__item">
-        <NavLink to="/">home</NavLink>
+        <NavLink to="/" exact activeClassName="is-active">home</NavLink>
       </li>
       <li className="main-nav__item">
         <NavLink to="/quotations" activeClassName="is-active">quotations</NavLink>
