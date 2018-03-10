@@ -2,23 +2,25 @@ import React        from 'react'
 import { connect }  from 'react-redux'
 import { Link }     from 'react-router-dom'
 
+import FullPage from '../components/layout/full-page.jsx'
+
 // import QuotationList  from './quotation-list.jsx'
 // import InvoiceList    from './invoice-list.jsx'
 
+{/* <Link to="/quotations/new" className="btn-circular">+</Link> */}
+
 const Home = () => (
-  <div>
-    <h1>Home</h1>
+  <FullPage title="Home">
     <section>
-      <h1>quotations
-      <Link to="/quotations/new" className="btn-circular">+</Link>
-      </h1>
+      <h3>quotations
+      </h3>
       {/* <QuotationList /> */}
     </section>
     <section>
-      <h1>invoices</h1>
+      <h3>invoices</h3>
       {/* <InvoiceList /> */}
     </section>
-  </div>
+  </FullPage>
 )
 
 // function mapStateToProp(state) {

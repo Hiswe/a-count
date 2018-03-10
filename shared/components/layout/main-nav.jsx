@@ -19,6 +19,9 @@ const ConnectedNav = props => {
       </li>
       {/* <li><NavLink to="/settings">settings</NavLink></li> */}
       <li className="main-nav__item main-nav__item--separator">
+        connected as<br /> {props.email}
+      </li>
+      <li className="main-nav__item">
         <LogoutButton />
       </li>
     </Fragment>
@@ -43,11 +46,8 @@ const MainNav = props => {
   return (
     <nav className="main-nav">
       <ul className="main-nav__in">
-        <li className="main-nav__item">
-          <h1 className="main-nav__logo">Concompte</h1>
-        </li>
         {
-          isAuthenticated ? <ConnectedNav />
+          isAuthenticated ? <ConnectedNav {...props} />
           : <ConnectionNav />
         }
       </ul>
@@ -58,6 +58,7 @@ const MainNav = props => {
 function mapStateToProps(state, ownProps) {
   return {
     isAuthenticated: state.auth.isAuthenticated,
+    email: state.auth.user.email,
   }
 }
 // withRouter is needed for the nav to catch-up

@@ -73,5 +73,7 @@ $c-black:       hsl(240, 11%, 30%);
 
   // NAV CONFIG
   --c-nav:       var(--c-primary);
-  --s-nav-width: 230px;
+  --s-nav-main-width: 230px;
+  --s-nav-main-item-height: 50px;
+  --s-nav-top-height: 70px;
 }

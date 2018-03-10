@@ -1,6 +1,7 @@
 .main-nav {
   $root: &;
   background: var(--c-nav);
+  grid-area: main-nav;
 
   &__in,
   &__item {
@@ -15,21 +16,23 @@
   }
   &__item {
     text-align: center;
+    height: var(--s-nav-main-item-height);
+    display: flex;
+    justify-content: center;
 
     &--separator {
       margin-top: auto;
     }
-  }
-  &__logo {
-    font-weight: 100;
-    letter-spacing: .05em;
-    text-transform: uppercase;
-    color: white;
+
+    > * {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
   }
   a {
     color: var(--c-primary-lightest);
-    padding: 1em 2em;
-    display: block;
 
     &:hover {
       background: var(--c-primary-darkest);

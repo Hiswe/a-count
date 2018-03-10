@@ -16,39 +16,71 @@ a {
   text-decoration: none;
 }
 
-main > div[class=""],
-main > div:not([class]) {
-  background: white;
-  max-width: var(--s-max-width);
-  padding: var(--s-gutter);
-  margin: var(--s-gutter) auto;
+.main {
+  &--with-card {
+    background: var(--c-primary-darkest);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-area: secondary-nav / secondary-nav / content / content;
+  }
+  &--width-page {
+    padding: var(--s-gutter);
+  }
+}
+
+.page {
+  &__title {
+    margin: 0;
+    padding: 0 var(--s-gutter);
+    background: white;
+    color: var(--c-nav);
+    grid-area: secondary-nav;
+    display: flex;
+    align-items: center;
+  }
+  &__content {
+    background: white;
+    max-width: var(--s-max-width);
+    padding: var(--s-gutter);
+    margin: var(--s-gutter) auto;
+  }
 }
 
 #react-wrapper {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: var(--s-nav-width) 1fr;
-  grid-template-areas: "nav content";
+  grid-template-columns: var(--s-nav-main-width) 1fr;
+  grid-template-rows: var(--s-nav-top-height) 1fr;
+  grid-template-areas:
+    "logo secondary-nav"
+    "main-nav content";
+}
+
+.main-logo {
+  margin: 0;
+  grid-area: logo;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 100;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  background: var(--c-nav);
+  color: white;
 }
 
 .card {
-  min-height: 100%;
-  background: var(--c-primary-darkest);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: var(--c-background);
+  min-width: 500px;
+  border: 0;
+  border-radius: var(--s-border-radius);
+  padding: var(--s-gutter) 0;
 
-  &__in {
-    background: var(--c-background);
-    min-width: 500px;
-    border: 0;
-    border-radius: var(--s-border-radius);
-    padding: var(--s-gutter) 0;
-
-    form {
-      width: 100%;
-    }
+  form {
+    width: 100%;
   }
+
   &__title,
   &__content {
     padding: var(--s-gutter) var(--s-big-gutter);

@@ -22,12 +22,11 @@ class Layout extends Component {
     const { route } = props
     return (
       <div id="react-wrapper">
+        <h1 className="main-logo">Concompte</h1>
         <MainNav />
-        <main role="main">
-          {/* child routes won't render without this */}
-          {/* https://www.npmjs.com/package/react-router-config#renderroutesroutes-extraprops-- */}
-          { renderRoutes(route.routes) }
-        </main>
+        {/* child routes won't render without this */}
+        {/* https://www.npmjs.com/package/react-router-config#renderroutesroutes-extraprops-- */}
+        { renderRoutes(route.routes) }
       </div>
     )
   }
