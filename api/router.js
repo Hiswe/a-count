@@ -21,29 +21,6 @@ const apiRouter = new Router({
 })
 module.exports = apiRouter
 
-//----- ERRORS
-
-apiRouter.use( async function handleError(ctx, next) {
-  try {
-    await next()
-  } catch (err) {
-    ctx.status  = err.statusCode || err.status || 500
-    const { status }  = ctx
-    const { message } = err
-    // only log errors >= 500
-    const s = status / 100 | 0
-    if (s > 4) {
-      console.log( inspect(err.original ? err.original : err, {colors: true, depth: 1}) )
-    }
-    ctx.body = formatResponse({
-      error: true,
-      status,
-      message,
-      stacktrace: err.stacktrace || err.stack || false,
-    }, ctx)
-  }
-})
-
 //----- API INFOS
 
 apiRouter

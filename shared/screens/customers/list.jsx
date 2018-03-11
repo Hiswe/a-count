@@ -24,7 +24,7 @@ class Customers extends Component {
       <FullPage title="Customers" secondary={ ButtonNew }>
         <Link to="/customers/new" className="btn-fab">+</Link>
         <div className="page__content">
-          {this.props.hasCustomers ? <CustomersTable /> : <Empty />}
+          <CustomersTable />
         </div>
       </FullPage>
     )

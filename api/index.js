@@ -1,6 +1,7 @@
 'use strict'
 
 const chalk = require( 'chalk' )
+const { inspect } = require( 'util' )
 const merge = require( 'lodash.merge' )
 const Koa = require( 'koa' )
 const bodyParser = require( 'koa-body' )
@@ -15,6 +16,7 @@ const redis = require( './redis' )
 const config = require( './config' )
 const router = require( './router' )
 const { log } = require( './_helpers' )
+const formatResponse = require( './_format-response' )
 
 //////
 // SERVER CONFIG
@@ -64,6 +66,31 @@ app.use( async (ctx, next) => {
 app.use( cors({
   credentials: true,
 }) )
+
+//----- ERRORS
+
+app.use( async function handleApiError(ctx, next) {
+  try {
+    await next()
+  } catch (err) {
+
+    ctx.status  = err.statusCode || err.status || 500
+    const { status }  = ctx
+    const { message } = err
+    // only log errors >= 500
+    const s = status / 100 | 0
+    if (s > 4) {
+      console.log( inspect(err.original ? err.original : err, {colors: true, depth: 1}) )
+    }
+    ctx.body = formatResponse({
+      error: true,
+      status,
+      message,
+      stacktrace: err.stacktrace || err.stack || false,
+    }, ctx)
+    ctx.app.emit( 'error', err, ctx )
+  }
+})
 
 //----- SESSIONS
 

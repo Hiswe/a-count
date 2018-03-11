@@ -1,0 +1,25 @@
+.notifications {
+  position: fixed;
+  z-index: 100;
+  bottom: var(--s-gutter);
+  right:  var(--s-gutter);
+  width: 350px;
+
+  &__item {
+    padding: var(--s-gutter);
+    margin-top: var(--s-gutter);
+    background: var(--c-primary);
+
+    &--error {
+      background: hsl(0, 98%, 40%);
+      color: white;
+    }
+  }
+
+  &__title {
+    margin: 0;
+  }
+  &__content {
+    padding-top: var(--s-half-gutter);
+  }
+}

@@ -14,8 +14,25 @@ export default function reducer(state = initialState, action) {
   if ( !crio.isCrio(state) ) state = crio( state )
   const { type, payload } = action
   const hasError = /\/error$/.test( type )
-  if ( !payload ) return state
+  if ( !hasError ) return state
+  payload._id = new Date().valueOf()
   state = state.push( payload )
   return state
+}
+
+export const removeOne = params => async dispatch => {
+  return true
+  // const { body } = params
+  // let { id } = body
+  // id = id ? id : `new`
+  // const fetchOptions = {
+  //   url: `${NAME}/${id}`,
+  //   body,
+  // }
+  // const { payload } = await post( fetchOptions, cookie )
+  // dispatch({
+  //   type: SAVE_ONE,
+  //   payload,
+  // })
 }
 

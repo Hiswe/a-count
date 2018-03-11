@@ -46,7 +46,7 @@ sequelize
   .sync( {force: config.db.forceSync} )
   .then( () => { log(chalk.green(`sync is done`)) } )
   .catch( err => {
-    log( chalk.red('sync FAIL') )
+    log( chalk.red(`sync FAIL`) )
     log( inspect(err, {colors: true}) )
   })
 })
@@ -54,8 +54,8 @@ sequelize
   log( chalk.red(`connection FAIL`) )
   log( inspect(err, {colors: true}) )
   dbStatus = err
-  if (err.code !== 'ECONNREFUSED') return console.log(err)
-  log( chalk.yellow('db is not acessible\nlaunch it for god sake') )
+  if (err.code !== `ECONNREFUSED`) return console.log(err)
+  log( chalk.yellow(`db is not accessible\nlaunch it for god sake`) )
 })
 
 module.exports = {

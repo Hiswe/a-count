@@ -38,7 +38,7 @@ router
 .post(`/new`,  async (ctx, next) => {
   const { body }  = ctx.request
   body.userId     = ctx.session.user.id
-  const customer  = Customer.create( body )
+  const customer  = await Customer.create( body )
   ctx.body        = formatResponse( customer )
 })
 
@@ -58,6 +58,8 @@ router
 .post(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
   const { body }  = ctx.request
-  const instance  = await Customer.updateOrCreate( id, body )
-  ctx.body        = formatResponse( instance )
+  const instance  = await Customer.findOne( {where: { id }} )
+  ctx.assert(instance, 404, `Customer not found`)
+  const result    = await instance.update( body )
+  ctx.body        = formatResponse( result )
 })

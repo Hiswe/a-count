@@ -1,6 +1,6 @@
 import crio from 'crio'
 
-import { get, post } from '../iso-fetch'
+import * as isoFetch from '../iso-fetch'
 
 const NAME = `customers`
 export const ERROR    = `@concompte/${NAME}/error`;
@@ -34,7 +34,7 @@ export const getAll = (params, cookie) => async dispatch => {
   const fetchOptions = {
     url: `${NAME}`,
   }
-  const { payload } = await get( fetchOptions, cookie )
+  const { payload } = await isoFetch.get( fetchOptions, cookie )
   const type = payload.error ? ERROR : GET_ALL
   dispatch( {type, payload} )
 }
@@ -45,31 +45,26 @@ export const getOne = (params, cookie) => async dispatch => {
   const fetchOptions = {
     url: `${NAME}/${id}`,
   }
-  try {
-    const { payload } = await get( fetchOptions, cookie )
-    dispatch({
-      type: GET_ONE,
-      payload,
-    })
-  } catch(e) {
-    dispatch({
-      type: ERROR,
-      payload: e,
-    })
-  }
+  const { payload } = await isoFetch.get( fetchOptions, cookie )
+  const type = payload.error ? ERROR : GET_ONE
+  dispatch({
+    type,
+    payload,
+  })
 }
 
-export const saveOne = (params, cookies) => async dispatch => {
+export const saveOne = (params, cookie) => async dispatch => {
   const { body } = params
-  let {id} = body
+  let { id } = body
   id = id ? id : `new`
   const fetchOptions = {
     url: `${NAME}/${id}`,
     body,
   }
-  const { payload } = await post( fetchOptions, cookie )
+  const { payload } = await isoFetch.post( fetchOptions, cookie )
+  const type = payload.error ? ERROR : SAVE_ONE
   dispatch({
-    type: SAVE_ONE,
+    type,
     payload,
   })
 }

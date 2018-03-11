@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 
 import * as user from '../ducks/user'
 import MainNav from '../components/layout/main-nav.jsx'
+import Notifications from '../components/layout/notifications.jsx'
 
 class Layout extends Component {
 
@@ -27,6 +28,7 @@ class Layout extends Component {
         {/* child routes won't render without this */}
         {/* https://www.npmjs.com/package/react-router-config#renderroutesroutes-extraprops-- */}
         { renderRoutes(route.routes) }
+        <Notifications />
       </div>
     )
   }

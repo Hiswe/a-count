@@ -43,8 +43,8 @@ class CustomerForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    const result = serialize( event.target, { hash: true, empty: true } )
-    this.props.saveOne( result )
+    const body = serialize( event.target, { hash: true, empty: true } )
+    this.props.saveOne( {body} )
   }
 
   handleChange(event) {
