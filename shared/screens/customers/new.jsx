@@ -17,7 +17,9 @@ class NewCustomer extends Component {
     const { props } = this
     return (
       <FullPage title="New Customer" secondary={ButtonList} >
-        <CustomerForm {...props} />
+        <div className="page__content">
+          <CustomerForm {...props} />
+        </div>
       </FullPage>
     )
   }

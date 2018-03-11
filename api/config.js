@@ -29,4 +29,8 @@ config.NODE_ENV   = config.NODE_ENV || process.env.NODE_ENV || `development`
 config.isDev      = config.NODE_ENV === `development`
 config.isProd     = config.NODE_ENV === `production`
 
+// Don't want that to happen in production
+// • It can ruin the database!
+if ( config.isProd ) config.db.forceSync = false
+
 module.exports = config

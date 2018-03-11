@@ -21,7 +21,7 @@ const setNormalizedDate = key => function( val ) {
   // if this is the case, just take care of the last value
   if ( Array.isArray(val) ) val = val.pop()
   // when sending `true` just put the current date
-  // update is done ONLY if no current date is already setted
+  // update is done ONLY if no current date is already set
   const isTrue = val === `true`
   if (isTrue && !date) return this.setDataValue( key, new Date() )
   // TBD should be able to set a date

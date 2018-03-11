@@ -24,7 +24,9 @@ class EditCustomer extends Component {
     const { props } = this
     return (
       <FullPage title="Edit Customer" secondary={SecondaryActions}>
-        <CustomerForm {...props} />
+        <div className="page__content">
+          <CustomerForm {...props} />
+        </div>
       </FullPage>
     )
   }

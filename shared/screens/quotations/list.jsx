@@ -25,7 +25,9 @@ class Quotations extends Component {
     return (
       <FullPage title="Quotations" secondary={ButtonNew}>
         <Link to="/quotations/new" className="btn-fab">+</Link>
-        <QuotationsList {...props} />
+        <div className="page__content">
+          <QuotationsList {...props} />
+        </div>
       </FullPage>
     )
   }

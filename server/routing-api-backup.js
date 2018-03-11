@@ -54,10 +54,9 @@ const proxyRequest = async (ctx, next) => {
   next()
 }
 
-//----- SESSIONS
+//----- USER
 
 router.get( `/logout`, proxyRequest, async (ctx, next) => {
-  console.log( `LOGOUT` )
   const { payload } = ctx.state
   ctx.redirect( `/login` )
 })
@@ -68,6 +67,10 @@ router.post( `/register`, proxyRequest, async (ctx, next) => {
 router.post( `/login`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
   ctx.redirect( `/` )
+})
+router.post( `/users/:id`, proxyRequest, async (ctx, next) => {
+  const { payload } = ctx.state
+  ctx.redirect( `/profile` )
 })
 
 //----- QUOTATIONS

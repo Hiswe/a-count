@@ -3,14 +3,14 @@ import { renderRoutes } from 'react-router-config'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import * as auth from '../ducks/auth'
+import * as user from '../ducks/user'
 import MainNav from '../components/layout/main-nav.jsx'
 
 class Layout extends Component {
 
   // always get the session
   static fetchData(store, params, cookies) {
-    return store.dispatch( auth.get(params, cookies) )
+    return store.dispatch( user.get(params, cookies) )
   }
 
   componentDidMount() {
@@ -40,7 +40,7 @@ const mapStateToProp = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    getAuth: auth.get,
+    getAuth: user.get,
   }, dispatch)
 }
 

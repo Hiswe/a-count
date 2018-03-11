@@ -114,3 +114,12 @@ fieldset:not([class]) {
     color: rgba(black, .5);
   }
 }
+
+.form {
+
+  &--profile {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: var(--s-gutter);
+  }
+}

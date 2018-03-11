@@ -1,47 +1,93 @@
 import crio from 'crio'
 
-import { get, post } from '../iso-fetch'
+import * as isoFetch from '../iso-fetch'
 
-const NAME = `users`
-export const ERROR  = `@concompte/${NAME}/error`;
-export const GET_ONE  = `@concompte/${NAME}/loaded-one`;
-export const SAVE_ONE = `@concompte/${NAME}/saved-one`;
+const NAME = `user`
 
-const initialState = {}
+const initialState = {
+  isAuthenticated:  false,
+  current: {},
+}
 
+export const ERROR  = `@concompte/${NAME}/error`
+export const GET  = `@concompte/${NAME}/get`
+export const LOGIN  = `@concompte/${NAME}/login`
+export const LOGOUT  = `@concompte/${NAME}/logout`
+export const REGISTER  = `@concompte/${NAME}/register`
+
+// determine current connection status
+// • listen to every action
+// • catch only the one containing /error
+// • in case of 401, we assume the user isn't authenticated
 export default function reducer(state = initialState, action) {
-  if (!crio.isCrio(state)) state = crio( state )
-  switch (action.type) {
-    // case GET_ALL:
-    //   return state.set( `list`, action.payload)
+  if ( !crio.isCrio(state) ) state = crio( state )
+  const { type, payload } = action
+  // payload is tested mostly because @@INIT doesn't come with one
+  if ( !payload ) return state
+  const isUnauthorized = payload.status === 401
+  state = state.set( `isAuthenticated`, !isUnauthorized )
 
-    // case GET_ONE:
-    //   return state.set( `current`, action.payload)
+  switch (type) {
+    case GET:
+      if ( isUnauthorized ) return state.set( `current`, {} )
+      return state.set( `current`, payload )
 
-    // case SAVE_ONE:
-    //   return state.set( `current`, action.payload)
+    case ERROR: {
+      state = state.set( `current`, {} )
+      return state.set( `isAuthenticated`, false )
+    }
+
+    case LOGIN:
+      return state.set( `current`, payload )
+
+    case LOGOUT:
+      state = state.set( `current`, {} )
+      return state.set( `isAuthenticated`, false )
+
+    case REGISTER:
+      return state.set( `current`, payload )
 
     default:
       return state
   }
 }
 
-export const getOne = (params, cookie) => async dispatch => {
-  let { id } = params
-  id = id ? id : `new`
+export const get = (params, cookie) => async dispatch => {
   const fetchOptions = {
-    url: `${NAME}/${id}`,
+    url: `/auth`,
   }
-  try {
-    const { payload } = await get( fetchOptions, cookie )
-    dispatch({
-      type: GET_ONE,
-      payload,
-    })
-  } catch(e) {
-    dispatch({
-      type: ERROR,
-      payload: e,
-    })
+  const { payload } = await isoFetch.get( fetchOptions, cookie )
+  const type = GET
+  dispatch( {type, payload} )
+}
+
+export const login = ( params, cookie) => async dispatch => {
+  const { body } = params
+  const fetchOptions = {
+    url: `/login`,
+    body,
   }
+  const { payload } = await isoFetch.post( fetchOptions, cookie )
+  const type = payload.error ? ERROR : LOGIN
+  dispatch( {type, payload} )
+}
+
+export const logout = (params, cookie) => async dispatch => {
+  const fetchOptions = {
+    url: `/logout`,
+  }
+  const { payload } = await isoFetch.get( fetchOptions, cookie )
+  const type = payload.error ? ERROR : LOGOUT
+  dispatch( {type, payload} )
+}
+
+export const register = ( params, cookie) => async dispatch => {
+  const { body } = params
+  const fetchOptions = {
+    url: `/register`,
+    body,
+  }
+  const { payload } = await isoFetch.post( fetchOptions, cookie )
+  const type = payload.error ? ERROR : REGISTER
+  dispatch( {type, payload} )
 }

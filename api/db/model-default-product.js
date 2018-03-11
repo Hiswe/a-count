@@ -11,6 +11,11 @@ const DefaultProduct = sequelize.define( `defaultProduct`, {
     defaultValue: Sequelize.UUIDV4,
     primaryKey:   true,
   },
+  name: {
+    type:         Sequelize.TEXT,
+    defaultValue: '',
+    allowNull:    false,
+  },
   quantity: {
     type:         Sequelize.FLOAT,
     defaultValue: 0,
@@ -20,18 +25,6 @@ const DefaultProduct = sequelize.define( `defaultProduct`, {
     type:         Sequelize.FLOAT,
     defaultValue: 350,
     allowNull:    false,
-  },
-  tax: {
-    type:         Sequelize.FLOAT,
-    defaultValue: 0,
-    allowNull:    false,
-  },
-  currency: {
-    type:         Sequelize.CHAR(2),
-    defaultValue: `$`,
-    validate: {
-      isIn: [[`$`, `€`]],
-    },
   },
 }, { timestamps: false })
 

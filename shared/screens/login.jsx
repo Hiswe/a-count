@@ -3,7 +3,7 @@ import serialize from 'form-serialize'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import * as auth from '../ducks/auth'
+import * as user from '../ducks/user'
 import LayoutOnboard from '../components/ui/layout-onboard.jsx'
 import { InputWrapper } from '../components/form.jsx'
 
@@ -40,7 +40,7 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({
-    login: auth.login,
+    login: user.login,
   }, dispatch)
 }
 

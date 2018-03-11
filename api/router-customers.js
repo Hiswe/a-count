@@ -3,7 +3,7 @@
 const Router = require( 'koa-router' )
 
 const { sequelize } = require( './db' )
-const { formatResponse } = require( './_helpers' )
+const formatResponse = require( './_format-response' )
 const Customer = require( './db/model-customer' )
 const Quotation = require( './db/model-quotation' )
 

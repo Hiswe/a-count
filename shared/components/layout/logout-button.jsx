@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import * as auth from '../../ducks/auth'
+import * as user from '../../ducks/user'
 
 class LogoutButton extends Component {
 
@@ -20,13 +20,13 @@ class LogoutButton extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    isAuthenticated: state.auth.isAuthenticated,
+    isAuthenticated: state.user.isAuthenticated,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({
-    logout: auth.logout,
+    logout: user.logout,
   }, dispatch)
 }
 

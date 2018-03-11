@@ -59,8 +59,8 @@ const MainNav = props => {
 
 function mapStateToProps(state, ownProps) {
   return {
-    isAuthenticated: state.auth.isAuthenticated,
-    email: state.auth.user.email,
+    isAuthenticated: state.user.isAuthenticated,
+    email: state.user.current.email,
   }
 }
 

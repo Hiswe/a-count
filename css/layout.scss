@@ -92,3 +92,17 @@ a {
     text-transform: uppercase;
   }
 }
+
+.card {
+  background: white;
+  padding: var(--s-gutter);
+  border: 0;
+
+  &__title {
+    margin: 0;
+    padding: 0;
+  }
+  &__content {
+    padding-top: var(--s-gutter);
+  }
+}

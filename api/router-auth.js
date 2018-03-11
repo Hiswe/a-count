@@ -3,8 +3,9 @@
 const merge = require( 'lodash.merge' )
 const Router = require( 'koa-router' )
 
-const { formatResponse } = require( './_helpers' )
-const { normalizeString } = require( './db/_helpers' )
+const formatResponse = require( './_format-response' )
+const dbHelpers = require( './db/_helpers' )
+const helpers = require( './_helpers' )
 const User = require( './db/model-user' )
 const DefaultQuotation = require( './db/model-default-quotation' )
 const DefaultInvoice = require( './db/model-default-invoice' )
@@ -29,12 +30,6 @@ const getUserParams = {
   }]
 }
 
-const removePassword = user => {
-  user = typeof user.toJSON === `function` ? user.toJSON() : user
-  delete user.password
-  return user
-}
-
 router
 .get( `/auth`, async (ctx, next) => {
   ctx.assert( ctx.session && ctx.session.user, 401, `Not connected` )
@@ -54,26 +49,24 @@ router
       DefaultProduct,
     ]
   })
-  const user = await User.findOne( merge(
-    getUserParams,
-    { where: { id: newUser.id } }
-  ))
-  const userWithoutPassword = removePassword( user )
+  const params = helpers.getDefaultUserParams( { where: {id: newUser.id} } )
+  const user = await User.findOne( params )
+  const userWithoutPassword = helpers.removePassword( user )
   ctx.session.user = userWithoutPassword
   ctx.body = formatResponse( userWithoutPassword, ctx )
 })
 .post( `/login`, async (ctx, next) => {
   const { body }  = ctx.request
-  const user      = await User.findOne( merge(
-    getUserParams,
-    { where: { email: normalizeString( body.email ) } }
-  ))
+  const params = helpers.getDefaultUserParams( {
+    where: { email: dbHelpers.normalizeString( body.email ) }
+  } )
+  const user      = await User.findOne( params)
   ctx.assert( user, 404, `User not found` )
 
   const isPasswordValid = await user.comparePassword( body.password )
   ctx.assert( user, 401, `Invalid password` )
 
-  const userWithoutPassword = removePassword( user )
+  const userWithoutPassword = helpers.removePassword( user )
   ctx.session.user = userWithoutPassword
   ctx.body = formatResponse( userWithoutPassword )
 })

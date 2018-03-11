@@ -28,7 +28,7 @@ export function authenticationRequired( Component ) {
   }
 
   const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated,
+    isAuthenticated: state.user.isAuthenticated,
   })
 
   return connect( mapStateToProps )( AuthenticatedComponent )

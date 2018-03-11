@@ -6,7 +6,7 @@ export const REMOVE  = `@concompte/${NAME}/remove`
 
 const initialState = []
 
-// Like in “auth” duck
+// Like in “user” duck
 // • listen to every action
 // • catch only the one containing /error
 // • TODO: render this list
