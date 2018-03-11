@@ -17,7 +17,6 @@ const Customer = sequelize.define( `customer`, {
     validate: {
       notEmpty: true,
     },
-    unique:       true,
     set:          h.setNormalizedString(`name`),
   },
   address: {
