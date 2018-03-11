@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import * as customers from '../../ducks/customers'
 import { Empty } from '../../components/_utils.jsx'
-import CustomersTable from '../../components/customers-list.jsx'
+import CustomersTable from '../../components/customers/list.jsx'
 import FullPage from '../../components/layout/full-page.jsx'
 
 class Customers extends Component {

@@ -4,17 +4,12 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import serialize from 'form-serialize'
 
-import * as customers from '../ducks/customers'
-import { needRedirect } from './_helpers.js'
-
-import { Floating } from './form.jsx'
-import { RenderError } from './_utils.jsx'
+import * as customers from '../../ducks/customers'
+import { needRedirect } from '../_helpers.js'
+import { Floating } from '../form.jsx'
+import { RenderError } from '../_utils.jsx'
 
 class CustomerForm extends Component {
-
-  static fetchData(store, params, cookies) {
-    return store.dispatch( customers.getOne( params, cookies ) )
-  }
 
   constructor(props) {
     super(props)
@@ -70,20 +65,17 @@ class CustomerForm extends Component {
     if ( current.error ) return ( <RenderError {...current} /> )
 
     return (
-      <section>
-        <form method="post" onSubmit={this.handleSubmit}>
-          <h1>Customer</h1>
-          {props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" />  }
-          <fieldset>
-            <Floating key="name" name="name" value={formData.name} onChange={this.handleChange}/>
-            <Floating key="address" name="address" type="textarea" value={formData.address} onChange={this.handleChange} />
-          </fieldset>
-          <div className="actions">
-            <button className="btn" type="submit">{props.submitMsg}</button>
-            {props.isNew ? null : <Link to="/customers/new" className="btn-secondary">New Customer</Link>}
-          </div>
-        </form>
-      </section>
+      <form method="post" onSubmit={this.handleSubmit}>
+        {props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" />  }
+        <fieldset>
+          <Floating key="name" name="name" value={formData.name} onChange={this.handleChange}/>
+          <Floating key="address" name="address" type="textarea" value={formData.address} onChange={this.handleChange} />
+        </fieldset>
+        <div className="actions">
+          <button className="btn" type="submit">{props.submitMsg}</button>
+          {props.isNew ? null : <Link to="/customers/new" className="btn-secondary">New Customer</Link>}
+        </div>
+      </form>
     )
   }
 }

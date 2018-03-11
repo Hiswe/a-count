@@ -15,7 +15,9 @@ const router = new Router({prefix: `/${prefix}`})
 module.exports = router
 
 router
+
 //----- EDIT
+
 .get(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
   const instance  = await User.findById( id, {

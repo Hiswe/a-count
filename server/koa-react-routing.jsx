@@ -1,3 +1,4 @@
+import chalk from 'chalk'
 import Router from 'koa-router'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
@@ -13,7 +14,21 @@ import reducer from '../shared/ducks/combined-reducers.js'
 
 const router = new Router()
 
-const store = createStore(reducer, {}, applyMiddleware(thunk))
+const reduxActionLogger = ({ getState }) => {
+  return next => action => {
+    console.log( `dispatch →`, action.type )
+    // Call the next dispatch method in the middleware chain.
+    const returnValue = next(action)
+    const hasError = returnValue.payload.error
+    const color = hasError ? chalk.red : chalk.green
+    console.log( `dispatch ←`, color(action.type) )
+    // This will likely be the action itself, unless
+    // a middleware further in chain changed it.
+    return returnValue
+  }
+}
+
+const store = createStore(reducer, {}, applyMiddleware(thunk, reduxActionLogger))
 
 router.get( '*', async (ctx, next) => {
   const { url, header }     = ctx
@@ -30,7 +45,7 @@ router.get( '*', async (ctx, next) => {
 
   // staticContext is mutable & provided only on server-side rendering
   // • Because it's mutable, it will change during the React's server rendering process
-  // • So that's a good way to pass router's data here to the server
+  // • So that's a good way to pass data from react-router-config to the server
   const staticContext = {}
   const content = renderToString(
     <Provider store={store}>

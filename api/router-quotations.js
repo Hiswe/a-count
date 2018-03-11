@@ -16,6 +16,7 @@ module.exports = router
 //////
 // UTILITIES
 //////
+
 const getQuotationById = (id) => {
   return Quotation.findOne( {
     where: { id,},
@@ -32,7 +33,7 @@ const getQuotationById = (id) => {
 
 router
 .get(`/`, async (ctx, next) => {
-  const all = await Quotation.findAll({
+  const list = await Quotation.findAll({
     where: {
       userId: ctx.session.user.id,
     },
@@ -43,10 +44,13 @@ router
       model: User,
     }],
   })
-  ctx.body = formatResponse( all )
+  // put response in a list key
+  // • we will add pagination information later
+  ctx.body = formatResponse( {list} )
 })
 
 //----- NEW
+
 .get(`/new`, async (ctx, next) => {
   const modelTemplate = new Quotation().toJSON()
   delete modelTemplate.id
@@ -65,6 +69,7 @@ router
 })
 
 //----- EDIT
+
 .get(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
   const instance  = await getQuotationById( id )

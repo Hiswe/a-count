@@ -22,11 +22,14 @@ router
   //     ) AS "quotationsCount"
   //   FROM customers AS customer
   // `, { model: Quotation })
-  const all = await Customer.findAll()
-  ctx.body = formatResponse( all )
+  const list = await Customer.findAll()
+  // put response in a list key
+  // • we will add pagination information later
+  ctx.body = formatResponse( {list} )
 })
 
 //----- NEW
+
 .get(`/new`, async (ctx, next) => {
   const modelTemplate = new Customer().toJSON()
   delete modelTemplate.id
@@ -34,11 +37,13 @@ router
 })
 .post(`/new`,  async (ctx, next) => {
   const { body }  = ctx.request
-  const instance  = await Customer.updateOrCreate( false, body )
-  ctx.body        = formatResponse( instance )
+  body.userId     = ctx.session.user.id
+  const customer  = Customer.create( body )
+  ctx.body        = formatResponse( customer )
 })
 
 //----- EDIT
+
 .get(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
   const instance  = await Customer.findOne({

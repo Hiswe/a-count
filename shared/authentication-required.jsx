@@ -21,6 +21,12 @@ export function authenticationRequired( Component ) {
     return <Redirect to={ PUBLIC_ROOT } />
   }
 
+  // Hoist “Component.fetchData”
+  // • needed by the the server to fetch the right data
+  if ( Component.fetchData ) {
+    AuthenticatedComponent.fetchData = Component.fetchData
+  }
+
   const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
   })

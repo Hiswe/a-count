@@ -1,27 +1,27 @@
-table {
-  border: 0;
-  width: 100%;
-  text-align: left;
-  border-radius: var(--s-quarter-gutter);
-  table-layout: fixed;
-}
-
 tr {
   vertical-align: top;
 }
 
-.table-pres {
+.table {
+  border: 1px solid var(--c-primary-lighter);
+  margin-bottom: var(--s-half-gutter);
   background: white;
-  border-radius: var(--s-quarter-gutter);
+  border-radius: var(--s-border-radius);
+  width: 100%;
+
+  thead {
+    border-bottom: 1px solid var(--c-primary-lighter);
+  }
 
   a {
-    color: var(--c-primary);
+    color: var(--c-accent);
     &:hover {
       color: black;
     }
   }
 
   th {
+    font: inherit;
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -32,54 +32,11 @@ tr {
     color: white;
 
     &:first-child {
-      border-top-left-radius: var(--s-quarter-gutter);
+      border-top-left-radius: var(--s-border-radius);
     }
     &:last-child {
-      border-top-right-radius: var(--s-quarter-gutter);
+      border-top-right-radius: var(--s-border-radius);
     }
-  }
-
-  tbody tr:nth-child(even) {
-    background: #EEE;
-  }
-
-  td {
-    padding: .5em 1em;
-
-    p {
-      margin: 0;
-    }
-  }
-}
-
-.table-form {
-  border: 1px solid var(--c-primary-lighter);
-  margin-bottom: var(--s-half-gutter);
-
-  thead {
-    border-bottom: 1px solid var(--c-primary-lighter);
-  }
-
-  th:nth-child(1) {
-
-  }
-  th:nth-child(2),
-  th:nth-child(3),
-  th:nth-child(4),
-  th:nth-child(5) {
-    width: 7em;
-  }
-  th:nth-child(6) {
-    width: 3em;
-  }
-
-  th {
-    background-color:  var(--c-primary-lightest);
-    color: var(--c-primary);
-    font: inherit;
-    font-weight: normal;
-    padding: 0.5em 0.75em;
-    border-bottom: 1px solid var(--c-primary-lighter);
 
     + th {
       border-left: 1px solid var(--c-primary-lighter);
@@ -118,5 +75,14 @@ tr {
     background-color: var(--c-primary-lightest);
     text-align: right;
     font-weight: bold;
+  }
+
+  &--pres {
+    td {
+      padding: var(--s-quarter-gutter) var(--s-half-gutter);
+    }
+    tbody tr:nth-child(even) {
+      background: #EEE;
+    }
   }
 }

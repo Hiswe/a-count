@@ -22,6 +22,14 @@ export function authenticationForbidden( Component ) {
     return <Redirect to={ PRIVATE_ROOT } />
   }
 
+  // Hoist “Component.fetchData”
+  // • needed by the the server to fetch the right data
+  // • in public routes, this is unlikely to happen though…
+  // • but keep it to be ISO with authentication-required
+  if ( Component.fetchData ) {
+    AuthenticatedComponent.fetchData = Component.fetchData
+  }
+
   const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
   })

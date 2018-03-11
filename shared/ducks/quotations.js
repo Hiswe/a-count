@@ -18,7 +18,7 @@ export default function reducer(state = initialState, action) {
   if ( !crio.isCrio(state) ) state = crio( state )
   switch (action.type) {
     case GET_ALL:
-      return state.set( `list`, action.payload )
+      return state.set( `list`, action.payload.list )
 
     case GET_ONE:
       return state.set( `current`, action.payload )

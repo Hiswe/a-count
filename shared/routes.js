@@ -8,7 +8,8 @@ import Home from './screens/home.jsx'
 import QuotationsList from './screens/quotations/list.jsx'
 import QuotationsForm from './components/quotations-form.jsx'
 import CustomersList from './screens/customers/list.jsx'
-import CustomersForm from './components/customers-form.jsx'
+import CustomerNew from './screens/customers/new.jsx'
+import CustomerEdit from './screens/customers/edit.jsx'
 import NotFound from './screens/not-found.jsx'
 
 const routes = [{
@@ -44,11 +45,11 @@ const routes = [{
   }, {
     path: `/customers/new`,
     exact: true,
-    component: authenticationRequired( CustomersForm ),
+    component: authenticationRequired( CustomerNew ),
   }, {
   path: `/customers/:id`,
     exact: true,
-    component: authenticationRequired( CustomersForm ),
+    component: authenticationRequired( CustomerEdit ),
   }, {
     path: `*`,
     component: NotFound,

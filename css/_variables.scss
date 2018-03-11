@@ -12,8 +12,6 @@ $font-default: -apple-system, BlinkMacSystemFont, "Segoe UI",
 ///////
 
 $gutter: 30px;
-$half-gutter: ($gutter / 2);
-$quarter-gutter: ($gutter / 4);
 
 $max-width: 1100px;
 
@@ -61,19 +59,20 @@ $c-black:       hsl(240, 11%, 30%);
   --c-background:       HSL(var(--c-primary-h), var(--c-primary-s), 95%);
   --c-black:            $c-black;
 
-  --c-table-header:     var(--c-header);
-
   --s-gutter:         $gutter;
   --s-big-gutter:     calc( var(--s-gutter) * 2 );
-  --s-half-gutter:    $half-gutter;
-  --s-quarter-gutter: $quarter-gutter;
+  --s-half-gutter:    calc( var(--s-gutter) / 2 );
+  --s-quarter-gutter: calc( var(--s-gutter) / 4 );
 
   --s-max-width:    $max-width;
-  --s-border-radius: var(--s-quarter-gutter);
+  --s-border-radius: 0px;
 
   // NAV CONFIG
   --c-nav:       var(--c-primary);
   --s-nav-main-width: 230px;
   --s-nav-main-item-height: 50px;
   --s-nav-top-height: 70px;
+
+  // TABLE CONFIG
+  --c-table-header: var(--c-primary);
 }
