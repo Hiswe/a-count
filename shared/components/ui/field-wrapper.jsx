@@ -4,8 +4,8 @@ import React from 'react'
 
 const FieldWrapper = props => {
   return (
-    <div className="input">
-      <label className="input__label" htmlFor={props.id}>{props.label}</label>
+    <div className="field">
+      <label className="field__label" htmlFor={props.id}>{props.label}</label>
       { props.children }
     </div>
   )

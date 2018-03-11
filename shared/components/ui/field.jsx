@@ -21,16 +21,16 @@ const Field = props => {
   let input = null
   if (type === 'select') {
     input = (
-      <select className="input__field" name={name} id={id} onChange={props.onChange} value={value}>
+      <select className="field__control" name={name} id={id} onChange={props.onChange} value={value}>
         { Array.isArray(props.entries) && props.entries.map( (c, i) => (
           <option key={c.id} value={c.id}>{c.name}</option>
         )) }
       </select>
     )
   } else if (type === 'textarea') {
-    input = (<textarea className="input__field" name={name} id={id} value={value} {...additionalFields} />)
+    input = (<textarea className="field__control" name={name} id={id} onChange={props.onChange} value={value} {...additionalFields} />)
   } else {
-    input = (<input className="input__field" name={name} id={id} value={value} onChange={props.onChange} {...additionalFields} />)
+    input = (<input className="field__control" name={name} id={id} value={value} onChange={props.onChange} {...additionalFields} />)
   }
   return (
     <FieldWrapper id={id} label={label}>

@@ -32,12 +32,12 @@ const DefaultQuotation = sequelize.define( `defaultQuotation`, {
   },
   prefix: {
     type:         Sequelize.STRING,
-    defaultValue: `FA`,
+    defaultValue: `QO`,
     set:          dbHelpers.setNormalizedString(`prefix`),
   },
   startAt: {
     type:         Sequelize.INTEGER,
-    defaultValue: 800,
+    defaultValue: 400,
     allowNull:    false,
   },
   count: {

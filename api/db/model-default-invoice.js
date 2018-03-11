@@ -13,7 +13,7 @@ const DefaultInvoice = sequelize.define( `defaultInvoice`, {
   },
   prefix: {
     type:         Sequelize.STRING,
-    defaultValue: `FA`,
+    defaultValue: `IN`,
     set:          h.setNormalizedString(`prefix`),
   },
   startAt: {

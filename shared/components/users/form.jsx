@@ -8,6 +8,7 @@ import * as customers from '../../ducks/customers'
 import { needRedirect } from '../_helpers.js'
 import { Floating } from '../form.jsx'
 import Field from '../ui/field.jsx'
+import ProductTable from '../products/table.jsx'
 // import { RenderError } from '../_utils.jsx'
 
 class UserForm extends Component {
@@ -62,6 +63,7 @@ class UserForm extends Component {
     const { props, state } = this
     const { current } = props
     const { formData } = state
+    const { defaultProduct, defaultQuotation, defaultInvoice } = formData
 
     // if ( current.error ) return ( <RenderError {...current} /> )
 
@@ -72,7 +74,7 @@ class UserForm extends Component {
         onSubmit={this.handleSubmit}
         className="form form--profile"
       >
-        <input type="hidden" name="id" value={formData.id} />
+        <input type="hidden" name="id" defaultValue={formData.id} />
         <fieldset className="card" style={{gridColumn: `1 / span 2`}}>
           <h3 className="card__title">General Information</h3>
           <div className="card__content">
@@ -81,12 +83,89 @@ class UserForm extends Component {
         </fieldset>
         <fieldset className="card" style={{gridColumn: `1 / span 2`}}>
           <h3 className="card__title">Default Product</h3>
+          <div className="card__content">
+            <input type="hidden" name="defaultProduct[id]" defaultValue={defaultProduct.id} />
+            <ProductTable>
+              <tr>
+                <td>
+                  <textarea name={`defaultProduct[description]`} value={defaultProduct.description} onChange={ e => this.handleChange(e) } />
+                </td>
+                <td>
+                  <input type="number" min="0" step="0.25" name={`defaultProduct[quantity]`} value={defaultProduct.quantity} onChange={ e => this.handleChange(e) } />
+                </td>
+                <td>
+                  <input type="number" min="0" step="10" name={`defaultProduct[price]`} value={defaultProduct.price} onChange={ e => this.handleChange(e) } />
+                </td>
+                <td className="total">
+                  {/* <Amount value={total} /> */}
+                </td>
+                <td>
+                </td>
+              </tr>
+            </ProductTable>
+          </div>
         </fieldset>
         <fieldset className="card">
           <h3 className="card__title">Default Quotation</h3>
+          <div className="card__content">
+            <input type="hidden" name="defaultQuotation[id]" defaultValue={defaultQuotation.id} />
+            <Field
+              key="defaultQuotation[prefix]"
+              name="defaultQuotation[prefix]"
+              label="prefix"
+              value={ defaultQuotation.prefix }
+              onChange={ e => this.handleChange(e) }
+            />
+            <Field
+              key="defaultQuotation[startAt]"
+              name="defaultQuotation[startAt]"
+              label="start at"
+              value={ defaultQuotation.startAt }
+              onChange={ e => this.handleChange(e) }
+              type="number"
+              min="0"
+              step="1"
+            />
+            <Field
+              key="defaultQuotation[mentions]"
+              name="defaultQuotation[mentions]"
+              label="mentions"
+              value={ defaultQuotation.mentions }
+              onChange={ e => this.handleChange(e) }
+              type="textarea"
+            />
+          </div>
         </fieldset>
         <fieldset className="card">
           <h3 className="card__title">Default Invoice</h3>
+          <div className="card__content">
+            <input type="hidden" name="defaultInvoice[id]" defaultValue={defaultInvoice.id} />
+            <Field
+              key="defaultInvoice[prefix]"
+              name="defaultInvoice[prefix]"
+              label="prefix"
+              value={ defaultInvoice.prefix }
+              onChange={ e => this.handleChange(e) }
+            />
+            <Field
+              key="defaultInvoice[startAt]"
+              name="defaultInvoice[startAt]"
+              label="start at"
+              value={ defaultInvoice.startAt }
+              onChange={ e => this.handleChange(e) }
+              type="number"
+              min="0"
+              step="1"
+            />
+            <Field
+              key="defaultInvoice[mentions]"
+              name="defaultInvoice[mentions]"
+              label="mentions"
+              value={ defaultInvoice.mentions }
+              onChange={ e => this.handleChange(e) }
+              type="textarea"
+            />
+          </div>
         </fieldset>
         <div className="actions" style={{gridColumn: `1 / span 2`}}>
           <button className="btn" type="submit">save update</button>

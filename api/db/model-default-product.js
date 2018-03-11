@@ -11,7 +11,7 @@ const DefaultProduct = sequelize.define( `defaultProduct`, {
     defaultValue: Sequelize.UUIDV4,
     primaryKey:   true,
   },
-  name: {
+  description: {
     type:         Sequelize.TEXT,
     defaultValue: '',
     allowNull:    false,

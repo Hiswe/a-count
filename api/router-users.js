@@ -32,11 +32,19 @@ router
 .post(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
   const { body }  = ctx.request
-  const instance  = await User.findById( id )
+  const instance  = await User.findOneWithRelations({
+    where: {id}
+  })
 
   ctx.assert(instance, 404, `Can't find User. The associated user isn't found`)
 
   const updated   = await instance.update( body )
+
+  const relations = [`defaultQuotation`, `defaultInvoice`, `defaultProduct`]
+  await Promise.all( relations.map( relationName => {
+    return instance[ relationName ].update( body[ relationName ] )
+  }))
+
   const user      = await User.findOneWithRelations({
     where: {id: updated.id}
   })
