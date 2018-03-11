@@ -42,33 +42,32 @@ router
     defaultInvoice: {},
     defaultProduct: {},
   })
-  const newUser = await User.create( data, {
+  const user = await User.create( data, {
     include: [
       DefaultQuotation,
       DefaultInvoice,
       DefaultProduct,
     ]
   })
-  const params = helpers.getDefaultUserParams( { where: {id: newUser.id} } )
-  const user = await User.findOne( params )
-  const userWithoutPassword = helpers.removePassword( user )
-  ctx.session.user = userWithoutPassword
-  ctx.body = formatResponse( userWithoutPassword, ctx )
+  const result      = formatResponse( user )
+  ctx.session.user  = result
+  ctx.body          = result
 })
 .post( `/login`, async (ctx, next) => {
   const { body }  = ctx.request
-  const params = helpers.getDefaultUserParams( {
-    where: { email: dbHelpers.normalizeString( body.email ) }
-  } )
-  const user      = await User.findOne( params)
+  const user      = await User.findOneWithRelations({
+    where: {
+      email: dbHelpers.normalizeString( body.email )
+    },
+  })
   ctx.assert( user, 404, `User not found` )
 
   const isPasswordValid = await user.comparePassword( body.password )
   ctx.assert( user, 401, `Invalid password` )
 
-  const userWithoutPassword = helpers.removePassword( user )
-  ctx.session.user = userWithoutPassword
-  ctx.body = formatResponse( userWithoutPassword )
+  const result      = formatResponse( user )
+  ctx.session.user  = result
+  ctx.body          = result
 })
 .get( `/logout`, async (ctx, next) => {
   ctx.session = null

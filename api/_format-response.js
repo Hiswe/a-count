@@ -7,6 +7,8 @@ const formatResponse = ( payload = {} ) => {
   // • avoid circular references when merged
   if ( typeof payload.toJSON === `function` ) payload = payload.toJSON()
   const defaultResponse = {}
+  // • avoid leaking password
+  delete payload.password
   return merge(payload, defaultResponse)
 }
 

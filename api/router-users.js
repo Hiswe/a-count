@@ -14,21 +14,6 @@ const prefix = `users`
 const router = new Router({prefix: `/${prefix}`})
 module.exports = router
 
-const getUserParams = {
-  where: {
-    isDeactivated:  { $not: true },
-  },
-  attributes: {
-    exclude: [`token`, `tokenExpire`, `createdAt`, `updatedAt`],
-  },
-  include: [{
-    model: DefaultQuotation,
-  }, {
-    model: DefaultInvoice,
-  }, {
-    model: DefaultProduct,
-  }]
-}
 
 router
 
@@ -52,11 +37,11 @@ router
   ctx.assert(instance, 404, `Can't find User. The associated user isn't found`)
 
   const updated   = await instance.update( body )
+  const user      = await User.findOneWithRelations({
+    where: {id: updated.id}
+  })
 
-  const params = helpers.getDefaultUserParams( { where: {id: updated.id} } )
-  const user = await User.findOne( params )
-
-  const userWithoutPassword = helpers.removePassword( user )
-  ctx.session.user = userWithoutPassword
-  ctx.body        = formatResponse( userWithoutPassword )
+  const result      = formatResponse( user )
+  ctx.session.user  = result
+  ctx.body          = result
 })

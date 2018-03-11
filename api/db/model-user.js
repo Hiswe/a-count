@@ -3,8 +3,12 @@
 const Sequelize = require( 'sequelize' )
 const bcrypt = require( 'bcryptjs' )
 const randtoken = require( 'rand-token' )
+const merge = require( 'lodash.merge' )
 
 const sequelize = require( './connection' )
+const DefaultQuotation = require( './model-default-quotation' )
+const DefaultInvoice = require( './model-default-invoice' )
+const DefaultProduct = require( './model-default-product' )
 const h = require( './_helpers' )
 
 function encodePassword(password) {
@@ -74,6 +78,28 @@ User.prototype.comparePassword = function (password) {
   const userPassword = this.getDataValue('password')
   if (!userPassword) return Promise.resolve( false )
   return bcrypt.compare( password, this.getDataValue('password') )
+}
+
+//////
+// MODEL METHODS
+//////
+
+User.findOneWithRelations = async additionalParams => {
+  const params = merge({
+    where: {
+      isDeactivated:  { $not: true },
+    },
+    attributes: {
+      exclude: [`token`, `tokenExpire`, `createdAt`, `updatedAt`],
+    },
+    include: [
+      DefaultQuotation,
+      DefaultInvoice,
+      DefaultProduct,
+    ]
+  }, additionalParams )
+  const user = await User.findOne( params )
+  return user
 }
 
 module.exports = User
