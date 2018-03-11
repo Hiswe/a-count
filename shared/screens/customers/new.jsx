@@ -16,7 +16,7 @@ class NewCustomer extends Component {
   render() {
     const { props } = this
     return (
-      <FullPage title="New Customer" actions={ButtonList} >
+      <FullPage title="New Customer" secondary={ButtonList} >
         <CustomerForm {...props} />
       </FullPage>
     )

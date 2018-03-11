@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom'
 
 import * as customers from '../../ducks/customers'
 import { Empty } from '../../components/_utils.jsx'
-import CustomersTable from '../../components/customers/list.jsx'
-import { ButtonNew } from '../../components/customers/secondary-nav-actions.jsx'
 import FullPage from '../../components/ui/layout-full-page.jsx'
+import { ButtonNew } from '../../components/customers/secondary-nav-actions.jsx'
+import CustomersTable from '../../components/customers/list.jsx'
 
 class Customers extends Component {
 
@@ -21,7 +21,7 @@ class Customers extends Component {
 
   render() {
     return (
-      <FullPage title="Customers" actions={ ButtonNew }>
+      <FullPage title="Customers" secondary={ ButtonNew }>
         <Link to="/customers/new" className="btn-fab">+</Link>
         {this.props.hasCustomers ? <CustomersTable /> : <Empty />}
       </FullPage>

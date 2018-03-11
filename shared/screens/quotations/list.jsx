@@ -5,8 +5,10 @@ import { Link } from 'react-router-dom'
 
 import * as quotations from '../../ducks/quotations'
 import { Empty } from '../../components/_utils.jsx'
-import QuotationsList from '../../components/quotations-list.jsx'
 import FullPage from '../../components/ui/layout-full-page.jsx'
+import { ButtonNew } from '../../components/quotations/secondary-nav-actions.jsx'
+import QuotationsList from '../../components/quotations/list.jsx'
+
 
 class Quotations extends Component {
 
@@ -21,7 +23,7 @@ class Quotations extends Component {
   render() {
     const { props } = this
     return (
-      <FullPage title="Quotations">
+      <FullPage title="Quotations" secondary={ButtonNew}>
         <Link to="/quotations/new" className="btn-fab">+</Link>
         <QuotationsList {...props} />
       </FullPage>

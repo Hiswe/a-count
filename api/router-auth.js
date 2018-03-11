@@ -22,19 +22,10 @@ const getUserParams = {
   },
   include: [{
     model: DefaultQuotation,
-    attributes: {
-      exclude: [`id`, `userId`]
-    },
   }, {
     model: DefaultInvoice,
-    attributes: {
-      exclude: [`id`, `userId`]
-    },
   }, {
     model: DefaultProduct,
-    attributes: {
-      exclude: [`id`, `userId`]
-    },
   }]
 }
 

@@ -1,13 +1,5 @@
 import React from 'react'
 
-const CardCentered = props => (
-  <div className="card card--centered">
-    <div className="card__in">
-      { props.children }
-    </div>
-  </div>
-)
-
 const Empty = props => {
   const message = `none (yet)`
   if (props.colspan) {
@@ -48,7 +40,6 @@ const RenderFakeId = ({prefix = `PR`, startAt = 350 , count}) => {
 }
 
 export {
-  CardCentered,
   Empty,
   Amount,
   RenderError,

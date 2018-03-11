@@ -12,8 +12,8 @@ import json from 'koa-json'
 import Router from 'koa-router'
 
 import config from './config'
-import apiBackupRoutes from './api-backup-routing.js'
-import reactRoutes from './koa-react-routing.jsx'
+import apiBackupRoutes from './routing-api-backup.js'
+import reactRoutes from './routing-koa-react.jsx'
 
 //////
 // SERVER CONFIG
