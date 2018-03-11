@@ -8,6 +8,9 @@ const ConnectedNav = props => {
   return (
     <Fragment>
       <li className="main-nav__item">
+        connected as<br /> {props.email}
+      </li>
+      <li className="main-nav__item">
         <NavLink to="/" exact activeClassName="is-active">home</NavLink>
       </li>
       <li className="main-nav__item">
@@ -17,11 +20,10 @@ const ConnectedNav = props => {
       <li className="main-nav__item">
         <NavLink to="/customers" activeClassName="is-active">customers</NavLink>
       </li>
-      {/* <li><NavLink to="/settings">settings</NavLink></li> */}
-      <li className="main-nav__item main-nav__item--separator">
-        connected as<br /> {props.email}
-      </li>
       <li className="main-nav__item">
+        <NavLink to="/profile" activeClassName="is-active">profile</NavLink>
+      </li>
+      <li className="main-nav__item  main-nav__item--separator">
         <LogoutButton />
       </li>
     </Fragment>

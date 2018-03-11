@@ -5,6 +5,7 @@ import Root from './screens/root.jsx'
 import Login from './screens/login.jsx'
 import Register from './screens/register.jsx'
 import Home from './screens/home.jsx'
+import UserEdit from './screens/users/edit.jsx'
 import QuotationsList from './screens/quotations/list.jsx'
 import QuotationsForm from './components/quotations-form.jsx'
 import CustomersList from './screens/customers/list.jsx'
@@ -26,6 +27,10 @@ const routes = [{
     path: `/`,
     exact: true,
     component: authenticationRequired( Home ),
+  }, {
+    path: `/profile`,
+    exact: true,
+    component: authenticationRequired( UserEdit ),
   }, {
     path: `/quotations`,
     exact: true,
