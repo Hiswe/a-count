@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 
 import * as customers from '../../ducks/customers'
+import { ButtonList } from '../../components/customers/secondary-nav-actions.jsx'
 import CustomerForm from '../../components/customers/form.jsx'
 import FullPage from '../../components/layout/full-page.jsx'
 
@@ -16,7 +16,7 @@ class NewCustomer extends Component {
   render() {
     const { props } = this
     return (
-      <FullPage title="New Customer">
+      <FullPage title="New Customer" actions={ButtonList} >
         <CustomerForm {...props} />
       </FullPage>
     )

@@ -73,7 +73,6 @@ class CustomerForm extends Component {
         </fieldset>
         <div className="actions">
           <button className="btn" type="submit">{props.submitMsg}</button>
-          {props.isNew ? null : <Link to="/customers/new" className="btn-secondary">New Customer</Link>}
         </div>
       </form>
     )

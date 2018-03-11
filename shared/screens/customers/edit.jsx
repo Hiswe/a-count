@@ -1,11 +1,18 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 
 import * as customers from '../../ducks/customers'
+import { ButtonList, ButtonNew } from '../../components/customers/secondary-nav-actions.jsx'
 import CustomerForm from '../../components/customers/form.jsx'
 import FullPage from '../../components/layout/full-page.jsx'
+
+const SecondaryActions = () => (
+  <Fragment>
+    <ButtonNew />
+    <ButtonList />
+  </Fragment>
+)
 
 class EditCustomer extends Component {
 
@@ -16,7 +23,7 @@ class EditCustomer extends Component {
   render() {
     const { props } = this
     return (
-      <FullPage title="Edit Customer">
+      <FullPage title="Edit Customer" actions={SecondaryActions}>
         <CustomerForm {...props} />
       </FullPage>
     )

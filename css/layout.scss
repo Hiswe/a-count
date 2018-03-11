@@ -30,7 +30,7 @@ a {
 }
 
 .page {
-  &__title {
+  &__header {
     margin: 0;
     padding: 0 var(--s-gutter);
     background: white;
@@ -44,6 +44,9 @@ a {
     max-width: var(--s-max-width);
     padding: var(--s-gutter);
     margin: var(--s-gutter) auto;
+  }
+  &__secondary-nav-actions {
+    margin-left: auto;
   }
 }
 
