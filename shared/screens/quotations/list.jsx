@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import * as quotations from '../../ducks/quotations'
 import { Empty } from '../../components/_utils.jsx'
 import QuotationsList from '../../components/quotations-list.jsx'
-import FullPage from '../../components/layout/full-page.jsx'
+import FullPage from '../../components/ui/layout-full-page.jsx'
 
 class Quotations extends Component {
 

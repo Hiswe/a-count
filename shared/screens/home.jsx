@@ -2,7 +2,7 @@ import React        from 'react'
 import { connect }  from 'react-redux'
 import { Link }     from 'react-router-dom'
 
-import FullPage from '../components/layout/full-page.jsx'
+import FullPage from '../components/ui/layout-full-page.jsx'
 
 // import QuotationList  from './quotation-list.jsx'
 // import InvoiceList    from './invoice-list.jsx'

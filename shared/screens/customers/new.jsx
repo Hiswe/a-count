@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import * as customers from '../../ducks/customers'
 import { ButtonList } from '../../components/customers/secondary-nav-actions.jsx'
 import CustomerForm from '../../components/customers/form.jsx'
-import FullPage from '../../components/layout/full-page.jsx'
+import FullPage from '../../components/ui/layout-full-page.jsx'
 
 class NewCustomer extends Component {
 
