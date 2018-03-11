@@ -17,7 +17,7 @@ a {
 }
 
 .main {
-  &--with-card {
+  &--with-onboard {
     background: var(--c-primary-darkest);
     display: flex;
     align-items: center;
@@ -40,9 +40,7 @@ a {
     align-items: center;
   }
   &__content {
-    background: white;
     max-width: var(--s-max-width);
-    padding: var(--s-gutter);
     margin: var(--s-gutter) auto;
   }
   &__secondary-nav-actions {
@@ -73,7 +71,7 @@ a {
   color: white;
 }
 
-.card {
+.onboard {
   background: var(--c-background);
   min-width: 500px;
   border: 0;

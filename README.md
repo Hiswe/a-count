@@ -43,6 +43,7 @@ available:
 - https://medium.com/front-end-developers/handcrafting-an-isomorphic-redux-application-with-love-40ada4468af4
 - https://www.npmjs.com/package/react-isomorphic-render
 - https://reactjsnews.com/isomorphic-react-in-real-life
+- https://github.com/tomatau/breko-hub
 
 #### components
 

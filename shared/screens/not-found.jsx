@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import CardCentered from '../components/ui/layout-card-centered.jsx'
+import LayoutOnboard from '../components/ui/layout-onboard.jsx'
 
 const NotFound = () => (
   // we need a route to have access to staticContext
@@ -11,9 +11,9 @@ const NotFound = () => (
       staticContext.status = 404
     }
     return (
-      <CardCentered title="404">
+      <LayoutOnboard title="404">
         <h2>not found</h2>
-      </CardCentered>
+      </LayoutOnboard>
     )
   }}/>
 )

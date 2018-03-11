@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import * as auth from '../ducks/auth'
-import CardCentered from '../components/ui/layout-card-centered.jsx'
+import LayoutOnboard from '../components/ui/layout-onboard.jsx'
 import { InputWrapper } from '../components/form.jsx'
 
 class Login extends Component {
@@ -19,7 +19,7 @@ class Login extends Component {
     const { props } = this
 
     return (
-      <CardCentered title="login">
+      <LayoutOnboard title="login">
         <form method="post" action="/login" onSubmit={ e => this.handleSubmit(e) } >
           <InputWrapper id="email" label="Email">
             <input className="input__field" id="email" name="email" type="email" />
@@ -29,7 +29,7 @@ class Login extends Component {
           </InputWrapper>
           <button className="btn" type="submit">Submit</button>
         </form>
-      </CardCentered>
+      </LayoutOnboard>
     )
   }
 }
