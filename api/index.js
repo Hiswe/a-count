@@ -31,8 +31,8 @@ app.use( compress() )
 app.use( json() )
 
 //----- LOGGING
+// • to have better logs: don't use the same logger as server
 
-// to have better logs: don't use the same logger as server
 const colorCodes = {
   7: 'magenta',
   5: 'red',
@@ -69,11 +69,14 @@ app.use( cors({
 
 //----- ERRORS
 
+// TODO: send validations errors
+// • 400 for input errors: SequelizeValidationError
+// • 409 for duplicate errors: SequelizeUniqueConstraintError
+// • https://stackoverflow.com/questions/3290182/rest-http-status-codes-for-failed-validation-or-invalid-duplicate
 app.use( async function handleApiError(ctx, next) {
   try {
     await next()
   } catch (err) {
-
     ctx.status  = err.statusCode || err.status || 500
     const { status }  = ctx
     const { message } = err

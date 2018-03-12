@@ -37,6 +37,7 @@ router
 })
 .post(`/new`,  async (ctx, next) => {
   const { body }  = ctx.request
+  // TODO: check if the user doesn't already have a customer with the same name
   body.userId     = ctx.session.user.id
   const customer  = await Customer.create( body )
   ctx.body        = formatResponse( customer )
@@ -59,6 +60,7 @@ router
   const { id }    = ctx.params
   const { body }  = ctx.request
   const instance  = await Customer.findOne( {where: { id }} )
+  // TODO: check if the user doesn't already have a customer with the same name
   ctx.assert(instance, 404, `Customer not found`)
   const result    = await instance.update( body )
   ctx.body        = formatResponse( result )

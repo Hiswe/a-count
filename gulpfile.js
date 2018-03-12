@@ -63,21 +63,6 @@ js.description = `Bundle front-app, app server & api-server`
 gulp.task( `js`, js )
 
 ////////
-// ASSETS
-////////
-
-//----- FONTS
-
-// gulp.task('fonts', function () {
-//   return gulp
-//     .src('theme-dev/fonts.list')
-//     .pipe($.googleWebfonts())
-//     .pipe($.if(/[.]woff$/, gulp.dest('theme/assets')))
-// });
-
-// gulp.task('assets', ['fonts']);
-
-////////
 // DEV
 ////////
 

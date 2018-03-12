@@ -23,9 +23,7 @@ const Notifications = props => {
     <aside className="notifications">
       {
         hasNotifications && notifications.map( n => {
-          return (
-            <Notification key={n._id} {...n} />
-          )
+          return ( <Notification key={n._id} {...n} /> )
         })
       }
     </aside>
@@ -34,7 +32,7 @@ const Notifications = props => {
 
 const mapStateToProps = state => {
   const { notifications } = state
-  const hasNotifications = Array.isArray( notifications ) && notifications.length
+  const hasNotifications = Array.isArray( notifications ) && notifications.length > 0
   const result = {
     hasNotifications,
     notifications,

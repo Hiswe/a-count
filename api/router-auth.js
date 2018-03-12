@@ -14,22 +14,6 @@ const DefaultProduct = require( './db/model-default-product' )
 const router = new Router()
 module.exports = router
 
-const getUserParams = {
-  where: {
-    isDeactivated:  { $not: true },
-  },
-  attributes: {
-    exclude: [`token`, `tokenExpire`, `createdAt`, `updatedAt`],
-  },
-  include: [{
-    model: DefaultQuotation,
-  }, {
-    model: DefaultInvoice,
-  }, {
-    model: DefaultProduct,
-  }]
-}
-
 router
 .get( `/auth`, async (ctx, next) => {
   ctx.assert( ctx.session && ctx.session.user, 401, `Not connected` )

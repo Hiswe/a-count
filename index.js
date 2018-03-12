@@ -13,13 +13,11 @@ const { inspect } = require( 'util' )
 // const appConfig  = require('./shared/config').default
 // const apiConfig  = require('./api/config').default
 
-// if ( appConfig.isDev ) {
-  console.log( `listening to unhandledRejection` )
-  process.on( `unhandledRejection`, (reason, p) => {
-    console.log( `Unhandled Promise Rejection with reason:`, reason)
-    console.log( inspect(p.stack, {colors: true}) )
-  })
-// }
+console.log( `listening to unhandledRejection` )
+process.on( `unhandledRejection`, (reason, p) => {
+  console.log( `Unhandled Promise Rejection with reason:`, reason)
+  console.log( inspect(p.stack, {colors: true}) )
+})
 
 require( `./dist/server.js` )
 require( `./api` )
