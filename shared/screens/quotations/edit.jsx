@@ -8,14 +8,12 @@ import { ButtonList } from '../../components/quotations/secondary-nav-actions.js
 import QuotationForm from '../../components/quotations/form.jsx'
 import FullPage from '../../components/ui/layout-full-page.jsx'
 
-
-
 // TODO: should write quotation ID
 // {formData.count && '-\u00A0'}
 // {formData.count && (<span>PR { formData.count+350 }</span>)}
 // TODO: should have a print button
 
-class NewQuotation extends Component {
+class EditQuotation extends Component {
 
   static fetchData(store, params, cookies) {
     return Promise.all([
@@ -36,4 +34,4 @@ class NewQuotation extends Component {
   }
 }
 
-export default NewQuotation
+export default EditQuotation

@@ -88,7 +88,7 @@ class UserForm extends Component {
             <input type="hidden" name="defaultProduct[id]" defaultValue={defaultProduct.id} />
             <ProductTable>
               <ProductLine
-                prefix="defaultProduct"
+                fieldPath="defaultProduct"
                 onChange={ e => this.handleChange(e) }
                 product={ defaultProduct }
                 currency={ defaultQuotation.currency }

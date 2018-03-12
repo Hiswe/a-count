@@ -29,7 +29,6 @@ class QuotationForm extends Component {
     this.state = {
       formData: this.props.current,
     }
-    this.handleRemoveProduct = this.handleRemoveProduct.bind(this)
   }
 
   componentDidMount() {
@@ -82,11 +81,11 @@ class QuotationForm extends Component {
     })
   }
 
-  handleRemoveProduct(index, value) {
+  removeProduct(index, prefix) {
     const { formData } = this.state
-    const line = formData.get(value)
+    const line = formData.get( prefix )
 
-    if (!line) return
+    if ( !line ) return
 
     this.setState( (prevState) => {
       const updatedProducts = prevState.formData.products.splice(index, 1)
@@ -109,7 +108,7 @@ class QuotationForm extends Component {
           <fieldset className="business-form__item business-form__item--meta">
             { props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" /> }
             <Field
-            label="customer"
+              label="customer"
               key="name"
               name="customerId"
               value={formData.customerId}
@@ -136,15 +135,16 @@ class QuotationForm extends Component {
               onChange={ e => this.handleChange(e) }
             />
             <NewProductTable products={ products } tax={20} >
-              { hasProducts && formData.products.map( (p, i) => {
-                const isLast = i === productsLength -1
+              { hasProducts && formData.products.map( (product, index) => {
+                const isLast = index === productsLength - 1
+                const fieldPath = `products[${ index }]`
                 return (
                   <ProductLine
-                    key={i}
-                    prefix={`products[${i}]`}
-                    product={p}
+                    key={ index }
+                    fieldPath={ fieldPath }
+                    product={ product }
                     onChange={ e => this.handleChange(e) }>
-                    { !isLast && <button onClick={() => false} type="button" value={i}>remove</button> }
+                    { !isLast && <button onClick={ e => this.removeProduct(index, fieldPath) } type="button">remove</button> }
                   </ProductLine>
                 )
               }) }
