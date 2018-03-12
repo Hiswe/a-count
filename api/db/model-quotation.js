@@ -33,13 +33,13 @@ const Quotation = sequelize.define( `quotation`, {
     allowNull:    true,
     get:          function() {
       const tax = this.getDataValue( `tax` )
-      if ( isNil(tax) ) return config.businessDefault.tax
-      return tax
+      if ( isNil(tax) ) return this.get( `defaultProduct` ).tax
     },
     set:          function(val) {
       if ( isNil(val) || val === `` ) {
-        return this.setDataValue( `tax`, config.businessDefault.tax )
+        return this.setDataValue( `tax`, this.get( `defaultProduct` ).tax )
       }
+      val = 0
       this.setDataValue( `tax`, val )
     },
   },
@@ -80,16 +80,6 @@ const Quotation = sequelize.define( `quotation`, {
       })
       this.setDataValue( `products`, updatedProducts )
     }
-  },
-  defaultProduct: {
-    type: new Sequelize.VIRTUAL(Sequelize.JSON),
-    get: function () {
-      return {
-        description:  ``,
-        quantity:     config.businessDefault.quantity,
-        price:        config.businessDefault.price,
-      }
-    },
   },
   totalNet: {
     type: new Sequelize.VIRTUAL(Sequelize.FLOAT, [`products`]),

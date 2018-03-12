@@ -89,7 +89,7 @@ class UserForm extends Component {
             <ProductTable>
               <ProductLine
                 prefix="defaultProduct"
-                handleChange={ (e) => this.handleChange(e) }
+                onChange={ e => this.handleChange(e) }
                 product={ defaultProduct }
                 currency={ defaultQuotation.currency }
               />

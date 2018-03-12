@@ -3,11 +3,13 @@
 const { inspect } = require( 'util' )
 const Router = require( 'koa-router' )
 
-const { formatResponse } = require( './_helpers' )
+const formatResponse = require( './_format-response' )
 const { normalizeString } = require( './db/_helpers' )
 const Customer = require( './db/model-customer' )
 const Quotation = require( './db/model-quotation' )
 const User = require( './db/model-user' )
+const DefaultQuotation = require( './db/model-default-quotation' )
+const DefaultProduct = require( './db/model-default-product' )
 
 const prefix = `quotations`
 const router = new Router({prefix: `/${prefix}`})
@@ -44,7 +46,7 @@ router
       model: User,
     }],
   })
-  // put response in a list key
+  // put response in a “list“ key
   // • we will add pagination information later
   ctx.body = formatResponse( {list} )
 })
@@ -52,9 +54,25 @@ router
 //----- NEW
 
 .get(`/new`, async (ctx, next) => {
-  const modelTemplate = new Quotation().toJSON()
+  const { user } = ctx.session
+  const userId = user.id
+  console.log( user )
+  const body = {
+    // userId,
+    user,
+    defaultQuotation: user.defaultQuotation,
+    defaultProduct:   user.defaultProduct,
+  }
+  const params = {
+    include: [
+      User,
+      DefaultQuotation,
+      DefaultProduct,
+    ]
+  }
+  const modelTemplate = new Quotation( body, params ).toJSON()
   delete modelTemplate.id
-  ctx.body = formatResponse(modelTemplate)
+  ctx.body = formatResponse( modelTemplate )
 })
 .post(`/new`,  async (ctx, next) => {
   const { body }      = ctx.request
@@ -80,9 +98,12 @@ router
   const { id }    = ctx.params
   const { body }  = ctx.request
   const customer  = await Customer.findById( body.customerId )
+
   ctx.assert(customer, 500, `Can't ${ id ? 'create' : 'update'} Quotation. The associated customer isn't found`)
+
   const instance  = await Quotation.updateOrCreate( id, body )
   const result    = await getQuotationById( instance.id )
+
   ctx.assert(result, 404, `Quotation not found`)
   ctx.body        = formatResponse( result )
 })

@@ -7,7 +7,8 @@ import Register from './screens/register.jsx'
 import Home from './screens/home.jsx'
 import UserEdit from './screens/users/edit.jsx'
 import QuotationsList from './screens/quotations/list.jsx'
-import QuotationsForm from './components/quotations-form.jsx'
+import QuotationsNew from './screens/quotations/new.jsx'
+import QuotationsEdit from './screens/quotations/edit.jsx'
 import CustomersList from './screens/customers/list.jsx'
 import CustomerNew from './screens/customers/new.jsx'
 import CustomerEdit from './screens/customers/edit.jsx'
@@ -38,11 +39,11 @@ const routes = [{
   }, {
     path: `/quotations/new`,
     exact: true,
-    component: authenticationRequired( QuotationsForm ),
+    component: authenticationRequired( QuotationsNew ),
   }, {
   path: `/quotations/:id`,
     exact: true,
-    component: authenticationRequired( QuotationsForm ),
+    component: authenticationRequired( QuotationsEdit ),
   }, {
     path: `/customers`,
     exact: true,

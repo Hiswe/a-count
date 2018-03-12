@@ -20,6 +20,8 @@ const User = require( './model-user' )
 
 Quotation.belongsTo( Customer )
 Quotation.belongsTo( User )
+Quotation.hasOne( DefaultQuotation, {foreignKey: `userId`} )
+Quotation.hasOne( DefaultProduct, {foreignKey: `userId`} )
 
 Customer.hasMany( Quotation )
 Customer.belongsTo( User )

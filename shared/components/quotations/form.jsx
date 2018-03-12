@@ -5,13 +5,15 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import serialize from 'form-serialize'
 
-import * as quotations from '../ducks/quotations'
-import * as customers from '../ducks/customers'
-import { needRedirect, filterObjectInArrayWith, computeTotals } from './_helpers.js'
+import * as quotations from '../../ducks/quotations'
+import * as customers from '../../ducks/customers'
+import { needRedirect, filterObjectInArrayWith, computeTotals } from '../_helpers.js'
 
-import { Floating, Input } from './form.jsx'
-import { Amount, RenderError } from './_utils.jsx'
-import { PrintBtn, Status, ProductTable } from './business-form'
+import { Amount, RenderError } from '../_utils.jsx'
+import Field from '../ui/field.jsx'
+import NewProductTable from '../products/table.jsx'
+import ProductLine from '../products/line.jsx'
+import { PrintBtn, Status } from '../business-form'
 
 const ConvertButton = (props) => {
   const convertRoute  = `/quotation/convert-to-invoice/${props.businessForm.id}`
@@ -24,19 +26,11 @@ const ConvertButton = (props) => {
 
 class QuotationForm extends Component {
 
-  static fetchData(store, params, cookies) {
-    return Promise.all([
-      store.dispatch( quotations.getOne(params, cookies) ),
-      store.dispatch( customers.getAll(params, cookies) ),
-    ])
-  }
-
   constructor(props) {
     super(props)
     this.state = {
       formData: this.props.current,
     }
-    this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleRemoveProduct = this.handleRemoveProduct.bind(this)
   }
@@ -112,8 +106,9 @@ class QuotationForm extends Component {
     const { props, state } = this
     const { current } = props
     const { formData } = state
-
-    if ( current.error ) return ( <RenderError {...current} /> )
+    const { products } = formData
+    const hasProducts = Array.isArray( products )
+    const productsLength = hasProducts ? products.length : 0
 
     return (
       <div>
@@ -127,21 +122,34 @@ class QuotationForm extends Component {
           {/* TODO: render a new webpage when clicked */}
           {/* <PrintBtn {...formData} /> */}
         </header>
-        <form method="post" className="business-form" onSubmit={this.handleSubmit}>
+        <form method="post" className="business-form" onSubmit={ e => this.handleSubmit(e) }>
           <fieldset className="business-form__item business-form__item--meta">
             { props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" /> }
-            <Input label="customer" key="name" name="customerId" type="select"
+            <Field label="customer" key="name" name="customerId" type="select"
                     value={formData.customerId} entries={props.customers}
                     onChange={this.handleChange}
             />
             <Status {...props} {...state} onChange={this.handleChange} />
           </fieldset>
           <fieldset className="business-form__item business-form__item--tax">
-            <Input name="tax" type="number" step="any" value={formData.tax} onChange={this.handleChange} />
+            <Field name="tax" type="number" step="any" value={formData.tax} onChange={this.handleChange} />
           </fieldset>
           <fieldset className="business-form__item business-form__item--body">
-            <Input key="name" name="name" value={formData.name} onChange={this.handleChange} />
-            <ProductTable {...state} onChange={this.handleChange} handleRemoveProduct={this.handleRemoveProduct} />
+            <Field key="name" name="name" value={formData.name} onChange={this.handleChange} />
+            <NewProductTable products={ products } tax={20} >
+              { hasProducts && formData.products.map( (p, i) => {
+                const isLast = i === productsLength -1
+                return (
+                  <ProductLine
+                    key={i}
+                    prefix={`products[${i}]`}
+                    product={p}
+                    onChange={ e => this.handleChange(e) }>
+                    { !isLast && <button onClick={() => false} type="button" value={i}>remove</button> }
+                  </ProductLine>
+                )
+              }) }
+            </NewProductTable>
           </fieldset>
           <div className="business-form__actions">
             <button className="btn" type="submit">{props.submitMsg}</button>
@@ -155,6 +163,13 @@ class QuotationForm extends Component {
   }
 }
 
+{/* <ProductLine
+  prefix="defaultProduct"
+  handleChange={ (e) => this.handleChange(e) }
+  product={ defaultProduct }
+  currency={ defaultQuotation.currency }
+/> */}
+
 function mapStateToProps(state, ownProps) {
   const { current } = state.quotations
   const isNew = current.id == null
@@ -163,6 +178,7 @@ function mapStateToProps(state, ownProps) {
     isNew,
     current,
     customers: state.customers && state.customers.list,
+    user: state.user.current
   }
   return result
 }

@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { Empty, RenderFakeId, Amount } from './_utils.jsx'
+import Table from '../ui/table.jsx'
+import { Empty, RenderFakeId, Amount } from '../_utils.jsx'
 
 //----- TBODY
 
@@ -43,26 +44,14 @@ const QuotationTable = (props) => {
   const { quotations } = props
   const hasQuotations = Array.isArray( quotations ) && quotations.length
   return (
-    <table className="table-pres" cellSpacing="0">
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>title</th>
-          <th>customer</th>
-          <th>status</th>
-          <th>total HT</th>
-          <th>total</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          !hasQuotations ? ( <Empty colspan="6" /> )
-          : quotations.map( (q, i) => (
-            <QuotationRow key={q.id} quotation={q} />
-          ))
-        }
-      </tbody>
-    </table>
+    <Table columns="id, title, customer, status, total HT, total" className="table--pres">
+      {
+        !hasQuotations ? ( <Empty colspan="6" /> )
+        : quotations.map( (q, i) => (
+          <QuotationRow key={q.id} quotation={q} />
+        ))
+      }
+    </Table>
   )
 }
 
