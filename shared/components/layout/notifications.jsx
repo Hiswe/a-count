@@ -2,11 +2,13 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import * as notifications from '../../ducks/notifications'
+
 const Notification = props => {
   const { message, error } = props
   const notificationType = error ? `error` : `notification`
   return (
-    <div className={`notifications__item notifications__item--${notificationType}`}>
+    <div onClick={ e => props.remove() }  className={`notifications__item notifications__item--${notificationType}`}>
       <h4 className="notifications__title">
         { notificationType }
       </h4>
@@ -23,7 +25,7 @@ const Notifications = props => {
     <aside className="notifications">
       {
         hasNotifications && notifications.map( n => {
-          return ( <Notification key={n._id} {...n} /> )
+          return ( <Notification key={n._id} {...n} remove={ e => props.remove( n ) } /> )
         })
       }
     </aside>
@@ -42,6 +44,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({
+    remove: notifications.removeOne
   }, dispatch)
 }
 
