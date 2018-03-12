@@ -78,20 +78,13 @@ fieldset:not([class]) {
 .field {
   display: flex;
   margin-bottom: var(--s-gutter);
+  border: 1px solid var(--c-primary-lighter);
 
   &__control,
   &__label {
-    border: 1px solid var(--c-primary-lighter);
+    border: 0;
     padding: 0.5em 0.75em;
-
-    &:first-child {
-      border-radius: 2px 0 0 2px;
-    }
-    &:last-child {
-      border-radius: 0 2px 2px 0;
-    }
   }
-
 
   &__control {
     flex: 1 1 auto;

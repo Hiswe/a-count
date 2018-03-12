@@ -9,6 +9,7 @@ import { needRedirect } from '../_helpers.js'
 import { Floating } from '../form.jsx'
 import Field from '../ui/field.jsx'
 import ProductTable from '../products/table.jsx'
+import ProductLine from '../products/line.jsx'
 // import { RenderError } from '../_utils.jsx'
 
 class UserForm extends Component {
@@ -86,22 +87,12 @@ class UserForm extends Component {
           <div className="card__content">
             <input type="hidden" name="defaultProduct[id]" defaultValue={defaultProduct.id} />
             <ProductTable>
-              <tr>
-                <td>
-                  <textarea name={`defaultProduct[description]`} value={defaultProduct.description} onChange={ e => this.handleChange(e) } />
-                </td>
-                <td>
-                  <input type="number" min="0" step="0.25" name={`defaultProduct[quantity]`} value={defaultProduct.quantity} onChange={ e => this.handleChange(e) } />
-                </td>
-                <td>
-                  <input type="number" min="0" step="10" name={`defaultProduct[price]`} value={defaultProduct.price} onChange={ e => this.handleChange(e) } />
-                </td>
-                <td className="total">
-                  {/* <Amount value={total} /> */}
-                </td>
-                <td>
-                </td>
-              </tr>
+              <ProductLine
+                prefix="defaultProduct"
+                handleChange={ (e) => this.handleChange(e) }
+                product={ defaultProduct }
+                currency={ defaultQuotation.currency }
+              />
             </ProductTable>
           </div>
         </fieldset>

@@ -24,8 +24,9 @@ a {
     justify-content: center;
     grid-area: secondary-nav / secondary-nav / content / content;
   }
-  &--width-page {
+  &--with-page {
     padding: var(--s-gutter);
+    grid-area: content;
   }
 }
 
