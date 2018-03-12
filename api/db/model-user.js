@@ -51,6 +51,17 @@ const User = sequelize.define( `user`, {
     },
   },
   // SESSION
+  quotationCount: {
+    type:         Sequelize.BIGINT,
+    defaultValue: 0,
+    allowNull:    false,
+  },
+  invoiceCount: {
+    type:         Sequelize.BIGINT,
+    defaultValue: 0,
+    allowNull:    false,
+  },
+  // SESSION
   password: {
     type:         Sequelize.STRING,
     set:          function ( val ) {

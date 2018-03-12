@@ -21,11 +21,6 @@ const DefaultInvoice = sequelize.define( `defaultInvoice`, {
     defaultValue: 800,
     allowNull:    false,
   },
-  count: {
-    type:         Sequelize.BIGINT,
-    defaultValue: 0,
-    allowNull:    false,
-  },
   mentions: {
     type:         Sequelize.TEXT,
     defaultValue: `invoice mentions`,

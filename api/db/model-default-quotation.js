@@ -24,11 +24,9 @@ const DefaultQuotation = sequelize.define( `defaultQuotation`, {
     allowNull:    false,
   },
   currency: {
-    type:         Sequelize.CHAR(2),
+    type:         Sequelize.STRING,
     defaultValue: `$`,
-    validate: {
-      isIn: [[`$`, `€`]],
-    },
+    set:          dbHelpers.setNormalizedString(`currency`),
   },
   prefix: {
     type:         Sequelize.STRING,
@@ -38,11 +36,6 @@ const DefaultQuotation = sequelize.define( `defaultQuotation`, {
   startAt: {
     type:         Sequelize.INTEGER,
     defaultValue: 400,
-    allowNull:    false,
-  },
-  count: {
-    type:         Sequelize.BIGINT,
-    defaultValue: 0,
     allowNull:    false,
   },
   mentions: {
