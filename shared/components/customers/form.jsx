@@ -6,8 +6,7 @@ import serialize from 'form-serialize'
 
 import * as customers from '../../ducks/customers'
 import { needRedirect } from '../_helpers.js'
-import { Floating } from '../form.jsx'
-import { RenderError } from '../_utils.jsx'
+import Field from '../ui/field.jsx'
 
 class CustomerForm extends Component {
 
@@ -62,14 +61,12 @@ class CustomerForm extends Component {
     const { current } = props
     const { formData } = state
 
-    if ( current.error ) return ( <RenderError {...current} /> )
-
     return (
       <form method="post" onSubmit={this.handleSubmit}>
         {props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" />  }
         <fieldset>
-          <Floating key="name" name="name" value={formData.name} onChange={this.handleChange}/>
-          <Floating key="address" name="address" type="textarea" value={formData.address} onChange={this.handleChange} />
+          <Field key="name" name="name" value={formData.name} onChange={this.handleChange}/>
+          <Field key="address" name="address" type="textarea" value={formData.address} onChange={this.handleChange} />
         </fieldset>
         <div className="actions">
           <button className="btn" type="submit">{props.submitMsg}</button>
@@ -79,7 +76,7 @@ class CustomerForm extends Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = state => {
   const { current } = state.customers
   const isNew   = current.id == null
   const result  = {
@@ -90,7 +87,7 @@ function mapStateToProps(state, ownProps) {
   return result
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return bindActionCreators({
     getOne:   customers.getOne,
     saveOne:  customers.saveOne,

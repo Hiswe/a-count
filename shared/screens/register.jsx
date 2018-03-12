@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import * as user from '../ducks/user'
 import LayoutOnboard from '../components/ui/layout-onboard.jsx'
-import { InputWrapper } from '../components/form.jsx'
+import FieldWrapper from '../components/ui/field-wrapper.jsx'
 
 class Register extends Component {
 
@@ -21,12 +21,12 @@ class Register extends Component {
     return (
       <LayoutOnboard title="Create an account">
         <form method="post" action="/register" onSubmit={ e => this.handleSubmit(e) } >
-          <InputWrapper id="email" label="Email">
+          <FieldWrapper id="email" label="Email">
             <input className="input__field" id="email" name="email" type="email" />
-          </InputWrapper>
-          <InputWrapper id="password" label="Password">
+          </FieldWrapper>
+          <FieldWrapper id="password" label="Password">
             <input className="input__field" id="password" name="password" type="password" />
-          </InputWrapper>
+          </FieldWrapper>
           <button className="btn" type="submit">Submit</button>
         </form>
       </LayoutOnboard>

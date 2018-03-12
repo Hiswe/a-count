@@ -6,7 +6,6 @@ import serialize from 'form-serialize'
 
 import * as customers from '../../ducks/customers'
 import { needRedirect } from '../_helpers.js'
-import { Floating } from '../form.jsx'
 import Field from '../ui/field.jsx'
 import ProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'

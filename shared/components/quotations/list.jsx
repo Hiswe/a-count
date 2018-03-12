@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import Table from '../ui/table.jsx'
-import { Empty, RenderFakeId, Amount } from '../_utils.jsx'
+import EmptyLine from '../ui/table-empty-line.jsx'
+import Amount from '../ui/amount.jsx'
+import FakeId from '../ui/fake-id.jsx'
 
 //----- TBODY
 
@@ -22,7 +24,7 @@ const QuotationRow = props => {
     <tr>
       <td>
         <Link to={`/quotations/${quotation.id}`}>
-          <RenderFakeId count={quotation.count} />
+          <FakeId count={quotation.count} />
         </Link>
       </td>
       <td>{quotation.name}</td>
@@ -46,7 +48,7 @@ const QuotationTable = (props) => {
   return (
     <Table columns="id, title, customer, status, total HT, total" className="table--pres">
       {
-        !hasQuotations ? ( <Empty colspan="6" /> )
+        !hasQuotations ? ( <EmptyLine colspan="6" /> )
         : quotations.map( (q, i) => (
           <QuotationRow key={q.id} quotation={q} />
         ))

@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import * as quotations from '../../ducks/quotations'
-import { Empty } from '../../components/_utils.jsx'
 import FullPage from '../../components/ui/layout-full-page.jsx'
 import { ButtonNew } from '../../components/quotations/secondary-nav-actions.jsx'
 import QuotationsList from '../../components/quotations/list.jsx'

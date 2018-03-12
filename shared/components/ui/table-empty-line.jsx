@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TableEmptyLine = props => {
+const EmptyLine = props => {
   const message = `none (yet)`
   if (props.colspan) {
     return (
@@ -12,4 +12,4 @@ const TableEmptyLine = props => {
   return ( <p>{message}</p> )
 }
 
-export default TableEmptyLine
+export default EmptyLine

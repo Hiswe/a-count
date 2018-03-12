@@ -2,14 +2,14 @@ import React, { Fragment } from 'react'
 
 import { formatDate } from '../_helpers.js'
 
-import { Input } from '../form.jsx'
+import Field from '../ui/field.jsx'
 
 const StatusLine = props => {
   const { step, onChange, value } = props
   return (
     <div className="status__item">
       <input type="hidden" name={step.key} value="false" />
-      <Input
+      <Field
         type="checkbox"
         id={step.key} name={step.key}
         value="true"
