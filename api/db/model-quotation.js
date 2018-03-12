@@ -33,13 +33,11 @@ const Quotation = sequelize.define( `quotation`, {
     allowNull:    true,
     get:          function() {
       const tax = this.getDataValue( `tax` )
-      if ( isNil(tax) ) return this.get( `defaultProduct` ).tax
+      console.log( {tax} )
+      if ( isNil(tax) ) return this.get( `defaultQuotation` ).tax
     },
     set:          function(val) {
-      if ( isNil(val) || val === `` ) {
-        return this.setDataValue( `tax`, this.get( `defaultProduct` ).tax )
-      }
-      val = 0
+      if ( isNil(val) || val === `` ) return this.setDataValue( `tax`, null )
       this.setDataValue( `tax`, val )
     },
   },
@@ -59,6 +57,7 @@ const Quotation = sequelize.define( `quotation`, {
     defaultValue: [],
     set: function (products) {
       const defaultProduct = this.get( `defaultProduct` )
+      if ( !defaultProduct ) throw( `please include Default Product Relation` )
       const updatedProducts = products
         // force numeric values for quantity & price
         .map( product => {

@@ -7,13 +7,11 @@ import serialize from 'form-serialize'
 
 import * as quotations from '../../ducks/quotations'
 import * as customers from '../../ducks/customers'
-import { needRedirect, filterObjectInArrayWith, computeTotals } from '../_helpers.js'
-
-import { Amount, RenderError } from '../_utils.jsx'
+import { needRedirect, filterObjectInArrayWith } from '../_helpers.js'
 import Field from '../ui/field.jsx'
 import NewProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
-import { PrintBtn, Status } from '../business-form'
+import { Status } from '../business-form'
 
 const ConvertButton = (props) => {
   const convertRoute  = `/quotation/convert-to-invoice/${props.businessForm.id}`
@@ -26,12 +24,11 @@ const ConvertButton = (props) => {
 
 class QuotationForm extends Component {
 
-  constructor(props) {
-    super(props)
+  constructor( props ) {
+    super( props )
     this.state = {
       formData: this.props.current,
     }
-    this.handleChange = this.handleChange.bind(this)
     this.handleRemoveProduct = this.handleRemoveProduct.bind(this)
   }
 
@@ -64,24 +61,20 @@ class QuotationForm extends Component {
     // - add an empty line a the end
     //   in case a user just type something on the blank one
     const defaultProduct  = formData.get( `defaultProduct` )
-    const defaultKeys = Object.keys( defaultProduct )
     const currentProducts = formData.get(`products`)
     const products = filterObjectInArrayWith( defaultProduct, currentProducts )
       .push( Object.assign({}, defaultProduct) )
-    let updated = formData.set( `products`, products )
-    // recompute totals
-    const totals = computeTotals( updated.get(`products`), updated.get(`tax`) )
-    updated = updated.merge(null, totals)
+    const updated = formData.set( `products`, products )
     return { formData: updated }
   }
 
-  handleChange(event) {
+  handleChange( event ) {
     const { target } = event
     const value = target.type === 'checkbox' ? target.checked : target.value
     const key = target.getAttribute(`name`)
 
     this.setState( (prevState) => {
-      let updated = prevState.formData.set(key, value)
+      const updated = prevState.formData.set(key, value)
       const isProductChange = /^products\[\d+\]/.test(key)
       const isTaxChange = key === 'tax'
       if ( !isProductChange && !isTaxChange ) return { formData: updated }
@@ -112,30 +105,36 @@ class QuotationForm extends Component {
 
     return (
       <div>
-        <header>
-          <h1>
-            {'Quotation\u00A0'}
-            {formData.count && '-\u00A0'}
-            {formData.count && (<span>PR { formData.count+350 }</span>)}
-          </h1>
-          {/* deactivated for now */}
-          {/* TODO: render a new webpage when clicked */}
-          {/* <PrintBtn {...formData} /> */}
-        </header>
         <form method="post" className="business-form" onSubmit={ e => this.handleSubmit(e) }>
           <fieldset className="business-form__item business-form__item--meta">
             { props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" /> }
-            <Field label="customer" key="name" name="customerId" type="select"
-                    value={formData.customerId} entries={props.customers}
-                    onChange={this.handleChange}
+            <Field
+            label="customer"
+              key="name"
+              name="customerId"
+              value={formData.customerId}
+              type="select"
+              options={props.customers}
+              onChange={ e => this.handleChange(e) }
             />
-            <Status {...props} {...state} onChange={this.handleChange} />
+            <Status {...props} {...state} onChange={ e => this.handleChange(e) } />
           </fieldset>
           <fieldset className="business-form__item business-form__item--tax">
-            <Field name="tax" type="number" step="any" value={formData.tax} onChange={this.handleChange} />
+            <Field
+              name="tax"
+              type="number"
+              step="any"
+              value={formData.tax}
+              onChange={ e => this.handleChange(e) }
+            />
           </fieldset>
           <fieldset className="business-form__item business-form__item--body">
-            <Field key="name" name="name" value={formData.name} onChange={this.handleChange} />
+            <Field
+              key="name"
+              name="name"
+              value={formData.name}
+              onChange={ e => this.handleChange(e) }
+            />
             <NewProductTable products={ products } tax={20} >
               { hasProducts && formData.products.map( (p, i) => {
                 const isLast = i === productsLength -1
@@ -162,13 +161,6 @@ class QuotationForm extends Component {
     )
   }
 }
-
-{/* <ProductLine
-  prefix="defaultProduct"
-  handleChange={ (e) => this.handleChange(e) }
-  product={ defaultProduct }
-  currency={ defaultQuotation.currency }
-/> */}
 
 function mapStateToProps(state, ownProps) {
   const { current } = state.quotations

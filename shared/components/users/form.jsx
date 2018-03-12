@@ -101,6 +101,13 @@ class UserForm extends Component {
           <div className="card__content">
             <input type="hidden" name="defaultQuotation[id]" defaultValue={defaultQuotation.id} />
             <Field
+              key="defaultQuotation[tax]"
+              name="defaultQuotation[tax]"
+              label="tax"
+              value={ defaultQuotation.tax }
+              onChange={ e => this.handleChange(e) }
+            />
+            <Field
               key="defaultQuotation[prefix]"
               name="defaultQuotation[prefix]"
               label="prefix"

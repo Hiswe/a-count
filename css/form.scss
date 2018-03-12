@@ -84,6 +84,7 @@ fieldset:not([class]) {
   &__label {
     border: 0;
     padding: 0.5em 0.75em;
+    font: inherit;
   }
 
   &__control {

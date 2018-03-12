@@ -2,12 +2,12 @@ import moment from 'moment'
 import marked from 'marked'
 
 // prevent error while passing unsupported marked data
-const safeMarked = data => {
+export const safeMarked = data => {
   if (typeof data !== 'string') return ''
   return marked(data)
 }
 
-function formatDate(data) {
+export const formatDate = data => {
   if (typeof data !== `string`) return ``
   const formatedDate = moment(data).format(`DD/MM/YY HH:mm:ss`)
   return formatedDate === `Invalid date` ? `` : formatedDate
@@ -15,7 +15,7 @@ function formatDate(data) {
 
 // control if coming from a no ID model instance…
 // …we update to an instance with ID
-function needRedirect( currentState, nextState ) {
+export const needRedirect = ( currentState, nextState )  => {
   const currentId = currentState.id
   const nextId = nextState.id
   const result = !currentId && nextId ? true
@@ -24,7 +24,7 @@ function needRedirect( currentState, nextState ) {
 }
 
 // {foo: `bar`} [{foo: `bar`}, {foo: `baz`}] => [{foo: `baz`}]
-function filterObjectInArrayWith( filteringObject, array ) {
+export const filterObjectInArrayWith = ( filteringObject, array ) => {
   const filteringKeys = Object.keys( filteringObject )
   const result = array
     .filter( entry => {
@@ -39,31 +39,4 @@ function filterObjectInArrayWith( filteringObject, array ) {
       return !isSameAsDefault
     })
   return result
-}
-
-function roundToNearestQuarter( number ) {
-  const rounded = Math.round(number * 4) / 4
-  return parseFloat(rounded.toFixed(2), 10)
-}
-
-function computeTotals( products, tax ) {
-  const rawNet = products
-    .reduce( (acc, val)  => acc + val.quantity * val.price, 0)
-  const totalNet = roundToNearestQuarter( rawNet )
-  const totalTax = roundToNearestQuarter( totalNet * tax / 100 )
-  const total = totalNet + totalTax
-  const result = {
-    totalNet,
-    totalTax,
-    total,
-  }
-  return result
-}
-
-export {
-  safeMarked,
-  formatDate,
-  needRedirect,
-  filterObjectInArrayWith,
-  computeTotals,
 }

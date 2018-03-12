@@ -20,10 +20,12 @@ const Field = props => {
   const additionalFields = omit(props, omittedKeys)
   let input = null
   if (type === 'select') {
+    const { options } = props
+    const hasOptions = Array.isArray( options )
     input = (
       <select className="field__control" name={name} id={id} onChange={props.onChange} value={value}>
-        { Array.isArray(props.entries) && props.entries.map( (c, i) => (
-          <option key={c.id} value={c.id}>{c.name}</option>
+        { hasOptions && options.map( (option, i) => (
+          <option key={option.id} value={option.id}>{option.name}</option>
         )) }
       </select>
     )
