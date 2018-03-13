@@ -4,24 +4,24 @@ import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom'
 import { renderRoutes, matchRoutes } from 'react-router-config'
-// Redux
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 
-import routes from '../shared/routes'
+import log from './_log.js'
+import routes from '../shared/routes.js'
 import reducer from '../shared/ducks/combined-reducers.js'
 
 const router = new Router()
 
 const reduxActionLogger = ({ getState }) => {
   return next => action => {
-    console.log( `dispatch →`, action.type )
+    log( `dispatch →`, action.type )
     // Call the next dispatch method in the middleware chain.
     const returnValue = next(action)
     const hasError = returnValue.payload.error
     const color = hasError ? chalk.red : chalk.green
-    console.log( `dispatch ←`, color(action.type) )
+    log( `dispatch ←`, color(action.type) )
     // This will likely be the action itself, unless
     // a middleware further in chain changed it.
     return returnValue
@@ -59,7 +59,7 @@ router.get( '*', async (ctx, next) => {
   // reflect status from react-router to express
   if ( staticContext.status === 302 ) {
     ctx.status = 302
-    console.log( `redirect` )
+    log( `redirect` )
     return ctx.redirect( staticContext.url )
   }
   if ( staticContext.status === 404 ) {
