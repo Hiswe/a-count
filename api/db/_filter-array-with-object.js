@@ -2,7 +2,16 @@
 
 const merge = require( 'lodash.merge' )
 
-const filterObjectInArrayWith = ( {defaultObject, array} ) => {
+// filter array with object
+// • This will compare every entry of an array
+// • remove the entry if everything key of the object is similar
+// • ex:
+//   {
+//     array: [{foo: `bar`}, {foo: ``}, , {foo: `baz`}]
+//     defaultObject: {foo: `bar`}
+//   }
+//   => [{foo: ``}, , {foo: `baz`}]
+const filterArrayWithObject = ( {defaultObject, array} ) => {
   const defaultEntries = Object.entries( defaultObject )
   const result = array
     // make sure that the object has the same keys as the comparison
@@ -30,4 +39,4 @@ const filterObjectInArrayWith = ( {defaultObject, array} ) => {
   return result
 }
 
-module.exports = filterObjectInArrayWith
+module.exports = filterArrayWithObject

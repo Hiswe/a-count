@@ -7,7 +7,8 @@ import serialize from 'form-serialize'
 
 import * as quotations from '../../ducks/quotations'
 import * as customers from '../../ducks/customers'
-import { needRedirect, filterObjectInArrayWith } from '../_helpers.js'
+import { needRedirect } from '../_helpers.js'
+import filterArrayWithObject from '../_filter-array-with-object.js'
 import Field from '../ui/field.jsx'
 import NewProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
@@ -60,7 +61,10 @@ class QuotationForm extends Component {
     //   in case a user just type something on the blank one
     const defaultProduct  = formData.get( `defaultProduct` )
     const currentProducts = formData.get( `products` )
-    const products = filterObjectInArrayWith( defaultProduct, currentProducts )
+    const products = filterArrayWithObject({
+      defaultObject: defaultProduct,
+      array: currentProducts,
+    })
       .push( Object.assign({}, defaultProduct) )
     const updated = formData.set( `products`, products )
     return { formData: updated }

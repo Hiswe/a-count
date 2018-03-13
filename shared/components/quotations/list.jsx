@@ -48,7 +48,7 @@ const QuotationRow = props => {
 
 const QuotationTable = (props) => {
   const { quotations } = props
-  const hasQuotations = Array.isArray( quotations ) && quotations.length
+  const hasQuotations = Array.isArray( quotations ) && quotations.length > 0
   return (
     <Table columns="id, title, customer, status, total HT, total" className="table--pres">
       {
