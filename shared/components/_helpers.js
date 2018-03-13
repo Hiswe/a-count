@@ -1,5 +1,6 @@
 import moment from 'moment'
 import marked from 'marked'
+import merge from 'lodash.merge'
 
 // prevent error while passing unsupported marked data
 export const safeMarked = data => {
@@ -24,17 +25,28 @@ export const needRedirect = ( currentState, nextState )  => {
 }
 
 // {foo: `bar`} [{foo: `bar`}, {foo: `baz`}] => [{foo: `baz`}]
-export const filterObjectInArrayWith = ( filteringObject, array ) => {
-  const filteringKeys = Object.keys( filteringObject )
+export const filterObjectInArrayWith = ( {defaultObject, array} ) => {
+  const defaultEntries = Object.entries( defaultObject )
   const result = array
+    // make sure that the object has the same keys as the comparison
+    .map( entry => merge({}, defaultObject, entry) )
+    // To achieve equal comparisons, cast to the same type
+    .map( entry => {
+      defaultEntries.forEach( ([refKey, refValue]) => {
+        const type = typeof refValue
+        switch (type) {
+          case 'number':
+            return entry[ refKey ] = parseFloat( entry[ refKey ], 10 )
+          case 'string':
+            return entry[ refKey ] = `${entry[ refKey ]}`
+        }
+      } )
+      return entry
+    } )
     .filter( entry => {
-      const isSameAsDefault = filteringKeys
-        .map( key => {
-          let entryVal = entry[ key ]
-          const baseVal = filteringObject[ key ]
-          if (typeof baseVal === 'number' ) entryVal = parseFloat( entryVal, 10 )
-          return entryVal === baseVal
-        })
+      // check strict equivalence over all the defaultKeys
+      const isSameAsDefault = defaultEntries
+        .map( ([refKey, refValue]) => refValue === entry[ refKey ] )
         .reduce( (acc, curr) => acc && curr, true )
       return !isSameAsDefault
     })

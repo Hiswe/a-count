@@ -1,6 +1,7 @@
 import crio from 'crio'
 
 import * as isoFetch from '../iso-fetch'
+import fetchDispatch from './_fetch-dispatch.js'
 
 const NAME = `user`
 
@@ -9,8 +10,7 @@ const initialState = {
   current: {},
 }
 
-export const ERROR  = `@concompte/${NAME}/error`
-export const GET  = `@concompte/${NAME}/get`
+export const AUTH  = `@concompte/${NAME}/auth`
 export const LOGIN  = `@concompte/${NAME}/login`
 export const LOGOUT  = `@concompte/${NAME}/logout`
 export const REGISTER  = `@concompte/${NAME}/register`
@@ -22,29 +22,27 @@ export const REGISTER  = `@concompte/${NAME}/register`
 export default function reducer(state = initialState, action) {
   if ( !crio.isCrio(state) ) state = crio( state )
   const { type, payload } = action
-  // payload is tested mostly because @@INIT doesn't come with one
-  if ( !payload ) return state
-  const isUnauthorized = payload.status === 401
-  state = state.set( `isAuthenticated`, !isUnauthorized )
 
   switch (type) {
-    case GET:
-      if ( isUnauthorized ) return state.set( `current`, {} )
-      return state.set( `current`, payload )
-
-    case ERROR: {
-      state = state.set( `current`, {} )
-      return state.set( `isAuthenticated`, false )
+    case `${AUTH}/error`: {
+      state = state.set( `isAuthenticated`, false )
+      return state.set( `current`, {} )
     }
 
+    case AUTH:
+      state = state.set( `isAuthenticated`, true )
+      return state.set( `current`, payload )
+
     case LOGIN:
+    state = state.set( `isAuthenticated`, true )
       return state.set( `current`, payload )
 
     case LOGOUT:
-      state = state.set( `current`, {} )
-      return state.set( `isAuthenticated`, false )
+      state = state.set( `isAuthenticated`, false )
+      return state.set( `current`, {} )
 
     case REGISTER:
+      state = state.set( `isAuthenticated`, true )
       return state.set( `current`, payload )
 
     default:
@@ -52,13 +50,15 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export const get = (params, cookie) => async dispatch => {
+export const auth = (params, cookie) => async dispatch => {
   const fetchOptions = {
     url: `/auth`,
   }
-  const { payload } = await isoFetch.get( fetchOptions, cookie )
-  const type = GET
-  dispatch( {type, payload} )
+  await fetchDispatch({
+    dispatch,
+    type:     AUTH,
+    request:  isoFetch.get( fetchOptions, cookie ),
+  })
 }
 
 export const login = ( params, cookie) => async dispatch => {
@@ -67,18 +67,22 @@ export const login = ( params, cookie) => async dispatch => {
     url: `/login`,
     body,
   }
-  const { payload } = await isoFetch.post( fetchOptions, cookie )
-  const type = payload.error ? ERROR : LOGIN
-  dispatch( {type, payload} )
+  await fetchDispatch({
+    dispatch,
+    type:     LOGIN,
+    request:  isoFetch.post( fetchOptions, cookie ),
+  })
 }
 
 export const logout = (params, cookie) => async dispatch => {
   const fetchOptions = {
     url: `/logout`,
   }
-  const { payload } = await isoFetch.get( fetchOptions, cookie )
-  const type = payload.error ? ERROR : LOGOUT
-  dispatch( {type, payload} )
+  await fetchDispatch({
+    dispatch,
+    type:     LOGOUT,
+    request:  isoFetch.get( fetchOptions, cookie ),
+  })
 }
 
 export const register = ( params, cookie) => async dispatch => {
@@ -87,7 +91,9 @@ export const register = ( params, cookie) => async dispatch => {
     url: `/register`,
     body,
   }
-  const { payload } = await isoFetch.post( fetchOptions, cookie )
-  const type = payload.error ? ERROR : REGISTER
-  dispatch( {type, payload} )
+  await fetchDispatch({
+    dispatch,
+    type:     REGISTER,
+    request:  isoFetch.post( fetchOptions, cookie ),
+  })
 }

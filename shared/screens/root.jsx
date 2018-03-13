@@ -12,11 +12,11 @@ class Layout extends Component {
 
   // always get the session
   static fetchData(store, params, cookies) {
-    return store.dispatch( user.get(params, cookies) )
+    return store.dispatch( user.auth(params, cookies) )
   }
 
   componentDidMount() {
-    this.props.getAuth()
+    this.props.auth()
   }
 
   render () {
@@ -45,7 +45,7 @@ const mapStateToProp = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    getAuth: user.get,
+    auth: user.auth,
   }, dispatch)
 }
 
