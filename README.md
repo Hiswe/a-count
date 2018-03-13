@@ -35,6 +35,7 @@ available:
 - api:redis
 - api:db
 - api:db:query
+- server
 
 ## Documentation
 

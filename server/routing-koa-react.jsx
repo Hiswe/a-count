@@ -14,16 +14,16 @@ import reducer from '../shared/ducks/combined-reducers.js'
 
 const router = new Router()
 
+// simple server side action logger
+// • for the creation of a custom middleware see:
+//   https://redux.js.org/api-reference/applymiddleware#example:-custom-logger-middleware
 const reduxActionLogger = ({ getState }) => {
   return next => action => {
     log( `dispatch →`, action.type )
-    // Call the next dispatch method in the middleware chain.
-    const returnValue = next(action)
+    const returnValue = next( action )
     const hasError = returnValue.payload.error
     const color = hasError ? chalk.red : chalk.green
     log( `dispatch ←`, color(action.type) )
-    // This will likely be the action itself, unless
-    // a middleware further in chain changed it.
     return returnValue
   }
 }

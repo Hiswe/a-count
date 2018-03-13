@@ -11,7 +11,8 @@ import views from 'koa-views'
 import json from 'koa-json'
 import Router from 'koa-router'
 
-import config from './config'
+import config from './config.js'
+import log from './_log.js'
 import apiBackupRoutes from './routing-api-backup.js'
 import reactRoutes from './routing-koa-react.jsx'
 
@@ -74,7 +75,7 @@ app.use( router.routes() )
 //----- LAUNCH THE MAGIC
 
 const server = app.listen(config.PORT, function endInit() {
-  console.log( `Server is listening on port`, server.address().port )
+  log( `Server is listening on port`, server.address().port )
 })
 
 //////

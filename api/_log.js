@@ -6,4 +6,4 @@ const chalk = require( 'chalk' )
 const log = debuglog( `api` )
 log( chalk.green(`init logging`) )
 
-module.exports = debuglog( `api` )
+module.exports = log
