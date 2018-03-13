@@ -2,46 +2,26 @@ import React from 'react'
 
 import * as user from './ducks/user'
 
+// Connect data fetcher
+// • we need to collect data for the components to render properly
+//   …both on the server and the client side
+// • the static “fetchData” is mainly dedicated to the server
+//   but we alias it for the client side with _fetchDataOnClient :)
+// • BUT we don't want those data to be fetch another time on client side initialization
+//   hence the IS_FIRST_MOUNT_AFTER_LOAD
 // • coming from:
 //   https://reactjsnews.com/isomorphic-react-in-real-life#data-fetching
-
-
-// class ActivationsPageContainer extends React.Component {
-//     render() {
-//         return (
-//             <ActivationsPage
-//                 activations = {this.props.activations}
-//                 search      = {this.props.search}
-//                 onItemClick = {this.handleQuizCardClick}
-//                 onSearch    = {this.handleSearch}
-//             />
-//         );
-//     }
-// }
-
-// export default connect({activations : state.activations})(
-//     connectDataFetchers(ActivationsPageContainer, [ loadActivations ])
-// )
-
-
-// route.component.fetchData(store, match.params, header.cookie)
-
-// static fetchData(store, params, cookies) {
-//   return store.dispatch( quotations.getAll(params, cookies) )
-// }
-
 
 let IS_FIRST_MOUNT_AFTER_LOAD = true
 
 export default function connectDataFetchers({Component, actionCreators}) {
+
   // be sure we have an array to begin with
   actionCreators = Array.isArray( actionCreators ) ? actionCreators
     : [ actionCreators ]
-
   // always query the authentication
   actionCreators.unshift( user.auth )
 
-  //
   return class DataFetchersWrapper extends React.Component {
 
     // Don't pass the full store

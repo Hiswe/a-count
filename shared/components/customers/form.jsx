@@ -18,12 +18,6 @@ class CustomerForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
-
-  // componentDidMount() {
-  //   const { params } = this.props.match
-  //   this.props.getOne( params )
-  // }
-
   componentWillReceiveProps(nextProps) {
     const { history, current } = this.props
     const next = nextProps.current

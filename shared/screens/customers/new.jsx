@@ -8,24 +8,6 @@ import FullPage from '../../components/ui/layout-full-page.jsx'
 import CustomerForm from '../../components/customers/form.jsx'
 import { ButtonList } from '../../components/customers/secondary-nav-actions.jsx'
 
-// class NewCustomer extends Component {
-
-//   static fetchData(store, params, cookies) {
-//     return store.dispatch( customers.getOne( params, cookies ) )
-//   }
-
-//   render() {
-//     const { props } = this
-//     return (
-//       <FullPage title="New Customer" secondary={ButtonList} >
-//         <div className="page__content">
-//           <CustomerForm {...props} />
-//         </div>
-//       </FullPage>
-//     )
-//   }
-// }
-
 const NewCustomer = props => {
   return (
     <FullPage title="New Customer" secondary={ButtonList} >

@@ -30,12 +30,6 @@ class QuotationForm extends Component {
     this.state = this.recomputeProducts( this.props.current )
   }
 
-  // componentDidMount() {
-  //   const { params } = this.props.match
-  //   this.props.getOne( params )
-  //   this.props.getAllCustomers( params )
-  // }
-
   componentWillReceiveProps( nextProps ) {
     const { history, current } = this.props
     const next = nextProps.current

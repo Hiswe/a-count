@@ -15,26 +15,6 @@ const SecondaryActions = () => (
   </Fragment>
 )
 
-// class EditCustomer extends Component {
-
-//   static fetchData(store, params, cookies) {
-//     return store.dispatch( customers.getOne( params, cookies ) )
-//   }
-
-//   render() {
-//     const { props } = this
-//     return (
-//       <FullPage title="Edit Customer" secondary={SecondaryActions}>
-//         <div className="page__content">
-//           <CustomerForm {...props} />
-//         </div>
-//       </FullPage>
-//     )
-//   }
-// }
-
-// export default EditCustomer
-
 const EditCustomer = props => {
   return (
     <FullPage title="Edit Customer" secondary={SecondaryActions}>

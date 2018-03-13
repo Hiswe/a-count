@@ -50,5 +50,3 @@ export default connect( state2Props, dispatch2props )( ConnectDataFetcher({
   actionCreators: [
   ],
 }) )
-
-// export default connect( state2Props, dispatch2props )( Register )
