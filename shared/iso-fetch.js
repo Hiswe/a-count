@@ -2,8 +2,9 @@ import 'isomorphic-fetch'
 import merge from 'lodash.merge'
 import urlJoin from 'url-join'
 
+import config from './config.js'
+
 // Thin wrapper around the fetch API
-// • API_URL is defined by webpack
 // • We return both the response & the JSON
 //   The response can be used server-side for accessing the Header (for example)
 //   Useful if we need to access the cookies
@@ -19,7 +20,7 @@ const get = async ({url}, cookie) => {
     },
   }
   if ( cookie ) options.headers.Cookie = cookie
-  const response = await fetch( urlJoin(API_URL, url), options )
+  const response = await fetch( urlJoin(config.API_URL, url), options )
   const payload = await response.json()
   if (!response.ok) {
     merge( payload, {
@@ -45,7 +46,7 @@ const post = async ({url, body}, cookie) => {
   }
   if ( cookie ) options.headers.Cookie = cookie
   try {
-    const response = await fetch( urlJoin(API_URL, url), options )
+    const response = await fetch( urlJoin(config.API_URL, url), options )
     const payload = await response.json()
     if (!response.ok) {
       merge( payload, {

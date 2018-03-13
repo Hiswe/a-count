@@ -1,4 +1,5 @@
 import chalk from 'chalk'
+import serialize from 'serialize-javascript'
 import Router from 'koa-router'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
@@ -9,6 +10,7 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 
 import log from './_log.js'
+import config from './config.js'
 import routes from '../shared/routes.js'
 import reducer from '../shared/ducks/combined-reducers.js'
 
@@ -71,8 +73,12 @@ router.get( '*', async (ctx, next) => {
     ctx.status = 404
   }
 
-  await ctx.render(`react-boilerplate`, {
-    initialState: store.getState(),
+  await ctx.render( `react-boilerplate`, {
+    // only pass a subset of the config. enough for the client side
+    config: serialize( {API_URL: config.API_URL}, { isJSON: true } ),
+    // those will be used to initialize the store client side
+    initialState: serialize( store.getState(), { isJSON: true } ),
+    // the right HTML produced by react ^^
     dom: content,
   })
 })

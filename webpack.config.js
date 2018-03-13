@@ -48,10 +48,6 @@ const serverSourceMapPlugin = () => new webpack.BannerPlugin({
   entryOnly: false
 })
 
-const definePlugin = () => new webpack.DefinePlugin({
-  API_URL: JSON.stringify( `http://localhost:4040/v1` ),
-})
-
 ////////
 // SERVER
 ////////
@@ -63,7 +59,6 @@ const server = mergeDeep({}, sharedServerConfig, {
   },
   plugins: [
     serverSourceMapPlugin(),
-    definePlugin(),
   ],
   module: {
     rules: [{
@@ -98,7 +93,11 @@ const client = {
     path:     path.resolve( __dirname, 'public' )
   },
   plugins: [
-    definePlugin(),
+    new webpack.DefinePlugin({
+      "process.env": {
+        BROWSER: JSON.stringify( true )
+      },
+    }),
   ],
   devtool:    `inline-source-map`,
   // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693

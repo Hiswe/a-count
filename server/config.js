@@ -2,6 +2,7 @@
 import rc from 'rc'
 
 const config      = rc( `concompte`, {
+  API_URL: `http://localhost:4040/v1`,
 })
 
 config.PORT       = config.PORT || process.env.PORT || 3000
