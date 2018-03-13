@@ -2,10 +2,18 @@
 
 const Sequelize = require( 'sequelize' )
 const isNil = require( 'lodash/isnil' )
+const merge = require( 'lodash.merge' )
+const omit = require( 'lodash.omit' )
 
 const config = require( '../config' )
 const sequelize = require( './connection' )
+const compute = require( './_compute' )
 const h = require( './_helpers' )
+const filterDefaultProducts = require( `./_filter-default-products` )
+const Customer = require( './model-customer' )
+const User = require( './model-user' )
+const DefaultQuotation = require( './model-default-quotation' )
+const DefaultProduct = require( './model-default-product' )
 
 const steps = [
   {key: `sendAt`,       name: `send`},
@@ -22,90 +30,58 @@ const Quotation = sequelize.define( `quotation`, {
   },
   name: {
     type:         Sequelize.STRING,
-    allowNull:    false,
-    validate:     {
-      notEmpty: true,
-    },
     set:          h.setNormalizedString(`name`),
+    get:          function () {
+      const name = this.getDataValue( `name` )
+      return name ? name : `untitled quotation`
+    },
   },
   tax: {
     type:         Sequelize.FLOAT,
     allowNull:    true,
     get:          function() {
+      const user = this.get( `user` )
+      if ( !user ) throw new Error( `“user” relation is needed for computing products` )
+
+      const defaultQuotation = user.get( `defaultQuotation` )
+      if ( !defaultQuotation ) throw new Error( `“user.defaultQuotation” relation is needed for computing products` )
+
       const tax = this.getDataValue( `tax` )
-      console.log( {tax} )
-      if ( isNil(tax) ) return this.get( `defaultQuotation` ).tax
+      return isNil( tax ) ? defaultQuotation.tax : tax
     },
-    set:          function(val) {
+    set:          function( val ) {
       if ( isNil(val) || val === `` ) return this.setDataValue( `tax`, null )
       this.setDataValue( `tax`, val )
     },
   },
-  count: {
-    type:         new Sequelize.VIRTUAL(Sequelize.FLOAT, [`quotation-count`]),
-    get:          function() {
-      const quotationCount = this.get( `quotation-count` )
-      return false
-      if (!quotationCount) return false
-      return quotationCount.get(`count`)
-    }
+  index: {
+    type:         Sequelize.BIGINT,
+    allowNull:    false,
   },
-  // PRODUCTS
   products: {
     type:         Sequelize.ARRAY( Sequelize.JSON ),
     allowNull:    false,
     defaultValue: [],
-    set: function (products) {
+    set: function ( products ) {
+      if ( !Array.isArray(products) ) {
+        h.log( `[MODEL-QUOTATION]`, `products weren't an array` )
+        h.log( products )
+        return this.setDataValue( `products`, [] )
+      }
       const defaultProduct = this.get( `defaultProduct` )
-      if ( !defaultProduct ) throw( `please include Default Product Relation` )
-      const updatedProducts = products
-        // force numeric values for quantity & price
-        .map( product => {
-          const normalizedProduct = {}
-          ;[`quantity`, `price`].forEach( key => {
-            const num = parseFloat( product[key], 10 )
-            normalizedProduct[key] = Number.isNaN( num ) ? defaultProduct[key] : num
-          })
-          const hasDesc = typeof product.description === `string`
-          normalizedProduct.description = hasDesc ? product.description.trim() : ``
-          return normalizedProduct
-        })
-        // Filter all default product
-        .filter( product => {
-          const isSameAsDefault = Object.keys( defaultProduct )
-          .map( key => product[key] === defaultProduct[key] )
-          .reduce( (acc, curr) => acc && curr, true)
-        return !isSameAsDefault
-      })
-      this.setDataValue( `products`, updatedProducts )
+      const filteredProducts = filterDefaultProducts( {
+        defaultObject: defaultProduct,
+        array: products,
+      } )
+      this.setDataValue( `products`, filteredProducts )
     }
   },
-  totalNet: {
-    type: new Sequelize.VIRTUAL(Sequelize.FLOAT, [`products`]),
+  _total: {
+    type: new Sequelize.VIRTUAL(Sequelize.JSON, [`products`]),
     get: function () {
       const products = this.getDataValue( `products` )
-      if ( !products ) return 0;
-      const total = products.reduce( (accumulator, currentValue)  => {
-        return accumulator + currentValue.quantity * currentValue.price
-      }, 0)
-      return h.roundToNearestQuarter( total )
-    },
-  },
-  totalTax: {
-    type: new Sequelize.VIRTUAL(Sequelize.FLOAT, [`totalNet`, `tax`]),
-    get: function () {
-      const totalNet = this.get( `totalNet` )
-      const tax = this.get( `tax` )
-      return h.roundToNearestQuarter( totalNet * tax / 100 )
-    },
-  },
-  total: {
-    type: new Sequelize.VIRTUAL(Sequelize.FLOAT, [`totalNet`,`totalTax` ]),
-    get: function () {
-      const totalNet = this.get( `totalNet` )
-      const totalTax = this.get( `totalTax` )
-      return totalNet + totalTax
-    },
+      return compute.totals( products )
+    }
   },
   // STATUS
   sendAt: {
@@ -147,11 +123,53 @@ const Quotation = sequelize.define( `quotation`, {
   customerName: {
     type: new Sequelize.VIRTUAL(Sequelize.STRING, [`customer`]),
     get: function() {
-      const customer = this.get(`customer`)
+      const customer = this.get( `customer` )
       if (!customer) return ``
       return customer.get(`name`)
     }
   },
+  // RELATION ALIASES
+  defaultProduct: {
+    type:         new Sequelize.VIRTUAL(Sequelize.JSON),
+    get:          function() {
+      const user = this.get( `user` )
+      if ( !user ) throw new Error( `“user” relation is needed for computing products` )
+
+      const defaultProduct = user.get( `defaultProduct` )
+      if ( !defaultProduct ) throw new Error( `“user.defaultProduct” relation is needed for computing products` )
+
+      return omit( defaultProduct.toJSON(), [`id`, `userId`] )
+    }
+  },
 })
+
+//////
+// MODEL METHODS
+//////
+
+Quotation.relations = {
+  include: [
+    {
+      model: User,
+      attributes: {
+        exclude: [`password`],
+      },
+      include: [
+        DefaultQuotation,
+        DefaultProduct,
+      ],
+    },
+    {
+      model: Customer,
+      attributes: [`id`, `name`, `address`],
+    }
+  ]
+}
+
+Quotation.findOneWithRelations = async additionalParams => {
+  const params = merge( Quotation.relations, additionalParams )
+  const quotation = await Quotation.findOne( params )
+  return quotation
+}
 
 module.exports = Quotation

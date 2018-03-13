@@ -37,7 +37,7 @@ class QuotationForm extends Component {
     this.props.getAllCustomers( params )
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps( nextProps ) {
     const { history, current } = this.props
     const next = nextProps.current
     // update state on redux status change
@@ -45,22 +45,23 @@ class QuotationForm extends Component {
     // redirect if new quotation
     if ( needRedirect(current, next) ) history.push(`/quotations/${next.id}`)
     this.setState( (prevState, props) => {
-      return { formData: props.current }
+      return this.recomputeProducts( props.current )
     })
   }
 
   handleSubmit( event ) {
     event.preventDefault()
-    const result = serialize( event.target, { hash: true } )
-    this.props.saveOne( {result} )
+    const body = serialize( event.target, { hash: true } )
+    console.log({body})
+    this.props.saveOne( {body} )
   }
 
   recomputeProducts( formData ) {
-    // - de-dupe defaultProduct lines
-    // - add an empty line a the end
+    // • de-dupe defaultProduct lines
+    // • add an empty line a the end
     //   in case a user just type something on the blank one
     const defaultProduct  = formData.get( `defaultProduct` )
-    const currentProducts = formData.get(`products`)
+    const currentProducts = formData.get( `products` )
     const products = filterObjectInArrayWith( defaultProduct, currentProducts )
       .push( Object.assign({}, defaultProduct) )
     const updated = formData.set( `products`, products )

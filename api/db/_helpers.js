@@ -1,5 +1,11 @@
 'use strict'
 
+const { debuglog } = require( 'util' )
+const chalk = require( 'chalk' )
+
+const log = debuglog( `api:db` )
+log( chalk.green(`init logging`) )
+
 const normalizeString = string => {
   string = `${string}`
   return string.trim().toLowerCase()
@@ -29,15 +35,10 @@ const setNormalizedDate = key => function( val ) {
   this.setDataValue( key, date )
 }
 
-const roundToNearestQuarter = number => {
-  const rounded = Math.round(number * 4) / 4
-  return parseFloat(rounded.toFixed(2), 10)
-}
-
 module.exports = {
   normalizeString,
   setNormalizedString,
   getNormalizedDate,
   setNormalizedDate,
-  roundToNearestQuarter,
+  log,
 }

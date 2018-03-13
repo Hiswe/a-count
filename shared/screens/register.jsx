@@ -22,10 +22,10 @@ class Register extends Component {
       <LayoutOnboard title="Create an account">
         <form method="post" action="/register" onSubmit={ e => this.handleSubmit(e) } >
           <FieldWrapper id="email" label="Email">
-            <input className="input__field" id="email" name="email" type="email" />
+            <input className="field__control" id="email" name="email" type="email" />
           </FieldWrapper>
           <FieldWrapper id="password" label="Password">
-            <input className="input__field" id="password" name="password" type="password" />
+            <input className="field__control" id="password" name="password" type="password" />
           </FieldWrapper>
           <button className="btn" type="submit">Submit</button>
         </form>

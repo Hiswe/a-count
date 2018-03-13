@@ -1,7 +1,11 @@
 .main-nav {
   $root: &;
   background: var(--c-nav);
-  grid-area: main-nav;
+  position: fixed;
+  top: var(--s-nav-top-height);
+  left: 0;
+  width: var(--s-nav-main-width);
+  bottom: 0;
 
   &__in,
   &__item {

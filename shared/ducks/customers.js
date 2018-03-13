@@ -47,10 +47,7 @@ export const getOne = (params, cookie) => async dispatch => {
   }
   const { payload } = await isoFetch.get( fetchOptions, cookie )
   const type = payload.error ? ERROR : GET_ONE
-  dispatch({
-    type,
-    payload,
-  })
+  dispatch( {type, payload} )
 }
 
 export const saveOne = (params, cookie) => async dispatch => {
@@ -63,8 +60,5 @@ export const saveOne = (params, cookie) => async dispatch => {
   }
   const { payload } = await isoFetch.post( fetchOptions, cookie )
   const type = payload.error ? ERROR : SAVE_ONE
-  dispatch({
-    type,
-    payload,
-  })
+  dispatch( {type, payload} )
 }

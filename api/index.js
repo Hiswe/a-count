@@ -15,7 +15,7 @@ require( './db' )
 const redis = require( './redis' )
 const config = require( './config' )
 const router = require( './router' )
-const { log } = require( './_helpers' )
+const log = require( './_log' )
 const formatResponse = require( './_format-response' )
 
 //////
@@ -83,6 +83,7 @@ app.use( async function handleApiError(ctx, next) {
     // only log errors >= 500
     const s = status / 100 | 0
     if (s > 4) {
+      console.log( inspect(err, {colors: true}) )
       console.log( inspect(err.original ? err.original : err, {colors: true, depth: 1}) )
     }
     ctx.body = formatResponse({

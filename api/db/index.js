@@ -1,10 +1,10 @@
 'use strict'
 
 const chalk = require( 'chalk' )
-const { inspect, debuglog } = require( 'util' )
+const { inspect } = require( 'util' )
 const { normalize, schema } = require( 'normalizr' )
 
-const log = debuglog( `db` )
+const { log } = require( `./_helpers` )
 const sequelize = require( './connection' )
 const config = require(  '../config' )
 const Customer = require( './model-customer' )
@@ -20,8 +20,6 @@ const User = require( './model-user' )
 
 Quotation.belongsTo( Customer )
 Quotation.belongsTo( User )
-Quotation.hasOne( DefaultQuotation, {foreignKey: `userId`} )
-Quotation.hasOne( DefaultProduct, {foreignKey: `userId`} )
 
 Customer.hasMany( Quotation )
 Customer.belongsTo( User )
@@ -56,7 +54,7 @@ sequelize
   log( chalk.red(`connection FAIL`) )
   log( inspect(err, {colors: true}) )
   dbStatus = err
-  if (err.code !== `ECONNREFUSED`) return console.log(err)
+  if (err.code !== `ECONNREFUSED`) return log(err)
   log( chalk.yellow(`db is not accessible\nlaunch it for god sake`) )
 })
 

@@ -5,7 +5,6 @@ const Router = require( 'koa-router' )
 
 const formatResponse = require( './_format-response' )
 const dbHelpers = require( './db/_helpers' )
-const helpers = require( './_helpers' )
 const User = require( './db/model-user' )
 const DefaultQuotation = require( './db/model-default-quotation' )
 const DefaultInvoice = require( './db/model-default-invoice' )
@@ -17,7 +16,15 @@ module.exports = router
 router
 .get( `/auth`, async (ctx, next) => {
   ctx.assert( ctx.session && ctx.session.user, 401, `Not connected` )
-  ctx.body = formatResponse( ctx.session.user )
+
+  const id = ctx.session.user.id
+  const user = await User.findOneWithRelations( { where: {id}} )
+  if ( !user ) ctx.session = null
+  ctx.assert( user, 401, `User not matching session!` )
+
+  const result = formatResponse( user )
+  ctx.session.user = result
+  ctx.body = result
 })
 .post(`/register`, async (ctx, next) => {
   const { body }  = ctx.request

@@ -3,7 +3,6 @@
 const merge = require( 'lodash.merge' )
 const Router = require( 'koa-router' )
 
-const helpers = require( './_helpers' )
 const formatResponse = require( './_format-response' )
 const User = require( './db/model-user' )
 const DefaultQuotation = require( './db/model-default-quotation' )

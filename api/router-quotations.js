@@ -2,6 +2,8 @@
 
 const { inspect } = require( 'util' )
 const Router = require( 'koa-router' )
+const merge = require( 'lodash.merge' )
+const omit = require( 'lodash.omit' )
 
 const formatResponse = require( './_format-response' )
 const { normalizeString } = require( './db/_helpers' )
@@ -16,36 +18,17 @@ const router = new Router({prefix: `/${prefix}`})
 module.exports = router
 
 //////
-// UTILITIES
-//////
-
-const getQuotationById = (id) => {
-  return Quotation.findOne( {
-    where: { id,},
-    include: [{
-      model: Customer,
-      attributes: [`id`, `name`, `address`],
-    }],
-  })
-}
-
-//////
 // ROUTES
 //////
 
 router
 .get(`/`, async (ctx, next) => {
-  const list = await Quotation.findAll({
+  const params = merge( {
     where: {
       userId: ctx.session.user.id,
     },
-    include: [{
-      model: Customer,
-      attributes: [`id`, `name`, `address`],
-    }, {
-      model: User,
-    }],
-  })
+  }, Quotation.relations )
+  const list = await Quotation.findAll( params )
   // put response in a “list“ key
   // • we will add pagination information later
   ctx.body = formatResponse( {list} )
@@ -55,19 +38,18 @@ router
 
 .get(`/new`, async (ctx, next) => {
   const { user } = ctx.session
-  const userId = user.id
-  console.log( user )
   const body = {
-    // userId,
     user,
-    defaultQuotation: user.defaultQuotation,
-    defaultProduct:   user.defaultProduct,
   }
   const params = {
     include: [
-      User,
-      DefaultQuotation,
-      DefaultProduct,
+      {
+        model: User,
+        include: [
+          DefaultQuotation,
+          DefaultProduct,
+        ],
+      },
     ]
   }
   const modelTemplate = new Quotation( body, params ).toJSON()
@@ -75,23 +57,50 @@ router
   ctx.body = formatResponse( modelTemplate )
 })
 .post(`/new`,  async (ctx, next) => {
-  const { body }      = ctx.request
-  // TODO: increment user quotation count
-  // http://docs.sequelizejs.com/manual/tutorial/instances.html#incrementing
-  const customer      = await Customer.findById( body.customerId )
-  ctx.assert(customer, 500, `Can't ${ id ? 'create' : 'update'} Quotation. The associated customer isn't found`)
-  const instance  = await Quotation.updateOrCreate( false, body )
-  const result    = await getQuotationById( instance.id )
-  ctx.assert(result, 404, `Quotation not found`)
-  ctx.body        = formatResponse( result )
+  const { user } = ctx.session
+  const { body } = ctx.request
+  const customer = await Customer.findById( body.customerId )
+
+  ctx.assert(customer, 500, `Can't create Quotation. The associated customer isn't found`)
+
+  const dbUser = await User.findOneWithRelations( {where: {id: user.id }} )
+  ctx.assert(dbUser, 500, `Can't create Quotation. The associated user isn't found`)
+
+  await dbUser.increment( `quotationCount`, {by: 1} )
+  const updatedUser = await User.findOneWithRelations( {where: {id: user.id }} )
+
+  ctx.session.user = formatResponse( updatedUser )
+
+  // To avoid model quotation haven't access to his relations we
+  // • build an empty quotation
+  // • get it with its relations
+  // • THEN update it with the body
+  // • https://github.com/sequelize/sequelize/issues/3321#issuecomment-78218074
+  const emptyQuotation = Quotation.build({
+    index: ctx.session.user.quotationCount,
+    customerId: body.customerId,
+  })
+  emptyQuotation.setUser( updatedUser, {save: false} )
+  emptyQuotation.setCustomer( customer, {save: false} )
+  await emptyQuotation.save()
+
+  const quotation = await Quotation.findOneWithRelations({
+    where: { id: emptyQuotation.get(`id`) },
+  })
+
+  const updatedQuotation = await quotation.update( body )
+
+  ctx.assert( null, 500, `something went wrong` )
+
+  ctx.body = formatResponse( updatedQuotation )
 })
 
 //----- EDIT
 
 .get(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
-  const instance  = await getQuotationById( id )
-  ctx.assert(instance, 404, `Quotation not found`)
+  const instance  = await Quotation.findOneWithRelations( {where: { id }} )
+  ctx.assert( instance, 404, `Quotation not found` )
   ctx.body = formatResponse( instance )
 })
 .post(`/:id`, async (ctx, next) => {
@@ -99,11 +108,16 @@ router
   const { body }  = ctx.request
   const customer  = await Customer.findById( body.customerId )
 
-  ctx.assert(customer, 500, `Can't ${ id ? 'create' : 'update'} Quotation. The associated customer isn't found`)
+  ctx.assert(customer, 500, `Can't update Quotation. The associated customer isn't found`)
 
-  const instance  = await Quotation.updateOrCreate( id, body )
-  const result    = await getQuotationById( instance.id )
+  const quotation = await Quotation.findOneWithRelations( {where: { id }} )
+  ctx.assert( quotation, 404, `Quotation not found` )
 
-  ctx.assert(result, 404, `Quotation not found`)
-  ctx.body        = formatResponse( result )
+  const updatedQuotation = await quotation.update( body )
+
+  // const instance  = await Quotation.updateOrCreate( id, body )
+  // const result    = await getQuotationById( instance.id )
+
+  // ctx.assert(result, 404, `Quotation not found`)
+  ctx.body = formatResponse( updatedQuotation )
 })

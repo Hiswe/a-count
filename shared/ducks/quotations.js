@@ -1,6 +1,6 @@
 import crio from 'crio'
 
-import { get, post } from '../iso-fetch'
+import * as isoFetch from '../iso-fetch'
 
 const NAME = `quotations`
 
@@ -18,6 +18,7 @@ export default function reducer(state = initialState, action) {
   if ( !crio.isCrio(state) ) state = crio( state )
   switch (action.type) {
     case GET_ALL:
+      console.log( action.payload.list )
       return state.set( `list`, action.payload.list )
 
     case GET_ONE:
@@ -35,7 +36,7 @@ export const getAll = (params, cookie) => async dispatch => {
   const fetchOptions = {
     url: `${NAME}`,
   }
-  const { payload } = await get( fetchOptions, cookie )
+  const { payload } = await isoFetch.get( fetchOptions, cookie )
   const type = payload.error ? ERROR : GET_ALL
   dispatch( {type, payload} )
 }
@@ -46,18 +47,16 @@ export const getOne = (params, cookie) => async dispatch => {
   const fetchOptions = {
     url: `${NAME}/${id}`,
   }
-  const { payload } = await get( fetchOptions, cookie )
+  const { payload } = await isoFetch.get( fetchOptions, cookie )
   // make an empty line at the bottom of the products list
   // this help the form when no-js
-  // & also avoid to ta had this on componentWillReceiveProps
+  // & also avoid to add this on componentWillReceiveProps
   if ( Array.isArray( payload.products ) ) {
     const copiedDefaultProduct = Object.assign( {}, payload.defaultProduct )
     payload.products.push( copiedDefaultProduct )
   }
-  dispatch({
-    type: GET_ONE,
-    payload,
-  })
+  const type = payload.error ? ERROR : SAVE_ONE
+  dispatch( {type, payload} )
 }
 
 export const saveOne = (params, cookie) => async dispatch => {
@@ -68,13 +67,7 @@ export const saveOne = (params, cookie) => async dispatch => {
     url: `${NAME}/${id}`,
     body,
   }
-  const { payload } = await post( fetchOptions, cookie )
-  if ( Array.isArray( payload.products ) ) {
-    const copiedDefaultProduct = Object.assign( {}, payload.defaultProduct )
-    payload.products.push( copiedDefaultProduct )
-  }
-  dispatch({
-    type: SAVE_ONE,
-    payload,
-  })
+  const { payload } = await isoFetch.post( fetchOptions, cookie )
+  const type = payload.error ? ERROR : SAVE_ONE
+  dispatch( {type, payload} )
 }

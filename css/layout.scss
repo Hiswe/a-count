@@ -17,12 +17,14 @@ a {
 }
 
 .main {
+  min-height: 100vh;
+
   &--with-onboard {
     background: var(--c-primary-darkest);
     display: flex;
     align-items: center;
     justify-content: center;
-    grid-area: secondary-nav / secondary-nav / content / content;
+    // grid-area: secondary-nav / secondary-nav / content / content;
   }
   &--with-page {
     padding: var(--s-gutter);
@@ -36,7 +38,7 @@ a {
     padding: 0 var(--s-gutter);
     background: white;
     color: var(--c-nav);
-    grid-area: secondary-nav;
+    height: var(--s-nav-top-height);
     display: flex;
     align-items: center;
   }
@@ -51,12 +53,7 @@ a {
 
 #react-wrapper {
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: var(--s-nav-main-width) 1fr;
-  grid-template-rows: var(--s-nav-top-height) 1fr;
-  grid-template-areas:
-    "logo secondary-nav"
-    "main-nav content";
+  margin-left: var(--s-nav-main-width);
 }
 
 .main-logo {
@@ -70,6 +67,11 @@ a {
   text-transform: uppercase;
   background: var(--c-nav);
   color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--s-nav-main-width);
+  height: var(--s-nav-top-height);
 }
 
 .onboard {

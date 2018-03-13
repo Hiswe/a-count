@@ -1,11 +1,14 @@
 'use strict'
 
 const { promisify, debuglog } = require( 'util' )
+const chalk = require( 'chalk' )
 const redis = require( 'redis' )
 
 const config = require( './config' )
 
-const log = debuglog( `redis` )
+const log = debuglog( `api:redis` )
+log( chalk.green(`init logging`) )
+
 const client = redis.createClient( config.redis.port, config.redis.host )
 
 client.on( `ready`, () => log(`ready`) )

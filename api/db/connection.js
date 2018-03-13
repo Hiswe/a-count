@@ -6,7 +6,7 @@ const formattor = require( 'formattor' )
 
 const config = require(  '../config' )
 
-const log = debuglog( `db-query` )
+const log = debuglog( `api:db:query` )
 const { Op } = Sequelize
 
 // Aliases all operators to the equivalent Symbols

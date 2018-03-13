@@ -27,7 +27,11 @@ const QuotationRow = props => {
           <FakeId count={quotation.count} />
         </Link>
       </td>
-      <td>{quotation.name}</td>
+      <td>
+        <Link to={`/quotations/${quotation.id}`}>
+          {quotation.name}
+        </Link>
+      </td>
       <td>
         <Link to={`/customers/${quotation.customerId}`}>
           {quotation.customerName}
@@ -35,8 +39,8 @@ const QuotationRow = props => {
       </td>
       <td></td>
       {/* {status.date ? <QuotationStatus status={status} /> : <td>-</td>} */}
-      <td><Amount value={quotation.totalNet} /></td>
-      <td><Amount value={quotation.total} /></td>
+      <td><Amount value={quotation._total.net} /></td>
+      <td><Amount value={quotation._total.all} /></td>
     </tr>
   )
 }
