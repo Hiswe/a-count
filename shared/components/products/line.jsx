@@ -25,7 +25,9 @@ const Line = props => {
       </td>
       <td>
         <input
-          type="number" min="0" step="10"
+          type="number"
+          min="0"
+          step="1"
           name={ `${fieldPath}[price]` }
           value={ product.price }
           onChange={ e => onChange(e) }

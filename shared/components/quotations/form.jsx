@@ -26,9 +26,7 @@ class QuotationForm extends Component {
 
   constructor( props ) {
     super( props )
-    this.state = {
-      formData: this.props.current,
-    }
+    this.state = this.recomputeProducts( this.props.current )
   }
 
   componentDidMount() {

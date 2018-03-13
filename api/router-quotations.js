@@ -1,17 +1,18 @@
 'use strict'
 
 const { inspect } = require( 'util' )
+const chalk = require( 'chalk' )
 const Router = require( 'koa-router' )
 const merge = require( 'lodash.merge' )
 const omit = require( 'lodash.omit' )
 
 const formatResponse = require( './_format-response' )
 const { normalizeString } = require( './db/_helpers' )
-const Customer = require( './db/model-customer' )
 const Quotation = require( './db/model-quotation' )
 const User = require( './db/model-user' )
 const DefaultQuotation = require( './db/model-default-quotation' )
 const DefaultProduct = require( './db/model-default-product' )
+const Customer = require( './db/model-customer' )
 
 const prefix = `quotations`
 const router = new Router({prefix: `/${prefix}`})
@@ -23,12 +24,15 @@ module.exports = router
 
 router
 .get(`/`, async (ctx, next) => {
-  const params = merge( {
+  // console.log( chalk.green(ctx.session.user.id) )
+  const params = Quotation.mergeWithDefaultRelations({
     where: {
       userId: ctx.session.user.id,
     },
-  }, Quotation.relations )
+  })
   const list = await Quotation.findAll( params )
+
+  // console.log( list.map( l => l.toJSON() ) )
   // put response in a “list“ key
   // • we will add pagination information later
   ctx.body = formatResponse( {list} )
@@ -106,18 +110,13 @@ router
 .post(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
   const { body }  = ctx.request
-  const customer  = await Customer.findById( body.customerId )
-
-  ctx.assert(customer, 500, `Can't update Quotation. The associated customer isn't found`)
 
   const quotation = await Quotation.findOneWithRelations( {where: { id }} )
   ctx.assert( quotation, 404, `Quotation not found` )
 
+  const customer  = await Customer.findById( body.customerId )
+  ctx.assert(customer, 500, `Can't update Quotation. The associated customer isn't found`)
+
   const updatedQuotation = await quotation.update( body )
-
-  // const instance  = await Quotation.updateOrCreate( id, body )
-  // const result    = await getQuotationById( instance.id )
-
-  // ctx.assert(result, 404, `Quotation not found`)
   ctx.body = formatResponse( updatedQuotation )
 })

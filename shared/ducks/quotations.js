@@ -18,7 +18,6 @@ export default function reducer(state = initialState, action) {
   if ( !crio.isCrio(state) ) state = crio( state )
   switch (action.type) {
     case GET_ALL:
-      console.log( action.payload.list )
       return state.set( `list`, action.payload.list )
 
     case GET_ONE:
@@ -48,14 +47,7 @@ export const getOne = (params, cookie) => async dispatch => {
     url: `${NAME}/${id}`,
   }
   const { payload } = await isoFetch.get( fetchOptions, cookie )
-  // make an empty line at the bottom of the products list
-  // this help the form when no-js
-  // & also avoid to add this on componentWillReceiveProps
-  if ( Array.isArray( payload.products ) ) {
-    const copiedDefaultProduct = Object.assign( {}, payload.defaultProduct )
-    payload.products.push( copiedDefaultProduct )
-  }
-  const type = payload.error ? ERROR : SAVE_ONE
+  const type = payload.error ? ERROR : GET_ONE
   dispatch( {type, payload} )
 }
 

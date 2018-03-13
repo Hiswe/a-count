@@ -147,27 +147,29 @@ const Quotation = sequelize.define( `quotation`, {
 // MODEL METHODS
 //////
 
-Quotation.relations = {
-  include: [
-    {
-      model: User,
-      attributes: {
-        exclude: [`password`],
+Quotation.mergeWithDefaultRelations = (additionalParams = {}) => {
+  return merge({
+    include: [
+      {
+        model: User,
+        attributes: {
+          exclude: [`password`],
+        },
+        include: [
+          DefaultQuotation,
+          DefaultProduct,
+        ],
       },
-      include: [
-        DefaultQuotation,
-        DefaultProduct,
-      ],
-    },
-    {
-      model: Customer,
-      attributes: [`id`, `name`, `address`],
-    }
-  ]
+      {
+        model: Customer,
+        attributes: [`id`, `name`, `address`],
+      }
+    ]
+  }, additionalParams )
 }
 
 Quotation.findOneWithRelations = async additionalParams => {
-  const params = merge( Quotation.relations, additionalParams )
+  const params = Quotation.mergeWithDefaultRelations( additionalParams )
   const quotation = await Quotation.findOne( params )
   return quotation
 }
