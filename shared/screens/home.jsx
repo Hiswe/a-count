@@ -2,6 +2,7 @@ import React        from 'react'
 import { connect }  from 'react-redux'
 import { Link }     from 'react-router-dom'
 
+import ConnectDataFetcher from '../connect-data-fetcher.js'
 import FullPage from '../components/ui/layout-full-page.jsx'
 
 // import QuotationList  from './quotation-list.jsx'
@@ -59,4 +60,10 @@ const Home = () => (
 
 // export default connect()(Home)
 
-export { Home as default }
+// export { Home as default }
+
+export default connect()( ConnectDataFetcher({
+  Component: Home,
+  actionCreators: [
+  ],
+}) )

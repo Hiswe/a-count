@@ -3,6 +3,7 @@ import serialize from 'form-serialize'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import ConnectDataFetcher from '../connect-data-fetcher.js'
 import * as user from '../ducks/user'
 import LayoutOnboard from '../components/ui/layout-onboard.jsx'
 import FieldWrapper from '../components/ui/field-wrapper.jsx'
@@ -34,14 +35,18 @@ class Login extends Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+const state2Props = state => {
   return {}
 }
 
-const mapDispatchToProps = dispatch => {
+const dispatch2props = dispatch => {
   return bindActionCreators({
     login: user.login,
   }, dispatch)
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( Login )
+export default connect( state2Props, dispatch2props )( ConnectDataFetcher({
+  Component: Login,
+  actionCreators: [
+  ],
+}) )

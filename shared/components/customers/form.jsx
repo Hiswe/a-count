@@ -19,10 +19,10 @@ class CustomerForm extends Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
-  componentDidMount() {
-    const { params } = this.props.match
-    this.props.getOne( params )
-  }
+  // componentDidMount() {
+  //   const { params } = this.props.match
+  //   this.props.getOne( params )
+  // }
 
   componentWillReceiveProps(nextProps) {
     const { history, current } = this.props
@@ -89,9 +89,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({
-    getOne:   customers.getOne,
+    // getOne:   customers.getOne,
     saveOne:  customers.saveOne,
   }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomerForm)
+export default connect( mapStateToProps, mapDispatchToProps )( CustomerForm )

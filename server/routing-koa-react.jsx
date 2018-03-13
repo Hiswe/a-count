@@ -39,7 +39,11 @@ router.get( '*', async (ctx, next) => {
     .map( ({route, match}) => {
       // Pass here the cookies
       // fetch will need it to maintain authentication
-      return route.component.fetchData(store, match.params, header.cookie)
+      return route.component.fetchData({
+        dispatch: store.dispatch,
+        params: match.params,
+        cookie: header.cookie,
+      })
     } )
   await Promise.all( initFetches )
 
@@ -47,6 +51,7 @@ router.get( '*', async (ctx, next) => {
   // • Because it's mutable, it will change during the React's server rendering process
   // • So that's a good way to pass data from react-router-config to the server
   const staticContext = {}
+  // console.log( store.getState() )
   const content = renderToString(
     <Provider store={store}>
       <StaticRouter location={url} context={staticContext}>

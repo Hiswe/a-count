@@ -24,7 +24,6 @@ module.exports = router
 
 router
 .get(`/`, async (ctx, next) => {
-  // console.log( chalk.green(ctx.session.user.id) )
   const params = Quotation.mergeWithDefaultRelations({
     where: {
       userId: ctx.session.user.id,
@@ -32,10 +31,11 @@ router
   })
   const list = await Quotation.findAll( params )
 
-  // console.log( list.map( l => l.toJSON() ) )
   // put response in a “list“ key
   // • we will add pagination information later
-  ctx.body = formatResponse( {list} )
+  ctx.body = formatResponse( {
+    list: list.map( c => c.toJSON() ),
+  } )
 })
 
 //----- NEW
@@ -75,7 +75,7 @@ router
 
   ctx.session.user = formatResponse( updatedUser )
 
-  // To avoid model quotation haven't access to his relations we
+  // To avoid model quotation haven't access to his relations we:
   // • build an empty quotation
   // • get it with its relations
   // • THEN update it with the body

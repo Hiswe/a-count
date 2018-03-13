@@ -7,9 +7,9 @@ import Table from '../ui/table.jsx'
 import TableEmptyLine from '../ui/table-empty-line.jsx'
 
 const CustomerRow = (props) => {
-  let customer = props.customer
-  let url      = `/customers/${customer.id}`
-  let address  = { __html: safeMarked(customer.address) }
+  const customer = props.customer
+  const url      = `/customers/${customer.id}`
+  const address  = { __html: safeMarked(customer.address) }
   return (
     <tr>
       <td>
@@ -36,10 +36,10 @@ const CustomerList = (props) => {
   )
 }
 
-function mapStateToProp(state) {
+const state2prop = state => {
   return {
     customers: state.customers && state.customers.list
   }
 }
 
-export default connect(mapStateToProp)(CustomerList)
+export default connect( state2prop )( CustomerList )

@@ -6,7 +6,8 @@ import fetchDispatch from './_fetch-dispatch.js'
 const NAME = `user`
 
 const initialState = {
-  isAuthenticated:  false,
+  isAuthenticated:  true,
+  // isAuthenticated:  false,
   current: {},
 }
 
@@ -44,7 +45,7 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export const auth = (params, cookie) => async dispatch => {
+export const auth = ({params, cookie}) => async dispatch => {
   const fetchOptions = {
     url: `/auth`,
   }
@@ -55,7 +56,7 @@ export const auth = (params, cookie) => async dispatch => {
   dispatch( {type, payload} )
 }
 
-export const login = ( params, cookie) => async dispatch => {
+export const login = ({params, cookie}) => async dispatch => {
   const { body } = params
   const fetchOptions = {
     url: `/login`,
@@ -68,7 +69,7 @@ export const login = ( params, cookie) => async dispatch => {
   })
 }
 
-export const logout = (params, cookie) => async dispatch => {
+export const logout = ({params, cookie}) => async dispatch => {
   const fetchOptions = {
     url: `/logout`,
   }
@@ -79,7 +80,7 @@ export const logout = (params, cookie) => async dispatch => {
   })
 }
 
-export const register = ( params, cookie) => async dispatch => {
+export const register = ({params, cookie}) => async dispatch => {
   const { body } = params
   const fetchOptions = {
     url: `/register`,

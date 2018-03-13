@@ -46,7 +46,7 @@ const QuotationRow = props => {
 }
 //----- ALL
 
-const QuotationTable = (props) => {
+const QuotationTable = props => {
   const { quotations } = props
   const hasQuotations = Array.isArray( quotations ) && quotations.length > 0
   return (
@@ -61,4 +61,11 @@ const QuotationTable = (props) => {
   )
 }
 
-export { QuotationTable as default }
+const state2prop = state => {
+  return {
+    quotations: state.quotations && state.quotations.list
+  }
+}
+
+export default connect( state2prop )( QuotationTable )
+
