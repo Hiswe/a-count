@@ -66,6 +66,6 @@ export const saveOne = ({params, cookie}) => async dispatch => {
   await fetchDispatch({
     dispatch,
     type:     SAVE_ONE,
-    request:  isoFetch.get( fetchOptions, cookie ),
+    request:  isoFetch.post( fetchOptions, cookie ),
   })
 }
