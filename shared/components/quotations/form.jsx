@@ -46,7 +46,7 @@ class QuotationForm extends Component {
     event.preventDefault()
     const body = serialize( event.target, { hash: true } )
     console.log({body})
-    this.props.saveOne( {body} )
+    this.props.saveOne( { params: {body} } )
   }
 
   recomputeProducts( formData ) {
@@ -167,7 +167,7 @@ function mapStateToProps(state, ownProps) {
     isNew,
     current,
     customers: state.customers && state.customers.list,
-    user: state.user.current
+    user: state.users.current
   }
   return result
 }

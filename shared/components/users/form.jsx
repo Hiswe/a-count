@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import serialize from 'form-serialize'
 
-import * as customers from '../../ducks/customers'
+import * as users from '../../ducks/users'
 import { needRedirect } from '../_helpers.js'
 import Field from '../ui/field.jsx'
 import ProductTable from '../products/table.jsx'
@@ -18,13 +18,6 @@ class UserForm extends Component {
     this.state = {
       formData: this.props.current,
     }
-    // this.handleSubmit = this.handleSubmit.bind(this)
-    // this.handleChange = this.handleChange.bind(this)
-  }
-
-  componentDidMount() {
-    // const { params } = this.props.match
-    // this.props.getOne( params )
   }
 
   componentWillReceiveProps(nextProps) {
@@ -44,9 +37,9 @@ class UserForm extends Component {
   }
 
   handleSubmit( event ) {
-    // event.preventDefault()
-    // const result = serialize( event.target, { hash: true, empty: true } )
-    // this.props.saveOne( result )
+    event.preventDefault()
+    const body = serialize( event.target, { hash: true, empty: true } )
+    this.props.dispatch(  users.saveOne( { params: {body} } ))
   }
 
   handleChange( event ) {
@@ -65,13 +58,11 @@ class UserForm extends Component {
     const { formData } = state
     const { defaultProduct, defaultQuotation, defaultInvoice } = formData
 
-    // if ( current.error ) return ( <RenderError {...current} /> )
-
     return (
       <form
         method="post"
         action={`/users/${formData.id}`}
-        onSubmit={this.handleSubmit}
+        onSubmit={ e => this.handleSubmit(e) }
         className="form form--profile"
       >
         <input type="hidden" name="id" defaultValue={formData.id} />
@@ -172,17 +163,10 @@ class UserForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const state2props = state => {
   return {
-    current: state.user.current,
+    current: state.users.current,
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({
-    // getOne:   customers.getOne,
-    // saveOne:  customers.saveOne,
-  }, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)( UserForm )
+export default connect( state2props )( UserForm )

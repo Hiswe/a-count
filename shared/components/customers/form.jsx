@@ -37,7 +37,7 @@ class CustomerForm extends Component {
   handleSubmit(event) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true, empty: true } )
-    this.props.saveOne( {body} )
+    this.props.saveOne( { params: {body} } )
   }
 
   handleChange(event) {
@@ -70,7 +70,7 @@ class CustomerForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const state2props = state => {
   const { current } = state.customers
   const isNew   = current.id == null
   const result  = {
@@ -81,11 +81,10 @@ const mapStateToProps = state => {
   return result
 }
 
-const mapDispatchToProps = dispatch => {
+const dispatch2props = dispatch => {
   return bindActionCreators({
-    // getOne:   customers.getOne,
     saveOne:  customers.saveOne,
   }, dispatch)
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( CustomerForm )
+export default connect( state2props, dispatch2props )( CustomerForm )

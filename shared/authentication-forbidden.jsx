@@ -29,7 +29,7 @@ export function authenticationForbidden( Component ) {
   }
 
   const mapStateToProps = (state) => ({
-    isAuthenticated: state.user.isAuthenticated,
+    isAuthenticated: state.users.isAuthenticated,
   })
 
   return connect( mapStateToProps )( AuthenticatedComponent )

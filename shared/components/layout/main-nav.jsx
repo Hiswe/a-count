@@ -56,14 +56,13 @@ const MainNav = props => {
     </nav>
   )
 }
-
-function mapStateToProps(state, ownProps) {
+const state2props = state => {
   return {
-    isAuthenticated: state.user.isAuthenticated,
-    email: state.user.current.email,
+    isAuthenticated: state.users.isAuthenticated,
+    email: state.users.current.email,
   }
 }
 
 // withRouter is needed for the <NavLink> to catch-up route changes
 // • https://reacttraining.com/react-router/web/api/withRouter
-export default withRouter( connect( mapStateToProps )( MainNav ) )
+export default withRouter( connect( state2props )( MainNav ) )

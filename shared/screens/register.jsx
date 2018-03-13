@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import ConnectDataFetcher from '../connect-data-fetcher.js'
-import * as user from '../ducks/user'
+import * as users from '../ducks/users'
 import LayoutOnboard from '../components/ui/layout-onboard.jsx'
 import FieldWrapper from '../components/ui/field-wrapper.jsx'
 
@@ -13,7 +13,9 @@ class Register extends Component {
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true } )
-    this.props.register( {body} )
+    this.props.dispatch( users.register({
+      params: { body },
+    }) )
   }
 
   render() {
@@ -35,17 +37,7 @@ class Register extends Component {
   }
 }
 
-const state2Props = state => {
-  return {}
-}
-
-const dispatch2props = dispatch => {
-  return bindActionCreators({
-    register: user.register,
-  }, dispatch)
-}
-
-export default connect( state2Props, dispatch2props )( ConnectDataFetcher({
+export default connect()( ConnectDataFetcher({
   Component: Register,
   actionCreators: [
   ],

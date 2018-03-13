@@ -3,13 +3,13 @@ import { combineReducers } from 'redux'
 import customers from './customers'
 import quotations from './quotations'
 import notifications from './notifications'
-import user, { LOGOUT } from './user'
+import users, { LOGOUT } from './users'
 
 const appReducer = combineReducers({
   customers,
   quotations,
   notifications,
-  user,
+  users,
 })
 
 // make a global reducer

@@ -49,9 +49,9 @@ router
   const { id }    = ctx.params
   const instance  = await Customer.findOne({
     where: { id },
-    include: [{
-      model: Quotation,
-    }],
+    // include: [{
+    //   model: Quotation,
+    // }],
   })
   ctx.assert(instance, 404, `Customer not found`)
   ctx.body        = formatResponse( instance )

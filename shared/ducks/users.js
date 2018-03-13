@@ -3,18 +3,18 @@ import crio from 'crio'
 import * as isoFetch from '../iso-fetch'
 import fetchDispatch from './_fetch-dispatch.js'
 
-const NAME = `user`
+const NAME = `users`
 
 const initialState = {
-  isAuthenticated:  true,
-  // isAuthenticated:  false,
+  isAuthenticated: false,
   current: {},
 }
 
-export const AUTH  = `@concompte/${NAME}/auth`
-export const LOGIN  = `@concompte/${NAME}/login`
-export const LOGOUT  = `@concompte/${NAME}/logout`
-export const REGISTER  = `@concompte/${NAME}/register`
+export const AUTH     = `@concompte/${NAME}/auth`
+export const LOGIN    = `@concompte/${NAME}/login`
+export const LOGOUT   = `@concompte/${NAME}/logout`
+export const REGISTER = `@concompte/${NAME}/register`
+export const SAVE_ONE = `@concompte/${NAME}/save-one`
 
 
 export default function reducer(state = initialState, action) {
@@ -37,6 +37,10 @@ export default function reducer(state = initialState, action) {
       return state.set( `current`, {} )
 
     case REGISTER:
+      state = state.set( `isAuthenticated`, true )
+      return state.set( `current`, payload )
+
+    case SAVE_ONE:
       state = state.set( `isAuthenticated`, true )
       return state.set( `current`, payload )
 
@@ -89,6 +93,19 @@ export const register = ({params, cookie}) => async dispatch => {
   await fetchDispatch({
     dispatch,
     type:     REGISTER,
+    request:  isoFetch.post( fetchOptions, cookie ),
+  })
+}
+
+export const saveOne = ({params, cookie}) => async dispatch => {
+  const { body } = params
+  const fetchOptions = {
+    url: `${NAME}/${body.id}`,
+    body,
+  }
+  await fetchDispatch({
+    dispatch,
+    type:     SAVE_ONE,
     request:  isoFetch.post( fetchOptions, cookie ),
   })
 }

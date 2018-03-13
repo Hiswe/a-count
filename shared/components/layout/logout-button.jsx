@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import * as user from '../../ducks/user'
+import * as users from '../../ducks/users'
 
 class LogoutButton extends Component {
 
-  logout(e) {
+  logout( e ) {
     e.preventDefault()
-    this.props.logout()
+    this.props.dispatch( users.logout( {} ) )
   }
 
   render() {
@@ -18,16 +18,10 @@ class LogoutButton extends Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+const state2props = state => {
   return {
-    isAuthenticated: state.user.isAuthenticated,
+    isAuthenticated: state.users.isAuthenticated,
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({
-    logout: user.logout,
-  }, dispatch)
-}
-
-export default connect( mapStateToProps, mapDispatchToProps )( LogoutButton )
+export default connect( state2props )( LogoutButton )
