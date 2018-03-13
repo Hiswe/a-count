@@ -32,7 +32,7 @@ const Notifications = props => {
   )
 }
 
-const mapStateToProps = state => {
+const state2prop = state => {
   const { notifications } = state
   const hasNotifications = Array.isArray( notifications ) && notifications.length > 0
   const result = {
@@ -42,10 +42,10 @@ const mapStateToProps = state => {
   return result
 }
 
-const mapDispatchToProps = dispatch => {
+const dispatch2prop = dispatch => {
   return bindActionCreators({
     remove: notifications.removeOne
   }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)( Notifications )
+export default connect( state2prop, dispatch2prop )( Notifications )

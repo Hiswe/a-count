@@ -18,7 +18,6 @@ const Table = props => {
           { props.footer }
         </tfoot>
       )}
-      {/* TODO: add a possibility to add a tfoot */}
     </table>
   )
 }

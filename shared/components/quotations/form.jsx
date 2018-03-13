@@ -159,7 +159,7 @@ class QuotationForm extends Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+const state2prop = state => {
   const { current } = state.quotations
   const isNew = current.id == null
   const result = {
@@ -172,7 +172,7 @@ function mapStateToProps(state, ownProps) {
   return result
 }
 
-const mapDispatchToProps = (dispatch) => {
+const state2prop = dispatch => {
   return bindActionCreators({
     getOne: quotations.getOne,
     saveOne: quotations.saveOne,
@@ -180,4 +180,4 @@ const mapDispatchToProps = (dispatch) => {
   }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(QuotationForm)
+export default connect( state2prop, state2prop )( QuotationForm )
