@@ -134,8 +134,10 @@ app.use( router.routes() )
 
 //----- LAUNCH THE MAGIC
 
-const server = app.listen(config.PORT, function endInit() {
+const server = app.listen( config.PORT, endInit )
+
+function endInit() {
   log( `API is listening on port`, server.address().port )
-})
+}
 
 module.exports = app

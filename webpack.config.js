@@ -33,6 +33,13 @@ const server = {
       raw: true,
       entryOnly: false
     }),
+    // we just make some dumb import here
+    // • no need to keep them server side
+    new webpack.NormalModuleReplacementPlugin(
+      /.*\.scss/,
+      'node-noop',
+    )
+    // new webpack.IgnorePlugin(/\.scss/)
   ],
   //
   mode:   env,
@@ -59,17 +66,6 @@ const server = {
           ],
         },
       },
-    }, {
-      test: /\.scss$/,
-      use: [{
-        loader: `css-loader`, options: {
-          sourceMap: true
-        }
-      }, {
-        loader: `sass-loader`, options: {
-          sourceMap: true
-        }
-      }]
     }]
   }
 }
@@ -92,7 +88,7 @@ const client = {
         BROWSER: JSON.stringify( true )
       },
     }),
-    new ExtractTextPlugin( `concompte.extract.css` )
+    new ExtractTextPlugin( `concompte.css` )
   ],
   devtool:    `inline-source-map`,
   // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
