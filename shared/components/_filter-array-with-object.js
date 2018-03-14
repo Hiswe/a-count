@@ -2,8 +2,8 @@ import merge from 'lodash.merge'
 
 // {foo: `bar`} [{foo: `bar`}, {foo: `baz`}] => [{foo: `baz`}]
 const filterArrayWithObject = ( {defaultObject, array} ) => {
+  if ( !defaultObject ) return array
   const defaultEntries = Object.entries( defaultObject )
-  console.log( defaultEntries )
   const result = array
     // make sure that the object has the same keys as the comparison
     .map( entry => merge({}, defaultObject, entry) )
