@@ -172,7 +172,7 @@ const state2prop = state => {
   return result
 }
 
-const state2prop = dispatch => {
+const dispatch2prop = dispatch => {
   return bindActionCreators({
     getOne: quotations.getOne,
     saveOne: quotations.saveOne,
@@ -180,4 +180,4 @@ const state2prop = dispatch => {
   }, dispatch)
 }
 
-export default connect( state2prop, state2prop )( QuotationForm )
+export default connect( state2prop, dispatch2prop )( QuotationForm )

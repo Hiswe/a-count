@@ -4,12 +4,20 @@ const path    = require( `path` )
 const webpack = require( `webpack` )
 const args    = require( `yargs` ).argv
 const nodeExternals = require(`webpack-node-externals`)
-const mergeDeep = require(`lodash/merge`)
 
 const isDev = args.prod !== true
 const env = isDev ? `development` : `production`
 
-const sharedServerConfig = {
+////////
+// SERVER
+////////
+
+const server = {
+  entry:  path.join( __dirname, `./server/index.js` ),
+  output: {
+    filename: `server.js`,
+    path:     path.resolve(__dirname, `dist`),
+  },
   // this will prevent bundling node native modules
   target: `node`,
   // get the right __dirname inside bundled files
@@ -18,48 +26,22 @@ const sharedServerConfig = {
     __dirname: true,
   },
   context: __dirname,
+  plugins: [
+    new webpack.BannerPlugin({
+      banner: 'require("source-map-support").install();',
+      raw: true,
+      entryOnly: false
+    }),
+  ],
   //
   mode:   env,
-  entry:  `./path/to/index.js`,
-  output: {
-    path:     path.resolve(__dirname, `dist`),
-    filename: 'output-filename.js',
-  },
   // prevent bundling node_modules on server
   // just ignore them :)
   // https://www.npmjs.com/package/webpack-node-externals#quick-usage
   externals: [
     nodeExternals(),
   ],
-  // Get the source map working on the server
-  // https://medium.com/@muthuks/creating-a-server-bundle-with-webpack-for-universal-rendering-50bf0b71af79
   devtool:    `inline-source-map`,
-  plugins: [
-    // serverSourceMapPlugin(),
-  ],
-  module: {
-    rules: []
-  },
-}
-
-const serverSourceMapPlugin = () => new webpack.BannerPlugin({
-  banner: 'require("source-map-support").install();',
-  raw: true,
-  entryOnly: false
-})
-
-////////
-// SERVER
-////////
-
-const server = mergeDeep({}, sharedServerConfig, {
-  entry:  path.join( __dirname, `./server/index.js` ),
-  output: {
-    filename: `server.js`,
-  },
-  plugins: [
-    serverSourceMapPlugin(),
-  ],
   module: {
     rules: [{
       test: /\.jsx?$/,
@@ -71,14 +53,14 @@ const server = mergeDeep({}, sharedServerConfig, {
         loader: 'babel-loader',
         options: {
           presets: [
-            [`@babel/preset-env`, {targets: {node: `current`}}],
+            [ `@babel/preset-env`, { targets: { node: `current`} } ],
             `@babel/preset-react`,
           ],
         },
       },
     }]
   }
-})
+}
 
 ////////
 // CLIENT
