@@ -1,5 +1,7 @@
 import React from 'react'
 
+import './onboard.scss'
+
 const LayoutOnboard = props => (
   <main className="main main--with-onboard">
     <div className="onboard">

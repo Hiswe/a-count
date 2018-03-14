@@ -19,7 +19,7 @@
     "applications:dev": "parallelshell \"yarn run api:dev\"  \"yarn run server:dev\" --verbose",
     "browsersync": "browser-sync start --config browser-sync-config.js",
     "test": "ava",
-    "dev": "parallelshell \"yarn run webpack:watch\" \"yarn run applications:dev\" \"yarn run browsersync\""
+    "dev": "yarn run webpack:build && parallelshell \"yarn run webpack:watch\" \"yarn run applications:dev\" \"yarn run browsersync\""
   },
   "ava": {
     "files": [

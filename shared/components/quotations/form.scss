@@ -1,0 +1,39 @@
+.quotation-form {
+  &__meta {
+    background: var(--c-primary-lightest);
+    border: 0;
+    padding: var(--s-gutter);
+  }
+  &__paper {
+    background: white;
+    border: 0;
+    padding: var(--s-gutter);
+    margin-top: var(--s-gutter);
+  }
+  &__actions {
+    margin-top: var(--s-gutter);
+  }
+}
+
+.paper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: var(--s-quarter-gutter) var(--s-gutter);
+  grid-template-rows: auto;
+  grid-template-areas:"user customer"
+      "name name"
+      "table table";
+
+  &__user {
+    grid-area: user;
+  }
+  &__customer {
+    grid-area: customer;
+  }
+  &__name {
+    grid-area: name;
+  }
+  &__table {
+    grid-area: table;
+  }
+}

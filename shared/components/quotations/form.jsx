@@ -14,6 +14,8 @@ import NewProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
 import { Status } from '../business-form'
 
+import './form.scss'
+
 const ConvertButton = (props) => {
   const convertRoute  = `/quotation/convert-to-invoice/${props.businessForm.id}`
   return (
@@ -101,8 +103,8 @@ class QuotationForm extends Component {
 
     return (
       <div>
-        <form method="post" className="business-form" onSubmit={ e => this.handleSubmit(e) }>
-          <fieldset className="business-form__item business-form__item--meta">
+        <form method="post" className="quotation-form" onSubmit={ e => this.handleSubmit(e) }>
+          <fieldset className="quotation-form__meta">
             { props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" /> }
             <Field
               label="customer"
@@ -114,8 +116,6 @@ class QuotationForm extends Component {
               onChange={ e => this.handleChange(e) }
             />
             <Status {...props} {...state} onChange={ e => this.handleChange(e) } />
-          </fieldset>
-          <fieldset className="business-form__item business-form__item--tax">
             <Field
               name="tax"
               type="number"
@@ -124,30 +124,41 @@ class QuotationForm extends Component {
               onChange={ e => this.handleChange(e) }
             />
           </fieldset>
-          <fieldset className="business-form__item business-form__item--body">
-            <Field
-              key="name"
-              name="name"
-              value={formData.name}
-              onChange={ e => this.handleChange(e) }
-            />
-            <NewProductTable products={ products } tax={20} >
-              { hasProducts && formData.products.map( (product, index) => {
-                const isLast = index === productsLength - 1
-                const fieldPath = `products[${ index }]`
-                return (
-                  <ProductLine
-                    key={ index }
-                    fieldPath={ fieldPath }
-                    product={ product }
-                    onChange={ e => this.handleChange(e) }>
-                    { !isLast && <button onClick={ e => this.removeProduct(index, fieldPath) } type="button">remove</button> }
-                  </ProductLine>
-                )
-              }) }
-            </NewProductTable>
+          <fieldset className="quotation-form__paper paper">
+            <aside className="paper__user">
+              <h4>{ props.user.name }</h4>
+              <div></div>
+            </aside>
+            <aside className="paper__customer">
+              <h4>customer name</h4>
+            </aside>
+            <div className="paper__name">
+              <Field
+                key="name"
+                name="name"
+                value={formData.name}
+                onChange={ e => this.handleChange(e) }
+              />
+            </div>
+            <div className="paper__table">
+              <NewProductTable products={ products } tax={20} >
+                { hasProducts && formData.products.map( (product, index) => {
+                  const isLast = index === productsLength - 1
+                  const fieldPath = `products[${ index }]`
+                  return (
+                    <ProductLine
+                      key={ index }
+                      fieldPath={ fieldPath }
+                      product={ product }
+                      onChange={ e => this.handleChange(e) }>
+                      { !isLast && <button onClick={ e => this.removeProduct(index, fieldPath) } type="button">remove</button> }
+                    </ProductLine>
+                  )
+                }) }
+              </NewProductTable>
+            </div>
           </fieldset>
-          <div className="business-form__actions">
+          <div className="quotation-form__actions">
             <button className="btn" type="submit">{props.submitMsg}</button>
             {/* TODO: add the convert button if all steps are set */}
             {/* <ConvertButton /> */}
