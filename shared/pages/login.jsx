@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import ConnectDataFetcher from '../connect-data-fetcher.js'
 import * as users from '../ducks/users'
-import LayoutOnboard from '../components/ui/layout-onboard.jsx'
+import LayoutOnboard from '../components/layout/onboard.jsx'
 import FieldWrapper from '../components/ui/field-wrapper.jsx'
 
 class Login extends Component {

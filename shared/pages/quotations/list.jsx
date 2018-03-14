@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
-import FullPage from '../../components/ui/layout-full-page.jsx'
+import FullPage from '../../components/layout/full-page.jsx'
 import { ButtonNew } from '../../components/quotations/secondary-nav-actions.jsx'
 import QuotationsList from '../../components/quotations/list.jsx'
 

@@ -3,7 +3,7 @@ import { connect }  from 'react-redux'
 import { Link }     from 'react-router-dom'
 
 import ConnectDataFetcher from '../connect-data-fetcher.js'
-import FullPage from '../components/ui/layout-full-page.jsx'
+import FullPage from '../components/layout/full-page.jsx'
 
 {/* <Link to="/quotations/new" className="btn-circular">+</Link> */}
 

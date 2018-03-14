@@ -1,0 +1,239 @@
+@import '../config';
+
+///////
+// CSS VARS
+///////
+
+:root {
+  --c-primary-h:    $c-primary-h;
+  --c-primary-s:    $c-primary-s;
+  --c-primary-l:    $c-primary-l;
+  --c-accent-h:    $c-accent-h;
+  --c-accent-s:    $c-accent-s;
+  --c-accent-l:    $c-accent-l;
+
+  // Keep `hsl` in Uppercase
+  // github.com/sass/node-sass/issues/2251#issuecomment-365861645
+  --c-primary-darkest:  HSL(var(--c-primary-h), var(--c-primary-s), 0%);
+  --c-primary:          HSL(var(--c-primary-h), var(--c-primary-s), var(--c-primary-l));
+  --c-primary-lighter:  HSL(var(--c-primary-h), var(--c-primary-s), 20%);
+  --c-primary-lightest: HSL(var(--c-primary-h), var(--c-primary-s), 80%);
+
+  --c-accent:           HSL(var(--c-accent-h), var(--c-accent-s), var(--c-accent-l));
+  --c-accent-lightest:  HSL(var(--c-accent-h), var(--c-accent-s), 80%);
+  --c-background:       HSL(var(--c-primary-h), var(--c-primary-s), 95%);
+  --c-black:            $c-black;
+
+  --s-gutter:         30px;
+  --s-big-gutter:     calc( var(--s-gutter) * 2 );
+  --s-half-gutter:    calc( var(--s-gutter) / 2 );
+  --s-quarter-gutter: calc( var(--s-gutter) / 4 );
+
+  --s-max-width:    $max-width;
+  --s-border-radius: 0px;
+
+  // NAV CONFIG
+  --c-nav:                  var(--c-primary);
+  --s-nav-main-width:       230px;
+  --s-nav-main-item-height: 50px;
+  --s-nav-top-height:       70px;
+
+  // TABLE CONFIG
+  --c-table-header: var(--c-primary-lighter);
+}
+
+///////
+// STYLES
+///////
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  font-family: $font-default;
+  background: var(--c-background);
+  color: var(--c-black);
+}
+
+a {
+  text-decoration: none;
+}
+
+#react-wrapper {
+  min-height: 100vh;
+  margin-left: var(--s-nav-main-width);
+}
+
+.main-logo {
+  margin: 0;
+  grid-area: logo;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 100;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  background: var(--c-nav);
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--s-nav-main-width);
+  height: var(--s-nav-top-height);
+}
+
+.main {
+  min-height: 100vh;
+
+  &--with-onboard {
+    background: var(--c-primary-darkest);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &--with-page {
+    padding: var(--s-gutter);
+    grid-area: content;
+  }
+}
+
+.form {
+  &--profile {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: var(--s-gutter);
+  }
+}
+
+fieldset:not([class]) {
+  background: white;
+  padding: var(--s-gutter);
+  padding-bottom: var(--s-half-gutter);
+  border: 0;
+  border-radius: var(--s-quarter-gutter);
+  margin: 0 0 var(--s-gutter);
+}
+.actions {
+  padding: 0 var(--s-gutter) var(--s-half-gutter) var(--s-gutter);
+}
+.detail-actions {
+  text-align: right;
+  margin-bottom: var(--s-half-gutter);
+}
+.legend {
+  font-size: 18px;
+  font-weight: normal;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0 0 var(--s-gutter);
+}
+
+.card {
+  background: white;
+  padding: var(--s-gutter);
+  border: 0;
+
+  &__title {
+    margin: 0;
+    padding: 0;
+  }
+  &__content {
+    padding-top: var(--s-gutter);
+  }
+}
+
+%btn {
+  border: 2px solid;
+  padding: .75em 1em;
+  border-radius: var(--s-quarter-gutter);
+  cursor: pointer;
+  display: inline-block;
+}
+
+.btn {
+  @extend %btn;
+  border-color: var(--c-primary);
+  background: var(--c-primary);
+  color: white;
+
+  &:hover {
+    background: white;
+    color: var(--c-primary);
+  }
+}
+.btn-secondary {
+  @extend %btn;
+  border-color: white;
+  background: white;
+  color: var(--c-black);
+
+  &:hover {
+    background: white;
+  }
+}
+
+.btn-circular {
+  @extend %btn;
+  $size: 1.75em;
+  font-size: 1.5em;
+  width: 1.75em;
+  height: $size;
+  line-height: ($size * .9);
+  border-radius: $size;
+  padding: 0;
+  text-align: center;
+
+  h1 & {
+    font-size: 24px;
+    float: right;
+  }
+}
+// circular fixed positioned button;
+.btn-fab {
+  cursor: pointer;
+  $size: 1.75em;
+  color: white;
+  background: $c-accent;
+  font-size: 2.5rem;
+  width: 1.75em;
+  height: $size;
+  line-height: ($size * .9);
+  border-radius: $size;
+  padding: 0;
+  text-align: center;
+  position: fixed;
+  bottom: .5em;
+  right: .5em;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    // background: lighten(@background, 15%);
+  }
+  &:active {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  }
+}
+
+
+///////
+// PRINT
+///////
+
+// www.smashingmagazine.com/2015/01/designing-for-print-with-css/
+
+@page {
+  size: A4;
+  margin: 0;
+}
+@media print {
+  html, body {
+    width: 210mm;
+    height: 297mm;
+  }
+  /* ... the rest of the rules ... */
+}

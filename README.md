@@ -26,7 +26,7 @@ npm run dev
 add some debug (with [node debuglog](https://nodejs.org/dist/latest-v8.x/docs/api/util.html#util_util_debuglog_section)): 
 
 ```
-NODE_DEBUG=api,api:db yarn run dev
+NODE_DEBUG=api,api:db,server yarn run dev
 ```
 
 available:

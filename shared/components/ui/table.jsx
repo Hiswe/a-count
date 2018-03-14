@@ -1,5 +1,7 @@
 import React from 'react'
 
+import './table.scss'
+
 const Table = props => {
   const columns = props.columns.split(`,`)
   const hasFooter = props.footer != null

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers'
-import FullPage from '../../components/ui/layout-full-page.jsx'
+import FullPage from '../../components/layout/full-page.jsx'
 import UserForm from '../../components/users/form.jsx'
 
 const EditProfile = props => {

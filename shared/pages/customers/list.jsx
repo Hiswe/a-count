@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers.js'
-import FullPage from '../../components/ui/layout-full-page.jsx'
+import FullPage from '../../components/layout/full-page.jsx'
 import CustomersTable from '../../components/customers/list.jsx'
 import { ButtonNew } from '../../components/customers/secondary-nav-actions.jsx'
 

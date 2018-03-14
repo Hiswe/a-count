@@ -2,6 +2,8 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import './notifications.scss'
+
 import * as notifications from '../../ducks/notifications'
 
 const Notification = props => {

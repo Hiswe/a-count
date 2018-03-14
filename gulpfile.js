@@ -11,7 +11,6 @@ const beep        = require( `beeper` )
 const log         = require( `fancy-log` )
 
 const isDev       = args.prod !== true
-const jsBasedir   = __dirname + '/js'
 const bundler     = webpack( require(`./webpack.config.js`) )
 
 function onError(err) {
@@ -23,33 +22,10 @@ function onError(err) {
 }
 
 ////////
-// CSS
+// WEBPACK BUILD
 ////////
 
-const autoprefixer  = require( 'autoprefixer' )
-
-function css() {
-  return gulp
-  .src( 'css/index.scss' )
-  .pipe( $.plumber(onError) )
-  .pipe( $.sourcemaps.init() )
-  .pipe( $.sass() )
-  .pipe( $.postcss([
-    autoprefixer( {} ),
-  ]) )
-  .pipe( $.sourcemaps.write() )
-  .pipe( $.rename('concompte.css') )
-  .pipe( gulp.dest('public') )
-  .pipe( browserSync.stream() )
-}
-
-css.description = `Build CSS`
-
-////////
-// JS
-////////
-
-const js = done  => {
+const build = done  => {
   bundler.run((err, stats) => {
     if (err) return done( err )
     const info = stats.toJson()
@@ -58,9 +34,9 @@ const js = done  => {
   })
 }
 
-js.description = `Bundle front-app, app server & api-server`
+build.description = `Bundle front-app (JS & CSS) & app server`
 
-gulp.task( `js`, js )
+gulp.task( `build`, build )
 
 ////////
 // DEV
@@ -68,8 +44,6 @@ gulp.task( `js`, js )
 
 let hash
 const watch = done => {
-  gulp.watch( `css/**/*.{scss,css}`, css)
-  // isomorphic app doesn't need module hot reload
   bundler.watch({
     watch: true,
     progress: true,
@@ -122,9 +96,6 @@ const runServer = done => {
   })
 }
 
-const build = gulp.parallel(js, css)
-const dev = gulp.series(build, runServer, watch, bs )
+const dev = gulp.series( build, runServer, watch, bs )
 
-gulp.task( 'build', build  )
-gulp.task( 'css', css )
 gulp.task( 'dev', dev )

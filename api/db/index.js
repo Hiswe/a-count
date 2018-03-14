@@ -4,7 +4,7 @@ const chalk = require( 'chalk' )
 const { inspect } = require( 'util' )
 const { normalize, schema } = require( 'normalizr' )
 
-const { log } = require( `./_helpers` )
+const { log, logName } = require( `./_helpers` )
 const sequelize = require( './connection' )
 const config = require(  '../config' )
 const Customer = require( './model-customer' )
@@ -46,16 +46,15 @@ sequelize
   .sync( {force: config.db.forceSync} )
   .then( () => { log(chalk.green(`sync is done`)) } )
   .catch( err => {
-    log( chalk.red(`sync FAIL`) )
-    log( inspect(err, {colors: true}) )
+    console.log( chalk.red(`${logName} sync FAIL`) )
+    console.log( inspect(err, {colors: true}) )
   })
 })
 .catch( err => {
-  log( chalk.red(`connection FAIL`) )
-  log( inspect(err, {colors: true}) )
-  dbStatus = err
-  if (err.code !== `ECONNREFUSED`) return log(err)
-  log( chalk.yellow(`db is not accessible\nlaunch it for god sake`) )
+  console.log( chalk.red(`${logName} connection FAIL`) )
+  console.log( inspect(err, {colors: true}) )
+  if (err.code !== `ECONNREFUSED`) return console.log(err)
+  console.log( chalk.yellow(`${logName} db is not accessible\nlaunch it for god sake`) )
 })
 
 module.exports = {

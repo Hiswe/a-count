@@ -1,6 +1,6 @@
 import React from 'react'
 
-// TODO: change className to: “field”
+import './field-wrapper.scss'
 
 const FieldWrapper = props => {
   return (

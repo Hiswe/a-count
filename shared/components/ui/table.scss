@@ -1,7 +1,3 @@
-tr {
-  vertical-align: top;
-}
-
 .table {
   border: 1px solid var(--c-primary-lighter);
   margin-bottom: var(--s-half-gutter);
@@ -41,6 +37,10 @@ tr {
     + th {
       border-left: 1px solid var(--c-primary);
     }
+  }
+
+  tr {
+    vertical-align: top;
   }
 
   td + td {

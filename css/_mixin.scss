@@ -1,3 +1,0 @@
-@function px2em($px, $ref: 16px) {
-  @return 1em * $px / $ref;
-}

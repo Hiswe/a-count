@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react'
 
+import './full-page.scss'
+
 const FullPage = props => (
   <Fragment>
     <header className="page__header">

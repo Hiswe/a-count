@@ -1,4 +1,6 @@
 .notifications {
+  --c-notification-bg:  var(--c-accent);
+  --c-notification-text:  white;
   position: fixed;
   z-index: 100;
   bottom: var(--s-gutter);
@@ -8,11 +10,11 @@
   &__item {
     padding: var(--s-gutter);
     margin-top: var(--s-gutter);
-    background: var(--c-primary);
+    background: var(--c-notification-bg);
+    color: var(--c-notification-text);
 
     &--error {
-      background: hsl(0, 98%, 40%);
-      color: white;
+      --c-notification-bg:  hsl(0, 98%, 40%);
     }
   }
 

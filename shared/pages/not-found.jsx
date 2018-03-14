@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import LayoutOnboard from '../components/ui/layout-onboard.jsx'
+import LayoutOnboard from '../components/layout/onboard.jsx'
 
 const NotFound = () => (
   // we need a route to have access to staticContext

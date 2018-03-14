@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
 import * as customers from '../../ducks/customers'
-import FullPage from '../../components/ui/layout-full-page.jsx'
+import FullPage from '../../components/layout/full-page.jsx'
 import QuotationForm from '../../components/quotations/form.jsx'
 import { ButtonList } from '../../components/quotations/secondary-nav-actions.jsx'
 

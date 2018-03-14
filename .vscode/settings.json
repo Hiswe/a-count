@@ -34,5 +34,14 @@
     "devtool",
     "promisify",
     "timestamps"
+  ],
+  "cSpell.ignorePaths": [
+    "**/node_modules/**",
+    "**/vscode-extension/**",
+    "**/.git/**",
+    ".vscode",
+    "typings",
+    "/dist/**",
+    "/public/**"
   ]
 }

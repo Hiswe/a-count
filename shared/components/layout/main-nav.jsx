@@ -2,6 +2,8 @@ import React, { Fragment } from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import './main-nav.scss'
+
 import LogoutButton from './logout-button.jsx'
 
 const ConnectedNav = props => {

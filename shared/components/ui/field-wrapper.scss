@@ -1,0 +1,36 @@
+.field {
+  display: flex;
+  margin-bottom: var(--s-gutter);
+  border: 1px solid var(--c-primary-lighter);
+
+  &__control,
+  &__label {
+    border: 0;
+    padding: 0.5em 0.75em;
+    font: inherit;
+  }
+
+  &__control {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 0;
+
+    &:not(:first-child) {
+      border-left: 0;
+    }
+    &:not(:last-child) {
+      border-right: 0;
+    }
+    &[type=number] {
+      text-align: right;
+    }
+  }
+
+  &__label {
+    background-color: var(--c-primary-lightest);
+    color: var(--c-primary);
+    font: inherit;
+    font-weight: normal;
+    flex-shrink: 0;
+  }
+}
