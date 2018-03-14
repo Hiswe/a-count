@@ -43,6 +43,7 @@ gulp.task( `build`, build )
 ////////
 
 let hash
+let watchInit = true
 const watch = done => {
   bundler.watch({
     watch: true,
@@ -50,6 +51,10 @@ const watch = done => {
     ignored: /node_modules/,
   }, (err, stats) => {
     log(`webpack watch bundle…`)
+    if (watchInit) {
+      watchInit = false
+      done()
+    }
     if (err) return onError( err )
     const info = stats.toJson()
     if ( stats.hasErrors() ) return log( info.errors )
@@ -60,7 +65,6 @@ const watch = done => {
       setTimeout( reload, 400 )
     }
   })
-  done()
 }
 
 const bs = done => {
@@ -73,29 +77,47 @@ const bs = done => {
   done()
 }
 
-let init = true
-const runServer = done => {
+let apiInit = true
+const runApi = done => {
+  // https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e#comment-1457582
   $.nodemon({
-    script: `index.js`,
-    ext:    `js json jsx`,
-    watch: [
-      `index.js`,
-      `dist/*`,
-      `api/**/*.js`
-    ],
-    env: {
-      'NODE_ENV': 'development' ,
-    }
-  }).on('start', _ => {
-    // https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e#comment-1457582
-    if (init) {
-      init = false
-      log( `server init done` )
-      done()
-    }
+    script: `api/index.js`,
+    ext:    `js json`,
+    watch: [ `api/**/*.js`],
+    env: { 'NODE_ENV': 'development' }
+  }).on('start', () => {
+    if ( !apiInit ) return
+    apiInit = false
+    log( `api init done` )
+    done()
   })
 }
 
-const dev = gulp.series( build, runServer, watch, bs )
+gulp.task( `runApi`, runApi )
+
+let serverInit = true
+const runServer = done => {
+  $.nodemon({
+    script: `dist/server.js`,
+    ext:    `js`,
+    watch: [ `dist/server.js` ],
+    env: { 'NODE_ENV': 'development' }
+  }).on('start', () => {
+    if ( !serverInit ) return
+    serverInit = false
+    log( `server init done` )
+    done()
+  })
+}
+
+gulp.task( `runServer`, runServer )
+
+// run two instance of nodemon
+// • https://github.com/JacksonGariety/gulp-nodemon/issues/6#issuecomment-330788506
+const runApplications = done => {
+  $.multiProcess( [`runApi`, `runServer`], done )
+}
+
+const dev = gulp.series( build, watch, runApplications, bs )
 
 gulp.task( 'dev', dev )

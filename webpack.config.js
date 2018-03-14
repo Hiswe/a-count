@@ -4,7 +4,7 @@ const path    = require( `path` )
 const webpack = require( `webpack` )
 const args    = require( `yargs` ).argv
 const nodeExternals = require( `webpack-node-externals` )
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const ExtractTextPlugin = require( `extract-text-webpack-plugin` )
 
 const isDev = args.prod !== true
 const env = isDev ? `development` : `production`
@@ -92,12 +92,6 @@ const client = {
         BROWSER: JSON.stringify( true )
       },
     }),
-    // new MiniCssExtractPlugin({
-    //   // Options similar to the same options in webpackOptions.output
-    //   // both options are optional
-    //   filename:      `concompte.new.css`,
-    //   chunkFilename: `[id].css`,
-    // })
     new ExtractTextPlugin( `concompte.extract.css` )
   ],
   devtool:    `inline-source-map`,
@@ -116,43 +110,44 @@ const client = {
   },
   module: {
     rules: [{
-        test:     /\.jsx?$/,
-        include: [
-          path.resolve( __dirname, `client` ),
-          path.resolve( __dirname, `shared` ),
-        ],
-        use: {
-          loader: `babel-loader`,
-          options: {
-            plugins: [
-              `@babel/transform-runtime`,
-            ],
-            presets: [
-              `@babel/preset-env`,
-              `@babel/preset-react`,
-            ],
-          },
+      test:     /\.jsx?$/,
+      include: [
+        path.resolve( __dirname, `client` ),
+        path.resolve( __dirname, `shared` ),
+      ],
+      use: {
+        loader: `babel-loader`,
+        options: {
+          plugins: [
+            `@babel/transform-runtime`,
+          ],
+          presets: [
+            `@babel/preset-env`,
+            `@babel/preset-react`,
+          ],
         },
-      }, {
-        test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: `style-loader`,
-          use: [{
-            loader: `css-loader`,
-            options: { sourceMap: true },
-          }, {
-            loader: `postcss-loader`,
-            options: {
-              ident: 'postcss',
-              plugins: loader => [
-                require( `autoprefixer` )(),
-              ]
-            }
-          }, {
-            loader: `sass-loader`,
-            options: { sourceMap: true },
-          }]
-        })
+      },
+    }, {
+      test: /\.scss$/,
+      use: ExtractTextPlugin.extract({
+        fallback: `style-loader`,
+        use: [{
+          loader: `css-loader`,
+          options: { sourceMap: true },
+        }, {
+          loader: `postcss-loader`,
+          options: {
+            ident: 'postcss',
+            sourceMap: true,
+            plugins: loader => [
+              require( `autoprefixer` )(),
+            ]
+          }
+        }, {
+          loader: `sass-loader`,
+          options: { sourceMap: true },
+        }]
+      }),
     }],
   },
 }
