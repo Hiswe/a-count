@@ -64,6 +64,9 @@ const server = {
             [ `@babel/preset-env`, { targets: { node: `current`} } ],
             `@babel/preset-react`,
           ],
+          plugins: [
+            `@babel/plugin-proposal-object-rest-spread`,
+          ],
         },
       },
     }]
@@ -116,6 +119,7 @@ const client = {
         options: {
           plugins: [
             `@babel/transform-runtime`,
+            `@babel/plugin-proposal-object-rest-spread`,
           ],
           presets: [
             `@babel/preset-env`,

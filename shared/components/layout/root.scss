@@ -2,10 +2,6 @@
 
 @import './root-custom-properties';
 
-///////
-// STYLES
-///////
-
 *,
 *::before,
 *::after {
@@ -30,30 +26,15 @@ select,
 button {
   font: inherit;
 }
-
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
 #react-wrapper {
   min-height: 100vh;
   margin-left: var(--s-nav-main-width);
 }
-
-.main-logo {
-  margin: 0;
-  grid-area: logo;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 100;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  background: var(--c-nav);
-  color: white;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: var(--s-nav-main-width);
-  height: var(--s-nav-top-height);
-}
-
 .main {
   min-height: 100vh;
 
@@ -65,7 +46,6 @@ button {
   }
   &--with-page {
     padding: var(--s-gutter);
-    grid-area: content;
   }
 }
 
@@ -77,14 +57,6 @@ button {
   }
 }
 
-fieldset:not([class]) {
-  background: white;
-  padding: var(--s-gutter);
-  padding-bottom: var(--s-half-gutter);
-  border: 0;
-  border-radius: var(--s-quarter-gutter);
-  margin: 0 0 var(--s-gutter);
-}
 .actions {
   padding: 0 var(--s-gutter) var(--s-half-gutter) var(--s-gutter);
 }
@@ -114,6 +86,10 @@ fieldset:not([class]) {
   }
 }
 
+///////
+// BUTTONS
+///////
+
 %btn {
   border: 2px solid;
   padding: .75em 1em;
@@ -124,13 +100,13 @@ fieldset:not([class]) {
 
 .btn {
   @extend %btn;
-  border-color: var(--c-primary);
-  background: var(--c-primary);
+  border-color: var(--c-accent);
+  background: var(--c-accent);
   color: white;
 
   &:hover {
     background: white;
-    color: var(--c-primary);
+    color: var(--c-accent);
   }
 }
 .btn-secondary {

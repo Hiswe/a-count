@@ -1,7 +1,17 @@
 import React from 'react'
 import omit from 'lodash.omit'
 
-import FieldWrapper from './field-wrapper.jsx'
+import './field.scss'
+
+export const FieldWrapper = props => {
+  const { id, label } = props
+  return (
+    <div className="field">
+      <label className="field__label" htmlFor={ id }>{ label }</label>
+      { props.children }
+    </div>
+  )
+}
 
 const omittedKeys = [
   `name`,
@@ -10,6 +20,8 @@ const omittedKeys = [
   `onChange`,
   `entries`,
 ]
+
+// TODO: should be able to have an uncontrolled component
 
 const Field = props => {
   const name  = props.name

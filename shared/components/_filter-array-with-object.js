@@ -2,7 +2,7 @@ import merge from 'lodash.merge'
 
 // {foo: `bar`} [{foo: `bar`}, {foo: `baz`}] => [{foo: `baz`}]
 const filterArrayWithObject = ( {defaultObject, array} ) => {
-  if ( !array.isArray(array) ) return []
+  if ( !Array.isArray(array) ) return []
   if ( !defaultObject ) return array
   const defaultEntries = Object.entries( defaultObject )
   const result = array

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import LayoutOnboard from './layout/onboard.jsx'
 
 class ErrorBoundary extends React.Component {
 
@@ -21,14 +22,13 @@ class ErrorBoundary extends React.Component {
     if (this.state.errorInfo) {
       // Error path
       return (
-        <div className="onboard">
-          <h2 className="onboard__title">Something went wrong</h2>
-          <div className="onboard__content" style={{ whiteSpace: 'pre-wrap' }}>
+        <LayoutOnboard title="Something went wrong">
+          <div style={{ whiteSpace: 'pre-wrap' }}>
             {this.state.error && this.state.error.toString()}
             <br />
             {this.state.errorInfo.componentStack}
           </div>
-        </div>
+        </LayoutOnboard>
       )
     }
     // Normally, just render children

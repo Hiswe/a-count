@@ -1,0 +1,149 @@
+.stepper {
+  $root: &;
+  --stepper-bullet-size: 2rem;
+  --stepper-bullet-size-half: calc( var(--stepper-bullet-size) / 2 );
+  --step-transition: background .5s, color .5s;
+  // active color
+  --step-color-active: white;
+  --step-bar-bg-active: var(--c-accent);
+  --step-bullet-bg-active: var(--step-bar-bg-active);
+  --step-bullet-color-active: white;
+  // inactive color
+  --step-color-inactive: var(--c-primary);
+  --step-bar-bg-inactive: var(--c-primary);
+  --step-bullet-bg-inactive: var(--step-bar-bg-inactive);
+  --step-bullet-color-inactive: var(--c-primary-darker);
+  // all colors are define by default to the active state
+  --step-content: '✓';
+  --step-current-bullet-color: var(--c-accent-lighter);
+  --step-color: var(--step-color-active);
+  --step-bar-bg: var(--step-bar-bg-active);
+  --step-bullet-bg: var(--step-bullet-bg-active);
+  --step-bullet-color: var(--step-color-active);
+
+  counter-reset: current-step;
+  display: grid;
+  grid-template-columns: repeat( auto-fit, minmax(1px, 1fr) );
+  position: relative;
+  z-index: 1;
+
+  &[data-debug] {
+    counter-reset: steps;
+
+    &::after {
+      content: "number of steps: " counter(steps);
+      display: block;
+      position: absolute;
+      bottom: -1.5rem;
+      width: 100%;
+      text-align: center;
+      color: hsl(40, 50%, 50%);
+    }
+    input {
+      --s-separation: 1.5rem;
+      position: absolute;
+      display: initial;
+      top: -2rem;
+      @for $i from 1 through 10 {
+        &:nth-of-type(#{$i}) {
+          left: calc( var(--s-separation) * #{$i} + .75rem);
+        }
+      }
+    }
+  }
+
+  &__input {
+    counter-increment: steps;
+    display: none;
+  }
+  &__step {
+    counter-increment: current-step;
+
+    // everything beyond the current step is deactivated
+    #{$root}__input:checked ~ & {
+      --step-content: counter(current-step);
+      --step-color: var(--step-color-inactive);
+      --step-bar-bg: var(--step-bar-bg-inactive);
+      --step-bullet-bg: var(--step-bullet-bg-inactive);
+      --step-bullet-color: var(--step-bullet-color-inactive);
+
+      #{$root}__content {
+        opacity: 0;
+        pointer-events: none;
+        user-select: none;
+      }
+    }
+    // This is the current step
+    #{$root}__input:checked + & {
+      --step-color: var(--step-color-active);
+      // as a bridge between done & undone, its bar is inactive!
+      --step-bar-bg: var(--step-bar-bg-inactive);
+      --step-bullet-bg: var(--step-bullet-bg-active);
+      --step-bullet-color: var(--step-bullet-color-active);
+
+      #{$root}__button {
+        &::before {
+          box-shadow: 0 0 0 3px var(--c-primary-darker);
+        }
+      }
+      #{$root}__content {
+        opacity: 1;
+        pointer-events: auto;
+        user-select: auto;
+      }
+    }
+  }
+  &__content {
+    color: white;
+    text-align: center;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--step-color);
+    transition: opacity .5s .05s;
+    padding: .5rem;
+    &::selection {
+      color: black;
+      background: var(--step-bullet-color);
+    }
+  }
+  &__button {
+    position: relative;
+    text-align: center;
+    color: var(--step-color);
+    display: block;
+
+    // bullet
+    &::before {
+      content: var(--step-content);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto var(--stepper-bullet-size-half);
+      height: var(--stepper-bullet-size);
+      width: var(--stepper-bullet-size);
+      border-radius: var(--stepper-bullet-size);
+      transition: var(--step-transition);
+      background: var(--step-bullet-bg);
+      color: var(--step-bullet-color);
+    }
+
+    // progress bar
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: calc( var(--stepper-bullet-size-half) / 2 );
+      background: var(--step-bar-bg);
+      transition: var(--step-transition);
+      top: var(--stepper-bullet-size-half);
+      left: 50%;
+      transform: translate( 0, -50%);
+      z-index: -1;
+
+      // connecting lines are always steps.length - 1
+      #{$root}__step:last-child & {
+        display: none;
+      }
+    }
+  }
+}

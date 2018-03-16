@@ -1,0 +1,29 @@
+.field {
+  margin-bottom: var(--s-gutter);
+  border-bottom: 1px solid var(--c-primary);
+
+  &__control,
+  &__label {
+    border: 0;
+    padding: 0.5em 0.75em;
+    font: inherit;
+  }
+
+  &__control {
+    min-width: 0;
+    background: none;
+    width: 100%;
+    padding: .5rem 0 .25rem;
+    color: inherit;
+
+    &[type=number] {
+      text-align: right;
+    }
+  }
+
+  &__label {
+    color: var(--c-primary);
+    display: block;
+    padding: 0;
+  }
+}

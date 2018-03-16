@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node index.js",
-    "build": "gulp build",
+    "build": "yarn run webpack:build",
     "webpack:build": "webpack --config webpack.config.js --progress --profile",
     "webpack:watch": "webpack --config webpack.config.js --watch --display minimal",
     "server": "NODE_DEBUG=server node dist/server.js",
@@ -33,6 +33,9 @@
     "presets": [
       "@babel/preset-env",
       "@babel/preset-react"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-object-rest-spread"
     ]
   },
   "engines": {
@@ -76,24 +79,25 @@
     "redux": "3.7.2",
     "redux-logger": "3.0.6",
     "redux-thunk": "^2.2.0",
-    "sequelize": "^4.36.1",
+    "sequelize": "^4.37.1",
     "serialize-javascript": "^1.4.0",
     "slug": "0.9.1",
     "url-join": "^4.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.40",
-    "@babel/plugin-transform-runtime": "^7.0.0-beta.40",
-    "@babel/preset-env": "^7.0.0-beta.40",
-    "@babel/preset-react": "^7.0.0-beta.40",
-    "@babel/register": "^7.0.0-beta.40",
-    "@babel/runtime": "^7.0.0-beta.40",
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.42",
+    "@babel/plugin-transform-runtime": "^7.0.0-beta.42",
+    "@babel/preset-env": "^7.0.0-beta.42",
+    "@babel/preset-react": "^7.0.0-beta.42",
+    "@babel/register": "^7.0.0-beta.42",
+    "@babel/runtime": "^7.0.0-beta.42",
     "autoprefixer": "8.1.0",
     "autosize": "4.0.0",
     "ava": "^1.0.0-beta.3",
     "babel-loader": "8.0.0-beta.0",
     "browser-sync": "2.23.6",
-    "css-loader": "^0.28.10",
+    "css-loader": "^0.28.11",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "epiceditor": "0.2.0",

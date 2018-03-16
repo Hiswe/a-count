@@ -27,13 +27,6 @@
     background: var(--c-table-header);
     color: white;
 
-    &:first-child {
-      border-top-left-radius: var(--s-border-radius);
-    }
-    &:last-child {
-      border-top-right-radius: var(--s-border-radius);
-    }
-
     + th {
       border-left: 1px solid var(--c-primary);
     }

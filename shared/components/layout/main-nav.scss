@@ -1,6 +1,9 @@
 .main-nav {
+  --main-nav-bg: var(--c-primary-darkest);
+  --main-nav-bg-selected: var(--c-primary-darker);
+  --main-nav-bg-hover: var(--c-primary-darker);
   $root: &;
-  background: var(--c-nav);
+  background: var(--main-nav-bg);
   position: fixed;
   top: var(--s-nav-top-height);
   left: 0;
@@ -39,10 +42,39 @@
     color: var(--c-primary-lightest);
 
     &:hover {
-      background: var(--c-primary-darkest);
+      background: var(--main-nav-bg-hover);
     }
     &.is-active {
-      background: var(--c-primary-lighter);
+      color: var(--c-accent-lighter);
+
+      &::before,
+      &::after  {
+        content: '•';
+      }
+      &::before {
+        padding-right: .5em;
+      }
+      &::after {
+        padding-left: .5em;
+      }
     }
   }
+}
+
+.main-logo {
+  margin: 0;
+  grid-area: logo;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 100;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  background: var(--c-primary-darkest);
+  color: var(--c-primary-lighter);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--s-nav-main-width);
+  height: var(--s-nav-top-height);
 }

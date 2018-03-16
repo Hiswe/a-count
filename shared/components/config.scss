@@ -21,13 +21,13 @@ $mq-big: '(min-width: #{$max-width})';
 // COLORS
 ///////
 
-$c-primary:     hsl(0, 0%, 9%);
+$c-primary:    hsl(248, 41%, 43%);
 // need a value without deg to work in Chrome/Safari
 // https://stackoverflow.com/questions/7169625/using-sass-how-to-convert-a-percentage-to-a-decimal/7180653
 $c-primary-h:   hue($c-primary) / 1deg;
 $c-primary-s:   saturation($c-primary);
 $c-primary-l:   lightness($c-primary);
-$c-accent:      hsl(199, 46%, 50%);
+$c-accent:      hsl(199, 71%, 47%);
 $c-accent-h:    hue($c-accent) / 1deg;
 $c-accent-s:    saturation($c-accent);
 $c-accent-l:    lightness($c-accent);
