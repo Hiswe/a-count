@@ -119,6 +119,7 @@ const client = {
           plugins: [
             `@babel/transform-runtime`,
             `@babel/plugin-proposal-object-rest-spread`,
+            [ "babel-plugin-transform-require-ignore", { "extensions": [] } ],
           ],
           presets: [
             `@babel/preset-env`,

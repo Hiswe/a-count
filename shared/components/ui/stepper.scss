@@ -95,13 +95,13 @@
     }
   }
   &__content {
-    color: white;
     text-align: center;
     font-style: italic;
     font-weight: 300;
     color: var(--step-color);
     transition: opacity .5s .05s;
-    padding: .5rem;
+    padding: .5rem .5rem 0;
+
     &::selection {
       color: black;
       background: var(--step-bullet-color);
