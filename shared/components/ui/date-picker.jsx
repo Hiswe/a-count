@@ -31,7 +31,10 @@ export default function DatePicker( props ) {
       value={ dateValue }
       formatDate={ formatDate }
       parseDate={ parseDate }
-      dayPickerProps={{ disabledDays }}
+      clickUnselectsDay
+      dayPickerProps={{
+        disabledDays,
+      }}
       format="L"
       placeholder={`dd/mm/yyyy`}
       dayPickerProps={{
@@ -40,14 +43,15 @@ export default function DatePicker( props ) {
       }}
       onDayChange={ e => {
         // make a false event
-        // • to be ok with “handleChange” function
-        onChange({
+        // • to be iso with “handleChange” function
+        const falseEvent = {
           target: {
             type: `date`,
             getAttribute() { return otherProps.name },
-            value: e,
+            value: e || ``,
           }
-        })
+        }
+        onChange( falseEvent )
       } }
     />
   )

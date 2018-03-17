@@ -26,7 +26,7 @@ const getNormalizedDate = key => function() {
 
 const setNormalizedDate = key => function( val ) {
   const date = moment( val, `DD-MM-YYYY` )
-  const value = date.isValid() ? date.toDate() : ``
+  const value = date.isValid() ? date.toDate() : null
   this.setDataValue( key, value )
 }
 

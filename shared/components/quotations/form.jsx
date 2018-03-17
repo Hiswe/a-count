@@ -49,7 +49,7 @@ class QuotationForm extends Component {
 
   handleSubmit( event ) {
     event.preventDefault()
-    const body = serialize( event.target, { hash: true } )
+    const body = serialize( event.target, { hash: true, empty: true } )
     this.props.saveOne( { params: {body} } )
   }
 
@@ -103,7 +103,6 @@ class QuotationForm extends Component {
     const key = target.getAttribute( `name` )
 
     this.setState( prevState => {
-      console.log( { key, value } )
       const updated = prevState.formData.set( key, value )
       const isProductChange = /^products\[\d+\]/.test(key)
       const isTaxChange = key === 'tax'
