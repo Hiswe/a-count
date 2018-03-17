@@ -36,7 +36,6 @@ $c-accent-l:    lightness($c-accent);
 $c-black:       hsl(240, 11%, 30%);
 
 @function url-friendly-colour($color) {
-    $hexColor: ie-hex-str($color);
     @return '%23' + str-slice('#{$color}', 2, -1);
 }
 

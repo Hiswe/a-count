@@ -135,7 +135,10 @@ class QuotationForm extends Component {
 
     const Meta = () => (
       <div className="quotation-form__meta">
-        { props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" /> }
+        <Stepper
+          steps={ formData.steps }
+          onChange={ e => this.handleChange(e) }
+        />
         <Field darkBg floatingLabel
           label="customer"
           name="customerId"
@@ -151,10 +154,6 @@ class QuotationForm extends Component {
           value={ formData.tax }
           onChange={ e => this.handleChange(e) }
         />
-        <Stepper
-          steps={ formData.steps }
-          onChange={ e => this.handleChange(e) }
-        />
       </div>
     )
     return (
@@ -163,6 +162,7 @@ class QuotationForm extends Component {
         className="quotation-form"
         onSubmit={ e => this.handleSubmit(e) }
       >
+        { props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" /> }
         <Knockout meta={ Meta }>
           <PaperSheet>
             <From {...props.user} />

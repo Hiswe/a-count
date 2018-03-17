@@ -1,4 +1,13 @@
 .quotation-form {
+  &__meta {
+    display: grid;
+    grid-template-columns: 1fr 150px;
+    grid-gap: var(--s-two-gutter);
+
+    .stepper {
+      grid-column: 1 / span 2;
+    }
+  }
   &__actions {
     margin-top: var(--s-gutter);
   }
