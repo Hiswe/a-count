@@ -1,12 +1,16 @@
+@import '../config';
+
 .field {
   $root: &;
+  $control: '#{$root}__control';
   $floating: '#{$root}--floating';
+  $dark-bg: '#{$root}--dark-background';
+  $select: '#{$root}--is-select';
   $empty: '#{$root}--is-empty';
   $not-empty: '#{$root}--is-not-empty';
-
   --field-padding: 0.5em 0;
+  --field-label-color: var(--c-primary);
   margin-bottom: var(--s-gutter);
-  border-bottom: 1px solid var(--c-primary);
 
   &--floating {
     position: relative;
@@ -14,6 +18,7 @@
 
   &--dark-background {
     color: white;
+    --field-label-color: var(--c-primary-lighter);
   }
 
   &__control,
@@ -22,38 +27,68 @@
     font: inherit;
   }
 
-  &__label {
-    color: var(--c-primary);
-    display: block;
-    padding: 0;
-
-    #{$floating} & {
-      position: absolute;
-      padding: 0.5em 0;
-      padding: var(--field-padding);
-      transition: transform .2s;
-    }
-
-    #{$floating}#{root}--is-select &,
-    #{$floating}#{$not-empty} & {
-      transform: scale( .9 ) translateY( -70% );
-      transform-origin: top left;
-    }
-
-    #{$root}--dark-background & {
-      color: var(--c-primary-lighter);
-    }
-  }
-
   &__control {
     min-width: 0;
     background: none;
     width: 100%;
     color: inherit;
     padding: var(--field-padding);
+    border-bottom: 1px solid var(--field-label-color);
+    outline: none;
+    border-radius: 0;
+
+    &:focus {
+      --field-label-color: var(--c-accent);
+      box-shadow: 0 1px 0 0 var(--field-label-color);
+    }
+
+    #{ $select } & {
+      appearance: none;
+      // css var doesn't work in url
+      background-image: url( select-arrow($c-primary) );
+      background-position: 100% 50%;
+      background-repeat: no-repeat;
+
+      &:focus {
+        background-image: url(select-arrow($c-accent) ) ;
+      }
+    }
+
+    #{ $dark-bg }#{ $select } & {
+      background-image: url( select-arrow($c-primary-lighter) );
+
+      &:focus {
+        background-image: url(select-arrow($c-accent) ) ;
+      }
+    }
 
     &[type=number] {
       text-align: right;
+    }
+  }
+
+
+  &__label {
+    color: var(--field-label-color);
+    display: block;
+    padding: 0;
+
+    #{ $control }:focus + & {
+      color: var(--c-accent);
+    }
+
+    #{ $floating } & {
+      position: absolute;
+      top: 0;
+      padding: 0.5em 0;
+      padding: var(--field-padding);
+      transition: transform .2s;
+    }
+
+    #{ $floating }#{ $select } &,
+    #{ $floating }#{ $not-empty } & {
+      transform: scale( .9 ) translateY( -70% );
+      transform-origin: top left;
     }
   }
 }

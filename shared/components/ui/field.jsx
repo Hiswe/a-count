@@ -56,7 +56,6 @@ class FieldInput extends PureComponent {
   }
 
   onChange( e ) {
-    console.log( `change` )
     const { props } = this
     const { onChange } = props
 
@@ -70,7 +69,6 @@ class FieldInput extends PureComponent {
   }
 
   onBlur( e ) {
-    console.log( `blur` )
     const { props } = this
     const { onBlur } = props
     // ignore if event is a window blur
@@ -129,8 +127,8 @@ class FieldInput extends PureComponent {
 
     return (
       <div className={ ClassName.join( ` ` ) } >
-        <label className="field__label" htmlFor={ inputProps.id }>{ inputProps.label }</label>
         { this.input() }
+        <label className="field__label" htmlFor={ inputProps.id }>{ inputProps.label }</label>
       </div>
     )
   }

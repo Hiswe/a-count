@@ -27,8 +27,19 @@ $c-primary:    hsl(248, 41%, 43%);
 $c-primary-h:   hue($c-primary) / 1deg;
 $c-primary-s:   saturation($c-primary);
 $c-primary-l:   lightness($c-primary);
+$c-primary-lighter-l: 65%;
+$c-primary-lighter: hsl($c-primary-h, $c-primary-s, $c-primary-lighter-l);
 $c-accent:      hsl(199, 71%, 47%);
 $c-accent-h:    hue($c-accent) / 1deg;
 $c-accent-s:    saturation($c-accent);
 $c-accent-l:    lightness($c-accent);
 $c-black:       hsl(240, 11%, 30%);
+
+@function url-friendly-colour($color) {
+    $hexColor: ie-hex-str($color);
+    @return '%23' + str-slice('#{$color}', 2, -1);
+}
+
+@function select-arrow($color) {
+  @return "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path fill='#{url-friendly-colour($color)}'  d='M7.406 7.828l4.594 4.594 4.594-4.594 1.406 1.406-6 6-6-6z'></path></svg>";
+}
