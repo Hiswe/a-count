@@ -140,16 +140,16 @@ class QuotationForm extends Component {
           label="customer"
           key="name"
           name="customerId"
-          value={formData.customerId}
+          value={ formData.customerId }
           type="select"
-          options={props.customers}
+          options={ props.customers }
           onChange={ e => this.handleChange(e) }
         />
         <Field
           name="tax"
           type="number"
           step="any"
-          value={formData.tax}
+          value={ formData.tax }
           onChange={ e => this.handleChange(e) }
         />
         <Stepper

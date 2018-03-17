@@ -1,7 +1,56 @@
 import React from 'react'
-import omit from 'lodash.omit'
 
 import './field.scss'
+
+export function normalizeFieldData( props ) {
+  const { id, label, type, value, ...otherProps } = props
+  const _id = id ? id : otherProps.name
+  const _label = label ? label : _id
+  const _type = type ? type : `text`
+  const _value = value ? value : ``
+  return {
+    id: _id,
+    label: _label,
+    type: _type,
+    value: _value,
+    className: `field__control`,
+    ...otherProps
+  }
+}
+// TODO: should be able to have an uncontrolled component
+
+export default function Field( props ) {
+  props = normalizeFieldData( props )
+
+  let input = null
+
+  switch ( props.type ) {
+
+    case `select`:
+      const { options } = props
+      const hasOptions = Array.isArray( options )
+      return input = (
+        <select {...props} >
+          { hasOptions && options.map( (option, i) => (
+            <option key={option.id} value={option.id}>{option.name}</option>
+          )) }
+        </select>
+      )
+
+    case `textarea`:
+      return input = ( <textarea {...props} /> )
+
+    default:
+      return input = ( <input {...props} /> )
+  }
+
+
+  return (
+    <FieldWrapper id={props.id} label={props.label}>
+      { input }
+    </FieldWrapper>
+  )
+}
 
 export const FieldWrapper = props => {
   const { id, label } = props
@@ -12,45 +61,3 @@ export const FieldWrapper = props => {
     </div>
   )
 }
-
-const omittedKeys = [
-  `name`,
-  `value`,
-  `label`,
-  `onChange`,
-  `entries`,
-]
-
-// TODO: should be able to have an uncontrolled component
-
-const Field = props => {
-  const name  = props.name
-  const id    = props.id ? props.id : name
-  const label = props.label ? props.label : id
-  const type  = props.type ? props.type : 'text'
-  const value = props.value ? props.value : ``
-  const additionalFields = omit(props, omittedKeys)
-  let input = null
-  if (type === 'select') {
-    const { options } = props
-    const hasOptions = Array.isArray( options )
-    input = (
-      <select className="field__control" name={name} id={id} onChange={props.onChange} value={value}>
-        { hasOptions && options.map( (option, i) => (
-          <option key={option.id} value={option.id}>{option.name}</option>
-        )) }
-      </select>
-    )
-  } else if (type === 'textarea') {
-    input = (<textarea className="field__control" name={name} id={id} onChange={props.onChange} value={value} {...additionalFields} />)
-  } else {
-    input = (<input className="field__control" name={name} id={id} value={value} onChange={props.onChange} {...additionalFields} />)
-  }
-  return (
-    <FieldWrapper id={id} label={label}>
-      { input }
-    </FieldWrapper>
-  )
-}
-
-export default Field
