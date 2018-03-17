@@ -39,13 +39,12 @@ const server = {
       /.*\.scss/,
       'node-noop',
     )
-    // new webpack.IgnorePlugin(/\.scss/)
   ],
   //
   mode:   env,
   // prevent bundling node_modules on server
-  // just ignore them :)
-  // https://www.npmjs.com/package/webpack-node-externals#quick-usage
+  // • just ignore them :)
+  // • https://www.npmjs.com/package/webpack-node-externals#quick-usage
   externals: [
     nodeExternals(),
   ],

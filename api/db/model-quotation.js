@@ -16,10 +16,9 @@ const DefaultQuotation = require( './model-default-quotation' )
 const DefaultProduct = require( './model-default-product' )
 
 const steps = [
-  {key: `sendAt`,       name: `send`},
-  {key: `validatedAt`,  name: `validated`},
-  {key: `signedAt`,     name: `signed`},
-  {key: `archivedAt`,   name: `done`},
+  {key: `sendAt`,       label: `send`},
+  {key: `validatedAt`,  label: `validated`},
+  {key: `signedAt`,     label: `signed`},
 ]
 
 const Quotation = sequelize.define( `quotation`, {
@@ -112,10 +111,11 @@ const Quotation = sequelize.define( `quotation`, {
     type: new Sequelize.VIRTUAL(Sequelize.JSON, steps.map( s => s.key)),
     get: function () {
       return steps.map( s => {
-        const val   = this.get( s.key )
+        const value = this.get( s.key )
         return {
           key: s.key,
-          name: s.name,
+          label: s.label,
+          value,
         }
       })
     },

@@ -72,7 +72,12 @@ class QuotationForm extends Component {
   handleChange( event ) {
     const { target } = event
     const value = target.type === 'checkbox' ? target.checked : target.value
-    const key = target.getAttribute(`name`)
+    const key = target.getAttribute( `name` )
+
+    console.log( {
+      value,
+      key,
+    })
 
     this.setState( (prevState) => {
       const updated = prevState.formData.set(key, value)
@@ -116,15 +121,6 @@ class QuotationForm extends Component {
           options={props.customers}
           onChange={ e => this.handleChange(e) }
         />
-        <Stepper name="status">
-          <Step label="send at">
-          </Step>
-          <Step label="validated at">
-          </Step>
-          <Step label="signed at">
-          </Step>
-        </Stepper>
-        {/* <Status {...props} {...state} onChange={ e => this.handleChange(e) } /> */}
         <Field
           name="tax"
           type="number"
@@ -132,11 +128,19 @@ class QuotationForm extends Component {
           value={formData.tax}
           onChange={ e => this.handleChange(e) }
         />
+        <Stepper
+          steps={ formData.steps }
+          onChange={ e => this.handleChange(e) }
+        />
       </fieldset>
     )
     return (
-      <form method="post" className="quotation-form" onSubmit={ e => this.handleSubmit(e) }>
-        <Knockout meta={Meta}>
+      <form
+        method="post"
+        className="quotation-form"
+        onSubmit={ e => this.handleSubmit(e) }
+      >
+        <Knockout meta={ Meta }>
           <div className="paper-sheet">
             <aside className="sheet__to">
               <h4>{ props.user.name }</h4>

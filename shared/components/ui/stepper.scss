@@ -25,7 +25,8 @@
   display: grid;
   grid-template-columns: repeat( auto-fit, minmax(1px, 1fr) );
   position: relative;
-  z-index: 1;
+  // this to make the date picker show ok
+  z-index: 2;
 
   &[data-debug] {
     counter-reset: steps;

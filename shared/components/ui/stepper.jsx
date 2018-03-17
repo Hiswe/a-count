@@ -1,53 +1,57 @@
 import React, { Fragment } from 'react'
 
 import { formatDate } from '../_helpers.js'
-
+import DatePicker from '../ui/date-picker.jsx'
 import './stepper.scss'
 
-/* <input
-  type="hidden"
-  name={step.key}
-  value="false"
-/>
-<Field
-  type="checkbox"
-  id={ step.key }
-  name={ step.key }
-  value="true"
-  checked={ value }
-  onChange={ onChange } />
-<div className="status__date">{ formatDate(value) }</div> */
+export default Stepper
 
-// input.stepper__input(id=id name=name type="radio" checked=isFirst)
-//   .stepper__step
-//     label.stepper__button(for=id)= val
+export function getSelectedIndex( steps ) {
+  return Math.max( 0, steps.findIndex( step => step.value ) )
+}
 
-export const Step = props => {
-  const { name, label } = props
-  const id = `${name}-${label.replace(' ', '-')}`
+function Stepper( props ) {
+  const { children, steps, ...otherProps} = props
+  if ( !Array.isArray(steps) ) return null
+  const currentStepIndex = getSelectedIndex( steps )
+  return (
+    <div className="stepper">
+      {
+        steps.map( (step, index) => (
+          <Step
+            key={ step.key }
+            checked={ index === currentStepIndex }
+            index={ index }
+            step={ step }
+            { ...otherProps }
+          />
+        ))
+      }
+    </div>
+  )
+}
+
+export function Step( props ) {
+  const { step, checked, index, onChange } = props
+  const id  = `${step.key}-${index}`
+  const name = ``
   return (
     <Fragment>
-      <input id={id} name={name} className="stepper__input" type="radio" />
+      <input id={ id }
+        name="stepper-display-form"
+        className="stepper__input"
+        type="radio"
+        defaultChecked={ checked }
+      />
       <div className="stepper__step" >
-        <label className="stepper__button" htmlFor={id}>{ label }</label>
+        <label className="stepper__button" htmlFor={id}>{ step.label }</label>
         <div className="stepper__content">
-
+          <DatePicker
+            value={ step.value }
+            onChange={ e => onChange(e) }
+          />
         </div>
       </div>
     </Fragment>
   )
 }
-
-const Stepper = props => {
-  const { children, ...otherProps} = props
-  console.log( otherProps )
-  return (
-    <div className="stepper">
-      { React.Children.map(props.children, child => {
-        return React.cloneElement( child, otherProps )
-      }) }
-    </div>
-  )
-}
-
-export default Stepper
