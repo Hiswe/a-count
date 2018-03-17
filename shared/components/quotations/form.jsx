@@ -136,16 +136,15 @@ class QuotationForm extends Component {
     const Meta = () => (
       <div className="quotation-form__meta">
         { props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" /> }
-        <Field
+        <Field darkBg floatingLabel
           label="customer"
-          key="name"
           name="customerId"
           value={ formData.customerId }
           type="select"
           options={ props.customers }
           onChange={ e => this.handleChange(e) }
         />
-        <Field
+        <Field darkBg floatingLabel
           name="tax"
           type="number"
           step="any"
@@ -168,10 +167,9 @@ class QuotationForm extends Component {
           <PaperSheet>
             <From {...props.user} />
             <To name="customer name" />
-            <Field
-              key="name"
+            <Field floatingLabel
               name="name"
-              value={formData.name}
+              value={ formData.name }
               onChange={ e => this.handleChange(e) }
             />
             <NewProductTable products={ products } tax={20} >

@@ -1,12 +1,48 @@
 .field {
+  $root: &;
+  $floating: '#{$root}--floating';
+  $empty: '#{$root}--is-empty';
+  $not-empty: '#{$root}--is-not-empty';
+
+  --field-padding: 0.5em 0;
   margin-bottom: var(--s-gutter);
   border-bottom: 1px solid var(--c-primary);
+
+  &--floating {
+    position: relative;
+  }
+
+  &--dark-background {
+    color: white;
+  }
 
   &__control,
   &__label {
     border: 0;
-    padding: 0.5em 0.75em;
     font: inherit;
+  }
+
+  &__label {
+    color: var(--c-primary);
+    display: block;
+    padding: 0;
+
+    #{$floating} & {
+      position: absolute;
+      padding: 0.5em 0;
+      padding: var(--field-padding);
+      transition: transform .2s;
+    }
+
+    #{$floating}#{root}--is-select &,
+    #{$floating}#{$not-empty} & {
+      transform: scale( .9 ) translateY( -70% );
+      transform-origin: top left;
+    }
+
+    #{$root}--dark-background & {
+      color: var(--c-primary-lighter);
+    }
   }
 
   &__control {
@@ -14,15 +50,10 @@
     background: none;
     width: 100%;
     color: inherit;
+    padding: var(--field-padding);
 
     &[type=number] {
       text-align: right;
     }
-  }
-
-  &__label {
-    color: var(--c-primary);
-    display: block;
-    padding: 0;
   }
 }

@@ -1,63 +1,141 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 
 import './field.scss'
 
-export function normalizeFieldData( props ) {
-  const { id, label, type, value, ...otherProps } = props
-  const _id = id ? id : otherProps.name
+// inspired by
+// • https://github.com/muicss/mui/blob/master/src/react/_textfieldHelpers.jsx
+
+// normalize props :P
+export default function Field( props ) {
+  const { id, label, type,
+    floatingLabel, darkBg,
+    onChange, onBlur,
+    ...others } = props
+  const _id = id ? id : others.name
   const _label = label ? label : _id
   const _type = type ? type : `text`
-  const _value = value ? value : ``
-  return {
+
+  const inputProps = {
     id: _id,
     label: _label,
     type: _type,
-    value: _value,
     className: `field__control`,
-    ...otherProps
-  }
-}
-// TODO: should be able to have an uncontrolled component
-
-export default function Field( props ) {
-  props = normalizeFieldData( props )
-
-  let input = null
-
-  switch ( props.type ) {
-
-    case `select`:
-      const { options } = props
-      const hasOptions = Array.isArray( options )
-      return input = (
-        <select {...props} >
-          { hasOptions && options.map( (option, i) => (
-            <option key={option.id} value={option.id}>{option.name}</option>
-          )) }
-        </select>
-      )
-
-    case `textarea`:
-      return input = ( <textarea {...props} /> )
-
-    default:
-      return input = ( <input {...props} /> )
+    ...others
   }
 
+  const wrapperClassName = [ `field`, `field--is-${_type}` ]
+  if ( floatingLabel ) wrapperClassName.push( `field--floating` )
+  if ( darkBg ) wrapperClassName.push( `field--dark-background` )
+
+  const wrapperProps = {
+    className: wrapperClassName.join( ` ` ),
+    floatingLabel,
+  }
 
   return (
-    <FieldWrapper id={props.id} label={props.label}>
-      { input }
-    </FieldWrapper>
+    <FieldInput
+      inputProps={ inputProps }
+      wrapperProps={ wrapperProps }
+      onChange={ onChange }
+      onBlur={ onBlur }
+    />
   )
 }
 
-export const FieldWrapper = props => {
-  const { id, label } = props
-  return (
-    <div className="field">
-      <label className="field__label" htmlFor={ id }>{ label }</label>
-      { props.children }
-    </div>
-  )
+class FieldInput extends PureComponent {
+
+  constructor( props ) {
+    super( props )
+    const { inputProps } = props
+
+    this.state = {
+      isEmpty: isEmpty(('value' in inputProps) ? inputProps.value : inputProps.defaultValue),
+      isTouched: false,
+      isPristine: true
+    }
+  }
+
+  onChange( e ) {
+    console.log( `change` )
+    const { props } = this
+    const { onChange } = props
+
+    this.setState({
+      isEmpty: isEmpty( e.target.value ),
+      isPristine: false,
+    })
+
+    // execute original callback
+    if ( typeof onChange === `function` ) onChange( e )
+  }
+
+  onBlur( e ) {
+    console.log( `blur` )
+    const { props } = this
+    const { onBlur } = props
+    // ignore if event is a window blur
+    if ( document.activeElement !== this.controlEl ) {
+      this.setState({ isTouched: true })
+    }
+
+    // execute original callback
+    if ( typeof onBlur === `function` ) onBlur( e )
+  }
+
+  componentWillReceiveProps( nextProps ) {
+    if ( `value` in nextProps ) {
+      this.setState({ isEmpty: isEmpty(nextProps.value)})
+    }
+  }
+
+  input() {
+    const { props } = this
+    const { inputProps } = props
+    const handlers = {
+      onBlur: e => this.onBlur( e ),
+      onChange: e => this.onChange( e ),
+    }
+
+    switch ( inputProps.type ) {
+      case `select`:
+        const { options } = inputProps
+        const hasOptions = Array.isArray( options )
+        return (
+          <select {...inputProps} {...handlers}>
+            { hasOptions && options.map( (option, i) => (
+              <option key={option.id} value={option.id}>{option.name}</option>
+            )) }
+          </select>
+        )
+
+      case `textarea`:
+        return ( <textarea {...inputProps} {...handlers} /> )
+
+      default:
+        return ( <input {...inputProps} {...handlers} /> )
+    }
+  }
+
+  render() {
+    const { props, state } = this
+    const { inputProps } = props
+    const { wrapperProps } = props
+
+    const ClassName = [
+      wrapperProps.className,
+      state.isEmpty ? `field--is-empty` : `field--is-not-empty`,
+    ]
+
+
+    return (
+      <div className={ ClassName.join( ` ` ) } >
+        <label className="field__label" htmlFor={ inputProps.id }>{ inputProps.label }</label>
+        { this.input() }
+      </div>
+    )
+  }
+}
+
+function isEmpty( value ) {
+  return (value === void 0 || value === null || value === ``)
 }

@@ -33,6 +33,7 @@
     "crio",
     "devtool",
     "minmax",
+    "presentational",
     "promisify",
     "timestamps"
   ],
