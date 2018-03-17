@@ -2,7 +2,7 @@
   &__meta {
     display: grid;
     grid-template-columns: 1fr 150px;
-    grid-gap: var(--s-two-gutter);
+    grid-gap: var(--s-gutter) var(--s-two-gutter);
 
     .stepper {
       grid-column: 1 / span 2;

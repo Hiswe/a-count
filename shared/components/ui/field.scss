@@ -8,7 +8,7 @@
   $select: '#{$root}--is-select';
   $empty: '#{$root}--is-empty';
   $not-empty: '#{$root}--is-not-empty';
-  --field-padding: 0.5em 0;
+  --field-padding: 0.75em 0 0.5em;
   --field-label-color: var(--c-primary);
   margin-bottom: var(--s-gutter);
 
@@ -21,10 +21,15 @@
     --field-label-color: var(--c-primary-lighter);
   }
 
+  &--is-number {
+    text-align: right;
+  }
+
   &__control,
   &__label {
     border: 0;
     font: inherit;
+    text-align: inherit;
   }
 
   &__control {
@@ -61,10 +66,6 @@
         background-image: url(select-arrow($c-accent) ) ;
       }
     }
-
-    &[type=number] {
-      text-align: right;
-    }
   }
 
 
@@ -80,6 +81,7 @@
     #{ $floating } & {
       position: absolute;
       top: 0;
+      width: 100%;
       padding: 0.5em 0;
       padding: var(--field-padding);
       transition: transform .2s;
@@ -87,7 +89,7 @@
 
     #{ $floating }#{ $select } &,
     #{ $floating }#{ $not-empty } & {
-      transform: scale( .9 ) translateY( -70% );
+      transform: scale( .9 ) translateY( -75% );
       transform-origin: top left;
     }
   }
