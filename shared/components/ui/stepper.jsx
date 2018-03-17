@@ -4,13 +4,16 @@ import { formatDate } from '../_helpers.js'
 import DatePicker from '../ui/date-picker.jsx'
 import './stepper.scss'
 
-export default Stepper
-
 export function getSelectedIndex( steps ) {
-  return Math.max( 0, steps.findIndex( step => step.value ) )
+  let nextIndex = -1
+  for ( let i = 0; i < steps.length; i++ ) {
+    if ( !steps[i].value ) break
+    nextIndex = i + 1
+  }
+  return Math.max( 0, Math.min( nextIndex, steps.length - 1 ) )
 }
 
-function Stepper( props ) {
+export default function Stepper( props ) {
   const { children, steps, ...otherProps} = props
   if ( !Array.isArray(steps) ) return null
   const currentStepIndex = getSelectedIndex( steps )
@@ -48,6 +51,7 @@ export function Step( props ) {
         <div className="stepper__content">
           <DatePicker
             value={ step.value }
+            name={ step.key }
             onChange={ e => onChange(e) }
           />
         </div>

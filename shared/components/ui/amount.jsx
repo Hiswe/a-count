@@ -1,7 +1,5 @@
 import React from 'react'
 
-export default Amount
-
 // TODO: value should be formated according to locale
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString
 export function formatValue( props ) {
@@ -12,7 +10,7 @@ export function formatValue( props ) {
   return { value: displayValue, currency: displayCurrency }
 }
 
-function Amount( props ) {
+export default function Amount( props ) {
   const { value, currency } = formatValue( props )
   return (
     <span className="amount">

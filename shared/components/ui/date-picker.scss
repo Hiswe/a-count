@@ -27,4 +27,14 @@
       color: var(--c-primary);
     }
   }
+  &Input {
+    input {
+      font: inherit;
+      color: white;
+      background: none;
+      padding: 0.5em 0.75em;
+      text-align: center;
+      border: 0;
+    }
+  }
 }

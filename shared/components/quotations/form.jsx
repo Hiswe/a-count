@@ -11,6 +11,7 @@ import { needRedirect } from '../_helpers.js'
 import filterArrayWithObject from '../_filter-array-with-object.js'
 import Field from '../ui/field.jsx'
 import Knockout from '../layout/knockout.jsx'
+import PaperSheet, { From, To } from '../layout/paper-sheet.jsx'
 import NewProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
 import { Status } from '../business-form'
@@ -31,7 +32,7 @@ class QuotationForm extends Component {
 
   constructor( props ) {
     super( props )
-    this.state = this.recomputeProducts( this.props.current )
+    this.state = this.recomputeFormData( this.props.current )
   }
 
   componentWillReceiveProps( nextProps ) {
@@ -40,17 +41,36 @@ class QuotationForm extends Component {
     // update state on redux status change
     if (current === next) return
     // redirect if new quotation
-    if ( needRedirect(current, next) ) history.push(`/quotations/${next.id}`)
+    if ( needRedirect(current, next) ) history.push( `/quotations/${next.id}` )
     this.setState( (prevState, props) => {
-      return this.recomputeProducts( props.current )
+      return this.recomputeFormData( props.current )
     })
   }
 
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true } )
-    console.log({body})
     this.props.saveOne( { params: {body} } )
+  }
+
+  static getSteps() {
+    return [
+      { key: `sendAt`,       label: `send` },
+      { key: `validatedAt`,  label: `validated` },
+      { key: `signedAt`,     label: `signed` },
+    ]
+  }
+
+  recomputeSteps( formData ) {
+    const steps = QuotationForm.getSteps().map( s => {
+      const value = formData.get( s.key )
+      return {
+        key: s.key,
+        label: s.label,
+        value,
+      }
+    })
+    return formData.set( `steps`, steps )
   }
 
   recomputeProducts( formData ) {
@@ -66,7 +86,15 @@ class QuotationForm extends Component {
     })
       .push( Object.assign({}, defaultProduct) )
     const updated = formData.set( `products`, products )
-    return { formData: updated }
+    return updated
+  }
+
+  recomputeFormData( formData ) {
+    const withSteps = this.recomputeSteps( formData )
+    const withCleanProducts = this.recomputeProducts( withSteps )
+    return {
+      formData: withCleanProducts,
+    }
   }
 
   handleChange( event ) {
@@ -74,30 +102,27 @@ class QuotationForm extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value
     const key = target.getAttribute( `name` )
 
-    console.log( {
-      value,
-      key,
-    })
-
-    this.setState( (prevState) => {
-      const updated = prevState.formData.set(key, value)
+    this.setState( prevState => {
+      console.log( { key, value } )
+      const updated = prevState.formData.set( key, value )
       const isProductChange = /^products\[\d+\]/.test(key)
       const isTaxChange = key === 'tax'
-      if ( !isProductChange && !isTaxChange ) return { formData: updated }
-      return this.recomputeProducts( updated )
+      const withSteps = this.recomputeSteps( updated )
+      if ( !isProductChange && !isTaxChange ) return { formData: withSteps }
+      return { formData: this.recomputeProducts( withSteps ) }
     })
   }
 
-  removeProduct(index, prefix) {
+  removeProduct( index, prefix ) {
     const { formData } = this.state
     const line = formData.get( prefix )
 
     if ( !line ) return
 
     this.setState( prevState => {
-      const updatedProducts = prevState.formData.products.splice(index, 1)
-      const updated = prevState.formData.set(`products`, updatedProducts)
-      return this.recomputeProducts( updated )
+      const updatedProducts = prevState.formData.products.splice( index, 1 )
+      const updated = prevState.formData.set( `products`, updatedProducts )
+      return { formData: this.recomputeProducts( updated ) }
     })
   }
 
@@ -110,7 +135,7 @@ class QuotationForm extends Component {
     const productsLength = hasProducts ? products.length : 0
 
     const Meta = () => (
-      <fieldset className="quotation-form__meta">
+      <div className="quotation-form__meta">
         { props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" /> }
         <Field
           label="customer"
@@ -132,7 +157,7 @@ class QuotationForm extends Component {
           steps={ formData.steps }
           onChange={ e => this.handleChange(e) }
         />
-      </fieldset>
+      </div>
     )
     return (
       <form
@@ -141,14 +166,9 @@ class QuotationForm extends Component {
         onSubmit={ e => this.handleSubmit(e) }
       >
         <Knockout meta={ Meta }>
-          <div className="paper-sheet">
-            <aside className="sheet__to">
-              <h4>{ props.user.name }</h4>
-              <div></div>
-            </aside>
-            <aside className="sheet__from">
-              <h4>customer name</h4>
-            </aside>
+          <PaperSheet>
+            <From {...props.user} />
+            <To name="customer name" />
             <Field
               key="name"
               name="name"
@@ -170,7 +190,7 @@ class QuotationForm extends Component {
                 )
               }) }
             </NewProductTable>
-          </div>
+          </PaperSheet>
           <div className="quotation-form__actions">
             <button className="btn" type="submit">{props.submitMsg}</button>
             {/* TODO: add the convert button if all steps are set */}
@@ -182,7 +202,9 @@ class QuotationForm extends Component {
   }
 }
 
-const state2prop = state => {
+// TODO: move markup to a presentational Component
+
+function state2prop( state ) {
   const { current } = state.quotations
   const isNew = current.id == null
   const result = {
@@ -195,7 +217,7 @@ const state2prop = state => {
   return result
 }
 
-const dispatch2prop = dispatch => {
+function dispatch2prop( dispatch ) {
   return bindActionCreators({
     getOne: quotations.getOne,
     saveOne: quotations.saveOne,

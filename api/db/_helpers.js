@@ -2,6 +2,7 @@
 
 const { debuglog } = require( 'util' )
 const chalk = require( 'chalk' )
+const moment = require( 'moment' )
 
 const _logName = `api:db`
 const logName = _logName.toUpperCase()
@@ -24,17 +25,9 @@ const getNormalizedDate = key => function() {
 }
 
 const setNormalizedDate = key => function( val ) {
-  const date = this.getDataValue( key )
-  // dates can comes in array (checkbox + hidden input backup)
-  // if this is the case, just take care of the last value
-  if ( Array.isArray(val) ) val = val.pop()
-  // when sending `true` just put the current date
-  // update is done ONLY if no current date is already set
-  const isTrue = val === `true`
-  if (isTrue && !date) return this.setDataValue( key, new Date() )
-  // TBD should be able to set a date
-  // fallback
-  this.setDataValue( key, date )
+  const date = moment( val, `DD-MM-YYYY` )
+  const value = date.isValid() ? date.toDate() : ``
+  this.setDataValue( key, value )
 }
 
 module.exports = {

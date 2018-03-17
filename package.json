@@ -25,6 +25,8 @@
     "files": [
       "test/**/*.js"
     ],
+    "babel": false,
+    "compileEnhancements": false,
     "require": [
       "@babel/register"
     ]
@@ -35,7 +37,15 @@
       "@babel/preset-react"
     ],
     "plugins": [
-      "@babel/plugin-proposal-object-rest-spread"
+      "@babel/plugin-proposal-object-rest-spread",
+      [
+        "babel-plugin-transform-require-ignore",
+        {
+          "extensions": [
+            ".scss"
+          ]
+        }
+      ]
     ]
   },
   "engines": {
@@ -97,6 +107,7 @@
     "autosize": "4.0.0",
     "ava": "^1.0.0-beta.3",
     "babel-loader": "8.0.0-beta.0",
+    "babel-plugin-transform-require-ignore": "^0.1.1",
     "browser-sync": "2.23.6",
     "css-loader": "^0.28.11",
     "enzyme": "^3.3.0",

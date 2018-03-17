@@ -15,12 +15,6 @@ const User = require( './model-user' )
 const DefaultQuotation = require( './model-default-quotation' )
 const DefaultProduct = require( './model-default-product' )
 
-const steps = [
-  {key: `sendAt`,       label: `send`},
-  {key: `validatedAt`,  label: `validated`},
-  {key: `signedAt`,     label: `signed`},
-]
-
 const Quotation = sequelize.define( `quotation`, {
   id: {
     type:         Sequelize.UUID,
@@ -106,19 +100,6 @@ const Quotation = sequelize.define( `quotation`, {
     allowNull:    true,
     get:          h.getNormalizedDate( `archivedAt` ),
     set:          h.setNormalizedDate( `archivedAt` ),
-  },
-  steps: {
-    type: new Sequelize.VIRTUAL(Sequelize.JSON, steps.map( s => s.key)),
-    get: function () {
-      return steps.map( s => {
-        const value = this.get( s.key )
-        return {
-          key: s.key,
-          label: s.label,
-          value,
-        }
-      })
-    },
   },
   customerName: {
     type: new Sequelize.VIRTUAL(Sequelize.STRING, [`customer`]),
