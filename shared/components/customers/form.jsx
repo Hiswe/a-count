@@ -34,18 +34,17 @@ class CustomerForm extends Component {
     })
   }
 
-  handleSubmit(event) {
+  handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true, empty: true } )
     this.props.saveOne( { params: {body} } )
   }
 
-  handleChange(event) {
+  handleChange( event ) {
     const { target } = event
-    const { value } = target
-    const key = target.getAttribute(`name`)
-    this.setState( (prevState) => {
-      const updated = prevState.formData.set(key, value)
+    const { name, value } = target
+    this.setState( prevState => {
+      const updated = prevState.formData.set(name, value)
       return { formData: updated }
     })
   }
@@ -56,19 +55,21 @@ class CustomerForm extends Component {
     const { formData } = state
 
     return (
-      <form method="post" onSubmit={this.handleSubmit}>
+      <form
+        method="post"
+        onSubmit={ e => this.handleSubmit( e ) }
+        onChange={ e => this.handleChange( e ) }
+      >
         { formData.id && <input type="hidden" defaultValue={formData.id} name="id" />  }
         <fieldset>
           <Field floatingLabel
             name="name"
             value={ formData.name }
-            onChange={ this.handleChange }
           />
           <Field floatingLabel
             name="address"
             type="textarea"
-            value={formData.address}
-            onChange={this.handleChange}
+            value={ formData.address }
           />
         </fieldset>
         <div className="actions">

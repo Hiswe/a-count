@@ -75,12 +75,12 @@
       width: 100%;
       padding: 0.5em 0;
       padding: var(--field-padding);
+      transform-origin: top left;
       transition: transform .2s;
     }
     #{ $floating }#{ $select } &,
     #{ $floating }#{ $not-empty } & {
       transform: scale( .9 ) translateY( -75% );
-      transform-origin: top left;
     }
   }
 }

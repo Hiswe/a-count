@@ -2,9 +2,9 @@ import moment from 'moment'
 import marked from 'marked'
 
 // prevent error while passing unsupported marked data
-export const safeMarked = data => {
+export function safeMarked( data ) {
   if (typeof data !== 'string') return ''
-  return marked(data)
+  return marked( data, { breaks: true })
 }
 
 export const formatDate = data => {

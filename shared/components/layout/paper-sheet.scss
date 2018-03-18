@@ -43,13 +43,23 @@
     & + & {
       text-align: right;
     }
-  }
 
-  // facing blocks description
-  &__address{
-    &--empty {
-      color: grey;
-      font-style: italic;
+    &-title {
+      margin: 0 0 var(--s-quarter-gutter);
+      font-size: 1.5rem;
+      text-transform: capitalize;
+      font-weight: 700;
+    }
+
+    // facing blocks description
+    &-address{
+      &--empty {
+        color: grey;
+        font-style: italic;
+      }
+      > * {
+        margin: 0;
+      }
     }
   }
 }
