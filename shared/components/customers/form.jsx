@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -6,6 +6,7 @@ import serialize from 'form-serialize'
 
 import * as customers from '../../ducks/customers'
 import { needRedirect } from '../_helpers.js'
+import Main from '../layout/main.jsx'
 import Field from '../ui/field.jsx'
 
 class CustomerForm extends Component {
@@ -61,20 +62,26 @@ class CustomerForm extends Component {
         onChange={ e => this.handleChange( e ) }
       >
         { formData.id && <input type="hidden" defaultValue={formData.id} name="id" />  }
-        <fieldset>
-          <Field
-            name="name"
-            value={ formData.name }
-          />
-          <Field
-            name="address"
-            type="textarea"
-            value={ formData.address }
-          />
-        </fieldset>
-        <div className="actions">
-          <button className="btn" type="submit">{props.submitMsg}</button>
-        </div>
+        <Main
+          content={() => (
+            <Fragment>
+              <fieldset>
+                <Field
+                  name="name"
+                  value={ formData.name }
+                />
+                <Field
+                  name="address"
+                  type="textarea"
+                  value={ formData.address }
+                />
+              </fieldset>
+              <div className="actions">
+                <button className="btn" type="submit">{props.submitMsg}</button>
+              </div>
+            </Fragment>
+          )}
+        />
       </form>
     )
   }

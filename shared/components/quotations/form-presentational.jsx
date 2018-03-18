@@ -1,12 +1,12 @@
 import React, {  Fragment } from 'react'
 
-import Field from '../ui/field.jsx'
-import Knockout from '../layout/knockout.jsx'
+import Main from '../layout/main.jsx'
 import PaperSheet, { Party } from '../layout/paper-sheet.jsx'
+import Field from '../ui/field.jsx'
+import Stepper, { Step } from '../ui/stepper.jsx'
 import NewProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
 import { Status } from '../business-form'
-import Stepper, { Step } from '../ui/stepper.jsx'
 
 import './form.scss'
 
@@ -26,7 +26,7 @@ export default function QuotationFormPres( props ) {
   const productsLength = hasProducts ? products.length : 0
 
   return (
-    <Knockout
+    <Main
       meta={ () => (
         <div className="quotation-form__meta">
           { !isNew && <input type="hidden" defaultValue={formData.id} name="id" /> }
@@ -78,7 +78,7 @@ export default function QuotationFormPres( props ) {
             <button className="btn" type="submit">{`${isNew ? 'Create' : 'Update'} quotation`}</button>
           </div>
         </Fragment>
-      ) }
+      )}
     />
   )
 }

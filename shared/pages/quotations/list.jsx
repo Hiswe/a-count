@@ -1,22 +1,28 @@
-import React, { Component } from 'react'
+import React, { Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
-import FullPage from '../../components/layout/full-page.jsx'
+import NavSecondary from '../../components/layout/nav-secondary.jsx'
+import Main from '../../components/layout/main.jsx'
 import { ButtonNew } from '../../components/quotations/secondary-nav-actions.jsx'
 import QuotationsList from '../../components/quotations/list.jsx'
 
-const Quotations = props => {
+function Quotations( props ) {
   return (
-    <FullPage title="Quotations" secondary={ButtonNew}>
+    <Fragment>
+      <NavSecondary title="Quotations">
+        <ButtonNew />
+      </NavSecondary>
+      <Main
+        content={() => (
+          <QuotationsList {...props} />
+        )}
+      />
       <Link to="/quotations/new" className="btn-fab">+</Link>
-      <div className="page__content">
-        <QuotationsList {...props} />
-      </div>
-    </FullPage>
+    </Fragment>
   )
 }
 

@@ -1,32 +1,38 @@
-.knockout {
+.main {
   $root: &;
   --knockout-max-width: var(--s-max-width);
   --knockout-gutter: minmax(var(--s-gutter), calc(50% - var(--s-max-width) / 2));
   --knockout-overlap-height: var(--s-two-gutter);
-  --knockout-bg: var(--c-primary);
+  --knockout-bg: none;
   --knockout-meta-bg: var(--c-primary-darker);
   margin: 0;
-  padding: 0 0 var(--s-gutter);
+  padding: var(--s-gutter) 0;
   background: var(--knockout-bg);
   border: 0;
   display: grid;
   grid-template-columns: [meta-col-start] var(--knockout-gutter) 1fr var(--knockout-gutter) [meta-col-end];
   grid-template-rows: [meta-row-start] auto var(--knockout-overlap-height) [meta-row-end] auto ;
-  grid-template-areas:
-    "left-gutter meta right-gutter"
-    "left-gutter content right-gutter"
-    "left-gutter content right-gutter"
+  grid-template-areas: "left-gutter content right-gutter";
+
+  &--has-meta {
+    padding: 0 0 var(--s-gutter);
+    --knockout-bg: var(--c-primary);
+    grid-template-areas:
+      "left-gutter meta right-gutter"
+      "left-gutter content right-gutter"
+      "left-gutter content right-gutter"
     ;
 
-  &::before {
-    // use a pseudo-element to make the meta background
-    // • this remove the need of extra markup
-    // • no need to position it in absolute:
-    //   the CSS grid will take care of it for us \O/
-    content: '';
-    background: var(--knockout-meta-bg);
-    grid-row: meta-row-start / meta-row-end;
-    grid-column: meta-col-start / meta-col-end;
+    &::before {
+      // use a pseudo-element to make the meta background
+      // • this remove the need of extra markup
+      // • no need to position it in absolute:
+      //   the CSS grid will take care of it for us \O/
+      content: '';
+      background: var(--knockout-meta-bg);
+      grid-row: meta-row-start / meta-row-end;
+      grid-column: meta-col-start / meta-col-end;
+    }
   }
 
   &__meta,

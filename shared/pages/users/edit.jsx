@@ -1,17 +1,18 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers'
-import FullPage from '../../components/layout/full-page.jsx'
+import NavSecondary from '../../components/layout/nav-secondary.jsx'
 import UserForm from '../../components/users/form.jsx'
 
 const EditProfile = props => {
   return (
-    <FullPage title="Profile">
+    <Fragment>
+      <NavSecondary title="Profile" />
       <UserForm {...props} />
-    </FullPage>
+    </Fragment>
   )
 }
 

@@ -1,0 +1,13 @@
+.nav-secondary {
+  margin: 0;
+  padding: 0 var(--s-gutter);
+  background: white;
+  color: var(--c-nav);
+  height: var(--s-nav-top-height);
+  display: flex;
+  align-items: center;
+
+  &__actions {
+    margin-left: auto;
+  }
+}
