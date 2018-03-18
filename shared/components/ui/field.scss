@@ -15,23 +15,19 @@
   &--floating {
     position: relative;
   }
-
   &--dark-background {
     color: white;
     --field-label-color: var(--c-primary-lighter);
   }
-
   &--is-number {
     text-align: right;
   }
-
   &__control,
   &__label {
     border: 0;
     font: inherit;
     text-align: inherit;
   }
-
   &__control {
     min-width: 0;
     background: none;
@@ -46,7 +42,6 @@
       --field-label-color: var(--c-accent);
       box-shadow: 0 1px 0 0 var(--field-label-color);
     }
-
     #{ $select } & {
       appearance: none;
       // css var doesn't work in url
@@ -58,7 +53,6 @@
         background-image: url(select-arrow($c-accent) ) ;
       }
     }
-
     #{ $dark-bg }#{ $select } & {
       background-image: url( select-arrow($c-primary-lighter) );
 
@@ -67,8 +61,6 @@
       }
     }
   }
-
-
   &__label {
     color: var(--field-label-color);
     display: block;
@@ -77,7 +69,6 @@
     #{ $control }:focus + & {
       color: var(--c-accent);
     }
-
     #{ $floating } & {
       position: absolute;
       top: 0;
@@ -86,7 +77,6 @@
       padding: var(--field-padding);
       transition: transform .2s;
     }
-
     #{ $floating }#{ $select } &,
     #{ $floating }#{ $not-empty } & {
       transform: scale( .9 ) translateY( -75% );

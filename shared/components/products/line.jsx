@@ -3,8 +3,11 @@ import React from 'react'
 import * as compute from '../_compute.js'
 import Amount from '../ui/amount.jsx'
 
+// only use defaultValue
+// • handleChange is handled globally at the form level
+
 const Line = props => {
-  const { fieldPath, onChange, product, currency } = props
+  const { fieldPath, product, currency } = props
   const total = compute.productTotal( product )
   const rows = compute.textareaRows( product.description )
   return (
@@ -13,15 +16,15 @@ const Line = props => {
         <textarea
           name={`${fieldPath}[description]`}
           rows={ rows }
-          value={ product.description }
-          onChange={ e => onChange(e) } />
+          defaultValue={ product.description }
+        />
       </td>
       <td>
         <input
           type="number" min="0" step="0.25"
           name={ `${fieldPath}[quantity]` }
-          value={ product.quantity }
-          onChange={ e => onChange(e) } />
+          defaultValue={ product.quantity }
+        />
       </td>
       <td>
         <input
@@ -29,8 +32,7 @@ const Line = props => {
           min="0"
           step="1"
           name={ `${fieldPath}[price]` }
-          value={ product.price }
-          onChange={ e => onChange(e) }
+          defaultValue={ product.price }
         />
       </td>
       <td className="total">

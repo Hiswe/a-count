@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import moment from 'moment'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import MomentLocaleUtils, {
@@ -9,20 +9,14 @@ import 'moment/locale/en-gb'
 
 import './date-picker.scss'
 
-//  modifiers={ {
-//   disabled: { daysOfWeek: [0] },
-//   selected: isFirstOfMonth
-// }}
-
-// before: new Date(),
-// https://momentjs.com/docs/#localized-formats
+// using https://react-day-picker.js.org/
 
 const disabledDays = {
   after: new Date(),
 }
 
 export default function DatePicker( props ) {
-  const { onChange, value, ...otherProps } = props
+  const { handleDayChange, value, ...otherProps } = props
   const dateObject = moment( value )
   const dateValue = dateObject.isValid() ? dateObject.toDate() : ``
   return (
@@ -41,17 +35,11 @@ export default function DatePicker( props ) {
         locale: 'en-gb',
         localeUtils: MomentLocaleUtils,
       }}
-      onDayChange={ e => {
-        // make a false event
-        // • to be iso with “handleChange” function
-        const falseEvent = {
-          target: {
-            type: `date`,
-            getAttribute() { return otherProps.name },
-            value: e || ``,
-          }
-        }
-        onChange( falseEvent )
+      onDayChange={ day => {
+        handleDayChange( {
+          name: otherProps.name,
+          value: day || ``,
+        })
       } }
     />
   )

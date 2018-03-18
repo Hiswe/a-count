@@ -4,6 +4,7 @@ import { formatDate } from '../_helpers.js'
 import DatePicker from '../ui/date-picker.jsx'
 import './stepper.scss'
 
+// always open the next step after one has a date
 export function getSelectedIndex( steps ) {
   let nextIndex = -1
   for ( let i = 0; i < steps.length; i++ ) {
@@ -35,7 +36,7 @@ export default function Stepper( props ) {
 }
 
 export function Step( props ) {
-  const { step, checked, index, onChange } = props
+  const { step, checked, index, handleDayChange } = props
   const id  = `${step.key}-${index}`
   const name = ``
   return (
@@ -52,7 +53,7 @@ export function Step( props ) {
           <DatePicker
             value={ step.value }
             name={ step.key }
-            onChange={ e => onChange(e) }
+            handleDayChange={ e => handleDayChange(e) }
           />
         </div>
       </div>

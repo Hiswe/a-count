@@ -9,24 +9,8 @@ import * as quotations from '../../ducks/quotations'
 import * as customers from '../../ducks/customers'
 import { needRedirect } from '../_helpers.js'
 import filterArrayWithObject from '../_filter-array-with-object.js'
-import Field from '../ui/field.jsx'
-import Knockout from '../layout/knockout.jsx'
-import PaperSheet, { From, To } from '../layout/paper-sheet.jsx'
-import NewProductTable from '../products/table.jsx'
-import ProductLine from '../products/line.jsx'
-import { Status } from '../business-form'
-import Stepper, { Step } from '../ui/stepper.jsx'
 
-import './form.scss'
-
-const ConvertButton = (props) => {
-  const convertRoute  = `/quotation/convert-to-invoice/${props.businessForm.id}`
-  return (
-    <button key="action-convert" className="btn-secondary" formAction={convertRoute} formMethod="post">
-      Convert to invoice
-    </button>
-  )
-}
+import QuotationFormPres from './form-presentational.jsx'
 
 class QuotationForm extends Component {
 
@@ -73,11 +57,11 @@ class QuotationForm extends Component {
     return formData.set( `steps`, steps )
   }
 
+  // • de-dupe defaultProduct lines
+  // • add an empty line a the end
+  //   in case a user just type something on the blank one
+  // TODO: check if we have the right data
   recomputeProducts( formData ) {
-    // • de-dupe defaultProduct lines
-    // • add an empty line a the end
-    //   in case a user just type something on the blank one
-    // TODO: check if we have the right data
     const defaultProduct  = formData.get( `defaultProduct` )
     const currentProducts = formData.get( `products` )
     const products = filterArrayWithObject({
@@ -97,22 +81,29 @@ class QuotationForm extends Component {
     }
   }
 
-  handleChange( event ) {
-    const { target } = event
-    const value = target.type === 'checkbox' ? target.checked : target.value
-    const key = target.getAttribute( `name` )
-
+  handleFormChange( e ) {
+    const { target } = e
+    const { name, value } = target
+    if ( name === `stepper-display-form` ) return
     this.setState( prevState => {
-      const updated = prevState.formData.set( key, value )
-      const isProductChange = /^products\[\d+\]/.test(key)
-      const isTaxChange = key === 'tax'
-      const withSteps = this.recomputeSteps( updated )
-      if ( !isProductChange && !isTaxChange ) return { formData: withSteps }
-      return { formData: this.recomputeProducts( withSteps ) }
+      const updated = prevState.formData.set( name, value )
+      const isProductChange = /^products\[\d+\]/.test( name )
+      const isTaxChange = name === `tax`
+      if ( !isProductChange && !isTaxChange ) return { formData: updated }
+      return { formData: this.recomputeProducts( updated ) }
     })
   }
 
-  removeProduct( index, prefix ) {
+  handleDayChange( target ) {
+    const { name, value } = target
+    this.setState( prevState => {
+      const updated   = prevState.formData.set( name, value )
+      const withSteps = this.recomputeSteps( updated )
+      return { formData: withSteps }
+    })
+  }
+
+  handleProductRemove( index, prefix ) {
     const { formData } = this.state
     const line = formData.get( prefix )
 
@@ -127,79 +118,27 @@ class QuotationForm extends Component {
 
   render() {
     const { props, state } = this
-    const { current } = props
-    const { formData } = state
-    const { products } = formData
-    const hasProducts = Array.isArray( products )
-    const productsLength = hasProducts ? products.length : 0
+    const presProps = {
+      user:             props.user,
+      customers:        props.customers,
+      formData:         state.formData,
+      isNew:            props.isNew,
+      handleDayChange:      e => this.handleDayChange(e),
+      handleProductRemove:  e => this.handleProductRemove(e),
+    }
 
-    const Meta = () => (
-      <div className="quotation-form__meta">
-        <Stepper
-          steps={ formData.steps }
-          onChange={ e => this.handleChange(e) }
-        />
-        <Field darkBg floatingLabel
-          label="customer"
-          name="customerId"
-          value={ formData.customerId }
-          type="select"
-          options={ props.customers }
-          onChange={ e => this.handleChange(e) }
-        />
-        <Field darkBg floatingLabel
-          name="tax"
-          type="number"
-          step="any"
-          value={ formData.tax }
-          onChange={ e => this.handleChange(e) }
-        />
-      </div>
-    )
     return (
       <form
         method="post"
         className="quotation-form"
+        onChange={ e => this.handleFormChange(e) }
         onSubmit={ e => this.handleSubmit(e) }
       >
-        { props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" /> }
-        <Knockout meta={ Meta }>
-          <PaperSheet>
-            <From {...props.user} />
-            <To name="customer name" />
-            <Field floatingLabel
-              name="name"
-              value={ formData.name }
-              onChange={ e => this.handleChange(e) }
-            />
-            <NewProductTable products={ products } tax={20} >
-              { hasProducts && formData.products.map( (product, index) => {
-                const isLast = index === productsLength - 1
-                const fieldPath = `products[${ index }]`
-                return (
-                  <ProductLine
-                    key={ index }
-                    fieldPath={ fieldPath }
-                    product={ product }
-                    onChange={ e => this.handleChange(e) }>
-                    { !isLast && <button onClick={ e => this.removeProduct(index, fieldPath) } type="button">remove</button> }
-                  </ProductLine>
-                )
-              }) }
-            </NewProductTable>
-          </PaperSheet>
-          <div className="quotation-form__actions">
-            <button className="btn" type="submit">{props.submitMsg}</button>
-            {/* TODO: add the convert button if all steps are set */}
-            {/* <ConvertButton /> */}
-          </div>
-        </Knockout>
+        <QuotationFormPres {...presProps}/>
       </form>
     )
   }
 }
-
-// TODO: move markup to a presentational Component
 
 function state2prop( state ) {
   const { current } = state.quotations
@@ -223,3 +162,4 @@ function dispatch2prop( dispatch ) {
 }
 
 export default connect( state2prop, dispatch2prop )( QuotationForm )
+
