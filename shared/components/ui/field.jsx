@@ -96,10 +96,10 @@ class FieldInput extends PureComponent {
 
     switch ( inputProps.type ) {
       case `select`:
-        const { options } = inputProps
+        const { options, ...others } = inputProps
         const hasOptions = Array.isArray( options )
         return (
-          <select {...inputProps} {...handlers}>
+          <select {...others} {...handlers}>
             { hasOptions && options.map( (option, i) => (
               <option key={option.id} value={option.id}>{option.name}</option>
             )) }
@@ -123,7 +123,6 @@ class FieldInput extends PureComponent {
       wrapperProps.className,
       state.isEmpty ? `field--is-empty` : `field--is-not-empty`,
     ]
-
 
     return (
       <div className={ ClassName.join( ` ` ) } >

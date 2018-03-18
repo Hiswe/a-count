@@ -16,7 +16,10 @@ class QuotationForm extends Component {
 
   constructor( props ) {
     super( props )
-    this.state = this.recomputeFormData( this.props.current )
+    this.state = {
+      formData: this.recomputeFormData( props.current ),
+      customer: this.getCustomerData( props.current ),
+    }
   }
 
   componentWillReceiveProps( nextProps ) {
@@ -27,14 +30,11 @@ class QuotationForm extends Component {
     // redirect if new quotation
     if ( needRedirect(current, next) ) history.push( `/quotations/${next.id}` )
     this.setState( (prevState, props) => {
-      return this.recomputeFormData( props.current )
+      return {
+        formData: this.recomputeFormData( props.current ),
+        customer: this.getCustomerData( props.current ),
+      }
     })
-  }
-
-  handleSubmit( event ) {
-    event.preventDefault()
-    const body = serialize( event.target, { hash: true, empty: true } )
-    this.props.saveOne( { params: {body} } )
   }
 
   static getSteps() {
@@ -58,8 +58,8 @@ class QuotationForm extends Component {
   }
 
   // • de-dupe defaultProduct lines
-  // • add an empty line a the end
-  //   in case a user just type something on the blank one
+  // • add an empty line a the end…
+  //   …in case a user just type something on the blank one
   // TODO: check if we have the right data
   recomputeProducts( formData ) {
     const defaultProduct  = formData.get( `defaultProduct` )
@@ -76,17 +76,34 @@ class QuotationForm extends Component {
   recomputeFormData( formData ) {
     const withSteps = this.recomputeSteps( formData )
     const withCleanProducts = this.recomputeProducts( withSteps )
-    return {
-      formData: withCleanProducts,
-    }
+    return withCleanProducts
+  }
+
+  getCustomerData( formData ) {
+    const { props: { customers  } } = this
+    if ( !Array.isArray(customers) ) return {}
+    const { customerId } = formData
+    const customer = customers.find( c => c.id === customerId )
+    return customer || {}
+  }
+
+  handleSubmit( event ) {
+    event.preventDefault()
+    const body = serialize( event.target, { hash: true, empty: true } )
+    this.props.saveOne( { params: {body} } )
   }
 
   handleFormChange( e ) {
     const { target } = e
     const { name, value } = target
     if ( name === `stepper-display-form` ) return
+
     this.setState( prevState => {
       const updated = prevState.formData.set( name, value )
+      if ( name === `customerId` ) return {
+        formData: updated,
+        customer: this.getCustomerData( updated )
+      }
       const isProductChange = /^products\[\d+\]/.test( name )
       const isTaxChange = name === `tax`
       if ( !isProductChange && !isTaxChange ) return { formData: updated }
@@ -122,6 +139,7 @@ class QuotationForm extends Component {
       user:             props.user,
       customers:        props.customers,
       formData:         state.formData,
+      customer:         state.customer,
       isNew:            props.isNew,
       handleDayChange:      e => this.handleDayChange(e),
       handleProductRemove:  e => this.handleProductRemove(e),

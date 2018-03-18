@@ -2,7 +2,7 @@ import React, {  Fragment } from 'react'
 
 import Field from '../ui/field.jsx'
 import Knockout from '../layout/knockout.jsx'
-import PaperSheet, { From, To } from '../layout/paper-sheet.jsx'
+import PaperSheet, { Party } from '../layout/paper-sheet.jsx'
 import NewProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
 import { Status } from '../business-form'
@@ -15,6 +15,7 @@ export default function QuotationFormPres( props ) {
     user,
     customers,
     formData,
+    customer,
     isNew,
     handleChange,
     handleDayChange,
@@ -51,8 +52,8 @@ export default function QuotationFormPres( props ) {
       content={ () => (
         <Fragment>
           <PaperSheet>
-            <From {...user} />
-            <To name="customer name" />
+            <Party type="user" {...user} />
+            <Party type="customer" {...customer} />
             <Field floatingLabel
               name="name"
               value={ formData.name }

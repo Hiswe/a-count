@@ -9,19 +9,12 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 
-  > :not(#{$root}__from):not(#{$root}__to) {
-    grid-column: 1 / span 2;
-  }
-
-  &__to {
-    text-align: right;
-  }
-
+  // paper-sheet shadow
   &::before,
   &::after {
     z-index: -1;
     position: absolute;
-    content: "";
+    content: '';
     bottom: 10px;
     left: 10px;
     width: 50%;
@@ -36,5 +29,27 @@
     transform: rotate(3deg);
     right: 10px;
     left: auto;
+  }
+
+  // facing blocks
+  > :not(#{$root}__party) {
+    grid-column: 1 / span 2;
+    margin-top: var(--s-gutter);
+  }
+
+  &__party {
+    margin-bottom: calc( var(--s-gutter) * 3 );
+
+    & + & {
+      text-align: right;
+    }
+  }
+
+  // facing blocks description
+  &__address{
+    &--empty {
+      color: grey;
+      font-style: italic;
+    }
   }
 }

@@ -57,10 +57,19 @@ class CustomerForm extends Component {
 
     return (
       <form method="post" onSubmit={this.handleSubmit}>
-        {props.isNew ? null : <input type="hidden" defaultValue={formData.id} name="id" />  }
+        { formData.id && <input type="hidden" defaultValue={formData.id} name="id" />  }
         <fieldset>
-          <Field key="name" name="name" value={formData.name} onChange={this.handleChange}/>
-          <Field key="address" name="address" type="textarea" value={formData.address} onChange={this.handleChange} />
+          <Field floatingLabel
+            name="name"
+            value={ formData.name }
+            onChange={ this.handleChange }
+          />
+          <Field floatingLabel
+            name="address"
+            type="textarea"
+            value={formData.address}
+            onChange={this.handleChange}
+          />
         </fieldset>
         <div className="actions">
           <button className="btn" type="submit">{props.submitMsg}</button>

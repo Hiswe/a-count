@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { safeMarked } from '../_helpers'
 import './paper-sheet.scss'
 
 export default function PaperSheet( props ) {
@@ -10,20 +11,28 @@ export default function PaperSheet( props ) {
   )
 }
 
-export function From( props ) {
+export function Party( props ) {
+  const { type, ...people } = props
   return (
-    <aside className="paper-sheet__from">
-      <h4>{ props.name }</h4>
-      <div></div>
+    <aside className={`paper-sheet__party paper-sheet__party--${type}`}>
+      <h4>{ people.name }</h4>
+      <Address content={ people.address} />
     </aside>
   )
 }
 
-export function To( props ) {
+function Address( props ) {
+  const { address } = props
+  if ( !address ) return (
+    <p className="paper-sheet__address paper-sheet__address--empty">
+      no address defined
+    </p>
+  )
   return (
-    <aside className="paper-sheet__to">
-      <h4>{ props.name }</h4>
-      <div></div>
-    </aside>
+    <div className="paper-sheet__address"
+      dangerouslySetInnerHTML={{
+        __html: safeMarked( address ),
+      }}
+    />
   )
 }
