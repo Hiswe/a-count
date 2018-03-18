@@ -62,11 +62,11 @@ class CustomerForm extends Component {
       >
         { formData.id && <input type="hidden" defaultValue={formData.id} name="id" />  }
         <fieldset>
-          <Field floatingLabel
+          <Field
             name="name"
             value={ formData.name }
           />
-          <Field floatingLabel
+          <Field
             name="address"
             type="textarea"
             value={ formData.address }

@@ -13,7 +13,7 @@ const CustomerRow = (props) => {
   return (
     <tr>
       <td>
-        <Link to={url}>{customer.name}</Link>
+        <Link to={ url }>{ customer.name }</Link>
       </td>
       <td dangerouslySetInnerHTML={address} />
       <td>{ customer.quotationsCount }</td>

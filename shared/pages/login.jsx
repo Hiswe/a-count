@@ -13,7 +13,6 @@ class Login extends Component {
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true } )
-    console.log( { body })
     this.props.dispatch( users.login({
       params: { body },
     }) )
@@ -25,11 +24,11 @@ class Login extends Component {
     return (
       <LayoutOnboard title="login">
         <form method="post" action="/login" onSubmit={ e => this.handleSubmit(e) } >
-          <Field floatingLabel
+          <Field
             name="email"
             type="email"
           />
-          <Field floatingLabel
+          <Field
             name="password"
             type="password"
           />

@@ -34,14 +34,14 @@ export default function QuotationFormPres( props ) {
             steps={ formData.steps }
             handleDayChange={ e => handleDayChange(e) }
           />
-          <Field darkBg floatingLabel
+          <Field darkBg
             label="customer"
             name="customerId"
             value={ formData.customerId }
             type="select"
             options={ customers }
           />
-          <Field darkBg floatingLabel
+          <Field darkBg
             name="tax"
             type="number"
             step="any"
@@ -54,11 +54,11 @@ export default function QuotationFormPres( props ) {
           <PaperSheet>
             <Party type="user" {...user} />
             <Party type="customer" {...customer} />
-            <Field floatingLabel
+            <Field
               name="name"
               value={ formData.name }
             />
-            <NewProductTable products={ products } tax={20} >
+            <NewProductTable products={ products } tax={ 20 } >
               { hasProducts && products.map( (product, index) => {
                 const isLast = index === productsLength - 1
                 const fieldPath = `products[${ index }]`

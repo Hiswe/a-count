@@ -3,7 +3,6 @@
 .field {
   $root: &;
   $control: '#{$root}__control';
-  $floating: '#{$root}--floating';
   $dark-bg: '#{$root}--dark-background';
   $select: '#{$root}--is-select';
   $empty: '#{$root}--is-empty';
@@ -11,10 +10,8 @@
   --field-padding: 0.75em 0 0.5em;
   --field-label-color: var(--c-primary);
   margin-bottom: var(--s-gutter);
+  position: relative;
 
-  &--floating {
-    position: relative;
-  }
   &--dark-background {
     color: white;
     --field-label-color: var(--c-primary-lighter);
@@ -65,21 +62,20 @@
     color: var(--field-label-color);
     display: block;
     padding: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 0.5em 0;
+    padding: var(--field-padding);
+    transform-origin: top left;
+    transition: transform .2s;
 
     #{ $control }:focus + & {
       color: var(--c-accent);
     }
-    #{ $floating } & {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      padding: 0.5em 0;
-      padding: var(--field-padding);
-      transform-origin: top left;
-      transition: transform .2s;
-    }
-    #{ $floating }#{ $select } &,
-    #{ $floating }#{ $not-empty } & {
+
+    #{ $select } &,
+    #{ $not-empty } & {
       transform: scale( .9 ) translateY( -75% );
     }
   }

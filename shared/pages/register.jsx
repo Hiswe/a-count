@@ -24,11 +24,11 @@ class Register extends Component {
     return (
       <LayoutOnboard title="Create an account">
         <form method="post" action="/register" onSubmit={ e => this.handleSubmit(e) } >
-          <Field floatingLabel
+          <Field
             name="email"
             type="email"
           />
-          <Field floatingLabel
+          <Field
             name="password"
             type="password"
           />

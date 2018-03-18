@@ -8,7 +8,7 @@ import './field.scss'
 // normalize props :P
 export default function Field( props ) {
   const { id, label, type,
-    floatingLabel, darkBg,
+    darkBg,
     onChange, onBlur,
     ...others } = props
   const _id = id ? id : others.name
@@ -24,12 +24,10 @@ export default function Field( props ) {
   }
 
   const wrapperClassName = [ `field`, `field--is-${_type}` ]
-  if ( floatingLabel ) wrapperClassName.push( `field--floating` )
   if ( darkBg ) wrapperClassName.push( `field--dark-background` )
 
   const wrapperProps = {
     className: wrapperClassName.join( ` ` ),
-    floatingLabel,
   }
 
   return (
