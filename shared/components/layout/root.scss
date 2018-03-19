@@ -36,54 +36,6 @@ fieldset {
   min-height: 100vh;
   margin-left: var(--s-nav-main-width);
 }
-.main {
-  // min-height: 100vh;
-
-  &--with-onboard {
-    background: var(--c-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
-// .form {
-//   &--profile {
-//     display: grid;
-//     grid-template-columns: 1fr 1fr;
-//     grid-gap: var(--s-gutter);
-//   }
-// }
-
-// .actions {
-//   padding: 0 var(--s-gutter) var(--s-half-gutter) var(--s-gutter);
-// }
-
-// .detail-actions {
-//   text-align: right;
-//   margin-bottom: var(--s-half-gutter);
-// }
-// .legend {
-//   font-size: 18px;
-//   font-weight: normal;
-//   text-transform: uppercase;
-//   margin: 0;
-//   padding: 0 0 var(--s-gutter);
-// }
-
-// .card {
-//   background: white;
-//   padding: var(--s-gutter);
-//   border: 0;
-
-//   &__title {
-//     margin: 0;
-//     padding: 0;
-//   }
-//   &__content {
-//     padding-top: var(--s-gutter);
-//   }
-// }
 
 ///////
 // BUTTONS
