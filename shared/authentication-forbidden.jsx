@@ -10,7 +10,7 @@ const PRIVATE_ROOT = `/`
 
 export function authenticationForbidden( Component ) {
 
-  const AuthenticatedComponent = props => {
+  function AuthForbidden( props ) {
     const { staticContext } = props
 
     if ( !props.isAuthenticated ) return <Component {...props}/>
@@ -25,14 +25,20 @@ export function authenticationForbidden( Component ) {
   // Hoist “Component.fetchData”
   // • needed by the the server to fetch the right data
   if ( Component.fetchData ) {
-    AuthenticatedComponent.fetchData = Component.fetchData
+    AuthForbidden.fetchData = Component.fetchData
   }
 
-  const mapStateToProps = (state) => ({
-    isAuthenticated: state.users.isAuthenticated,
-  })
+  function state2prop( state ) {
+    // pass global states
+    return {
+      isAuthenticated:  state.users.isAuthenticated,
+      isFetching:       state.loading.isFetching,
+      isPosting:        state.loading.isPosting,
+    }
+  }
 
-  return connect( mapStateToProps )( AuthenticatedComponent )
+  return connect( state2prop )( AuthForbidden )
+
 }
 
 export default authenticationForbidden

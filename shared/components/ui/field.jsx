@@ -63,7 +63,6 @@ class FieldInput extends PureComponent {
   }
 
   componentWillReceiveProps( nextProps ) {
-    console.log( nextProps )
     if ( `value` in nextProps ) {
       this.setState({ isEmpty: isEmpty(nextProps.value)})
     }

@@ -9,7 +9,7 @@ const PUBLIC_ROOT = `/login`
 
 export function authenticationRequired( Component ) {
 
-  const AuthenticatedComponent = props => {
+  function AuthRequired( props ) {
     const { staticContext } = props
 
     if ( props.isAuthenticated ) return <Component {...props}/>
@@ -24,14 +24,19 @@ export function authenticationRequired( Component ) {
   // Hoist “Component.fetchData”
   // • needed by the the server to fetch the right data
   if ( Component.fetchData ) {
-    AuthenticatedComponent.fetchData = Component.fetchData
+    AuthRequired.fetchData = Component.fetchData
   }
 
-  const mapStateToProps = (state) => ({
-    isAuthenticated: state.users.isAuthenticated,
-  })
+  function state2prop( state ) {
+    // pass global states
+    return {
+      isAuthenticated:  state.users.isAuthenticated,
+      isFetching:       state.loading.isFetching,
+      isPosting:        state.loading.isPosting,
+    }
+  }
 
-  return connect( mapStateToProps )( AuthenticatedComponent )
+  return connect( state2prop )( AuthRequired )
 }
 
 export default authenticationRequired

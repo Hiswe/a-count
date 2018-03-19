@@ -1,6 +1,7 @@
 import React from 'react'
 
 import * as users from './ducks/users'
+import Spinner from './components/ui/spinner.jsx'
 
 // Connect data fetcher
 // • we need to collect data for the components to render properly
@@ -41,9 +42,7 @@ export default function connectDataFetchers({Component, actionCreators}) {
       const isUrlChanged = (location.pathname !== prevLocation.pathname)
                         || (location.search !== prevLocation.search)
 
-      if (isUrlChanged) {
-          this._fetchDataOnClient();
-      }
+      if ( isUrlChanged ) this._fetchDataOnClient()
     }
 
     componentDidMount() {
@@ -60,9 +59,12 @@ export default function connectDataFetchers({Component, actionCreators}) {
     }
 
     render() {
-      return (
-        <Component {...this.props} />
-      )
+      // make a global spinner here
+      // • ideally we should handle it at the page level
+      // • but for brevity let's handle here globally
+      // • we also listen to GET only: POST should be handle with notifications
+      const { isFetching } = this.props
+      return isFetching ? <Spinner /> : <Component {...this.props} />
     }
   }
 }

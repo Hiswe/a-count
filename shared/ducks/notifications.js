@@ -1,10 +1,16 @@
 import crio from 'crio'
 
+import { getFetchType } from './_fetch-dispatch'
+
 const NAME = `notifications`
 
 export const REMOVE  = `@concompte/${NAME}/remove`
 
 const initialState = []
+const fetchGet  = getFetchType( ``, `get` )
+const fetchPost = getFetchType( ``, `post` )
+const getErrorRegexp  = new RegExp( `${ fetchGet.fetchError }$` )
+const postErrorRegexp = new RegExp( `${ fetchPost.fetchError }$` )
 
 // Like in “user” duck
 // • listen to every action
@@ -13,7 +19,7 @@ const initialState = []
 export default function reducer( state = initialState, action ) {
   if ( !crio.isCrio(state) ) state = crio( state )
   const { type, payload } = action
-  const hasError = /\/error$/.test( type )
+  const hasError = getErrorRegexp.test( type ) || postErrorRegexp.test( type )
 
   if ( hasError ) {
     payload._id = new Date().valueOf()

@@ -1,13 +1,12 @@
 import crio from 'crio'
 
-import * as isoFetch from '../iso-fetch'
 import fetchDispatch from './_fetch-dispatch.js'
 
 const NAME = `quotations`
 
 export const GET_ALL  = `@concompte/${NAME}/get-all`
 export const GET_ONE  = `@concompte/${NAME}/get-one`
-export const SAVE_ONE = `@concompte/${NAME}/save-one`
+export const SAVE_ONE = `@concompte/${NAME}/post-one`
 
 const initialState = {
   list:     [],
@@ -32,26 +31,26 @@ export default function reducer(state = initialState, action) {
 }
 
 export const getAll = ({params, cookie}) => async dispatch => {
-  const fetchOptions = {
+  const options = {
     url: `${NAME}`,
   }
   await fetchDispatch({
     dispatch,
     type:     GET_ALL,
-    request:  isoFetch.get( fetchOptions, cookie ),
+    fetch:    { method: `get`, options, cookie },
   })
 }
 
 export const getOne = ({params, cookie}) => async dispatch => {
   let { id } = params
   id = id ? id : `new`
-  const fetchOptions = {
+  const options = {
     url: `${NAME}/${id}`,
   }
   await fetchDispatch({
     dispatch,
     type:     GET_ONE,
-    request:  isoFetch.get( fetchOptions, cookie ),
+    fetch:    { method: `get`, options, cookie },
   })
 }
 
@@ -59,13 +58,13 @@ export const saveOne = ({params, cookie}) => async dispatch => {
   const { body } = params
   let { id } = body
   id = id ? id : `new`
-  const fetchOptions = {
+  const options = {
     url: `${NAME}/${id}`,
     body,
   }
   await fetchDispatch({
     dispatch,
     type:     SAVE_ONE,
-    request:  isoFetch.post( fetchOptions, cookie ),
+    fetch:    { method: `post`, options, cookie },
   })
 }

@@ -1,7 +1,7 @@
 import crio from 'crio'
 
 import * as isoFetch from '../iso-fetch'
-import fetchDispatch from './_fetch-dispatch.js'
+import fetchDispatch, { getFetchType } from './_fetch-dispatch.js'
 
 const NAME = `users`
 
@@ -15,7 +15,6 @@ export const LOGIN    = `@concompte/${NAME}/login`
 export const LOGOUT   = `@concompte/${NAME}/logout`
 export const REGISTER = `@concompte/${NAME}/register`
 export const SAVE_ONE = `@concompte/${NAME}/save-one`
-
 
 export default function reducer(state = initialState, action) {
   if ( !crio.isCrio(state) ) state = crio( state )
@@ -49,63 +48,72 @@ export default function reducer(state = initialState, action) {
   }
 }
 
+// don't use “fetchDispatch” here
+// • a bad response isn't an error: it's just the auth status
+const { fetchStart, fetchEnd } = getFetchType( AUTH, `get` )
 export const auth = ({params, cookie}) => async dispatch => {
-  const fetchOptions = {
+  const options = {
     url: `/auth`,
   }
-  // don't use “fetchDispatch” here
-  // • a bad response isn't an error: it's just the auth status
-  const { payload } = await isoFetch.get( fetchOptions, cookie )
+  dispatch({
+    type:     fetchStart,
+    payload:  {}
+  })
+  const { payload } = await isoFetch.get( options, cookie )
   const type = AUTH
   dispatch( {type, payload} )
+  dispatch({
+    type:     fetchEnd,
+    payload:  {}
+  })
 }
 
 export const login = ({params, cookie}) => async dispatch => {
   const { body } = params
-  const fetchOptions = {
+  const options = {
     url: `/login`,
     body,
   }
   await fetchDispatch({
     dispatch,
     type:     LOGIN,
-    request:  isoFetch.post( fetchOptions, cookie ),
+    fetch:    { method: `post`, options, cookie },
   })
 }
 
 export const logout = ({params, cookie}) => async dispatch => {
-  const fetchOptions = {
+  const options = {
     url: `/logout`,
   }
   await fetchDispatch({
     dispatch,
     type:     LOGOUT,
-    request:  isoFetch.get( fetchOptions, cookie ),
+    fetch:    { method: `get`, options, cookie },
   })
 }
 
 export const register = ({params, cookie}) => async dispatch => {
   const { body } = params
-  const fetchOptions = {
+  const options = {
     url: `/register`,
     body,
   }
   await fetchDispatch({
     dispatch,
     type:     REGISTER,
-    request:  isoFetch.post( fetchOptions, cookie ),
+    fetch:    { method: `post`, options, cookie },
   })
 }
 
 export const saveOne = ({params, cookie}) => async dispatch => {
   const { body } = params
-  const fetchOptions = {
+  const options = {
     url: `${NAME}/${body.id}`,
     body,
   }
   await fetchDispatch({
     dispatch,
     type:     SAVE_ONE,
-    request:  isoFetch.post( fetchOptions, cookie ),
+    fetch:    { method: `post`, options, cookie },
   })
 }
