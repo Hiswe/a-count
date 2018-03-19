@@ -1,3 +1,4 @@
+import isNil from 'lodash.isnil'
 import React, { PureComponent } from 'react'
 
 import './field.scss'
@@ -11,16 +12,22 @@ export default function Field( props ) {
     darkBg,
     onChange, onBlur,
     ...others } = props
-  const _id = id ? id : others.name
-  const _label = label ? label : _id
-  const _type = type ? type : `text`
+  const _id     = id ? id : others.name
+  const _label  = label ? label : _id
+  const _type   = type ? type : `text`
 
   const inputProps = {
-    id: _id,
-    label: _label,
-    type: _type,
+    id:     _id,
+    label:  _label,
+    type:   _type,
     className: `field__control`,
-    ...others
+    ...others,
+  }
+
+  // ensure that we have a value in case of controlled component
+  if ( isNil( props.defaultValue ) ) {
+    const _value  = isNil( props.value ) ? `` : props.value
+    inputProps.value = _value
   }
 
   const wrapperClassName = [ `field`, `field--is-${_type}` ]
@@ -56,6 +63,7 @@ class FieldInput extends PureComponent {
   }
 
   componentWillReceiveProps( nextProps ) {
+    console.log( nextProps )
     if ( `value` in nextProps ) {
       this.setState({ isEmpty: isEmpty(nextProps.value)})
     }
@@ -134,5 +142,5 @@ class FieldInput extends PureComponent {
 }
 
 function isEmpty( value ) {
-  return (value === void 0 || value === null || value === ``)
+  return ( isNil( value ) || value === ``)
 }

@@ -19,7 +19,8 @@
     "applications:dev": "parallelshell \"yarn run api:dev\"  \"yarn run server:dev\" --verbose",
     "browsersync": "browser-sync start --config browser-sync-config.js",
     "test": "ava",
-    "dev": "yarn run webpack:build && parallelshell \"yarn run webpack:watch\" \"yarn run applications:dev\" \"yarn run browsersync\""
+    "dev:no-build": "parallelshell \"yarn run webpack:watch\" \"yarn run applications:dev\" \"yarn run browsersync\"",
+    "dev": "yarn run webpack:build && yarn run dev:no-build"
   },
   "ava": {
     "files": [
@@ -69,6 +70,7 @@
     "koa-session": "^5.8.1",
     "koa-static": "^4.0.2",
     "koa-views": "^6.1.4",
+    "lodash.isnil": "^4.0.0",
     "lodash.merge": "^4.6.1",
     "lodash.omit": "4.5.0",
     "marked": "0.3.17",

@@ -32,6 +32,7 @@
     "concompte",
     "crio",
     "devtool",
+    "isnil",
     "minmax",
     "presentational",
     "promisify",

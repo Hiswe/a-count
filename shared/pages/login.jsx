@@ -27,10 +27,12 @@ class Login extends Component {
           <Field
             name="email"
             type="email"
+            defaultValue=""
           />
           <Field
             name="password"
             type="password"
+            defaultValue=""
           />
           <button className="btn" type="submit">Submit</button>
         </form>
