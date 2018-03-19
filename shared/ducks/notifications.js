@@ -12,14 +12,6 @@ const getErrorRegexp  = new RegExp( `${ fetchGet.fetchError }$` )
 const postErrorRegexp = new RegExp( `${ fetchPost.fetchError }$` )
 
 const initialState = []
-// const initialState = [{
-//   _id: `error`,
-//   error: `fake error`,
-//   message: `fake error content`,
-// }, {
-//   _id: `notif`,
-//   message: `fake notification content`,
-// }]
 
 // Like in “user” duck
 // • listen to every action
@@ -53,4 +45,3 @@ export const removeOne = params => async dispatch => {
     payload: params,
   })
 }
-
