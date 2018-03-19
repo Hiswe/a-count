@@ -64,7 +64,7 @@ export default function QuotationFormPres( props ) {
                 name="name"
                 value={ formData.name }
               />
-              <NewProductTable products={ products } tax={ 20 } >
+              <NewProductTable products={ products } tax={ formData.tax } >
                 { hasProducts && products.map( (product, index) => {
                   const isLast = index === productsLength - 1
                   const fieldPath = `products[${ index }]`

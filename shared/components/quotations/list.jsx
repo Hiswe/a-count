@@ -43,6 +43,7 @@ const QuotationRow = props => {
       </td>
       <td></td>
       {/* {status.date ? <QuotationStatus status={status} /> : <td>-</td>} */}
+      <td><Amount value={quotation.tax} /></td>
       <td><Amount value={quotation._total.net} /></td>
       <td><Amount value={quotation._total.all} /></td>
     </tr>
@@ -54,7 +55,7 @@ const QuotationTable = props => {
   const { quotations, defaultQuotation } = props
   const hasQuotations = Array.isArray( quotations ) && quotations.length > 0
   return (
-    <Table columns="id, title, customer, status, total HT, total" className="table--pres">
+    <Table columns="id, title, customer, status, tax, total HT, total" className="table--pres">
       {
         !hasQuotations ? ( <EmptyLine colspan="6" /> )
         : quotations.map( (q, i) => (
