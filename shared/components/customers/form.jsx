@@ -17,7 +17,7 @@ class CustomerForm extends Component {
       formData: this.props.current,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+    this.handleFormChange = this.handleFormChange.bind(this)
   }
   componentWillReceiveProps(nextProps) {
     const { history, current } = this.props
@@ -35,13 +35,15 @@ class CustomerForm extends Component {
     })
   }
 
+  //----- EVENTS
+
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true, empty: true } )
     this.props.saveOne( { params: {body} } )
   }
 
-  handleChange( event ) {
+  handleFormChange( event ) {
     const { target } = event
     const { name, value } = target
     this.setState( prevState => {
@@ -49,6 +51,8 @@ class CustomerForm extends Component {
       return { formData: updated }
     })
   }
+
+  //----- RENDER
 
   render() {
     const { props, state } = this
@@ -58,8 +62,8 @@ class CustomerForm extends Component {
     return (
       <form
         method="post"
-        onSubmit={ e => this.handleSubmit( e ) }
-        onChange={ e => this.handleChange( e ) }
+        onSubmit={ this.handleSubmit }
+        onChange={ this.handleFormChange }
       >
         { formData.id && <input type="hidden" defaultValue={formData.id} name="id" />  }
         <Main
@@ -87,7 +91,7 @@ class CustomerForm extends Component {
   }
 }
 
-const state2props = state => {
+function state2props( state ) {
   const { current } = state.customers
   const isNew   = current.id == null
   const result  = {
@@ -98,7 +102,7 @@ const state2props = state => {
   return result
 }
 
-const dispatch2props = dispatch => {
+function dispatch2props( dispatch ) {
   return bindActionCreators({
     saveOne:  customers.saveOne,
   }, dispatch)

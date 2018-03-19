@@ -51,31 +51,8 @@ class FieldInput extends PureComponent {
       isTouched: false,
       isPristine: true
     }
-  }
-
-  onChange( e ) {
-    const { props } = this
-    const { onChange } = props
-
-    this.setState({
-      isEmpty: isEmpty( e.target.value ),
-      isPristine: false,
-    })
-
-    // execute original callback
-    if ( typeof onChange === `function` ) onChange( e )
-  }
-
-  onBlur( e ) {
-    const { props } = this
-    const { onBlur } = props
-    // ignore if event is a window blur
-    if ( document.activeElement !== this.controlEl ) {
-      this.setState({ isTouched: true })
-    }
-
-    // execute original callback
-    if ( typeof onBlur === `function` ) onBlur( e )
+    this.onBlur: this.onBlur.bind( this ),
+    this.onChange: this.onChange.bind( this ),
   }
 
   componentWillReceiveProps( nextProps ) {
@@ -84,12 +61,38 @@ class FieldInput extends PureComponent {
     }
   }
 
+  //----- EVENTS
+
+  onChange( e ) {
+    const { props } = this
+
+    this.setState({
+      isEmpty: isEmpty( e.target.value ),
+      isPristine: false,
+    })
+
+    // execute original callback
+    if ( typeof props.onChange === `function` ) props.onChange( e )
+  }
+  onBlur( e ) {
+    const { props } = this
+    // ignore if event is a window blur
+    if ( document.activeElement !== this.controlEl ) {
+      this.setState({ isTouched: true })
+    }
+
+    // execute original callback
+    if ( typeof props.onBlur === `function` ) props.onBlur( e )
+  }
+
+  //----- RENDER
+
   input() {
     const { props } = this
     const { inputProps } = props
     const handlers = {
-      onBlur: e => this.onBlur( e ),
-      onChange: e => this.onChange( e ),
+      onBlur:   this.onBlur,
+      onChange: this.onChange,
     }
 
     switch ( inputProps.type ) {
@@ -111,7 +114,6 @@ class FieldInput extends PureComponent {
         return ( <input {...inputProps} {...handlers} /> )
     }
   }
-
   render() {
     const { props, state } = this
     const { inputProps } = props
