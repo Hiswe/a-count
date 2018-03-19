@@ -4,7 +4,7 @@ const RenderFakeId = props => {
   const { prefix = `PR`, startAt = -1000 , count } = props
   if ( !Number.isFinite(count) ) return `#`
   return (
-    <span>{prefix}-{ count + startAt }</span>
+    <span>{prefix.toUpperCase()}-{ count + startAt }</span>
   )
 }
 

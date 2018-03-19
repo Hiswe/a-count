@@ -19,12 +19,16 @@ const QuotationStatus = props => {
 }
 
 const QuotationRow = props => {
-  const { quotation } = props
+  const { quotation, defaultQuotation } = props
   return (
     <tr>
       <td>
         <Link to={`/quotations/${quotation.id}`}>
-          <FakeId count={quotation.count} />
+          <FakeId
+            count={ quotation.index }
+            prefix={ defaultQuotation.prefix }
+            startAt={ defaultQuotation.startAt }
+          />
         </Link>
       </td>
       <td>
@@ -47,14 +51,18 @@ const QuotationRow = props => {
 //----- ALL
 
 const QuotationTable = props => {
-  const { quotations } = props
+  const { quotations, defaultQuotation } = props
   const hasQuotations = Array.isArray( quotations ) && quotations.length > 0
   return (
     <Table columns="id, title, customer, status, total HT, total" className="table--pres">
       {
         !hasQuotations ? ( <EmptyLine colspan="6" /> )
         : quotations.map( (q, i) => (
-          <QuotationRow key={q.id} quotation={q} />
+          <QuotationRow
+            key={ q.id }
+            quotation={ q }
+            defaultQuotation={ defaultQuotation }
+          />
         ))
       }
     </Table>
@@ -63,7 +71,9 @@ const QuotationTable = props => {
 
 const state2prop = state => {
   return {
-    quotations: state.quotations && state.quotations.list
+    quotations:       state.quotations && state.quotations.list,
+    user:             state.users.current,
+    defaultQuotation: state.users.current && state.users.current.defaultQuotation
   }
 }
 

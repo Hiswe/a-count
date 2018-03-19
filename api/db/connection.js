@@ -1,5 +1,9 @@
 'use strict'
 
+// make bigint into numbers
+// https://github.com/sequelize/sequelize/issues/1774#issuecomment-126714889
+require( 'pg' ).defaults.parseInt8 = true
+
 const { debuglog } = require( 'util' )
 const Sequelize = require( 'sequelize' )
 const formattor = require( 'formattor' )

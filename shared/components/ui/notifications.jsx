@@ -14,7 +14,7 @@ class Notification extends Component {
   constructor( props ) {
     super( props )
     const { error } = this.props.notification
-    const type = error ? `error` :  `notification`
+    const type = error ? `error` :  `success`
 
     this.state = { type }
   }
