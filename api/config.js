@@ -13,6 +13,10 @@ const config = rc( `concompte-api`, {
     port: 6379,
     host: `127.0.0.1`,
   },
+  delay: {
+    base:      1000,
+    variation:  700,
+  },
   // To generate a new secret:
   // node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"
   jwt_secret: `49e3bd8b1935f3d17ce23146eb602fdb321e5b4f41eb7dd7f898e61426970086`,
@@ -30,7 +34,11 @@ config.isDev      = config.NODE_ENV === `development`
 config.isProd     = config.NODE_ENV === `production`
 
 // Don't want that to happen in production
-// • It can ruin the database!
-if ( config.isProd ) config.db.forceSync = false
+if ( config.isProd ) {
+  // This can ruin the database!
+  config.db.forceSync = false
+  // Want the prod version to be as fas as possible
+  config.delay = false
+}
 
 module.exports = config

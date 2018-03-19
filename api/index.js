@@ -128,6 +128,23 @@ const sessionsConfig = merge( {}, config.session, {
 
 app.use( session(sessionsConfig, app) )
 
+//----- DELAY (dev only)
+
+function waitFor( time ) {
+  return new Promise( resolve => setTimeout( () => resolve(), time) )
+}
+
+async function delay( ctx, next ) {
+  const variation = Math.floor( Math.random() * Math.floor(config.delay.variation) )
+  const time = Math.max( 0, config.delay.base + variation - config.delay.variation / 2 )
+  log( `waiting start` )
+  await waitFor( time )
+  log( `waiting end: ${ (time / 1000).toFixed( 2 ) }s`  )
+  await next()
+}
+
+if ( config.delay ) app.use( delay )
+
 //----- MOUNT ROUTER TO APPLICATION
 
 app.use( router.routes() )
