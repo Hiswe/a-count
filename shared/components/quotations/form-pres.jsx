@@ -6,7 +6,6 @@ import Field from '../ui/field.jsx'
 import Stepper, { Step } from '../ui/stepper.jsx'
 import NewProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
-import { Status } from '../business-form'
 
 import './form.scss'
 
