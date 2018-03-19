@@ -72,8 +72,9 @@ const Quotation = sequelize.define( `quotation`, {
   _total: {
     type: new Sequelize.VIRTUAL(Sequelize.JSON, [`products`]),
     get: function () {
-      const products = this.getDataValue( `products` )
-      return compute.totals( products )
+      const products  = this.getDataValue( `products` )
+      const tax       = this.getDataValue( `tax` )
+      return compute.totals( products, tax )
     }
   },
   // STATUS
