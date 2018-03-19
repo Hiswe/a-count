@@ -6,11 +6,20 @@ const NAME = `notifications`
 
 export const REMOVE  = `@concompte/${NAME}/remove`
 
-const initialState = []
 const fetchGet  = getFetchType( ``, `get` )
 const fetchPost = getFetchType( ``, `post` )
 const getErrorRegexp  = new RegExp( `${ fetchGet.fetchError }$` )
 const postErrorRegexp = new RegExp( `${ fetchPost.fetchError }$` )
+
+const initialState = []
+// const initialState = [{
+//   _id: `error`,
+//   error: `fake error`,
+//   message: `fake error content`,
+// }, {
+//   _id: `notif`,
+//   message: `fake notification content`,
+// }]
 
 // Like in “user” duck
 // • listen to every action

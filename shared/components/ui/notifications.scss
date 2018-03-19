@@ -3,13 +3,13 @@
   --c-notification-text:  white;
   position: fixed;
   z-index: 100;
-  bottom: var(--s-gutter);
+  bottom: 0;
   right:  var(--s-gutter);
-  width: 350px;
+  width: 450px;
+  left: calc( 50% - var(--s-nav-main-width) / 2 );
 
   &__item {
-    padding: var(--s-gutter);
-    margin-top: var(--s-gutter);
+    padding: .5em .75em;
     background: var(--c-notification-bg);
     color: var(--c-notification-text);
 
@@ -20,8 +20,5 @@
 
   &__title {
     margin: 0;
-  }
-  &__content {
-    padding-top: var(--s-half-gutter);
   }
 }
