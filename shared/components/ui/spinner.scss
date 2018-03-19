@@ -10,9 +10,11 @@
   left: var(--s-nav-main-width);
   pointer-events: none;
   color: transparent;
+  background: linear-gradient(white var(--s-nav-top-height), transparent var(--s-nav-top-height));
 
   &::before {
     // content: '   loading   ';
+    // animation: spinnerText var(--spinner-speed) linear infinite;
     color: var(--c-primary-darker);
     white-space: pre;
     width: 100%;
@@ -20,7 +22,6 @@
     top: calc( 50% + var(--spinner-size) / 2 + 1em );
     text-align: center;
     left: 0;
-    // animation: spinnerText var(--spinner-speed) linear infinite;
   }
 
   &::after {
@@ -38,21 +39,11 @@
 }
 
 @keyframes spinnerText {
-  0% {
-    content: '   loading   ';
-  }
-  25% {
-    content: '   loading.  ';
-  }
-  50% {
-    content: '   loading.. ';
-  }
-  75% {
-    content: '   loading...';
-  }
-  100% {
-    content: '   loading   ';
-  }
+  0% {    content: '   loading   '; }
+  25% {   content: '   loading.  '; }
+  50% {   content: '   loading.. '; }
+  75% {   content: '   loading...'; }
+  100% {  content: '   loading   '; }
 }
 
 @keyframes spinner {

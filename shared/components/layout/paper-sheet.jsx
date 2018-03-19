@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { safeMarked } from '../_helpers'
+import Markdown from '../ui/markdown.jsx'
 import './paper-sheet.scss'
 
 export default function PaperSheet( props ) {
@@ -28,11 +28,5 @@ function Address( props ) {
       no address defined
     </p>
   )
-  return (
-    <div className="paper-sheet__party-address"
-      dangerouslySetInnerHTML={{
-        __html: safeMarked( content ),
-      }}
-    />
-  )
+  return <Markdown text={content} />
 }

@@ -13,10 +13,11 @@ const config = rc( `concompte-api`, {
     port: 6379,
     host: `127.0.0.1`,
   },
-  delay: {
-    base:      1000,
-    variation:  700,
-  },
+  delay: false,
+  // delay: {
+  //   base:      1000,
+  //   variation:  700,
+  // },
   // To generate a new secret:
   // node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"
   jwt_secret: `49e3bd8b1935f3d17ce23146eb602fdb321e5b4f41eb7dd7f898e61426970086`,

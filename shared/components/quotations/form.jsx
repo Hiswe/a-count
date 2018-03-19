@@ -10,7 +10,7 @@ import * as customers from '../../ducks/customers'
 import { needRedirect } from '../_helpers.js'
 import filterArrayWithObject from '../_filter-array-with-object.js'
 
-import QuotationFormPres from './form-pres.jsx'
+import QuotationFormPres from './form.pres.jsx'
 
 class QuotationForm extends Component {
 
