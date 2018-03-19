@@ -10,7 +10,7 @@ import * as customers from '../../ducks/customers'
 import { needRedirect } from '../_helpers.js'
 import filterArrayWithObject from '../_filter-array-with-object.js'
 
-import QuotationFormPres from './form-presentational.jsx'
+import QuotationFormPres from './form-pres.jsx'
 
 class QuotationForm extends Component {
 
@@ -20,6 +20,18 @@ class QuotationForm extends Component {
       formData: this.recomputeFormData( props.current ),
       customer: this.getCustomerData( props.current ),
     }
+
+    // don't use any automated bind
+    // • they are only in ES stage 2…
+    //   …and it doesn't seems that it will make in stage 3
+    //   https://github.com/tc39/proposal-class-fields/issues/80
+    //   https://www.npmjs.com/package/@babel/plugin-proposal-class-properties
+    // • but better to bind than relaying on arrow functions in render()
+    // • https://codeburst.io/how-to-not-react-common-anti-patterns-and-gotchas-in-react-40141fe0dcd#aef5
+    this.handleSubmit = this.handleSubmit.bind( this )
+    this.handleFormChange = this.handleFormChange.bind( this )
+    this.handleDayChange = this.handleDayChange.bind( this )
+    this.handleProductRemove = this.handleProductRemove.bind( this )
   }
 
   componentWillReceiveProps( nextProps ) {
@@ -37,6 +49,8 @@ class QuotationForm extends Component {
     })
   }
 
+  //----- UTILS
+
   static getSteps() {
     return [
       { key: `sendAt`,       label: `send` },
@@ -44,7 +58,6 @@ class QuotationForm extends Component {
       { key: `signedAt`,     label: `signed` },
     ]
   }
-
   recomputeSteps( formData ) {
     const steps = QuotationForm.getSteps().map( s => {
       const value = formData.get( s.key )
@@ -56,7 +69,6 @@ class QuotationForm extends Component {
     })
     return formData.set( `steps`, steps )
   }
-
   // • de-dupe defaultProduct lines
   // • add an empty line a the end…
   //   …in case a user just type something on the blank one
@@ -72,13 +84,11 @@ class QuotationForm extends Component {
     const updated = formData.set( `products`, products )
     return updated
   }
-
   recomputeFormData( formData ) {
     const withSteps = this.recomputeSteps( formData )
     const withCleanProducts = this.recomputeProducts( withSteps )
     return withCleanProducts
   }
-
   getCustomerData( formData ) {
     const { props: { customers  } } = this
     if ( !Array.isArray(customers) ) return {}
@@ -87,30 +97,36 @@ class QuotationForm extends Component {
     return customer || {}
   }
 
+  //----- EVENTS
+
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true, empty: true } )
     this.props.saveOne( { params: {body} } )
   }
-
   handleFormChange( e ) {
     const { target } = e
     const { name, value } = target
+
+    // ignore stepper presentational radio input
     if ( name === `stepper-display-form` ) return
 
     this.setState( prevState => {
       const updated = prevState.formData.set( name, value )
+
+      // update customer state if we choose a new one
       if ( name === `customerId` ) return {
         formData: updated,
         customer: this.getCustomerData( updated )
       }
+
+      // Recompute products only if needed
       const isProductChange = /^products\[\d+\]/.test( name )
       const isTaxChange = name === `tax`
       if ( !isProductChange && !isTaxChange ) return { formData: updated }
       return { formData: this.recomputeProducts( updated ) }
     })
   }
-
   handleDayChange( target ) {
     const { name, value } = target
     this.setState( prevState => {
@@ -119,7 +135,6 @@ class QuotationForm extends Component {
       return { formData: withSteps }
     })
   }
-
   handleProductRemove( index, prefix ) {
     const { formData } = this.state
     const line = formData.get( prefix )
@@ -133,27 +148,24 @@ class QuotationForm extends Component {
     })
   }
 
+  //----- RENDER
+
   render() {
     const { props, state } = this
-    const presProps = {
+    const renderProps = {
       user:             props.user,
       customers:        props.customers,
       formData:         state.formData,
       customer:         state.customer,
       isNew:            props.isNew,
-      handleDayChange:      e => this.handleDayChange(e),
-      handleProductRemove:  e => this.handleProductRemove(e),
+      handleSubmit:         this.handleSubmit,
+      handleFormChange:     this.handleFormChange,
+      handleDayChange:      this.handleDayChange,
+      handleProductRemove:  this.handleProductRemove,
     }
 
     return (
-      <form
-        method="post"
-        className="quotation-form"
-        onChange={ e => this.handleFormChange(e) }
-        onSubmit={ e => this.handleSubmit(e) }
-      >
-        <QuotationFormPres {...presProps}/>
-      </form>
+      <QuotationFormPres {...renderProps}/>
     )
   }
 }
