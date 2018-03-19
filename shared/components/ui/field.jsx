@@ -51,8 +51,8 @@ class FieldInput extends PureComponent {
       isTouched: false,
       isPristine: true
     }
-    this.onBlur: this.onBlur.bind( this ),
-    this.onChange: this.onChange.bind( this ),
+    this.onBlur   = this.onBlur.bind( this )
+    this.onChange = this.onChange.bind( this )
   }
 
   componentWillReceiveProps( nextProps ) {
