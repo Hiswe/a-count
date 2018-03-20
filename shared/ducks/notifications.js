@@ -10,6 +10,7 @@ const fetchGet  = getFetchType( ``, `get` )
 const fetchPost = getFetchType( ``, `post` )
 const getErrorRegexp  = new RegExp( `${ fetchGet.fetchError }$` )
 const postErrorRegexp = new RegExp( `${ fetchPost.fetchError }$` )
+const postSuccessRegexp = new RegExp( `${ fetchPost.fetchSuccess }$` )
 
 const initialState = []
 
@@ -21,10 +22,19 @@ export default function reducer( state = initialState, action ) {
   if ( !crio.isCrio(state) ) state = crio( state )
   const { type, payload } = action
   const hasError = getErrorRegexp.test( type ) || postErrorRegexp.test( type )
+  const hasPostSuccess = postSuccessRegexp.test( type )
 
   if ( hasError ) {
     payload._id = new Date().valueOf()
     state = state.push( payload )
+    return state
+  }
+
+  if ( hasPostSuccess ) {
+    state = state.push({
+      _id: new Date().valueOf(),
+      message: `save success`,
+    })
     return state
   }
 
