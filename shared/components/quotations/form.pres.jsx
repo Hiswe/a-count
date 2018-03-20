@@ -50,7 +50,8 @@ export default function QuotationFormPres( props ) {
             <Field darkBg
               name="tax"
               type="number"
-              step="any"
+              min="0"
+              step="0.5"
               value={ formData.tax }
             />
           </div>
@@ -70,7 +71,7 @@ export default function QuotationFormPres( props ) {
                   const fieldPath = `products[${ index }]`
                   return (
                     <ProductLine
-                      key={ index }
+                      key={ product._id }
                       fieldPath={ fieldPath }
                       product={ product }
                     >

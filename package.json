@@ -93,6 +93,7 @@
     "redux-thunk": "^2.2.0",
     "sequelize": "^4.37.1",
     "serialize-javascript": "^1.4.0",
+    "shortid": "^2.2.8",
     "slug": "0.9.1",
     "url-join": "^4.0.0"
   },

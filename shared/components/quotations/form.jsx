@@ -8,7 +8,7 @@ import serialize from 'form-serialize'
 import * as quotations from '../../ducks/quotations'
 import * as customers from '../../ducks/customers'
 import { needRedirect } from '../_helpers.js'
-import filterArrayWithObject from '../_filter-array-with-object.js'
+import recomputeQuotationProducts from '../_recompute-quotation-products.js'
 
 import QuotationFormPres from './form.pres.jsx'
 
@@ -75,13 +75,12 @@ class QuotationForm extends Component {
   // TODO: check if we have the right data
   recomputeProducts( formData ) {
     const defaultProduct  = formData.get( `defaultProduct` )
-    const currentProducts = formData.get( `products` )
-    const products = filterArrayWithObject({
-      defaultObject: defaultProduct,
-      array: currentProducts,
+    const products = formData.get( `products` )
+    const recomputedProducts = recomputeQuotationProducts({
+      defaultProduct,
+      products,
     })
-      .push( Object.assign({}, defaultProduct) )
-    const updated = formData.set( `products`, products )
+    const updated = formData.set( `products`, recomputedProducts )
     return updated
   }
   recomputeFormData( formData ) {
@@ -145,7 +144,8 @@ class QuotationForm extends Component {
     if ( !line ) return
 
     this.setState( prevState => {
-      const updatedProducts = prevState.formData.products.splice( index, 1 )
+      const products = prevState.formData.get( `products` )
+      const updatedProducts = products.splice( index, 1 )
       const updated = prevState.formData.set( `products`, updatedProducts )
       return { formData: this.recomputeProducts( updated ) }
     })
