@@ -79,12 +79,12 @@
       --step-color: var(--step-color-active);
       // as a bridge between done & undone, its bar is inactive!
       --step-bar-bg: var(--step-bar-bg-inactive);
-      --step-bullet-bg: var(--step-bullet-bg-active);
+      --step-bullet-bg: var(--c-primary-darker);
       --step-bullet-color: var(--step-bullet-color-active);
 
       #{$root}__button {
         &::before {
-          box-shadow: 0 0 0 3px var(--c-primary-darker);
+          box-shadow: 0 0 0 3px var(--step-bullet-bg-active);
         }
       }
       #{$root}__content {
