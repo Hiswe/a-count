@@ -1,8 +1,9 @@
 import merge from 'lodash.merge'
+import crio from 'crio'
 
 // {foo: `bar`} [{foo: `bar`}, {foo: `baz`}] => [{foo: `baz`}]
 const filterArrayWithObject = ( {defaultObject, array} ) => {
-  if ( !Array.isArray(array) ) return []
+  if ( !Array.isArray(array) ) return crio( [] )
   if ( !defaultObject ) return array
   const defaultEntries = Object.entries( defaultObject )
   const result = array
