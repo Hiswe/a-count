@@ -33,12 +33,6 @@ const server = {
       raw: true,
       entryOnly: false
     }),
-    // we just make some dumb import here
-    // • no need to keep them server side
-    new webpack.NormalModuleReplacementPlugin(
-      /.*\.scss/,
-      'node-noop',
-    )
   ],
   //
   mode:   env,
