@@ -8,6 +8,7 @@ export const productTotal = product => {
   return roundToNearestQuarter( product.quantity * product.price )
 }
 
+// TODO: should render a total object with errors if cannot compute
 export const totals = ( products, taxRate = 0 ) => {
   const net = products
     .reduce( (acc, product) => acc + productTotal( product ), 0 )

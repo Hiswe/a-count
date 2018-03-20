@@ -3,9 +3,9 @@ import React from 'react'
 // TODO: value should be formated according to locale
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString
 export function formatValue( props ) {
-  const { value, currency } = props
+  const { value, currency, errorMessage = `#error` } = props
   const isValidValue = Number.isFinite( value )
-  const displayValue = isValidValue ? value.toFixed( 2 ) : `#error`
+  const displayValue = isValidValue ? value.toFixed( 2 ) : errorMessage
   const displayCurrency = isValidValue && currency ? currency : ``
   return { value: displayValue, currency: displayCurrency }
 }

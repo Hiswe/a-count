@@ -27,7 +27,7 @@ class QuotationForm extends Component {
     //   https://github.com/tc39/proposal-class-fields/issues/80
     //   https://www.npmjs.com/package/@babel/plugin-proposal-class-properties
     // • but better to bind than relaying on arrow functions in render()
-    // • https://codeburst.io/how-to-not-react-common-anti-patterns-and-gotchas-in-react-40141fe0dcd#aef5
+    //   https://codeburst.io/how-to-not-react-common-anti-patterns-and-gotchas-in-react-40141fe0dcd#aef5
     this.handleSubmit = this.handleSubmit.bind( this )
     this.handleFormChange = this.handleFormChange.bind( this )
     this.handleDayChange = this.handleDayChange.bind( this )
