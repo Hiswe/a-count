@@ -18,6 +18,11 @@ const setNormalizedString = key => function( val ) {
   this.setDataValue( key, normalizeString( val ) )
 }
 
+const setTrimmedString = key => function( val ) {
+  val = `${val}`
+  this.setDataValue( key, val.trim() )
+}
+
 const getNormalizedDate = key => function() {
   const date = this.getDataValue( key )
   if (!date) return ``
@@ -33,6 +38,7 @@ const setNormalizedDate = key => function( val ) {
 module.exports = {
   normalizeString,
   setNormalizedString,
+  setTrimmedString,
   getNormalizedDate,
   setNormalizedDate,
   log,

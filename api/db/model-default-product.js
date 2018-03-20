@@ -15,6 +15,7 @@ const DefaultProduct = sequelize.define( `defaultProduct`, {
     type:         Sequelize.TEXT,
     defaultValue: '',
     allowNull:    false,
+    set:          h.setTrimmedString( `description` ),
   },
   quantity: {
     type:         Sequelize.FLOAT,

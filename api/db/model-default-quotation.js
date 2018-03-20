@@ -31,7 +31,7 @@ const DefaultQuotation = sequelize.define( `defaultQuotation`, {
   prefix: {
     type:         Sequelize.STRING,
     defaultValue: `QO`,
-    set:          dbHelpers.setNormalizedString(`prefix`),
+    set:          dbHelpers.setTrimmedString(`prefix`),
   },
   startAt: {
     type:         Sequelize.INTEGER,
@@ -41,7 +41,7 @@ const DefaultQuotation = sequelize.define( `defaultQuotation`, {
   mentions: {
     type:         Sequelize.TEXT,
     defaultValue: defaultMention,
-    set:          dbHelpers.setNormalizedString(`mentions`),
+    set:          dbHelpers.setTrimmedString(`mentions`),
   },
 }, { timestamps: false })
 

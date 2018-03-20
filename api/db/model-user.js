@@ -41,7 +41,7 @@ const User = sequelize.define( `user`, {
   address: {
     type:         Sequelize.TEXT,
     allowNull:    true,
-    set:          h.setNormalizedString(`address`),
+    set:          h.setTrimmedString(`address`),
   },
   lang: {
     type:         Sequelize.CHAR(2),

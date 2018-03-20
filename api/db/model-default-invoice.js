@@ -14,7 +14,7 @@ const DefaultInvoice = sequelize.define( `defaultInvoice`, {
   prefix: {
     type:         Sequelize.STRING,
     defaultValue: `IN`,
-    set:          h.setNormalizedString(`prefix`),
+    set:          h.setTrimmedString(`prefix`),
   },
   startAt: {
     type:         Sequelize.INTEGER,
@@ -24,7 +24,7 @@ const DefaultInvoice = sequelize.define( `defaultInvoice`, {
   mentions: {
     type:         Sequelize.TEXT,
     defaultValue: `invoice mentions`,
-    set:          h.setNormalizedString(`mentions`),
+    set:          h.setTrimmedString(`mentions`),
   },
 }, { timestamps: false })
 
