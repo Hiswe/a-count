@@ -1,0 +1,9 @@
+.textarea {
+  resize: vertical;
+
+  &--is-auto-resize {
+    display: block;
+    overflow: hidden;
+    resize: none;
+  }
+}

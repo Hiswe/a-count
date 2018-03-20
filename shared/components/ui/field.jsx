@@ -1,7 +1,10 @@
 import isNil from 'lodash.isnil'
 import React, { PureComponent } from 'react'
 
+import TextareaAutoResize from '../ui/textarea-auto-resize.jsx'
 import './field.scss'
+
+const BASE_CLASS = `field`
 
 // inspired by
 // • https://github.com/muicss/mui/blob/master/src/react/_textfieldHelpers.jsx
@@ -20,19 +23,20 @@ export default function Field( props ) {
     id:     _id,
     label:  _label,
     type:   _type,
-    className: `field__control`,
+    className: `${BASE_CLASS}__control`,
     ...others,
   }
 
   // ensure that we have a value in case of controlled component
+  // • this will avoid warnings…
+  //   …from switching from controlled to uncontrolled components
   if ( isNil( props.defaultValue ) ) {
     const _value  = isNil( props.value ) ? `` : props.value
     inputProps.value = _value
   }
 
-  const wrapperClassName = [ `field`, `field--is-${_type}` ]
-  if ( darkBg ) wrapperClassName.push( `field--dark-background` )
-
+  const wrapperClassName = [ BASE_CLASS, `${BASE_CLASS}--is-${_type}` ]
+  if ( darkBg ) wrapperClassName.push( `${BASE_CLASS}--dark-background` )
   const wrapperProps = {
     className: wrapperClassName.join( ` ` ),
   }
@@ -77,7 +81,6 @@ class FieldInput extends PureComponent {
       isEmpty: isEmpty( e.target.value ),
       isPristine: false,
     })
-
     // execute original callback
     if ( typeof props.onChange === `function` ) props.onChange( e )
   }
@@ -104,10 +107,10 @@ class FieldInput extends PureComponent {
 
     switch ( inputProps.type ) {
       case `select`:
-        const { options, ...others } = inputProps
+        const { options, ...selectProps } = inputProps
         const hasOptions = Array.isArray( options )
         return (
-          <select {...others} {...handlers}>
+          <select {...selectProps} {...handlers}>
             { hasOptions && options.map( (option, i) => (
               <option key={option.id} value={option.id}>{option.name}</option>
             )) }
@@ -115,7 +118,7 @@ class FieldInput extends PureComponent {
         )
 
       case `textarea`:
-        return ( <textarea {...inputProps} {...handlers} /> )
+        return ( <TextareaAutoResize {...inputProps} {...handlers} /> )
 
       default:
         return ( <input {...inputProps} {...handlers} /> )
@@ -128,13 +131,18 @@ class FieldInput extends PureComponent {
 
     const ClassName = [
       wrapperProps.className,
-      state.isEmpty ? `field--is-empty` : `field--is-not-empty`,
+      state.isEmpty ? `${BASE_CLASS}--is-empty` : `${BASE_CLASS}--is-not-empty`,
     ]
 
     return (
       <div className={ ClassName.join( ` ` ) } >
         { this.input() }
-        <label className="field__label" htmlFor={ inputProps.id }>{ inputProps.label }</label>
+        <label
+          className={`${BASE_CLASS}__label`}
+          htmlFor={ inputProps.id }
+        >
+          { inputProps.label }
+        </label>
       </div>
     )
   }
