@@ -118,5 +118,8 @@ router
   ctx.assert(customer, 500, `Can't update Quotation. The associated customer isn't found`)
 
   const updatedQuotation = await quotation.update( body )
-  ctx.body = formatResponse( updatedQuotation )
+  // just passing the updatedQuotation return the Tax as a string O_O
+  // • prevent that by getting a new instance…
+  const instance  = await Quotation.findOneWithRelations( {where: { id }} )
+  ctx.body = formatResponse( instance )
 })
