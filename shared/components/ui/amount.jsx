@@ -7,6 +7,9 @@ const BASE_CLASS = `amount`
 export function formatValue( props ) {
   const { value, currency, errorMessage = `#error` } = props
   const isValidValue = Number.isFinite( value )
+  // parameters passed to “toLocaleString”
+  // TODO: currency should be passed here
+  // • https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString
   const formatOptions = {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,

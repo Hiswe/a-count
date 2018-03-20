@@ -35,7 +35,7 @@ export default function QuotationFormPres( props ) {
       <Main
         meta={ () => (
           <div className="quotation-form__meta">
-            { !isNew && <input type="hidden" defaultValue={formData.id} name="id" /> }
+            { !isNew && <input type="hidden" defaultValue={ formData.id } name="id" /> }
             <Stepper
               steps={ formData.steps }
               handleDayChange={ handleDayChange }
@@ -65,7 +65,11 @@ export default function QuotationFormPres( props ) {
                 name="name"
                 value={ formData.name }
               />
-              <NewProductTable products={ products } tax={ formData.tax } >
+              <NewProductTable
+                products={ products }
+                tax={ formData.tax }
+                currency={ user.defaultQuotation.currency }
+              >
                 { hasProducts && products.map( (product, index) => {
                   const isLast = index === productsLength - 1
                   const fieldPath = `products[${ index }]`
@@ -74,6 +78,7 @@ export default function QuotationFormPres( props ) {
                       key={ product._id }
                       fieldPath={ fieldPath }
                       product={ product }
+                      currency={ user.defaultQuotation.currency }
                     >
                       { !isLast && <button onClick={ e => handleProductRemove(index, fieldPath) } type="button">remove</button> }
                     </ProductLine>

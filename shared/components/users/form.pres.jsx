@@ -1,9 +1,18 @@
 import React, { Fragment } from 'react'
 
 import Main from '../layout/main.jsx'
+import PaperSheet, { Party } from '../layout/paper-sheet.jsx'
 import Field from '../ui/field.jsx'
 import ProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
+
+const customerExample = {
+  name: `Customer name`,
+  address: `123 6th St.
+__Melbourne, FL 32904__
+AUSTRALIA
+`
+}
 
 export default function UserFormPres( props ) {
   const {
@@ -32,22 +41,34 @@ export default function UserFormPres( props ) {
             <fieldset className="card" style={{gridColumn: `1 / span 2`}}>
               <h3 className="card__title">General Information</h3>
               <div className="card__content">
-                <Field key="name" name="name" value={ formData.name } onChange={ e => this.handleChange(e) } />
+                <Field
+                  name="name"
+                  value={ formData.name }
+                />
+                <Field
+                  name="address"
+                  value={ formData.address }
+                  type="textarea"
+                />
               </div>
             </fieldset>
-            <fieldset className="card" style={{gridColumn: `1 / span 2`}}>
-              <h3 className="card__title">Default Product</h3>
-              <div className="card__content">
-                <input type="hidden" name="defaultProduct[id]" defaultValue={defaultProduct.id} />
-                <ProductTable>
-                  <ProductLine
-                    fieldPath="defaultProduct"
-                    product={ defaultProduct }
-                    currency={ defaultQuotation.currency }
-                  />
-                </ProductTable>
-              </div>
-            </fieldset>
+            <PaperSheet>
+              <input type="hidden" name="defaultProduct[id]" defaultValue={defaultProduct.id} />
+              <Party type="user" {...formData} />
+              <Party type="customer" {...customerExample} />
+              <h3>Default Product</h3>
+              <ProductTable
+                products={ [defaultProduct] }
+                tax={ defaultQuotation.tax }
+                currency={ defaultQuotation.currency }
+              >
+                <ProductLine
+                  fieldPath="defaultProduct"
+                  product={ defaultProduct }
+                  currency={ defaultQuotation.currency }
+                />
+              </ProductTable>
+            </PaperSheet>
             <fieldset className="card">
               <h3 className="card__title">Default Quotation</h3>
               <div className="card__content">
@@ -78,7 +99,6 @@ export default function UserFormPres( props ) {
                   name="defaultQuotation[mentions]"
                   label="mentions"
                   value={ defaultQuotation.mentions }
-                  onChange={ e => this.handleChange(e) }
                   type="textarea"
                 />
               </div>

@@ -23,10 +23,10 @@ class QuotationForm extends Component {
 
     // don't use any automated bind
     // • they are only in ES stage 2…
-    //   …and it doesn't seems that it will make in stage 3
+    //   …and it doesn't seem that it will make in stage 3
     //   https://github.com/tc39/proposal-class-fields/issues/80
     //   https://www.npmjs.com/package/@babel/plugin-proposal-class-properties
-    // • but better to bind than relaying on arrow functions in render()
+    // • but better to bind than relying on arrow functions in render()
     //   https://codeburst.io/how-to-not-react-common-anti-patterns-and-gotchas-in-react-40141fe0dcd#aef5
     this.handleSubmit = this.handleSubmit.bind( this )
     this.handleFormChange = this.handleFormChange.bind( this )
