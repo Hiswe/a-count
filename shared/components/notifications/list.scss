@@ -7,18 +7,4 @@
   right:  var(--s-gutter);
   width: 450px;
   left: calc( 50% - var(--s-nav-main-width) / 2 );
-
-  &__item {
-    padding: .5em .75em;
-    background: var(--c-notification-bg);
-    color: var(--c-notification-text);
-
-    &--error {
-      --c-notification-bg:  hsl(0, 98%, 40%);
-    }
-  }
-
-  &__title {
-    margin: 0;
-  }
 }

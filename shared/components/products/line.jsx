@@ -35,7 +35,7 @@ const Line = props => {
           defaultValue={ product.price }
         />
       </td>
-      <td className="total">
+      <td className="total is-number">
         <Amount value={ total } currency={ currency } />
       </td>
       <td>

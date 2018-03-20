@@ -35,6 +35,12 @@
     vertical-align: top;
   }
 
+  td {
+    &.is-number {
+      text-align: right;
+    }
+  }
+
   td + td {
     border-left: 1px solid var(--c-primary-lighter);
   }

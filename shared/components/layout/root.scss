@@ -27,6 +27,11 @@ select,
 button {
   font: inherit;
 }
+
+input[type=number] {
+  text-align: right;
+}
+
 fieldset {
   border: 0;
   margin: 0;

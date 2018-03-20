@@ -3,7 +3,7 @@ import { renderRoutes } from 'react-router-config'
 
 import NavMain from './nav-main.jsx'
 import ErrorBoundary from '../error-boundary.jsx'
-import Notifications from '../ui/notifications.jsx'
+import Notifications from '../notifications/list.jsx'
 
 import './root.scss'
 
