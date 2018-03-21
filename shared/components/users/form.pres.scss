@@ -1,12 +1,5 @@
 .profile-form {
   $root: &;
-  $section: "#{$root}__section";
-  --profile-max-width: var(--s-max-width);
-  --profile-gutter: minmax(var(--s-gutter), calc(50% - var(--profile-max-width) / 2));
-  --profile-overlap-height: var(--s-two-gutter);
-  --profile-form-bg: var(--c-primary-darker);
-  // css custom properties doesn't seems to work with background size
-  $shred-size: 20px;
 
   &__title {
     margin: 1em 0 .5em;
@@ -20,12 +13,13 @@
       }
     }
   }
-
   &__sub-title {
     font-weight: 700;
     font-size: 1.25rem;
   }
-
+  &__warning {
+    color: red;
+  }
   &__user {
     padding-top: var(--s-gutter);
     display: grid;
@@ -39,7 +33,6 @@
       margin: 0;
     }
   }
-
   &__product {
     &-form {
       display: grid;
@@ -47,7 +40,6 @@
       grid-gap: var(--s-gutter);
     }
   }
-
   &__references {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -64,7 +56,6 @@
       grid-gap: var(--s-gutter);
     }
   }
-
   &__mentions {
     padding-top: var(--s-gutter);
 

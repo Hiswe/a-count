@@ -148,6 +148,11 @@ export default function UserFormPres( props ) {
 
         {/* REFERENCES */}
         <UserFormTile title="Reference Format" />
+        <p className={`${BASE_CLASS}__warning`}>
+          Changing <strong>startAt number</strong> will change all the concerned type's references
+          <br />
+          Be cautious!
+        </p>
         <div className={`${BASE_CLASS}__references`}>
           <dl className={`${BASE_CLASS}__references-section`}>
             <dt className={`${BASE_CLASS}__sub-title`}>
