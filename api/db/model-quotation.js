@@ -21,6 +21,15 @@ const Quotation = sequelize.define( `quotation`, {
     defaultValue: Sequelize.UUIDV4,
     primaryKey:   true,
   },
+  reference: {
+    type: new Sequelize.VIRTUAL(Sequelize.STRING, [`defaultQuotation`, `index`, `user`]),
+    get:  function() {
+      const { prefix, startAt } = this.get( `defaultQuotation` )
+      const { quotationCount } = this.get( `user` )
+      const count = this.getDataValue( `index` ) || quotationCount + 1
+      return `${ prefix }${ count + startAt }`
+    }
+  },
   name: {
     type:         Sequelize.STRING,
     set:          h.setNormalizedString(`name`),
@@ -111,6 +120,18 @@ const Quotation = sequelize.define( `quotation`, {
     }
   },
   // RELATION ALIASES
+  defaultQuotation: {
+    type:         new Sequelize.VIRTUAL(Sequelize.JSON),
+    get:          function() {
+      const user = this.get( `user` )
+      if ( !user ) throw new Error( `“user” relation is needed for computing products` )
+
+      const defaultQuotation = user.get( `defaultQuotation` )
+      if ( !defaultQuotation ) throw new Error( `“user.defaultQuotation” relation is needed for computing reference` )
+
+      return omit( defaultQuotation.toJSON(), [`id`, `userId`] )
+    }
+  },
   defaultProduct: {
     type:         new Sequelize.VIRTUAL(Sequelize.JSON),
     get:          function() {
