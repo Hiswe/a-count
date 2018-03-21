@@ -1,26 +1,56 @@
 .profile-form {
-  &__meta {
+  $root: &;
+  $section: "#{$root}__section";
+  --profile-max-width: var(--s-max-width);
+  --profile-gutter: minmax(var(--s-gutter), calc(50% - var(--profile-max-width) / 2));
+  --profile-overlap-height: var(--s-two-gutter);
+  --profile-form-bg: var(--c-primary-darker);
+
+  &__user {
+    padding-top: var(--s-gutter);
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: var(--s-big-gutter);
 
-    &-one-liner {
-      display: grid;
-      grid-template-columns: 3rem minmax(min-content, 1fr) 1fr 4rem;
-      grid-template-areas: "tax nothing prefix start-at";
-      grid-gap: var(--s-gutter);
+    &-example {
+      background: white;
+      border-radius: var(--sheet-border-radius) 0 0 0;
+      padding: var(--s-gutter);
+      background-image:
+        linear-gradient(-45deg, var(--c-background) 50%, transparent 50%),
+        linear-gradient(45deg, var(--c-background) 50%, transparent 50%),
+        linear-gradient(-45deg, var(--c-background) 50%, transparent 50%),
+        linear-gradient(315deg, var(--c-background) 50%, transparent 50%),
+        linear-gradient(225deg, var(--c-background) 50%, transparent 50%);
+      background-size: 70px 70px, 30px 30px, 30px 30px,30px 30px, 30px 30px;
+      background-repeat: no-repeat, repeat-x, repeat-x, repeat-y, repeat-y;
+      background-position: right bottom;
+    }
+    .field--address {
+      margin-bottom: 0;
+    }
+    .paper-sheet__party {
+      margin: 0;
+    }
+  }
 
-      .field--defaultquotation {
-        &-tax {
-          grid-area: tax;
-        }
-        &-prefix {
-          grid-area: prefix;
-        }
-        &-startat {
-          grid-area: start-at;
-        }
-      }
+  &__product {
+    &-form {
+      display: grid;
+      grid-template-columns: 1fr 5rem 3rem 4rem;
+      grid-gap: var(--s-gutter);
+    }
+    &-example {
+      background: white;
+      padding: var(--s-big-gutter) var(--s-gutter);
+      background-image:
+        linear-gradient(225deg, var(--c-background) 50%, transparent 50%),
+        linear-gradient(135deg, var(--c-background) 50%, transparent 50%),
+        linear-gradient(45deg, var(--c-background) 50%, transparent 50%),
+        linear-gradient(-45deg, var(--c-background) 50%, transparent 50%);
+      background-size: 30px 30px;
+      background-repeat: repeat-x;
+      background-position: top left, top left, bottom left, bottom left;
     }
   }
 }

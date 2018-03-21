@@ -7,8 +7,12 @@ import './paper-sheet.scss'
 const BASE_CLASS = `paper-sheet`
 
 export default function PaperSheet( props ) {
+  const { shreddedBottom, shreddedBoth } = props
+  const className = [ BASE_CLASS ]
+  if ( shreddedBottom ) className.push(`${BASE_CLASS}--shredded-bottom`)
+  if ( shreddedBoth ) className.push(`${BASE_CLASS}--shredded-top-bottom`)
   return (
-    <div className={BASE_CLASS}>
+    <div className={className.join(` `)}>
       { props.children }
     </div>
   )

@@ -1,7 +1,5 @@
 .paper-sheet {
   $root: &;
-  --sheet-border-radius: var(--s-quarter-gutter);
-  --sheet-shadow-color: rgba(0, 0, 0, .35);
   --big-font-size: 1.5rem;
   background: white;
   padding: var(--s-gutter);
@@ -31,9 +29,31 @@
     right: 10px;
     left: auto;
   }
+  &--shredded-top-bottom,
+  &--shredded-bottom {
+    background-image:
+      linear-gradient(45deg, var(--c-background) 17px, transparent 18px),
+      linear-gradient(-45deg, var(--c-background) 17px, transparent 18px);
+    background-size: 30px 30px;
+    background-repeat: repeat-x;
+    background-position: bottom;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+
+  &--shredded-top-bottom {
+    background-image:
+      linear-gradient(225deg, var(--c-background) 17px, transparent 18px),
+      linear-gradient(135deg, var(--c-background) 17px, transparent 18px);
+    background-position: top;
+
+  }
 
   // facing blocks
-  > :not(#{$root}__party):not(:first-child) {
+  > :not(#{$root}__party) {
     grid-column: 1 / span 2;
     margin-top: var(--s-gutter);
   }

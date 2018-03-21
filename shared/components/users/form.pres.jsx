@@ -36,7 +36,12 @@ export default function UserFormPres( props ) {
       updatedAt: new Date().toUTCString(),
       reference: `${defaultQuotation.prefix}${defaultQuotation.startAt}`,
     },
+  }
 
+  const fakeProduct = {
+    description: `a *product* example`,
+    quantity: 2,
+    price: defaultProduct.price,
   }
 
   return (
@@ -48,60 +53,103 @@ export default function UserFormPres( props ) {
       className="form form--profile"
     >
       <input type="hidden" name="id" defaultValue={formData.id} />
-      <Main
-        meta={() => (
-          <div className={`${BASE_CLASS}__meta`}>
-            <div className={`${BASE_CLASS}__meta-user`}>
-              <h3>from</h3>
-              <Field darkBg
-                name="name"
-                value={ formData.name }
-              />
-              <Field darkBg
-                name="address"
-                value={ formData.address }
-                type="textarea"
-              />
-            </div>
-            <div className={`${BASE_CLASS}__meta-quotation`}>
-              <input
-                type="hidden"
-                name="defaultQuotation[id]"
-                defaultValue={defaultQuotation.id}
-              />
-              <h3>Default quotation parameters</h3>
-              <div className={`${BASE_CLASS}__meta-one-liner`}>
-                <Field darkBg
-                  name="defaultQuotation[tax]"
-                  label="tax"
-                  type="number"
-                  value={ defaultQuotation.tax }
-                />
-                <Field darkBg
-                  name="defaultQuotation[prefix]"
-                  label="prefix"
-                  value={ defaultQuotation.prefix }
-                />
-                <Field darkBg
-                  name="defaultQuotation[startAt]"
-                  label="start at"
-                  value={ defaultQuotation.startAt }
-                  type="number"
-                  min="0"
-                  step="1"
-                />
-              </div>
-              <Field darkBg
-                name="defaultQuotation[mentions]"
-                label="mentions"
-                value={ defaultQuotation.mentions }
-                type="textarea"
-              />
-            </div>
+
+      <Main content={() => (<Fragment>
+        {/* USER */}
+        <div className={`${BASE_CLASS}__user`}>
+          <div className={`${BASE_CLASS}__user-example`}>
+            <Party title="from" {...formData} />
           </div>
-        )}
+          <div className={`${BASE_CLASS}__user-form`}>
+            <Field
+              name="name"
+              value={ formData.name }
+            />
+            <Field
+              name="address"
+              value={ formData.address }
+              type="textarea"
+            />
+          </div>
+        </div>
+        {/* PRODUCT */}
+        <div  className={`${BASE_CLASS}__product`}>
+          <input
+            type="hidden"
+            name="defaultQuotation[id]"
+            defaultValue={defaultQuotation.id}
+          />
+          <div className={`${BASE_CLASS}__product-form`}>
+            <Field
+              name="defaultProduct[description]"
+              label="description"
+              type="textarea"
+              value={ defaultProduct.description }
+            />
+            <Field
+              name="defaultProduct[quantity]"
+              label="quantity"
+              type="number"
+              value={ defaultProduct.quantity }
+            />
+            <Field
+              name="defaultQuotation[tax]"
+              label="tax"
+              type="number"
+              value={ defaultQuotation.tax }
+            />
+            <Field
+              name="defaultQuotation[currency]"
+              label="currency"
+              type="select"
+              options={[
+                {id: `USD`, name: `USD`},
+                {id: `EUR`, name: `EUR`},
+              ]}
+              value={ defaultQuotation.tax }
+            />
+          </div>
+          <div className={`${BASE_CLASS}__product-example`}>
+            <ProductTable
+              products={ [fakeProduct, defaultProduct] }
+              tax={ defaultQuotation.tax }
+              currency={ defaultQuotation.currency }
+            >
+              <ProductLine readOnly
+                product={ fakeProduct }
+                currency={ defaultQuotation.currency }
+              />
+              <ProductLine readOnly
+                product={ defaultProduct }
+                currency={ defaultQuotation.currency }
+              />
+            </ProductTable>
+          </div>
+        </div>
+      </Fragment>)} />
+
+      <Main
         content={() => (
           <Fragment>
+            <Field
+              name="defaultQuotation[mentions]"
+              label="mentions"
+              value={ defaultQuotation.mentions }
+              type="textarea"
+            />
+            <Field
+              name="defaultQuotation[prefix]"
+              label="prefix"
+              value={ defaultQuotation.prefix }
+            />
+            <Field
+              name="defaultQuotation[startAt]"
+              label="start at"
+              value={ defaultQuotation.startAt }
+              type="number"
+              min="0"
+              step="1"
+            />
             <PaperSheet>
               <input type="hidden" name="defaultProduct[id]" defaultValue={defaultProduct.id} />
               <Reference {...fakeQuotationReference} />

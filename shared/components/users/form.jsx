@@ -31,7 +31,10 @@ class UserForm extends Component {
     const { name, value } = target
 
     this.setState( prevState => {
-      const updated = prevState.formData.set( name, value )
+      // cast automatically to the same type
+      const type = typeof prevState.formData.get( name)
+      const _value = type === `number` ? parseFloat( value, 10 ) : value
+      const updated = prevState.formData.set( name, _value )
       return { formData: updated }
     })
   }
