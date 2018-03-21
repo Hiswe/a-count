@@ -6,6 +6,19 @@
   --profile-overlap-height: var(--s-two-gutter);
   --profile-form-bg: var(--c-primary-darker);
 
+  &__title {
+    margin: 1em 0 .5em;
+    font-size: 2.25rem;
+    font-weight: 300;
+
+    span {
+      &::before {
+        content: '_';
+        color: var(--c-primary-lighter);
+      }
+    }
+  }
+
   &__user {
     padding-top: var(--s-gutter);
     display: grid;
