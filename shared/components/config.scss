@@ -34,6 +34,10 @@ $c-accent-h:    hue($c-accent) / 1deg;
 $c-accent-s:    saturation($c-accent);
 $c-accent-l:    lightness($c-accent);
 $c-black:       hsl(240, 11%, 30%);
+$c-text:        hsl(240, 11%, 30%);
+$c-text-h:      hue($c-text) / 1deg;
+$c-text-s:      saturation($c-text);
+$c-text-l:      lightness($c-text);
 
 @function url-friendly-colour($color) {
     @return '%23' + str-slice('#{$color}', 2, -1);

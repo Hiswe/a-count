@@ -1,7 +1,7 @@
 import React, {  Fragment } from 'react'
 
 import Main from '../layout/main.jsx'
-import PaperSheet, { Party } from '../layout/paper-sheet.jsx'
+import PaperSheet, { Party, Reference } from '../layout/paper-sheet.jsx'
 import Field from '../ui/field.jsx'
 import Stepper, { Step } from '../ui/stepper.jsx'
 import NewProductTable from '../products/table.jsx'
@@ -59,8 +59,9 @@ export default function QuotationFormPres( props ) {
         content={ () => (
           <Fragment>
             <PaperSheet>
-              <Party type="user" {...user} />
-              <Party type="customer" {...customer} />
+              <Reference type="quotation" product={ formData } />
+              <Party title="quotation from" {...user} />
+              <Party title="quotation to" {...customer} />
               <Field
                 name="name"
                 value={ formData.name }

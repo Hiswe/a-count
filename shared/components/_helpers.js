@@ -1,11 +1,10 @@
 import moment from 'moment'
 
-export const formatDate = data => {
+export function formatDate( data, format = `DD/MM/YY HH:mm:ss` ) {
   if (typeof data !== `string`) return ``
-  const formatedDate = moment(data).format(`DD/MM/YY HH:mm:ss`)
+  const formatedDate = moment(data).format( format )
   return formatedDate === `Invalid date` ? `` : formatedDate
 }
-
 // control if coming from a no ID model instance…
 // …we update to an instance with ID
 export const needRedirect = ( currentState, nextState )  => {

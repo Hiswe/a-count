@@ -2,8 +2,9 @@
   $root: &;
   --sheet-border-radius: var(--s-quarter-gutter);
   --sheet-shadow-color: rgba(0, 0, 0, .35);
+  --big-font-size: 1.5rem;
   background: white;
-  padding: calc( var(--s-gutter) * 1.5 ) var(--s-gutter);
+  padding: var(--s-gutter);
   border-radius: var(--sheet-border-radius);
   position: relative;
   display: grid;
@@ -32,29 +33,63 @@
   }
 
   // facing blocks
-  > :not(#{$root}__party) {
+  > :not(#{$root}__party):not(:first-child) {
     grid-column: 1 / span 2;
     margin-top: var(--s-gutter);
   }
 
+  &__reference {
+    text-align: right;
+    margin-top: 0;
+    grid-column: 1 / span 2;
+
+    &-type,
+    &-id,
+    &-date {
+      margin: 0;
+      text-transform: capitalize;
+    }
+    &-type {
+      font-size:  var(--big-font-size);
+    }
+    &-id {
+      font-weight: normal;
+      font-size:  var(--big-font-size);
+      padding-top: .5em;
+    }
+    &-date {
+      font-size: 1rem;
+      padding-top: .5em;
+      font-weight: 400;
+    }
+  }
+
   &__party {
-    margin-bottom: calc( var(--s-gutter) * 3 );
+    margin-top: calc( var(--s-gutter) * 1.25 );
+    margin-bottom: calc( var(--s-gutter) * 2 );
 
     & + & {
       text-align: right;
     }
 
     &-title {
+      margin: 0 0 .25em;
+      font-style: italic;
+
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+    &-name {
       margin: 0 0 var(--s-quarter-gutter);
-      font-size: 1.5rem;
+      font-size: var(--big-font-size);
       text-transform: capitalize;
       font-weight: 700;
     }
-
     // facing blocks description
     &-address{
       &--empty {
-        color: grey;
+        color: var(--c-text-lighter);
         font-style: italic;
       }
       > * {

@@ -6,17 +6,14 @@ import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
 import * as customers from '../../ducks/customers'
 import NavSecondary from '../../components/layout/nav-secondary.jsx'
-import { computeFakeId } from '../../components/ui/fake-id.jsx'
 import QuotationForm from '../../components/quotations/form.jsx'
 import { ButtonList, ButtonNew } from '../../components/quotations/secondary-nav-actions.jsx'
 
 // TODO: should have a print button
 
 function EditQuotation( props ) {
-  const count = props.quotation.index
-  const { prefix, startAt } = props.user.defaultQuotation
-  const fakeId = computeFakeId({count, prefix, startAt})
-  const title = `Edit Quotation – ${fakeId}`
+  const { reference } = props
+  const title = `Edit Quotation – ${ reference }`
 
   return (
     <Fragment>
@@ -32,8 +29,7 @@ function EditQuotation( props ) {
 function state2prop( state ) {
   const { current } = state.quotations
   const result = {
-    quotation:  state.quotations.current,
-    user:       state.users.current,
+    reference:  current.reference,
   }
   return result
 }

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
 import Main from '../layout/main.jsx'
-import PaperSheet, { Party } from '../layout/paper-sheet.jsx'
+import PaperSheet, { Party, Reference } from '../layout/paper-sheet.jsx'
 import Field from '../ui/field.jsx'
 import ProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
@@ -25,6 +25,15 @@ export default function UserFormPres( props ) {
     defaultQuotation,
     defaultInvoice,
   } = formData
+
+  const fakeQuotationReference = {
+    type: `quotation`,
+    product: {
+      updatedAt: new Date().toUTCString(),
+      reference: `${defaultQuotation.prefix}${defaultQuotation.startAt}`,
+    },
+
+  }
 
   return (
     <form
@@ -54,8 +63,9 @@ export default function UserFormPres( props ) {
             </fieldset>
             <PaperSheet>
               <input type="hidden" name="defaultProduct[id]" defaultValue={defaultProduct.id} />
-              <Party type="user" {...formData} />
-              <Party type="customer" {...customerExample} />
+              <Reference {...fakeQuotationReference} />
+              <Party title="quotation from" {...formData} />
+              <Party title="quotation to" {...customerExample} />
               <h3>Default Product</h3>
               <ProductTable
                 products={ [defaultProduct] }
