@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
 import Main from '../layout/main.jsx'
-import PaperSheet, { Party, Reference, Signature } from '../layout/paper-sheet.jsx'
+import PaperSheet, { Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
 import Field from '../ui/field.jsx'
 import Markdown from '../ui/markdown.jsx'
 import ProductTable from '../products/table.jsx'
@@ -67,11 +67,12 @@ export default function UserFormPres( props ) {
       action={`/users/${formData.id}`}
       onChange={ handleFormChange }
       onSubmit={ handleSubmit }
-      className="form form--profile"
+      className="profile-form"
     >
       <input type="hidden" name="id" defaultValue={formData.id} />
+      <input type="hidden" name="defaultQuotation[id]" defaultValue={ defaultQuotation.id } />
       <input type="hidden" name="defaultInvoice[id]" defaultValue={ defaultInvoice.id } />
-      <input type="hidden" name="defaultQuotation[id]" defaultValue={defaultQuotation.id} />
+      <input type="hidden" name="defaultProduct[id]" defaultValue={ defaultInvoice.id } />
 
       <Main content={() => (<Fragment>
 
@@ -210,8 +211,7 @@ export default function UserFormPres( props ) {
             type="textarea"
           />
           <PaperSheet>
-            <Markdown text={ defaultQuotation.mentions }/>
-            <Signature type="quote" />
+            <Mentions content={ defaultQuotation.mentions }/>
           </PaperSheet>
           <Field
             name="defaultInvoice[mentions]"
@@ -220,9 +220,11 @@ export default function UserFormPres( props ) {
             type="textarea"
           />
           <PaperSheet>
-            <Markdown text={ defaultInvoice.mentions }/>
-            <Signature type="invoice" />
+            <Mentions content={ defaultInvoice.mentions }/>
           </PaperSheet>
+        </div>
+        <div className="actions" style={{gridColumn: `1 / span 2`}}>
+          <button className="btn" type="submit">save update</button>
         </div>
       </Fragment>)} />
     </form>

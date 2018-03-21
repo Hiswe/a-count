@@ -49,19 +49,12 @@ function PartyAddress( props ) {
   return <Markdown text={content} />
 }
 
-export function Signature( props ) {
-  const { type } = props
-  const SIGNATURE_CLASS = `${BASE_CLASS}__signature`
+export function Mentions( props ) {
+  const { content } = props
+  const MENTIONS_CLASS = `${BASE_CLASS}__mentions`
   return (
-    <div className={`${SIGNATURE_CLASS}`}>
-      <div  className={`${SIGNATURE_CLASS}-mention`}>
-        <p>To accept this {type}:</p>
-        <ul>
-          <li>write <em>"good for agreement"</em></li>
-          <li>date</li>
-          <li>sign</li>
-        </ul>
-      </div>
+    <div className={`${MENTIONS_CLASS}`}>
+      <Markdown text={content} />
     </div>
   )
 }

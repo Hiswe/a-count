@@ -94,6 +94,20 @@
     }
   }
 
+  &__mentions {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: var(--s-gutter);
+    padding-top: var(--s-gutter);
+
+    &::after {
+      content: '';
+      border: 2px solid var(--c-text-lighter);
+      height: calc( var(--s-gutter) * 4 );
+      align-self: end;
+    }
+  }
+
   &__signature {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

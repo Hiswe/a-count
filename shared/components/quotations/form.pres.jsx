@@ -1,8 +1,9 @@
 import React, {  Fragment } from 'react'
 
 import Main from '../layout/main.jsx'
-import PaperSheet, { Party, Reference } from '../layout/paper-sheet.jsx'
+import PaperSheet, { Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
 import Field from '../ui/field.jsx'
+import Markdown from '../ui/markdown.jsx'
 import Stepper, { Step } from '../ui/stepper.jsx'
 import NewProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
@@ -86,6 +87,7 @@ export default function QuotationFormPres( props ) {
                   )
                 }) }
               </NewProductTable>
+              <Mentions content={ user.defaultQuotation.mentions }/>
             </PaperSheet>
             <div className="quotation-form__actions">
               <button className="btn" type="submit">{`${isNew ? 'Create' : 'Update'} quotation`}</button>

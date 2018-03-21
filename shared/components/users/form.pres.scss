@@ -6,7 +6,7 @@
   --profile-overlap-height: var(--s-two-gutter);
   --profile-form-bg: var(--c-primary-darker);
   // css custom properties doesn't seems to work with background size
-  $shred-size: 30px;
+  $shred-size: 20px;
 
   &__title {
     margin: 1em 0 .5em;
@@ -144,5 +144,8 @@
         margin-top: var(--s-two-gutter);
       }
     }
+  }
+  .actions {
+    margin-top: var(--s-gutter);
   }
 }
