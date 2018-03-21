@@ -3,9 +3,13 @@ import React, { Fragment } from 'react'
 import Main from '../layout/main.jsx'
 import PaperSheet, { Party, Reference } from '../layout/paper-sheet.jsx'
 import Field from '../ui/field.jsx'
+import Markdown from '../ui/markdown.jsx'
 import ProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
 
+import './form.pres.scss'
+
+const BASE_CLASS = `profile-form`
 const customerExample = {
   name: `Customer name`,
   address: `123 6th St.
@@ -43,24 +47,61 @@ export default function UserFormPres( props ) {
       onSubmit={ handleSubmit }
       className="form form--profile"
     >
+      <input type="hidden" name="id" defaultValue={formData.id} />
       <Main
-        content={() => (
-          <Fragment>
-            <input type="hidden" name="id" defaultValue={formData.id} />
-            <fieldset className="card" style={{gridColumn: `1 / span 2`}}>
-              <h3 className="card__title">General Information</h3>
-              <div className="card__content">
-                <Field
-                  name="name"
-                  value={ formData.name }
+        meta={() => (
+          <div className={`${BASE_CLASS}__meta`}>
+            <div className={`${BASE_CLASS}__meta-user`}>
+              <h3>from</h3>
+              <Field darkBg
+                name="name"
+                value={ formData.name }
+              />
+              <Field darkBg
+                name="address"
+                value={ formData.address }
+                type="textarea"
+              />
+            </div>
+            <div className={`${BASE_CLASS}__meta-quotation`}>
+              <input
+                type="hidden"
+                name="defaultQuotation[id]"
+                defaultValue={defaultQuotation.id}
+              />
+              <h3>Default quotation parameters</h3>
+              <div className={`${BASE_CLASS}__meta-one-liner`}>
+                <Field darkBg
+                  name="defaultQuotation[tax]"
+                  label="tax"
+                  type="number"
+                  value={ defaultQuotation.tax }
                 />
-                <Field
-                  name="address"
-                  value={ formData.address }
-                  type="textarea"
+                <Field darkBg
+                  name="defaultQuotation[prefix]"
+                  label="prefix"
+                  value={ defaultQuotation.prefix }
+                />
+                <Field darkBg
+                  name="defaultQuotation[startAt]"
+                  label="start at"
+                  value={ defaultQuotation.startAt }
+                  type="number"
+                  min="0"
+                  step="1"
                 />
               </div>
-            </fieldset>
+              <Field darkBg
+                name="defaultQuotation[mentions]"
+                label="mentions"
+                value={ defaultQuotation.mentions }
+                type="textarea"
+              />
+            </div>
+          </div>
+        )}
+        content={() => (
+          <Fragment>
             <PaperSheet>
               <input type="hidden" name="defaultProduct[id]" defaultValue={defaultProduct.id} />
               <Reference {...fakeQuotationReference} />
@@ -78,41 +119,8 @@ export default function UserFormPres( props ) {
                   currency={ defaultQuotation.currency }
                 />
               </ProductTable>
+              <Markdown text={ defaultQuotation.mentions }/>
             </PaperSheet>
-            <fieldset className="card">
-              <h3 className="card__title">Default Quotation</h3>
-              <div className="card__content">
-                <input
-                  type="hidden"
-                  name="defaultQuotation[id]"
-                  defaultValue={defaultQuotation.id}
-                />
-                <Field
-                  name="defaultQuotation[tax]"
-                  label="tax"
-                  value={ defaultQuotation.tax }
-                />
-                <Field
-                  name="defaultQuotation[prefix]"
-                  label="prefix"
-                  value={ defaultQuotation.prefix }
-                />
-                <Field
-                  name="defaultQuotation[startAt]"
-                  label="start at"
-                  value={ defaultQuotation.startAt }
-                  type="number"
-                  min="0"
-                  step="1"
-                />
-                <Field
-                  name="defaultQuotation[mentions]"
-                  label="mentions"
-                  value={ defaultQuotation.mentions }
-                  type="textarea"
-                />
-              </div>
-            </fieldset>
             <fieldset className="card">
               <h3 className="card__title">Default Invoice</h3>
               <div className="card__content">

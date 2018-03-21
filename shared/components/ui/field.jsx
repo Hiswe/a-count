@@ -18,6 +18,7 @@ export default function Field( props ) {
   const _id     = id ? id : others.name
   const _label  = label ? label : _id
   const _type   = type ? type : `text`
+  const _id2class = _id.replace(/\]$/, ``).replace(/[\[\]]/g, '-').toLowerCase()
 
   const inputProps = {
     id:     _id,
@@ -35,7 +36,7 @@ export default function Field( props ) {
     inputProps.value = _value
   }
 
-  const wrapperClassName = [ BASE_CLASS, `${BASE_CLASS}--is-${_type}` ]
+  const wrapperClassName = [ BASE_CLASS, `${BASE_CLASS}--${_id2class}`, `${BASE_CLASS}--is-${_type}` ]
   if ( darkBg ) wrapperClassName.push( `${BASE_CLASS}--dark-background` )
   const wrapperProps = {
     className: wrapperClassName.join( ` ` ),

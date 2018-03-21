@@ -7,7 +7,7 @@ import Stepper, { Step } from '../ui/stepper.jsx'
 import NewProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
 
-import './form.scss'
+import './form.pres.scss'
 
 export default function QuotationFormPres( props ) {
   const {
