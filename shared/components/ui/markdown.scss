@@ -1,8 +1,10 @@
 .markdown {
-  white-space: pre;
-
   > * {
     margin: 0;
-    // TODO: should resolve list appearance
+    white-space: pre-wrap;
+  }
+  ul,
+  li {
+    white-space: normal;
   }
 }

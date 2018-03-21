@@ -7,12 +7,8 @@ import './paper-sheet.scss'
 const BASE_CLASS = `paper-sheet`
 
 export default function PaperSheet( props ) {
-  const { shreddedBottom, shreddedBoth } = props
-  const className = [ BASE_CLASS ]
-  if ( shreddedBottom ) className.push(`${BASE_CLASS}--shredded-bottom`)
-  if ( shreddedBoth ) className.push(`${BASE_CLASS}--shredded-top-bottom`)
   return (
-    <div className={className.join(` `)}>
+    <div className={BASE_CLASS}>
       { props.children }
     </div>
   )
@@ -38,17 +34,34 @@ export function Party( props ) {
     <aside className={`${PARTY_CLASS}`}>
       <p className={`${PARTY_CLASS}-title`}>{ title }</p>
       <h4 className={`${PARTY_CLASS}-name`}>{ people.name }</h4>
-      <PartyAddress content={ people.address} />
+      <PartyAddress content={ people.address} PARTY_CLASS={PARTY_CLASS} />
     </aside>
   )
 }
 
 function PartyAddress( props ) {
-  const { content } = props
+  const { content, PARTY_CLASS } = props
   if ( !content ) return (
-    <p className={`${BASE_CLASS}__party-address ${BASE_CLASS}__party-address--empty`}>
+    <p className={`${PARTY_CLASS}-address ${PARTY_CLASS}-address--empty`}>
       no address defined
     </p>
   )
   return <Markdown text={content} />
+}
+
+export function Signature( props ) {
+  const { type } = props
+  const SIGNATURE_CLASS = `${BASE_CLASS}__signature`
+  return (
+    <div className={`${SIGNATURE_CLASS}`}>
+      <div  className={`${SIGNATURE_CLASS}-mention`}>
+        <p>To accept this {type}:</p>
+        <ul>
+          <li>write <em>"good for agreement"</em></li>
+          <li>date</li>
+          <li>sign</li>
+        </ul>
+      </div>
+    </div>
+  )
 }

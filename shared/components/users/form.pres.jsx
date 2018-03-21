@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
 import Main from '../layout/main.jsx'
-import PaperSheet, { Party, Reference } from '../layout/paper-sheet.jsx'
+import PaperSheet, { Party, Reference, Signature } from '../layout/paper-sheet.jsx'
 import Field from '../ui/field.jsx'
 import Markdown from '../ui/markdown.jsx'
 import ProductTable from '../products/table.jsx'
@@ -18,6 +18,14 @@ AUSTRALIA
 `
 }
 
+function UserFormTile( props ) {
+  return (
+    <h3 className={`${BASE_CLASS}__title`}>
+      <span>{ props.title }</span>
+    </h3>
+  )
+}
+
 export default function UserFormPres( props ) {
   const {
     formData,
@@ -29,7 +37,6 @@ export default function UserFormPres( props ) {
     defaultQuotation,
     defaultInvoice,
   } = formData
-
   const fakeQuotationReference = {
     type: `quotation`,
     product: {
@@ -37,12 +44,22 @@ export default function UserFormPres( props ) {
       reference: `${defaultQuotation.prefix}${defaultQuotation.startAt}`,
     },
   }
-
+  const fakeInvoiceReference = {
+    type: `invoice`,
+    product: {
+      updatedAt: new Date().toUTCString(),
+      reference: `${defaultInvoice.prefix}${defaultInvoice.startAt}`,
+    },
+  }
   const fakeProduct = {
     description: `a *product* example`,
     quantity: 2,
     price: defaultProduct.price,
   }
+  const fakeProducts = [
+    fakeProduct,
+    defaultProduct
+  ]
 
   return (
     <form
@@ -57,10 +74,9 @@ export default function UserFormPres( props ) {
       <input type="hidden" name="defaultQuotation[id]" defaultValue={defaultQuotation.id} />
 
       <Main content={() => (<Fragment>
+
         {/* USER */}
-        <h3 className={`${BASE_CLASS}__title`}>
-          <span>From information</span>
-        </h3>
+        <UserFormTile title="From information" />
         <div className={`${BASE_CLASS}__user`}>
           <div className={`${BASE_CLASS}__user-example`}>
             <Party title="from" {...formData} />
@@ -77,12 +93,10 @@ export default function UserFormPres( props ) {
             />
           </div>
         </div>
-        {/* PRODUCT */}
-        <h3 className={`${BASE_CLASS}__title`}>
-          <span>Default product information</span>
-        </h3>
-        <div className={`${BASE_CLASS}__product`}>
 
+        {/* PRODUCT */}
+        <UserFormTile title="Default product information" />
+        <div className={`${BASE_CLASS}__product`}>
           <div className={`${BASE_CLASS}__product-form`}>
             <Field
               name="defaultProduct[description]"
@@ -115,7 +129,7 @@ export default function UserFormPres( props ) {
           </div>
           <div className={`${BASE_CLASS}__product-example`}>
             <ProductTable
-              products={ [fakeProduct, defaultProduct] }
+              products={ fakeProducts }
               tax={ defaultQuotation.tax }
               currency={ defaultQuotation.currency }
             >
@@ -130,92 +144,87 @@ export default function UserFormPres( props ) {
             </ProductTable>
           </div>
         </div>
+
         {/* REFERENCES */}
-        <h3 className={`${BASE_CLASS}__title`}>
-          <span>Reference Format</span>
-        </h3>
+        <UserFormTile title="Reference Format" />
         <div className={`${BASE_CLASS}__references`}>
-          <div>
-            <Field
-              name="defaultQuotation[prefix]"
-              label="prefix"
-              value={ defaultQuotation.prefix }
-            />
-            <Field
-              name="defaultQuotation[startAt]"
-              label="start at"
-              value={ defaultQuotation.startAt }
-              type="number"
-              min="0"
-              step="1"
-            />
-          </div>
-          <div>
-            <Field
-              name="defaultInvoice[prefix]"
-              label="prefix"
-              value={ defaultInvoice.prefix }
-            />
-            <Field
-              name="defaultInvoice[startAt]"
-              label="start at"
-              value={ defaultInvoice.startAt }
-              type="number"
-              min="0"
-              step="1"
-            />
-          </div>
+          <dl className={`${BASE_CLASS}__references-section`}>
+            <dt className={`${BASE_CLASS}__sub-title`}>
+              Quotations
+            </dt>
+            <dd className={`${BASE_CLASS}__references-content`}>
+              <div className={`${BASE_CLASS}__references-form`}>
+                <Field
+                  name="defaultQuotation[prefix]"
+                  label="prefix"
+                  value={ defaultQuotation.prefix }
+                />
+                <Field
+                  name="defaultQuotation[startAt]"
+                  label="start at"
+                  value={ defaultQuotation.startAt }
+                  type="number"
+                  min="0"
+                  step="1"
+                />
+              </div>
+              <div className={`${BASE_CLASS}__references-example`}>
+                <Reference {...fakeQuotationReference} />
+              </div>
+            </dd>
+          </dl>
+          <dl className={`${BASE_CLASS}__references-section`}>
+            <dt className={`${BASE_CLASS}__sub-title`}>
+              Invoices
+            </dt>
+            <dd className={`${BASE_CLASS}__references-content`}>
+              <div className={`${BASE_CLASS}__references-form`}>
+                <Field
+                  name="defaultInvoice[prefix]"
+                  label="prefix"
+                  value={ defaultInvoice.prefix }
+                />
+                <Field
+                  name="defaultInvoice[startAt]"
+                  label="start at"
+                  value={ defaultInvoice.startAt }
+                  type="number"
+                  min="0"
+                  step="1"
+                />
+              </div>
+              <div className={`${BASE_CLASS}__references-example`}>
+                <Reference {...fakeInvoiceReference} />
+              </div>
+            </dd>
+          </dl>
         </div>
 
         {/* MENTIONS */}
-        <h3 className={`${BASE_CLASS}__title`}>
-          <span>Mentions</span>
-        </h3>
+        <UserFormTile title="Mentions" />
         <div className={`${BASE_CLASS}__mentions`}>
-
+          <Field
+            name="defaultQuotation[mentions]"
+            label="quotations mention"
+            value={ defaultQuotation.mentions }
+            type="textarea"
+          />
+          <PaperSheet>
+            <Markdown text={ defaultQuotation.mentions }/>
+            <Signature type="quote" />
+          </PaperSheet>
+          <Field
+            name="defaultInvoice[mentions]"
+            label="invoice mention"
+            value={ defaultInvoice.mentions }
+            type="textarea"
+          />
+          <PaperSheet>
+            <Markdown text={ defaultInvoice.mentions }/>
+            <Signature type="invoice" />
+          </PaperSheet>
         </div>
       </Fragment>)} />
-
-      <Main
-        content={() => (
-          <Fragment>
-            <Field
-              name="defaultQuotation[mentions]"
-              label="mentions"
-              value={ defaultQuotation.mentions }
-              type="textarea"
-            />
-
-            <PaperSheet>
-              <input type="hidden" name="defaultProduct[id]" defaultValue={defaultProduct.id} />
-              <Reference {...fakeQuotationReference} />
-              <ProductTable
-                products={ [defaultProduct] }
-                tax={ defaultQuotation.tax }
-                currency={ defaultQuotation.currency }
-              >
-              </ProductTable>
-              <Markdown text={ defaultQuotation.mentions }/>
-            </PaperSheet>
-            <fieldset className="card">
-              <h3 className="card__title">Default Invoice</h3>
-              <div className="card__content">
-
-
-                <Field
-                  name="defaultInvoice[mentions]"
-                  label="mentions"
-                  value={ defaultInvoice.mentions }
-                  type="textarea"
-                />
-              </div>
-            </fieldset>
-            <div className="actions" style={{gridColumn: `1 / span 2`}}>
-              <button className="btn" type="submit">save update</button>
-            </div>
-          </Fragment>
-        )}
-      />
     </form>
   )
 }
