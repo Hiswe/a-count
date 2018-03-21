@@ -30,7 +30,7 @@ app.use( serveStatic(path.join(__dirname, `../public`)) )
 app.use( json() )
 // templates: even if React is used for the most part…
 // …Pug is still used for wrappers & error
-app.use( views(path.join( __dirname, `./views`), {extension: `pug`}) )
+app.use( views( __dirname, {extension: `pug`}) )
 
 //----- LOGGING
 
@@ -50,7 +50,7 @@ app.use( async (ctx, next) => {
   } catch (err) {
     ctx.status = err.statusCode || err.status || 500
     console.log( inspect(err, {colors: true}) )
-    await ctx.render(`error-default`, {
+    await ctx.render(`view-error`, {
       reason: err.message,
       stacktrace: err.stacktrace || err.stack || false,
     })

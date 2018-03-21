@@ -73,7 +73,7 @@ router.get( '*', async (ctx, next) => {
     ctx.status = 404
   }
 
-  await ctx.render( `react-boilerplate`, {
+  await ctx.render( `view-react`, {
     // only pass a subset of the config. enough for the client side
     config: serialize( {API_URL: config.API_URL}, { isJSON: true } ),
     // those will be used to initialize the store client side
