@@ -7,8 +7,11 @@ import './paper-sheet.scss'
 const BASE_CLASS = `paper-sheet`
 
 export default function PaperSheet( props ) {
+  const { part } = props
+  const className = [ BASE_CLASS ]
+  if ( part ) className.push(`${BASE_CLASS}--part-${part}`)
   return (
-    <div className={BASE_CLASS}>
+    <div className={className.join(` `)}>
       { props.children }
     </div>
   )

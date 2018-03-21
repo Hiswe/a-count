@@ -79,9 +79,9 @@ export default function UserFormPres( props ) {
         {/* USER */}
         <UserFormTile title="From information" />
         <div className={`${BASE_CLASS}__user`}>
-          <div className={`${BASE_CLASS}__user-example`}>
+          <PaperSheet part="top-left">
             <Party title="from" {...formData} />
-          </div>
+          </PaperSheet>
           <div className={`${BASE_CLASS}__user-form`}>
             <Field
               name="name"
@@ -128,7 +128,7 @@ export default function UserFormPres( props ) {
               value={ defaultQuotation.tax }
             />
           </div>
-          <div className={`${BASE_CLASS}__product-example`}>
+          <PaperSheet part="center">
             <ProductTable
               products={ fakeProducts }
               tax={ defaultQuotation.tax }
@@ -143,7 +143,7 @@ export default function UserFormPres( props ) {
                 currency={ defaultQuotation.currency }
               />
             </ProductTable>
-          </div>
+          </PaperSheet>
         </div>
 
         {/* REFERENCES */}
@@ -169,9 +169,9 @@ export default function UserFormPres( props ) {
                   step="1"
                 />
               </div>
-              <div className={`${BASE_CLASS}__references-example`}>
+              <PaperSheet part="top-right">
                 <Reference {...fakeQuotationReference} />
-              </div>
+              </PaperSheet>
             </dd>
           </dl>
           <dl className={`${BASE_CLASS}__references-section`}>
@@ -194,9 +194,9 @@ export default function UserFormPres( props ) {
                   step="1"
                 />
               </div>
-              <div className={`${BASE_CLASS}__references-example`}>
+              <PaperSheet part="top-right">
                 <Reference {...fakeInvoiceReference} />
-              </div>
+              </PaperSheet>
             </dd>
           </dl>
         </div>
@@ -210,7 +210,7 @@ export default function UserFormPres( props ) {
             value={ defaultQuotation.mentions }
             type="textarea"
           />
-          <PaperSheet>
+          <PaperSheet part="bottom">
             <Mentions content={ defaultQuotation.mentions }/>
           </PaperSheet>
           <Field
@@ -219,7 +219,7 @@ export default function UserFormPres( props ) {
             value={ defaultInvoice.mentions }
             type="textarea"
           />
-          <PaperSheet>
+          <PaperSheet part="bottom">
             <Mentions content={ defaultInvoice.mentions }/>
           </PaperSheet>
         </div>

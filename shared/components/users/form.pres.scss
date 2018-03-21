@@ -32,24 +32,6 @@
     grid-template-columns: repeat(2, 1fr);
     grid-gap: var(--s-big-gutter);
 
-    &-example {
-      background: white;
-      border-radius: var(--sheet-border-radius) 0 0 0;
-      padding: var(--s-gutter);
-      background-image:
-        linear-gradient(-45deg, var(--c-background) 50%, transparent 50%),
-        linear-gradient(45deg, var(--c-background) 50%, transparent 50%),
-        linear-gradient(-45deg, var(--c-background) 50%, transparent 50%),
-        linear-gradient(315deg, var(--c-background) 50%, transparent 50%),
-        linear-gradient(225deg, var(--c-background) 50%, transparent 50%);
-      background-size: ($shred-size * 2) ($shred-size * 2),
-        $shred-size $shred-size,
-        $shred-size $shred-size,
-        $shred-size $shred-size,
-        $shred-size $shred-size;
-      background-repeat: no-repeat, repeat-x, repeat-x, repeat-y, repeat-y;
-      background-position: right bottom;
-    }
     .field--address {
       margin-bottom: 0;
     }
@@ -63,18 +45,6 @@
       display: grid;
       grid-template-columns: 1fr 5rem 3rem 4rem;
       grid-gap: var(--s-gutter);
-    }
-    &-example {
-      background: white;
-      padding: var(--s-big-gutter) var(--s-gutter);
-      background-image:
-        linear-gradient(225deg, var(--c-background) 50%, transparent 50%),
-        linear-gradient(135deg, var(--c-background) 50%, transparent 50%),
-        linear-gradient(45deg, var(--c-background) 50%, transparent 50%),
-        linear-gradient(-45deg, var(--c-background) 50%, transparent 50%);
-      background-size: $shred-size $shred-size;
-      background-repeat: repeat-x;
-      background-position: top left, top left, bottom left, bottom left;
     }
   }
 
@@ -92,24 +62,6 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-gap: var(--s-gutter);
-    }
-    &-example {
-      background: white;
-      border-radius: 0 var(--sheet-border-radius) 0 0;
-      padding: var(--s-gutter) var(--s-gutter) var(--s-two-gutter);
-      background-image:
-        linear-gradient(45deg, var(--c-background) 50%, transparent 50%),
-        linear-gradient(45deg, var(--c-background) 50%, transparent 50%),
-        linear-gradient(-45deg, var(--c-background) 50%, transparent 50%),
-        linear-gradient(135deg, var(--c-background) 50%, transparent 50%),
-        linear-gradient(45deg, var(--c-background) 50%, transparent 50%);
-      background-size: ($shred-size * 2) ($shred-size * 2),
-        $shred-size $shred-size,
-        $shred-size $shred-size,
-        $shred-size $shred-size,
-        $shred-size $shred-size;
-      background-repeat: no-repeat, repeat-x, repeat-x, repeat-y, repeat-y;
-      background-position: left bottom;
     }
   }
 
@@ -129,20 +81,8 @@
       overflow: hidden;
       padding: 0;
     }
-    .paper-sheet {
-      background-image:
-        linear-gradient(225deg, var(--c-background) 50%, transparent 50%),
-        linear-gradient(135deg, var(--c-background) 50%, transparent 50%);
-      background-size:
-        $shred-size $shred-size,
-        $shred-size $shred-size,
-        $shred-size $shred-size,
-        $shred-size $shred-size;
-      background-repeat: repeat-x, repeat-x;
-
-      & + .field {
-        margin-top: var(--s-two-gutter);
-      }
+    .paper-sheet + .field {
+      margin-top: var(--s-two-gutter);
     }
   }
   .actions {
