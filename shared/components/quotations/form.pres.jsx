@@ -9,6 +9,7 @@ import NewProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
 
 import './form.pres.scss'
+export const BASE_CLASS = `quotation-form`
 
 export default function QuotationFormPres( props ) {
   const {
@@ -29,13 +30,14 @@ export default function QuotationFormPres( props ) {
   return (
     <form
       method="post"
-      className="quotation-form"
+      id={ `${BASE_CLASS}` }
+      className={ `${BASE_CLASS}` }
       onChange={ handleFormChange }
       onSubmit={ handleSubmit }
     >
       <Main
         meta={ () => (
-          <div className="quotation-form__meta">
+          <div className={ `${BASE_CLASS}__meta` }>
             { !isNew && <input type="hidden" defaultValue={ formData.id } name="id" /> }
             <Stepper
               steps={ formData.steps }
@@ -89,7 +91,7 @@ export default function QuotationFormPres( props ) {
               </NewProductTable>
               <Mentions content={ user.defaultQuotation.mentions }/>
             </PaperSheet>
-            <div className="quotation-form__actions">
+            <div className={ `${BASE_CLASS}__actions` }>
               <button className="btn" type="submit">{`${isNew ? 'Create' : 'Update'} quotation`}</button>
             </div>
           </Fragment>

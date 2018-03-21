@@ -1,15 +1,17 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 
-const ButtonList = () => (
-  <Link to="/quotations" className="btn-secondary">list</Link>
-)
+import { Button, BtnSecondary } from '../ui/buttons.jsx'
 
-const ButtonNew = () => (
-  <Link to="/quotations/new" className="btn-secondary">new</Link>
-)
-
-export {
-  ButtonList,
-  ButtonNew,
+export function ButtonList( props ) {
+  return <BtnSecondary to="/quotations">list</BtnSecondary>
 }
+
+export function ButtonNew( props ) {
+  return <BtnSecondary to="/quotations/new">new</BtnSecondary>
+}
+
+export function ButtonSubmit( props ) {
+  return <Button form={ props.form } type="submit">save</Button>
+}
+

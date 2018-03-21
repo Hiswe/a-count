@@ -10,7 +10,9 @@ import * as customers from '../../ducks/customers'
 import { needRedirect } from '../_helpers.js'
 import recomputeQuotationProducts from '../_recompute-quotation-products.js'
 
-import QuotationFormPres from './form.pres.jsx'
+import QuotationFormPres, { BASE_CLASS } from './form.pres.jsx'
+
+export { BASE_CLASS } from './form.pres.jsx'
 
 class QuotationForm extends Component {
 

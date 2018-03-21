@@ -6,8 +6,8 @@ import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
 import * as customers from '../../ducks/customers'
 import NavSecondary from '../../components/layout/nav-secondary.jsx'
-import QuotationForm from '../../components/quotations/form.jsx'
-import { ButtonList, ButtonNew } from '../../components/quotations/secondary-nav-actions.jsx'
+import QuotationForm, { BASE_CLASS } from '../../components/quotations/form.jsx'
+import { ButtonList, ButtonNew, ButtonSubmit } from '../../components/quotations/secondary-nav-actions.jsx'
 
 // TODO: should have a print button
 
@@ -20,6 +20,7 @@ function EditQuotation( props ) {
       <NavSecondary title={ title }>
         <ButtonNew />
         <ButtonList />
+        <ButtonSubmit form={ BASE_CLASS } />
       </NavSecondary>
       <QuotationForm {...props} />
     </Fragment>

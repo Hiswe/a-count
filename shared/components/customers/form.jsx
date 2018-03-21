@@ -11,8 +11,7 @@ import PaperSheet, { Party } from '../layout/paper-sheet.jsx'
 import Field from '../ui/field.jsx'
 
 import './form.scss'
-
-const BASE_CLASS = `customer-form`
+export const BASE_CLASS = `customer-form`
 
 class CustomerForm extends Component {
 
@@ -67,7 +66,8 @@ class CustomerForm extends Component {
     return (
       <form
         method="post"
-        className={`${BASE_CLASS}`}
+        id={ `${BASE_CLASS}` }
+        className={ `${BASE_CLASS}` }
         onSubmit={ this.handleSubmit }
         onChange={ this.handleFormChange }
       >

@@ -63,11 +63,12 @@ export default function UserFormPres( props ) {
 
   return (
     <form
+      id={`${BASE_CLASS}`}
       method="post"
       action={`/users/${formData.id}`}
       onChange={ handleFormChange }
       onSubmit={ handleSubmit }
-      className="profile-form"
+      className={`${BASE_CLASS}`}
     >
       <input type="hidden" name="id" defaultValue={formData.id} />
       <input type="hidden" name="defaultQuotation[id]" defaultValue={ defaultQuotation.id } />
