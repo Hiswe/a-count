@@ -7,7 +7,12 @@ import serialize from 'form-serialize'
 import * as customers from '../../ducks/customers'
 import { needRedirect } from '../_helpers.js'
 import Main from '../layout/main.jsx'
+import PaperSheet, { Party } from '../layout/paper-sheet.jsx'
 import Field from '../ui/field.jsx'
+
+import './form.scss'
+
+const BASE_CLASS = `customer-form`
 
 class CustomerForm extends Component {
 
@@ -62,6 +67,7 @@ class CustomerForm extends Component {
     return (
       <form
         method="post"
+        className={`${BASE_CLASS}`}
         onSubmit={ this.handleSubmit }
         onChange={ this.handleFormChange }
       >
@@ -69,17 +75,22 @@ class CustomerForm extends Component {
         <Main
           content={() => (
             <Fragment>
-              <fieldset>
-                <Field
-                  name="name"
-                  value={ formData.name }
-                />
-                <Field
-                  name="address"
-                  type="textarea"
-                  value={ formData.address }
-                />
-              </fieldset>
+              <div className={`${BASE_CLASS}__address`}>
+                <fieldset>
+                  <Field
+                    name="name"
+                    value={ formData.name }
+                  />
+                  <Field
+                    name="address"
+                    type="textarea"
+                    value={ formData.address }
+                  />
+                </fieldset>
+                <PaperSheet part="top-right">
+                  <Party title="to" {...formData} />
+                </PaperSheet>
+              </div>
               <div className="actions">
                 <button className="btn" type="submit">{props.submitMsg}</button>
               </div>

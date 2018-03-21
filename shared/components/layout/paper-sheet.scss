@@ -153,8 +153,9 @@
   }
 
   &--part-top-right {
+    display: block;
     border-radius: 0 var(--sheet-border-radius) 0 0;
-    padding: var(--s-gutter) var(--s-gutter) var(--s-two-gutter);
+    padding: var(--s-gutter);
     background-image:
       linear-gradient(45deg, var(--c-background) 50%, transparent 50%),
       linear-gradient(45deg, var(--c-background) 50%, transparent 50%),
@@ -176,6 +177,7 @@
   }
 
   &--part-center {
+    display: block;
     border-radius: 0;
     padding: var(--s-big-gutter) var(--s-gutter);
     background-image:
