@@ -26,7 +26,7 @@ const DefaultQuotation = sequelize.define( `defaultQuotation`, {
   currency: {
     type:         Sequelize.STRING,
     defaultValue: `$`,
-    set:          dbHelpers.setNormalizedString(`currency`),
+    set:          dbHelpers.setTrimmedString(`currency`),
   },
   prefix: {
     type:         Sequelize.STRING,
