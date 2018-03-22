@@ -128,7 +128,7 @@ export default function UserFormPres( props ) {
                 {id: `USD`, name: `USD`},
                 {id: `EUR`, name: `EUR`},
               ]}
-              value={ defaultQuotation.tax }
+              value={ defaultQuotation.currency }
             />
           </div>
           <PaperSheet part="center">
