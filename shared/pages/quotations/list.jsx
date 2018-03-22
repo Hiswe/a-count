@@ -7,6 +7,7 @@ import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
 import NavSecondary from '../../components/layout/nav-secondary.jsx'
 import Main from '../../components/layout/main.jsx'
+import { BtnFab } from '../../components/ui/buttons.jsx'
 import { ButtonNew } from '../../components/quotations/secondary-nav-actions.jsx'
 import QuotationsList from '../../components/quotations/list.jsx'
 
@@ -21,7 +22,7 @@ function Quotations( props ) {
           <QuotationsList {...props} />
         )}
       />
-      <Link to="/quotations/new" className="btn-fab">+</Link>
+      <BtnFab to="/quotations/new">+</BtnFab>
     </Fragment>
   )
 }

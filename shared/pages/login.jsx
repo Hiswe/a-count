@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import ConnectDataFetcher from '../connect-data-fetcher.js'
 import * as users from '../ducks/users'
 import LayoutOnboard from '../components/layout/onboard.jsx'
+import { Button } from '../components/ui/field.jsx'
 import Field from '../components/ui/field.jsx'
 
 class Login extends Component {
@@ -34,7 +35,7 @@ class Login extends Component {
             type="password"
             defaultValue=""
           />
-          <button className="btn" type="submit">Submit</button>
+          <Button type="submit">Connect</Button>
         </form>
       </LayoutOnboard>
     )

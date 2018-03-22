@@ -6,13 +6,14 @@ import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers'
 import NavSecondary from '../../components/layout/nav-secondary.jsx'
 import CustomerForm from '../../components/customers/form.jsx'
-import { ButtonList } from '../../components/customers/secondary-nav-actions.jsx'
+import { ButtonList, ButtonSubmit } from '../../components/customers/secondary-nav-actions.jsx'
 
 const NewCustomer = props => {
   return (
     <Fragment>
       <NavSecondary title="New Customer">
         <ButtonList />
+        <ButtonSubmit />
       </NavSecondary>
       <CustomerForm {...props} />
     </Fragment>

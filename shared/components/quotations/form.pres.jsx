@@ -2,6 +2,7 @@ import React, {  Fragment } from 'react'
 
 import Main from '../layout/main.jsx'
 import PaperSheet, { Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
+import { Button } from '../ui/buttons.jsx'
 import Field from '../ui/field.jsx'
 import Markdown from '../ui/markdown.jsx'
 import Stepper, { Step } from '../ui/stepper.jsx'
@@ -9,6 +10,7 @@ import NewProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
 
 import './form.pres.scss'
+
 export const BASE_CLASS = `quotation-form`
 
 export default function QuotationFormPres( props ) {
@@ -92,7 +94,9 @@ export default function QuotationFormPres( props ) {
               <Mentions content={ user.defaultQuotation.mentions }/>
             </PaperSheet>
             <div className={ `${BASE_CLASS}__actions` }>
-              <button className="btn" type="submit">{`${isNew ? 'Create' : 'Update'} quotation`}</button>
+              <Button type="submit">
+                {`${isNew ? 'Create' : 'Update'} quotation`}
+              </Button>
             </div>
           </Fragment>
         )}

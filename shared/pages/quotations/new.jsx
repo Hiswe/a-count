@@ -7,13 +7,14 @@ import * as quotations from '../../ducks/quotations'
 import * as customers from '../../ducks/customers'
 import NavSecondary from '../../components/layout/nav-secondary.jsx'
 import QuotationForm from '../../components/quotations/form.jsx'
-import { ButtonList } from '../../components/quotations/secondary-nav-actions.jsx'
+import { ButtonList, ButtonSubmit } from '../../components/quotations/secondary-nav-actions.jsx'
 
 function NewQuotation( props ) {
   return (
     <Fragment>
       <NavSecondary title="New Quotation">
         <ButtonList />
+        <ButtonSubmit />
       </NavSecondary>
       <QuotationForm {...props} />
     </Fragment>

@@ -7,6 +7,7 @@ import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers.js'
 import NavSecondary from '../../components/layout/nav-secondary.jsx'
 import Main from '../../components/layout/main.jsx'
+import { BtnFab } from '../../components/ui/buttons.jsx'
 import CustomersTable from '../../components/customers/list.jsx'
 import { ButtonNew } from '../../components/customers/secondary-nav-actions.jsx'
 
@@ -21,7 +22,7 @@ function Customers( props ) {
           <CustomersTable />
         )}
       />
-      <Link to="/customers/new" className="btn-fab">+</Link>
+      <BtnFab to="/customers/new">+</BtnFab>
     </Fragment>
   )
 }

@@ -6,12 +6,7 @@ import serialize from 'form-serialize'
 
 import * as customers from '../../ducks/customers'
 import { needRedirect } from '../_helpers.js'
-import Main from '../layout/main.jsx'
-import PaperSheet, { Party } from '../layout/paper-sheet.jsx'
-import Field from '../ui/field.jsx'
-
-import './form.scss'
-export const BASE_CLASS = `customer-form`
+import CustomerFormPres from './form.pres.jsx'
 
 class CustomerForm extends Component {
 
@@ -60,54 +55,21 @@ class CustomerForm extends Component {
 
   render() {
     const { props, state } = this
-    const { current } = props
     const { formData } = state
 
-    return (
-      <form
-        method="post"
-        id={ `${BASE_CLASS}` }
-        className={ `${BASE_CLASS}` }
-        onSubmit={ this.handleSubmit }
-        onChange={ this.handleFormChange }
-      >
-        { formData.id && <input type="hidden" defaultValue={formData.id} name="id" />  }
-        <Main
-          content={() => (
-            <Fragment>
-              <div className={`${BASE_CLASS}__address`}>
-                <fieldset>
-                  <Field
-                    name="name"
-                    value={ formData.name }
-                  />
-                  <Field
-                    name="address"
-                    type="textarea"
-                    value={ formData.address }
-                  />
-                </fieldset>
-                <PaperSheet part="top-right">
-                  <Party title="to" {...formData} />
-                </PaperSheet>
-              </div>
-              <div className="actions">
-                <button className="btn" type="submit">{props.submitMsg}</button>
-              </div>
-            </Fragment>
-          )}
-        />
-      </form>
-    )
+    const formProps = {
+      handleSubmit:     this.handleSubmit,
+      handleFormChange: this.handleFormChange,
+      formData,
+    }
+
+    return <CustomerFormPres {...formProps} />
   }
 }
 
 function state2props( state ) {
   const { current } = state.customers
-  const isNew   = current.id == null
   const result  = {
-    submitMsg: `${isNew ? 'Create' : 'Update'} customer`,
-    isNew,
     current,
   }
   return result

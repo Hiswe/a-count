@@ -2,14 +2,16 @@ import React, { Fragment } from 'react'
 
 import Main from '../layout/main.jsx'
 import PaperSheet, { Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
+import { Button } from '../ui/buttons.jsx'
 import Field from '../ui/field.jsx'
 import Markdown from '../ui/markdown.jsx'
 import ProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
+import { ButtonSubmit } from'./secondary-nav-actions.jsx'
 
 import './form.pres.scss'
 
-const BASE_CLASS = `profile-form`
+export const BASE_CLASS = `profile-form`
 const customerExample = {
   name: `Customer name`,
   address: `123 6th St.
@@ -63,12 +65,12 @@ export default function UserFormPres( props ) {
 
   return (
     <form
-      id={`${BASE_CLASS}`}
+      id={ `${BASE_CLASS}` }
       method="post"
-      action={`/users/${formData.id}`}
+      action={ `/users/${formData.id}` }
       onChange={ handleFormChange }
       onSubmit={ handleSubmit }
-      className={`${BASE_CLASS}`}
+      className={ `${BASE_CLASS}` }
     >
       <input type="hidden" name="id" defaultValue={formData.id} />
       <input type="hidden" name="defaultQuotation[id]" defaultValue={ defaultQuotation.id } />
@@ -230,7 +232,7 @@ export default function UserFormPres( props ) {
           </PaperSheet>
         </div>
         <div className="actions" style={{gridColumn: `1 / span 2`}}>
-          <button className="btn" type="submit">save update</button>
+          <Button type="submit">update</Button>
         </div>
       </Fragment>)} />
     </form>

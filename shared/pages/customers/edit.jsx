@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers'
 import NavSecondary from '../../components/layout/nav-secondary.jsx'
-import { ButtonList, ButtonNew } from '../../components/customers/secondary-nav-actions.jsx'
+import { ButtonList, ButtonNew, ButtonSubmit } from '../../components/customers/secondary-nav-actions.jsx'
 import CustomerForm from '../../components/customers/form.jsx'
 
 function EditCustomer( props ) {
@@ -14,6 +14,7 @@ function EditCustomer( props ) {
       <NavSecondary title="Edit Customer">
         <ButtonNew />
         <ButtonList />
+        <ButtonSubmit />
       </NavSecondary>
       <CustomerForm {...props} />
     </Fragment>

@@ -20,7 +20,7 @@ function EditQuotation( props ) {
       <NavSecondary title={ title }>
         <ButtonNew />
         <ButtonList />
-        <ButtonSubmit form={ BASE_CLASS } />
+        <ButtonSubmit />
       </NavSecondary>
       <QuotationForm {...props} />
     </Fragment>
