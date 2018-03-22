@@ -6,7 +6,7 @@ const BASE_CLASS = `main`
 
 // use render props
 // • https://medium.com/tandemly/im-breaking-up-with-higher-order-components-44b0df2db052#0294
-export default function Knockout( props ) {
+export default function Main( props ) {
   const { meta, content } = props
   const className = [ BASE_CLASS ]
 
