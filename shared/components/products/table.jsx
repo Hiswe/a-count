@@ -17,7 +17,7 @@ const TotalFooter = props => {
   return (
     <Fragment>
       <tr>
-        <td colSpan="3">Total net</td>
+        <td colSpan="3"><p>Total net</p></td>
         <td>
           <Amount
             value={ totals.net }
@@ -28,7 +28,7 @@ const TotalFooter = props => {
         <td></td>
       </tr>
       <tr>
-        <td colSpan="3">Taxes</td>
+        <td colSpan="3"><p>Taxes</p></td>
         <td>
           <Amount
             value={ totals.tax }
@@ -39,7 +39,7 @@ const TotalFooter = props => {
         <td></td>
       </tr>
       <tr>
-        <td colSpan="3">Total with taxes</td>
+        <td colSpan="3"><p>Total with taxes</p></td>
         <td>
           <Amount
             value={ totals.all }

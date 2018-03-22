@@ -39,6 +39,13 @@
     &.is-number {
       text-align: right;
     }
+
+    .amount,
+    p {
+      display: block;
+      margin: 0;
+      padding: 0.5em 0.75em;
+    }
   }
 
   td + td {
@@ -70,7 +77,6 @@
   }
   tfoot td {
     border-top: 1px solid var(--c-primary-lighter);
-    padding: 0.5em 0.75em;
     background-color: var(--c-primary-lightest);
     text-align: right;
     font-weight: bold;
