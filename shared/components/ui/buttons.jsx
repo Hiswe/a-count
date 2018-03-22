@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import './buttons.scss'
-const BASE_CLASS = `btn`
+const BASE_CLASS = `button`
 
 export function Button( props ) {
   const { className, to, ...others } = props

@@ -1,12 +1,32 @@
 .nav-secondary {
+  --c-nav-secondary: white;
   margin: 0;
-  padding: 0 var(--s-gutter);
-  background: white;
-  color: var(--c-nav);
   height: var(--s-nav-top-height);
-  display: flex;
-  align-items: center;
+  background: var(--c-nav-secondary);
 
+  &__sentinel {
+    position: absolute;
+    width: 100%;
+    top: var(--s-nav-top-height);
+    pointer-events: none;
+  }
+  &__sticky {
+    color: var(--c-nav);
+    background: var(--c-nav-secondary);
+    padding: 0 var(--s-gutter);
+    position: fixed;
+    left: var(--s-nav-main-width);
+    height: var(--s-nav-top-height);
+    right: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    transition: box-shadow .5s;
+
+    &--is-stuck {
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    }
+  }
   &__actions {
     margin-left: auto;
   }
