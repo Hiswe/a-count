@@ -12,6 +12,8 @@ export default function recomputeQuotationProducts({defaultProduct, products}) {
     defaultObject:  defaultProduct,
     array:          products,
   })
+  if ( !filtered.length ) return filtered
+
   const withDefaultProducts = filtered.push( merge({}, defaultProduct) )
   const withId = withDefaultProducts.map( product => {
     if ( !product.get(`_id`) ) return product.set( `_id`, shortid() )

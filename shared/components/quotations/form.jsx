@@ -10,9 +10,8 @@ import * as customers from '../../ducks/customers'
 import { needRedirect } from '../_helpers.js'
 import recomputeQuotationProducts from '../_recompute-quotation-products.js'
 
-import QuotationFormPres, { BASE_CLASS } from './form.pres.jsx'
-
-export { BASE_CLASS } from './form.pres.jsx'
+import Spinner from '../ui/spinner.jsx'
+import QuotationFormPres from './form.pres.jsx'
 
 class QuotationForm extends Component {
 
@@ -41,8 +40,8 @@ class QuotationForm extends Component {
     const next = nextProps.current
     // update state on redux status change
     if (current === next) return
-    // redirect if new quotation
-    if ( needRedirect(current, next) ) history.push( `/quotations/${next.id}` )
+    // // redirect if new quotation
+    // if ( needRedirect(current, next) ) history.push( `/quotations/${next.id}` )
     this.setState( (prevState, props) => {
       return {
         formData: this.recomputeFormData( props.current ),
@@ -157,10 +156,14 @@ class QuotationForm extends Component {
 
   render() {
     const { props, state } = this
+    const { formData } = state
+    const { isLoading } = formData
+    if ( isLoading ) return <Spinner />
+
     const renderProps = {
       user:             props.user,
       customers:        props.customers,
-      formData:         state.formData,
+      formData:         formData,
       customer:         state.customer,
       isNew:            props.isNew,
       handleSubmit:         this.handleSubmit,

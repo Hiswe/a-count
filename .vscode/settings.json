@@ -35,6 +35,7 @@
     "devtool",
     "isnil",
     "keyframes",
+    "middlewares",
     "minmax",
     "presentational",
     "promisify",

@@ -1,7 +1,7 @@
 
 export const roundToNearestQuarter = number => {
-  const rounded = Math.round(number * 4) / 4
-  return parseFloat(rounded.toFixed(2), 10)
+  const rounded = Math.round( number * 4 ) / 4
+  return parseFloat( rounded.toFixed(2), 10 )
 }
 
 export const productTotal = product => {

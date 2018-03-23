@@ -31,8 +31,6 @@ export function authenticationRequired( Component ) {
     // pass global states
     return {
       isAuthenticated:  state.users.isAuthenticated,
-      isFetching:       state.loading.isFetching,
-      isPosting:        state.loading.isPosting,
     }
   }
 

@@ -3,6 +3,7 @@ import { hydrate } from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
 import { createStore,  applyMiddleware } from 'redux'
+import crio from 'crio'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
@@ -12,10 +13,18 @@ import reducers from '../shared/ducks/combined-reducers'
 
 const $root             = document.querySelector('#react-main-mount')
 const initialState      = window.__INITIAL_STATE__ || {}
+// Redux combineReducers only accept plain objects
+// • We don't want to use any other combine reducer function that handle immutables
+// • but we want all the inner values to be immutable
+// • hence this code :)
+const crioState         = {}
+const stateEntries      = Object.entries( initialState )
+stateEntries.forEach( ([key, value]) => crioState[ key] = crio(value) )
+
 const middlewares       = [
   thunk,
 ]
-const store = createStore(reducers, initialState, composeWithDevTools(applyMiddleware(...middlewares)))
+const store = createStore(reducers, crioState, composeWithDevTools(applyMiddleware(...middlewares)))
 
 hydrate((
   <Provider store={store}>

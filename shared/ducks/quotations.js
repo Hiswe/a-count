@@ -1,29 +1,38 @@
 import crio from 'crio'
 
-import fetchDispatch from './_fetch-dispatch.js'
+import createActionNames from './helpers/create-action-names.js'
+import fetchDispatch from './helpers/fetch-dispatch.js'
 
 const NAME = `quotations`
+export const GET_ALL  = createActionNames( NAME, `get`, `all`)
+export const GET_ONE  = createActionNames( NAME, `get`, `one` )
+export const SAVE_ONE = createActionNames( NAME, `post`, `one` )
 
-export const GET_ALL  = `@concompte/${NAME}/get-all`
-export const GET_ONE  = `@concompte/${NAME}/get-one`
-export const SAVE_ONE = `@concompte/${NAME}/post-one`
-
-const initialState = {
+const initialState = crio({
   list:     [],
   current:  {},
-}
+})
 
 export default function reducer(state = initialState, action) {
-  if ( !crio.isCrio(state) ) state = crio( state )
-  switch (action.type) {
-    case GET_ALL:
-      return state.set( `list`, action.payload.list )
+  const { type, payload } = action
 
-    case GET_ONE:
-      return state.set( `current`, action.payload )
+  switch ( type ) {
 
-    case SAVE_ONE:
-      return state.set( `current`, action.payload )
+    case GET_ALL.SUCCESS:
+      return state.set( `list`, payload.list )
+
+    case GET_ONE.LOADING:
+      return state.set( `current`, {
+        isLoading: true,
+        reference: `loading…`,
+        products: [],
+      })
+
+    case GET_ONE.SUCCESS:
+      return state.set( `current`, payload )
+
+    case SAVE_ONE.SUCCESS:
+      return state.set( `current`, payload )
 
     default:
       return state
@@ -36,8 +45,8 @@ export const getAll = ({params, cookie}) => async dispatch => {
   }
   await fetchDispatch({
     dispatch,
-    type:     GET_ALL,
-    fetch:    { method: `get`, options, cookie },
+    actions:   GET_ALL,
+    fetch:    { options, cookie },
   })
 }
 
@@ -49,8 +58,8 @@ export const getOne = ({params, cookie}) => async dispatch => {
   }
   await fetchDispatch({
     dispatch,
-    type:     GET_ONE,
-    fetch:    { method: `get`, options, cookie },
+    actions: GET_ONE,
+    fetch:    { options, cookie },
   })
 }
 
@@ -64,7 +73,7 @@ export const saveOne = ({params, cookie}) => async dispatch => {
   }
   await fetchDispatch({
     dispatch,
-    type:     SAVE_ONE,
-    fetch:    { method: `post`, options, cookie },
+    actions:  SAVE_ONE,
+    fetch:    { options, cookie },
   })
 }
