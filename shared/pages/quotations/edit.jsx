@@ -20,7 +20,7 @@ function EditQuotation( props ) {
       <NavSecondary title={ title }>
         <ButtonNew />
         <ButtonList />
-        <ButtonSubmit />
+        <ButtonSubmit isSaving={ props.isSaving } />
       </NavSecondary>
       <QuotationForm {...props} />
     </Fragment>
@@ -31,6 +31,7 @@ function state2prop( state ) {
   const { current } = state.quotations
   const result = {
     reference:  current.reference,
+    isSaving:   current.isSaving === true
   }
   return result
 }

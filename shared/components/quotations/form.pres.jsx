@@ -30,6 +30,8 @@ export default function QuotationFormPres( props ) {
   const { products } = formData
   const hasProducts = Array.isArray( products )
   const productsLength = hasProducts ? products.length : 0
+  const submitMsg   = isSaving ? `saving…`
+    : `${isNew ? 'Create' : 'Update'} quotation`
 
   return (
     <Form
@@ -95,9 +97,7 @@ export default function QuotationFormPres( props ) {
               <Mentions content={ user.defaultQuotation.mentions }/>
             </PaperSheet>
             <div className={ `${BASE_CLASS}__actions` }>
-              <Button type="submit">
-                {`${isNew ? 'Create' : 'Update'} quotation`}
-              </Button>
+              <Button type="submit">{ submitMsg }</Button>
             </div>
           </Fragment>
         )}

@@ -64,6 +64,7 @@ export default function UserFormPres( props ) {
     fakeProduct,
     defaultProduct
   ]
+  const submitMessage = isSaving ? `saving…` : `update`
 
   return (
     <Form
@@ -232,8 +233,10 @@ export default function UserFormPres( props ) {
             <Mentions content={ defaultInvoice.mentions }/>
           </PaperSheet>
         </div>
+
+        {/* ACTIONS */}
         <div className="actions" style={{gridColumn: `1 / span 2`}}>
-          <Button type="submit">update</Button>
+          <Button type="submit">{ submitMessage }</Button>
         </div>
       </Fragment>)} />
     </Form>

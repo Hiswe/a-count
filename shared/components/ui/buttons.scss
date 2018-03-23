@@ -24,6 +24,11 @@
     color: var(--button-bg-color);
   }
 
+  &[disabled] {
+    opacity: .75;
+    pointer-events: none;
+  }
+
   &--secondary {
     --button-bg-color: white;
     --button-text-color: var(--c-text);

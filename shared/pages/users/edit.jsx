@@ -8,18 +8,24 @@ import NavSecondary from '../../components/layout/nav-secondary.jsx'
 import UserForm from '../../components/users/form.jsx'
 import { ButtonSubmit } from '../../components/users/secondary-nav-actions.jsx'
 
-const EditProfile = props => {
+function EditProfile( props ) {
   return (
     <Fragment>
       <NavSecondary title="Profile">
-        <ButtonSubmit />
+        <ButtonSubmit isSaving={ props.isSaving } />
       </NavSecondary>
       <UserForm {...props} />
     </Fragment>
   )
 }
 
-export default connect()( ConnectDataFetcher({
+function state2prop( state ) {
+  return {
+    isSaving: state.users.current.isSaving === true
+  }
+}
+
+export default connect( state2prop )( ConnectDataFetcher({
   Component: EditProfile,
   actionCreators: [
   ],

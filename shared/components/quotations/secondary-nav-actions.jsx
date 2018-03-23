@@ -13,5 +13,11 @@ export function ButtonNew( props ) {
 }
 
 export function ButtonSubmit( props ) {
-  return <Button form={ BASE_CLASS } type="submit">save</Button>
+  const { isSaving } = props
+  const submitMsg = isSaving ? `saving…` : `save`
+  return (
+    <Button form={ BASE_CLASS } disabled={ isSaving } type="submit">
+      { submitMsg }
+    </Button>
+  )
 }

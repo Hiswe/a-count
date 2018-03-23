@@ -24,7 +24,6 @@ export default function reducer(state = initialState, action) {
     case AUTH.SUCCESS:
       state = state.set( `isAuthenticated`, true )
       return state.set( `current`, payload )
-
     case AUTH.ERROR:
       state = state.set( `isAuthenticated`, false )
       return state.set( `current`, {} )
@@ -41,6 +40,10 @@ export default function reducer(state = initialState, action) {
       state = state.set( `isAuthenticated`, true )
       return state.set( `current`, payload )
 
+    case SAVE_ONE.LOADING:
+      return state.set( `current.isSaving`, true )
+    case SAVE_ONE.DONE:
+      return state.set( `current.isSaving`, false )
     case SAVE_ONE.SUCCESS:
       state = state.set( `isAuthenticated`, true )
       return state.set( `current`, payload )

@@ -18,7 +18,8 @@ export default function CustomerFormPres( props ) {
   } = props
   const { isSaving } = formData
   const isNew = formData.id == null
-  const submitMsg   =  `${isNew ? 'Create' : 'Update'} customer`
+  const submitMsg   = isSaving ? `saving…`
+    : `${isNew ? 'Create' : 'Update'} customer`
 
   return (
       <Form

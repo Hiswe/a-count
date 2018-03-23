@@ -29,5 +29,9 @@
   }
   &__actions {
     margin-left: auto;
+
+    > * + * {
+      margin-left: var(--s-half-gutter);
+    }
   }
 }

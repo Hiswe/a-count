@@ -14,14 +14,20 @@ function EditCustomer( props ) {
       <NavSecondary title="Edit Customer">
         <ButtonNew />
         <ButtonList />
-        <ButtonSubmit />
+        <ButtonSubmit isSaving={ props.isSaving } />
       </NavSecondary>
       <CustomerForm {...props} />
     </Fragment>
   )
 }
 
-export default connect()( ConnectDataFetcher({
+function state2prop( state ) {
+  return {
+    isSaving: state.customers.current.isSaving === true
+  }
+}
+
+export default connect( state2prop )( ConnectDataFetcher({
   Component: EditCustomer,
   actionCreators: [
     customers.getOne
