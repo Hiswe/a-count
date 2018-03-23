@@ -1,4 +1,5 @@
 import crio from 'crio'
+import isNil from 'lodash.isnil'
 
 import createActionNames from './helpers/create-action-names.js'
 import fetchDispatch from './helpers/fetch-dispatch.js'
@@ -65,14 +66,16 @@ export const getOne = ({params, cookie}) => async dispatch => {
 
 export const saveOne = ({params, cookie}) => async dispatch => {
   const { body } = params
-  let { id } = body
-  id = id ? id : `new`
+  const { id } = body
+  const isNew = isNil( id )
+  const urlId = isNew ? `new` : id
   const options = {
-    url: `${NAME}/${id}`,
+    url: `${ NAME }/${ urlId }`,
     body,
   }
   await fetchDispatch({
     dispatch,
+    meta:     { isNew },
     actions:  SAVE_ONE,
     fetch:    { options, cookie },
   })
