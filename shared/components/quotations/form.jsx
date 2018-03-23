@@ -7,7 +7,7 @@ import serialize from 'form-serialize'
 
 import * as quotations from '../../ducks/quotations'
 import * as customers from '../../ducks/customers'
-import { needRedirect } from '../_helpers.js'
+import needRedirect from '../helpers/need-redirection.js'
 import recomputeQuotationProducts from '../_recompute-quotation-products.js'
 
 import Spinner from '../ui/spinner.jsx'
@@ -40,8 +40,10 @@ class QuotationForm extends Component {
     const next = nextProps.current
     // update state on redux status change
     if (current === next) return
-    // // redirect if new quotation
-    // if ( needRedirect(current, next) ) history.push( `/quotations/${next.id}` )
+
+    // redirect if new quotation
+    if ( needRedirect(current, next) ) history.push( `/quotations/${next.id}` )
+
     this.setState( (prevState, props) => {
       return {
         formData: this.recomputeFormData( props.current ),

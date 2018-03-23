@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import serialize from 'form-serialize'
 
 import * as users from '../../ducks/users'
-import { needRedirect } from '../_helpers.js'
 import UserFormPres from './form.pres.jsx'
 
 class UserForm extends Component {

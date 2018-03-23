@@ -31,11 +31,6 @@ export default function reducer(state = initialState, action) {
       return state.set( `current`, payload )
 
     case SAVE_ONE.SUCCESS:
-      if ( meta.isNew ) {
-        console.log( `isNew`, meta.isNew, payload.id )
-        // TODO: implement redirect
-        // history.push(`/${ NAME }/${payload.id}`)
-      }
       return state.set( `current`, payload )
 
     default:

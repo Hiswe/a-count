@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import serialize from 'form-serialize'
 
 import * as customers from '../../ducks/customers'
-import { needRedirect, formatDate } from '../_helpers.js'
+import needRedirect from '../helpers/need-redirection.js'
 
 import Spinner from '../ui/spinner.jsx'
 import CustomerFormPres from './form.pres.jsx'
@@ -28,7 +28,7 @@ class CustomerForm extends Component {
     if (current === next) return console.log( `state identical` )
 
     // redirect if new customer
-    // if ( needRedirect(current, next) ) history.push(`/customers/${next.id}`)
+    if ( needRedirect(current, next) ) history.push( `/customers/${next.id}` )
 
     this.setState( (prevState, props) => {
       return { formData: props.current }
