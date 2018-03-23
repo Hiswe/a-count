@@ -1,4 +1,5 @@
 import crio from 'crio'
+import isNil from 'lodash.isnil'
 
 import createActionNames from './helpers/create-action-names.js'
 import fetchDispatch from './helpers/fetch-dispatch.js'
@@ -14,7 +15,7 @@ const initialState = crio({
 })
 
 export default function reducer(state = initialState, action) {
-  const { type, payload } = action
+  const { type, payload, meta } = action
 
   switch (type) {
     case GET_ALL.SUCCESS:
@@ -30,6 +31,11 @@ export default function reducer(state = initialState, action) {
       return state.set( `current`, payload )
 
     case SAVE_ONE.SUCCESS:
+      if ( meta.isNew ) {
+        console.log( `isNew`, meta.isNew, payload.id )
+        // TODO: implement redirect
+        // history.push(`/${ NAME }/${payload.id}`)
+      }
       return state.set( `current`, payload )
 
     default:
@@ -49,7 +55,6 @@ export const getAll = ({params, cookie}) => async dispatch => {
 }
 
 export const getOne = ({params, cookie}) => async dispatch => {
-  console.log( params )
   let { id } = params
   id = id ? id : `new`
   const options = {
@@ -64,15 +69,17 @@ export const getOne = ({params, cookie}) => async dispatch => {
 
 export const saveOne = ({params, cookie}) => async dispatch => {
   const { body } = params
-  let { id } = body
-  id = id ? id : `new`
+  const { id } = body
+  const isNew = isNil( id )
+  const urlId = isNew ? `new` : id
   const options = {
-    url: `${NAME}/${id}`,
+    url: `${ NAME }/${ urlId }`,
     body,
   }
   return await fetchDispatch({
     dispatch,
-    actions:   SAVE_ONE,
+    meta:     { isNew },
+    actions:  SAVE_ONE,
     fetch:    { options, cookie },
   })
 }

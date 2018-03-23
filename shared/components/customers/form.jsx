@@ -56,9 +56,6 @@ class CustomerForm extends Component {
   render() {
     const { props, state } = this
     const { formData } = state
-
-    console.log( formData )
-
     const { isLoading } = formData
     if ( isLoading ) return <Spinner />
 
