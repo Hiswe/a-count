@@ -94,7 +94,7 @@ router
 
   const updatedQuotation = await quotation.update( body )
 
-  ctx.assert( null, 500, `something went wrong` )
+  ctx.assert( updatedQuotation, 500, `something went wrong` )
 
   ctx.body = formatResponse( updatedQuotation )
 })
