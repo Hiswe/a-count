@@ -1,0 +1,9 @@
+.form {
+  &--is-saving {
+    .field,
+    .button {
+      opacity: .75;
+      pointer-events: none;
+    }
+  }
+}

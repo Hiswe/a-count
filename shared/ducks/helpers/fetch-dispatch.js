@@ -15,6 +15,11 @@ export default async function fetchDispatch( params ) {
   })
   try {
     const { payload } = await isoFetch[ method ]( options, cookie )
+    dispatch({
+      type:     actions.DONE,
+      meta,
+      payload:  {}
+    })
     if ( payload.error )  {
       dispatch({
         type:     actions.ERROR,
@@ -31,15 +36,15 @@ export default async function fetchDispatch( params ) {
     }
   } catch (err) {
     dispatch({
+      type:     actions.DONE,
+      meta,
+      payload:  {}
+    })
+    dispatch({
       type:     actions.ERROR,
       meta:     merge( { _fetchDispatchErrorType: `FETCH_ERROR` }, meta ),
       error:    true,
       payload:  err,
     })
   }
-  dispatch({
-    type:     actions.DONE,
-    meta,
-    payload:  {}
-  })
 }

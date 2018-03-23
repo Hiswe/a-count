@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 
 import Main from '../layout/main.jsx'
 import PaperSheet, { Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
+import Form from '../ui/form.jsx'
 import { Button } from '../ui/buttons.jsx'
 import Field from '../ui/field.jsx'
 import Markdown from '../ui/markdown.jsx'
@@ -34,6 +35,7 @@ export default function UserFormPres( props ) {
     handleFormChange,
     handleSubmit,
   } = props
+  const { isSaving } = formData
   const {
     defaultProduct,
     defaultQuotation,
@@ -64,13 +66,12 @@ export default function UserFormPres( props ) {
   ]
 
   return (
-    <form
+    <Form
       id={ `${BASE_CLASS}` }
-      method="post"
       action={ `/users/${formData.id}` }
+      isSaving={ isSaving === true }
       onChange={ handleFormChange }
       onSubmit={ handleSubmit }
-      className={ `${BASE_CLASS}` }
     >
       <input type="hidden" name="id" defaultValue={formData.id} />
       <input type="hidden" name="defaultQuotation[id]" defaultValue={ defaultQuotation.id } />
@@ -235,7 +236,7 @@ export default function UserFormPres( props ) {
           <Button type="submit">update</Button>
         </div>
       </Fragment>)} />
-    </form>
+    </Form>
   )
 }
 

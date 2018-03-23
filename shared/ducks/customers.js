@@ -30,6 +30,12 @@ export default function reducer(state = initialState, action) {
     case GET_ONE.SUCCESS:
       return state.set( `current`, payload )
 
+    case SAVE_ONE.LOADING:
+      return state.set( `current.isSaving`, true )
+
+    case SAVE_ONE.DONE:
+      return state.set( `current.isSaving`, false )
+
     case SAVE_ONE.SUCCESS:
       return state.set( `current`, payload )
 

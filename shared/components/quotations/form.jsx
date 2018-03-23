@@ -184,7 +184,6 @@ function state2prop( state ) {
   const { current } = state.quotations
   const isNew = current.id == null
   const result = {
-    submitMsg: `${isNew ? 'Create' : 'Update'} quotation`,
     isNew,
     current,
     customers: state.customers && state.customers.list,

@@ -2,6 +2,7 @@ import React, {  Fragment } from 'react'
 
 import Main from '../layout/main.jsx'
 import PaperSheet, { Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
+import Form from '../ui/form.jsx'
 import { Button } from '../ui/buttons.jsx'
 import Field from '../ui/field.jsx'
 import Markdown from '../ui/markdown.jsx'
@@ -25,15 +26,15 @@ export default function QuotationFormPres( props ) {
     handleDayChange,
     handleProductRemove,
   } = props
+  const { isSaving } = formData
   const { products } = formData
   const hasProducts = Array.isArray( products )
   const productsLength = hasProducts ? products.length : 0
 
   return (
-    <form
-      method="post"
+    <Form
       id={ `${BASE_CLASS}` }
-      className={ `${BASE_CLASS}` }
+      isSaving={ isSaving === true }
       onChange={ handleFormChange }
       onSubmit={ handleSubmit }
     >
@@ -101,6 +102,6 @@ export default function QuotationFormPres( props ) {
           </Fragment>
         )}
       />
-    </form>
+    </Form>
   )
 }

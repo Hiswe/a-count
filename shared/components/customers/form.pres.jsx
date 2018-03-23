@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 
 import Main from '../layout/main.jsx'
 import PaperSheet, { Party } from '../layout/paper-sheet.jsx'
+import Form from '../ui/form.jsx'
 import { Button } from '../ui/buttons.jsx'
 import Field from '../ui/field.jsx'
 
@@ -15,14 +16,14 @@ export default function CustomerFormPres( props ) {
     handleFormChange,
     formData,
   } = props
+  const { isSaving } = formData
   const isNew = formData.id == null
-  const submitMsg =  `${isNew ? 'Create' : 'Update'} customer`
+  const submitMsg   =  `${isNew ? 'Create' : 'Update'} customer`
 
   return (
-      <form
-        method="post"
+      <Form
         id={ `${BASE_CLASS}` }
-        className={ `${BASE_CLASS}` }
+        isSaving={ isSaving === true }
         onSubmit={ handleSubmit }
         onChange={ handleFormChange }
       >
@@ -52,6 +53,6 @@ export default function CustomerFormPres( props ) {
           </Fragment>
         )}
       />
-    </form>
+    </Form>
   )
 }
