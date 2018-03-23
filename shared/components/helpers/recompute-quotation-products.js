@@ -1,7 +1,7 @@
 import shortid from 'shortid'
 import merge from 'lodash.merge'
 
-import filterArrayWithObject from './_filter-array-with-object.js'
+import filterArrayWithObject from './filter-array-with-object.js'
 
 // prepare products to be consumed by quotation form
 // • remove duplicated default products

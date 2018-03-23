@@ -8,7 +8,7 @@ import serialize from 'form-serialize'
 import * as quotations from '../../ducks/quotations'
 import * as customers from '../../ducks/customers'
 import needRedirect from '../helpers/need-redirection.js'
-import recomputeQuotationProducts from '../_recompute-quotation-products.js'
+import recomputeQuotationProducts from '../helpers/recompute-quotation-products.js'
 
 import Spinner from '../ui/spinner.jsx'
 import QuotationFormPres from './form.pres.jsx'
