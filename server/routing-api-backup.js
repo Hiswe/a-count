@@ -29,26 +29,15 @@ const proxyRequest = async (ctx, next) => {
       stacktrace: response.stacktrace,
     })
   }
-  // copy all received cookies to our response
-  // • needed to maintain authentication
-  // • response.headers.get('set-cookie') doesn't seem to retrieve all cookies…
-  //   should investigate more…
-  //   https://github.com/matthew-andrews/isomorphic-fetch/issues/153#issuecomment-346745405
-  // • So resolve into getting the raw version of the header:
-  //   https://github.com/bitinn/node-fetch/issues/251#issuecomment-287519538
-  const cookies = response.headers.raw()[`set-cookie`]
-  if ( Array.isArray(cookies) ) {
-    const parsedCookies = cookie.parse(cookies.join(`; `))
-    Object
-    .entries( parsedCookies )
-    .forEach( ([key, value]) => {
-      if ([`path`, `expires`].includes(key) ) return
-      ctx.cookies.set(key, value, {
-        path: parsedCookies.path,
-        expires: new Date(parsedCookies.expires),
-      })
-    })
+
+  // If the API send an authorization header, copy it to a cookie
+  // • needed to maintain authentication without JS activated
+  const authorization = response.headers.get( `authorization` )
+  if ( authorization ) {
+    const jwt = authorization.replace( `Bearer `, `` )
+    ctx.cookies.set( `concompte:api`, jwt )
   }
+
   // Save payload to state for further reuse
   ctx.state.payload = payload
   next()

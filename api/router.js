@@ -34,7 +34,7 @@ apiRouter
   }, ctx )
 })
 
-apiRouter.use( routerAccount.routes() )
+apiRouter.use( routerAccount.public.routes() )
 
 //----- AUTHENTICATION
 
@@ -42,6 +42,7 @@ apiRouter.use( routerAccount.routes() )
 apiRouter.use( jwt({
   secret: config.jwt.secret,
   key:    `jwtData`,
+  cookie: `concompte:api`,
 }) )
 
 // confront them to DB
@@ -60,6 +61,7 @@ apiRouter.use( async function isAuthorizedRoute(ctx, next) {
 
 //----- MOUNT
 
+apiRouter.use( routerAccount.private.routes() )
 apiRouter.use( routerUsers.routes() )
 apiRouter.use( routerCustomers.routes() )
 apiRouter.use( routerQuotations.routes() )

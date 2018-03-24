@@ -14,9 +14,12 @@ const DefaultInvoice = require( './db/model-default-invoice' )
 const DefaultProduct = require( './db/model-default-product' )
 
 const prefix = `account`
-const router = new Router({prefix: `/${prefix}`})
-module.exports = router
-
+const publicRouter = new Router({prefix: `/${prefix}`})
+const privateRouter = new Router({prefix: `/${prefix}`})
+module.exports = {
+  public: publicRouter,
+  private: privateRouter,
+}
 //----- UTILS
 
 function createJWT( user ) {
@@ -35,21 +38,11 @@ function userAuthResponse( ctx, user ) {
   ctx.body = result
 }
 
-//----- ROUTES
+//////
+// PUBLIC
+//////
 
-router
-.get( `/auth`, async (ctx, next) => {
-  ctx.assert( ctx.session && ctx.session.user, 401, `Not connected` )
-
-  const id = ctx.session.user.id
-  const user = await User.findOneWithRelations( { where: {id}} )
-  if ( !user ) ctx.session = null
-  ctx.assert( user, 401, `User not matching session!` )
-
-  const result = formatResponse( user )
-  ctx.state.user = result
-  ctx.body = result
-})
+publicRouter
 .post( `/register`, async (ctx, next) => {
   const { body }  = ctx.request
   const data = merge( body, {
@@ -114,4 +107,15 @@ router
 .get( `/logout`, async (ctx, next) => {
   ctx.session = null
   ctx.body = formatResponse( { message: `bye bye` } )
+})
+
+//////
+// PRIVATE
+//////
+
+privateRouter
+.get( `/auth`, async (ctx, next) => {
+  ctx.assert( ctx.state && ctx.state.user, 401, `Not connected` )
+  const result = formatResponse( ctx.state.user )
+  ctx.body = result
 })
