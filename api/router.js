@@ -5,8 +5,11 @@ const omit = require( 'lodash.omit' )
 const merge = require( 'lodash.merge' )
 const moment = require( 'moment' )
 const Router = require( 'koa-router' )
+const jwt = require( 'koa-jwt' )
+const chalk = require( 'chalk' )
 
 const redis = require( './redis' )
+const log = require( './_log' )
 const formatResponse = require( './_format-response' )
 const routerUsers = require( './router-users' )
 const routerCustomers = require( './router-customers' )
@@ -21,7 +24,7 @@ const apiRouter = new Router({
 })
 module.exports = apiRouter
 
-//----- API INFOS
+//----- PUBLIC ROUTES
 
 apiRouter
 .get( `/`, (ctx, next) => {
@@ -31,14 +34,27 @@ apiRouter
   }, ctx )
 })
 
-//----- AUTHENTICATION
-
 apiRouter.use( routerAuth.routes() )
 
-// authentication guard middleware
+//----- AUTHENTICATION
 
+// extract JWT datas
+apiRouter.use( jwt({
+  secret: config.jwt.secret,
+  key:    `jwtData`,
+}) )
+
+// confront them to DB
 apiRouter.use( async function isAuthorizedRoute(ctx, next) {
-  ctx.assert( ctx.session && ctx.session.user, 401, `Not connected` )
+  const { jwtData } = ctx.state
+  const user = await User.findOneWithRelations({
+    where: {
+      id:         jwtData.id,
+      jwtVersion: jwtData.jwtVersion,
+    },
+  })
+  ctx.assert( user, 401, `Not connected` )
+  ctx.state.user = user
   await next()
 })
 

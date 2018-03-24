@@ -49,6 +49,6 @@ router
   })
 
   const result      = formatResponse( user )
-  ctx.session.user  = result
+  ctx.state.user    = result
   ctx.body          = result
 })

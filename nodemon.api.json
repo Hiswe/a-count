@@ -1,0 +1,9 @@
+{
+  "script": "api/index.js",
+  "ext":    "js",
+  "watch":  [ "api/**/*.js" ],
+  "env": {
+    "NODE_ENV": "development",
+    "NODE_DEBUG": "api,api:db,api:db:query"
+  }
+}

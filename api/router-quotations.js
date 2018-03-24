@@ -26,7 +26,7 @@ router
 .get(`/`, async (ctx, next) => {
   const params = Quotation.mergeWithDefaultRelations({
     where: {
-      userId: ctx.session.user.id,
+      userId: ctx.state.user.id,
     },
   })
   const list = await Quotation.findAll( params )
@@ -73,7 +73,7 @@ router
   await dbUser.increment( `quotationCount`, {by: 1} )
   const updatedUser = await User.findOneWithRelations( {where: {id: user.id }} )
 
-  ctx.session.user = formatResponse( updatedUser )
+  ctx.state.user = formatResponse( updatedUser )
 
   // To avoid model quotation haven't access to his relations we:
   // • build an empty quotation
@@ -81,7 +81,7 @@ router
   // • THEN update it with the body
   // • https://github.com/sequelize/sequelize/issues/3321#issuecomment-78218074
   const emptyQuotation = Quotation.build({
-    index: ctx.session.user.quotationCount,
+    index: ctx.state.user.quotationCount,
     customerId: body.customerId,
   })
   emptyQuotation.setUser( updatedUser, {save: false} )

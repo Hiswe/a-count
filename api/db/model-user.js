@@ -16,6 +16,10 @@ function encodePassword(password) {
   return bcrypt.hashSync(password, 10)
 }
 
+function createJwtVersion() {
+  return encodePassword( randtoken.generate(16) )
+}
+
 //////
 // MODEL DEFINITION
 //////
@@ -31,17 +35,25 @@ const User = sequelize.define( `user`, {
     allowNull:    false,
     unique:       true,
     validate: {   isEmail: true },
-    set:          h.setNormalizedString(`email`),
+    set:          h.setNormalizedString( `email` ),
+  },
+  jwtVersion: {
+    type:         Sequelize.STRING,
+    allowNull:    false,
+    unique:       true,
+    set:          function( val ) {
+      this.setDataValue( `jwtVersion`, createSecret() )
+    },
   },
   name: {
     type:         Sequelize.STRING,
     allowNull:    true,
-    set:          h.setNormalizedString(`name`),
+    set:          h.setTrimmedString( `name` ),
   },
   address: {
     type:         Sequelize.TEXT,
     allowNull:    true,
-    set:          h.setTrimmedString(`address`),
+    set:          h.setTrimmedString( `address` ),
   },
   lang: {
     type:         Sequelize.CHAR(2),
@@ -66,6 +78,7 @@ const User = sequelize.define( `user`, {
     type:         Sequelize.STRING,
     set:          function ( val ) {
       this.setDataValue( `password`, encodePassword(val) )
+      this.setDataValue( `jwtVersion`, createJwtVersion() )
       this.setDataValue( `token`, null )
       this.setDataValue( `tokenExpire`, null )
     },

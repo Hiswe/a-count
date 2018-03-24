@@ -38,7 +38,7 @@ router
 .post(`/new`,  async (ctx, next) => {
   const { body }  = ctx.request
   // TODO: check if the user doesn't already have a customer with the same name
-  body.userId     = ctx.session.user.id
+  body.userId     = ctx.state.user.id
   const customer  = await Customer.create( body )
   ctx.body        = formatResponse( customer )
 })

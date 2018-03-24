@@ -39,6 +39,7 @@
     "minmax",
     "presentational",
     "promisify",
+    "randtoken",
     "timestamps"
   ],
   "cSpell.ignorePaths": [
