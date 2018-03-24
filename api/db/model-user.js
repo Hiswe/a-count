@@ -4,7 +4,11 @@ const Sequelize = require( 'sequelize' )
 const bcrypt = require( 'bcryptjs' )
 const randtoken = require( 'rand-token' )
 const merge = require( 'lodash.merge' )
+const moment = require( 'moment' )
+const urlJoin = require( 'url-join' )
 
+const config = require( '../config' )
+const mailing = require( '../mailing' )
 const sequelize = require( './connection' )
 const DefaultQuotation = require( './model-default-quotation' )
 const DefaultInvoice = require( './model-default-invoice' )
@@ -98,10 +102,39 @@ const User = sequelize.define( `user`, {
 // INSTANCE METHODS
 //////
 
-User.prototype.comparePassword = function (password) {
+User.prototype.comparePassword = function ( password ) {
   const userPassword = this.getDataValue('password')
   if (!userPassword) return Promise.resolve( false )
   return bcrypt.compare( password, this.getDataValue('password') )
+}
+
+User.prototype.resetPassword = async function ( redirectUrl ) {
+  if ( !redirectUrl ) {
+    throw new Error( `[USER] account – redirectUrl param is required`)
+  }
+  const token       = randtoken.generate( 30 )
+  redirectUrl       = urlJoin( redirectUrl, `?token=${ token }` )
+  this.setDataValue( `token`,       token )
+  this.setDataValue( `tokenExpire`, moment().add(1, 'day') )
+  const user        = await this.save()
+  const content = `click here to reset your password:
+
+${ redirectUrl }
+`
+  const mailOptions = {
+    to:       user.email,
+    subject:  `${ config.NAME } – reset password`,
+    text:     content,
+    html:     content.replace('\n', `<br />`),
+  }
+  const mailStatus  = await mailing.send( mailOptions )
+  return user
+}
+
+User.prototype.setPassword = async function ( password ) {
+  this.set( `password`, password )
+  const user = await this.save()
+  return user
 }
 
 //////

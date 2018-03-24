@@ -14,7 +14,7 @@ const formatResponse = require( './_format-response' )
 const routerUsers = require( './router-users' )
 const routerCustomers = require( './router-customers' )
 const routerQuotations = require( './router-quotations' )
-const routerAuth = require( './router-auth' )
+const routerAccount = require( './router-account' )
 const config = require( './config' )
 const User = require( './db/model-user' )
 const { normalizeString } = require( './db/_helpers' )
@@ -34,7 +34,7 @@ apiRouter
   }, ctx )
 })
 
-apiRouter.use( routerAuth.routes() )
+apiRouter.use( routerAccount.routes() )
 
 //----- AUTHENTICATION
 

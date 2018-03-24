@@ -13,7 +13,8 @@ const DefaultQuotation = require( './db/model-default-quotation' )
 const DefaultInvoice = require( './db/model-default-invoice' )
 const DefaultProduct = require( './db/model-default-product' )
 
-const router = new Router()
+const prefix = `account`
+const router = new Router({prefix: `/${prefix}`})
 module.exports = router
 
 //----- UTILS
@@ -30,11 +31,9 @@ function createJWT( user ) {
 function userAuthResponse( ctx, user ) {
   const result = formatResponse({
     user,
-    token: createJWT( user ),
+    access_token: createJWT( user ),
   })
-  log( `has session? `, ctx.session != null )
-  // ctx.session.user  = user
-  ctx.body          = result
+  ctx.body = result
 }
 
 //----- ROUTES
@@ -49,7 +48,7 @@ router
   ctx.assert( user, 401, `User not matching session!` )
 
   const result = formatResponse( user )
-  ctx.session.user = result
+  ctx.state.user = result
   ctx.body = result
 })
 .post( `/register`, async (ctx, next) => {
@@ -81,7 +80,37 @@ router
   ctx.assert( user, 401, `Invalid password` )
 
   userAuthResponse( ctx, user )
+})
+.post( `/forgot`, async (ctx, next) => {
+    const { body }  = ctx.request
+    const user = await User.findOne({
+      where: {
+        email: body.email,
+      }
+    })
+    ctx.assert( user, 404, `Email not found` )
 
+    await user.resetPassword( body.redirectUrl )
+    ctx.body = formatResponse({
+      email: user.email,
+      reset: true,
+    })
+})
+.post( `/reset`, async (ctx, next) => {
+    const { body }  = ctx.request
+    const user = await User.findOne({
+      where: {
+        token:        body.token,
+        tokenExpire:  { $gt: Date.now() },
+      }
+    })
+    ctx.assert( user, 404, `link expired` )
+
+    await user.setPassword( body.password )
+    ctx.body = formatResponse({
+      email: user.email,
+      reset: true,
+    })
 })
 .get( `/logout`, async (ctx, next) => {
   ctx.session = null

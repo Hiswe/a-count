@@ -13,6 +13,15 @@ const config = rc( `concompte-api`, {
     port: 6379,
     host: `127.0.0.1`,
   },
+  email: {
+    transport: {
+      host: `localhost`,
+      port: 1025,
+    },
+    options: {
+      from: `Concompte <account@concompte.name>`,
+    }
+  },
   delay: false,
   // JWT config
   // • To generate a new secret:
