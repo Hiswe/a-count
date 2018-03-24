@@ -3,12 +3,12 @@ import serialize from 'form-serialize'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import ConnectDataFetcher from '../connect-data-fetcher.js'
-import * as users from '../ducks/users'
-import LayoutBoarding from '../components/layout/boarding.jsx'
-import Form from '../components/ui/form.jsx'
-import { Button } from '../components/ui/buttons.jsx'
-import Field from '../components/ui/field.jsx'
+import ConnectDataFetcher from '../../connect-data-fetcher.js'
+import * as users from '../../ducks/users'
+import LayoutBoarding from '../../components/layout/boarding.jsx'
+import Form from '../../components/ui/form.jsx'
+import { Button } from '../../components/ui/buttons.jsx'
+import Field from '../../components/ui/field.jsx'
 
 class Login extends PureComponent {
 

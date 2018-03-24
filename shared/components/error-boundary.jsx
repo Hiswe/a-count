@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import LayoutOnboard from './layout/onboard.jsx'
+import LayoutBoarding from './layout/boarding.jsx'
 
 class ErrorBoundary extends React.Component {
 
@@ -22,13 +22,13 @@ class ErrorBoundary extends React.Component {
     if (this.state.errorInfo) {
       // Error path
       return (
-        <LayoutOnboard title="Something went wrong">
+        <LayoutBoarding title="Something went wrong">
           <div style={{ whiteSpace: 'pre-wrap' }}>
             {this.state.error && this.state.error.toString()}
             <br />
             {this.state.errorInfo.componentStack}
           </div>
-        </LayoutOnboard>
+        </LayoutBoarding>
       )
     }
     // Normally, just render children

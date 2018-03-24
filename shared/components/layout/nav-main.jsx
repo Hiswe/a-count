@@ -36,10 +36,10 @@ function ConnectionNav( props ) {
   return (
     <Fragment>
       <li className="nav-main__item">
-        <NavLink to="/login" activeClassName="is-active">login</NavLink>
+        <NavLink to="/account/login" activeClassName="is-active">login</NavLink>
       </li>
       <li className="nav-main__item">
-        <NavLink to="/register" activeClassName="is-active">register</NavLink>
+        <NavLink to="/account/register" activeClassName="is-active">register</NavLink>
       </li>
     </Fragment>
   )
