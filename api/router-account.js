@@ -29,10 +29,9 @@ function createJWT( user ) {
 }
 
 function userAuthResponse( ctx, user ) {
-  const result = formatResponse({
-    user,
-    access_token: createJWT( user ),
-  })
+  const accessToken = createJWT( user )
+  ctx.response.set( `authorization`, `Bearer ${ accessToken }` )
+  const result = formatResponse( user )
   ctx.body = result
 }
 
