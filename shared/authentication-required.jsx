@@ -5,9 +5,11 @@ import { Redirect } from 'react-router-dom'
 // Protect the route if NOT authenticate
 // • based on https://crysislinux.com/limit-access-to-redux-apps-with-higher-order-components/
 
-const PUBLIC_ROOT = `/login`
+const PUBLIC_ROOT = `/account/login`
 
 export function authenticationRequired( Component ) {
+
+  // TODO: shouldn't redirect if already on login page…
 
   function AuthRequired( props ) {
     const { staticContext } = props

@@ -2,8 +2,10 @@ import authenticationRequired from './authentication-required.jsx'
 import authenticationForbidden from './authentication-forbidden.jsx'
 
 import Root from './components/layout/root.jsx'
-import Login from './pages/login.jsx'
-import Register from './pages/register.jsx'
+import Login from './pages/account/login.jsx'
+import Register from './pages/account/register.jsx'
+import Forgot from './pages/account/forgot.jsx'
+import Reset from './pages/account/reset.jsx'
 import Home from './pages/home.jsx'
 import UserEdit from './pages/users/edit.jsx'
 import QuotationsList from './pages/quotations/list.jsx'
@@ -17,13 +19,21 @@ import NotFound from './pages/not-found.jsx'
 const routes = [{
   component: Root,
   routes: [{
-    path: `/login`,
+    path: `/account/login`,
     exact: true,
     component: authenticationForbidden( Login ),
   }, {
-    path: `/register`,
+    path: `/account/register`,
     exact: true,
     component: authenticationForbidden( Register ),
+  }, {
+    path: `/account/forgot`,
+    exact: true,
+    component: authenticationForbidden( Forgot ),
+  }, {
+    path: `/account/reset`,
+    exact: true,
+    component: authenticationForbidden( Reset ),
   }, {
     path: `/`,
     exact: true,

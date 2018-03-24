@@ -56,15 +56,15 @@ const proxyRequest = async (ctx, next) => {
 
 //----- USER
 
-router.get( `/logout`, proxyRequest, async (ctx, next) => {
+router.get( `/account/logout`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
   ctx.redirect( `/login` )
 })
-router.post( `/register`, proxyRequest, async (ctx, next) => {
+router.post( `/account/register`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
   ctx.redirect( `/login` )
 })
-router.post( `/login`, proxyRequest, async (ctx, next) => {
+router.post( `/account/login`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
   ctx.redirect( `/` )
 })

@@ -55,7 +55,7 @@ export default function reducer(state = initialState, action) {
 
 export const auth = ({params, cookie}) => async dispatch => {
   const options = {
-    url: `/auth`,
+    url: `/account/auth`,
   }
   await fetchDispatch({
     dispatch,
@@ -67,7 +67,7 @@ export const auth = ({params, cookie}) => async dispatch => {
 export const login = ({params, cookie}) => async dispatch => {
   const { body } = params
   const options = {
-    url: `/login`,
+    url: `/account/login`,
     body,
   }
   await fetchDispatch({
@@ -79,7 +79,7 @@ export const login = ({params, cookie}) => async dispatch => {
 
 export const logout = ({params, cookie}) => async dispatch => {
   const options = {
-    url: `/logout`,
+    url: `/account/logout`,
   }
   await fetchDispatch({
     dispatch,
@@ -91,7 +91,7 @@ export const logout = ({params, cookie}) => async dispatch => {
 export const register = ({params, cookie}) => async dispatch => {
   const { body } = params
   const options = {
-    url: `/register`,
+    url: `/account/register`,
     body,
   }
   await fetchDispatch({

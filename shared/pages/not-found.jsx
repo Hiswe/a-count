@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import LayoutOnboard from '../components/layout/onboard.jsx'
+import LayoutBoarding from '../components/layout/boarding.jsx'
 
 const NotFound = () => (
   // we need a route to have access to staticContext
@@ -11,9 +11,9 @@ const NotFound = () => (
       staticContext.status = 404
     }
     return (
-      <LayoutOnboard title="404">
+      <LayoutBoarding title="404">
         <h2>not found</h2>
-      </LayoutOnboard>
+      </LayoutBoarding>
     )
   }}/>
 )
