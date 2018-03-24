@@ -2,7 +2,6 @@
 
 const merge = require( 'lodash.merge' )
 const Router = require( 'koa-router' )
-const jsonwebtoken = require( 'jsonwebtoken' )
 
 const config = require( './config' )
 const formatResponse = require( './_format-response' )

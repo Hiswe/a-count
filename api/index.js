@@ -8,7 +8,6 @@ const bodyParser = require( 'koa-body' )
 const compress = require( 'koa-compress' )
 const json = require( 'koa-json' )
 const Router = require( 'koa-router' )
-const session = require( 'koa-session' )
 const cors = require( '@koa/cors' )
 
 require( './db' )
@@ -95,38 +94,6 @@ app.use( async function handleApiError(ctx, next) {
     ctx.app.emit( 'error', err, ctx )
   }
 })
-
-//----- SESSIONS
-
-// • We don't use JWT: no easy session invalidation
-//   http://cryto.net/%7Ejoepie91/blog/2016/06/19/stop-using-jwt-for-sessions-part-2-why-your-solution-doesnt-work/
-// • session won't work at the router level: needs to put it with app
-
-// app.keys = [`api-concompte`]
-
-// const sessionsConfig = merge( {}, config.session, {
-//   store: {
-//     get: async (key, maxAge, { rolling }) => {
-//       let result = await redis.get( key )
-//       try {
-//         result = JSON.parse( result )
-//       } catch (e) {
-//         result = {}
-//       }
-//       return result
-//     },
-//     set: async (key, sess, maxAge, { rolling, changed }) => {
-//       const result = await redis.set( key, JSON.stringify(sess) )
-//       return result
-//     },
-//     destroy: async (key) => {
-//       const result = await redis.del( key )
-//       return result
-//     }
-//   }
-// })
-
-// app.use( session(sessionsConfig, app) )
 
 //----- DELAY (dev only)
 
