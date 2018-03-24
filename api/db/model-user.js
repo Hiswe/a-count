@@ -102,10 +102,11 @@ const User = sequelize.define( `user`, {
 // INSTANCE METHODS
 //////
 
-User.prototype.comparePassword = function ( password ) {
-  const userPassword = this.getDataValue('password')
-  if (!userPassword) return Promise.resolve( false )
-  return bcrypt.compare( password, this.getDataValue('password') )
+User.prototype.comparePassword = async function ( password ) {
+  const userPassword = this.getDataValue( `password` )
+  if ( !userPassword ) return Promise.resolve( false )
+  const result = await bcrypt.compare( password, userPassword )
+  return result
 }
 
 User.prototype.resetPassword = async function ( redirectUrl ) {

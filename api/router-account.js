@@ -76,7 +76,7 @@ router
   ctx.assert( user, 404, `User not found` )
 
   const isPasswordValid = await user.comparePassword( body.password )
-  ctx.assert( user, 401, `Invalid password` )
+  ctx.assert( isPasswordValid, 401, `Invalid password` )
 
   userAuthResponse( ctx, user )
 })
