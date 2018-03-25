@@ -103,10 +103,6 @@ publicRouter
       reset: true,
     })
 })
-.get( `/logout`, async (ctx, next) => {
-  ctx.session = null
-  ctx.body = formatResponse( { message: `bye bye` } )
-})
 
 //////
 // PRIVATE
@@ -117,4 +113,8 @@ privateRouter
   ctx.assert( ctx.state && ctx.state.user, 401, `Not connected` )
   const result = formatResponse( ctx.state.user )
   ctx.body = result
+})
+.get( `/logout`, async (ctx, next) => {
+  ctx.state.user = null
+  ctx.body = formatResponse( { message: `bye bye` } )
 })
