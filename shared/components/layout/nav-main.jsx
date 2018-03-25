@@ -58,6 +58,9 @@ function ConnectionNav( props ) {
       <li className="nav-main__item">
         <NavLink to="/account/register" activeClassName="is-active">register</NavLink>
       </li>
+      <li className="nav-main__item">
+        <NavLink to="/account/forgot" activeClassName="is-active">forgot</NavLink>
+      </li>
     </Fragment>
   )
 }

@@ -22,7 +22,7 @@ module.exports = {
 }
 //----- UTILS
 
-async function userAuthResponse( ctx, user ) {
+async function connectUser( ctx, user ) {
   const accessToken = await jwtStore.add( user )
   ctx.response.set( `authorization`, `Bearer ${ accessToken }` )
   const result = formatResponse( user )
@@ -48,7 +48,7 @@ publicRouter
       DefaultProduct,
     ]
   })
-  await userAuthResponse( ctx, user )
+  await connectUser( ctx, user )
 })
 .post( `/login`, async (ctx, next) => {
   const { body }  = ctx.request
@@ -62,34 +62,34 @@ publicRouter
   const isPasswordValid = await user.comparePassword( body.password )
   ctx.assert( isPasswordValid, 401, `Invalid password` )
 
-  await userAuthResponse( ctx, user )
+  await connectUser( ctx, user )
+})
+.post( `/reset`, async (ctx, next) => {
+    const { body }  = ctx.request
+    const user = await User.findOne({
+      where: {
+        isDeactivated:  { $not: true },
+        token:          body.token,
+        tokenExpire:    { $gt: Date.now() },
+      }
+    })
+    ctx.assert( user, 404, `link expired` )
+
+    const updatedUser = await user.setPassword( body.password )
+
+    await connectUser( ctx, updatedUser )
 })
 .post( `/forgot`, async (ctx, next) => {
     const { body }  = ctx.request
     const user = await User.findOne({
       where: {
         email: body.email,
+        isDeactivated: { $not: true },
       }
     })
     ctx.assert( user, 404, `Email not found` )
 
     await user.resetPassword( body.redirectUrl )
-    ctx.body = formatResponse({
-      email: user.email,
-      reset: true,
-    })
-})
-.post( `/reset`, async (ctx, next) => {
-    const { body }  = ctx.request
-    const user = await User.findOne({
-      where: {
-        token:        body.token,
-        tokenExpire:  { $gt: Date.now() },
-      }
-    })
-    ctx.assert( user, 404, `link expired` )
-
-    await user.setPassword( body.password )
     ctx.body = formatResponse({
       email: user.email,
       reset: true,

@@ -8,6 +8,7 @@ const BASE_CLASS = `field`
 
 // inspired by
 // • https://github.com/muicss/mui/blob/master/src/react/_textfieldHelpers.jsx
+// • TODO: should export <Input /> <Select /> <Textarea />
 
 // normalize props :P
 export default function Field( props ) {
@@ -59,7 +60,10 @@ class FieldInput extends PureComponent {
     const { inputProps } = props
 
     this.state = {
-      isEmpty: isEmpty(('value' in inputProps) ? inputProps.value : inputProps.defaultValue),
+      // support NO JS cause
+      // • make all floating label float by default
+      isEmpty: false,
+      // isEmpty: isEmpty(('value' in inputProps) ? inputProps.value : inputProps.defaultValue),
       isTouched: false,
       isPristine: true
     }

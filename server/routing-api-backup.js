@@ -47,30 +47,40 @@ const proxyRequest = async (ctx, next) => {
 
 //----- USER
 
-router.get( `/account/logout`, proxyRequest, async (ctx, next) => {
+router
+.get( `/account/logout`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
   ctx.redirect( `/account/login` )
 })
-router.post( `/account/register`, proxyRequest, async (ctx, next) => {
-  const { payload } = ctx.state
-  ctx.redirect( `/login` )
-})
-router.post( `/account/login`, proxyRequest, async (ctx, next) => {
+.post( `/account/register`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
   ctx.redirect( `/` )
 })
-router.post( `/users/:id`, proxyRequest, async (ctx, next) => {
+.post( `/account/forgot`, proxyRequest, async (ctx, next) => {
+  const { payload } = ctx.state
+  ctx.redirect( `/account/forgot` )
+})
+.post( `/account/reset`, proxyRequest, async (ctx, next) => {
+  const { payload } = ctx.state
+  ctx.redirect( `/` )
+})
+.post( `/account/login`, proxyRequest, async (ctx, next) => {
+  const { payload } = ctx.state
+  ctx.redirect( `/` )
+})
+.post( `/users/:id`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
   ctx.redirect( `/profile` )
 })
 
 //----- QUOTATIONS
 
-router.post( `/quotations/new`, proxyRequest, async (ctx, next) => {
+router
+.post( `/quotations/new`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
   ctx.redirect( `/quotations/${ payload.id }` )
 })
-router.post( `/quotations/:id`, proxyRequest, async (ctx, next) => {
+.post( `/quotations/:id`, proxyRequest, async (ctx, next) => {
   const { url } = ctx.request
   ctx.redirect( ctx.request.url )
 })
@@ -78,11 +88,12 @@ router.post( `/quotations/:id`, proxyRequest, async (ctx, next) => {
 
 //----- CUSTOMERS
 
-router.post( `/customers/new`, proxyRequest, async (ctx, next) => {
+router
+.post( `/customers/new`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
   ctx.redirect( `/customers/${ payload.id }` )
 })
-router.post( `/customers/:id`, proxyRequest, async (ctx, next) => {
+.post( `/customers/:id`, proxyRequest, async (ctx, next) => {
   const { url } = ctx.request
   ctx.redirect( ctx.request.url )
 })

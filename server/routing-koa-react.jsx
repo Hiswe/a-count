@@ -75,7 +75,10 @@ router.get( '*', async (ctx, next) => {
 
   await ctx.render( `view-react`, {
     // only pass a subset of the config. enough for the client side
-    config: serialize( {API_URL: config.API_URL}, { isJSON: true } ),
+    config: serialize( {
+      API_URL:  config.API_URL,
+      HOST_URL: config.HOST_URL,
+    }, { isJSON: true } ),
     // those will be used to initialize the store client side
     initialState: serialize( store.getState(), { isJSON: true } ),
     // the right HTML produced by react ^^
