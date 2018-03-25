@@ -1,10 +1,27 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+
+import * as users from '../../ducks/users'
 
 import './nav-main.scss'
 
-import LogoutButton from './logout-button.jsx'
+class LogoutButton extends PureComponent {
+  constructor( props ) {
+    super( props )
+    this.logout = this.logout.bind( this )
+  }
+  logout( e ) {
+    e.preventDefault()
+    this.props.logout( {} )
+  }
+  render() {
+    return (
+      <a href="/account/logout" onClick={ this.logout }>logout</a>
+    )
+  }
+}
 
 function ConnectedNav( props )  {
   return (
@@ -26,7 +43,7 @@ function ConnectedNav( props )  {
         <NavLink to="/profile" activeClassName="is-active">profile</NavLink>
       </li>
       <li className="nav-main__item  nav-main__item--separator">
-        <LogoutButton />
+        <LogoutButton logout={ props.logout} />
       </li>
     </Fragment>
   )
@@ -52,7 +69,7 @@ function MainNav( props ) {
       <ul className="nav-main__in">
         {
           isAuthenticated ? <ConnectedNav {...props} />
-          : <ConnectionNav />
+          : <ConnectionNav {...props} />
         }
       </ul>
     </nav>
@@ -67,6 +84,12 @@ function state2props( state ) {
   }
 }
 
+function dispatch2props( dispatch ) {
+  return bindActionCreators({
+    logout: users.logout,
+  }, dispatch)
+}
+
 // withRouter is needed for the <NavLink> to catch-up route changes
 // • https://reacttraining.com/react-router/web/api/withRouter
-export default withRouter( connect( state2props )( MainNav ) )
+export default withRouter( connect( state2props, dispatch2props )( MainNav ) )
