@@ -1,5 +1,6 @@
 import cookie from 'cookie'
 import Router from 'koa-router'
+import isNil from 'lodash.isnil'
 
 import * as isoFetch from '../shared/iso-fetch'
 
@@ -33,7 +34,8 @@ const proxyRequest = async (ctx, next) => {
   // If the API send an authorization header, copy it to a cookie
   // • needed to maintain authentication without JS activated
   const authorization = response.headers.get( `authorization` )
-  if ( authorization ) {
+  // copy authorization header even if it's an empty string
+  if ( !isNil( authorization ) ) {
     const jwt = authorization.replace( `Bearer `, `` )
     ctx.cookies.set( `concompte:api`, jwt )
   }
@@ -47,7 +49,7 @@ const proxyRequest = async (ctx, next) => {
 
 router.get( `/account/logout`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
-  ctx.redirect( `/login` )
+  ctx.redirect( `/account/login` )
 })
 router.post( `/account/register`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
