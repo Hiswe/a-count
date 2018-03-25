@@ -16,6 +16,7 @@
     "applications": "parallelshell \"yarn run server\" \"yarn run api\"",
     "server:dev": "nodemon dist/server.js --config nodemon.json",
     "api:dev": "NODE_DEBUG=api,api:db node-dev api/index.js --no-deps --no-notify",
+    "api:dev:nodemon": "nodemon api/index.js --config nodemon.api.json",
     "applications:dev": "parallelshell \"yarn run api:dev\"  \"yarn run server:dev\" --verbose",
     "browsersync": "browser-sync start --config browser-sync-config.js",
     "test": "ava",
