@@ -16,6 +16,7 @@ const routerCustomers = require( './router-customers' )
 const routerQuotations = require( './router-quotations' )
 const routerAccount = require( './router-account' )
 const config = require( './config' )
+const jwtStore = require( './jwt-store' )
 const User = require( './db/model-user' )
 const { normalizeString } = require( './db/_helpers' )
 
@@ -38,7 +39,7 @@ apiRouter.use( routerAccount.public.routes() )
 
 //----- AUTHENTICATION
 
-// extract JWT datas
+// extract JWT data
 apiRouter.use( jwt({
   secret: config.jwt.secret,
   key:    `jwtData`,
@@ -48,13 +49,17 @@ apiRouter.use( jwt({
 // confront them to DB
 apiRouter.use( async function isAuthorizedRoute(ctx, next) {
   const { jwtData } = ctx.state
+  const userId = await jwtStore.check( jwtData )
+  ctx.assert( userId, 401, `Not connected – token invalid` )
+
   const user = await User.findOneWithRelations({
     where: {
-      id:         jwtData.id,
-      jwtVersion: jwtData.jwtVersion,
+      id: userId,
+      isDeactivated: { $not: true },
     },
   })
-  ctx.assert( user, 401, `Not connected` )
+  ctx.assert( user, 401, `Not connected – user not found` )
+
   ctx.state.user = user
   await next()
 })

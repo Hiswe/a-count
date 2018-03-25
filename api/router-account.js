@@ -11,6 +11,7 @@ const User = require( './db/model-user' )
 const DefaultQuotation = require( './db/model-default-quotation' )
 const DefaultInvoice = require( './db/model-default-invoice' )
 const DefaultProduct = require( './db/model-default-product' )
+const jwtStore = require( './jwt-store' )
 
 const prefix = `account`
 const publicRouter = new Router({prefix: `/${prefix}`})
@@ -21,17 +22,8 @@ module.exports = {
 }
 //----- UTILS
 
-function createJWT( user ) {
-  const { secret, expiresIn } = config.jwt
-  const data       = {
-    id:           user.id,
-    jwtVersion:   user.jwtVersion,
-  }
-  return jsonwebtoken.sign( data, secret, {expiresIn} )
-}
-
-function userAuthResponse( ctx, user ) {
-  const accessToken = createJWT( user )
+async function userAuthResponse( ctx, user ) {
+  const accessToken = await jwtStore.add( user )
   ctx.response.set( `authorization`, `Bearer ${ accessToken }` )
   const result = formatResponse( user )
   ctx.body = result
@@ -56,7 +48,7 @@ publicRouter
       DefaultProduct,
     ]
   })
-  userAuthResponse( ctx, user )
+  await userAuthResponse( ctx, user )
 })
 .post( `/login`, async (ctx, next) => {
   const { body }  = ctx.request
@@ -70,7 +62,7 @@ publicRouter
   const isPasswordValid = await user.comparePassword( body.password )
   ctx.assert( isPasswordValid, 401, `Invalid password` )
 
-  userAuthResponse( ctx, user )
+  await userAuthResponse( ctx, user )
 })
 .post( `/forgot`, async (ctx, next) => {
     const { body }  = ctx.request
@@ -115,6 +107,9 @@ privateRouter
   ctx.body = result
 })
 .get( `/logout`, async (ctx, next) => {
+  const { jwtData } = ctx.state
+  await jwtStore.remove( jwtData )
   ctx.state.user = null
+  ctx.response.set( `authorization`, `` )
   ctx.body = formatResponse( { message: `bye bye` } )
 })

@@ -20,18 +20,36 @@ client.on( `error`, err => {
 })
 client.on( `ready`, () => log(`ready`) )
 client.monitor( (err, res) => {
-    log(`Entering monitoring mode.`);
+  log( `Entering monitoring mode.` )
 })
-client.on(`monitor`, (time, args, raw_reply) => {
-  log(time + ": " + args) // 1458910076.446514:['set', 'foo', 'bar']
+client.on( `monitor`, (time, args, raw_reply) => {
+  log(`${ time }: ${ args.join( ' ' ) }`) // 1458910076.446514:['set', 'foo', 'bar']
 })
 
-const get = promisify( client.get ).bind( client )
-const set = promisify( client.set ).bind( client )
-const del = promisify( client.del ).bind( client )
+const get   = promisify( client.get ).bind( client )
+const set   = promisify( client.set ).bind( client )
+const del   = promisify( client.del ).bind( client )
+const scan  = promisify( client.scan ).bind( client )
+
+// make a search
+// https://redis.io/commands/scan#scan-basic-usage
+async function find( query ) {
+  const [ startingCount, firstResult ] = await scan( 0, `MATCH`, query )
+  let count = parseInt( startingCount, 10 )
+  let result = firstResult
+  while ( count !== 0 ) {
+    const [ currentCount, currentResult ] = await scan( count, `MATCH`, query )
+    count = parseInt( currentCount, 10 )
+    result = result.concat( currentResult )
+  }
+  // Redis doesn't guarantee that result have no duplicate
+  // • just make sure there aren't any in the response
+  return [...new Set( result )]
+}
 
 module.exports = {
   get,
   set,
   del,
+  find,
 }

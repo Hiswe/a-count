@@ -33,19 +33,19 @@ app.use( json() )
 // • to have better logs: don't use the same logger as server
 
 const colorCodes = {
-  7: 'magenta',
-  5: 'red',
-  4: 'yellow',
-  3: 'cyan',
-  2: 'green',
-  1: 'green',
-  0: 'yellow'
+  7: `magenta`,
+  5: `red`,
+  4: `yellow`,
+  3: `cyan`,
+  2: `green`,
+  1: `green`,
+  0: `yellow`,
 }
 const time = start => {
   const delta = Date.now() - start
   return delta < 10000
-    ? delta + 'ms'
-    : Math.round(delta / 1000) + 's'
+    ? `${ delta }ms`
+    : `${ Math.round(delta / 1000) }s`
 }
 app.use( async (ctx, next) => {
   const { method, path } = ctx.request
@@ -110,7 +110,7 @@ async function delay( ctx, next ) {
   await next()
 }
 
-if ( config.delay ) app.use( delay )
+if ( config.isDev && config.delay ) app.use( delay )
 
 //----- MOUNT ROUTER TO APPLICATION
 
