@@ -33,7 +33,7 @@ const reduxActionLogger = ({ getState }) => {
 const store = createStore(reducer, {}, applyMiddleware(thunk, reduxActionLogger))
 
 router.get( '*', async (ctx, next) => {
-  const { url, header }     = ctx
+  const { url, header } = ctx
   // wait for every component to fetch his data
   const branch      = matchRoutes(routes, url)
   const initFetches = branch
@@ -76,8 +76,9 @@ router.get( '*', async (ctx, next) => {
   await ctx.render( `view-react`, {
     // only pass a subset of the config. enough for the client side
     config: serialize( {
-      API_URL:  config.API_URL,
-      HOST_URL: config.HOST_URL,
+      API_URL:          config.API_URL,
+      API_COOKIE_NAME:  config.API_COOKIE_NAME,
+      HOST_URL:         config.HOST_URL,
     }, { isJSON: true } ),
     // those will be used to initialize the store client side
     initialState: serialize( store.getState(), { isJSON: true } ),

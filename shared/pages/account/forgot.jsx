@@ -24,9 +24,7 @@ class Forgot extends PureComponent {
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true } )
-    // this.props.dispatch( users.login({
-    //   params: { body },
-    // }) )
+    this.props.forgot( { params: { body }} )
   }
 
   render() {
@@ -49,7 +47,17 @@ class Forgot extends PureComponent {
   }
 }
 
-export default connect()( ConnectDataFetcher({
+function state2prop( state ) {
+  return {}
+}
+
+function dispatch2prop( dispatch ) {
+  return bindActionCreators({
+    forgot: users.forgot,
+  }, dispatch)
+}
+
+export default connect( null, dispatch2prop )( ConnectDataFetcher({
   Component: Forgot,
   actionCreators: [
   ],

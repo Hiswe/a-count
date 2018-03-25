@@ -1,6 +1,8 @@
 import 'isomorphic-fetch'
 import merge from 'lodash.merge'
+import isNil from 'lodash.isnil'
 import urlJoin from 'url-join'
+import Cookies from 'js-cookie'
 
 import config from './config.js'
 
@@ -12,64 +14,54 @@ import config from './config.js'
 //   We dont' have access to them there ^^
 //   https://github.com/matthew-andrews/isomorphic-fetch/issues/83
 
-const get = async ({url}, cookie) => {
-  const options = {
-    method: `GET`,
-    credentials: `include`,
-    headers: {
-    },
-  }
-  if ( cookie ) options.headers.Cookie = cookie
-  const response = await fetch( urlJoin(config.API_URL, url), options )
-  const payload = await response.json()
-  if (!response.ok) {
-    merge( payload, {
-      error:      true,
-      status:     response.status,
-      statusText: response.statusText,
-    })
-  }
-  return {
-    response,
-    payload,
-  }
+const defaultOptions = {
+  credentials: `include`,
+  headers: {},
 }
 
-const post = async ({url, body}, cookie) => {
-  const options = {
-    method: `POST`,
-    credentials: `include`,
-    headers: {
-      'Content-Type': `application/json`,
-    },
-    body: JSON.stringify( body )
+function create( method ) {
+  const options = merge( {}, defaultOptions, {
+    method: method.toUpperCase()
+  })
+  if ( options.method === `POST` ) {
+    options.headers[`Content-Type`] = `application/json`
   }
-  if ( cookie ) options.headers.Cookie = cookie
-  try {
-    const response = await fetch( urlJoin(config.API_URL, url), options )
-    const payload = await response.json()
-    if (!response.ok) {
-      merge( payload, {
+
+  return async function( params, cookie ) {
+    const { url, body } = params
+    if ( options.method === `POST` ) options.body = JSON.stringify( body )
+    if ( cookie ) options.headers.Cookie = cookie
+    try {
+      const response  = await fetch( urlJoin(config.API_URL, url), options )
+      const payload   = await response.json()
+      if ( !response.ok ) {
+        merge( payload, {
+          error:      true,
+          status:     response.status,
+          statusText: response.statusText,
+        })
+      }
+      // copy access token to a cookie
+      if ( process.env.BROWSER ) {
+        const accessToken = payload.access_token
+        if ( !isNil( accessToken ) ) {
+          Cookies.set( config.API_COOKIE_NAME, accessToken )
+          delete payload.access_token
+        }
+      }
+      return { response, payload}
+    } catch(err) {
+      const error = merge({
         error:      true,
-        status:     response.status,
-        statusText: response.statusText,
-      })
-    }
-    return {
-      response,
-      payload,
-    }
-  } catch(e) {
-    const error = merge( {
-      error: true,
-      status: 500,
-      statusText: e.message,
-    }, e )
-    return {
-      payload: error,
+        status:     500,
+        statusText: err.message,
+      }, err )
+      return { payload: error }
     }
   }
-
 }
 
-export { get, post }
+//----- EXPORTS
+
+export const get = create( `get` )
+export const post = create( `post` )

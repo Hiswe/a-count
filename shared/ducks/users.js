@@ -5,53 +5,55 @@ import fetchDispatch from './helpers/fetch-dispatch.js'
 
 const NAME = `users`
 
-export const AUTH     = createActionNames( NAME, `get`, `auth` )
-export const LOGIN    = createActionNames( NAME, `post`, `login` )
-export const LOGOUT   = createActionNames( NAME, `get`, `logout` )
-export const REGISTER = createActionNames( NAME, `post`, `register` )
-export const SAVE_ONE = createActionNames( NAME, `post`, `one` )
+export const AUTH     = createActionNames( NAME, `get`,   `auth` )
+export const LOGIN    = createActionNames( NAME, `post`,  `login` )
+export const FORGOT   = createActionNames( NAME, `post`,  `forgot` )
+export const RESET    = createActionNames( NAME, `post`,  `reset` )
+export const LOGOUT   = createActionNames( NAME, `get`,   `logout` )
+export const REGISTER = createActionNames( NAME, `post`,  `register` )
+export const SAVE_ONE = createActionNames( NAME, `post`,  `one` )
 
 const initialState = crio({
   isAuthenticated: false,
   current: {},
 })
 
-export default function reducer(state = initialState, action) {
+//////
+// REDUCER
+//////
+
+export default function reducer( state = initialState, action ) {
   const { type, payload } = action
 
   switch ( type ) {
 
     case AUTH.SUCCESS:
-      state = state.set( `isAuthenticated`, true )
-      return state.set( `current`, payload )
-    case AUTH.ERROR:
-      state = state.set( `isAuthenticated`, false )
-      return state.set( `current`, {} )
-
     case LOGIN.SUCCESS:
+    case REGISTER.SUCCESS:
+    case RESET.SUCCESS:
       state = state.set( `isAuthenticated`, true )
-      return state.set( `current`, payload )
+      return state.set( `current`, payload.user )
 
+    case AUTH.ERROR:
     case LOGOUT.SUCCESS:
       state = state.set( `isAuthenticated`, false )
       return state.set( `current`, {} )
-
-    case REGISTER.SUCCESS:
-      state = state.set( `isAuthenticated`, true )
-      return state.set( `current`, payload )
 
     case SAVE_ONE.LOADING:
       return state.set( `current.isSaving`, true )
     case SAVE_ONE.DONE:
       return state.set( `current.isSaving`, false )
     case SAVE_ONE.SUCCESS:
-      state = state.set( `isAuthenticated`, true )
-      return state.set( `current`, payload )
+      return state.set( `current`, payload.user )
 
     default:
       return state
   }
 }
+
+//////
+// ACTION CREATORS
+//////
 
 export const auth = ({params, cookie}) => async dispatch => {
   const options = {
@@ -97,6 +99,32 @@ export const register = ({params, cookie}) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:  REGISTER,
+    fetch:    { options, cookie },
+  })
+}
+
+export const forgot = ({params, cookie}) => async dispatch => {
+  const { body } = params
+  const options = {
+    url: `/account/forgot`,
+    body,
+  }
+  await fetchDispatch({
+    dispatch,
+    actions:  FORGOT,
+    fetch:    { options, cookie },
+  })
+}
+
+export const reset = ({params, cookie}) => async dispatch => {
+  const { body } = params
+  const options = {
+    url: `/account/reset`,
+    body,
+  }
+  await fetchDispatch({
+    dispatch,
+    actions:  RESET,
     fetch:    { options, cookie },
   })
 }

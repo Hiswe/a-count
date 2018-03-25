@@ -25,9 +25,7 @@ class Reset extends PureComponent {
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true } )
-    // this.props.dispatch( users.login({
-    //   params: { body },
-    // }) )
+    this.props.reset( { params: { body }} )
   }
 
   render() {
@@ -50,7 +48,17 @@ class Reset extends PureComponent {
   }
 }
 
-export default connect()( ConnectDataFetcher({
+function state2prop( state ) {
+  return {}
+}
+
+function dispatch2prop( dispatch ) {
+  return bindActionCreators({
+    reset: users.reset,
+  }, dispatch)
+}
+
+export default connect( null, dispatch2prop )( ConnectDataFetcher({
   Component: Reset,
   actionCreators: [
   ],

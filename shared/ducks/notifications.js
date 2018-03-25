@@ -14,6 +14,8 @@ import {
 import {
   AUTH as USER_AUTH,
   LOGIN as USER_LOGIN,
+  FORGOT as USER_FORGOT,
+  RESET as USER_RESET,
   LOGOUT as USER_LOGOUT,
   REGISTER as USER_REGISTER,
   SAVE_ONE as USER_SAVE_ONE,
@@ -27,6 +29,21 @@ const postErrorRegexp = new RegExp( `^${ ALL_POST.ERROR }$` )
 
 const initialState = crio( [] )
 
+function notifySuccess( state, message ) {
+  return state.push({
+    _id: shortid(),
+    message,
+  })
+}
+
+function notifyError( state, message ) {
+  return state.push({
+    _id: shortid(),
+    error: true,
+    message,
+  })
+}
+
 export default function reducer( state = initialState, action ) {
   const { type, payload, error } = action
 
@@ -36,59 +53,47 @@ export default function reducer( state = initialState, action ) {
   }
 
   switch ( type ) {
-
-    case REMOVE:
+    case REMOVE: {
       const index = state.indexOf( payload )
-      state = state.splice( index, 1 )
-      return state
-
-    // LOGIN – REGISTER
+      return state.splice( index, 1 )
+    }
+    //----- USER
     case USER_REGISTER.SUCCESS:
     case USER_LOGIN.SUCCESS:
-      return state.push({
-        _id: shortid(),
-        message: `welcome ${ payload.name || payload.email }`,
-      })
-
-    case QUOTATION_SAVE_ONE.SUCCESS:
-    return state.push({
-        _id: shortid(),
-        message: `quotation saved`,
-      })
-    case QUOTATION_SAVE_ONE.ERROR:
-      return state.push({
-        _id: shortid(),
-        error,
-        message: `error during quotation save`,
-      })
-
-    case CUSTOMER_SAVE_ONE.SUCCESS:
-    return state.push({
-        _id: shortid(),
-        message: `customer saved`,
-      })
-    case CUSTOMER_SAVE_ONE.ERROR:
-      return state.push({
-        _id: shortid(),
-        error,
-        message: payload.message,
-      })
-
+    case USER_RESET.SUCCESS: {
+      const message = `welcome ${ payload.name || payload.email }`
+      return notifySuccess( state, message )
+    }
+    case USER_FORGOT.SUCCESS: {
+      const message = `an email as been send to ${ payload.email }`
+      return notifySuccess( state, message )
+    }
+    //----- QUOTATIONS
+    case QUOTATION_SAVE_ONE.SUCCESS: {
+      const message = `quotation saved`
+      return notifySuccess( state, message )
+    }
+    case QUOTATION_SAVE_ONE.ERROR: {
+      const message = `error while saving quotation`
+      return notifyError( state, message )
+    }
+    //----- CUSTOMERS
+    case CUSTOMER_SAVE_ONE.SUCCESS: {
+      const message = `customer saved`
+      return notifySuccess( state, message )
+    }
+    case CUSTOMER_SAVE_ONE.ERROR: {
+      const message = payload.message
+      return notifyError( state, message )
+    }
   }
-
+  //----- CATCH ALL
+  // • if no custom notification has been handled, make a general one
   if ( postErrorRegexp.test( type ) ) {
-    return state.push({
-      _id: shortid(),
-      error,
-      message: payload.message,
-    })
+    return notifyError( state, payload.message )
   }
-
   if ( postSuccessRegexp.test( type ) ) {
-    return state.push({
-      _id: shortid(),
-      message: 'saved',
-    })
+    return notifySuccess( state, 'saved', )
   }
 
   return state
