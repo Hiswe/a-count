@@ -48,7 +48,7 @@ router
     where: {id: updated.id}
   })
 
-  const result      = formatResponse( user )
+  const result      = formatResponse( { user } )
   ctx.state.user    = result
   ctx.body          = result
 })

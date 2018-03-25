@@ -23,9 +23,13 @@ module.exports = {
 //----- UTILS
 
 async function connectUser( ctx, user ) {
+  const userId = user.id
+  user = await User.findOneWithRelations( { where: {id: userId }} )
   const accessToken = await jwtStore.add( user )
-  ctx.response.set( `authorization`, `Bearer ${ accessToken }` )
-  const result = formatResponse( user )
+  const result = formatResponse({
+    user,
+    access_token: accessToken,
+  })
   ctx.body = result
 }
 
@@ -103,7 +107,7 @@ publicRouter
 privateRouter
 .get( `/auth`, async (ctx, next) => {
   ctx.assert( ctx.state && ctx.state.user, 401, `Not connected` )
-  const result = formatResponse( ctx.state.user )
+  const result = formatResponse( {user: ctx.state.user} )
   ctx.body = result
 })
 .get( `/logout`, async (ctx, next) => {
@@ -111,5 +115,8 @@ privateRouter
   await jwtStore.remove( jwtData )
   ctx.state.user = null
   ctx.response.set( `authorization`, `` )
-  ctx.body = formatResponse( { message: `bye bye` } )
+  ctx.body = formatResponse({
+    message: `bye bye`,
+    access_token: ``,
+  })
 })
