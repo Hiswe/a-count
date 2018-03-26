@@ -64,21 +64,17 @@ async function remove( jwtData ) {
   await redis.del( getFullJwtKey(jwtData) )
 }
 
-
-async function findAllByUserId( userId ) {
-  const keys = await redis.find( getSearchByUserId(userId) )
-  return keys
-}
-
+// blacklist all JWT from a user
+// • used when reset password
+// • can be used if we want to logout from all platforms
 async function removeAllFromUser( userId ) {
-  const keys = await findAllByUserId( userId )
+  const keys = await redis.find( getSearchByUserId(userId) )
   await redis.del( keys )
   return keys
 }
 
 module.exports = {
   add,
-  findAllByUserId,
   check,
   remove,
   removeAllFromUser,
