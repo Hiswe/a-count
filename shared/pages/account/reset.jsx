@@ -9,7 +9,7 @@ import * as users from '../../ducks/users'
 import LayoutBoarding from '../../components/layout/boarding.jsx'
 import Form from '../../components/ui/form.jsx'
 import { Button } from '../../components/ui/buttons.jsx'
-import Field from '../../components/ui/field.jsx'
+import { Input } from '../../components/ui/field.jsx'
 
 class Reset extends PureComponent {
 
@@ -36,7 +36,7 @@ class Reset extends PureComponent {
         <Form id="login" action="/account/reset" onSubmit={ this.handleSubmit } >
           <p>Set your new password here</p>
           <input type="hidden" name="token" defaultValue={state.token} />
-          <Field
+          <Input
             name="password"
             type="password"
             defaultValue=""

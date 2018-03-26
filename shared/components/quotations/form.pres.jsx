@@ -4,7 +4,7 @@ import Main from '../layout/main.jsx'
 import PaperSheet, { Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
 import Form from '../ui/form.jsx'
 import { Button } from '../ui/buttons.jsx'
-import Field from '../ui/field.jsx'
+import { Input, Textarea, Select } from '../ui/field.jsx'
 import Markdown from '../ui/markdown.jsx'
 import Stepper, { Step } from '../ui/stepper.jsx'
 import NewProductTable from '../products/table.jsx'
@@ -48,14 +48,18 @@ export default function QuotationFormPres( props ) {
               steps={ formData.steps }
               handleDayChange={ handleDayChange }
             />
-            <Field darkBg
+            <Select darkBg
               label="customer"
               name="customerId"
               value={ formData.customerId }
-              type="select"
               options={ customers }
-            />
-            <Field darkBg
+            >
+              { customers.map( c => (
+                  <option key={ c.id } value={ c.id }>{ c.name }</option>
+                )
+              )}
+            </Select>
+            <Input darkBg
               name="tax"
               type="number"
               min="0"
@@ -70,7 +74,7 @@ export default function QuotationFormPres( props ) {
               <Reference type="quotation" product={ formData } />
               <Party title="quotation from" {...user} />
               <Party title="quotation to" {...customer} />
-              <Field
+              <Input
                 name="name"
                 value={ formData.name }
               />

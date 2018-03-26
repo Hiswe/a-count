@@ -4,7 +4,7 @@ import Main from '../layout/main.jsx'
 import PaperSheet, { Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
 import Form from '../ui/form.jsx'
 import { Button } from '../ui/buttons.jsx'
-import Field from '../ui/field.jsx'
+import { Input, Textarea, Select } from '../ui/field.jsx'
 import Markdown from '../ui/markdown.jsx'
 import ProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
@@ -64,6 +64,10 @@ export default function UserFormPres( props ) {
     fakeProduct,
     defaultProduct
   ]
+  const currencies = [
+    {value: `USD`, label: `USD`},
+    {value: `EUR`, label: `EUR`},
+  ]
   const submitMessage = isSaving ? `saving…` : `update`
 
   return (
@@ -88,14 +92,13 @@ export default function UserFormPres( props ) {
             <Party title="from" {...formData} />
           </PaperSheet>
           <div className={`${BASE_CLASS}__user-form`}>
-            <Field
+            <Input
               name="name"
               value={ formData.name }
             />
-            <Field
+            <Textarea
               name="address"
               value={ formData.address }
-              type="textarea"
             />
           </div>
         </div>
@@ -104,34 +107,31 @@ export default function UserFormPres( props ) {
         <UserFormTile title="Default product information" />
         <div className={`${BASE_CLASS}__product`}>
           <div className={`${BASE_CLASS}__product-form`}>
-            <Field
+            <Textarea
               name="defaultProduct[description]"
               label="description"
-              type="textarea"
               value={ defaultProduct.description }
             />
-            <Field
+            <Input
               name="defaultProduct[quantity]"
               label="quantity"
               type="number"
               value={ defaultProduct.quantity }
             />
-            <Field
+            <Input
               name="defaultQuotation[tax]"
               label="tax"
               type="number"
               value={ defaultQuotation.tax }
             />
-            <Field
+            <Select
               name="defaultQuotation[currency]"
               label="currency"
-              type="select"
-              options={[
-                {id: `USD`, name: `USD`},
-                {id: `EUR`, name: `EUR`},
-              ]}
               value={ defaultQuotation.currency }
-            />
+            >{ currencies.map( c => (
+              <option key={ c.value } value={ c.value }>{ c.label }</option>
+            ))}
+            </Select>
           </div>
           <PaperSheet part="center">
             <ProductTable
@@ -165,12 +165,12 @@ export default function UserFormPres( props ) {
             </dt>
             <dd className={`${BASE_CLASS}__references-content`}>
               <div className={`${BASE_CLASS}__references-form`}>
-                <Field
+                <Input
                   name="defaultQuotation[prefix]"
                   label="prefix"
                   value={ defaultQuotation.prefix }
                 />
-                <Field
+                <Input
                   name="defaultQuotation[startAt]"
                   label="start at"
                   value={ defaultQuotation.startAt }
@@ -190,12 +190,12 @@ export default function UserFormPres( props ) {
             </dt>
             <dd className={`${BASE_CLASS}__references-content`}>
               <div className={`${BASE_CLASS}__references-form`}>
-                <Field
+                <Input
                   name="defaultInvoice[prefix]"
                   label="prefix"
                   value={ defaultInvoice.prefix }
                 />
-                <Field
+                <Input
                   name="defaultInvoice[startAt]"
                   label="start at"
                   value={ defaultInvoice.startAt }
@@ -214,20 +214,18 @@ export default function UserFormPres( props ) {
         {/* MENTIONS */}
         <UserFormTile title="Mentions" />
         <div className={`${BASE_CLASS}__mentions`}>
-          <Field
+          <Textarea
             name="defaultQuotation[mentions]"
             label="quotations mention"
             value={ defaultQuotation.mentions }
-            type="textarea"
           />
           <PaperSheet part="bottom">
             <Mentions content={ defaultQuotation.mentions }/>
           </PaperSheet>
-          <Field
+          <Textarea
             name="defaultInvoice[mentions]"
             label="invoice mention"
             value={ defaultInvoice.mentions }
-            type="textarea"
           />
           <PaperSheet part="bottom">
             <Mentions content={ defaultInvoice.mentions }/>

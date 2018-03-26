@@ -1,158 +1,193 @@
 import isNil from 'lodash.isnil'
+import crio from 'crio'
 import React, { PureComponent } from 'react'
 
 import TextareaAutoResize from '../ui/textarea-auto-resize.jsx'
-import './field.scss'
 
+import './field.scss'
 const BASE_CLASS = `field`
+
+//////
+// UTILS
+//////
+
+function isEmpty( value ) {
+  return ( isNil( value ) || value === ``)
+}
+
+// ensure that we have a value in case of controlled component
+// • this will avoid warnings…
+//   …from switching from controlled to uncontrolled components
+function ensureValue( value ) {
+  return isNil( value ) ? `` : value
+}
+
+// pouic[0] => pouic-0
+export function idToClassName( id ) {
+  return id.replace(/\]$/, ``).replace(/[\[\]]/g, '-').toLowerCase()
+}
+
+//////
+// WRAPPER
+//////
 
 // inspired by
 // • https://github.com/muicss/mui/blob/master/src/react/_textfieldHelpers.jsx
-// • TODO: should export <Input /> <Select /> <Textarea />
-
-// normalize props :P
-export default function Field( props ) {
-  const { id, label, type,
-    darkBg,
-    onChange, onBlur,
-    ...others } = props
-  const _id     = id ? id : others.name
-  const _label  = label ? label : _id
-  const _type   = type ? type : `text`
-  const _id2class = _id.replace(/\]$/, ``).replace(/[\[\]]/g, '-').toLowerCase()
-
-  const inputProps = {
-    id:     _id,
-    label:  _label,
-    type:   _type,
-    className: `${BASE_CLASS}__control`,
-    ...others,
-  }
-
-  // ensure that we have a value in case of controlled component
-  // • this will avoid warnings…
-  //   …from switching from controlled to uncontrolled components
-  if ( isNil( props.defaultValue ) ) {
-    const _value  = isNil( props.value ) ? `` : props.value
-    inputProps.value = _value
-  }
-
-  const wrapperClassName = [ BASE_CLASS, `${BASE_CLASS}--${_id2class}`, `${BASE_CLASS}--is-${_type}` ]
-  if ( darkBg ) wrapperClassName.push( `${BASE_CLASS}--dark-background` )
-  const wrapperProps = {
-    className: wrapperClassName.join( ` ` ),
-  }
-
-  return (
-    <FieldInput
-      inputProps={ inputProps }
-      wrapperProps={ wrapperProps }
-      onChange={ onChange }
-      onBlur={ onBlur }
-    />
-  )
-}
-
-class FieldInput extends PureComponent {
-
+const fieldWrapper = ({ControlComponent, fieldType}) => class extends PureComponent {
   constructor( props ) {
     super( props )
-    const { inputProps } = props
 
-    this.state = {
-      // support NO JS cause
-      // • make all floating label float by default
-      isEmpty: false,
-      // isEmpty: isEmpty(('value' in inputProps) ? inputProps.value : inputProps.defaultValue),
-      isTouched: false,
-      isPristine: true
+    this.handleChange = this.handleChange.bind( this )
+    this.handleBlur = this.handleBlur.bind( this )
+
+    const { id, label, darkBg, onChange, onBlur, ...rest } = props
+    const _id     = id ? id : rest.name
+    const _label  = label ? label : _id
+    const _id2class = idToClassName( _id )
+
+    const wrapperClassName = [
+      BASE_CLASS,
+      `${ BASE_CLASS }--${ _id2class }`,
+      `${ BASE_CLASS }--is-${ fieldType }`,
+    ]
+    if ( darkBg ) wrapperClassName.push( `${BASE_CLASS}--dark-background` )
+
+    const wrapperProps = {
+      className: wrapperClassName.join( ` ` ),
     }
-    this.onBlur   = this.onBlur.bind( this )
-    this.onChange = this.onChange.bind( this )
+    const labelProps = {
+      className: `${BASE_CLASS}__label`,
+      htmlFor:    _id,
+      label:      _label,
+    }
+    const controlProps = {
+      id:         _id,
+      className:  `${ BASE_CLASS }__control`,
+      onChange:   this.handleChange,
+      onBlur:     this.handleBlur,
+      ...rest,
+    }
+
+    if ( isNil(props.defaultValue) ) {
+      controlProps.value = ensureValue( props.value )
+    }
+
+    this.state = crio({
+      wrapperProps,
+      labelProps,
+      controlProps,
+      isEmpty:    false,
+      isTouched:  false,
+      isPristine: true,
+    })
   }
-
+  // activate floating label only if JS on client-side
+  // • without JS all label will be stuck by default
+  componentDidMount() {
+    const { controlProps }  = this.state
+    const controlValue      = `value` in controlProps ? controlProps.value
+      : controlProps.defaultValue
+    const isEmptyValue      = isEmpty( controlValue )
+    this.setState( prevState => {
+      return { isEmpty: isEmptyValue }
+    })
+  }
   componentWillReceiveProps( nextProps ) {
-    if ( `value` in nextProps ) {
-      this.setState({ isEmpty: isEmpty(nextProps.value)})
-    }
+    if ( !`value` in nextProps ) return
+    this.setState( prevState => {
+      const value = ensureValue( nextProps.value )
+      return {
+        isEmpty:      isEmpty( value ),
+        controlProps: prevState.controlProps.set( `value`, value )
+      }
+    })
   }
 
   //----- EVENTS
 
-  onChange( e ) {
+  handleChange( event ) {
     const { props } = this
-
-    this.setState({
-      isEmpty: isEmpty( e.target.value ),
-      isPristine: false,
+    // Can't use event in async
+    // • https://reactjs.org/docs/events.html#event-pooling
+    const { value } = event.target
+    this.setState( prevState => {
+      return {
+        isEmpty:    isEmpty( value ),
+        isPristine: false,
+      }
     })
     // execute original callback
-    if ( typeof props.onChange === `function` ) props.onChange( e )
+    if ( typeof props.onChange === `function` ) props.onChange( event )
   }
-  onBlur( e ) {
+  handleBlur( event ) {
     const { props } = this
     // ignore if event is a window blur
     if ( document.activeElement !== this.controlEl ) {
-      this.setState({ isTouched: true })
+      this.setState( prevState => {
+        return { isTouched: true }
+      })
     }
-
     // execute original callback
-    if ( typeof props.onBlur === `function` ) props.onBlur( e )
+    if ( typeof props.onBlur === `function` ) props.onBlur( event )
   }
 
   //----- RENDER
 
-  input() {
-    const { props } = this
-    const { inputProps } = props
-    const handlers = {
-      onBlur:   this.onBlur,
-      onChange: this.onChange,
-    }
-
-    switch ( inputProps.type ) {
-      case `select`:
-        const { options, ...selectProps } = inputProps
-        const hasOptions = Array.isArray( options )
-        return (
-          <select {...selectProps} {...handlers}>
-            { hasOptions && options.map( (option, i) => (
-              <option key={option.id} value={option.id}>{option.name}</option>
-            )) }
-          </select>
-        )
-
-      case `textarea`:
-        return ( <TextareaAutoResize {...inputProps} {...handlers} /> )
-
-      default:
-        return ( <input {...inputProps} {...handlers} /> )
-    }
-  }
   render() {
-    const { props, state } = this
-    const { inputProps } = props
-    const { wrapperProps } = props
+    const { state } = this
+    const { wrapperProps, labelProps, controlProps, isEmpty, isTouched } = state
 
-    const ClassName = [
+    const WrapperClassName = [
       wrapperProps.className,
-      state.isEmpty ? `${BASE_CLASS}--is-empty` : `${BASE_CLASS}--is-not-empty`,
-    ]
+      isEmpty ? `${ BASE_CLASS }--is-empty` : `${ BASE_CLASS }--is-not-empty`,
+      isTouched ? `${ BASE_CLASS }--is-touched` : `${ BASE_CLASS }--is-not-touched`,
+    ].join( ` ` )
 
     return (
-      <div className={ ClassName.join( ` ` ) } >
-        { this.input() }
+      <div className={ WrapperClassName } >
+        <ControlComponent
+          controlRef={ el => { this.controlEl = el } }
+          {...controlProps}
+        />
         <label
-          className={`${BASE_CLASS}__label`}
-          htmlFor={ inputProps.id }
+          className={ labelProps.className }
+          htmlFor={ labelProps.htmlFor }
         >
-          { inputProps.label }
+          { labelProps.label }
         </label>
       </div>
     )
   }
 }
 
-function isEmpty( value ) {
-  return ( isNil( value ) || value === ``)
-}
+//////
+// COMPONENTS
+//////
+
+export const Input = fieldWrapper( {
+  ControlComponent: props => {
+    const { controlRef, ...rest } = props
+    return <input ref={ controlRef } {...rest} />
+  },
+  fieldType: `input`,
+})
+
+export const Textarea = fieldWrapper( {
+  ControlComponent: props => {
+    const { controlRef, ...rest } = props
+    return <TextareaAutoResize ref={ controlRef } {...rest} />
+  },
+  fieldType: `textarea`,
+})
+
+export const Select = fieldWrapper( {
+  ControlComponent: props => {
+    const { children, controlRef,...rest} = props
+    return (
+      <select ref={ controlRef } {...rest}>
+        { children }
+      </ select>
+    )
+  },
+  fieldType: `select`,
+})

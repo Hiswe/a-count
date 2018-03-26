@@ -8,7 +8,7 @@ import * as users from '../../ducks/users'
 import LayoutBoarding from '../../components/layout/boarding.jsx'
 import Form from '../../components/ui/form.jsx'
 import { Button } from '../../components/ui/buttons.jsx'
-import Field from '../../components/ui/field.jsx'
+import { Input } from '../../components/ui/field.jsx'
 
 class Register extends PureComponent {
 
@@ -31,12 +31,12 @@ class Register extends PureComponent {
     return (
       <LayoutBoarding title="Create an account">
         <Form action="/account/register" onSubmit={ this.handleSubmit } >
-          <Field
+          <Input
             name="email"
             type="email"
             defaultValue=""
           />
-          <Field
+          <Input
             name="password"
             type="password"
             defaultValue=""

@@ -4,7 +4,7 @@ import Main from '../layout/main.jsx'
 import PaperSheet, { Party } from '../layout/paper-sheet.jsx'
 import Form from '../ui/form.jsx'
 import { Button } from '../ui/buttons.jsx'
-import Field from '../ui/field.jsx'
+import { Input, Textarea } from '../ui/field.jsx'
 
 import './form.pres.scss'
 
@@ -34,13 +34,12 @@ export default function CustomerFormPres( props ) {
           <Fragment>
             <div className={`${BASE_CLASS}__address`}>
               <fieldset>
-                <Field
+                <Input
                   name="name"
                   value={ formData.name }
                 />
-                <Field
+                <Textarea
                   name="address"
-                  type="textarea"
                   value={ formData.address }
                 />
               </fieldset>
