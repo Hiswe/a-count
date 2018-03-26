@@ -28,6 +28,7 @@ const server = {
   },
   context: __dirname,
   plugins: [
+    // enable source-map server side
     new webpack.BannerPlugin({
       banner: 'require("source-map-support").install();',
       raw: true,
@@ -53,13 +54,7 @@ const server = {
       use: {
         loader: 'babel-loader',
         options: {
-          presets: [
-            [ `@babel/preset-env`, { targets: { node: `current`} } ],
-            `@babel/preset-react`,
-          ],
-          plugins: [
-            `@babel/plugin-proposal-object-rest-spread`,
-          ],
+          babelrc: true,
         },
       },
     }]
@@ -110,14 +105,14 @@ const client = {
       use: {
         loader: `babel-loader`,
         options: {
-          plugins: [
-            `@babel/transform-runtime`,
-            `@babel/plugin-proposal-object-rest-spread`,
-            [ "babel-plugin-transform-require-ignore", { "extensions": [] } ],
-          ],
+          babelrc: false,
           presets: [
             `@babel/preset-env`,
             `@babel/preset-react`,
+          ],
+          plugins: [
+            `@babel/transform-runtime`,
+            `@babel/plugin-proposal-object-rest-spread`,
           ],
         },
       },
