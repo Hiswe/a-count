@@ -54,10 +54,6 @@ async function add( user ) {
   return jwt.accessToken
 }
 
-async function findAllByUserId( userId ) {
-  const result = await redis.find( getSearchByUserId(userId) )
-}
-
 async function check( jwtData ) {
   const userId = await redis.get( getFullJwtKey(jwtData) )
   return userId
@@ -68,9 +64,22 @@ async function remove( jwtData ) {
   await redis.del( getFullJwtKey(jwtData) )
 }
 
+
+async function findAllByUserId( userId ) {
+  const keys = await redis.find( getSearchByUserId(userId) )
+  return keys
+}
+
+async function removeAllFromUser( userId ) {
+  const keys = await findAllByUserId( userId )
+  await redis.del( keys )
+  return keys
+}
+
 module.exports = {
   add,
   findAllByUserId,
   check,
   remove,
+  removeAllFromUser,
 }

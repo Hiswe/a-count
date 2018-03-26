@@ -68,36 +68,36 @@ publicRouter
 
   await connectUser( ctx, user )
 })
-.post( `/reset`, async (ctx, next) => {
-    const { body }  = ctx.request
-    const user = await User.findOne({
-      where: {
-        isDeactivated:  { $not: true },
-        token:          body.token,
-        tokenExpire:    { $gt: Date.now() },
-      }
-    })
-    ctx.assert( user, 404, `link expired` )
-
-    const updatedUser = await user.setPassword( body.password )
-
-    await connectUser( ctx, updatedUser )
-})
 .post( `/forgot`, async (ctx, next) => {
-    const { body }  = ctx.request
-    const user = await User.findOne({
-      where: {
-        email: body.email,
-        isDeactivated: { $not: true },
-      }
-    })
-    ctx.assert( user, 404, `Email not found` )
+  const { body }  = ctx.request
+  const user = await User.findOne({
+    where: {
+      email: body.email,
+      isDeactivated: { $not: true },
+    }
+  })
+  ctx.assert( user, 404, `Email not found` )
 
-    await user.resetPassword( body.redirectUrl )
-    ctx.body = formatResponse({
-      email: user.email,
-      reset: true,
-    })
+  await user.resetPassword( body.redirectUrl )
+  ctx.body = formatResponse({
+    email: user.email,
+    reset: true,
+  })
+})
+.post( `/reset`, async (ctx, next) => {
+  const { body }  = ctx.request
+  const user = await User.findOne({
+    where: {
+      isDeactivated:  { $not: true },
+      token:          body.token,
+      tokenExpire:    { $gt: Date.now() },
+    }
+  })
+  ctx.assert( user, 404, `link expired` )
+
+  const updatedUser = await user.setPassword( body.password )
+  await jwtStore.removeAllFromUser( user.id )
+  await connectUser( ctx, updatedUser )
 })
 
 //////

@@ -61,7 +61,7 @@ export default function reducer( state = initialState, action ) {
     case USER_REGISTER.SUCCESS:
     case USER_LOGIN.SUCCESS:
     case USER_RESET.SUCCESS: {
-      const message = `welcome ${ payload.name || payload.email }`
+      const message = `welcome ${ payload.user.name || payload.user.email }`
       return notifySuccess( state, message )
     }
     case USER_FORGOT.SUCCESS: {
