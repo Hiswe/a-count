@@ -41,7 +41,7 @@ router
 //----- NEW
 
 .get(`/new`, async (ctx, next) => {
-  const { user } = ctx.session
+  const { user } = ctx.state
   const body = {
     user,
   }
@@ -61,7 +61,7 @@ router
   ctx.body = formatResponse( modelTemplate )
 })
 .post(`/new`,  async (ctx, next) => {
-  const { user } = ctx.session
+  const { user } = ctx.state
   const { body } = ctx.request
   const customer = await Customer.findById( body.customerId )
 
