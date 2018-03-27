@@ -42,8 +42,21 @@ test( `filter and add an empty line at the end`, t => {
 })
 
 test( `return an empty array if nothing is passed`, t => {
-  let result = recompute( {} )
+  let result = recompute( {} ).thaw()
   t.deepEqual( result, [], `return a filtered array with an empty line at the end` )
+})
+
+test( `add an empty line on every situation`, t => {
+  let result = recompute( {
+    defaultProduct: defaultProduct.merge( {} ),
+    products: []
+  } )
+  t.is( result.length, 1, `add an empty line on a empty products` )
+  result = recompute( {
+    defaultProduct: defaultProduct.merge( {} ),
+    products: [ defaultProduct.set( `quantity`, 1 ), ]
+  } )
+  t.is( result.length, 2, `add an empty line with products` )
 })
 
 test( `add id to elements without if`, t => {

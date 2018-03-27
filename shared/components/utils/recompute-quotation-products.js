@@ -8,7 +8,10 @@ import filterArrayWithObject from './filter-array-with-object.js'
 // • remove duplicated default products
 // • add an empty line at the end
 // • generate ids for react “key” attribute
-export default function recomputeQuotationProducts({defaultProduct, products}) {
+export default function recomputeQuotationProducts( data ) {
+  let { defaultProduct = false, products = [] } = data
+  if ( !defaultProduct ) return crio( [] )
+
   defaultProduct = crio( defaultProduct )
   products = crio( products )
 
@@ -16,7 +19,6 @@ export default function recomputeQuotationProducts({defaultProduct, products}) {
     defaultObject:  defaultProduct,
     array:          products,
   })
-  if ( !filtered.length ) return filtered
   const withDefaultProducts = filtered.push( merge({}, defaultProduct) )
   const withId = withDefaultProducts.map( product => {
     if ( !product.get(`_id`) ) return product.set( `_id`, shortid() )
