@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import fawo from './filter-array-with-object.js'
+import filter from './filter-array-with-object.js'
 
 const testObject = {
   string: `bar`,
@@ -11,7 +11,7 @@ const testObject = {
   falseBoolean: false,
 }
 
-const modifiedObject =  Object.assign({}, testObject, {emptyString: `baz`})
+const modifiedObject =  Object.assign( {}, testObject, {emptyString: `baz`} )
 
 const testArray = [
   {...testObject},
@@ -20,30 +20,30 @@ const testArray = [
 ]
 
 test( `no default object & no array`, t => {
-  t.deepEqual( fawo({}), [], `return an empty array`  )
+  t.deepEqual( filter({}), [], `return an empty array` )
 })
 
 test( `no default object`, t => {
-  t.deepEqual( fawo({array: testArray}), testArray, `return the original array` )
+  t.deepEqual( filter({array: testArray}), testArray, `return the original array` )
 })
 
 test( `no array`, t => {
-  t.deepEqual( fawo({defaultObject: testObject}), [], `return an empty array`  )
+  t.deepEqual( filter({defaultObject: testObject}), [], `return an empty array` )
 })
 
 test( `regular case`, t => {
-  let result = fawo({
+  let result = filter({
     defaultObject: testObject,
     array: testArray,
   })
-  t.deepEqual( result, [ modifiedObject ], `return only the modified object`  )
+  t.deepEqual( result, [ modifiedObject ], `return only the modified object` )
 })
 
 test( `coerce type`, t => {
-  let modObj = Object.assign({}, testObject, {number: `10`})
-  let result = fawo({
+  let modObj = Object.assign( {}, testObject, {number: `10`} )
+  let result = filter({
     defaultObject: testObject,
     array: [{...testObject}, modObj],
   })
-  t.deepEqual( result, [], `return only the modified object`  )
+  t.deepEqual( result, [], `return only the modified object` )
 })

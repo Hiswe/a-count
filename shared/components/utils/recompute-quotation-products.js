@@ -1,5 +1,6 @@
 import shortid from 'shortid'
 import merge from 'lodash.merge'
+import crio from 'crio'
 
 import filterArrayWithObject from './filter-array-with-object.js'
 
@@ -8,12 +9,14 @@ import filterArrayWithObject from './filter-array-with-object.js'
 // • add an empty line at the end
 // • generate ids for react “key” attribute
 export default function recomputeQuotationProducts({defaultProduct, products}) {
+  defaultProduct = crio( defaultProduct )
+  products = crio( products )
+
   const filtered = filterArrayWithObject({
     defaultObject:  defaultProduct,
     array:          products,
   })
   if ( !filtered.length ) return filtered
-
   const withDefaultProducts = filtered.push( merge({}, defaultProduct) )
   const withId = withDefaultProducts.map( product => {
     if ( !product.get(`_id`) ) return product.set( `_id`, shortid() )
