@@ -1,7 +1,7 @@
 import crio from 'crio'
 import shortid from 'shortid'
 
-import createActionNames from './helpers/create-action-names.js'
+import createActionNames from './utils/create-action-names.js'
 
 import {
   GET_ONE as QUOTATION_GET_ONE,

@@ -17,7 +17,7 @@ const server = {
   entry:  path.join( __dirname, `./server/index.js` ),
   output: {
     filename: `server.js`,
-    path:     path.resolve(__dirname, `dist`),
+    path:     path.resolve( __dirname, `dist` ),
   },
   // this will prevent bundling node native modules
   target: `node`,
@@ -52,7 +52,7 @@ const server = {
         path.resolve( __dirname, `shared` ),
       ],
       use: {
-        loader: 'babel-loader',
+        loader: `babel-loader`,
         options: {
           babelrc: true,
         },
@@ -71,7 +71,7 @@ const client = {
   entry:  `./client/index.jsx`,
   output: {
     filename: `concompte.js`,
-    path:     path.resolve( __dirname, 'public' )
+    path:     path.resolve( __dirname, `public` )
   },
   plugins: [
     new webpack.DefinePlugin({

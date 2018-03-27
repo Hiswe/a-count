@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import serialize from 'form-serialize'
 
 import * as customers from '../../ducks/customers'
-import needRedirect from '../helpers/need-redirection.js'
+import needRedirect from '../utils/need-redirection.js'
 
 import Spinner from '../ui/spinner.jsx'
 import CustomerFormPres from './form.pres.jsx'
