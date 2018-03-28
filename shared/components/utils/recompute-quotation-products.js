@@ -9,17 +9,13 @@ import filterArrayWithObject from './filter-array-with-object.js'
 // • add an empty line at the end
 // • generate ids for react “key” attribute
 export default function recomputeQuotationProducts( data ) {
-  let { defaultProduct = false, products = [] } = data
-  if ( !defaultProduct ) return crio( [] )
-
-  defaultProduct = crio( defaultProduct )
-  products = crio( products )
-
+  const { defaultProduct = false, products = crio([]) } = data
   const filtered = filterArrayWithObject({
     defaultObject:  defaultProduct,
     array:          products,
   })
-  const withDefaultProducts = filtered.push( merge({}, defaultProduct) )
+  if ( !defaultProduct ) return filtered
+  const withDefaultProducts = filtered.push( defaultProduct.merge(null) )
   const withId = withDefaultProducts.map( product => {
     if ( !product.get(`_id`) ) return product.set( `_id`, shortid() )
     return product

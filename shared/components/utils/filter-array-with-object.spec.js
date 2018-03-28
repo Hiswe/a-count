@@ -1,49 +1,61 @@
 import test from 'ava'
+import crio from 'crio'
 
 import filter from './filter-array-with-object.js'
 
-const testObject = {
-  string: `bar`,
-  emptyString: ``,
-  number: 10,
-  emptyNumber: 0,
-  boolean: true,
-  falseBoolean: false,
-}
-
-const modifiedObject =  Object.assign( {}, testObject, {emptyString: `baz`} )
-
-const testArray = [
-  {...testObject},
-  {...modifiedObject},
-  {...testObject},
-]
-
 test( `no default object & no array`, t => {
-  t.deepEqual( filter({}), [], `return an empty array` )
+  const result = filter({})
+  t.true( crio.isArray(result),  `return a crio array` )
+  t.is( result.length, 0, `return an empty array` )
 })
 
 test( `no default object`, t => {
-  t.deepEqual( filter({array: testArray}), testArray, `return the original array` )
+  const array = crio([{foo: `bar`}])
+  const result = filter({array})
+  t.deepEqual( result, array, `return the original array` )
 })
 
 test( `no array`, t => {
-  t.deepEqual( filter({defaultObject: testObject}), [], `return an empty array` )
+  const defaultObject = crio({foo: `bar`})
+  const result = filter({defaultObject})
+  t.true( crio.isArray(result),  `return a crio array` )
+  t.is( result.length, 0, `return an empty array` )
+})
+
+test( `no crio array`, t => {
+  const defaultObject = crio({foo: `bar`} )
+  const array = [{foo: `bar`}]
+  const result = filter({defaultObject, array})
+  t.true( crio.isArray(result),  `return a crio array` )
+  t.is( result.length, 0, `return an empty array` )
+})
+
+test( `no crio default Object`, t => {
+  const defaultObject = {foo: `bar`}
+  const array = crio([{foo: `bar`}])
+  const result = filter({defaultObject, array})
+  t.deepEqual( result, array, `return original array` )
 })
 
 test( `regular case`, t => {
-  let result = filter({
-    defaultObject: testObject,
-    array: testArray,
-  })
-  t.deepEqual( result, [ modifiedObject ], `return only the modified object` )
+  const defaultObject = crio({foo: `bar`})
+  const array = crio([{foo: `bar`}, {foo: `baz`}])
+  const result = filter({defaultObject, array})
+  t.true( crio.isArray(result), `return a crio array` )
+  t.is( result.length, 1, `array has been filtered` )
+  t.is( result.get(`[0].foo`), `baz`, `the right elements have been filtered` )
 })
 
 test( `coerce type`, t => {
-  let modObj = Object.assign( {}, testObject, {number: `10`} )
-  let result = filter({
-    defaultObject: testObject,
-    array: [{...testObject}, modObj],
-  })
-  t.deepEqual( result, [], `return only the modified object` )
+  const defaultObject = crio({foo: `2`, howMuch: 2})
+  const array = crio([{foo: 2, howMuch: `2`}])
+  const result = filter({defaultObject, array})
+  t.is( result.length, 0, `stringed number has been filtered` )
+})
+
+test( `only check default object keys`, t => {
+  const defaultObject = crio({foo: `bar`})
+  const array = crio([{foo: `bar`, id: 36}])
+  const result = filter({defaultObject, array})
+  t.is( result.length, 0, `even with an extraneous key, result is still filtered` )
 })
