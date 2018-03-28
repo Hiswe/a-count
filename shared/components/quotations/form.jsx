@@ -114,10 +114,8 @@ class QuotationForm extends Component {
     if ( name === `stepper-display-form` ) return
 
     this.setState( prevState => {
-      // cast automatically to the same type
       const type = typeof prevState.formData.get( name)
-      const _value = type === `number` ? parseFloat( value, 10 ) : value
-      const updated = prevState.formData.set( name, _value )
+      const updated = prevState.formData.set( name, value )
 
       // update customer state if we choose a new one
       if ( name === `customerId` ) return {

@@ -1,19 +1,12 @@
 import React, { Fragment } from 'react'
 
-import * as compute from '../_compute.js'
+import * as compute from '../utils/compute-total.js'
 import Table from '../ui/table.jsx'
 import Amount from '../ui/amount.jsx'
 
 const TotalFooter = props => {
   const { products, tax } = props
-  const isValidTax      = Number.isFinite( tax )
-  const isValidProducts = Array.isArray( products )
-  const canShowTotal = isValidTax && isValidProducts
-  const errorMessage = canShowTotal ? false
-    : isValidTax ? `invalid product`
-    : `invalid tax`
-  const totals = canShowTotal ? compute.totals( products, tax )
-    : { net: false, tax: false, all: false }
+  const totals = compute.totals( products, tax )
   return (
     <Fragment>
       <tr>
@@ -22,7 +15,6 @@ const TotalFooter = props => {
           <Amount
             value={ totals.net }
             currency={ props.currency }
-            errorMessage={ errorMessage }
           />
         </td>
         <td></td>
@@ -33,7 +25,6 @@ const TotalFooter = props => {
           <Amount
             value={ totals.tax }
             currency={ props.currency }
-            errorMessage={ errorMessage }
           />
         </td>
         <td></td>
@@ -44,7 +35,6 @@ const TotalFooter = props => {
           <Amount
             value={ totals.all }
             currency={ props.currency }
-            errorMessage={ errorMessage }
           />
         </td>
         <td></td>

@@ -1,7 +1,8 @@
 import React from 'react'
 
-import * as compute from '../_compute.js'
+import * as compute from '../utils/compute-total.js'
 import Amount from '../ui/amount.jsx'
+import TextareaAutoResize from '../ui/textarea-auto-resize.jsx'
 
 // only use defaultValue
 // • handleChange is handled globally at the form level
@@ -9,14 +10,12 @@ import Amount from '../ui/amount.jsx'
 const Line = props => {
   const { fieldPath, product, readOnly, currency } = props
   const total = compute.productTotal( product )
-  const rows = compute.textareaRows( product.description )
   return (
     <tr>
       <td>{
         readOnly ? <p>{ product.description }</p>
-          : <textarea
+          : <TextareaAutoResize
           name={`${fieldPath}[description]`}
-          rows={ rows }
           defaultValue={ product.description }
         />
       }</td>
