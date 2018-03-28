@@ -7,7 +7,7 @@ import { Button, BtnLink } from '../ui/buttons.jsx'
 import { Input, Textarea, Select } from '../ui/field.jsx'
 import Markdown from '../ui/markdown.jsx'
 import Stepper, { Step } from '../ui/stepper.jsx'
-import NewProductTable from '../products/table.jsx'
+import ProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
 
 import './form.pres.scss'
@@ -78,7 +78,7 @@ export default function QuotationFormPres( props ) {
                 name="name"
                 value={ formData.name }
               />
-              <NewProductTable
+              <ProductTable
                 products={ products }
                 tax={ formData.tax }
                 currency={ user.defaultQuotation.currency }
@@ -93,11 +93,18 @@ export default function QuotationFormPres( props ) {
                       product={ product }
                       currency={ user.defaultQuotation.currency }
                     >
-                      { !isLast && <BtnLink onClick={ e => handleProductRemove(index, fieldPath) } type="button">remove</BtnLink> }
+                      { !isLast && (
+                        <BtnLink
+                          onClick={ e => handleProductRemove(index, fieldPath) }
+                          type="button"
+                        >
+                          remove
+                        </BtnLink>
+                      ) }
                     </ProductLine>
                   )
                 }) }
-              </NewProductTable>
+              </ProductTable>
               <Mentions content={ user.defaultQuotation.mentions }/>
             </PaperSheet>
             <div className={ `${BASE_CLASS}__actions` }>

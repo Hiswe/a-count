@@ -37,7 +37,6 @@
   // facing blocks
   > :not(#{$root}__party) {
     grid-column: 1 / span 2;
-    margin-top: var(--s-gutter);
   }
 
   &__reference {
@@ -104,7 +103,7 @@
     display: grid;
     grid-template-columns: 2fr 1fr;
     grid-gap: var(--s-gutter);
-    padding-top: var(--s-gutter);
+    padding-top: var(--s-two-gutter);
 
     &::after {
       content: '';
