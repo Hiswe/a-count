@@ -43,9 +43,9 @@ const QuotationRow = props => {
       </td>
       <td></td>
       {/* {status.date ? <QuotationStatus status={status} /> : <td>-</td>} */}
-      <td><Amount value={quotation.tax} /></td>
-      <td><Amount value={quotation._total.net} /></td>
-      <td><Amount value={quotation._total.all} /></td>
+      <td className="is-number"><Amount value={quotation.tax} /></td>
+      <td className="is-number"><Amount value={quotation._total.net} /></td>
+      <td className="is-number"><Amount value={quotation._total.all} /></td>
     </tr>
   )
 }

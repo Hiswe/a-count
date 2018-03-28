@@ -3,7 +3,7 @@ import React, {  Fragment } from 'react'
 import Main from '../layout/main.jsx'
 import PaperSheet, { Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
 import Form from '../ui/form.jsx'
-import { Button } from '../ui/buttons.jsx'
+import { Button, BtnLink } from '../ui/buttons.jsx'
 import { Input, Textarea, Select } from '../ui/field.jsx'
 import Markdown from '../ui/markdown.jsx'
 import Stepper, { Step } from '../ui/stepper.jsx'
@@ -93,7 +93,7 @@ export default function QuotationFormPres( props ) {
                       product={ product }
                       currency={ user.defaultQuotation.currency }
                     >
-                      { !isLast && <button onClick={ e => handleProductRemove(index, fieldPath) } type="button">remove</button> }
+                      { !isLast && <BtnLink onClick={ e => handleProductRemove(index, fieldPath) } type="button">remove</BtnLink> }
                     </ProductLine>
                   )
                 }) }

@@ -41,6 +41,8 @@
   }
 
   .is-action {
+    text-align: center;
+
     @media print {
       display: none;
     }
@@ -51,9 +53,10 @@
       text-align: right;
     }
 
+    a,
     .amount,
     p {
-      display: block;
+      display: inline-block;
       margin: 0;
       padding: 0.5em 0.75em;
     }
@@ -88,9 +91,6 @@
   }
 
   &--pres {
-    td {
-      padding: var(--s-quarter-gutter) var(--s-half-gutter);
-    }
     tbody tr:nth-child(even) {
       background: #EEE;
     }

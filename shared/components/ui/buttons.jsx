@@ -45,3 +45,14 @@ export function BtnFab( props ) {
     {...others}
   />
 )}
+
+export function BtnLink( props ) {
+  const { className, ...others } = props
+  const btnClass = [ `${BASE_CLASS}--link` ]
+  if ( className ) btnClass.push( className )
+  return (
+  <Button
+    className={ btnClass.join(` `) }
+    {...others}
+  />
+)}

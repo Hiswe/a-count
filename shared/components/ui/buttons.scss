@@ -59,4 +59,15 @@
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     }
   }
+
+  &--link {
+    background: none;
+    color: var(--c-accent);
+    border: 0;
+    padding: 0.5em 0.75em;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

@@ -27,9 +27,6 @@ function ConnectedNav( props )  {
   return (
     <Fragment>
       <li className="nav-main__item">
-        connected as<br /> {props.email}
-      </li>
-      <li className="nav-main__item">
         <NavLink to="/" exact activeClassName="is-active">home</NavLink>
       </li>
       <li className="nav-main__item">
@@ -42,7 +39,10 @@ function ConnectedNav( props )  {
       <li className="nav-main__item">
         <NavLink to="/profile" activeClassName="is-active">profile</NavLink>
       </li>
-      <li className="nav-main__item  nav-main__item--separator">
+      <li className="nav-main__item nav-main__item--separator">
+        connected as<br /> {props.email}
+      </li>
+      <li className="nav-main__item">
         <LogoutButton logout={ props.logout} />
       </li>
     </Fragment>
