@@ -26,6 +26,11 @@
     background: var(--c-table-header);
     color: white;
 
+    @media print {
+      // box-shadow as a background for print
+      box-shadow: inset var(--c-table-header) 0 0 0 100px;
+    }
+
     + th {
       border-left: 1px solid var(--c-primary);
     }
@@ -33,6 +38,12 @@
 
   tr {
     vertical-align: top;
+  }
+
+  .is-action {
+    @media print {
+      display: none;
+    }
   }
 
   td {
@@ -74,12 +85,6 @@
     width: 100%;
     border: 0;
     display: block;
-  }
-  tfoot td {
-    border-top: 1px solid var(--c-primary-lighter);
-    background-color: var(--c-primary-lightest);
-    text-align: right;
-    font-weight: bold;
   }
 
   &--pres {

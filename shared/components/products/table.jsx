@@ -4,12 +4,15 @@ import * as compute from '../utils/compute-total.js'
 import Table from '../ui/table.jsx'
 import Amount from '../ui/amount.jsx'
 
+import './table.scss'
+const BASE_CLASS = `product-total`
+
 const TotalFooter = props => {
   const { products, tax } = props
   const totals = compute.totals( products, tax )
   return (
-    <Fragment>
-      <tr>
+    <tfoot className={ BASE_CLASS }>
+      <tr className={`${BASE_CLASS}__line`}>
         <td colSpan="3"><p>Total net</p></td>
         <td>
           <Amount
@@ -17,9 +20,9 @@ const TotalFooter = props => {
             currency={ props.currency }
           />
         </td>
-        <td></td>
+        <td className="is-action"></td>
       </tr>
-      <tr>
+      <tr className={`${BASE_CLASS}__line`}>
         <td colSpan="3"><p>Taxes</p></td>
         <td>
           <Amount
@@ -27,9 +30,9 @@ const TotalFooter = props => {
             currency={ props.currency }
           />
         </td>
-        <td></td>
+        <td className="is-action"></td>
       </tr>
-      <tr>
+      <tr className={`${BASE_CLASS}__line`}>
         <td colSpan="3"><p>Total with taxes</p></td>
         <td>
           <Amount
@@ -37,17 +40,24 @@ const TotalFooter = props => {
             currency={ props.currency }
           />
         </td>
-        <td></td>
+        <td className="is-action"></td>
       </tr>
-    </Fragment>
+    </tfoot>
   )
 }
 
 const ProductTable = props => {
   const { products, tax, currency } = props
+  const columns = [
+    {label: `description`},
+    {label: `quantity`},
+    {label: `unit price`},
+    {label: `total`},
+    {label: ``, className: `is-action`},
+  ]
   return (
     <Table
-      columns="description, quantity, unit price, total, "
+      columns={ columns }
       footer={ <TotalFooter {...props} /> }
     >
       { props.children }

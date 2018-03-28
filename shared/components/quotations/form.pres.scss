@@ -4,11 +4,18 @@
     grid-template-columns: 1fr 150px;
     grid-gap: var(--s-gutter) var(--s-two-gutter);
 
+    @media print {
+      display: none;
+    }
     .stepper {
       grid-column: 1 / span 2;
     }
   }
   &__actions {
     margin-top: var(--s-gutter);
+
+    @media print {
+      display: none;
+    }
   }
 }

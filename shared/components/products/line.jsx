@@ -41,7 +41,7 @@ const Line = props => {
       <td className="is-total is-number">
         <Amount value={ total } currency={ currency } />
       </td>
-      <td>
+      <td className="is-action">
         { props.children }
       </td>
     </tr>

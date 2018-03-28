@@ -4,6 +4,10 @@
   height: var(--s-nav-top-height);
   background: var(--c-nav-secondary);
 
+  @media print {
+    display: none;
+  }
+
   &__sentinel {
     position: absolute;
     width: 100%;

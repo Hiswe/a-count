@@ -24,6 +24,10 @@
     box-shadow: 0 15px 10px var(--sheet-shadow-color);
     border-radius: var(--sheet-border-radius);
     transform: rotate(-3deg);
+
+    @media print {
+      display: none;
+    }
   }
   &::after {
     transform: rotate(3deg);

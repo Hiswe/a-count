@@ -10,6 +10,10 @@
   width: var(--s-nav-main-width);
   bottom: 0;
 
+  @media print {
+    display: none;
+  }
+
   &__in,
   &__item {
     list-style: none;
@@ -77,4 +81,8 @@
   left: 0;
   width: var(--s-nav-main-width);
   height: var(--s-nav-top-height);
+
+  @media print {
+    display: none;
+  }
 }

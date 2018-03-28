@@ -1,0 +1,19 @@
+.product-total {
+  background-color: var(--c-primary-lightest);
+  text-align: right;
+  font-weight: bold;
+  border-top: 1px solid var(--c-primary-lighter);
+
+  td {
+    border: none;
+  }
+  &__line td {
+    border-top: 1px solid var(--c-primary-lighter);
+  }
+  &__line td + td {
+    border-left: none;
+  }
+  &__line + &__line td {
+    border: none;
+  }
+}

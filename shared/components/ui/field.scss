@@ -36,6 +36,10 @@
     outline: none;
     border-radius: 0;
 
+    @media print {
+      border: 0;
+    }
+
     &:focus {
       --field-label-color: var(--c-accent);
       box-shadow: 0 1px 0 0 var(--field-label-color);
@@ -70,6 +74,10 @@
     padding: var(--field-padding);
     transform-origin: top left;
     transition: transform .2s;
+
+    @media print {
+      display: none;
+    }
 
     #{ $control }:focus + & {
       color: var(--c-accent);
