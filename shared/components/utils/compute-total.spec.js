@@ -3,9 +3,19 @@ import crio from 'crio'
 
 import {
   roundToNearestQuarter as round,
+  enforceNumber,
   productTotal,
   totals,
 } from './compute-total.js'
+
+test( `enforce number`, t => {
+  t.is( enforceNumber(25), 25, `numbers are kept` )
+  t.is( enforceNumber(`25`), 25, `strings are converted to number` )
+  t.is( enforceNumber(`0.25`), 0.25, `strings can be converted to float` )
+  t.is( enforceNumber(`0,25`), 0, `strings float should be in the right format` )
+  t.is( enforceNumber(`foo`), 0, `invalid strings are converted to 0` )
+  t.is( enforceNumber(true), 0, `invalid params are converted to 0` )
+})
 
 test( `round to nearest quarter`, t => {
   t.is( round(0), 0, `0 → 0` )

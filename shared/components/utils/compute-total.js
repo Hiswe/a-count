@@ -4,7 +4,7 @@ export function roundToNearestQuarter( number ) {
 }
 
 export function enforceNumber( number ) {
-  number = typeof number === `string` ? parseFloat( number, 10 ) : number
+  number = typeof number !== `number` ? parseFloat( number, 10 ) : number
   return isNaN( number ) ? 0 : number
 }
 
