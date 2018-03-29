@@ -7,12 +7,18 @@ import crio from 'crio'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import { IntlProvider, addLocaleData } from 'react-intl'
+import en from 'react-intl/locale-data/en'
+import fr from 'react-intl/locale-data/fr'
 
 import routes from '../shared/routes'
+import locales from '../shared/locales/index.js'
 import reducers from '../shared/ducks/combined-reducers'
 
 const $root             = document.querySelector('#react-main-mount')
 const initialState      = window.__INITIAL_STATE__ || {}
+
+addLocaleData( [...en, ...fr] )
 // Redux combineReducers only accept plain objects
 // • We don't want to use any other combine reducer function that handle immutables
 // • but we want all the inner values to be immutable
@@ -28,9 +34,13 @@ const store = createStore(reducers, crioState, composeWithDevTools(applyMiddlewa
 
 hydrate((
   <Provider store={store}>
-    <BrowserRouter>
-      {/* generates routes with react-router-config */}
-      { renderRoutes(routes) }
-    </BrowserRouter>
+    {/* <I18nextProvider i18n={ i18n } ns="translations"> */}
+    <IntlProvider locale={ `fr` } messages={ locales.fr } >
+      <BrowserRouter>
+        {/* generates routes with react-router-config */}
+        { renderRoutes(routes) }
+      </BrowserRouter>
+    </IntlProvider>
+    {/* </I18nextProvider> */}
   </Provider>
 ), $root)

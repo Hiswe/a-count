@@ -2,6 +2,7 @@ import React, { Fragment, PureComponent } from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 
 import * as users from '../../ducks/users'
 
@@ -27,7 +28,9 @@ function ConnectedNav( props )  {
   return (
     <Fragment>
       <li className="nav-main__item">
-        <NavLink to="/" exact activeClassName="is-active">home</NavLink>
+        <NavLink to="/" exact activeClassName="is-active">
+          <FormattedMessage id="nav.home" />
+        </NavLink>
       </li>
       <li className="nav-main__item">
         <NavLink to="/quotations" activeClassName="is-active">quotations</NavLink>
@@ -53,7 +56,9 @@ function ConnectionNav( props ) {
   return (
     <Fragment>
       <li className="nav-main__item">
-        <NavLink to="/account/login" activeClassName="is-active">login</NavLink>
+        <NavLink to="/account/login" activeClassName="is-active">
+          <FormattedMessage id="nav.login" />
+        </NavLink>
       </li>
       <li className="nav-main__item">
         <NavLink to="/account/register" activeClassName="is-active">register</NavLink>

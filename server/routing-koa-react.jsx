@@ -7,12 +7,14 @@ import { StaticRouter } from 'react-router-dom'
 import { renderRoutes, matchRoutes } from 'react-router-config'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
+import { IntlProvider } from 'react-intl'
 import thunk from 'redux-thunk'
 
 import log from './_log.js'
 import config from './config.js'
 import routes from '../shared/routes.js'
 import reducer from '../shared/ducks/combined-reducers.js'
+import * as locales from '../shared/locales'
 
 const router = new Router()
 
@@ -56,10 +58,14 @@ router.get( '*', async (ctx, next) => {
   // console.log( store.getState() )
   const content = renderToString(
     <Provider store={store}>
-      <StaticRouter location={url} context={staticContext}>
-        {/* renderRoutes will render the right components */}
-        { renderRoutes(routes) }
-      </StaticRouter>
+      {/* <I18nextProvider i18n={ i18n } initialLanguage="fr" ns="translations"> */}
+      <IntlProvider locale={ `fr` }  messages={ locales.fr } >
+        <StaticRouter location={url} context={staticContext}>
+          {/* renderRoutes will render the right components */}
+          { renderRoutes(routes) }
+        </StaticRouter>
+      </IntlProvider>
+      {/* </I18nextProvider> */}
     </Provider>
   )
 

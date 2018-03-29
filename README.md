@@ -52,6 +52,7 @@ available:
 #### components
 
 - https://www.muicss.com/docs/v1/react/forms
+- https://github.com/nfl/react-helmet
 
 #### components architecture
 
