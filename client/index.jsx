@@ -12,7 +12,7 @@ import en from 'react-intl/locale-data/en'
 import fr from 'react-intl/locale-data/fr'
 
 import routes from '../shared/routes'
-import locales from '../shared/locales/index.js'
+import * as locales from '../shared/locales/index.js'
 import reducers from '../shared/ducks/combined-reducers'
 
 const $root             = document.querySelector('#react-main-mount')
@@ -34,13 +34,11 @@ const store = createStore(reducers, crioState, composeWithDevTools(applyMiddlewa
 
 hydrate((
   <Provider store={store}>
-    {/* <I18nextProvider i18n={ i18n } ns="translations"> */}
     <IntlProvider locale={ `fr` } messages={ locales.fr } >
       <BrowserRouter>
         {/* generates routes with react-router-config */}
         { renderRoutes(routes) }
       </BrowserRouter>
     </IntlProvider>
-    {/* </I18nextProvider> */}
   </Provider>
 ), $root)
