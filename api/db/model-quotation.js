@@ -1,7 +1,7 @@
 'use strict'
 
 const Sequelize = require( 'sequelize' )
-const isNil = require( 'lodash/isnil' )
+const isNil = require( 'lodash.isnil' )
 const merge = require( 'lodash.merge' )
 const omit = require( 'lodash.omit' )
 
