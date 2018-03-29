@@ -9,6 +9,7 @@ import LayoutBoarding from '../../components/layout/boarding.jsx'
 import Form from '../../components/ui/form.jsx'
 import { Button } from '../../components/ui/buttons.jsx'
 import { Input } from '../../components/ui/field.jsx'
+import { injectIntl, FormattedMessage } from 'react-intl'
 
 class Register extends PureComponent {
 
@@ -27,9 +28,13 @@ class Register extends PureComponent {
 
   render() {
     const { props } = this
+    const { intl } = props
 
     return (
-      <LayoutBoarding title="Create an account">
+      <LayoutBoarding title={intl.formatMessage({
+        id: `account.register.title`,
+        defaultMessage: `register`,
+      })}>
         <Form action="/account/register" onSubmit={ this.handleSubmit } >
           <Input
             name="email"
@@ -39,9 +44,15 @@ class Register extends PureComponent {
           <Input
             name="password"
             type="password"
+            label={intl.formatMessage({
+              id: `field.password`,
+              defaultMessage: `password`,
+            })}
             defaultValue=""
           />
-          <Button type="submit">Create account</Button>
+          <Button type="submit">
+            <FormattedMessage id="account.register.button" defaultValue="Create" />
+          </Button>
         </Form>
       </LayoutBoarding>
     )
@@ -49,7 +60,7 @@ class Register extends PureComponent {
 }
 
 export default connect()( ConnectDataFetcher({
-  Component: Register,
+  Component: injectIntl( Register ),
   actionCreators: [
   ],
 }) )

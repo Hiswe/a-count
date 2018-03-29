@@ -86,7 +86,9 @@ function ConnectionNav( props ) {
         </NavLink>
       </li>
       <li className="nav-main__item">
-        <NavLink to="/account/forgot" activeClassName={ ACTIVE_CLASS }>forgot</NavLink>
+        <NavLink to="/account/forgot" activeClassName={ ACTIVE_CLASS }>
+          <FormattedMessage id="nav.forgot" defaultMessage="forgot" />
+        </NavLink>
       </li>
     </Fragment>
   )

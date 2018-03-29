@@ -10,6 +10,7 @@ import LayoutBoarding from '../../components/layout/boarding.jsx'
 import Form from '../../components/ui/form.jsx'
 import { Button } from '../../components/ui/buttons.jsx'
 import { Input } from '../../components/ui/field.jsx'
+import { injectIntl, FormattedMessage } from 'react-intl'
 
 class Reset extends PureComponent {
 
@@ -30,18 +31,31 @@ class Reset extends PureComponent {
 
   render() {
     const { props, state } = this
+    const { intl } = props
 
     return (
-      <LayoutBoarding title="Reset">
+      <LayoutBoarding title={intl.formatMessage({
+        id: `account.reset.title`,
+        defaultMessage: `Reset`,
+      })}>
         <Form id="login" action="/account/reset" onSubmit={ this.handleSubmit } >
-          <p>Set your new password here</p>
+          <p>
+            <FormattedMessage id="account.reset.notice" defaultValue="Set your new password here" />
+
+          </p>
           <input type="hidden" name="token" defaultValue={state.token} />
           <Input
             name="password"
             type="password"
+            label={intl.formatMessage({
+              id: `field.password`,
+              defaultMessage: `password`,
+            })}
             defaultValue=""
           />
-          <Button type="submit">reset password</Button>
+          <Button type="submit">
+            <FormattedMessage id="account.reset.button" defaultValue="reset password" />
+          </Button>
         </Form>
       </LayoutBoarding>
     )
@@ -59,7 +73,7 @@ function dispatch2prop( dispatch ) {
 }
 
 export default connect( null, dispatch2prop )( ConnectDataFetcher({
-  Component: Reset,
+  Component: injectIntl( Reset ),
   actionCreators: [
   ],
 }) )

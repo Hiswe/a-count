@@ -9,4 +9,18 @@ export default {
   'nav.login': `connexion`,
   'nav.register': `enregistrement`,
   'nav.forgot': `mot de passe oublié`,
+
+  'account.login.title': `connexion`,
+  'account.login.button': `se connecter`,
+  'account.register.title': `Créer un compte`,
+  'account.register.button': `créer`,
+  'account.forgot.title': `Mot de passe oublié ?`,
+  'account.forgot.notice': `Après avoir validé, vous recevrez par email un lien de réinitialisation`,
+  'account.forgot.button': `Envoyer le lien`,
+  'account.reset.title': `Réinitialisation du mot de passe`,
+  'account.reset.notice': `Veuillez rentrer votre nouveau mot de passe`,
+  'account.reset.button': `Réinitialiser`,
+
+  'field.email': `email`,
+  'field.password': `mot de passe`,
 }
