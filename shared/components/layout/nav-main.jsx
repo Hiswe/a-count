@@ -2,11 +2,14 @@ import React, { Fragment, PureComponent } from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
 import * as users from '../../ducks/users'
 
 import './nav-main.scss'
+const BASE_CLASS = `nav-main`
+const ITEM_CLASS = `${BASE_CLASS}__item`
+const ACTIVE_CLASS = `is-active`
 
 class LogoutButton extends PureComponent {
   constructor( props ) {
@@ -19,7 +22,9 @@ class LogoutButton extends PureComponent {
   }
   render() {
     return (
-      <a href="/account/logout" onClick={ this.logout }>logout</a>
+      <a href="/account/logout" onClick={ this.logout }>
+        <FormattedMessage id="nav.logout" defaultMessage="logout" />
+      </a>
     )
   }
 }
@@ -27,25 +32,40 @@ class LogoutButton extends PureComponent {
 function ConnectedNav( props )  {
   return (
     <Fragment>
-      <li className="nav-main__item">
-        <NavLink to="/" exact activeClassName="is-active">
-          <FormattedMessage id="nav.home" />
+      <li className={ ITEM_CLASS }>
+        <NavLink to="/" exact activeClassName={ ACTIVE_CLASS }>
+          <FormattedMessage id="nav.home" defaultMessage="home" />
         </NavLink>
       </li>
-      <li className="nav-main__item">
-        <NavLink to="/quotations" activeClassName="is-active">quotations</NavLink>
+      <li className={ ITEM_CLASS }>
+        <NavLink to="/quotations" activeClassName={ ACTIVE_CLASS }>
+          <FormattedMessage id="nav.quotations" defaultMessage="quotations" />
+        </NavLink>
       </li>
-      {/* <li><NavLink to="/invoices">invoices</NavLink></li> */}
-      <li className="nav-main__item">
-        <NavLink to="/customers" activeClassName="is-active">customers</NavLink>
+      {/*
+      <li className={ ITEM_CLASS }>
+        <NavLink to="/invoices" activeClassName={ ACTIVE_CLASS }>
+          <FormattedMessage id="nav.invoices" defaultMessage="invoices" />
+        </NavLink>
       </li>
-      <li className="nav-main__item">
-        <NavLink to="/profile" activeClassName="is-active">profile</NavLink>
+      */}
+      <li className={ ITEM_CLASS }>
+        <NavLink to="/customers" activeClassName={ ACTIVE_CLASS }>
+          <FormattedMessage id="nav.customers" defaultMessage="customers" />
+        </NavLink>
       </li>
-      <li className="nav-main__item nav-main__item--separator">
-        connected as<br /> {props.email}
+      <li className={ ITEM_CLASS }>
+        <NavLink to="/profile" activeClassName={ ACTIVE_CLASS }>
+          <FormattedMessage id="nav.profile" defaultMessage="profile" />
+        </NavLink>
       </li>
-      <li className="nav-main__item">
+      <li className={`${ITEM_CLASS} ${ITEM_CLASS}--separator`}>
+        <FormattedHTMLMessage
+          id="nav.connected"
+          defaultMessage="connected as <br/> {email}"
+          values={{email: props.email}} />
+      </li>
+      <li className={ ITEM_CLASS }>
         <LogoutButton logout={ props.logout} />
       </li>
     </Fragment>
@@ -56,15 +76,17 @@ function ConnectionNav( props ) {
   return (
     <Fragment>
       <li className="nav-main__item">
-        <NavLink to="/account/login" activeClassName="is-active">
-          <FormattedMessage id="nav.login" />
+        <NavLink to="/account/login" activeClassName={ ACTIVE_CLASS }>
+          <FormattedMessage id="nav.login" defaultMessage="login" />
         </NavLink>
       </li>
       <li className="nav-main__item">
-        <NavLink to="/account/register" activeClassName="is-active">register</NavLink>
+        <NavLink to="/account/register" activeClassName={ ACTIVE_CLASS }>
+          <FormattedMessage id="nav.register" defaultMessage="register" />
+        </NavLink>
       </li>
       <li className="nav-main__item">
-        <NavLink to="/account/forgot" activeClassName="is-active">forgot</NavLink>
+        <NavLink to="/account/forgot" activeClassName={ ACTIVE_CLASS }>forgot</NavLink>
       </li>
     </Fragment>
   )
