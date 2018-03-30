@@ -33,9 +33,8 @@ export function Percent( props ) {
 }
 
 export function Date( props ) {
-  return (
-    <FormattedDate value={ props.value } />
-  )
+  if ( !props.value ) return null
+  return <FormattedDate value={ props.value } />
 }
 
 export function Markdown( props ) {
