@@ -24,7 +24,9 @@ export function Reference( props ) {
   const REF_CLASS = `${BASE_CLASS}__reference`
   return (
     <header className={REF_CLASS}>
-      <h3 className={`${REF_CLASS}-type`}>{ type }</h3>
+      <h3 className={`${REF_CLASS}-type`}>
+        <FormattedMessage id={`paper-sheet.reference.${ type }`} />
+      </h3>
       <h4 className={`${REF_CLASS}-id`}>Ref. { reference }</h4>
       <p className={`${REF_CLASS}-date`}>date: { formatDate(updatedAt, `DD/MM/YY`) }</p>
     </header>

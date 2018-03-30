@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import { formatDate } from '../_helpers.js'
 import DatePicker from '../ui/date-picker.jsx'
@@ -48,7 +49,9 @@ export function Step( props ) {
         defaultChecked={ checked }
       />
       <div className="stepper__step" >
-        <label className="stepper__button" htmlFor={id}>{ step.label }</label>
+        <label className="stepper__button" htmlFor={id}>
+          { step.label && <FormattedMessage id={`stepper.${step.label}`} /> }
+        </label>
         <div className="stepper__content">
           <DatePicker
             value={ step.value }

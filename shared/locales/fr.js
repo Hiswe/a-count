@@ -14,13 +14,12 @@ export default {
   'field.password': `mot de passe`,
   'field.name': `nom`,
   'field.address': `adresse`,
+  'field.customer': `client`,
+  'field.tax': `taxe`,
+  'field.subject': `objet`,
 
   'customer.button.create': `Créer le client`,
   'customer.button.update': `Mettre à jour`,
-
-  'paper-sheet.party.from': `Émetteur :`,
-  'paper-sheet.party.to': `Adressé à :`,
-  'paper-sheet.party.no-address': `Pas d'adresse définie`,
 
   'page.home': `accueil`,
   'page.quotations': `devis`,
@@ -35,14 +34,30 @@ export default {
   'page.register': `enregistrement`,
   'page.forgot': `mot de passe oublié`,
 
+  'paper-sheet.reference.quotation': `Devis`,
+  'paper-sheet.reference.invoice': `Facture`,
+  'paper-sheet.party.from': `Émetteur :`,
+  'paper-sheet.party.to': `Adressé à :`,
+  'paper-sheet.party.no-address': `Pas d'adresse définie`,
+
   'quotation.create': `créer`,
+  'quotation.button.create': `Créer le nouveau devis`,
+  'quotation.button.update': `Mettre à jour le devis`,
+
+  'stepper.send': `envoyé le :`,
+  'stepper.validated': `validé le :`,
+  'stepper.signed': `signé le :`,
 
   'table.header.id': `#`,
   'table.header.name': `nom`,
   'table.header.customer': `client`,
   'table.header.status': `statut`,
   'table.header.tax': `taxe`,
-  'table.header.value-ht': `montant HT`,
-  'table.header.value': `total`,
   'table.header.quotation-count': `nombre de devis`,
+  'table.header.description': `description`,
+  'table.header.quantity': `quantité`,
+  'table.header.unit-price': `prix unitaire`,
+  'table.amount-ht': `montant HT`,
+  'table.amount-taxes': `taxes`,
+  'table.amount': `total`,
 }

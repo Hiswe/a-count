@@ -1,4 +1,5 @@
 import React, {  Fragment } from 'react'
+import { injectIntl, FormattedMessage } from 'react-intl'
 
 import Main from '../layout/main.jsx'
 import PaperSheet, { Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
@@ -14,8 +15,9 @@ import './form.pres.scss'
 
 export const BASE_CLASS = `quotation-form`
 
-export default function QuotationFormPres( props ) {
+function QuotationFormPres( props ) {
   const {
+    intl,
     user,
     customers,
     formData,
@@ -30,8 +32,7 @@ export default function QuotationFormPres( props ) {
   const { products } = formData
   const hasProducts = Array.isArray( products )
   const productsLength = hasProducts ? products.length : 0
-  const submitMsg   = isSaving ? `saving…`
-    : `${isNew ? 'Create' : 'Update'} quotation`
+  const submitI18nId =  `quotation.button.${isNew ? 'create' : 'update'}`
 
   return (
     <Form
@@ -49,7 +50,7 @@ export default function QuotationFormPres( props ) {
               handleDayChange={ handleDayChange }
             />
             <Select darkBg
-              label="customer"
+              label={intl.formatMessage({ id: `field.customer` })}
               name="customerId"
               value={ formData.customerId }
               options={ customers }
@@ -61,6 +62,7 @@ export default function QuotationFormPres( props ) {
             </Select>
             <Input darkBg
               name="tax"
+              label={intl.formatMessage({ id: `field.tax` })}
               type="number"
               min="0"
               step="0.5"
@@ -72,10 +74,11 @@ export default function QuotationFormPres( props ) {
           <Fragment>
             <PaperSheet>
               <Reference type="quotation" product={ formData } />
-              <Party title="quotation from" {...user} />
-              <Party title="quotation to" {...customer} />
+              <Party title="from" {...user} />
+              <Party title="to" {...customer} />
               <Input
                 name="name"
+                label={intl.formatMessage({ id: `field.subject` })}
                 value={ formData.name }
               />
               <ProductTable
@@ -108,7 +111,9 @@ export default function QuotationFormPres( props ) {
               <Mentions content={ user.defaultQuotation.mentions }/>
             </PaperSheet>
             <div className={ `${BASE_CLASS}__actions` }>
-              <Button type="submit">{ submitMsg }</Button>
+              <Button type="submit">
+                <FormattedMessage id={ submitI18nId } />
+              </Button>
             </div>
           </Fragment>
         )}
@@ -116,3 +121,5 @@ export default function QuotationFormPres( props ) {
     </Form>
   )
 }
+
+export default injectIntl( QuotationFormPres )

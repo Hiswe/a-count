@@ -14,7 +14,7 @@ export function Th( props ) {
   const { label, ...rest } = props
   return (
     <th {...rest}>
-      <FormattedMessage id={label.trim()} />
+      { label && <FormattedMessage id={label.trim()} /> }
     </th>
   )
 }

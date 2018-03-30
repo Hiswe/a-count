@@ -62,8 +62,8 @@ function QuotationTable( props ) {
         {label: `table.header.customer`},
         {label: `table.header.status`},
         {label: `table.header.tax`},
-        {label: `table.header.value-ht`},
-        {label: `table.header.value`},
+        {label: `table.amount-ht`},
+        {label: `table.amount`},
       ]}
       className="table--pres"
     >

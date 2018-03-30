@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import * as compute from '../utils/compute-total.js'
 import Table from '../ui/table.jsx'
@@ -13,7 +14,9 @@ const TotalFooter = props => {
   return (
     <tfoot className={ BASE_CLASS }>
       <tr className={`${BASE_CLASS}__line`}>
-        <td colSpan="3"><p>Total net</p></td>
+        <td colSpan="3">
+          <p><FormattedMessage id="table.amount-ht"/></p>
+        </td>
         <td>
           <Amount
             value={ totals.net }
@@ -23,7 +26,9 @@ const TotalFooter = props => {
         <td className="is-action"></td>
       </tr>
       <tr className={`${BASE_CLASS}__line`}>
-        <td colSpan="3"><p>Taxes</p></td>
+        <td colSpan="3">
+          <p><FormattedMessage id="table.amount-taxes"/></p>
+        </td>
         <td>
           <Amount
             value={ totals.tax }
@@ -33,7 +38,9 @@ const TotalFooter = props => {
         <td className="is-action"></td>
       </tr>
       <tr className={`${BASE_CLASS}__line`}>
-        <td colSpan="3"><p>Total with taxes</p></td>
+        <td colSpan="3">
+          <p><FormattedMessage id="table.amount"/></p>
+        </td>
         <td>
           <Amount
             value={ totals.all }
@@ -49,11 +56,11 @@ const TotalFooter = props => {
 const ProductTable = props => {
   const { products, tax, currency } = props
   const columns = [
-    {label: `description`},
-    {label: `quantity`},
-    {label: `unit price`},
-    {label: `total`},
-    {label: ``, className: `is-action`},
+    {label: `table.header.description`},
+    {label: `table.header.quantity`},
+    {label: `table.header.unit-price`},
+    {label: `table.amount`},
+    {label: false, className: `is-action`},
   ]
   return (
     <Table
