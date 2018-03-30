@@ -12,7 +12,6 @@ import 'moment/locale/fr'
 
 import './date-picker.scss'
 
-
 // using https://react-day-picker.js.org/
 
 const disabledDays = {

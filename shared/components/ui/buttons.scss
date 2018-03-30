@@ -10,6 +10,7 @@
   --button-bg-color: var(--c-accent);
   --button-text-color: white;
   --button-fab-size: 1.75em;
+  --button-icon-size: 2rem;
   border: 2px solid;
   padding: .75em 1em;
   border-radius: var(--s-quarter-gutter);
@@ -71,6 +72,29 @@
 
     &:hover {
       text-decoration: underline;
+    }
+  }
+
+  &--icon {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size);
+    border-radius: var(--button-icon-size);
+    padding: 0;
+    position: relative;
+    --button-bg-color: white;
+    --button-text-color: var(--c-accent);
+    border: 0;
+
+    &:hover {
+      --button-bg-color: var(--c-accent);
+      --button-text-color: var(--c-accent-lightest);
+    }
+
+    .svg-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
   }
 }

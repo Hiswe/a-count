@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import Icon from './svg-icons.jsx'
+
 import './buttons.scss'
 const BASE_CLASS = `button`
 
@@ -29,10 +31,10 @@ export function BtnSecondary( props ) {
   const btnClass = [ `${BASE_CLASS}--secondary` ]
   if ( className ) btnClass.push( className )
   return (
-  <Button
-    className={ btnClass.join(` `) }
-    {...others}
-  />
+    <Button
+      className={ btnClass.join(` `) }
+      {...others}
+    />
 )}
 
 export function BtnFab( props ) {
@@ -40,10 +42,10 @@ export function BtnFab( props ) {
   const btnClass = [ `${BASE_CLASS}--fab` ]
   if ( className ) btnClass.push( className )
   return (
-  <Button
-    className={ btnClass.join(` `) }
-    {...others}
-  />
+    <Button
+      className={ btnClass.join(` `) }
+      {...others}
+    />
 )}
 
 export function BtnLink( props ) {
@@ -51,8 +53,21 @@ export function BtnLink( props ) {
   const btnClass = [ `${BASE_CLASS}--link` ]
   if ( className ) btnClass.push( className )
   return (
-  <Button
-    className={ btnClass.join(` `) }
-    {...others}
-  />
+    <Button
+      className={ btnClass.join(` `) }
+      {...others}
+    />
+)}
+
+export function BtnIcon( props ) {
+  const { className, svgId, ...others } = props
+  const btnClass = [ `${BASE_CLASS}--icon` ]
+  if ( className ) btnClass.push( className )
+  return (
+    <Button
+      className={ btnClass.join(` `) }
+      {...others}
+    >
+      <Icon svgId={svgId} />
+    </Button>
 )}

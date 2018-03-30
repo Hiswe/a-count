@@ -4,9 +4,10 @@ import { injectIntl, FormattedMessage } from 'react-intl'
 import Main from '../layout/main.jsx'
 import { PaperSheet, Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
 import Form from '../ui/form.jsx'
-import { Button, BtnLink } from '../ui/buttons.jsx'
+import { Button, BtnLink, BtnIcon } from '../ui/buttons.jsx'
 import { Input, Textarea, Select } from '../ui/field.jsx'
 import { Stepper, Step } from '../ui/stepper.jsx'
+import Icon from '../ui/svg-icons.jsx'
 import ProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
 
@@ -96,12 +97,11 @@ function QuotationFormPres( props ) {
                       currency={ user.defaultQuotation.currency }
                     >
                       { !isLast && (
-                        <BtnLink
+                        <BtnIcon
                           onClick={ e => handleProductRemove(index, fieldPath) }
                           type="button"
-                        >
-                          remove
-                        </BtnLink>
+                          svgId="delete"
+                        />
                       ) }
                     </ProductLine>
                   )
