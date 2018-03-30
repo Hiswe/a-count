@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom'
 
 import Table from '../ui/table.jsx'
 import EmptyLine from '../ui/table-empty-line.jsx'
-import Amount from '../ui/amount.jsx'
-import FakeId from '../ui/fake-id.jsx'
+import { Amount, Percent } from '../ui/format-number.jsx'
 
 //----- TBODY
 
@@ -24,11 +23,7 @@ function QuotationRow( props ) {
     <tr>
       <td>
         <Link to={`/quotations/${quotation.id}`}>
-          <FakeId
-            count={ quotation.index }
-            prefix={ defaultQuotation.prefix }
-            startAt={ defaultQuotation.startAt }
-          />
+          { quotation.reference }
         </Link>
       </td>
       <td>
@@ -43,9 +38,21 @@ function QuotationRow( props ) {
       </td>
       <td></td>
       {/* {status.date ? <QuotationStatus status={status} /> : <td>-</td>} */}
-      <td className="is-number"><Amount value={quotation.tax} /></td>
-      <td className="is-number"><Amount value={quotation._total.net} /></td>
-      <td className="is-number"><Amount value={quotation._total.all} /></td>
+      <td className="is-number">
+        <Percent value={quotation.tax} />
+      </td>
+      <td className="is-number">
+        <Amount
+          value={quotation._total.net}
+          currency={ defaultQuotation.currency }
+        />
+      </td>
+      <td className="is-number">
+        <Amount
+          value={quotation._total.all}
+          currency={ defaultQuotation.currency }
+        />
+      </td>
     </tr>
   )
 }
