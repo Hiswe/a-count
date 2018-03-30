@@ -55,7 +55,7 @@ function ConnectedNav( props )  {
         </NavLink>
       </li>
       <li className={ ITEM_CLASS }>
-        <NavLink to="/profile" activeClassName={ ACTIVE_CLASS }>
+        <NavLink to="/account/settings" activeClassName={ ACTIVE_CLASS }>
           <FormattedMessage id="page.settings" defaultMessage="settings" />
         </NavLink>
       </li>

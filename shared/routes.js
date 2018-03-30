@@ -7,7 +7,7 @@ import Register from './pages/account/register.jsx'
 import Forgot from './pages/account/forgot.jsx'
 import Reset from './pages/account/reset.jsx'
 import Home from './pages/home.jsx'
-import UserEdit from './pages/users/edit.jsx'
+import Settings from './pages/account/settings.jsx'
 import QuotationsList from './pages/quotations/list.jsx'
 import QuotationsNew from './pages/quotations/new.jsx'
 import QuotationsEdit from './pages/quotations/edit.jsx'
@@ -39,9 +39,9 @@ const routes = [{
     exact: true,
     component: authenticationRequired( Home ),
   }, {
-    path: `/profile`,
+    path: `/account/settings`,
     exact: true,
-    component: authenticationRequired( UserEdit ),
+    component: authenticationRequired( Settings ),
   }, {
     path: `/quotations`,
     exact: true,
