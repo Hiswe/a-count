@@ -13,15 +13,15 @@
     "webpack:watch": "webpack --config webpack.config.js --watch --display minimal",
     "server": "node dist/server.js",
     "api": "NODE_DEBUG=api,api:db node api/index.js",
-    "applications": "parallelshell \"yarn run server\" \"yarn run api\"",
+    "applications": "parallelshell \"npm run server\" \"npm run api\"",
     "server:dev": "nodemon dist/server.js --config nodemon.json",
     "api:dev": "NODE_DEBUG=api,api:db,api:mailing node-dev api/index.js --no-deps --no-notify",
     "api:dev:nodemon": "nodemon api/index.js --config nodemon.api.json",
-    "applications:dev": "parallelshell \"yarn run api:dev\"  \"yarn run server:dev\" --verbose",
+    "applications:dev": "parallelshell \"npm run api:dev\"  \"npm run server:dev\" --verbose",
     "browsersync": "browser-sync start --config browser-sync-config.js",
     "test": "ava --verbose",
-    "dev:no-build": "parallelshell \"yarn run webpack:watch\" \"yarn run applications:dev\" \"yarn run browsersync\"",
-    "dev": "yarn run webpack:build && yarn run dev:no-build"
+    "dev:no-build": "parallelshell \"npm run webpack:watch\" \"npm run applications:dev\" \"npm run browsersync\"",
+    "dev": "npm run webpack:build && npm run dev:no-build"
   },
   "ava": {
     "files": [
