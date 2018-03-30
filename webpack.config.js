@@ -71,7 +71,7 @@ const client = {
   entry:  `./client/index.jsx`,
   output: {
     filename: `concompte.js`,
-    path:     path.resolve( __dirname, `public` )
+    path:     path.resolve( __dirname, `server/public` )
   },
   plugins: [
     new webpack.DefinePlugin({

@@ -1,7 +1,7 @@
 node_modules
-public/*.js
-public/*.css
-public/*.map
+server/public/*.js
+server/public/*.css
+server/public/*.map
 /dist
 dump.rdb
 

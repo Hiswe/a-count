@@ -24,7 +24,7 @@ const app = new Koa()
 
 app.use( bodyParser() )
 app.use( compress() )
-app.use( serveStatic(path.join(__dirname, `../public`)) )
+app.use( serveStatic(path.join(__dirname, `./public`)) )
 
 // format json https://github.com/koajs/json
 app.use( json() )
