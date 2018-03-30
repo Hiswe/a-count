@@ -10,7 +10,7 @@ import { Provider } from 'react-redux'
 import { IntlProvider } from 'react-intl'
 import thunk from 'redux-thunk'
 
-import log from './_log.js'
+import log from './log.js'
 import config from './config.js'
 import routes from '../shared/routes.js'
 import reducer from '../shared/ducks/combined-reducers.js'

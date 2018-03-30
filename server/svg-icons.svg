@@ -1,0 +1,6 @@
+<svg class="svg-icon-library" xmlns="http://www.w3.org/2000/svg">
+<symbol id="icon-add" viewBox="0 0 24 24"> <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/> </symbol>
+<symbol id="icon-note-add" viewBox="0 0 24 24"> <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 14h-3v3h-2v-3H8v-2h3v-3h2v3h3v2zm-3-7V3.5L18.5 9H13z"/> </symbol>
+<symbol id="icon-person-add" viewBox="0 0 24 24"> <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/> </symbol>
+<symbol id="icon-view-list" viewBox="0 0 24 24"> <path d="M4 14h4v-4H4v4zm0 5h4v-4H4v4zM4 9h4V5H4v4zm5 5h12v-4H9v4zm0 5h12v-4H9v4zM9 5v4h12V5H9z"/> </symbol>
+</svg>

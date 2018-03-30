@@ -66,7 +66,6 @@
 *::after {
   box-sizing: border-box;
 }
-
 html,
 body {
   margin: 0;
@@ -79,18 +78,15 @@ body {
 a {
   text-decoration: none;
 }
-
 input,
 textarea,
 select,
 button {
   font: inherit;
 }
-
 input[type=number] {
   text-align: right;
 }
-
 fieldset {
   border: 0;
   margin: 0;
