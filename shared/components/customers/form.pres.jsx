@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { injectIntl, FormattedMessage } from 'react-intl'
 
 import Main from '../layout/main.jsx'
 import PaperSheet, { Party } from '../layout/paper-sheet.jsx'
@@ -7,19 +8,18 @@ import { Button } from '../ui/buttons.jsx'
 import { Input, Textarea } from '../ui/field.jsx'
 
 import './form.pres.scss'
-
 export const BASE_CLASS = `customer-form`
 
-export default function CustomerFormPres( props ) {
+function CustomerFormPres( props ) {
   const {
     handleSubmit,
     handleFormChange,
     formData,
+    intl,
   } = props
   const { isSaving } = formData
   const isNew = formData.id == null
-  const submitMsg   = isSaving ? `saving…`
-    : `${isNew ? 'Create' : 'Update'} customer`
+  const submitI18nId =  `customer.button.${isNew ? 'create' : 'update'}`
 
   return (
       <Form
@@ -36,10 +36,18 @@ export default function CustomerFormPres( props ) {
               <fieldset>
                 <Input
                   name="name"
+                  label={intl.formatMessage({
+                    id: `field.name`,
+                    defaultMessage: `name`,
+                  })}
                   value={ formData.name }
                 />
                 <Textarea
                   name="address"
+                  label={intl.formatMessage({
+                    id: `field.address`,
+                    defaultMessage: `address`,
+                  })}
                   value={ formData.address }
                 />
               </fieldset>
@@ -48,7 +56,9 @@ export default function CustomerFormPres( props ) {
               </PaperSheet>
             </div>
             <div className="actions">
-              <Button type="submit"> { submitMsg }</Button>
+              <Button type="submit">
+                <FormattedMessage id={ submitI18nId } />
+              </Button>
             </div>
           </Fragment>
         )}
@@ -56,3 +66,5 @@ export default function CustomerFormPres( props ) {
     </Form>
   )
 }
+
+export default injectIntl( CustomerFormPres )

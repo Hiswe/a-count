@@ -9,6 +9,7 @@ import * as customers from '../../ducks/customers.js'
 import NavSecondary from '../../components/layout/nav-secondary.jsx'
 import Main from '../../components/layout/main.jsx'
 import { BtnFab } from '../../components/ui/buttons.jsx'
+import Icon from '../../components/ui/svg-icons.jsx'
 import CustomersTable from '../../components/customers/list.jsx'
 import { ButtonNew } from '../../components/customers/secondary-nav-actions.jsx'
 
@@ -28,7 +29,9 @@ function Customers( props ) {
           <CustomersTable />
         )}
       />
-      <BtnFab to="/customers/new">+</BtnFab>
+      <BtnFab to="/customers/new">
+        <Icon svgId="person-add" />
+      </BtnFab>
     </Fragment>
   )
 }

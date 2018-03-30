@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { injectIntl } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers'
@@ -9,9 +10,14 @@ import CustomerForm from '../../components/customers/form.jsx'
 import { ButtonList, ButtonSubmit } from '../../components/customers/secondary-nav-actions.jsx'
 
 const NewCustomer = props => {
+  const { intl } = props
+
   return (
     <Fragment>
-      <NavSecondary title="New Customer">
+      <NavSecondary title={intl.formatMessage({
+        id: `page.customers.new`,
+        defaultMessage: `new customer`,
+      })}>
         <ButtonList />
         <ButtonSubmit />
       </NavSecondary>
@@ -21,7 +27,7 @@ const NewCustomer = props => {
 }
 
 export default connect()( ConnectDataFetcher({
-  Component: NewCustomer,
+  Component: injectIntl( NewCustomer ),
   actionCreators: [
     customers.getOne
   ],

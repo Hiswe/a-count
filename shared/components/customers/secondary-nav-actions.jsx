@@ -7,7 +7,7 @@ import { BASE_CLASS } from './form.pres.jsx'
 export function ButtonList() {
   return (
     <BtnSecondary to="/customers">
-      <Icon svgId="icon-view-list" />
+      <Icon svgId="view-list" />
     </BtnSecondary>
   )
 }
@@ -22,10 +22,10 @@ export function ButtonNew() {
 
 export function ButtonSubmit( props ) {
   const { isSaving } = props
-  const submitMsg = isSaving ? `saving…` : `save`
+  const iconName = isSaving ? `block` : `save`
   return (
     <Button form={ BASE_CLASS } disabled={ isSaving } type="submit">
-      { submitMsg }
+      <Icon  svgId={ iconName } />
     </Button>
   )
 }

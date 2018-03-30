@@ -1,9 +1,10 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import { formatDate } from '../_helpers.js'
 import Markdown from '../ui/markdown.jsx'
-import './paper-sheet.scss'
 
+import './paper-sheet.scss'
 const BASE_CLASS = `paper-sheet`
 
 export default function PaperSheet( props ) {
@@ -35,7 +36,9 @@ export function Party( props ) {
   const PARTY_CLASS = `${BASE_CLASS}__party`
   return (
     <aside className={`${PARTY_CLASS}`}>
-      <p className={`${PARTY_CLASS}-title`}>{ title }</p>
+      <p className={`${PARTY_CLASS}-title`}>
+        <FormattedMessage id={`paper-sheet.party.${ title }`} />
+      </p>
       <h4 className={`${PARTY_CLASS}-name`}>{ people.name }</h4>
       <PartyAddress content={ people.address} PARTY_CLASS={PARTY_CLASS} />
     </aside>
@@ -46,7 +49,7 @@ function PartyAddress( props ) {
   const { content, PARTY_CLASS } = props
   if ( !content ) return (
     <p className={`${PARTY_CLASS}-address ${PARTY_CLASS}-address--empty`}>
-      no address defined
+      <FormattedMessage id="paper-sheet.party.no-address" />
     </p>
   )
   return <Markdown text={content} />

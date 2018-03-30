@@ -3,12 +3,27 @@
   height: 24px;
 }
 
+.icon-block {
+  width: 24px;
+  height: 24px;
+}
+
 .icon-note-add {
   width: 24px;
   height: 24px;
 }
 
 .icon-person-add {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-remove-circle {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-save {
   width: 24px;
   height: 24px;
 }

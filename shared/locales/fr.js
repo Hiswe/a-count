@@ -1,15 +1,4 @@
 export default {
-  'page.home': `accueil`,
-  'page.quotations': `devis`,
-  'page.invoices': `factures`,
-  'page.customers': `clients`,
-  'page.settings': `configuration`,
-  'page.connected': `connecté en tant que:<br/>{email}`,
-  'page.logout': `déconnexion`,
-  'page.login': `connexion`,
-  'page.register': `enregistrement`,
-  'page.forgot': `mot de passe oublié`,
-
   'account.login.title': `connexion`,
   'account.login.button': `se connecter`,
   'account.register.title': `Créer un compte`,
@@ -23,6 +12,27 @@ export default {
 
   'field.email': `email`,
   'field.password': `mot de passe`,
+  'field.name': `nom`,
+  'field.address': `adresse`,
+
+  'customer.button.create': `Créer le client`,
+  'customer.button.update': `Mettre à jour`,
+
+  'paper-sheet.party.from': `Émetteur :`,
+  'paper-sheet.party.to': `Adressé à :`,
+  'paper-sheet.party.no-address': `Pas d'adresse définie`,
+
+  'page.home': `accueil`,
+  'page.quotations': `devis`,
+  'page.invoices': `factures`,
+  'page.customers': `clients`,
+  'page.customers.new': `nouveau client`,
+  'page.settings': `configuration`,
+  'page.connected': `connecté en tant que:<br/>{email}`,
+  'page.logout': `déconnexion`,
+  'page.login': `connexion`,
+  'page.register': `enregistrement`,
+  'page.forgot': `mot de passe oublié`,
 
   'quotation.create': `créer`,
 
