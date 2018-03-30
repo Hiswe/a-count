@@ -120,9 +120,10 @@ fieldset {
     border-width: 2px 1px 1px;
     border-color: transparent transparent var(--tab-inactive-border);
     margin-bottom: -1px;
+    color: var(--c-primary);
 
     &--selected {
-      color: var(--c-accent);
+      color: var(--c-text);
       border-color: var(--c-primary) var(--tab-inactive-border) var(--c-background);
     }
   }

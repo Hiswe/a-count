@@ -24,9 +24,10 @@ export function ButtonNew( props ) {
 export function ButtonSubmit( props ) {
   const { isSaving } = props
   const iconName = isSaving ? `block` : `save`
+
   return (
     <Button form={ BASE_CLASS } disabled={ isSaving } type="submit">
-      <Icon  svgId={ iconName } />
+      <Icon svgId={ iconName } />
     </Button>
   )
 }

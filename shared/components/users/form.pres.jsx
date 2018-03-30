@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import { injectIntl, FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
 import Main from '../layout/main.jsx'
 import PaperSheet, { Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
@@ -9,11 +11,10 @@ import Markdown from '../ui/markdown.jsx'
 import ProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
 import { ButtonSubmit } from'./secondary-nav-actions.jsx'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
 import './form.pres.scss'
-
 export const BASE_CLASS = `profile-form`
+
 const customerExample = {
   name: `Customer name`,
   address: `123 6th St.
@@ -22,16 +23,9 @@ AUSTRALIA
 `
 }
 
-function UserFormTile( props ) {
-  return (
-    <h3 className={`${BASE_CLASS}__title`}>
-      <span>{ props.title }</span>
-    </h3>
-  )
-}
-
-export default function UserFormPres( props ) {
+function UserFormPres( props ) {
   const {
+    intl,
     formData,
     handleFormChange,
     handleSubmit,
@@ -86,10 +80,18 @@ export default function UserFormPres( props ) {
 
       <Main content={() => (<Tabs>
         <TabList>
-          <Tab>From information</Tab>
-          <Tab>Default product information</Tab>
-          <Tab>Reference Format</Tab>
-          <Tab>Mentions</Tab>
+          <Tab>
+            <FormattedMessage id="configuration.tab.from" />
+          </Tab>
+          <Tab>
+            <FormattedMessage id="configuration.tab.default-product" />
+          </Tab>
+          <Tab>
+            <FormattedMessage id="configuration.tab.mentions" />
+          </Tab>
+          <Tab>
+            <FormattedMessage id="configuration.tab.reference" />
+          </Tab>
         </TabList>
 
         {/* USER */}
@@ -101,10 +103,12 @@ export default function UserFormPres( props ) {
             <div className={`${BASE_CLASS}__user-form`}>
               <Input
                 name="name"
+                label={intl.formatMessage({ id: `field.name` })}
                 value={ formData.name }
               />
               <Textarea
                 name="address"
+                label={intl.formatMessage({ id: `field.address` })}
                 value={ formData.address }
               />
             </div>
@@ -117,24 +121,24 @@ export default function UserFormPres( props ) {
             <div className={`${BASE_CLASS}__product-form`}>
               <Textarea
                 name="defaultProduct[description]"
-                label="description"
+                label={intl.formatMessage({ id: `field.description` })}
                 value={ defaultProduct.description }
               />
               <Input
                 name="defaultProduct[quantity]"
-                label="quantity"
+                label={intl.formatMessage({ id: `field.quantity` })}
                 type="number"
                 value={ defaultProduct.quantity }
               />
               <Input
                 name="defaultQuotation[tax]"
-                label="tax"
+                label={intl.formatMessage({ id: `field.tax` })}
                 type="number"
                 value={ defaultQuotation.tax }
               />
               <Select
                 name="defaultQuotation[currency]"
-                label="currency"
+                label={intl.formatMessage({ id: `field.currency` })}
                 value={ defaultQuotation.currency }
               >{ currencies.map( c => (
                 <option key={ c.value } value={ c.value }>{ c.label }</option>
@@ -160,28 +164,48 @@ export default function UserFormPres( props ) {
           </div>
         </TabPanel>
 
+        {/* MENTIONS */}
+        <TabPanel>
+            <div className={`${BASE_CLASS}__mentions`}>
+            <Textarea
+              name="defaultQuotation[mentions]"
+              label={intl.formatMessage({ id: `configuration.mentions.quotations` })}
+              value={ defaultQuotation.mentions }
+            />
+            <PaperSheet part="bottom">
+              <Mentions content={ defaultQuotation.mentions }/>
+            </PaperSheet>
+            <Textarea
+              name="defaultInvoice[mentions]"
+              label={intl.formatMessage({ id: `configuration.mentions.invoices` })}
+              value={ defaultInvoice.mentions }
+            />
+            <PaperSheet part="bottom">
+              <Mentions content={ defaultInvoice.mentions }/>
+            </PaperSheet>
+          </div>
+        </TabPanel>
+
         {/* REFERENCES */}
         <TabPanel>
           <p className={`${BASE_CLASS}__warning`}>
-            Changing <strong>startAt number</strong> will change all the concerned type's references
-            <br />
-            Be cautious!
+            <FormattedHTMLMessage id="configuration.reference.warning" />
           </p>
           <div className={`${BASE_CLASS}__references`}>
             <dl className={`${BASE_CLASS}__references-section`}>
               <dt className={`${BASE_CLASS}__sub-title`}>
-                Quotations
+                <FormattedMessage id="page.quotations" />
               </dt>
               <dd className={`${BASE_CLASS}__references-content`}>
                 <div className={`${BASE_CLASS}__references-form`}>
                   <Input
                     name="defaultQuotation[prefix]"
-                    label="prefix"
+                    label={intl.formatMessage({ id: `field.prefix` })}
                     value={ defaultQuotation.prefix }
                   />
                   <Input
                     name="defaultQuotation[startAt]"
-                    label="start at"
+                    label={intl.formatMessage({ id: `field.start-at` })}
                     value={ defaultQuotation.startAt }
                     type="number"
                     min="0"
@@ -195,18 +219,18 @@ export default function UserFormPres( props ) {
             </dl>
             <dl className={`${BASE_CLASS}__references-section`}>
               <dt className={`${BASE_CLASS}__sub-title`}>
-                Invoices
+                <FormattedMessage id="page.invoices" />
               </dt>
               <dd className={`${BASE_CLASS}__references-content`}>
                 <div className={`${BASE_CLASS}__references-form`}>
                   <Input
                     name="defaultInvoice[prefix]"
-                    label="prefix"
+                    label={intl.formatMessage({ id: `field.prefix` })}
                     value={ defaultInvoice.prefix }
                   />
                   <Input
                     name="defaultInvoice[startAt]"
-                    label="start at"
+                    label={intl.formatMessage({ id: `field.start-at` })}
                     value={ defaultInvoice.startAt }
                     type="number"
                     min="0"
@@ -221,34 +245,15 @@ export default function UserFormPres( props ) {
           </div>
         </TabPanel>
 
-        {/* MENTIONS */}
-        <TabPanel>
-            <div className={`${BASE_CLASS}__mentions`}>
-            <Textarea
-              name="defaultQuotation[mentions]"
-              label="quotations mention"
-              value={ defaultQuotation.mentions }
-            />
-            <PaperSheet part="bottom">
-              <Mentions content={ defaultQuotation.mentions }/>
-            </PaperSheet>
-            <Textarea
-              name="defaultInvoice[mentions]"
-              label="invoice mention"
-              value={ defaultInvoice.mentions }
-            />
-            <PaperSheet part="bottom">
-              <Mentions content={ defaultInvoice.mentions }/>
-            </PaperSheet>
-          </div>
-        </TabPanel>
-
         {/* ACTIONS */}
         <div className="actions" style={{gridColumn: `1 / span 2`}}>
-          <Button type="submit">{ submitMessage }</Button>
+          <Button type="submit">
+            <FormattedMessage id="configuration.button.save" />
+          </Button>
         </div>
       </Tabs>)} />
     </Form>
   )
 }
 
+export default injectIntl( UserFormPres )

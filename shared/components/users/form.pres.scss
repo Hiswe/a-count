@@ -1,18 +1,6 @@
 .profile-form {
   $root: &;
 
-  &__title {
-    margin: 1em 0 .5em;
-    font-size: 2.25rem;
-    font-weight: 300;
-
-    span {
-      &::before {
-        content: '_';
-        color: var(--c-primary-lighter);
-      }
-    }
-  }
   &__sub-title {
     font-weight: 700;
     font-size: 1.25rem;

@@ -17,6 +17,23 @@ export default {
   'field.customer': `client`,
   'field.tax': `taxe`,
   'field.subject': `objet`,
+  'field.description': `description`,
+  'field.quantity': `quantité`,
+  'field.currency': `devise`,
+  'field.prefix': `préfixe`,
+  'field.start-at': `commence à`,
+
+  'configuration.tab.from': `Émetteur`,
+  'configuration.tab.default-product': `Produit par défaut`,
+  'configuration.tab.mentions': `Bas de page`,
+  'configuration.tab.reference': `Référence`,
+  'configuration.mentions.quotations': `Pour les devis`,
+  'configuration.mentions.invoices': `Pour les factures`,
+  'configuration.reference.warning': `
+    Changer <strong>le chiffre de début</strong> renumérotera toutes les références du type concerné.
+    <br />
+    Soyez prudent !`,
+  'configuration.button.save': `Mettre à jour`,
 
   'customer.button.create': `Créer le client`,
   'customer.button.update': `Mettre à jour`,
