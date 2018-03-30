@@ -98,6 +98,7 @@ function QuotationFormPres( props ) {
                     >
                       { !isLast && (
                         <BtnIcon
+                          link
                           onClick={ e => handleProductRemove(index, fieldPath) }
                           type="button"
                           svgId="delete"

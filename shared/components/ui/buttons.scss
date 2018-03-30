@@ -10,7 +10,7 @@
   --button-bg-color: var(--c-accent);
   --button-text-color: white;
   --button-fab-size: 1.75em;
-  --button-icon-size: 2rem;
+  --button-icon-size: 2.5rem;
   border: 2px solid;
   padding: .75em 1em;
   border-radius: var(--s-quarter-gutter);
@@ -81,13 +81,33 @@
     border-radius: var(--button-icon-size);
     padding: 0;
     position: relative;
-    --button-bg-color: white;
-    --button-text-color: var(--c-accent);
     border: 0;
+    --button-bg-color: var(--c-accent);
+    --button-text-color: white;
 
     &:hover {
       --button-bg-color: var(--c-accent);
-      --button-text-color: var(--c-accent-lightest);
+      --button-text-color:var(--c-accent-lightest);
+    }
+
+    &-secondary {
+      --button-text-color: var(--c-text);
+      --button-bg-color: white;
+
+      &:hover {
+        --button-bg-color: var(--c-text);
+        --button-text-color: var(--c-accent-lightest);
+      }
+    }
+
+    &-link {
+      --button-bg-color: white;
+      --button-text-color: var(--c-accent);
+
+      &:hover {
+        --button-bg-color: var(--c-accent);
+        --button-text-color: var(--c-accent-lightest);
+      }
     }
 
     .svg-icon {

@@ -1,23 +1,26 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 
-import { Button, BtnSecondary } from '../ui/buttons.jsx'
-import Icon from '../ui/svg-icons.jsx'
+import { BtnIcon } from '../ui/buttons.jsx'
 import { BASE_CLASS } from './form.pres.jsx'
 
 export function ButtonList( props ) {
   return (
-    <BtnSecondary to="/quotations">
-      <Icon svgId="view-list" />
-    </BtnSecondary>
+    <BtnIcon
+      secondary
+      to="/quotations"
+      svgId="view-list"
+    />
   )
 }
 
 export function ButtonNew( props ) {
   return (
-    <BtnSecondary to="/quotations/new">
-      <Icon svgId="note-add" />
-    </BtnSecondary>
+    <BtnIcon
+      secondary
+      to="/quotations/new"
+      svgId="note-add"
+    />
   )
 }
 
@@ -26,8 +29,9 @@ export function ButtonSubmit( props ) {
   const iconName = isSaving ? `block` : `save`
 
   return (
-    <Button form={ BASE_CLASS } disabled={ isSaving } type="submit">
-      <Icon svgId={ iconName } />
-    </Button>
+    <BtnIcon
+      form={ BASE_CLASS } disabled={ isSaving } type="submit"
+      svgId={ iconName }
+    />
   )
 }

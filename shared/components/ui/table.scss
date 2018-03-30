@@ -43,6 +43,11 @@
   .is-action {
     text-align: center;
 
+    .button--icon {
+      display: block;
+      margin: 0 auto;
+    }
+
     @media print {
       display: none;
     }
