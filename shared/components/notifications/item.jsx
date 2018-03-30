@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import './item.scss'
-
 const BASE_CLASS = `notification`
+
 const NOTIFICATION_LIFETIME = 5000
 
 export default class Notification extends PureComponent {
@@ -28,6 +29,7 @@ export default class Notification extends PureComponent {
 
   render() {
     const { notification, handleRemove } = this.props
+    const { i18nId, _id, additionalContent, ...values } = notification
     const { type } = this.state
     return (
       <div
@@ -35,13 +37,14 @@ export default class Notification extends PureComponent {
         className={ `${ BASE_CLASS } ${ BASE_CLASS }--${ type }` }
       >
         <h4 className={`${ BASE_CLASS }__title`}>
-          { type }
+          <FormattedMessage id={ i18nId } values={ values } />
         </h4>
-        <div className={`${ BASE_CLASS }__content`} >
-          { notification.message }
-        </div>
+        { additionalContent && (
+          <div className={`${ BASE_CLASS }__content`} >
+            { additionalContent }
+          </div>
+        )}
       </div>
     )
   }
 }
-

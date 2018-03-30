@@ -29,18 +29,20 @@ const postErrorRegexp = new RegExp( `^${ ALL_POST.ERROR }$` )
 
 const initialState = crio( [] )
 
-function notifySuccess( state, message ) {
+function notifySuccess( state, i18nId, values = {} ) {
   return state.push({
     _id: shortid(),
-    message,
+    i18nId,
+    ...values
   })
 }
 
-function notifyError( state, message ) {
+function notifyError( state, i18nId, values = {} ) {
   return state.push({
     _id: shortid(),
     error: true,
-    message,
+    i18nId,
+    ...values
   })
 }
 
@@ -61,39 +63,40 @@ export default function reducer( state = initialState, action ) {
     case USER_REGISTER.SUCCESS:
     case USER_LOGIN.SUCCESS:
     case USER_RESET.SUCCESS: {
-      const message = `welcome ${ payload.user.name || payload.user.email }`
-      return notifySuccess( state, message )
+      const { user } = payload
+      const name = user.name || user.email
+      return notifySuccess( state, `notifications.user.welcome`, { name } )
     }
     case USER_FORGOT.SUCCESS: {
-      const message = `an email as been send to ${ payload.email }`
-      return notifySuccess( state, message )
+      const { email } = payload
+      return notifySuccess( state, `notifications.user.mail-sent`, { email } )
     }
     //----- QUOTATIONS
     case QUOTATION_SAVE_ONE.SUCCESS: {
-      const message = `quotation saved`
-      return notifySuccess( state, message )
+      return notifySuccess( state, `notifications.quotation.saved` )
     }
     case QUOTATION_SAVE_ONE.ERROR: {
-      const message = `error while saving quotation`
-      return notifyError( state, message )
+      return notifyError( state, `notifications.quotation.error` )
     }
     //----- CUSTOMERS
     case CUSTOMER_SAVE_ONE.SUCCESS: {
-      const message = `customer saved`
-      return notifySuccess( state, message )
+      return notifySuccess( state, `notifications.customer.saved` )
     }
     case CUSTOMER_SAVE_ONE.ERROR: {
-      const message = payload.message
-      return notifyError( state, message )
+      return notifyError( state, `notifications.customer.error`, {
+        additionalContent: payload.message,
+      })
     }
   }
   //----- CATCH ALL
   // • if no custom notification has been handled, make a general one
   if ( postErrorRegexp.test( type ) ) {
-    return notifyError( state, payload.message )
+    return notifyError( state, 'notifications.generic.error', {
+      additionalContent: payload.message,
+    } )
   }
   if ( postSuccessRegexp.test( type ) ) {
-    return notifySuccess( state, 'saved', )
+    return notifySuccess( state, 'notifications.generic.saved' )
   }
 
   return state

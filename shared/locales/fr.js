@@ -35,6 +35,15 @@ export default {
     Soyez prudent !`,
   'configuration.button.save': `Mettre à jour`,
 
+  'notifications.user.welcome': `Bienvenue {name}`,
+  'notifications.user.mail-sent': `Un email a été envoyé à {email}`,
+  'notifications.quotation.saved': `Le devis a été sauvegardé`,
+  'notifications.quotation.error': `Une erreur est survenue lors de la sauvegarde`,
+  'notifications.invoice.saved': `La facture a été sauvegardé`,
+  'notifications.invoice.error': `Une erreur est survenue lors de la sauvegarde`,
+  'notifications.customer.saved': `Le client a été sauvegardé`,
+  'notifications.generic.saved': `enregistrement effectué`,
+
   'customer.button.create': `Créer le client`,
   'customer.button.update': `Mettre à jour`,
 
