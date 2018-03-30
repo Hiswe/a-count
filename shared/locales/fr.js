@@ -27,6 +27,7 @@ export default {
   'page.invoices': `factures`,
   'page.customers': `clients`,
   'page.customers.new': `nouveau client`,
+  'page.customers.edit': `client : {name}`,
   'page.settings': `configuration`,
   'page.connected': `connecté en tant que:<br/>{email}`,
   'page.logout': `déconnexion`,
