@@ -23,7 +23,7 @@ class LogoutButton extends PureComponent {
   render() {
     return (
       <a href="/account/logout" onClick={ this.logout }>
-        <FormattedMessage id="nav.logout" defaultMessage="logout" />
+        <FormattedMessage id="page.logout" defaultMessage="logout" />
       </a>
     )
   }
@@ -34,34 +34,34 @@ function ConnectedNav( props )  {
     <Fragment>
       <li className={ ITEM_CLASS }>
         <NavLink to="/" exact activeClassName={ ACTIVE_CLASS }>
-          <FormattedMessage id="nav.home" defaultMessage="home" />
+          <FormattedMessage id="page.home" defaultMessage="home" />
         </NavLink>
       </li>
       <li className={ ITEM_CLASS }>
         <NavLink to="/quotations" activeClassName={ ACTIVE_CLASS }>
-          <FormattedMessage id="nav.quotations" defaultMessage="quotations" />
+          <FormattedMessage id="page.quotations" defaultMessage="quotations" />
         </NavLink>
       </li>
       {/*
       <li className={ ITEM_CLASS }>
         <NavLink to="/invoices" activeClassName={ ACTIVE_CLASS }>
-          <FormattedMessage id="nav.invoices" defaultMessage="invoices" />
+          <FormattedMessage id="page.invoices" defaultMessage="invoices" />
         </NavLink>
       </li>
       */}
       <li className={ ITEM_CLASS }>
         <NavLink to="/customers" activeClassName={ ACTIVE_CLASS }>
-          <FormattedMessage id="nav.customers" defaultMessage="customers" />
+          <FormattedMessage id="page.customers" defaultMessage="customers" />
         </NavLink>
       </li>
       <li className={ ITEM_CLASS }>
         <NavLink to="/profile" activeClassName={ ACTIVE_CLASS }>
-          <FormattedMessage id="nav.profile" defaultMessage="profile" />
+          <FormattedMessage id="page.settings" defaultMessage="settings" />
         </NavLink>
       </li>
       <li className={`${ITEM_CLASS} ${ITEM_CLASS}--separator`}>
         <FormattedHTMLMessage
-          id="nav.connected"
+          id="page.connected"
           defaultMessage="connected as <br/> {email}"
           values={{email: props.email}} />
       </li>
@@ -77,17 +77,17 @@ function ConnectionNav( props ) {
     <Fragment>
       <li className="nav-main__item">
         <NavLink to="/account/login" activeClassName={ ACTIVE_CLASS }>
-          <FormattedMessage id="nav.login" defaultMessage="login" />
+          <FormattedMessage id="page.login" defaultMessage="login" />
         </NavLink>
       </li>
       <li className="nav-main__item">
         <NavLink to="/account/register" activeClassName={ ACTIVE_CLASS }>
-          <FormattedMessage id="nav.register" defaultMessage="register" />
+          <FormattedMessage id="page.register" defaultMessage="register" />
         </NavLink>
       </li>
       <li className="nav-main__item">
         <NavLink to="/account/forgot" activeClassName={ ACTIVE_CLASS }>
-          <FormattedMessage id="nav.forgot" defaultMessage="forgot" />
+          <FormattedMessage id="page.forgot" defaultMessage="forgot" />
         </NavLink>
       </li>
     </Fragment>

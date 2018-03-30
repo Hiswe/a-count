@@ -5,7 +5,9 @@ const EmptyLine = props => {
   if (props.colspan) {
     return (
       <tr>
-        <td colSpan={props.colspan} style={{textAlign: `center`}}>{message}</td>
+        <td colSpan={props.colspan} style={{textAlign: `center`}}>
+          <p>{ message }</p>
+        </td>
       </tr>
     )
   }

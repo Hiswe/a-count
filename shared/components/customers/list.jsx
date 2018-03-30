@@ -17,12 +17,17 @@ const CustomerRow = (props) => {
     </tr>
   )
 }
-
 const CustomerList = (props) => {
   const { customers } = props
   const hasCustomer = Array.isArray( customers ) && customers.length
   return (
-    <Table columns="name, numbers of quotations" className="table--pres">
+    <Table
+      columns={[
+        {label: `table.header.name`},
+        {label: `table.header.quotation-count`},
+      ]}
+      className="table--pres"
+    >
       {
         !hasCustomer ? ( <TableEmptyLine colspan="2" /> )
         : props.customers.map( (customer, i) => (

@@ -1,14 +1,14 @@
 export default {
-  'nav.home': `accueil`,
-  'nav.quotations': `devis`,
-  'nav.invoices': `factures`,
-  'nav.customers': `clients`,
-  'nav.profile': `profile`,
-  'nav.connected': `connecté en tant que:<br/>{email}`,
-  'nav.logout': `déconnexion`,
-  'nav.login': `connexion`,
-  'nav.register': `enregistrement`,
-  'nav.forgot': `mot de passe oublié`,
+  'page.home': `accueil`,
+  'page.quotations': `devis`,
+  'page.invoices': `factures`,
+  'page.customers': `clients`,
+  'page.settings': `configuration`,
+  'page.connected': `connecté en tant que:<br/>{email}`,
+  'page.logout': `déconnexion`,
+  'page.login': `connexion`,
+  'page.register': `enregistrement`,
+  'page.forgot': `mot de passe oublié`,
 
   'account.login.title': `connexion`,
   'account.login.button': `se connecter`,
@@ -23,4 +23,15 @@ export default {
 
   'field.email': `email`,
   'field.password': `mot de passe`,
+
+  'quotation.create': `créer`,
+
+  'table.header.id': `#`,
+  'table.header.name': `nom`,
+  'table.header.customer': `client`,
+  'table.header.status': `statut`,
+  'table.header.tax': `taxe`,
+  'table.header.value-ht': `montant HT`,
+  'table.header.value': `total`,
+  'table.header.quotation-count': `nombre de devis`,
 }

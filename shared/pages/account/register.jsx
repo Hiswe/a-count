@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import serialize from 'form-serialize'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { injectIntl, FormattedMessage } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as users from '../../ducks/users'
@@ -9,7 +10,6 @@ import LayoutBoarding from '../../components/layout/boarding.jsx'
 import Form from '../../components/ui/form.jsx'
 import { Button } from '../../components/ui/buttons.jsx'
 import { Input } from '../../components/ui/field.jsx'
-import { injectIntl, FormattedMessage } from 'react-intl'
 
 class Register extends PureComponent {
 

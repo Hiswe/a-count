@@ -38,7 +38,7 @@ export default class NavSecondary extends PureComponent {
     if ( !`IntersectionObserver` in window ) return
     const { wrapper } = this
     if ( !wrapper ) return
-    const sentinel = document.createElement( `sentinel` )
+    const sentinel = document.createElement( `div` )
     sentinel.classList.add( `${BASE_CLASS}__sentinel` )
     wrapper.insertBefore( sentinel, wrapper.firstChild )
     this.observer = new IntersectionObserver( this.handleIntersection )

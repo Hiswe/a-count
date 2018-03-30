@@ -3,6 +3,7 @@ import serialize from 'form-serialize'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import urlJoin from 'url-join'
+import { injectIntl, FormattedMessage } from 'react-intl'
 
 import config from '../../config.js'
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
@@ -11,7 +12,6 @@ import LayoutBoarding from '../../components/layout/boarding.jsx'
 import Form from '../../components/ui/form.jsx'
 import { Button } from '../../components/ui/buttons.jsx'
 import { Input } from '../../components/ui/field.jsx'
-import { injectIntl, FormattedMessage } from 'react-intl'
 
 const MAIL_REDIRECT_URL = urlJoin( config.HOST_URL, '/account/reset' )
 

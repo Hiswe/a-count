@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import './table.scss'
 
@@ -11,7 +12,11 @@ export function normalizeColumns( columns ) {
 
 export function Th( props ) {
   const { label, ...rest } = props
-  return ( <th {...rest}>{label.trim()}</th> )
+  return (
+    <th {...rest}>
+      <FormattedMessage id={label.trim()} />
+    </th>
+  )
 }
 
 export function Thead( props ) {

@@ -9,7 +9,7 @@ import FakeId from '../ui/fake-id.jsx'
 
 //----- TBODY
 
-const QuotationStatus = props => {
+function QuotationStatus( props ) {
   return (
     <td>
       {props.status.message}
@@ -18,7 +18,7 @@ const QuotationStatus = props => {
   )
 }
 
-const QuotationRow = props => {
+function QuotationRow( props ) {
   const { quotation, defaultQuotation } = props
   return (
     <tr>
@@ -51,26 +51,37 @@ const QuotationRow = props => {
 }
 //----- ALL
 
-const QuotationTable = props => {
+function QuotationTable( props ) {
   const { quotations, defaultQuotation } = props
   const hasQuotations = Array.isArray( quotations ) && quotations.length > 0
   return (
-    <Table columns="id, title, customer, status, tax, total HT, total" className="table--pres">
-      {
-        !hasQuotations ? ( <EmptyLine colspan="6" /> )
-        : quotations.map( (q, i) => (
-          <QuotationRow
-            key={ q.id }
-            quotation={ q }
-            defaultQuotation={ defaultQuotation }
-          />
-        ))
-      }
+    <Table
+      columns={[
+        {label: `table.header.id`},
+        {label: `table.header.name`},
+        {label: `table.header.customer`},
+        {label: `table.header.status`},
+        {label: `table.header.tax`},
+        {label: `table.header.value-ht`},
+        {label: `table.header.value`},
+      ]}
+      className="table--pres"
+    >
+    {
+      !hasQuotations ? ( <EmptyLine colspan="6" /> )
+      : quotations.map( (q, i) => (
+        <QuotationRow
+          key={ q.id }
+          quotation={ q }
+          defaultQuotation={ defaultQuotation }
+        />
+      ))
+    }
     </Table>
   )
 }
 
-const state2prop = state => {
+function state2prop( state ) {
   return {
     quotations:       state.quotations && state.quotations.list,
     user:             state.users.current,

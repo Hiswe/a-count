@@ -3,6 +3,7 @@ import serialize from 'form-serialize'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
+import { injectIntl, FormattedMessage } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as users from '../../ducks/users'
@@ -10,7 +11,6 @@ import LayoutBoarding from '../../components/layout/boarding.jsx'
 import Form from '../../components/ui/form.jsx'
 import { Button } from '../../components/ui/buttons.jsx'
 import { Input } from '../../components/ui/field.jsx'
-import { injectIntl, FormattedMessage } from 'react-intl'
 
 class Reset extends PureComponent {
 
@@ -41,7 +41,6 @@ class Reset extends PureComponent {
         <Form id="login" action="/account/reset" onSubmit={ this.handleSubmit } >
           <p>
             <FormattedMessage id="account.reset.notice" defaultValue="Set your new password here" />
-
           </p>
           <input type="hidden" name="token" defaultValue={state.token} />
           <Input
