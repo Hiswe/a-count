@@ -1,13 +1,17 @@
 import React, { Fragment } from 'react'
 import moment from 'moment'
+
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import MomentLocaleUtils, {
   formatDate,
   parseDate,
 } from 'react-day-picker/moment'
+// http://react-day-picker.js.org/docs/localization
 import 'moment/locale/en-gb'
+import 'moment/locale/fr'
 
 import './date-picker.scss'
+
 
 // using https://react-day-picker.js.org/
 
@@ -23,6 +27,7 @@ function DatePicker( props ) {
     <DayPickerInput
       inputProps={ otherProps }
       value={ dateValue }
+      locale={ `fr` }
       formatDate={ formatDate }
       parseDate={ parseDate }
       clickUnselectsDay
@@ -32,7 +37,7 @@ function DatePicker( props ) {
       format="L"
       placeholder={`dd/mm/yyyy`}
       dayPickerProps={{
-        locale: 'en-gb',
+        locale:     `fr`,
         localeUtils: MomentLocaleUtils,
       }}
       onDayChange={ day => {
