@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { formatDate } from '../_helpers.js'
 import DatePicker from '../ui/date-picker.jsx'
 import './stepper.scss'
 
@@ -15,7 +14,7 @@ export function getSelectedIndex( steps ) {
   return Math.max( 0, Math.min( nextIndex, steps.length - 1 ) )
 }
 
-export default function Stepper( props ) {
+export function Stepper( props ) {
   const { children, steps, ...otherProps} = props
   if ( !Array.isArray(steps) ) return null
   const currentStepIndex = getSelectedIndex( steps )

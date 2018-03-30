@@ -15,7 +15,7 @@ const disabledDays = {
   after: new Date(),
 }
 
-export default function DatePicker( props ) {
+function DatePicker( props ) {
   const { handleDayChange, value, ...otherProps } = props
   const dateObject = moment( value )
   const dateValue = dateObject.isValid() ? dateObject.toDate() : ``
@@ -44,3 +44,5 @@ export default function DatePicker( props ) {
     />
   )
 }
+
+export default DatePicker

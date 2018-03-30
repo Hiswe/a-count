@@ -64,6 +64,7 @@ export default {
 
   'paper-sheet.reference.quotation': `Devis`,
   'paper-sheet.reference.invoice': `Facture`,
+  'paper-sheet.reference.date': `date : `,
   'paper-sheet.party.from': `Émetteur :`,
   'paper-sheet.party.to': `Adressé à :`,
   'paper-sheet.party.no-address': `Pas d'adresse définie`,

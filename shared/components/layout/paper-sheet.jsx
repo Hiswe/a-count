@@ -1,13 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { formatDate } from '../_helpers.js'
-import Markdown from '../ui/markdown.jsx'
+import { Date, Markdown } from '../ui/format.jsx'
 
 import './paper-sheet.scss'
 const BASE_CLASS = `paper-sheet`
 
-export default function PaperSheet( props ) {
+export function PaperSheet( props ) {
   const { part } = props
   const className = [ BASE_CLASS ]
   if ( part ) className.push(`${BASE_CLASS}--part-${part}`)
@@ -28,7 +27,10 @@ export function Reference( props ) {
         <FormattedMessage id={`paper-sheet.reference.${ type }`} />
       </h3>
       <h4 className={`${REF_CLASS}-id`}>Ref. { reference }</h4>
-      <p className={`${REF_CLASS}-date`}>date: { formatDate(updatedAt, `DD/MM/YY`) }</p>
+      <p className={`${REF_CLASS}-date`}>
+        <FormattedMessage id={`paper-sheet.reference.date`} />
+        <Date value={ updatedAt } />
+      </p>
     </header>
   )
 }

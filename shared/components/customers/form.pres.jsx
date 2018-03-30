@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { injectIntl, FormattedMessage } from 'react-intl'
 
 import Main from '../layout/main.jsx'
-import PaperSheet, { Party } from '../layout/paper-sheet.jsx'
+import { PaperSheet, Party } from '../layout/paper-sheet.jsx'
 import Form from '../ui/form.jsx'
 import { Button } from '../ui/buttons.jsx'
 import { Input, Textarea } from '../ui/field.jsx'

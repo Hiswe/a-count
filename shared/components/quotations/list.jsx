@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import Table from '../ui/table.jsx'
 import EmptyLine from '../ui/table-empty-line.jsx'
-import { Amount, Percent } from '../ui/format-number.jsx'
+import { Amount, Percent } from '../ui/format.jsx'
 
 //----- TBODY
 

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import * as compute from '../utils/compute-total.js'
-import { Amount } from '../ui/format-number.jsx'
+import { Amount } from '../ui/format.jsx'
 import TextareaAutoResize from '../ui/textarea-auto-resize.jsx'
 
 // only use defaultValue

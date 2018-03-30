@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 
 import * as compute from '../utils/compute-total.js'
 import Table from '../ui/table.jsx'
-import { Amount } from '../ui/format-number.jsx'
+import { Amount } from '../ui/format.jsx'
 
 import './table.scss'
 const BASE_CLASS = `product-total`
