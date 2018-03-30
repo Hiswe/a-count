@@ -12,7 +12,7 @@ import json from 'koa-json'
 import Router from 'koa-router'
 
 import config from './config.js'
-import log from './_log.js'
+import log from './log.js'
 import apiBackupRoutes from './routing-api-backup.js'
 import reactRoutes from './routing-koa-react.jsx'
 
