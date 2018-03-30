@@ -14,10 +14,10 @@ function EditCustomer( props ) {
 
   return (
     <Fragment>
-      <NavSecondary title={intl.formatMessage({
-        id: `page.customers.edit`,
-        defaultMessage: `customer: {name}`,
-      }, {name: props.name})}>
+      <NavSecondary title={intl.formatMessage(
+        {id: `page.customers.edit`},
+        {name: props.name}
+      )}>
         <ButtonNew />
         <ButtonList />
         <ButtonSubmit isSaving={ props.isSaving } />

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { injectIntl } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
@@ -12,12 +13,15 @@ import { ButtonList, ButtonNew, ButtonSubmit } from '../../components/quotations
 // TODO: should have a print button
 
 function EditQuotation( props ) {
-  const { reference } = props
+  const { reference, intl } = props
   const title = `Edit Quotation – ${ reference }`
 
   return (
     <Fragment>
-      <NavSecondary title={ title }>
+      <NavSecondary title={intl.formatMessage(
+        {id: `page.quotations.edit`},
+        {reference: props.reference}
+      )}>
         <ButtonNew />
         <ButtonList />
         <ButtonSubmit isSaving={ props.isSaving } />
@@ -37,7 +41,7 @@ function state2prop( state ) {
 }
 
 export default connect( state2prop )( ConnectDataFetcher({
-  Component: EditQuotation,
+  Component: injectIntl( EditQuotation ),
   actionCreators: [
     quotations.getOne,
     customers.getAll,
