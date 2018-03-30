@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 
-import './nav-secondary.scss'
-
+import './secondary.scss'
 const BASE_CLASS = `nav-secondary`
 
 export default class NavSecondary extends PureComponent {

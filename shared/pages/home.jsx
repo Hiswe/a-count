@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import ConnectDataFetcher from '../connect-data-fetcher.js'
-import NavSecondary from '../components/layout/nav-secondary.jsx'
+import NavSecondary from '../components/nav/secondary.jsx'
 
 {/* <Link to="/quotations/new" className="btn-circular">+</Link> */}
 

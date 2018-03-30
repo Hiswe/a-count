@@ -5,7 +5,7 @@ import { injectIntl } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers'
-import NavSecondary from '../../components/layout/nav-secondary.jsx'
+import NavSecondary from '../../components/nav/secondary.jsx'
 import UserForm from '../../components/users/form.jsx'
 import { ButtonSubmit } from '../../components/users/secondary-nav-actions.jsx'
 

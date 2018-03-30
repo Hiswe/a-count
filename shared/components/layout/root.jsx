@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { renderRoutes } from 'react-router-config'
 
-import NavMain from './nav-main.jsx'
 import ErrorBoundary from '../error-boundary.jsx'
+import NavMain from '../nav/main.jsx'
 import Notifications from '../notifications/list.jsx'
 
 import './root.scss'

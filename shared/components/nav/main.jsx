@@ -6,7 +6,7 @@ import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
 import * as users from '../../ducks/users'
 
-import './nav-main.scss'
+import './main.scss'
 const BASE_CLASS = `nav-main`
 const ITEM_CLASS = `${BASE_CLASS}__item`
 const ACTIVE_CLASS = `is-active`
