@@ -20,7 +20,7 @@ class Root extends React.Component {
     const { route, lang } = this.props
     console.log( lang )
     return (
-      <IntlProvider locale={ lang } messages={ locales[ lang ] } >
+      <IntlProvider locale={ lang } key={ lang } messages={ locales[ lang ] } >
         <Fragment>
           <h1 className="main-logo">Concompte</h1>
           <NavMain />
