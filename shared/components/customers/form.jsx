@@ -12,8 +12,8 @@ import CustomerFormPres from './form.pres.jsx'
 
 class CustomerForm extends Component {
 
-  constructor(props) {
-    super(props)
+  constructor( props ) {
+    super( props )
     this.state = {
       formData: this.props.current,
     }

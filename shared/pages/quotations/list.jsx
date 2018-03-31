@@ -39,6 +39,6 @@ function Quotations( props ) {
 export default connect()( ConnectDataFetcher({
   Component: injectIntl( Quotations ),
   actionCreators: [
-    quotations.getAll
+    quotations.getAll,
   ],
 }) )
