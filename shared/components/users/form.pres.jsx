@@ -82,6 +82,7 @@ function UserFormPres( props ) {
       <input type="hidden" name="defaultProduct[id]" defaultValue={ defaultInvoice.id } />
       <Tabs>
         <main role="main" className={`${BASE_CLASS}__main`}>
+
           <TabList>
             <Tab>
               <FormattedMessage id="configuration.tab.from" />
@@ -97,178 +98,173 @@ function UserFormPres( props ) {
             </Tab>
           </TabList>
 
-
           {/* USER */}
-        <TabPanel>
-          <div className={`${BASE_CLASS}__user`}>
-            <Select
-              name="lang"
-              label={intl.formatMessage({ id: `field.language` })}
-              value={ formData.lang }
-            >{ languages.map( c => (
-              <option key={ c.value } value={ c.value }>{ c.label }</option>
-            ))}
-            </Select>
-            <PaperSheet part="top-left">
-              <Party title="from" {...formData} />
-            </PaperSheet>
-            <div className={`${BASE_CLASS}__user-form`}>
-              <Input
-                name="name"
-                label={intl.formatMessage({ id: `field.name` })}
-                value={ formData.name }
-              />
-              <Textarea
-                name="address"
-                label={intl.formatMessage({ id: `field.address` })}
-                value={ formData.address }
-              />
-            </div>
-          </div>
-        </TabPanel>
-
-        {/* PRODUCT */}
-        <TabPanel>
-          <div className={`${BASE_CLASS}__product`}>
-            <div className={`${BASE_CLASS}__product-form`}>
-              <Textarea
-                name="defaultProduct[description]"
-                label={intl.formatMessage({ id: `field.description` })}
-                value={ defaultProduct.description }
-              />
-              <Input
-                name="defaultProduct[quantity]"
-                label={intl.formatMessage({ id: `field.quantity` })}
-                type="number"
-                value={ defaultProduct.quantity }
-              />
-              <Input
-                name="defaultQuotation[tax]"
-                label={intl.formatMessage({ id: `field.tax` })}
-                type="number"
-                value={ defaultQuotation.tax }
-              />
+          <TabPanel>
+            <div className={`${BASE_CLASS}__user`}>
               <Select
-                name="defaultQuotation[currency]"
-                label={intl.formatMessage({ id: `field.currency` })}
-                value={ defaultQuotation.currency }
-              >{ currencies.map( c => (
+                name="lang"
+                label={intl.formatMessage({ id: `field.language` })}
+                value={ formData.lang }
+              >{ languages.map( c => (
                 <option key={ c.value } value={ c.value }>{ c.label }</option>
               ))}
               </Select>
+              <PaperSheet part="top-left">
+                <Party title="from" {...formData} />
+              </PaperSheet>
+              <div className={`${BASE_CLASS}__user-form`}>
+                <Input
+                  name="name"
+                  label={intl.formatMessage({ id: `field.name` })}
+                  value={ formData.name }
+                />
+                <Textarea
+                  name="address"
+                  label={intl.formatMessage({ id: `field.address` })}
+                  value={ formData.address }
+                />
+              </div>
             </div>
-            <PaperSheet part="center">
-              <ProductTable
-                products={ fakeProducts }
-                tax={ defaultQuotation.tax }
-                currency={ defaultQuotation.currency }
-              >
-                <ProductLine readOnly
-                  product={ fakeProduct }
-                  currency={ defaultQuotation.currency }
-                />
-                <ProductLine readOnly
-                  product={ defaultProduct }
-                  currency={ defaultQuotation.currency }
-                />
-              </ProductTable>
-            </PaperSheet>
-          </div>
-        </TabPanel>
+          </TabPanel>
 
-        {/* MENTIONS */}
-        <TabPanel>
+          {/* PRODUCT */}
+          <TabPanel>
+            <div className={`${BASE_CLASS}__product`}>
+              <div className={`${BASE_CLASS}__product-form`}>
+                <Textarea
+                  name="defaultProduct[description]"
+                  label={intl.formatMessage({ id: `field.description` })}
+                  value={ defaultProduct.description }
+                />
+                <Input
+                  name="defaultProduct[quantity]"
+                  label={intl.formatMessage({ id: `field.quantity` })}
+                  type="number"
+                  value={ defaultProduct.quantity }
+                />
+                <Input
+                  name="defaultQuotation[tax]"
+                  label={intl.formatMessage({ id: `field.tax` })}
+                  type="number"
+                  value={ defaultQuotation.tax }
+                />
+                <Select
+                  name="defaultQuotation[currency]"
+                  label={intl.formatMessage({ id: `field.currency` })}
+                  value={ defaultQuotation.currency }
+                >{ currencies.map( c => (
+                  <option key={ c.value } value={ c.value }>{ c.label }</option>
+                ))}
+                </Select>
+              </div>
+              <PaperSheet part="center">
+                <ProductTable
+                  products={ fakeProducts }
+                  tax={ defaultQuotation.tax }
+                  currency={ defaultQuotation.currency }
+                >
+                  <ProductLine readOnly
+                    product={ fakeProduct }
+                    currency={ defaultQuotation.currency }
+                  />
+                  <ProductLine readOnly
+                    product={ defaultProduct }
+                    currency={ defaultQuotation.currency }
+                  />
+                </ProductTable>
+              </PaperSheet>
+            </div>
+          </TabPanel>
+
+          {/* MENTIONS */}
+          <TabPanel>
             <div className={`${BASE_CLASS}__mentions`}>
-            <Textarea
-              name="defaultQuotation[mentions]"
-              label={intl.formatMessage({ id: `configuration.mentions.quotations` })}
-              value={ defaultQuotation.mentions }
-            />
-            <PaperSheet part="bottom">
-              <Mentions content={ defaultQuotation.mentions }/>
-            </PaperSheet>
-            <Textarea
-              name="defaultInvoice[mentions]"
-              label={intl.formatMessage({ id: `configuration.mentions.invoices` })}
-              value={ defaultInvoice.mentions }
-            />
-            <PaperSheet part="bottom">
-              <Mentions content={ defaultInvoice.mentions }/>
-            </PaperSheet>
+              <Textarea
+                name="defaultQuotation[mentions]"
+                label={intl.formatMessage({ id: `configuration.mentions.quotations` })}
+                value={ defaultQuotation.mentions }
+              />
+              <PaperSheet part="bottom">
+                <Mentions content={ defaultQuotation.mentions }/>
+              </PaperSheet>
+              <Textarea
+                name="defaultInvoice[mentions]"
+                label={intl.formatMessage({ id: `configuration.mentions.invoices` })}
+                value={ defaultInvoice.mentions }
+              />
+              <PaperSheet part="bottom">
+                <Mentions content={ defaultInvoice.mentions }/>
+              </PaperSheet>
+            </div>
+          </TabPanel>
+
+          {/* REFERENCES */}
+          <TabPanel>
+            <p className={`${BASE_CLASS}__warning`}>
+              <FormattedHTMLMessage id="configuration.reference.warning" />
+            </p>
+            <div className={`${BASE_CLASS}__references`}>
+              <dl className={`${BASE_CLASS}__references-section`}>
+                <dt className={`${BASE_CLASS}__sub-title`}>
+                  <FormattedMessage id="page.quotations" />
+                </dt>
+                <dd className={`${BASE_CLASS}__references-content`}>
+                  <div className={`${BASE_CLASS}__references-form`}>
+                    <Input
+                      name="defaultQuotation[prefix]"
+                      label={intl.formatMessage({ id: `field.prefix` })}
+                      value={ defaultQuotation.prefix }
+                    />
+                    <Input
+                      name="defaultQuotation[startAt]"
+                      label={intl.formatMessage({ id: `field.start-at` })}
+                      value={ defaultQuotation.startAt }
+                      type="number"
+                      min="0"
+                      step="1"
+                    />
+                  </div>
+                  <PaperSheet part="top-right">
+                    <Reference {...fakeQuotationReference} />
+                  </PaperSheet>
+                </dd>
+              </dl>
+              <dl className={`${BASE_CLASS}__references-section`}>
+                <dt className={`${BASE_CLASS}__sub-title`}>
+                  <FormattedMessage id="page.invoices" />
+                </dt>
+                <dd className={`${BASE_CLASS}__references-content`}>
+                  <div className={`${BASE_CLASS}__references-form`}>
+                    <Input
+                      name="defaultInvoice[prefix]"
+                      label={intl.formatMessage({ id: `field.prefix` })}
+                      value={ defaultInvoice.prefix }
+                    />
+                    <Input
+                      name="defaultInvoice[startAt]"
+                      label={intl.formatMessage({ id: `field.start-at` })}
+                      value={ defaultInvoice.startAt }
+                      type="number"
+                      min="0"
+                      step="1"
+                    />
+                  </div>
+                  <PaperSheet part="top-right">
+                    <Reference {...fakeInvoiceReference} />
+                  </PaperSheet>
+                </dd>
+              </dl>
+            </div>
+          </TabPanel>
+
+          {/* ACTIONS */}
+          <div className={`${BASE_CLASS}__actions`}>
+            <Button type="submit">
+              <FormattedMessage id="configuration.button.save" />
+            </Button>
           </div>
-        </TabPanel>
-
-        {/* REFERENCES */}
-        <TabPanel>
-          <p className={`${BASE_CLASS}__warning`}>
-            <FormattedHTMLMessage id="configuration.reference.warning" />
-          </p>
-          <div className={`${BASE_CLASS}__references`}>
-            <dl className={`${BASE_CLASS}__references-section`}>
-              <dt className={`${BASE_CLASS}__sub-title`}>
-                <FormattedMessage id="page.quotations" />
-              </dt>
-              <dd className={`${BASE_CLASS}__references-content`}>
-                <div className={`${BASE_CLASS}__references-form`}>
-                  <Input
-                    name="defaultQuotation[prefix]"
-                    label={intl.formatMessage({ id: `field.prefix` })}
-                    value={ defaultQuotation.prefix }
-                  />
-                  <Input
-                    name="defaultQuotation[startAt]"
-                    label={intl.formatMessage({ id: `field.start-at` })}
-                    value={ defaultQuotation.startAt }
-                    type="number"
-                    min="0"
-                    step="1"
-                  />
-                </div>
-                <PaperSheet part="top-right">
-                  <Reference {...fakeQuotationReference} />
-                </PaperSheet>
-              </dd>
-            </dl>
-            <dl className={`${BASE_CLASS}__references-section`}>
-              <dt className={`${BASE_CLASS}__sub-title`}>
-                <FormattedMessage id="page.invoices" />
-              </dt>
-              <dd className={`${BASE_CLASS}__references-content`}>
-                <div className={`${BASE_CLASS}__references-form`}>
-                  <Input
-                    name="defaultInvoice[prefix]"
-                    label={intl.formatMessage({ id: `field.prefix` })}
-                    value={ defaultInvoice.prefix }
-                  />
-                  <Input
-                    name="defaultInvoice[startAt]"
-                    label={intl.formatMessage({ id: `field.start-at` })}
-                    value={ defaultInvoice.startAt }
-                    type="number"
-                    min="0"
-                    step="1"
-                  />
-                </div>
-                <PaperSheet part="top-right">
-                  <Reference {...fakeInvoiceReference} />
-                </PaperSheet>
-              </dd>
-            </dl>
-          </div>
-        </TabPanel>
-
-        {/* ACTIONS */}
-        <div className={`${BASE_CLASS}__actions`}>
-          <Button type="submit">
-            <FormattedMessage id="configuration.button.save" />
-          </Button>
-        </div>
-
 
         </main>
-
-
-
       </Tabs>
     </Form>
   )

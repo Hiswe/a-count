@@ -7,7 +7,6 @@
 
   &__main {
     width: 100%;
-    // padding: var(--s-gutter) 0;
     display: grid;
     grid-template-columns: [meta-col-start] var(--knockout-gutter) 1fr var(--knockout-gutter) [meta-col-end];
     grid-template-rows: [meta-row-start] auto [meta-row-end] auto ;
@@ -30,9 +29,9 @@
   &__warning {
     color: red;
     text-align: center;
+    margin: 0;
   }
   &__user {
-    padding-top: var(--s-gutter);
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: var(--s-big-gutter);
@@ -73,8 +72,6 @@
     }
   }
   &__mentions {
-    padding-top: var(--s-gutter);
-
     .table {
       border-top: none;
     }
@@ -119,6 +116,7 @@
     }
     &__tab-panel {
       grid-area: panel;
+      padding-top: var(--s-gutter);
     }
   }
 }
