@@ -7,6 +7,7 @@
   $select: '#{$root}--is-select';
   $empty: '#{$root}--is-empty';
   $not-empty: '#{$root}--is-not-empty';
+  $type-number: '#{$root}--type-number';
   --field-padding: 0.75em 0 0.5em;
   --field-label-color: var(--c-primary);
   margin-top: 1em;
@@ -17,7 +18,7 @@
     color: white;
     --field-label-color: var(--c-primary-lighter);
   }
-  &--is-number {
+  &--type-number {
     text-align: right;
   }
   &__control,
@@ -86,6 +87,10 @@
     #{ $select } &,
     #{ $not-empty } & {
       transform: scale( .9 ) translateY( -75% );
+    }
+
+    #{ $type-number } & {
+      transform-origin: top right;
     }
   }
 }

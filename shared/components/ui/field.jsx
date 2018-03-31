@@ -44,12 +44,14 @@ const fieldWrapper = ({ControlComponent, fieldType}) => class extends PureCompon
     const _id     = id ? id : rest.name
     const _label  = label ? label : _id
     const _id2class = idToClassName( _id )
+    const { type }  = props
 
     const wrapperClassName = [
       BASE_CLASS,
       `${ BASE_CLASS }--${ _id2class }`,
       `${ BASE_CLASS }--is-${ fieldType }`,
     ]
+    if ( type ) wrapperClassName.push( `${BASE_CLASS}--type-${type}` )
     if ( darkBg ) wrapperClassName.push( `${BASE_CLASS}--dark-background` )
 
     const wrapperProps = {
