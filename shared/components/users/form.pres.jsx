@@ -80,24 +80,25 @@ function UserFormPres( props ) {
       <input type="hidden" name="defaultQuotation[id]" defaultValue={ defaultQuotation.id } />
       <input type="hidden" name="defaultInvoice[id]" defaultValue={ defaultInvoice.id } />
       <input type="hidden" name="defaultProduct[id]" defaultValue={ defaultInvoice.id } />
+      <Tabs>
+        <main role="main" className={`${BASE_CLASS}__main`}>
+          <TabList>
+            <Tab>
+              <FormattedMessage id="configuration.tab.from" />
+            </Tab>
+            <Tab>
+              <FormattedMessage id="configuration.tab.default-product" />
+            </Tab>
+            <Tab>
+              <FormattedMessage id="configuration.tab.mentions" />
+            </Tab>
+            <Tab>
+              <FormattedMessage id="configuration.tab.reference" />
+            </Tab>
+          </TabList>
 
-      <Main content={() => (<Tabs>
-        <TabList>
-          <Tab>
-            <FormattedMessage id="configuration.tab.from" />
-          </Tab>
-          <Tab>
-            <FormattedMessage id="configuration.tab.default-product" />
-          </Tab>
-          <Tab>
-            <FormattedMessage id="configuration.tab.mentions" />
-          </Tab>
-          <Tab>
-            <FormattedMessage id="configuration.tab.reference" />
-          </Tab>
-        </TabList>
 
-        {/* USER */}
+          {/* USER */}
         <TabPanel>
           <div className={`${BASE_CLASS}__user`}>
             <Select
@@ -257,12 +258,18 @@ function UserFormPres( props ) {
         </TabPanel>
 
         {/* ACTIONS */}
-        <div className="actions" style={{gridColumn: `1 / span 2`}}>
+        <div className={`${BASE_CLASS}__actions`}>
           <Button type="submit">
             <FormattedMessage id="configuration.button.save" />
           </Button>
         </div>
-      </Tabs>)} />
+
+
+        </main>
+
+
+
+      </Tabs>
     </Form>
   )
 }

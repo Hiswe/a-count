@@ -98,38 +98,6 @@ fieldset {
 }
 
 ///////
-// REACT TABS
-///////
-
-.react-tabs {
-  --tab-inactive-border: var(--c-primary);
-
-  &__tab-list {
-    margin: 0 0 var(--s-half-gutter);
-    padding: 0;
-    list-style: none;
-    display: flex;
-    border-bottom: 1px solid var(--tab-inactive-border);
-  }
-
-  &__tab {
-    flex: 1 1;
-    text-align: center;
-    padding: var(--s-half-gutter) 0;
-    border-style: solid;
-    border-width: 2px 1px 1px;
-    border-color: transparent transparent var(--tab-inactive-border);
-    margin-bottom: -1px;
-    color: var(--c-primary);
-
-    &--selected {
-      color: var(--c-text);
-      border-color: var(--c-primary) var(--tab-inactive-border) var(--c-background);
-    }
-  }
-}
-
-///////
 // PRINT
 ///////
 

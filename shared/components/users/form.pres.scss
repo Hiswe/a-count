@@ -1,5 +1,27 @@
 .profile-form {
   $root: &;
+  --knockout-max-width: var(--s-max-width);
+  --knockout-gutter: minmax(var(--s-gutter), calc(50% - var(--s-max-width) / 2));
+  --knockout-bg: none;
+  --knockout-meta-bg: var(--c-primary-darker);
+
+  &__main {
+    width: 100%;
+    // padding: var(--s-gutter) 0;
+    display: grid;
+    grid-template-columns: [meta-col-start] var(--knockout-gutter) 1fr var(--knockout-gutter) [meta-col-end];
+    grid-template-rows: [meta-row-start] auto [meta-row-end] auto ;
+    grid-template-areas:  "left-gutter tabs    right-gutter"
+                          "left-gutter panel   right-gutter"
+                          "left-gutter actions right-gutter";
+
+    &::before {
+      content: '';
+      background: var(--knockout-meta-bg);
+      grid-row: meta-row-start / meta-row-end;
+      grid-column: meta-col-start / meta-col-end;
+    }
+  }
 
   &__sub-title {
     font-weight: 700;
@@ -70,7 +92,33 @@
       margin-top: var(--s-two-gutter);
     }
   }
-  .actions {
-    margin-top: var(--s-gutter);
+
+  &__actions {
+    padding-top: var(--s-gutter);
+    grid-area: actions;
+  }
+
+  .react-tabs {
+    &__tab-list {
+      margin: 0;
+      padding: var(--s-gutter) 0 0;
+      grid-area: tabs;
+      list-style: none;
+      display: flex;
+    }
+    &__tab {
+      flex: 1 1;
+      text-align: center;
+      padding: var(--s-half-gutter) 0;
+      color: var(--c-primary-lighter);
+
+      &--selected {
+        color: var(--c-primary);
+        background: var(--c-background);
+      }
+    }
+    &__tab-panel {
+      grid-area: panel;
+    }
   }
 }

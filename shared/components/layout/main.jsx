@@ -1,7 +1,6 @@
 import React from 'react'
 
 import './main.scss'
-
 const BASE_CLASS = `main`
 
 // use render props
