@@ -34,7 +34,7 @@ const store = createStore(reducers, crioState, composeWithDevTools(applyMiddlewa
 
 hydrate((
   <Provider store={store}>
-    <IntlProvider locale={ `fr` } messages={ locales.fr } >
+    <IntlProvider locale={ `en` } messages={ locales.en } >
       <BrowserRouter>
         {/* generates routes with react-router-config */}
         { renderRoutes(routes) }

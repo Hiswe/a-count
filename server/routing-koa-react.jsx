@@ -68,7 +68,7 @@ router.get( '*', async (ctx, next) => {
   // console.log( store.getState() )
   const content = renderToString(
     <Provider store={store}>
-      <IntlProvider locale={ `fr` } messages={ locales.fr } >
+      <IntlProvider locale={ `en` } messages={ locales.en } >
         <StaticRouter location={url} context={staticContext}>
           {/* renderRoutes will render the right components */}
           { renderRoutes(routes) }
