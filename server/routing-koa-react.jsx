@@ -8,7 +8,6 @@ import { renderRoutes, matchRoutes } from 'react-router-config'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
-import { IntlProvider } from 'react-intl'
 import IntlPolyfill from 'intl'
 import areIntlLocalesSupported from 'intl-locales-supported'
 
@@ -16,7 +15,6 @@ import log from './log.js'
 import config from './config.js'
 import routes from '../shared/routes.js'
 import reducer from '../shared/ducks/combined-reducers.js'
-import * as locales from '../shared/locales'
 
 // node only has `en`locales
 // • polyfill the other languages
@@ -68,12 +66,10 @@ router.get( '*', async (ctx, next) => {
   // console.log( store.getState() )
   const content = renderToString(
     <Provider store={store}>
-      <IntlProvider locale={ `en` } messages={ locales.en } >
-        <StaticRouter location={url} context={staticContext}>
-          {/* renderRoutes will render the right components */}
-          { renderRoutes(routes) }
-        </StaticRouter>
-      </IntlProvider>
+      <StaticRouter location={url} context={staticContext}>
+        {/* renderRoutes will render the right components */}
+        { renderRoutes(routes) }
+      </StaticRouter>
     </Provider>
   )
 

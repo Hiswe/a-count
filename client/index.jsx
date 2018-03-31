@@ -7,12 +7,11 @@ import crio from 'crio'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { IntlProvider, addLocaleData } from 'react-intl'
+import { addLocaleData } from 'react-intl'
 import en from 'react-intl/locale-data/en'
 import fr from 'react-intl/locale-data/fr'
 
 import routes from '../shared/routes'
-import * as locales from '../shared/locales/index.js'
 import reducers from '../shared/ducks/combined-reducers'
 
 const $root             = document.querySelector('#react-main-mount')
@@ -34,11 +33,9 @@ const store = createStore(reducers, crioState, composeWithDevTools(applyMiddlewa
 
 hydrate((
   <Provider store={store}>
-    <IntlProvider locale={ `en` } messages={ locales.en } >
-      <BrowserRouter>
-        {/* generates routes with react-router-config */}
-        { renderRoutes(routes) }
-      </BrowserRouter>
-    </IntlProvider>
+    <BrowserRouter>
+      {/* generates routes with react-router-config */}
+      { renderRoutes(routes) }
+    </BrowserRouter>
   </Provider>
 ), $root)

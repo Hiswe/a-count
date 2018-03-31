@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
 import LayoutBoarding from './layout/boarding.jsx'
 
-class ErrorBoundary extends React.Component {
+class ErrorBoundary extends PureComponent {
 
   constructor(props) {
     super(props)
