@@ -1,7 +1,7 @@
 import authenticationRequired from './authentication-required.jsx'
 import authenticationForbidden from './authentication-forbidden.jsx'
 
-import Root from './components/layout/root.jsx'
+import Root from './components/root.jsx'
 import Login from './pages/account/login.jsx'
 import Register from './pages/account/register.jsx'
 import Forgot from './pages/account/forgot.jsx'
