@@ -22,6 +22,7 @@ export default {
   'field.currency': `devise`,
   'field.prefix': `préfixe`,
   'field.start-at': `commence à`,
+  'field.language': `langue`,
 
   'configuration.tab.from': `Émetteur`,
   'configuration.tab.default-product': `Produit par défaut`,

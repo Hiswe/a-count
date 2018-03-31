@@ -62,6 +62,10 @@ function UserFormPres( props ) {
     {value: `USD`, label: `USD`},
     {value: `EUR`, label: `EUR`},
   ]
+  const languages = [
+    {value: `fr`, label: `français`},
+    {value: `en`, label: `english`},
+  ]
   const submitMessage = isSaving ? `saving…` : `update`
 
   return (
@@ -96,6 +100,14 @@ function UserFormPres( props ) {
         {/* USER */}
         <TabPanel>
           <div className={`${BASE_CLASS}__user`}>
+            <Select
+              name="lang"
+              label={intl.formatMessage({ id: `field.language` })}
+              value={ formData.lang }
+            >{ languages.map( c => (
+              <option key={ c.value } value={ c.value }>{ c.label }</option>
+            ))}
+            </Select>
             <PaperSheet part="top-left">
               <Party title="from" {...formData} />
             </PaperSheet>

@@ -22,6 +22,7 @@ export default {
   'field.currency': `currency`,
   'field.prefix': `prefix`,
   'field.start-at': `start at`,
+  'field.language': `language`,
 
   'configuration.tab.from': `from`,
   'configuration.tab.default-product': `Default product`,
