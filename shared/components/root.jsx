@@ -18,7 +18,9 @@ class Root extends React.Component {
 
   render( ) {
     const { route, lang } = this.props
-    console.log( lang )
+
+    // key is needed for dynamic language selection
+    // • https://github.com/yahoo/react-intl/wiki/Components#dynamic-language-selection
     return (
       <IntlProvider locale={ lang } key={ lang } messages={ locales[ lang ] } >
         <Fragment>
