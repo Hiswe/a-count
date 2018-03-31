@@ -14,7 +14,6 @@ import { ButtonList, ButtonNew, ButtonSubmit } from '../../components/quotations
 
 function EditQuotation( props ) {
   const { reference, intl } = props
-  const title = `Edit Quotation – ${ reference }`
 
   return (
     <Fragment>

@@ -53,6 +53,7 @@ export default {
   'page.quotations.new': `nouveau devis`,
   'page.quotations.edit': `devis – {reference}`,
   'page.invoices': `factures`,
+  'page.invoices.edit': `Éditer une facture`,
   'page.customers': `clients`,
   'page.customers.new': `nouveau client`,
   'page.customers.edit': `client : {name}`,

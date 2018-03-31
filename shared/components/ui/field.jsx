@@ -22,7 +22,7 @@ function ensureValue( value ) {
   return isNil( value ) ? `` : value
 }
 
-// pouic[0] => pouic-0
+// foo[0] => foo-0
 export function idToClassName( id ) {
   return id.replace(/\]$/, ``).replace(/[\[\]]/g, '-').toLowerCase()
 }
