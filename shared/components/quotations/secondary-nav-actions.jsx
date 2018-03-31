@@ -14,6 +14,25 @@ export function ButtonList( props ) {
   )
 }
 
+export function ButtonPrint( props ) {
+  return (
+    <BtnIcon
+      secondary
+      to={`/quotations/${ props.id }/print`}
+      svgId="print"
+    />
+  )
+}
+
+export function ButtonEdit( props ) {
+  return (
+    <BtnIcon
+      to={`/quotations/${ props.id }`}
+      svgId="edit"
+    />
+  )
+}
+
 export function ButtonNew( props ) {
   return (
     <BtnIcon

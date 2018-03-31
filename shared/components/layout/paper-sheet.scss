@@ -8,6 +8,7 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: min-content;
 
   // paper-sheet shadow
   &::before,
@@ -96,6 +97,16 @@
       > * {
         margin: 0;
       }
+    }
+  }
+
+  &__subject {
+    display: flex;
+    padding-bottom: var(--s-half-gutter);
+
+    &-title {
+      font-weight: bold;
+      padding-right: .25em;
     }
   }
 
@@ -208,5 +219,27 @@
       $shred-size $shred-size,
       $shred-size $shred-size;
     background-repeat: repeat-x, repeat-x;
+  }
+
+  &--print-mode {
+    width: 210mm;
+    min-height: 296mm;
+    margin: 0 auto;
+    grid-template-rows:
+      min-content
+      min-content
+      1fr
+      min-content
+      1fr;
+
+    #{ $root }__mentions,
+    #{ $root }__party {
+      margin: 0;
+      padding: 0;
+    }
+
+    .is-action {
+      display: none;
+    }
   }
 }

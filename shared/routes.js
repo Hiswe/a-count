@@ -14,6 +14,7 @@ import Home from './pages/home.jsx'
 import QuotationsList from './pages/quotations/list.jsx'
 import QuotationsNew from './pages/quotations/new.jsx'
 import QuotationsEdit from './pages/quotations/edit.jsx'
+import QuotationsPrint from './pages/quotations/print.jsx'
 
 import InvoicesList from './pages/invoices/list.jsx'
 import InvoicesEdit from './pages/invoices/edit.jsx'
@@ -63,6 +64,10 @@ const routes = [{
     exact: true,
     component: authenticationRequired( QuotationsEdit ),
   }, {
+    path: `/quotations/:id/print`,
+    exact: true,
+    component: authenticationRequired( QuotationsPrint ),
+  }, {
     path: `/invoices`,
     exact: true,
     component: authenticationRequired( InvoicesList ),
@@ -87,9 +92,5 @@ const routes = [{
     component: NotFound,
   }],
 }]
-
-// for the `/quotations/:id/print`
-//     and `/customers/:id/print`
-// http://maxlapides.com/forcing-browsers-print-backgrounds/
 
 export default routes

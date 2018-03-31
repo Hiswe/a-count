@@ -32,7 +32,9 @@
     }
   }
   &__title {
-    text-transform: capitalize;
+    &::first-letter {
+      text-transform: capitalize;
+    }
   }
   &__actions {
     margin-left: auto;

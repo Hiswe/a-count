@@ -52,6 +52,7 @@ export default {
   'page.quotations': `quotations`,
   'page.quotations.new': `new quotation`,
   'page.quotations.edit': `quotation – {reference}`,
+  'page.quotations.print': `print quotation – {reference}`,
   'page.invoices': `invoices`,
   'page.invoices.edit': `edit invoice`,
   'page.customers': `customers`,
@@ -70,6 +71,7 @@ export default {
   'paper-sheet.party.from': `From:`,
   'paper-sheet.party.to': `To:`,
   'paper-sheet.party.no-address': `No address defined`,
+  'paper-sheet.subject': `Subject:`,
 
   'quotation.create': `create`,
   'quotation.button.create': `Create the new quotation`,

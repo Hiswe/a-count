@@ -4,28 +4,28 @@ import { injectIntl } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
-import * as customers from '../../ducks/customers'
+import Main from '../../components/layout/main.jsx'
 import NavSecondary from '../../components/nav/secondary.jsx'
-import QuotationForm, { BASE_CLASS } from '../../components/quotations/form.jsx'
-import { ButtonList, ButtonNew, ButtonSubmit, ButtonPrint,
-} from '../../components/quotations/secondary-nav-actions.jsx'
+import { ButtonList, ButtonNew, ButtonEdit } from '../../components/quotations/secondary-nav-actions.jsx'
+import PrintQuotation from '../../components/quotations/print.jsx'
 
-function EditQuotation( props ) {
+function PrintQuotationPage( props ) {
   const { reference, intl } = props
   const { id } = props.match.params
 
   return (
     <Fragment>
       <NavSecondary title={intl.formatMessage(
-        {id: `page.quotations.edit`},
+        {id: `page.quotations.print`},
         {reference: props.reference}
       )}>
         <ButtonNew />
         <ButtonList />
-        <ButtonPrint id={ id } />
-        <ButtonSubmit isSaving={ props.isSaving } />
+        <ButtonEdit id={id} />
       </NavSecondary>
-      <QuotationForm {...props} />
+      <Main
+        content={() => <PrintQuotation /> }
+      />
     </Fragment>
   )
 }
@@ -33,16 +33,15 @@ function EditQuotation( props ) {
 function state2prop( state ) {
   const { current } = state.quotations
   const result = {
-    reference:  current.reference,
-    isSaving:   current.isSaving === true
+    reference:  current.reference
   }
   return result
 }
 
 export default connect( state2prop )( ConnectDataFetcher({
-  Component: injectIntl( EditQuotation ),
+  Component: injectIntl( PrintQuotationPage ),
   actionCreators: [
     quotations.getOne,
-    customers.getAll,
   ],
 }) )
+

@@ -7,9 +7,10 @@ import './paper-sheet.scss'
 const BASE_CLASS = `paper-sheet`
 
 export function PaperSheet( props ) {
-  const { part } = props
+  const { part, print } = props
   const className = [ BASE_CLASS ]
-  if ( part ) className.push(`${BASE_CLASS}--part-${part}`)
+  if ( part ) className.push(`${BASE_CLASS}--part-${part}` )
+  if ( print ) className.push(`${BASE_CLASS}--print-mode` )
   return (
     <div className={className.join(` `)}>
       { props.children }
@@ -46,6 +47,18 @@ export function Party( props ) {
       <h4 className={`${PARTY_CLASS}-name`}>{ people.name }</h4>
       <PartyAddress content={ people.address} PARTY_CLASS={PARTY_CLASS} />
     </aside>
+  )
+}
+
+export function Subject( props ) {
+  const COMP_CLASS = `${BASE_CLASS}__subject`
+  return (
+    <div className={ COMP_CLASS }>
+      <span className={`${COMP_CLASS}-title`}>
+        <FormattedMessage id="paper-sheet.subject" />
+      </span>
+      <span className={`${COMP_CLASS}-content`}>{ props.value}</span>
+    </div>
   )
 }
 

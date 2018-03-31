@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import crio from 'crio'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import serialize from 'form-serialize'
 
 import * as quotations from '../../ducks/quotations'

@@ -52,6 +52,7 @@ export default {
   'page.quotations': `devis`,
   'page.quotations.new': `nouveau devis`,
   'page.quotations.edit': `devis – {reference}`,
+  'page.quotations.print': `imprimer le devis – {reference}`,
   'page.invoices': `factures`,
   'page.invoices.edit': `Éditer une facture`,
   'page.customers': `clients`,
@@ -70,6 +71,7 @@ export default {
   'paper-sheet.party.from': `Émetteur :`,
   'paper-sheet.party.to': `Adressé à :`,
   'paper-sheet.party.no-address': `Pas d'adresse définie`,
+  'paper-sheet.subject': `Objet :`,
 
   'quotation.create': `créer`,
   'quotation.button.create': `Créer le nouveau devis`,
