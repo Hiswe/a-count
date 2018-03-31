@@ -36,6 +36,8 @@
   }
   &__actions {
     margin-left: auto;
+    display: flex;
+    font-size: 1.25em;
 
     > * + * {
       margin-left: var(--s-half-gutter);

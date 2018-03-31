@@ -3,6 +3,7 @@ server/public/*.js
 server/public/*.css
 server/public/*.map
 /dist
+/.tmp
 dump.rdb
 
 *.log

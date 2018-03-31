@@ -6,7 +6,7 @@ const $           = require( `gulp-load-plugins` )()
 const ICON_SVG_SRC    = `server/public/icons`
 const ICON_SVG_DEST   = `server`
 const ICON_CSS_DEST   = `shared/components/ui`
-const ICON_DEMO_DEST  = `dist`
+const ICON_DEMO_DEST  = `.tmp`
 
 const icons = () => {
   return gulp
@@ -30,6 +30,7 @@ const icons = () => {
   .pipe( $.svgSymbols({
     id:         `icon-%f`,
     class:      `.icon-%f`,
+    fontSize:   16,
     templates:  [
       `default-svg`,
       `default-css`,

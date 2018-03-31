@@ -26,17 +26,6 @@ export function Button( props ) {
   )
 }
 
-export function BtnSecondary( props ) {
-  const { className, ...others } = props
-  const btnClass = [ `${BASE_CLASS}--secondary` ]
-  if ( className ) btnClass.push( className )
-  return (
-    <Button
-      className={ btnClass.join(` `) }
-      {...others}
-    />
-)}
-
 export function BtnFab( props ) {
   const { className, ...others } = props
   const btnClass = [ `${BASE_CLASS}--fab` ]
