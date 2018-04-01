@@ -12,17 +12,4 @@
       padding-bottom: 0;
     }
   }
-
-  td {
-    border: none;
-  }
-  &__line td {
-    border-top: 1px solid var(--table-border-color);
-  }
-  &__line td + td {
-    border-left: none;
-  }
-  &__line + &__line td {
-    border: none;
-  }
 }

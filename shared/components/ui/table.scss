@@ -51,10 +51,15 @@
     border-bottom: 0;
   }
 
-  tbody tr {
-    background: white;
-    border: solid var(--table-border-color);
-    border-width: 0 1px 1px;
+  tbody {
+    tr {
+      background: white;
+      border: solid var(--table-border-color);
+      border-width: 0 1px 1px;
+    }
+    td + td {
+      border-left: 1px solid var(--table-border-color);
+    }
   }
 
   .is-action {
@@ -82,10 +87,6 @@
       margin: 0;
       padding: 0.5em 0.75em;
     }
-  }
-
-  td + td {
-    border-left: 1px solid var(--table-border-color);
   }
 
   .amount {
