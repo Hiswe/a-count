@@ -24,14 +24,21 @@ class Root extends React.Component {
     return (
       <IntlProvider locale={ lang } key={ lang } messages={ locales[ lang ] } >
         <Fragment>
-          <h1 className="main-logo">Concompte</h1>
-          <NavMain />
-          <ErrorBoundary>
-            {/* child routes won't render without this */}
-            {/* https://www.npmjs.com/package/react-router-config#renderroutesroutes-extraprops-- */}
-            { renderRoutes(route.routes) }
-          </ErrorBoundary>
-          <Notifications />
+          {/* React.StrictMode throw for any:
+              • Connect component
+              • Route
+              • Switch
+           */}
+          {/* <React.StrictMode> */}
+            <h1 className="main-logo">Concompte</h1>
+            <NavMain />
+            <ErrorBoundary>
+              {/* child routes won't render without this */}
+              {/* https://www.npmjs.com/package/react-router-config#renderroutesroutes-extraprops-- */}
+              { renderRoutes(route.routes) }
+            </ErrorBoundary>
+            <Notifications />
+          {/* </React.StrictMode> */}
         </Fragment>
       </IntlProvider>
     )

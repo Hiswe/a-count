@@ -17,17 +17,13 @@ class UserForm extends Component {
     this.handleSubmit = this.handleSubmit.bind( this )
     this.handleFormChange = this.handleFormChange.bind( this )
   }
-  componentWillReceiveProps( nextProps ) {
-    const { current } = this.props
-    const next = nextProps.current
-    // update state on redux status change
-    if (current === next) return
 
-    this.setState( (prevState, props) => {
-      return {
-        formData: props.current,
-      }
-    })
+  static getDerivedStateFromProps( nextProps, prevState ) {
+    const current = prevState.formData
+    const next    = nextProps.current
+    // update state on redux status change
+    if (current === next) return null
+    return { formData: next }
   }
 
   //----- EVENTS

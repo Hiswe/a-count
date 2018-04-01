@@ -20,19 +20,14 @@ class CustomerForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleFormChange = this.handleFormChange.bind(this)
   }
-  componentWillReceiveProps( nextProps ) {
-    const { history, current } = this.props
-    const next = nextProps.current
-
-    // update state on redux status change
-    if (current === next) return console.log( `state identical` )
-
+  static getDerivedStateFromProps( nextProps, prevState ) {
+    const   current   = prevState.formData
+    const   next      = nextProps.current
+    const { history } = nextProps
+    if ( current === next ) return null
     // redirect if new customer
     if ( needRedirect(current, next) ) history.push( `/customers/${next.id}` )
-
-    this.setState( (prevState, props) => {
-      return { formData: props.current }
-    })
+    return { formData: next }
   }
 
   //----- EVENTS

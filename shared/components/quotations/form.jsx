@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import serialize from 'form-serialize'
+import crio from 'crio'
 
 import * as quotations from '../../ducks/quotations'
 import * as customers from '../../ducks/customers'
@@ -11,13 +12,19 @@ import recomputeQuotationProducts from '../utils/recompute-quotation-products.js
 import Spinner from '../ui/spinner.jsx'
 import QuotationFormPres from './form.pres.jsx'
 
+const STEPS = crio([
+  { key: `sendAt`,       label: `send` },
+  { key: `validatedAt`,  label: `validated` },
+  { key: `signedAt`,     label: `signed` },
+])
+
 class QuotationForm extends Component {
 
   constructor( props ) {
     super( props )
     this.state = {
-      formData: this.recomputeFormData( props.current ),
-      customer: this.getCustomerData( props.current ),
+      formData: this.constructor.recomputeFormData( props.current ),
+      customer: this.constructor.getCustomerData  ( props.current ),
     }
 
     // don't use any automated bind
@@ -27,40 +34,29 @@ class QuotationForm extends Component {
     //   https://www.npmjs.com/package/@babel/plugin-proposal-class-properties
     // • but better to bind than relying on arrow functions in render()
     //   https://codeburst.io/how-to-not-react-common-anti-patterns-and-gotchas-in-react-40141fe0dcd#aef5
-    this.handleSubmit = this.handleSubmit.bind( this )
-    this.handleFormChange = this.handleFormChange.bind( this )
-    this.handleDayChange = this.handleDayChange.bind( this )
+    this.handleSubmit        = this.handleSubmit       .bind( this )
+    this.handleFormChange    = this.handleFormChange   .bind( this )
+    this.handleDayChange     = this.handleDayChange    .bind( this )
     this.handleProductRemove = this.handleProductRemove.bind( this )
   }
 
-  componentWillReceiveProps( nextProps ) {
-    const { history, current } = this.props
-    const next = nextProps.current
-    // update state on redux status change
-    if (current === next) return
-
-    // redirect if new quotation
-    if ( needRedirect(current, next) ) history.push( `/quotations/${next.id}` )
-
-    this.setState( (prevState, props) => {
-      return {
-        formData: this.recomputeFormData( props.current ),
-        customer: this.getCustomerData( props.current ),
-      }
-    })
+  static getDerivedStateFromProps( nextProps, prevState ) {
+    const   current              = prevState.formData
+    const   next                 = nextProps.current
+    const { history, customers } = nextProps
+    if ( current === next ) return null
+    // redirect if new customer
+    if ( needRedirect(current, next) ) history.push( `/customers/${next.id}` )
+    return {
+      formData: QuotationForm.recomputeFormData( next ),
+      customer: QuotationForm.getCustomerData( next, customers ),
+    }
   }
 
   //----- UTILS
 
-  static getSteps() {
-    return [
-      { key: `sendAt`,       label: `send` },
-      { key: `validatedAt`,  label: `validated` },
-      { key: `signedAt`,     label: `signed` },
-    ]
-  }
-  recomputeSteps( formData ) {
-    const steps = QuotationForm.getSteps().map( s => {
+  static recomputeSteps( formData ) {
+    const steps = STEPS.map( s => {
       const value = formData.get( s.key )
       return {
         key: s.key,
@@ -70,30 +66,30 @@ class QuotationForm extends Component {
     })
     return formData.set( `steps`, steps )
   }
+
   // • de-dupe defaultProduct lines
   // • add an empty line a the end…
   //   …in case a user just type something on the blank one
-  // TODO: check if we have the right data
-  recomputeProducts( formData ) {
-    const defaultProduct  = formData.get( `defaultProduct` )
-    const products = formData.get( `products` )
-    const recomputedProducts = recomputeQuotationProducts({
+  static recomputeProducts( formData ) {
+    const defaultProduct      = formData.get( `defaultProduct` )
+    const products            = formData.get( `products`       )
+    const recomputedProducts  = recomputeQuotationProducts({
       defaultProduct,
       products,
     })
     const updated = formData.set( `products`, recomputedProducts )
     return updated
   }
-  recomputeFormData( formData ) {
+
+  static recomputeFormData( formData ) {
     const withSteps = this.recomputeSteps( formData )
-    const withCleanProducts = this.recomputeProducts( withSteps )
-    return withCleanProducts
+    return this.recomputeProducts( withSteps )
   }
-  getCustomerData( formData ) {
-    const { props: { customers  } } = this
+
+  static getCustomerData( formData, customers ) {
     if ( !Array.isArray(customers) ) return {}
     const { customerId } = formData
-    const customer = customers.find( c => c.id === customerId )
+    const customer       = customers.find( c => c.id === customerId )
     return customer || {}
   }
 
@@ -111,28 +107,28 @@ class QuotationForm extends Component {
     // ignore stepper presentational radio input
     if ( name === `stepper-display-form` ) return
 
-    this.setState( prevState => {
+    this.setState( (prevState, props) => {
       const type = typeof prevState.formData.get( name)
       const updated = prevState.formData.set( name, value )
 
       // update customer state if we choose a new one
       if ( name === `customerId` ) return {
         formData: updated,
-        customer: this.getCustomerData( updated )
+        customer: this.constructor.getCustomerData( updated, props.customers )
       }
 
       // Recompute products only if needed
       const isProductChange = /^products\[\d+\]/.test( name )
       const isTaxChange = name === `tax`
       if ( !isProductChange && !isTaxChange ) return { formData: updated }
-      return { formData: this.recomputeProducts( updated ) }
+      return { formData: this.constructor.recomputeProducts( updated ) }
     })
   }
   handleDayChange( target ) {
     const { name, value } = target
     this.setState( prevState => {
       const updated   = prevState.formData.set( name, value )
-      const withSteps = this.recomputeSteps( updated )
+      const withSteps = this.constructor.recomputeSteps( updated )
       return { formData: withSteps }
     })
   }
@@ -146,7 +142,7 @@ class QuotationForm extends Component {
       const products = prevState.formData.get( `products` )
       const updatedProducts = products.splice( index, 1 )
       const updated = prevState.formData.set( `products`, updatedProducts )
-      return { formData: this.recomputeProducts( updated ) }
+      return { formData: this.constructor.recomputeProducts( updated ) }
     })
   }
 

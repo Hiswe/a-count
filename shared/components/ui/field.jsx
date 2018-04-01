@@ -34,6 +34,7 @@ export function idToClassName( id ) {
 // inspired by
 // • https://github.com/muicss/mui/blob/master/src/react/_textfieldHelpers.jsx
 const fieldWrapper = ({ControlComponent, fieldType}) => class extends PureComponent {
+
   constructor( props ) {
     super( props )
 
@@ -94,15 +95,14 @@ const fieldWrapper = ({ControlComponent, fieldType}) => class extends PureCompon
       return { isEmpty: isEmptyValue }
     })
   }
-  componentWillReceiveProps( nextProps ) {
+
+  static getDerivedStateFromProps( nextProps, prevState ) {
     if ( !`value` in nextProps ) return
-    this.setState( prevState => {
-      const value = ensureValue( nextProps.value )
-      return {
-        isEmpty:      isEmpty( value ),
-        controlProps: prevState.controlProps.set( `value`, value )
-      }
-    })
+    const value = ensureValue( nextProps.value )
+    return {
+      isEmpty:      isEmpty( value ),
+      controlProps: prevState.controlProps.set( `value`, value )
+    }
   }
 
   //----- EVENTS

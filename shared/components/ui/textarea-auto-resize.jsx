@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 
 import './textarea-auto-resize.scss'
-
 const BASE_CLASS = `textarea`
 
 export default class TextareaAutoResize extends PureComponent {
@@ -12,6 +11,7 @@ export default class TextareaAutoResize extends PureComponent {
       autoResize: false,
     }
     this.handleChange = this.handleChange.bind( this )
+    this.el = React.createRef()
   }
   // activate autoResize only if JS on client-side
   componentDidMount() {
@@ -33,13 +33,13 @@ export default class TextareaAutoResize extends PureComponent {
   // change textarea size if too much content
   // • https://maximilianhoffmann.com/posts/autoresizing-textareas
   recomputeTextareaSize() {
-    const { el } = this
+    const el = this.el.current
     const originalRows = el.getAttribute( `rows` )
     // force a one-liner by default
     // • this make it easy to calculate the right height
     el.setAttribute( `rows`, `1` )
     el.style.height = `auto`
-    el.style.height = el.scrollHeight + `px`
+    el.style.height = `${el.scrollHeight}px`
     el.scrollTop    = el.scrollHeight
     el.setAttribute( `rows`, originalRows )
   }
@@ -56,7 +56,7 @@ export default class TextareaAutoResize extends PureComponent {
       <textarea
         className={ _className.join(` `) }
         onChange={ this.handleChange }
-        ref={ el => this.el = el }
+        ref={ this.el }
         {...others}
       />
     )
