@@ -17,14 +17,19 @@ function NewQuotation( props ) {
     <Fragment>
       <NavSecondary title={intl.formatMessage({id: `page.quotations.new`})}>
         <ButtonList />
-        <ButtonSubmit />
+        <ButtonSubmit isSaving={ props.isSaving } />
       </NavSecondary>
       <QuotationForm {...props} />
     </Fragment>
   )
 }
 
-export default connect()( ConnectDataFetcher({
+function state2prop( state ) {
+  const { isSaving } = state.quotations
+  return { isSaving }
+}
+
+export default connect( state2prop )( ConnectDataFetcher({
   Component: injectIntl( NewQuotation ),
   actionCreators: [
     customers.getAll,

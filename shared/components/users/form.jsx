@@ -19,8 +19,10 @@ class UserForm extends Component {
   }
 
   static getDerivedStateFromProps( nextProps, prevState ) {
-    const current = prevState.formData
-    const next    = nextProps.current
+    const   current    = prevState.formData
+    const   next       = nextProps.current
+    const { isSaving } = nextProps
+    if ( isSaving ) return null
     // update state on redux status change
     if (current === next) return null
     return { formData: next }

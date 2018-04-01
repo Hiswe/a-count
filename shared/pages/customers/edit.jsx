@@ -28,10 +28,10 @@ function EditCustomer( props ) {
 }
 
 function state2prop( state ) {
-  const { current } = state.customers
+  const { current, isSaving } = state.customers
   return {
     name:     current.name,
-    isSaving: current.isSaving === true
+    isSaving,
   }
 }
 

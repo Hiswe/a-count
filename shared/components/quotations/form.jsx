@@ -41,9 +41,10 @@ class QuotationForm extends Component {
   }
 
   static getDerivedStateFromProps( nextProps, prevState ) {
-    const   current              = prevState.formData
-    const   next                 = nextProps.current
-    const { history, customers } = nextProps
+    const   current                        = prevState.formData
+    const   next                           = nextProps.current
+    const { history, customers, isSaving } = nextProps
+    if ( isSaving ) return null
     if ( current === next ) return null
     // redirect if new customer
     if ( needRedirect(current, next) ) history.push( `/customers/${next.id}` )
@@ -149,15 +150,16 @@ class QuotationForm extends Component {
   //----- RENDER
 
   render() {
-    const { props, state } = this
-    const { formData } = state
-    const { isLoading } = formData
+    const { props    , state    } = this
+    const { formData , isSaving } = state
+    const { isLoading           } = formData
     if ( isLoading ) return <Spinner />
 
     const renderProps = {
       user:             props.user,
       customers:        props.customers,
       formData:         formData,
+      isSaving:         isSaving,
       customer:         state.customer,
       isNew:            props.isNew,
       handleSubmit:         this.handleSubmit,
@@ -173,9 +175,10 @@ class QuotationForm extends Component {
 }
 
 function state2prop( state ) {
-  const { current } = state.quotations
+  const { current, isSaving } = state.quotations
   const isNew = current.id == null
   const result = {
+    isSaving,
     isNew,
     current,
     customers: state.customers && state.customers.list,

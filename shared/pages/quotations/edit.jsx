@@ -31,10 +31,10 @@ function EditQuotation( props ) {
 }
 
 function state2prop( state ) {
-  const { current } = state.quotations
+  const { current, isSaving } = state.quotations
   const result = {
     reference:  current.reference,
-    isSaving:   current.isSaving === true
+    isSaving,
   }
   return result
 }

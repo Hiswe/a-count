@@ -14,8 +14,9 @@ export const REGISTER = createActionNames( NAME, `post`,  `register` )
 export const SAVE_ONE = createActionNames( NAME, `post`,  `one` )
 
 const initialState = crio({
+  isSaving       : false,
   isAuthenticated: false,
-  current: {},
+  current        : {}   ,
 })
 
 //////
@@ -40,9 +41,9 @@ export default function reducer( state = initialState, action ) {
       return state.set( `current`, {} )
 
     case SAVE_ONE.LOADING:
-      return state.set( `current.isSaving`, true )
+      return state.set( `isSaving`, true )
     case SAVE_ONE.DONE:
-      return state.set( `current.isSaving`, false )
+      return state.set( `isSaving`, false )
     case SAVE_ONE.SUCCESS:
       return state.set( `current`, payload.user )
 

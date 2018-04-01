@@ -14,19 +14,21 @@ const NewCustomer = props => {
 
   return (
     <Fragment>
-      <NavSecondary title={intl.formatMessage({
-        id: `page.customers.new`,
-        defaultMessage: `new customer`,
-      })}>
+      <NavSecondary title={intl.formatMessage({id: `page.customers.new`})}>
         <ButtonList />
-        <ButtonSubmit />
+        <ButtonSubmit isSaving={ props.isSaving } />
       </NavSecondary>
       <CustomerForm {...props} />
     </Fragment>
   )
 }
 
-export default connect()( ConnectDataFetcher({
+function state2prop( state ) {
+  const { isSaving } = state.customers
+  return { isSaving }
+}
+
+export default connect( state2prop )( ConnectDataFetcher({
   Component: injectIntl( NewCustomer ),
   actionCreators: [
     customers.getOne

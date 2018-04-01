@@ -15,15 +15,16 @@ class CustomerForm extends Component {
   constructor( props ) {
     super( props )
     this.state = {
-      formData: this.props.current,
+      formData: this.props.customer,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleFormChange = this.handleFormChange.bind(this)
   }
   static getDerivedStateFromProps( nextProps, prevState ) {
-    const   current   = prevState.formData
-    const   next      = nextProps.current
-    const { history } = nextProps
+    const   current     = prevState.formData
+    const   next        = nextProps.customer
+    const { isSaving }  = nextProps
+    if ( isSaving ) return null
     if ( current === next ) return null
     // redirect if new customer
     if ( needRedirect(current, next) ) history.push( `/customers/${next.id}` )
@@ -49,15 +50,15 @@ class CustomerForm extends Component {
   //----- RENDER
 
   render() {
-    const { props, state } = this
-    const { formData } = state
-    const { isLoading } = formData
+    const { formData  , isSaving } = this.state
+    const { isLoading            } = formData
     if ( isLoading ) return <Spinner />
 
     const formProps = {
       handleSubmit:     this.handleSubmit,
       handleFormChange: this.handleFormChange,
       formData,
+      isSaving,
     }
 
     return <CustomerFormPres {...formProps} />
@@ -65,9 +66,9 @@ class CustomerForm extends Component {
 }
 
 function state2props( state ) {
-  const { current } = state.customers
   const result  = {
-    current,
+    isSaving: state.customers.get( `isSaving` ),
+    customer: state.customers.get( `current` ),
   }
   return result
 }

@@ -12,12 +12,12 @@ export const BASE_CLASS = `customer-form`
 
 function CustomerFormPres( props ) {
   const {
+    isSaving,
     handleSubmit,
     handleFormChange,
     formData,
     intl,
   } = props
-  const { isSaving } = formData
   const isNew = formData.id == null
   const submitI18nId =  `customer.button.${isNew ? 'create' : 'update'}`
 
