@@ -123,21 +123,22 @@ const Quotation = sequelize.define( `quotation`, {
   _hasInvoice: {
     type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`invoice`]),
     get: function() {
-      const invoice     = this.get( `invoice`     )
+      const invoice     = this.get( `invoice` )
       return typeof invoice !== `undefined`
     },
   },
   _canBeTransformedToInvoice: {
-    type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`sendAt`, `validatedAt`, `signedAt`, `invoice`]),
+    type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`sendAt`, `validatedAt`, `signedAt`, `invoice`, `products`]),
     get: function() {
       const sendAt      = this.get( `sendAt`      )
       const validatedAt = this.get( `validatedAt` )
       const signedAt    = this.get( `signedAt`    )
       const invoice     = this.get( `invoice`     )
-      console.log( {sendAt,validatedAt, signedAt, invoice})
+      const products    = this.get( `products`    )
       return sendAt !== ''
         && validatedAt !== ''
         && signedAt !== ''
+        && products.length
         && !invoice
     },
   },
@@ -177,12 +178,16 @@ Quotation.mergeWithDefaultRelations = (additionalParams = {}) => {
     include: [
       {
         model: User,
-        attributes: {
-          exclude: [`password`],
-        },
+        attributes: [`id`, `email`, `name`],
         include: [
-          DefaultQuotation,
-          DefaultProduct,
+          {
+            model: DefaultQuotation,
+            attributes: [`tax`, `currency`, `prefix`, `startAt`],
+          },
+          {
+            model: DefaultProduct,
+            attributes: [`description`, `quantity`, `price`],
+          },
           {
             model:    Invoice,
             required: false,
