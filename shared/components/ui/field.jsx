@@ -97,7 +97,7 @@ const fieldWrapper = ({ControlComponent, fieldType}) => class extends PureCompon
   }
 
   static getDerivedStateFromProps( nextProps, prevState ) {
-    if ( !`value` in nextProps ) return
+    if ( `defaultValue` in nextProps ) return null
     const value = ensureValue( nextProps.value )
     return {
       isEmpty:      isEmpty( value ),
