@@ -45,17 +45,7 @@ router
   const body = {
     user,
   }
-  const params = {
-    include: [
-      {
-        model: User,
-        include: [
-          DefaultQuotation,
-          DefaultProduct,
-        ],
-      },
-    ]
-  }
+  const params = Quotation.mergeWithDefaultRelations( {} )
   const modelTemplate = new Quotation( body, params ).toJSON()
   delete modelTemplate.id
   ctx.body = formatResponse( modelTemplate )

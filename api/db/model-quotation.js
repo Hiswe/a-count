@@ -178,7 +178,7 @@ Quotation.mergeWithDefaultRelations = (additionalParams = {}) => {
     include: [
       {
         model: User,
-        attributes: [`id`, `email`, `name`],
+        attributes: [`id`, `email`, `name`, `quotationCount`],
         include: [
           {
             model: DefaultQuotation,
