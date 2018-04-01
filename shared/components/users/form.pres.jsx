@@ -158,7 +158,7 @@ function UserFormPres( props ) {
                 </Select>
               </div>
               <PaperSheet part="center">
-                <ProductTable
+                <ProductTable readOnly
                   products={ fakeProducts }
                   tax={ defaultQuotation.tax }
                   currency={ defaultQuotation.currency }
