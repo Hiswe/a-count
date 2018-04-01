@@ -36,6 +36,14 @@ export function Reference( props ) {
   )
 }
 
+export function Between( props ) {
+  return (
+    <div className={`${BASE_CLASS}__between`}>
+      { props.children }
+    </div>
+  )
+}
+
 export function Party( props ) {
   const { title, ...people } = props
   const PARTY_CLASS = `${BASE_CLASS}__party`
@@ -50,6 +58,16 @@ export function Party( props ) {
   )
 }
 
+function PartyAddress( props ) {
+  const { content, PARTY_CLASS } = props
+  if ( !content ) return (
+    <p className={`${PARTY_CLASS}-address ${PARTY_CLASS}-address--empty`}>
+      <FormattedMessage id="paper-sheet.party.no-address" />
+    </p>
+  )
+  return <Markdown text={content} />
+}
+
 export function Subject( props ) {
   const COMP_CLASS = `${BASE_CLASS}__subject`
   return (
@@ -60,16 +78,6 @@ export function Subject( props ) {
       <span className={`${COMP_CLASS}-content`}>{ props.value}</span>
     </div>
   )
-}
-
-function PartyAddress( props ) {
-  const { content, PARTY_CLASS } = props
-  if ( !content ) return (
-    <p className={`${PARTY_CLASS}-address ${PARTY_CLASS}-address--empty`}>
-      <FormattedMessage id="paper-sheet.party.no-address" />
-    </p>
-  )
-  return <Markdown text={content} />
 }
 
 export function Mentions( props ) {

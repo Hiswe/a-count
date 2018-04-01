@@ -2,7 +2,7 @@ import React, {  Fragment } from 'react'
 import { injectIntl, FormattedMessage } from 'react-intl'
 
 import Main from '../layout/main.jsx'
-import { PaperSheet, Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
+import { PaperSheet, Party, Reference, Mentions, Between } from '../layout/paper-sheet.jsx'
 import Form from '../ui/form.jsx'
 import { Button, BtnLink, BtnIcon } from '../ui/buttons.jsx'
 import { Input, Textarea, Select } from '../ui/field.jsx'
@@ -74,8 +74,10 @@ function QuotationFormPres( props ) {
           <Fragment>
             <PaperSheet>
               <Reference type="quotation" product={ formData } />
-              <Party title="from" {...user} />
-              <Party title="to" {...customer} />
+              <Between>
+                <Party title="from" {...user} />
+                <Party title="to" {...customer} />
+              </Between>
               <Input
                 name="name"
                 label={intl.formatMessage({ id: `field.subject` })}

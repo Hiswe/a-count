@@ -33,8 +33,10 @@ export function Thead( props ) {
 export default function Table( props ) {
   const columns = normalizeColumns( props.columns )
   const hasFooter = props.footer != null
+  const COMP_CLASS = [`table`]
+  if ( props.className ) COMP_CLASS.push( props.className )
   return (
-    <table className={`table ${props.className}`} cellSpacing="0">
+    <table className={COMP_CLASS.join(` `)} cellSpacing="0">
       <Thead columns={columns} />
       <tbody>
         { props.children }

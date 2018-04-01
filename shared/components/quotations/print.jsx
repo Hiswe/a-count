@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { PaperSheet, Party, Reference, Mentions, Subject } from '../layout/paper-sheet.jsx'
+import { PaperSheet, Party, Reference, Mentions, Subject, Between } from '../layout/paper-sheet.jsx'
 import Spinner from '../ui/spinner.jsx'
 import ProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
@@ -11,10 +11,13 @@ function PrintQuotation( props ) {
   return (
     <PaperSheet print>
       <Reference type="quotation" product={ quotation } />
-      <Party title="from" {...user} />
-      <Party title="to" {...quotation.customer} />
+      <Between>
+        <Party title="from" {...user} />
+        <Party title="to" {...quotation.customer} />
+      </Between>
       <Subject value={quotation.name} />
       <ProductTable
+        readOnly
         products={ quotation.products }
         tax={ quotation.tax }
         currency={ user.defaultQuotation.currency }

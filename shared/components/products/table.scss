@@ -4,11 +4,18 @@
   font-weight: bold;
   border-top: 1px solid var(--c-primary-lighter);
 
+  .table--print & {
+    background: none;
+    p {
+      padding-bottom: 0;
+    }
+  }
+
   td {
     border: none;
   }
   &__line td {
-    border-top: 1px solid var(--c-primary-lighter);
+    border-top: 1px solid var(--table-border-color);
   }
   &__line td + td {
     border-left: none;

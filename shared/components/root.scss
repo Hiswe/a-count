@@ -28,9 +28,10 @@
   --c-accent-lightest:  HSL(var(--c-accent-h), var(--c-accent-s), 90%);
   --c-background:       HSL(var(--c-primary-h), var(--c-primary-s), 95%);
 
-  --c-text:           HSL(var(--c-text-h), var(--c-text-s), var(--c-text-l));
-  --c-text-lighter:   HSL(var(--c-text-h), var(--c-text-s), 60%);
-  --c-text-lightest:  HSL(var(--c-text-h), var(--c-accent-s), 80%);
+  --c-text-darker:      HSL(var(--c-text-h), var(--c-text-s), 15%);
+  --c-text:             HSL(var(--c-text-h), var(--c-text-s), var(--c-text-l));
+  --c-text-lighter:     HSL(var(--c-text-h), var(--c-text-s), 60%);
+  --c-text-lightest:    HSL(var(--c-text-h), var(--c-accent-s), 80%);
   --c-black:            $c-black;
 
   --s-gutter:         30px;
@@ -47,9 +48,6 @@
   --s-nav-main-width:       230px;
   --s-nav-main-item-height: 50px;
   --s-nav-top-height:       70px;
-
-  // TABLE CONFIG
-  --c-table-header: var(--c-primary-darker);
 
   // PAPER SHEET BORDER RADIUS
   --sheet-border-radius: var(--s-quarter-gutter);
@@ -107,7 +105,7 @@ fieldset {
   size: A4;
   margin: 0;
 }
-@media print {
+@media #{$mq-print} {
 
   :root {
     --s-nav-main-width: 0;
@@ -117,6 +115,6 @@ fieldset {
   html,
   body {
     width: 210mm;
-    height: 297mm;
+    height: 296mm;
   }
 }

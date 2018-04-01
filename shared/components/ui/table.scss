@@ -1,11 +1,18 @@
+@import '../config';
+
 .table {
-  border: 1px solid var(--c-primary-lighter);
+  --table-border-color: var(--c-primary-lighter);
+  --table-header-border-color: var(--c-primary);
+  --table-header-bg-color: var(--c-primary-darker);
+  border-collapse: collapse;
   background: white;
   border-radius: var(--s-border-radius);
   width: 100%;
 
-  thead {
-    border-bottom: 1px solid var(--c-primary-lighter);
+  &--print {
+    --table-border-color: var(--c-text-lighter);
+    --table-header-border-color: var(--c-text);
+    --table-header-bg-color: var(--c-text-darker);
   }
 
   a {
@@ -23,21 +30,35 @@
     text-transform: uppercase;
     font-size: 12px;
     padding: 1em 1.3em;
-    background: var(--c-table-header);
+    background: var(--table-header-bg-color);
     color: white;
 
-    @media print {
-      // box-shadow as a background for print
-      box-shadow: inset var(--c-table-header) 0 0 0 100px;
+    @media #{$mq-print} {
+      // box-shadow act as a background for print
+      box-shadow: inset var(--table-header-bg-color) 0 0 0 100px;
     }
 
     + th {
-      border-left: 1px solid var(--c-primary);
+      border-left: 1px solid var(--table-header-border-color);
     }
   }
 
   tr {
     vertical-align: top;
+  }
+
+  thead tr {
+    border: 1px solid var(--table-header-bg-color);
+    border-bottom: 0;
+  }
+
+  tbody tr {
+    border-left: 1px solid var(--table-border-color);
+    border-right: 1px solid var(--table-border-color);
+
+    + tr {
+      border-top: 1px solid var(--table-border-color);
+    }
   }
 
   .is-action {
@@ -68,11 +89,7 @@
   }
 
   td + td {
-    border-left: 1px solid var(--c-primary-lighter);
-  }
-
-  tr + tr td {
-    border-top: 1px solid var(--c-primary-lighter);
+    border-left: 1px solid var(--table-border-color);
   }
 
   .amount {

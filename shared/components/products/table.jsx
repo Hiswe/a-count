@@ -9,7 +9,7 @@ import './table.scss'
 const BASE_CLASS = `product-total`
 
 const TotalFooter = props => {
-  const { products, tax } = props
+  const { products, tax, readOnly } = props
   const totals = compute.totals( products, tax )
   return (
     <tfoot className={ BASE_CLASS }>
@@ -23,7 +23,7 @@ const TotalFooter = props => {
             currency={ props.currency }
           />
         </td>
-        <td className="is-action"></td>
+        { !readOnly && <td className="is-action"></td> }
       </tr>
       <tr className={`${BASE_CLASS}__line`}>
         <td colSpan="3">
@@ -35,7 +35,7 @@ const TotalFooter = props => {
             currency={ props.currency }
           />
         </td>
-        <td className="is-action"></td>
+        { !readOnly && <td className="is-action"></td> }
       </tr>
       <tr className={`${BASE_CLASS}__line`}>
         <td colSpan="3">
@@ -47,24 +47,27 @@ const TotalFooter = props => {
             currency={ props.currency }
           />
         </td>
-        <td className="is-action"></td>
+        { !readOnly && <td className="is-action"></td> }
       </tr>
     </tfoot>
   )
 }
 
 const ProductTable = props => {
-  const { products, tax, currency } = props
+  const { readOnly } = props
   const columns = [
     {label: `table.header.description`},
     {label: `table.header.quantity`},
     {label: `table.header.unit-price`},
     {label: `table.amount`},
-    {label: false, className: `is-action`},
   ]
+  if ( !readOnly ) columns.push({label: false, className: `is-action`})
+  const COMP_CLASS = [`table--product`]
+  if ( readOnly ) COMP_CLASS.push( `table--print` )
   return (
     <Table
       columns={ columns }
+      className={ COMP_CLASS.join(` `) }
       footer={ <TotalFooter {...props} /> }
     >
       { props.children }

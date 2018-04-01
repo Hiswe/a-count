@@ -1,3 +1,5 @@
+@import '../config';
+
 .nav-main {
   --main-nav-bg: var(--c-primary-darkest);
   --main-nav-bg-selected: var(--c-primary-darker);
@@ -10,7 +12,7 @@
   width: var(--s-nav-main-width);
   bottom: 0;
 
-  @media print {
+  @media #{$mq-print} {
     display: none;
   }
 
@@ -83,7 +85,7 @@
   width: var(--s-nav-main-width);
   height: var(--s-nav-top-height);
 
-  @media print {
+  @media #{$mq-print} {
     display: none;
   }
 }

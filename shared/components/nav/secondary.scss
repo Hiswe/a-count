@@ -1,10 +1,12 @@
+@import '../config';
+
 .nav-secondary {
   --c-nav-secondary: white;
   margin: 0;
   height: var(--s-nav-top-height);
   background: var(--c-nav-secondary);
 
-  @media print {
+  @media #{$mq-print} {
     display: none;
   }
 

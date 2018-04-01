@@ -1,3 +1,5 @@
+@import '../config';
+
 .main {
   $root: &;
   --knockout-max-width: var(--s-max-width);
@@ -13,6 +15,12 @@
   grid-template-columns: [meta-col-start] var(--knockout-gutter) 1fr var(--knockout-gutter) [meta-col-end];
   grid-template-rows: [meta-row-start] auto var(--knockout-overlap-height) [meta-row-end] auto ;
   grid-template-areas: "left-gutter content right-gutter";
+
+  @media #{$mq-print} {
+    --knockout-gutter: 0;
+    display: block;
+    padding: 0;
+  }
 
   &--has-meta {
     padding: 0 0 var(--s-gutter);
@@ -44,12 +52,6 @@
     color: white;
     grid-area: meta;
     padding: var(--s-gutter) 0;
-
-    // @media #{$bp} {
-    //   display: grid;
-    //   grid-template-columns: repeat(2, 1fr);
-    //   grid-gap: var(--s-gutter);
-    // }
   }
   &__content {
     grid-area: content;
