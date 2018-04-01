@@ -10,10 +10,11 @@ const sequelize = require( './connection' )
 const compute = require( './_compute' )
 const h = require( './_helpers' )
 const filterDefaultProducts = require( `./_filter-array-with-object` )
-const Customer = require( './model-customer' )
-const User = require( './model-user' )
-const DefaultQuotation = require( './model-default-quotation' )
-const DefaultProduct = require( './model-default-product' )
+const User              = require( './model-user' )
+const Customer          = require( './model-customer' )
+const Invoice           = require( './model-invoice' )
+const DefaultQuotation  = require( './model-default-quotation' )
+const DefaultProduct    = require( './model-default-product' )
 
 const Quotation = sequelize.define( `quotation`, {
   id: {
@@ -119,6 +120,27 @@ const Quotation = sequelize.define( `quotation`, {
       return customer.get(`name`)
     }
   },
+  _hasInvoice: {
+    type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`invoice`]),
+    get: function() {
+      const invoice     = this.get( `invoice`     )
+      return typeof invoice !== `undefined`
+    },
+  },
+  _canBeTransformedToInvoice: {
+    type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`sendAt`, `validatedAt`, `signedAt`, `invoice`]),
+    get: function() {
+      const sendAt      = this.get( `sendAt`      )
+      const validatedAt = this.get( `validatedAt` )
+      const signedAt    = this.get( `signedAt`    )
+      const invoice     = this.get( `invoice`     )
+      console.log( {sendAt,validatedAt, signedAt, invoice})
+      return sendAt !== ''
+        && validatedAt !== ''
+        && signedAt !== ''
+        && !invoice
+    },
+  },
   // RELATION ALIASES
   defaultQuotation: {
     type:         new Sequelize.VIRTUAL(Sequelize.JSON),
@@ -161,6 +183,10 @@ Quotation.mergeWithDefaultRelations = (additionalParams = {}) => {
         include: [
           DefaultQuotation,
           DefaultProduct,
+          {
+            model:    Invoice,
+            required: false,
+          }
         ],
       },
       {

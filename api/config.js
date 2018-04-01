@@ -23,6 +23,10 @@ const config = rc( `concompte-api`, {
     }
   },
   delay: false,
+  // delay: {
+  //   base     : 1000,
+  //   variation: 500,
+  // },
   // JWT config
   // • To generate a new secret:
   //   node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"

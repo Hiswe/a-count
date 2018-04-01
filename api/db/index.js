@@ -4,25 +4,33 @@ const chalk = require( 'chalk' )
 const { inspect } = require( 'util' )
 const { normalize, schema } = require( 'normalizr' )
 
+const config = require(  '../config' )
 const { log, logName } = require( `./_helpers` )
 const sequelize = require( './connection' )
-const config = require(  '../config' )
+// models
+const User = require( './model-user' )
 const Customer = require( './model-customer' )
 const Quotation = require( './model-quotation' )
+const Invoice = require( './model-invoice' )
 const DefaultQuotation = require( './model-default-quotation' )
 const DefaultInvoice = require( './model-default-invoice' )
 const DefaultProduct = require( './model-default-product' )
-const User = require( './model-user' )
 
 //////
 // RELATIONS
 //////
 
-Quotation.belongsTo( Customer )
 Quotation.belongsTo( User )
+Quotation.belongsTo( Customer )
+Quotation.hasOne( Invoice )
 
-Customer.hasMany( Quotation )
+Invoice.belongsTo( User )
+Invoice.belongsTo( Quotation )
+Invoice.belongsTo( Customer )
+
 Customer.belongsTo( User )
+Customer.hasMany( Quotation )
+Customer.hasMany( Invoice )
 
 DefaultQuotation.belongsTo( User )
 DefaultInvoice.belongsTo( User )
@@ -30,6 +38,7 @@ DefaultProduct.belongsTo( User )
 
 User.hasMany( Customer )
 User.hasMany( Quotation )
+User.hasMany( Invoice )
 User.hasOne( DefaultQuotation )
 User.hasOne( DefaultInvoice )
 User.hasOne( DefaultProduct )

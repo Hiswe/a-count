@@ -25,12 +25,15 @@ const DefaultQuotation = sequelize.define( `defaultQuotation`, {
   },
   currency: {
     type:         Sequelize.STRING,
-    defaultValue: `$`,
+    defaultValue: `USD`,
     set:          dbHelpers.setTrimmedString(`currency`),
+    validate: {
+      isIn: [[`USD`, `EUR`]],
+    },
   },
   prefix: {
     type:         Sequelize.STRING,
-    defaultValue: `QO`,
+    defaultValue: `QUOT-`,
     set:          dbHelpers.setTrimmedString(`prefix`),
   },
   startAt: {
