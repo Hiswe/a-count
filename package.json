@@ -7,7 +7,7 @@
   "author": "Hiswe <hiswehalya@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node index.js",
+    "start": "npm run build && parallelshell \"npm run server\" \"npm run api\"",
     "build": "npm run webpack:build",
     "build:icons": "gulp icons",
     "webpack:build": "webpack --config webpack.config.js --progress --profile",

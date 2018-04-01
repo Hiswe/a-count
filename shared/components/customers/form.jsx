@@ -21,9 +21,9 @@ class CustomerForm extends Component {
     this.handleFormChange = this.handleFormChange.bind(this)
   }
   static getDerivedStateFromProps( nextProps, prevState ) {
-    const   current     = prevState.formData
-    const   next        = nextProps.customer
-    const { isSaving }  = nextProps
+    const   current             = prevState.formData
+    const   next                = nextProps.customer
+    const { isSaving, history } = nextProps
     if ( isSaving ) return null
     if ( current === next ) return null
     // redirect if new customer

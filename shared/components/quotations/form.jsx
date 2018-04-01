@@ -47,7 +47,7 @@ class QuotationForm extends Component {
     if ( isSaving ) return null
     if ( current === next ) return null
     // redirect if new customer
-    if ( needRedirect(current, next) ) history.push( `/customers/${next.id}` )
+    if ( needRedirect(current, next) ) history.push( `/quotations/${next.id}` )
     return {
       formData: QuotationForm.recomputeFormData( next ),
       customer: QuotationForm.getCustomerData( next, customers ),
