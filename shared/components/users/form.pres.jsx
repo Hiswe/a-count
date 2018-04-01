@@ -24,12 +24,12 @@ AUSTRALIA
 
 function UserFormPres( props ) {
   const {
+    isSaving,
     intl,
     formData,
     handleFormChange,
     handleSubmit,
   } = props
-  const { isSaving } = formData
   const {
     defaultProduct,
     defaultQuotation,
@@ -72,7 +72,7 @@ function UserFormPres( props ) {
     <Form
       id={ `${BASE_CLASS}` }
       action={ `/users/${formData.id}` }
-      isSaving={ isSaving === true }
+      isSaving={ isSaving }
       onChange={ handleFormChange }
       onSubmit={ handleSubmit }
     >

@@ -27,7 +27,7 @@ function EditProfile( props ) {
 
 function state2prop( state ) {
   return {
-    isSaving: state.users.current.isSaving === true
+    isSaving: state.users.isSaving
   }
 }
 

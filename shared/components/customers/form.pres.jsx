@@ -24,7 +24,7 @@ function CustomerFormPres( props ) {
   return (
       <Form
         id={ `${BASE_CLASS}` }
-        isSaving={ isSaving === true }
+        isSaving={ isSaving }
         onSubmit={ handleSubmit }
         onChange={ handleFormChange }
       >

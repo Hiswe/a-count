@@ -17,6 +17,7 @@ export const BASE_CLASS = `quotation-form`
 function QuotationFormPres( props ) {
   const {
     intl,
+    isSaving,
     user,
     customers,
     formData,
@@ -27,7 +28,6 @@ function QuotationFormPres( props ) {
     handleDayChange,
     handleProductRemove,
   } = props
-  const { isSaving } = formData
   const { products } = formData
   const hasProducts = Array.isArray( products )
   const productsLength = hasProducts ? products.length : 0

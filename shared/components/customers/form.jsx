@@ -50,8 +50,9 @@ class CustomerForm extends Component {
   //----- RENDER
 
   render() {
-    const { formData  , isSaving } = this.state
-    const { isLoading            } = formData
+    const { formData  } = this.state
+    const { isSaving  } = this.props
+    const { isLoading } =      formData
     if ( isLoading ) return <Spinner />
 
     const formProps = {

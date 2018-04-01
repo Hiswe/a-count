@@ -49,11 +49,12 @@ class UserForm extends Component {
   //----- RENDER
 
   render() {
-    const { props, state } = this
-    const { formData } = state
+    const { formData } = this.state
+    const { isSaving } = this.props
 
     const renderProps = {
       formData,
+      isSaving,
       handleSubmit: this.handleSubmit,
       handleFormChange: this.handleFormChange,
     }
@@ -66,7 +67,8 @@ class UserForm extends Component {
 
 const state2props = state => {
   return {
-    current: state.users.current,
+    current : state.users.current,
+    isSaving: state.users.isSaving,
   }
 }
 

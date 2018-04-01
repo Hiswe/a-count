@@ -150,9 +150,10 @@ class QuotationForm extends Component {
   //----- RENDER
 
   render() {
-    const { props    , state    } = this
-    const { formData , isSaving } = state
-    const { isLoading           } = formData
+    const { props     , state } = this
+    const { formData          } = state
+    const { isSaving          } = props
+    const { isLoading         } = formData
     if ( isLoading ) return <Spinner />
 
     const renderProps = {
