@@ -2,10 +2,12 @@
   background-color: var(--c-primary-lightest);
   text-align: right;
   font-weight: bold;
-  border-top: 1px solid var(--c-primary-lighter);
+  border: 1px solid var(--table-border-color);
 
   .table--print & {
     background: none;
+    border: 0;
+
     p {
       padding-bottom: 0;
     }
