@@ -55,10 +55,11 @@ router
     quotationConfig: user.quotationConfig,
     productConfig  : user.productConfig,
   }
-  const params = Quotation.mergeWithDefaultRelations( {} )
-  const modelTemplate = new Quotation( body , params ).toJSON()
-  delete modelTemplate.id
-  ctx.body = formatResponse( modelTemplate )
+  // Build non-persistent instance
+  const params    = Quotation.mergeWithDefaultRelations( {} )
+  const instance  = Quotation.build( body , params ).toJSON()
+  delete instance.id
+  ctx.body = formatResponse( instance )
 })
 .post(`/new`,  async (ctx, next) => {
   const { user } = ctx.state
@@ -72,30 +73,23 @@ router
   ctx.assert( dbUser, 412, MESSAGES.NO_USER )
 
   const quotationConfig = dbUser.get( `quotationConfig` )
-  const updatedConfig = await quotationConfig.increment( `count`, {by: 1} )
+  const updatedConfig   = await quotationConfig.increment( `count`, {by: 1} )
 
-  // To avoid model quotation haven't access to his relations we:
-  // • build an empty quotation
-  // • get it with its relations
-  // • THEN update it with the body
-  // • https://github.com/sequelize/sequelize/issues/3321#issuecomment-78218074
-  const emptyQuotation = Quotation.build({
-    index     : updatedConfig.get(`count`),
-    customerId: body.customerId,
+  const params        = Quotation.mergeWithDefaultRelations( {} )
+  const quotationBody = merge( {}, body, {
+    userId:             dbUser.get( `id` ),
+    quotationConfigId:  dbUser.get( `quotationConfig`).id,
+    productConfigId  :  dbUser.get( `productConfig` ).id,
+    index:              updatedConfig.get( `count` ),
   })
-  emptyQuotation.setUser( updatedUser, {save: false} )
-  emptyQuotation.setCustomer( customer, {save: false} )
-  await emptyQuotation.save()
+  const newQuotation  = await Quotation.create( quotationBody, params )
+  ctx.assert( newQuotation, 500, MESSAGES.DEFAULT )
 
-  const quotation = await Quotation.findOneWithRelations({
-    where: { id: emptyQuotation.get(`id`) },
+  // need to re-query to have the relations ok…
+  const quotation     = await Quotation.findOneWithRelations({
+    where: { id: newQuotation.get(`id`) }
   })
-
-  const updatedQuotation = await quotation.update( body )
-
-  ctx.assert( updatedQuotation, 500, MESSAGES.DEFAULT )
-
-  ctx.body = formatResponse( updatedQuotation )
+  ctx.body = quotation
 })
 
 //----- EDIT
@@ -104,23 +98,24 @@ router
   const { id }    = ctx.params
   const instance  = await Quotation.findOneWithRelations( {where: { id }} )
   ctx.assert( instance, 404, MESSAGES.NOT_FOUND )
-  ctx.body = formatResponse( instance )
+  ctx.body = instance
 })
 .post(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
   const { body }  = ctx.request
+  const [ quotation, customer ] = await Promise.all([
+    Quotation.findOneWithRelations( {where: { id }} ),
+    Customer.findById( body.customerId ),
+  ])
 
-  const quotation = await Quotation.findOneWithRelations( {where: { id }} )
   ctx.assert( quotation, 404, MESSAGES.NOT_FOUND )
-
-  const customer  = await Customer.findById( body.customerId )
-  ctx.assert(customer, 412, MESSAGES.NO_CUSTOMER )
-
+  ctx.assert( customer, 412, MESSAGES.NO_CUSTOMER )
   const updatedQuotation = await quotation.update( body )
+
   // just passing the updatedQuotation return the Tax as a string O_O
   // • prevent that by getting a new instance…
   const instance  = await Quotation.findOneWithRelations( {where: { id }} )
-  ctx.body = formatResponse( instance )
+  ctx.body = instance
 })
 .post(`/:id/convert`, async (ctx, next) => {
   const userId    = ctx.state.user.id

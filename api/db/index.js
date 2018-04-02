@@ -29,6 +29,7 @@ Quotation.hasOne( Invoice )
 Invoice.belongsTo( User )
 Invoice.belongsTo( Quotation )
 Invoice.belongsTo( Customer )
+Invoice.belongsTo( InvoiceConfig )
 
 Customer.belongsTo( User )
 Customer.hasMany( Quotation )

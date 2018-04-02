@@ -22,12 +22,11 @@ const Invoice = sequelize.define( `invoice`, {
     primaryKey:   true,
   },
   reference: {
-    type: new Sequelize.VIRTUAL(Sequelize.STRING, [`defaultInvoice`, `index`, `user`]),
+    type: new Sequelize.VIRTUAL(Sequelize.STRING, [`invoiceConfig`, `index`]),
     get:  function() {
-      const { prefix        , startAt } = this.get( `defaultInvoice` )
-      const { quotationCount          } = this.get( `user`           )
-      const count = this.getDataValue( `index` ) || quotationCount + 1
-      return `${ prefix }${ count + startAt }`
+      const { prefix, startAt, count } = this.get( `invoiceConfig` )
+      const index = this.getDataValue( `index` ) || count + 1
+      return `${ prefix }${ index + startAt }`
     }
   },
   name: {
@@ -72,19 +71,6 @@ const Invoice = sequelize.define( `invoice`, {
     get:          dbGetterSetter.getNormalizedDate( `archivedAt` ),
     set:          dbGetterSetter.setNormalizedDate( `archivedAt` ),
   },
-  // RELATION ALIASES
-  defaultInvoice: {
-    type:         new Sequelize.VIRTUAL(Sequelize.JSON),
-    get:          function() {
-      const user = this.get( `user` )
-      if ( !user ) throw new Error( `“user” relation is needed for computing products` )
-
-      const defaultInvoice = user.get( `defaultInvoice` )
-      if ( !defaultInvoice ) throw new Error( `“user.defaultInvoice” relation is needed for computing reference` )
-
-      return defaultInvoice.toJSON()
-    }
-  },
 })
 
 //////
@@ -96,17 +82,15 @@ Invoice.mergeWithDefaultRelations = (additionalParams = {}) => {
     include: [
       {
         model: User,
-        attributes: [`id`, `email`, `name`, `invoiceCount`, `currency`],
-        include: [
-          {
-            model: InvoiceConfig,
-            attributes: [`prefix`, `startAt`],
-          },
-        ],
+        attributes: [`currency`],
+      },
+      {
+        model: InvoiceConfig,
+        attributes: {exclude: [`id`]},
       },
       {
         model: Customer,
-        attributes: [`id`, `name`, `address`],
+        attributes: [`id`, `name`],
       }
     ]
   }, additionalParams )

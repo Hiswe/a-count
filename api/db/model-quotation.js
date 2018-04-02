@@ -24,7 +24,7 @@ const Quotation = sequelize.define( `quotation`, {
     primaryKey:   true,
   },
   reference: {
-    type: new Sequelize.VIRTUAL(Sequelize.STRING, [`quotationConfig`, `index`, `user`]),
+    type: new Sequelize.VIRTUAL(Sequelize.STRING, [`quotationConfig`, `index`]),
     get:  function() {
       const { prefix, startAt, count } = this.get( `quotationConfig` )
       const index = this.getDataValue( `index` ) || count + 1
@@ -44,7 +44,7 @@ const Quotation = sequelize.define( `quotation`, {
     allowNull:    true,
     get:          function() {
       const quotationConfig = this.get( `quotationConfig` )
-      if ( !quotationConfig ) throw new Error( `“user.quotationConfig” relation is needed for computing products` )
+      if ( !quotationConfig ) throw new Error( `“quotationConfig” relation is needed for computing products` )
 
       const tax = this.getDataValue( `tax` )
       return isNil( tax ) ? quotationConfig.tax : tax
@@ -68,7 +68,7 @@ const Quotation = sequelize.define( `quotation`, {
         dbLog( products )
         return this.setDataValue( `products`, [] )
       }
-      const productConfig = this.get( `productConfig` )
+      const productConfig = this.get( `productConfig` ).toJSON()
       const filteredProducts = filterDefaultProducts( {
         defaultObject: productConfig,
         array: products,
@@ -142,7 +142,7 @@ Quotation.mergeWithDefaultRelations = (additionalParams = {}) => {
     include: [
       {
         model: User,
-        attributes: [`id`, `email`, `name`, `quotationCount`, `currency`],
+        attributes: [`currency`],
       },
       Invoice.mergeWithDefaultRelations({
         model:      Invoice,
@@ -151,11 +151,11 @@ Quotation.mergeWithDefaultRelations = (additionalParams = {}) => {
       }),
       {
         model: ProductConfig,
-        attributes: {exclude: [`id`]},
+        attributes: {exclude: [`id`, `userId`]},
       },
       {
         model: QuotationConfig,
-        attributes: {exclude: [`id`]},
+        attributes: {exclude: [`id`, `userId`]},
       },
       {
         model: Customer,
