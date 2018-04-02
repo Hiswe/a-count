@@ -11,6 +11,11 @@ const InvoiceConfig = sequelize.define( `invoiceConfig`, {
     defaultValue: Sequelize.UUIDV4,
     primaryKey:   true,
   },
+  count: {
+    type:         Sequelize.BIGINT,
+    defaultValue: 0,
+    allowNull:    false,
+  },
   prefix: {
     type:         Sequelize.STRING,
     defaultValue: `INV-`,

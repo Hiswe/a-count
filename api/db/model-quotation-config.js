@@ -18,6 +18,11 @@ const QuotationConfig = sequelize.define( `quotationConfig`, {
     defaultValue: Sequelize.UUIDV4,
     primaryKey:   true,
   },
+  count: {
+    type:         Sequelize.BIGINT,
+    defaultValue: 0,
+    allowNull:    false,
+  },
   tax: {
     type:         Sequelize.FLOAT,
     defaultValue: 0,
