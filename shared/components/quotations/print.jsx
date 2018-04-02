@@ -20,14 +20,14 @@ function PrintQuotation( props ) {
         readOnly
         products={ quotation.products }
         tax={ quotation.tax }
-        currency={ user.defaultQuotation.currency }
+        currency={ user.currency }
       >
         {quotation.products.map( (product, index) =>  (
           <ProductLine
             readOnly
             key={ index }
             product={ product }
-            currency={ user.defaultQuotation.currency }
+            currency={ user.currency }
           />
         ))}
       </ProductTable>

@@ -109,6 +109,14 @@ function UserFormPres( props ) {
                 <option key={ c.value } value={ c.value }>{ c.label }</option>
               ))}
               </Select>
+              <Select
+                name="currency"
+                label={intl.formatMessage({ id: `field.currency` })}
+                value={ defaultQuotation.currency }
+              >{ currencies.map( c => (
+                <option key={ c.value } value={ c.value }>{ c.label }</option>
+              ))}
+              </Select>
               <PaperSheet part="top-left">
                 <Party title="from" {...formData} />
               </PaperSheet>
@@ -148,14 +156,6 @@ function UserFormPres( props ) {
                   type="number"
                   value={ defaultQuotation.tax }
                 />
-                <Select
-                  name="defaultQuotation[currency]"
-                  label={intl.formatMessage({ id: `field.currency` })}
-                  value={ defaultQuotation.currency }
-                >{ currencies.map( c => (
-                  <option key={ c.value } value={ c.value }>{ c.label }</option>
-                ))}
-                </Select>
               </div>
               <PaperSheet part="center">
                 <ProductTable readOnly

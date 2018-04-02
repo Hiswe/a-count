@@ -85,7 +85,7 @@ function QuotationFormPres( props ) {
               <ProductTable
                 products={ products }
                 tax={ formData.tax }
-                currency={ user.defaultQuotation.currency }
+                currency={ user.currency }
               >
                 { hasProducts && products.map( (product, index) => {
                   const isLast = index === productsLength - 1
@@ -95,7 +95,7 @@ function QuotationFormPres( props ) {
                       key={ product._id }
                       fieldPath={ fieldPath }
                       product={ product }
-                      currency={ user.defaultQuotation.currency }
+                      currency={ user.currency }
                     >
                       { !isLast && (
                         <BtnIcon
