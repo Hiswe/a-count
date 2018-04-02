@@ -3,15 +3,15 @@
 const merge  = require( 'lodash.merge' )
 const Router = require( 'koa-router'   )
 
-const config           = require( './config'                     )
-const log              = require( './utils/log'                  )
-const formatResponse   = require( './utils/format-response'      )
-const dbGetterSetter   = require( './utils/db-getter-setter'     )
-const User             = require( './db/model-user'              )
-const DefaultQuotation = require( './db/model-default-quotation' )
-const DefaultInvoice   = require( './db/model-default-invoice'   )
-const DefaultProduct   = require( './db/model-default-product'   )
-const jwtStore         = require( './jwt-store'                  )
+const config          = require( './config'                    )
+const log             = require( './utils/log'                 )
+const formatResponse  = require( './utils/format-response'     )
+const dbGetterSetter  = require( './utils/db-getter-setter'    )
+const User            = require( './db/model-user'             )
+const QuotationConfig = require( './db/model-quotation-config' )
+const InvoiceConfig   = require( './db/model-invoice-config'   )
+const ProductConfig   = require( './db/model-product-config'   )
+const jwtStore        = require( './jwt-store'                 )
 
 const prefix        = `account`
 const publicRouter  = new Router({prefix: `/${prefix}`})
@@ -47,9 +47,9 @@ publicRouter
   })
   const user = await User.create( data, {
     include: [
-      DefaultQuotation,
-      DefaultInvoice,
-      DefaultProduct,
+      QuotationConfig,
+      InvoiceConfig,
+      ProductConfig,
     ]
   })
   await connectUser( ctx, user )

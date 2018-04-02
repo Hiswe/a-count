@@ -2,7 +2,7 @@
 
 const Sequelize = require( 'sequelize' )
 
-const sequelize = require( './connection' )
+const sequelize      = require( './connection'              )
 const dbGetterSetter = require( '../utils/db-getter-setter' )
 
 const Customer = sequelize.define( `customer`, {

@@ -8,13 +8,13 @@ const config    = require( '../config'       )
 const dbLog     = require( `../utils/log-db` )
 const sequelize = require( './connection'    )
 // models
-const User             = require( './model-user'              )
-const Customer         = require( './model-customer'          )
-const Quotation        = require( './model-quotation'         )
-const Invoice          = require( './model-invoice'           )
-const DefaultQuotation = require( './model-default-quotation' )
-const DefaultInvoice   = require( './model-default-invoice'   )
-const DefaultProduct   = require( './model-default-product'   )
+const User            = require( './model-user'             )
+const Customer        = require( './model-customer'         )
+const Quotation       = require( './model-quotation'        )
+const Invoice         = require( './model-invoice'          )
+const QuotationConfig = require( './model-quotation-config' )
+const InvoiceConfig   = require( './model-invoice-config'   )
+const ProductConfig   = require( './model-product-config'   )
 
 //////
 // RELATIONS
@@ -32,16 +32,16 @@ Customer.belongsTo( User )
 Customer.hasMany( Quotation )
 Customer.hasMany( Invoice )
 
-DefaultQuotation.belongsTo( User )
-DefaultInvoice.belongsTo( User )
-DefaultProduct.belongsTo( User )
+QuotationConfig.belongsTo( User )
+InvoiceConfig.belongsTo( User )
+ProductConfig.belongsTo( User )
 
 User.hasMany( Customer )
 User.hasMany( Quotation )
 User.hasMany( Invoice )
-User.hasOne( DefaultQuotation )
-User.hasOne( DefaultInvoice )
-User.hasOne( DefaultProduct )
+User.hasOne( QuotationConfig )
+User.hasOne( InvoiceConfig )
+User.hasOne( ProductConfig )
 
 //////
 // SYNC DATABASE

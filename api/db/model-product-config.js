@@ -5,7 +5,7 @@ const Sequelize = require( 'sequelize' )
 const sequelize      = require( './connection'              )
 const dbGetterSetter = require( '../utils/db-getter-setter' )
 
-const DefaultProduct = sequelize.define( `defaultProduct`, {
+const ProductConfig = sequelize.define( `productConfig`, {
   id: {
     type:         Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
@@ -29,7 +29,7 @@ const DefaultProduct = sequelize.define( `defaultProduct`, {
   },
 }, { timestamps: false })
 
-module.exports = DefaultProduct
+module.exports = ProductConfig
 
 
 

@@ -13,9 +13,9 @@ const sequelize             = require( './connection'                      )
 const User                  = require( './model-user'                      )
 const Customer              = require( './model-customer'                  )
 const Invoice               = require( './model-invoice'                   )
-const DefaultQuotation      = require( './model-default-quotation'         )
-const DefaultProduct        = require( './model-default-product'           )
-const DefaultInvoice        = require( './model-default-invoice'         )
+const QuotationConfig       = require( './model-quotation-config'          )
+const ProductConfig         = require( './model-product-config'            )
+const InvoiceConfig         = require( './model-invoice-config'            )
 
 const Quotation = sequelize.define( `quotation`, {
   id: {
@@ -24,9 +24,9 @@ const Quotation = sequelize.define( `quotation`, {
     primaryKey:   true,
   },
   reference: {
-    type: new Sequelize.VIRTUAL(Sequelize.STRING, [`defaultQuotation`, `index`, `user`]),
+    type: new Sequelize.VIRTUAL(Sequelize.STRING, [`quotationConfig`, `index`, `user`]),
     get:  function() {
-      const { prefix, startAt } = this.get( `defaultQuotation` )
+      const { prefix, startAt } = this.get( `quotationConfig` )
       const { quotationCount } = this.get( `user` )
       const count = this.getDataValue( `index` ) || quotationCount + 1
       return `${ prefix }${ count + startAt }`
@@ -47,11 +47,11 @@ const Quotation = sequelize.define( `quotation`, {
       const user = this.get( `user` )
       if ( !user ) throw new Error( `“user” relation is needed for computing products` )
 
-      const defaultQuotation = user.get( `defaultQuotation` )
-      if ( !defaultQuotation ) throw new Error( `“user.defaultQuotation” relation is needed for computing products` )
+      const quotationConfig = user.get( `quotationConfig` )
+      if ( !quotationConfig ) throw new Error( `“user.quotationConfig” relation is needed for computing products` )
 
       const tax = this.getDataValue( `tax` )
-      return isNil( tax ) ? defaultQuotation.tax : tax
+      return isNil( tax ) ? quotationConfig.tax : tax
     },
     set:          function( val ) {
       if ( isNil(val) || val === `` ) return this.setDataValue( `tax`, null )
@@ -72,9 +72,9 @@ const Quotation = sequelize.define( `quotation`, {
         dbLog( products )
         return this.setDataValue( `products`, [] )
       }
-      const defaultProduct = this.get( `defaultProduct` )
+      const productConfig = this.get( `productConfig` )
       const filteredProducts = filterDefaultProducts( {
-        defaultObject: defaultProduct,
+        defaultObject: productConfig,
         array: products,
       } )
       this.setDataValue( `products`, filteredProducts )
@@ -136,28 +136,28 @@ const Quotation = sequelize.define( `quotation`, {
     },
   },
   // RELATION ALIASES
-  defaultQuotation: {
+  quotationConfig: {
     type:         new Sequelize.VIRTUAL(Sequelize.JSON),
     get:          function() {
       const user = this.get( `user` )
       if ( !user ) throw new Error( `“user” relation is needed for computing products` )
 
-      const defaultQuotation = user.get( `defaultQuotation` )
-      if ( !defaultQuotation ) throw new Error( `“user.defaultQuotation” relation is needed for computing reference` )
+      const quotationConfig = user.get( `quotationConfig` )
+      if ( !quotationConfig ) throw new Error( `“user.quotationConfig” relation is needed for computing reference` )
 
-      return defaultQuotation.toJSON()
+      return quotationConfig.toJSON()
     }
   },
-  defaultProduct: {
+  productConfig: {
     type:         new Sequelize.VIRTUAL(Sequelize.JSON),
     get:          function() {
       const user = this.get( `user` )
       if ( !user ) throw new Error( `“user” relation is needed for computing products` )
 
-      const defaultProduct = user.get( `defaultProduct` )
-      if ( !defaultProduct ) throw new Error( `“user.defaultProduct” relation is needed for computing products` )
+      const productConfig = user.get( `productConfig` )
+      if ( !productConfig ) throw new Error( `“user.productConfig” relation is needed for computing products` )
 
-      return defaultProduct.toJSON()
+      return productConfig.toJSON()
     }
   },
 })
@@ -174,11 +174,11 @@ Quotation.mergeWithDefaultRelations = (additionalParams = {}) => {
         attributes: [`id`, `email`, `name`, `quotationCount`, `currency`],
         include: [
           {
-            model: DefaultQuotation,
+            model: QuotationConfig,
             attributes: [`tax`, `prefix`, `startAt`],
           },
           {
-            model: DefaultProduct,
+            model: ProductConfig,
             attributes: [`description`, `quantity`, `price`],
           },
         ],

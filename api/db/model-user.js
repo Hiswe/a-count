@@ -7,13 +7,13 @@ const merge     = require( 'lodash.merge' )
 const moment    = require( 'moment'       )
 const urlJoin   = require( 'url-join'     )
 
-const config           = require( '../config'                 )
-const mailing          = require( '../mailing'                )
-const dbGetterSetter   = require( '../utils/db-getter-setter' )
-const sequelize        = require( './connection'              )
-const DefaultQuotation = require( './model-default-quotation' )
-const DefaultInvoice   = require( './model-default-invoice'   )
-const DefaultProduct   = require( './model-default-product'   )
+const config          = require( '../config'                 )
+const mailing         = require( '../mailing'                )
+const dbGetterSetter  = require( '../utils/db-getter-setter' )
+const sequelize       = require( './connection'              )
+const QuotationConfig = require( './model-quotation-config'  )
+const InvoiceConfig   = require( './model-invoice-config'    )
+const ProductConfig   = require( './model-product-config'    )
 
 function encodePassword(password) {
   if (typeof password === `undefined`) return null
@@ -145,19 +145,19 @@ User.findOneWithRelations = async additionalParams => {
     attributes: [`id`, `email`, `name`, `lang`, `currency`, `quotationCount`, `invoiceCount`],
     include: [
       {
-        model: DefaultQuotation,
+        model: QuotationConfig,
         attributes: {
           exclude: [`id`, `userId`],
         }
       },
       {
-        model: DefaultInvoice,
+        model: InvoiceConfig,
         attributes: {
           exclude: [`id`, `userId`],
         }
       },
       {
-        model: DefaultProduct,
+        model: ProductConfig,
         attributes: {
           exclude: [`id`, `userId`],
         }

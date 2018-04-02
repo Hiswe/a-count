@@ -13,7 +13,7 @@ const dbGetterSetter = require( '../utils/db-getter-setter' )
 const sequelize      = require( './connection'              )
 const User           = require( './model-user'              )
 const Customer       = require( './model-customer'          )
-const DefaultInvoice = require( './model-default-invoice'   )
+const InvoiceConfig  = require( './model-invoice-config'    )
 
 const Invoice = sequelize.define( `invoice`, {
   id: {
@@ -99,7 +99,7 @@ Invoice.mergeWithDefaultRelations = (additionalParams = {}) => {
         attributes: [`id`, `email`, `name`, `invoiceCount`, `currency`],
         include: [
           {
-            model: DefaultInvoice,
+            model: InvoiceConfig,
             attributes: [`prefix`, `startAt`],
           },
         ],

@@ -5,7 +5,7 @@ const Sequelize = require( 'sequelize' )
 const sequelize      = require( './connection'              )
 const dbGetterSetter = require( '../utils/db-getter-setter' )
 
-const DefaultInvoice = sequelize.define( `defaultInvoice`, {
+const InvoiceConfig = sequelize.define( `invoiceConfig`, {
   id: {
     type:         Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
@@ -28,4 +28,4 @@ const DefaultInvoice = sequelize.define( `defaultInvoice`, {
   },
 }, { timestamps: false })
 
-module.exports = DefaultInvoice
+module.exports = InvoiceConfig

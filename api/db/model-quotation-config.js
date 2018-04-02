@@ -12,7 +12,7 @@ Payment of 60% in the month following delivery. * (10% Late Penalty Rate) *
 sign below with ”good for agreement“
 return it
 `
-const DefaultQuotation = sequelize.define( `defaultQuotation`, {
+const QuotationConfig = sequelize.define( `quotationConfig`, {
   id: {
     type:         Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
@@ -40,4 +40,4 @@ const DefaultQuotation = sequelize.define( `defaultQuotation`, {
   },
 }, { timestamps: false })
 
-module.exports = DefaultQuotation
+module.exports = QuotationConfig

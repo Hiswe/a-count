@@ -12,8 +12,6 @@ const   User               = require( './db/model-user'              )
 const   Customer           = require( './db/model-customer'          )
 const   Quotation          = require( './db/model-quotation'         )
 const   Invoice            = require( './db/model-invoice'           )
-const   DefaultQuotation   = require( './db/model-default-quotation' )
-const   DefaultProduct     = require( './db/model-default-product'   )
 
 const  prefix  = `quotations`
 const  router  = new Router({prefix: `/${prefix}`})
