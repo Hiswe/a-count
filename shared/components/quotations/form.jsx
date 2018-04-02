@@ -90,6 +90,8 @@ class QuotationForm extends Component {
   static getCustomerData( formData, customers ) {
     if ( !Array.isArray(customers) ) return {}
     const { customerId } = formData
+    // if no customer is selected, just take the first one in the list
+    if ( !customerId ) return customers[ 0 ]
     const customer       = customers.find( c => c.id === customerId )
     return customer || {}
   }

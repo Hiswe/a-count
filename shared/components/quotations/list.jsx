@@ -75,7 +75,7 @@ function QuotationTable( props ) {
       className="table--pres"
     >
     {
-      !hasQuotations ? ( <EmptyLine colspan="6" /> )
+      !hasQuotations ? ( <EmptyLine colspan="7" /> )
       : quotations.map( (q, i) => (
         <QuotationRow
           key={ q.id }

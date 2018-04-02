@@ -109,7 +109,7 @@ function QuotationFormPres( props ) {
                   )
                 }) }
               </ProductTable>
-              <Mentions content={ user.defaultQuotation.mentions }/>
+              <Mentions content={ formData.quotationConfig.mentions }/>
             </PaperSheet>
             <div className={ `${BASE_CLASS}__actions` }>
               <Button type="submit">
