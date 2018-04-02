@@ -5,9 +5,9 @@
 const pg = require( 'pg' )
 pg.defaults.parseInt8 = true
 
-const { debuglog } = require( 'util' )
-const Sequelize = require( 'sequelize' )
-const formattor = require( 'formattor' )
+const { debuglog  } = require( 'util'      )
+const   Sequelize   = require( 'sequelize' )
+const   formattor   = require( 'formattor' )
 
 const config = require(  '../config' )
 

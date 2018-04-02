@@ -1,13 +1,6 @@
 'use strict'
 
-const { debuglog } = require( 'util' )
-const chalk = require( 'chalk' )
 const moment = require( 'moment' )
-
-const _logName = `api:db`
-const logName = _logName.toUpperCase()
-const log = debuglog( _logName )
-log( chalk.green(`init logging`) )
 
 const normalizeString = string => {
   string = `${string}`
@@ -41,6 +34,4 @@ module.exports = {
   setTrimmedString,
   getNormalizedDate,
   setNormalizedDate,
-  log,
-  logName,
 }

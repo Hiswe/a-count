@@ -2,8 +2,8 @@
 
 const Sequelize = require( 'sequelize' )
 
-const sequelize = require( './connection' )
-const h = require( './_helpers' )
+const sequelize      = require( './connection'              )
+const dbGetterSetter = require( '../utils/db-getter-setter' )
 
 const DefaultProduct = sequelize.define( `defaultProduct`, {
   id: {
@@ -15,7 +15,7 @@ const DefaultProduct = sequelize.define( `defaultProduct`, {
     type:         Sequelize.TEXT,
     defaultValue: '',
     allowNull:    false,
-    set:          h.setTrimmedString( `description` ),
+    set:          dbGetterSetter.setTrimmedString( `description` ),
   },
   quantity: {
     type:         Sequelize.FLOAT,

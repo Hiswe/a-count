@@ -2,8 +2,8 @@
 
 const Sequelize = require( 'sequelize' )
 
-const sequelize = require( './connection' )
-const h = require( './_helpers' )
+const sequelize      = require( './connection'              )
+const dbGetterSetter = require( '../utils/db-getter-setter' )
 
 const DefaultInvoice = sequelize.define( `defaultInvoice`, {
   id: {
@@ -14,7 +14,7 @@ const DefaultInvoice = sequelize.define( `defaultInvoice`, {
   prefix: {
     type:         Sequelize.STRING,
     defaultValue: `INV-`,
-    set:          h.setTrimmedString(`prefix`),
+    set:          dbGetterSetter.setTrimmedString(`prefix`),
   },
   startAt: {
     type:         Sequelize.INTEGER,
@@ -24,7 +24,7 @@ const DefaultInvoice = sequelize.define( `defaultInvoice`, {
   mentions: {
     type:         Sequelize.TEXT,
     defaultValue: `invoice mentions`,
-    set:          h.setTrimmedString(`mentions`),
+    set:          dbGetterSetter.setTrimmedString(`mentions`),
   },
 }, { timestamps: false })
 

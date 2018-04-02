@@ -1,13 +1,13 @@
 'use strict'
 
-const bcrypt = require( 'bcryptjs' )
-const randtoken = require( 'rand-token' )
+const bcrypt       = require( 'bcryptjs'     )
+const randtoken    = require( 'rand-token'   )
 const jsonwebtoken = require( 'jsonwebtoken' )
-const ms = require( 'ms' )
+const ms           = require( 'ms'           )
 
-const log = require( './_log' )
+const log       = require( './utils/log' )
 const jwtConfig = require( './config' ).jwt
-const redis = require( './redis' )
+const redis     = require( './redis'  )
 const expiresInMilliseconds = ms( jwtConfig.expiresIn )
 
 const PREFIX = `JWT`

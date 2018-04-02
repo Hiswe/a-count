@@ -2,8 +2,8 @@
 
 const Sequelize = require( 'sequelize' )
 
-const sequelize = require( './connection' )
-const dbHelpers = require( './_helpers' )
+const sequelize      = require( './connection'              )
+const dbGetterSetter = require( '../utils/db-getter-setter' )
 
 const defaultMention = `** Method of payment: ** 40% after acceptance of the quote
 Payment of 60% in the month following delivery. * (10% Late Penalty Rate) *
@@ -23,18 +23,10 @@ const DefaultQuotation = sequelize.define( `defaultQuotation`, {
     defaultValue: 0,
     allowNull:    false,
   },
-  currency: {
-    type:         Sequelize.STRING,
-    defaultValue: `USD`,
-    set:          dbHelpers.setTrimmedString(`currency`),
-    validate: {
-      isIn: [[`USD`, `EUR`]],
-    },
-  },
   prefix: {
     type:         Sequelize.STRING,
     defaultValue: `QUOT-`,
-    set:          dbHelpers.setTrimmedString(`prefix`),
+    set:          dbGetterSetter.setTrimmedString( `prefix` ),
   },
   startAt: {
     type:         Sequelize.INTEGER,
@@ -44,7 +36,7 @@ const DefaultQuotation = sequelize.define( `defaultQuotation`, {
   mentions: {
     type:         Sequelize.TEXT,
     defaultValue: defaultMention,
-    set:          dbHelpers.setTrimmedString(`mentions`),
+    set:          dbGetterSetter.setTrimmedString( `mentions` ),
   },
 }, { timestamps: false })
 

@@ -4,11 +4,16 @@
 'partially paid'
 'send'
 
-const Sequelize = require( 'sequelize' )
+const Sequelize = require( 'sequelize'    )
+const merge     = require( 'lodash.merge' )
 
-const config = require( '../config' )
-const sequelize = require( './connection' )
-const h = require( './_helpers' )
+const config         = require( '../config'                 )
+const compute        = require( '../utils/compute-products' )
+const dbGetterSetter = require( '../utils/db-getter-setter' )
+const sequelize      = require( './connection'              )
+const User           = require( './model-user'              )
+const Customer       = require( './model-customer'          )
+const DefaultInvoice = require( './model-default-invoice'   )
 
 const Invoice = sequelize.define( `invoice`, {
   id: {
@@ -19,8 +24,8 @@ const Invoice = sequelize.define( `invoice`, {
   reference: {
     type: new Sequelize.VIRTUAL(Sequelize.STRING, [`defaultInvoice`, `index`, `user`]),
     get:  function() {
-      const { prefix, startAt } = this.get( `defaultInvoice` )
-      const { quotationCount } = this.get( `user` )
+      const { prefix        , startAt } = this.get( `defaultInvoice` )
+      const { quotationCount          } = this.get( `user`           )
       const count = this.getDataValue( `index` ) || quotationCount + 1
       return `${ prefix }${ count + startAt }`
     }
@@ -58,21 +63,14 @@ const Invoice = sequelize.define( `invoice`, {
   sendAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    get:          h.getNormalizedDate( `sendAt` ),
-    set:          h.setNormalizedDate( `sendAt` ),
+    get:          dbGetterSetter.getNormalizedDate( `sendAt` ),
+    set:          dbGetterSetter.setNormalizedDate( `sendAt` ),
   },
   archivedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    get:          h.getNormalizedDate( `archivedAt` ),
-    set:          h.setNormalizedDate( `archivedAt` ),
-  },
-  customerName: {
-    type: new Sequelize.VIRTUAL(Sequelize.STRING, [`customer`]),
-    get: function() {
-      const customer = this.get( `customer` )
-      return customer.get( `name` )
-    }
+    get:          dbGetterSetter.getNormalizedDate( `archivedAt` ),
+    set:          dbGetterSetter.setNormalizedDate( `archivedAt` ),
   },
   // RELATION ALIASES
   defaultInvoice: {
@@ -84,9 +82,40 @@ const Invoice = sequelize.define( `invoice`, {
       const defaultInvoice = user.get( `defaultInvoice` )
       if ( !defaultInvoice ) throw new Error( `“user.defaultInvoice” relation is needed for computing reference` )
 
-      return omit( defaultInvoice.toJSON(), [`id`, `userId`] )
+      return defaultInvoice.toJSON()
     }
   },
 })
+
+//////
+// MODEL METHODS
+//////
+
+Invoice.mergeWithDefaultRelations = (additionalParams = {}) => {
+  return merge({
+    include: [
+      {
+        model: User,
+        attributes: [`id`, `email`, `name`, `invoiceCount`, `currency`],
+        include: [
+          {
+            model: DefaultInvoice,
+            attributes: [`prefix`, `startAt`],
+          },
+        ],
+      },
+      {
+        model: Customer,
+        attributes: [`id`, `name`, `address`],
+      }
+    ]
+  }, additionalParams )
+}
+
+Invoice.findOneWithRelations = async additionalParams => {
+  const params    = Invoice.mergeWithDefaultRelations( additionalParams )
+  const instance  = await Invoice.findOne( params )
+  return instance
+}
 
 module.exports = Invoice

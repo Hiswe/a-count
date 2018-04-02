@@ -1,13 +1,13 @@
 'use strict'
 
-const merge = require( 'lodash.merge' )
-const Router = require( 'koa-router' )
+const merge  = require( 'lodash.merge' )
+const Router = require( 'koa-router'   )
 
-const formatResponse = require( './_format-response' )
-const User = require( './db/model-user' )
+const formatResponse   = require( './utils/format-response'      )
+const User             = require( './db/model-user'              )
 const DefaultQuotation = require( './db/model-default-quotation' )
-const DefaultInvoice = require( './db/model-default-invoice' )
-const DefaultProduct = require( './db/model-default-product' )
+const DefaultInvoice   = require( './db/model-default-invoice'   )
+const DefaultProduct   = require( './db/model-default-product'   )
 
 const prefix = `users`
 const router = new Router({prefix: `/${prefix}`})

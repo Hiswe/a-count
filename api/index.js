@@ -1,21 +1,21 @@
 'use strict'
 
-const chalk = require( 'chalk' )
-const { inspect } = require( 'util' )
-const merge = require( 'lodash.merge' )
-const Koa = require( 'koa' )
-const bodyParser = require( 'koa-body' )
-const compress = require( 'koa-compress' )
-const json = require( 'koa-json' )
-const Router = require( 'koa-router' )
-const cors = require( '@koa/cors' )
+const   chalk        = require( 'chalk'        )
+const { inspect    } = require( 'util'         )
+const   merge        = require( 'lodash.merge' )
+const   Koa          = require( 'koa'          )
+const   bodyParser   = require( 'koa-body'     )
+const   compress     = require( 'koa-compress' )
+const   json         = require( 'koa-json'     )
+const   Router       = require( 'koa-router'   )
+const   cors         = require( '@koa/cors'    )
 
 require( './db' )
-const redis = require( './redis' )
-const config = require( './config' )
-const router = require( './router' )
-const log = require( './_log' )
-const formatResponse = require( './_format-response' )
+const redis          = require( './redis'            )
+const config         = require( './config'           )
+const router         = require( './router'           )
+const log            = require( './utils/log'        )
+const formatResponse = require( './utils/format-response' )
 
 //////
 // SERVER CONFIG

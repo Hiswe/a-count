@@ -1,8 +1,8 @@
 'use strict'
 
-const { promisify, debuglog } = require( 'util' )
-const chalk = require( 'chalk' )
-const redis = require( 'redis' )
+const { promisify, debuglog } = require( 'util'  )
+const   chalk                 = require( 'chalk' )
+const   redis                 = require( 'redis' )
 
 const config = require( './config' )
 

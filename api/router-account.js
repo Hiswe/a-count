@@ -1,20 +1,20 @@
 'use strict'
 
-const merge = require( 'lodash.merge' )
-const Router = require( 'koa-router' )
+const merge  = require( 'lodash.merge' )
+const Router = require( 'koa-router'   )
 
-const config = require( './config' )
-const formatResponse = require( './_format-response' )
-const log = require( './_log' )
-const dbHelpers = require( './db/_helpers' )
-const User = require( './db/model-user' )
+const config           = require( './config'                     )
+const log              = require( './utils/log'                  )
+const formatResponse   = require( './utils/format-response'      )
+const dbGetterSetter   = require( './utils/db-getter-setter'     )
+const User             = require( './db/model-user'              )
 const DefaultQuotation = require( './db/model-default-quotation' )
-const DefaultInvoice = require( './db/model-default-invoice' )
-const DefaultProduct = require( './db/model-default-product' )
-const jwtStore = require( './jwt-store' )
+const DefaultInvoice   = require( './db/model-default-invoice'   )
+const DefaultProduct   = require( './db/model-default-product'   )
+const jwtStore         = require( './jwt-store'                  )
 
-const prefix = `account`
-const publicRouter = new Router({prefix: `/${prefix}`})
+const prefix        = `account`
+const publicRouter  = new Router({prefix: `/${prefix}`})
 const privateRouter = new Router({prefix: `/${prefix}`})
 module.exports = {
   public: publicRouter,
@@ -56,9 +56,10 @@ publicRouter
 })
 .post( `/login`, async (ctx, next) => {
   const { body }  = ctx.request
-  const user      = await User.findOneWithRelations({
+  const user      = await User.findOne({
     where: {
-      email: dbHelpers.normalizeString( body.email )
+      email:          dbGetterSetter.normalizeString( body.email ),
+      isDeactivated:  { $not: true },
     },
   })
   ctx.assert( user, 404, `User not found` )
@@ -113,10 +114,34 @@ privateRouter
 .get( `/logout`, async (ctx, next) => {
   const { jwtData } = ctx.state
   await jwtStore.remove( jwtData )
+
   ctx.state.user = null
   ctx.response.set( `authorization`, `` )
   ctx.body = formatResponse({
-    message: `bye bye`,
+    message:      `bye bye`,
     access_token: ``,
   })
+})
+.post( `/settings`, async (ctx, next) => {
+  const { id }    = ctx.state && ctx.state.user
+  const { body }  = ctx.request
+  const instance  = await User.findOneWithRelations({
+    where: { id }
+  })
+
+  ctx.assert(instance, 404, `Can't find User. The associated user isn't found`)
+  const updated   = await instance.update( body )
+
+  const relations = [`defaultQuotation`, `defaultInvoice`, `defaultProduct`]
+  await Promise.all( relations.map( relationName => {
+    return instance[ relationName ].update( body[ relationName ] )
+  }))
+
+  const user      = await User.findOneWithRelations({
+    where: {id: updated.id}
+  })
+
+  const result      = formatResponse( { user } )
+  ctx.state.user    = result
+  ctx.body          = result
 })

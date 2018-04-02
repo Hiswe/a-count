@@ -3,7 +3,7 @@
 const Sequelize = require( 'sequelize' )
 
 const sequelize = require( './connection' )
-const h = require( './_helpers' )
+const dbGetterSetter = require( '../utils/db-getter-setter' )
 
 const Customer = sequelize.define( `customer`, {
   id: {
@@ -17,13 +17,11 @@ const Customer = sequelize.define( `customer`, {
     validate: {
       notEmpty: true,
     },
-    set:          h.setNormalizedString(`name`),
+    set:          dbGetterSetter.setNormalizedString( `name` ),
   },
   address: {
     type:         Sequelize.TEXT,
-    set:          function ( val ) {
-      this.setDataValue( `address`, `${val}`.trim() )
-    }
+    set:          dbGetterSetter.setTrimmedString( `address` ),
   },
   isDeactivated: {
     type:         Sequelize.BOOLEAN,

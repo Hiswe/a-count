@@ -1,19 +1,19 @@
 'use strict'
 
-const Sequelize = require( 'sequelize' )
-const bcrypt = require( 'bcryptjs' )
-const randtoken = require( 'rand-token' )
-const merge = require( 'lodash.merge' )
-const moment = require( 'moment' )
-const urlJoin = require( 'url-join' )
+const Sequelize = require( 'sequelize'    )
+const bcrypt    = require( 'bcryptjs'     )
+const randtoken = require( 'rand-token'   )
+const merge     = require( 'lodash.merge' )
+const moment    = require( 'moment'       )
+const urlJoin   = require( 'url-join'     )
 
-const config = require( '../config' )
-const mailing = require( '../mailing' )
-const sequelize = require( './connection' )
+const config           = require( '../config'                 )
+const mailing          = require( '../mailing'                )
+const dbGetterSetter   = require( '../utils/db-getter-setter' )
+const sequelize        = require( './connection'              )
 const DefaultQuotation = require( './model-default-quotation' )
-const DefaultInvoice = require( './model-default-invoice' )
-const DefaultProduct = require( './model-default-product' )
-const h = require( './_helpers' )
+const DefaultInvoice   = require( './model-default-invoice'   )
+const DefaultProduct   = require( './model-default-product'   )
 
 function encodePassword(password) {
   if (typeof password === `undefined`) return null
@@ -35,23 +35,31 @@ const User = sequelize.define( `user`, {
     allowNull:    false,
     unique:       true,
     validate: {   isEmail: true },
-    set:          h.setNormalizedString( `email` ),
+    set:          dbGetterSetter.setNormalizedString( `email` ),
   },
   name: {
     type:         Sequelize.STRING,
     allowNull:    true,
-    set:          h.setTrimmedString( `name` ),
+    set:          dbGetterSetter.setTrimmedString( `name` ),
   },
   address: {
     type:         Sequelize.TEXT,
     allowNull:    true,
-    set:          h.setTrimmedString( `address` ),
+    set:          dbGetterSetter.setTrimmedString( `address` ),
   },
   lang: {
     type:         Sequelize.CHAR(2),
     defaultValue: `en`,
     validate: {
       isIn: [[`en`, `fr`]],
+    },
+  },
+  currency: {
+    type:         Sequelize.STRING,
+    defaultValue: `USD`,
+    set:          dbGetterSetter.setTrimmedString(`currency`),
+    validate: {
+      isIn: [[`USD`, `EUR`]],
     },
   },
   // SESSION
@@ -134,13 +142,26 @@ User.findOneWithRelations = async additionalParams => {
     where: {
       isDeactivated:  { $not: true },
     },
-    attributes: {
-      exclude: [`token`, `tokenExpire`, `createdAt`, `updatedAt`],
-    },
+    attributes: [`id`, `email`, `name`, `lang`, `currency`, `quotationCount`, `invoiceCount`],
     include: [
-      DefaultQuotation,
-      DefaultInvoice,
-      DefaultProduct,
+      {
+        model: DefaultQuotation,
+        attributes: {
+          exclude: [`id`, `userId`],
+        }
+      },
+      {
+        model: DefaultInvoice,
+        attributes: {
+          exclude: [`id`, `userId`],
+        }
+      },
+      {
+        model: DefaultProduct,
+        attributes: {
+          exclude: [`id`, `userId`],
+        }
+      },
     ]
   }, additionalParams )
   const user = await User.findOne( params )

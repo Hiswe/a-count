@@ -9,7 +9,7 @@ const formatResponse = ( payload = {} ) => {
   const defaultResponse = {}
   // • avoid leaking password
   delete payload.password
-  return merge(payload, defaultResponse)
+  return merge( payload, defaultResponse )
 }
 
 module.exports = formatResponse

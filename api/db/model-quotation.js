@@ -1,20 +1,21 @@
 'use strict'
 
-const Sequelize = require( 'sequelize' )
-const isNil = require( 'lodash.isnil' )
-const merge = require( 'lodash.merge' )
-const omit = require( 'lodash.omit' )
+const Sequelize = require( 'sequelize'    )
+const isNil     = require( 'lodash.isnil' )
+const merge     = require( 'lodash.merge' )
 
-const config = require( '../config' )
-const sequelize = require( './connection' )
-const compute = require( './_compute' )
-const h = require( './_helpers' )
-const filterDefaultProducts = require( `./_filter-array-with-object` )
-const User              = require( './model-user' )
-const Customer          = require( './model-customer' )
-const Invoice           = require( './model-invoice' )
-const DefaultQuotation  = require( './model-default-quotation' )
-const DefaultProduct    = require( './model-default-product' )
+const config                = require( '../config'                         )
+const dbLog                 = require( '../utils/log-db'                   )
+const compute               = require( '../utils/compute-products'         )
+const dbGetterSetter        = require( '../utils/db-getter-setter'         )
+const filterDefaultProducts = require( `../utils/filter-array-with-object` )
+const sequelize             = require( './connection'                      )
+const User                  = require( './model-user'                      )
+const Customer              = require( './model-customer'                  )
+const Invoice               = require( './model-invoice'                   )
+const DefaultQuotation      = require( './model-default-quotation'         )
+const DefaultProduct        = require( './model-default-product'           )
+const DefaultInvoice        = require( './model-default-invoice'         )
 
 const Quotation = sequelize.define( `quotation`, {
   id: {
@@ -33,7 +34,7 @@ const Quotation = sequelize.define( `quotation`, {
   },
   name: {
     type:         Sequelize.STRING,
-    set:          h.setNormalizedString(`name`),
+    set:          dbGetterSetter.setNormalizedString(`name`),
     get:          function () {
       const name = this.getDataValue( `name` )
       return name ? name : `untitled quotation`
@@ -67,8 +68,8 @@ const Quotation = sequelize.define( `quotation`, {
     defaultValue: [],
     set: function ( products ) {
       if ( !Array.isArray(products) ) {
-        h.log( `[MODEL-QUOTATION]`, `products weren't an array` )
-        h.log( products )
+        dbLog( `[MODEL-QUOTATION]`, `products weren't an array` )
+        dbLog( products )
         return this.setDataValue( `products`, [] )
       }
       const defaultProduct = this.get( `defaultProduct` )
@@ -91,34 +92,26 @@ const Quotation = sequelize.define( `quotation`, {
   sendAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    get:          h.getNormalizedDate( `sendAt` ),
-    set:          h.setNormalizedDate( `sendAt` ),
+    get:          dbGetterSetter.getNormalizedDate( `sendAt` ),
+    set:          dbGetterSetter.setNormalizedDate( `sendAt` ),
   },
   validatedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    get:          h.getNormalizedDate( `validatedAt` ),
-    set:          h.setNormalizedDate( `validatedAt` ),
+    get:          dbGetterSetter.getNormalizedDate( `validatedAt` ),
+    set:          dbGetterSetter.setNormalizedDate( `validatedAt` ),
   },
   signedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    get:          h.getNormalizedDate( `signedAt` ),
-    set:          h.setNormalizedDate( `signedAt` ),
+    get:          dbGetterSetter.getNormalizedDate( `signedAt` ),
+    set:          dbGetterSetter.setNormalizedDate( `signedAt` ),
   },
   archivedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    get:          h.getNormalizedDate( `archivedAt` ),
-    set:          h.setNormalizedDate( `archivedAt` ),
-  },
-  customerName: {
-    type: new Sequelize.VIRTUAL(Sequelize.STRING, [`customer`]),
-    get: function() {
-      const customer = this.get( `customer` )
-      if (!customer) return ``
-      return customer.get(`name`)
-    }
+    get:          dbGetterSetter.getNormalizedDate( `archivedAt` ),
+    set:          dbGetterSetter.setNormalizedDate( `archivedAt` ),
   },
   _hasInvoice: {
     type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`invoice`]),
@@ -152,7 +145,7 @@ const Quotation = sequelize.define( `quotation`, {
       const defaultQuotation = user.get( `defaultQuotation` )
       if ( !defaultQuotation ) throw new Error( `“user.defaultQuotation” relation is needed for computing reference` )
 
-      return omit( defaultQuotation.toJSON(), [`id`, `userId`] )
+      return defaultQuotation.toJSON()
     }
   },
   defaultProduct: {
@@ -164,7 +157,7 @@ const Quotation = sequelize.define( `quotation`, {
       const defaultProduct = user.get( `defaultProduct` )
       if ( !defaultProduct ) throw new Error( `“user.defaultProduct” relation is needed for computing products` )
 
-      return omit( defaultProduct.toJSON(), [`id`, `userId`] )
+      return defaultProduct.toJSON()
     }
   },
 })
@@ -178,22 +171,23 @@ Quotation.mergeWithDefaultRelations = (additionalParams = {}) => {
     include: [
       {
         model: User,
-        attributes: [`id`, `email`, `name`, `quotationCount`],
+        attributes: [`id`, `email`, `name`, `quotationCount`, `currency`],
         include: [
           {
             model: DefaultQuotation,
-            attributes: [`tax`, `currency`, `prefix`, `startAt`],
+            attributes: [`tax`, `prefix`, `startAt`],
           },
           {
             model: DefaultProduct,
             attributes: [`description`, `quantity`, `price`],
           },
-          {
-            model:    Invoice,
-            required: false,
-          }
         ],
       },
+      Invoice.mergeWithDefaultRelations({
+        model:      Invoice,
+        required:   false,
+        attributes: [`id`],
+      }),
       {
         model: Customer,
         attributes: [`id`, `name`, `address`],

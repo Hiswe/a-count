@@ -12,7 +12,7 @@ const productTotal = product => {
   return roundToNearestQuarter( product.quantity * product.price )
 }
 
-const totals = ( products, taxRate = 0 ) => {
+const totals = ( products = [], taxRate = 0 ) => {
   const net = products
     .reduce( (acc, product) => acc + productTotal( product ), 0 )
   const tax = roundToNearestQuarter( net * taxRate / 100 )
