@@ -86,7 +86,7 @@ Invoice.mergeWithDefaultRelations = (additionalParams = {}) => {
       },
       {
         model: InvoiceConfig,
-        attributes: {exclude: [`id`]},
+        attributes: {exclude: [`id`, `userId`]},
       },
       {
         model: Customer,

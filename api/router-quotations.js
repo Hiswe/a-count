@@ -6,12 +6,12 @@ const   Router    = require( 'koa-router'   )
 const   merge     = require( 'lodash.merge' )
 const   omit      = require( 'lodash.omit'  )
 
-const   formatResponse     = require( './utils/format-response'      )
-const { normalizeString  } = require( './utils/db-getter-setter'     )
-const   User               = require( './db/model-user'              )
-const   Customer           = require( './db/model-customer'          )
-const   Quotation          = require( './db/model-quotation'         )
-const   Invoice            = require( './db/model-invoice'           )
+const { normalizeString } = require( './utils/db-getter-setter'  )
+const   User              = require( './db/model-user'           )
+const   Customer          = require( './db/model-customer'       )
+const   Quotation         = require( './db/model-quotation'      )
+const   Invoice           = require( './db/model-invoice'        )
+const   InvoiceConfig     = require( './db/model-invoice-config' )
 
 const  prefix  = `quotations`
 const  router  = new Router({prefix: `/${prefix}`})
@@ -41,9 +41,9 @@ router
 
   // put response in a “list“ key
   // • we will add pagination information later
-  ctx.body = formatResponse( {
+  ctx.body = {
     list: list.map( c => c.toJSON() ),
-  } )
+  }
 })
 
 //----- NEW
@@ -133,41 +133,37 @@ router
   const { id }    = ctx.params
   const { body }  = ctx.request
 
-  const [ quotation, customer, dbUser ] = await Promise.all([
+  const [ quotation, user ] = await Promise.all([
     Quotation.findOneWithRelations( {where: { id }} ),
-    Customer.findById( body.customerId ),
     User.findOneWithRelations( {where: {id: userId }} ),
   ])
 
-  ctx.assert( dbUser    , 412, MESSAGES.NO_USER     )
-  ctx.assert( customer  , 412, MESSAGES.NO_CUSTOMER )
+  ctx.assert( user    , 412, MESSAGES.NO_USER     )
   ctx.assert( quotation , 404, MESSAGES.NOT_FOUND   )
   ctx.assert( quotation._canBeTransformedToInvoice, 412, MESSAGES.CANT_CONVERT )
 
-  await dbUser.increment( `invoiceCount`, {by: 1} )
-  const updatedUser = await User.findOneWithRelations( {where: {id: userId }} )
+  const [ customer, invoiceConfig ] = await Promise.all([
+    Customer.findById( quotation.get( `customerId`) ),
+    InvoiceConfig.findOne( {where: {userId }} ),
+  ])
+  ctx.assert( customer  , 412, MESSAGES.NO_CUSTOMER )
+  const updateInvoiceConfig = await invoiceConfig.increment( `count`, {by: 1} )
 
-  ctx.state.user = formatResponse( updatedUser )
-
-  const emptyInvoice   = Invoice.build({
-    name:         quotation.get( `name` ),
-    tax:          quotation.get( `tax` ),
-    products:     quotation.get( `products` ),
-    userId:       quotation.get( `userId` ),
-    customerId:   quotation.get( `customerId` ),
-    quotationId:  id,
-    index:        updatedUser.invoiceCount,
+  const emptyInvoice   = await Invoice.create({
+    name           : quotation.get( `name` ),
+    tax            : quotation.get( `tax` ),
+    products       : quotation.get( `products` ),
+    userId         : quotation.get( `userId` ),
+    customerId     : quotation.get( `customerId` ),
+    quotationId    : id,
+    invoiceConfigId: updateInvoiceConfig.get( `id` ),
+    index          : updateInvoiceConfig.get( `count` ),
   })
-  emptyInvoice.setUser( dbUser, {save: false} )
-  emptyInvoice.setQuotation( quotation, {save: false} )
-  emptyInvoice.setCustomer( customer, {save: false} )
-  await emptyInvoice.save()
 
   const invoice = await Invoice.findOneWithRelations({
     where: { id: emptyInvoice.get(`id`) },
   })
-
   ctx.assert( invoice, 500, MESSAGES.CONVERT_ERROR )
 
-  ctx.body = formatResponse( invoice )
+  ctx.body = invoice
 })

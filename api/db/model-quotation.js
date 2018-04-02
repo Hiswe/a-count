@@ -122,7 +122,7 @@ const Quotation = sequelize.define( `quotation`, {
       return sendAt !== ''
         && validatedAt !== ''
         && signedAt !== ''
-        && products.length
+        && products.length > 0
         && !invoice
     },
   },
