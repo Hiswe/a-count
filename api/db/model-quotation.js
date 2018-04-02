@@ -63,15 +63,10 @@ const Quotation = sequelize.define( `quotation`, {
     allowNull:    false,
     defaultValue: [],
     set: function ( products ) {
-      if ( !Array.isArray(products) ) {
-        dbLog( `[MODEL-QUOTATION]`, `products weren't an array` )
-        dbLog( products )
-        return this.setDataValue( `products`, [] )
-      }
-      const productConfig = this.get( `productConfig` ).toJSON()
+      const productConfig = this.getDataValue( `productConfig` ).toJSON()
       const filteredProducts = filterDefaultProducts( {
         defaultObject: productConfig,
-        array: products,
+        array        : products,
       } )
       this.setDataValue( `products`, filteredProducts )
     }

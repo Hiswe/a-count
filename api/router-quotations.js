@@ -50,16 +50,17 @@ router
 
 .get(`/new`, async (ctx, next) => {
   const { user } = ctx.state
-  const body = {
+  const body = merge({
     user,
     quotationConfig: user.quotationConfig,
-    productConfig  : user.productConfig,
-  }
+    productConfig: user.productConfig,
+  })
   // Build non-persistent instance
   const params    = Quotation.mergeWithDefaultRelations( {} )
+  const quotation = new Quotation( body , params )
   const instance  = Quotation.build( body , params ).toJSON()
   delete instance.id
-  ctx.body = formatResponse( instance )
+  ctx.body = instance
 })
 .post(`/new`,  async (ctx, next) => {
   const { user } = ctx.state
@@ -75,19 +76,29 @@ router
   const quotationConfig = dbUser.get( `quotationConfig` )
   const updatedConfig   = await quotationConfig.increment( `count`, {by: 1} )
 
-  const params        = Quotation.mergeWithDefaultRelations( {} )
-  const quotationBody = merge( {}, body, {
-    userId:             dbUser.get( `id` ),
-    quotationConfigId:  dbUser.get( `quotationConfig`).id,
-    productConfigId  :  dbUser.get( `productConfig` ).id,
-    index:              updatedConfig.get( `count` ),
+  // create an “safe” instance
+  // • add all needed relations
+  // • doesn't trigger any setter depending on those relations
+  const newInstance = await Quotation.create({
+    userId:             dbUser.id,
+    quotationConfigId:  dbUser.quotationConfig.id,
+    productConfigId  :  dbUser.productConfig.id,
+    index:              updatedConfig.count,
   })
-  const newQuotation  = await Quotation.create( quotationBody, params )
-  ctx.assert( newQuotation, 500, MESSAGES.DEFAULT )
+  ctx.assert( newInstance, 500, MESSAGES.DEFAULT )
 
-  // need to re-query to have the relations ok…
+  const withRelations = await Quotation.findOneWithRelations({
+    where: { id: newInstance.get(`id`) }
+  })
+
+  ctx.assert( withRelations, 500, MESSAGES.DEFAULT )
+  const updated = await withRelations.update( body )
+  ctx.assert( updated, 500, MESSAGES.DEFAULT )
+
+  // just passing the updatedQuotation return the Tax as a string O_O
+  // • prevent that by getting a new instance…
   const quotation     = await Quotation.findOneWithRelations({
-    where: { id: newQuotation.get(`id`) }
+    where: { id: updated.get(`id`) }
   })
   ctx.body = quotation
 })
@@ -145,7 +156,7 @@ router
     userId:       quotation.get( `userId` ),
     customerId:   quotation.get( `customerId` ),
     quotationId:  id,
-    index: updatedUser.invoiceCount,
+    index:        updatedUser.invoiceCount,
   })
   emptyInvoice.setUser( dbUser, {save: false} )
   emptyInvoice.setQuotation( quotation, {save: false} )
