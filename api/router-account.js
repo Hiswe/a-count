@@ -41,9 +41,9 @@ publicRouter
 .post( `/register`, async (ctx, next) => {
   const { body }  = ctx.request
   const data = merge( body, {
-    defaultQuotation: {},
-    defaultInvoice: {},
-    defaultProduct: {},
+    quotationConfig: {},
+    invoiceConfig: {},
+    productConfig: {},
   })
   const user = await User.create( data, {
     include: [

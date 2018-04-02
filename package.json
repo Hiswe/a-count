@@ -14,6 +14,7 @@
     "watch:app": "webpack --config webpack.config.js --watch --display minimal",
     "app": "node dist/server.js",
     "app:dev": "nodemon dist/server.js --config nodemon.json",
+    "app:watch": "parallelshell \"npm run app:dev\"  \"npm run watch:app\"",
     "api": "NODE_DEBUG=api,api:db node api/index.js",
     "api:dev": "NODE_DEBUG=api,api:db,api:mailing node-dev api/index.js --no-deps --no-notify",
     "api:dev:nodemon": "nodemon api/index.js --config nodemon.api.json",

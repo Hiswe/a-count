@@ -22,6 +22,8 @@ const ProductConfig   = require( './model-product-config'   )
 
 Quotation.belongsTo( User )
 Quotation.belongsTo( Customer )
+Quotation.belongsTo( ProductConfig )
+Quotation.belongsTo( QuotationConfig )
 Quotation.hasOne( Invoice )
 
 Invoice.belongsTo( User )

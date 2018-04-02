@@ -52,9 +52,11 @@ router
   const { user } = ctx.state
   const body = {
     user,
+    quotationConfig: user.quotationConfig,
+    productConfig  : user.productConfig,
   }
   const params = Quotation.mergeWithDefaultRelations( {} )
-  const modelTemplate = new Quotation( body, params ).toJSON()
+  const modelTemplate = new Quotation( body , params ).toJSON()
   delete modelTemplate.id
   ctx.body = formatResponse( modelTemplate )
 })
@@ -69,10 +71,8 @@ router
   ctx.assert( customer, 412, MESSAGES.NO_CUSTOMER )
   ctx.assert( dbUser, 412, MESSAGES.NO_USER )
 
-  await dbUser.increment( `quotationCount`, {by: 1} )
-  const updatedUser = await User.findOneWithRelations( {where: {id: user.id }} )
-
-  ctx.state.user = formatResponse( updatedUser )
+  const quotationConfig = dbUser.get( `quotationConfig` )
+  const updatedConfig = await quotationConfig.increment( `count`, {by: 1} )
 
   // To avoid model quotation haven't access to his relations we:
   // • build an empty quotation
@@ -80,7 +80,7 @@ router
   // • THEN update it with the body
   // • https://github.com/sequelize/sequelize/issues/3321#issuecomment-78218074
   const emptyQuotation = Quotation.build({
-    index     : ctx.state.user.quotationCount,
+    index     : updatedConfig.get(`count`),
     customerId: body.customerId,
   })
   emptyQuotation.setUser( updatedUser, {save: false} )

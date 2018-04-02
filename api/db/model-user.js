@@ -131,24 +131,24 @@ User.findOneWithRelations = async additionalParams => {
     where: {
       isDeactivated:  { $not: true },
     },
-    attributes: [`id`, `email`, `name`, `lang`, `currency`, `quotationCount`, `invoiceCount`],
+    attributes: [`id`, `email`, `name`, `lang`, `currency`],
     include: [
       {
         model: QuotationConfig,
         attributes: {
-          exclude: [`id`, `userId`],
+          exclude: [`userId`],
         }
       },
       {
         model: InvoiceConfig,
         attributes: {
-          exclude: [`id`, `userId`],
+          exclude: [`userId`],
         }
       },
       {
         model: ProductConfig,
         attributes: {
-          exclude: [`id`, `userId`],
+          exclude: [`userId`],
         }
       },
     ]
