@@ -5,7 +5,7 @@ import { connect }  from 'react-redux'
 import Table from '../ui/table.jsx'
 import TableEmptyLine from '../ui/table-empty-line.jsx'
 
-const CustomerRow = (props) => {
+function CustomerRow( props ) {
   const customer = props.customer
   const url      = `/customers/${customer.id}`
   return (
@@ -18,7 +18,8 @@ const CustomerRow = (props) => {
     </tr>
   )
 }
-const CustomerList = (props) => {
+
+function CustomerList( props ) {
   const { customers } = props
   const hasCustomer = Array.isArray( customers ) && customers.length
   return (
@@ -40,7 +41,7 @@ const CustomerList = (props) => {
   )
 }
 
-const state2prop = state => {
+function state2prop( state ) {
   return {
     customers: state.customers && state.customers.list
   }

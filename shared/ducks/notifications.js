@@ -4,28 +4,32 @@ import shortid from 'shortid'
 import createActionNames from './utils/create-action-names.js'
 
 import {
-  GET_ONE as QUOTATION_GET_ONE,
+  GET_ONE  as QUOTATION_GET_ONE,
   SAVE_ONE as QUOTATION_SAVE_ONE,
 } from './quotations.js'
 import {
-  GET_ONE as CUSTOMER_GET_ONE,
+  GET_ONE  as INVOICE_GET_ONE,
+  SAVE_ONE as INVOICE_SAVE_ONE,
+} from './invoices.js'
+import {
+  GET_ONE  as CUSTOMER_GET_ONE,
   SAVE_ONE as CUSTOMER_SAVE_ONE,
 } from './customers.js'
 import {
-  AUTH as USER_AUTH,
-  LOGIN as USER_LOGIN,
-  FORGOT as USER_FORGOT,
-  RESET as USER_RESET,
-  LOGOUT as USER_LOGOUT,
+  AUTH     as USER_AUTH,
+  LOGIN    as USER_LOGIN,
+  FORGOT   as USER_FORGOT,
+  RESET    as USER_RESET,
+  LOGOUT   as USER_LOGOUT,
   REGISTER as USER_REGISTER,
   SAVE_ONE as USER_SAVE_ONE,
 } from './users.js'
 
 const NAME = `notifications`
-export const REMOVE  = `@concompte/${NAME}/remove`
-export const ALL_POST = createActionNames( `[_a-zA-Z0-9]+`, `post`, `[_a-zA-Z0-9]+` )
+export const REMOVE     = `@concompte/${NAME}/remove`
+export const ALL_POST   = createActionNames( `[_a-zA-Z0-9]+`, `post`, `[_a-zA-Z0-9]+` )
 const postSuccessRegexp = new RegExp( `^${ ALL_POST.SUCCESS }$` )
-const postErrorRegexp = new RegExp( `^${ ALL_POST.ERROR }$` )
+const postErrorRegexp   = new RegExp( `^${ ALL_POST.ERROR }$` )
 
 const initialState = crio( [] )
 
@@ -77,6 +81,13 @@ export default function reducer( state = initialState, action ) {
     }
     case QUOTATION_SAVE_ONE.ERROR: {
       return notifyError( state, `notifications.quotation.error` )
+    }
+    //----- INVOICES
+    case INVOICE_SAVE_ONE.SUCCESS: {
+      return notifySuccess( state, `notifications.invoice.saved` )
+    }
+    case INVOICE_SAVE_ONE.ERROR: {
+      return notifyError( state, `notifications.invoice.error` )
     }
     //----- CUSTOMERS
     case CUSTOMER_SAVE_ONE.SUCCESS: {

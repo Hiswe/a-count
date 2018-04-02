@@ -30,7 +30,18 @@ export function Thead( props ) {
   )
 }
 
-export default function Table( props ) {
+export function EmptyLine( props ) {
+  const message = `none (yet)`
+  return (
+    <tr>
+      <td colSpan={props.colspan} style={{textAlign: `center`}}>
+        <p>{ message }</p>
+      </td>
+    </tr>
+  )
+}
+
+export function Table( props ) {
   const columns = normalizeColumns( props.columns )
   const hasFooter = props.footer != null
   const COMP_CLASS = [`table`]
@@ -45,3 +56,5 @@ export default function Table( props ) {
     </table>
   )
 }
+
+export default Table
