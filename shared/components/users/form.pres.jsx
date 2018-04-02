@@ -31,32 +31,32 @@ function UserFormPres( props ) {
     handleSubmit,
   } = props
   const {
-    defaultProduct,
-    defaultQuotation,
-    defaultInvoice,
+    quotationConfig,
+    invoiceConfig,
+    productConfig,
   } = formData
   const fakeQuotationReference = {
     type: `quotation`,
     product: {
       updatedAt: new Date().toUTCString(),
-      reference: `${defaultQuotation.prefix}${defaultQuotation.startAt}`,
+      reference: `${quotationConfig.prefix}${quotationConfig.startAt}`,
     },
   }
   const fakeInvoiceReference = {
     type: `invoice`,
     product: {
       updatedAt: new Date().toUTCString(),
-      reference: `${defaultInvoice.prefix}${defaultInvoice.startAt}`,
+      reference: `${invoiceConfig.prefix}${invoiceConfig.startAt}`,
     },
   }
   const fakeProduct = {
     description: `a *product* example`,
     quantity: 2,
-    price: defaultProduct.price,
+    price: quotationConfig.price,
   }
   const fakeProducts = [
     fakeProduct,
-    defaultProduct
+    quotationConfig
   ]
   const currencies = [
     {value: `USD`, label: `USD`},
@@ -76,10 +76,10 @@ function UserFormPres( props ) {
       onChange={ handleFormChange }
       onSubmit={ handleSubmit }
     >
-      <input type="hidden" name="id" defaultValue={formData.id} />
-      <input type="hidden" name="defaultQuotation[id]" defaultValue={ defaultQuotation.id } />
-      <input type="hidden" name="defaultInvoice[id]" defaultValue={ defaultInvoice.id } />
-      <input type="hidden" name="defaultProduct[id]" defaultValue={ defaultInvoice.id } />
+      <input type="hidden" name="id"                  defaultValue={ formData.id } />
+      <input type="hidden" name="quotationConfig[id]" defaultValue={ quotationConfig.id } />
+      <input type="hidden" name="invoiceConfig[id]"   defaultValue={ invoiceConfig.id } />
+      <input type="hidden" name="productConfig[id]"   defaultValue={ productConfig.id } />
       <Tabs>
         <main role="main" className={`${BASE_CLASS}__main`}>
 
@@ -112,7 +112,7 @@ function UserFormPres( props ) {
               <Select
                 name="currency"
                 label={intl.formatMessage({ id: `field.currency` })}
-                value={ defaultQuotation.currency }
+                value={ quotationConfig.currency }
               >{ currencies.map( c => (
                 <option key={ c.value } value={ c.value }>{ c.label }</option>
               ))}
@@ -140,36 +140,36 @@ function UserFormPres( props ) {
             <div className={`${BASE_CLASS}__product`}>
               <div className={`${BASE_CLASS}__product-form`}>
                 <Textarea
-                  name="defaultProduct[description]"
+                  name="productConfig[description]"
                   label={intl.formatMessage({ id: `field.description` })}
-                  value={ defaultProduct.description }
+                  value={ productConfig.description }
                 />
                 <Input
-                  name="defaultProduct[quantity]"
+                  name="productConfig[quantity]"
                   label={intl.formatMessage({ id: `field.quantity` })}
                   type="number"
-                  value={ defaultProduct.quantity }
+                  value={ productConfig.quantity }
                 />
                 <Input
-                  name="defaultQuotation[tax]"
+                  name="quotationConfig[tax]"
                   label={intl.formatMessage({ id: `field.tax` })}
                   type="number"
-                  value={ defaultQuotation.tax }
+                  value={ quotationConfig.tax }
                 />
               </div>
               <PaperSheet part="center">
                 <ProductTable readOnly
                   products={ fakeProducts }
-                  tax={ defaultQuotation.tax }
-                  currency={ defaultQuotation.currency }
+                  tax={ quotationConfig.tax }
+                  currency={ quotationConfig.currency }
                 >
                   <ProductLine readOnly
                     product={ fakeProduct }
-                    currency={ defaultQuotation.currency }
+                    currency={ quotationConfig.currency }
                   />
                   <ProductLine readOnly
-                    product={ defaultProduct }
-                    currency={ defaultQuotation.currency }
+                    product={ productConfig }
+                    currency={ quotationConfig.currency }
                   />
                 </ProductTable>
               </PaperSheet>
@@ -180,20 +180,20 @@ function UserFormPres( props ) {
           <TabPanel>
             <div className={`${BASE_CLASS}__mentions`}>
               <Textarea
-                name="defaultQuotation[mentions]"
+                name="quotationConfig[mentions]"
                 label={intl.formatMessage({ id: `configuration.mentions.quotations` })}
-                value={ defaultQuotation.mentions }
+                value={ quotationConfig.mentions }
               />
               <PaperSheet part="bottom">
-                <Mentions content={ defaultQuotation.mentions }/>
+                <Mentions content={ quotationConfig.mentions }/>
               </PaperSheet>
               <Textarea
-                name="defaultInvoice[mentions]"
+                name="invoiceConfig[mentions]"
                 label={intl.formatMessage({ id: `configuration.mentions.invoices` })}
-                value={ defaultInvoice.mentions }
+                value={ invoiceConfig.mentions }
               />
               <PaperSheet part="bottom">
-                <Mentions content={ defaultInvoice.mentions }/>
+                <Mentions content={ invoiceConfig.mentions }/>
               </PaperSheet>
             </div>
           </TabPanel>
@@ -211,14 +211,14 @@ function UserFormPres( props ) {
                 <dd className={`${BASE_CLASS}__references-content`}>
                   <div className={`${BASE_CLASS}__references-form`}>
                     <Input
-                      name="defaultQuotation[prefix]"
+                      name="quotationConfig[prefix]"
                       label={intl.formatMessage({ id: `field.prefix` })}
-                      value={ defaultQuotation.prefix }
+                      value={ quotationConfig.prefix }
                     />
                     <Input
-                      name="defaultQuotation[startAt]"
+                      name="quotationConfig[startAt]"
                       label={intl.formatMessage({ id: `field.start-at` })}
-                      value={ defaultQuotation.startAt }
+                      value={ quotationConfig.startAt }
                       type="number"
                       min="0"
                       step="1"
@@ -236,14 +236,14 @@ function UserFormPres( props ) {
                 <dd className={`${BASE_CLASS}__references-content`}>
                   <div className={`${BASE_CLASS}__references-form`}>
                     <Input
-                      name="defaultInvoice[prefix]"
+                      name="invoiceConfig[prefix]"
                       label={intl.formatMessage({ id: `field.prefix` })}
-                      value={ defaultInvoice.prefix }
+                      value={ invoiceConfig.prefix }
                     />
                     <Input
-                      name="defaultInvoice[startAt]"
+                      name="invoiceConfig[startAt]"
                       label={intl.formatMessage({ id: `field.start-at` })}
-                      value={ defaultInvoice.startAt }
+                      value={ invoiceConfig.startAt }
                       type="number"
                       min="0"
                       step="1"
