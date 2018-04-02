@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import urlJoin from 'url-join'
 import { injectIntl, FormattedMessage } from 'react-intl'
 
-import config from '../../config.js'
+import config from '../../isomorphic-config.js'
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as users from '../../ducks/users'
 import LayoutBoarding from '../../components/layout/boarding.jsx'

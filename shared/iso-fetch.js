@@ -4,7 +4,7 @@ import isNil from 'lodash.isnil'
 import urlJoin from 'url-join'
 import Cookies from 'js-cookie'
 
-import config from './config.js'
+import config from './isomorphic-config.js'
 
 // Thin wrapper around the fetch API
 // • We return both the response & the JSON

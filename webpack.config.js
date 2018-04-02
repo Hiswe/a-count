@@ -34,6 +34,10 @@ const server = {
       raw: true,
       entryOnly: false
     }),
+    new webpack.NormalModuleReplacementPlugin(
+      /isomorphic-config\.js/,
+      path.join(__dirname, './shared/config-server.js')
+    ),
   ],
   //
   mode:   env,
@@ -79,6 +83,10 @@ const client = {
         BROWSER: JSON.stringify( true )
       },
     }),
+    new webpack.NormalModuleReplacementPlugin(
+      /isomorphic-config\.js/,
+      path.join(__dirname, './shared/config-browser.js')
+    ),
     new ExtractTextPlugin( `concompte.css` )
   ],
   devtool:    `inline-source-map`,
