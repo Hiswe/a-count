@@ -72,7 +72,7 @@ class QuotationForm extends Component {
   // • add an empty line a the end…
   //   …in case a user just type something on the blank one
   static recomputeProducts( formData ) {
-    const defaultProduct      = formData.get( `defaultProduct` )
+    const defaultProduct      = formData.get( `productConfig` )
     const products            = formData.get( `products`       )
     const recomputedProducts  = recomputeQuotationProducts({
       defaultProduct,

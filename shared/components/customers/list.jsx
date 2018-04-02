@@ -14,6 +14,7 @@ const CustomerRow = (props) => {
         <Link to={ url }>{ customer.name }</Link>
       </td>
       <td>{ customer.quotationsCount }</td>
+      <td>{ customer.invoicesCount }</td>
     </tr>
   )
 }
@@ -25,11 +26,12 @@ const CustomerList = (props) => {
       columns={[
         {label: `table.header.name`},
         {label: `table.header.quotation-count`},
+        {label: `table.header.invoice-count`},
       ]}
       className="table--pres"
     >
       {
-        !hasCustomer ? ( <TableEmptyLine colspan="2" /> )
+        !hasCustomer ? ( <TableEmptyLine colspan="3" /> )
         : props.customers.map( (customer, i) => (
           <CustomerRow key={customer.id} customer={customer} />
         ))

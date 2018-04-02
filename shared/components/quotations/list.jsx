@@ -18,7 +18,7 @@ function QuotationStatus( props ) {
 }
 
 function QuotationRow( props ) {
-  const { quotation, defaultQuotation } = props
+  const { quotation, quotationConfig } = props
   return (
     <tr>
       <td>
@@ -44,13 +44,13 @@ function QuotationRow( props ) {
       <td className="is-number">
         <Amount
           value={quotation._total.net}
-          currency={ defaultQuotation.currency }
+          currency={ quotationConfig.currency }
         />
       </td>
       <td className="is-number">
         <Amount
           value={quotation._total.all}
-          currency={ defaultQuotation.currency }
+          currency={ quotationConfig.currency }
         />
       </td>
     </tr>
@@ -59,7 +59,7 @@ function QuotationRow( props ) {
 //----- ALL
 
 function QuotationTable( props ) {
-  const { quotations, defaultQuotation } = props
+  const { quotations, quotationConfig } = props
   const hasQuotations = Array.isArray( quotations ) && quotations.length > 0
   return (
     <Table
@@ -80,7 +80,7 @@ function QuotationTable( props ) {
         <QuotationRow
           key={ q.id }
           quotation={ q }
-          defaultQuotation={ defaultQuotation }
+          quotationConfig={ quotationConfig }
         />
       ))
     }
@@ -92,7 +92,7 @@ function state2prop( state ) {
   return {
     quotations:       state.quotations && state.quotations.list,
     user:             state.users.current,
-    defaultQuotation: state.users.current && state.users.current.defaultQuotation
+    quotationConfig: state.users.current && state.users.current.quotationConfig
   }
 }
 
