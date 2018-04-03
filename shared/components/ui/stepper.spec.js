@@ -21,5 +21,5 @@ test( `${title} – getSelectedIndex utility method`, t => {
   const firstAndThird = [{value: 'oui'}, {value: ''}, {value: 'oui'}]
   t.is( getSelectedIndex(firstAndThird), 1, `output 1 if the second is empty` )
   const all = [{value: 'oui'}, {value: 'oui'}, {value: 'oui'}]
-  t.is( getSelectedIndex(all), 2, `output 2 if every thing has a value` )
+  t.is( getSelectedIndex(all), 3, `output 3 if every thing has a value` )
 })

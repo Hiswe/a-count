@@ -114,6 +114,7 @@
     display: block;
 
     // bullet
+    #{$root}--is-all-checked &::before,
     &::before {
       content: var(--step-content);
       display: flex;
