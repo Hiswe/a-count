@@ -88,6 +88,7 @@ export default {
   'table.header.status': `statut`,
   'table.header.tax': `taxe`,
   'table.header.quotation-count': `nombre de devis`,
+  'table.header.invoice': `facture`,
   'table.header.invoice-count': `nombre de factures`,
   'table.header.description': `description`,
   'table.header.quantity': `quantité`,

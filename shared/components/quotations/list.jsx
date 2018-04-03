@@ -36,6 +36,13 @@ function QuotationRow( props ) {
         </Link>
       </td>
       <td></td>
+      <td>
+        { quotation._hasInvoice && (
+          <Link to={`/invoices/${quotation.invoice.id}`}>
+            { quotation.invoice.reference }
+          </Link>
+        )}
+      </td>
       {/* {status.date ? <QuotationStatus status={status} /> : <td>-</td>} */}
       <td className="is-number">
         <Percent value={quotation.tax} />
@@ -67,6 +74,7 @@ function QuotationTable( props ) {
         {label: `table.header.name`},
         {label: `table.header.customer`},
         {label: `table.header.status`},
+        {label: `table.header.invoice`},
         {label: `table.header.tax`},
         {label: `table.amount-ht`},
         {label: `table.amount`},
@@ -74,7 +82,7 @@ function QuotationTable( props ) {
       className="table--pres"
     >
     {
-      !hasQuotations ? ( <EmptyLine colspan="7" /> )
+      !hasQuotations ? ( <EmptyLine colspan="8" /> )
       : quotations.map( (q, i) => (
         <QuotationRow
           key={ q.id }

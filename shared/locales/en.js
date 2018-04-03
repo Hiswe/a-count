@@ -88,6 +88,7 @@ export default {
   'table.header.status': `status`,
   'table.header.tax': `tax`,
   'table.header.quotation-count': `quotations count`,
+  'table.header.invoice': `invoice`,
   'table.header.invoice-count': `invoices count`,
   'table.header.description': `description`,
   'table.header.quantity': `quantity`,
