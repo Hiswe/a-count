@@ -54,7 +54,7 @@ export default {
   'page.quotations.edit': `quotation – {reference}`,
   'page.quotations.print': `print quotation – {reference}`,
   'page.invoices': `invoices`,
-  'page.invoices.edit': `edit invoice`,
+  'page.invoices.edit': `edit invoice - {reference}`,
   'page.customers': `customers`,
   'page.customers.new': `new customer`,
   'page.customers.edit': `customer : {name}`,
