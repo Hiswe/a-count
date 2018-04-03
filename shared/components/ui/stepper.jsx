@@ -37,14 +37,17 @@ export function Stepper( props ) {
 
 export function Step( props ) {
   const { step, checked, index, handleDayChange } = props
-  const id  = `${step.key}-${index}`
-  const name = ``
+  const id  = `${ step.key }-${ index }`
+  // enforce a key to reRender defaultValue input
+  // • https://stackoverflow.com/questions/30792526/defaultvalue-change-does-not-re-render-input#answer-39239074
+  const key = `${ index }-${ checked }`
   return (
     <Fragment>
       <input id={ id }
         name="stepper-display-form"
         className="stepper__input"
         type="radio"
+        key={ key }
         defaultChecked={ checked }
       />
       <div className="stepper__step" >
