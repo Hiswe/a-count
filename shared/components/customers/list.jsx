@@ -2,8 +2,7 @@ import React        from 'react'
 import { Link }     from 'react-router-dom'
 import { connect }  from 'react-redux'
 
-import Table from '../ui/table.jsx'
-import TableEmptyLine from '../ui/table-empty-line.jsx'
+import { Table, EmptyLine } from '../ui/table.jsx'
 
 function CustomerRow( props ) {
   const customer = props.customer
@@ -32,7 +31,7 @@ function CustomerList( props ) {
       className="table--pres"
     >
       {
-        !hasCustomer ? ( <TableEmptyLine colspan="3" /> )
+        !hasCustomer ? ( <EmptyLine colspan="3" /> )
         : props.customers.map( (customer, i) => (
           <CustomerRow key={customer.id} customer={customer} />
         ))
