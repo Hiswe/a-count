@@ -12,7 +12,9 @@ export const SAVE_ONE = createActionNames( NAME, `post`, `one` )
 const initialState = crio({
   isSaving:   false,
   list:       [],
-  current:    {},
+  current:    {
+    isLoading: true,
+  },
 })
 
 export default function reducer(state = initialState, action) {
