@@ -2,8 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { PaperSheet, Party, Reference, Mentions, Subject, Between } from '../layout/paper-sheet.jsx'
-import ProductTable from '../products/table.jsx'
-import ProductLine from '../products/line.jsx'
+import { ProductTable, ProductLine } from '../ui/table-product.jsx'
 
 function PrintQuotation( props ) {
   const { quotation, user } = props

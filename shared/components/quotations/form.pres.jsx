@@ -8,8 +8,7 @@ import { Button, BtnLink, BtnIcon } from '../ui/buttons.jsx'
 import { Input, Textarea, Select } from '../ui/field.jsx'
 import { Stepper, Step } from '../ui/stepper.jsx'
 import Icon from '../ui/svg-icons.jsx'
-import ProductTable from '../products/table.jsx'
-import ProductLine from '../products/line.jsx'
+import { ProductTable, ProductLine } from '../ui/table-product.jsx'
 
 import './form.pres.scss'
 export const BASE_CLASS = `quotation-form`

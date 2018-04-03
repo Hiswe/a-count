@@ -22,6 +22,7 @@
     "serve:all": "parallelshell \"npm run serve:app\" \"npm run serve:api\"",
     "serve:all:dev": "parallelshell \"npm run serve:api:dev\"  \"npm run serve:app:dev\" --verbose",
     "browsersync": "browser-sync start --config browser-sync-config.js",
+    "dev:app": "parallelshell \"npm run serve:app:watch\" \"npm run browsersync\"",
     "dev:no-build": "parallelshell \"npm run watch:app\" \"npm run serve:all:dev\" \"npm run browsersync\"",
     "dev": "npm run build:app && npm run dev:no-build"
   },

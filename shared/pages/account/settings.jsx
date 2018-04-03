@@ -7,7 +7,7 @@ import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers'
 import NavSecondary from '../../components/nav/secondary.jsx'
 import SettingForm from '../../components/account/settings.jsx'
-import { ButtonSubmit } from '../../components/users/secondary-nav-actions.jsx'
+import { ButtonSubmit } from '../../components/account/secondary-nav-actions.jsx'
 
 function EditProfile( props ) {
   const { intl } = props
