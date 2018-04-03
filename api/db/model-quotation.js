@@ -108,7 +108,7 @@ const Quotation = sequelize.define( `quotation`, {
     type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`invoice`]),
     get: function() {
       const invoice     = this.get( `invoice` )
-      return typeof invoice !== `undefined`
+      return invoice != null
     },
   },
   _canBeTransformedToInvoice: {
