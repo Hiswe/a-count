@@ -93,13 +93,13 @@
     "url-join": "^4.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.42",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.42",
-    "@babel/plugin-transform-runtime": "^7.0.0-beta.42",
-    "@babel/preset-env": "^7.0.0-beta.42",
-    "@babel/preset-react": "^7.0.0-beta.42",
-    "@babel/register": "^7.0.0-beta.42",
-    "@babel/runtime": "^7.0.0-beta.42",
+    "@babel/core": "^7.0.0-beta.44",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.44",
+    "@babel/plugin-transform-runtime": "^7.0.0-beta.44",
+    "@babel/preset-env": "^7.0.0-beta.44",
+    "@babel/preset-react": "^7.0.0-beta.44",
+    "@babel/register": "^7.0.0-beta.44",
+    "@babel/runtime": "^7.0.0-beta.44",
     "autoprefixer": "8.2.0",
     "ava": "^1.0.0-beta.3",
     "babel-loader": "8.0.0-beta.2",
@@ -124,7 +124,7 @@
     "style-loader": "^0.20.3",
     "webpack": "^4.4.1",
     "webpack-cli": "^2.0.13",
-    "webpack-node-externals": "^1.6.0",
+    "webpack-node-externals": "^1.7.2",
     "yargs": "11.0.0"
   }
 }
