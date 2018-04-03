@@ -30,7 +30,7 @@ function PrintQuotation( props ) {
           />
         ))}
       </ProductTable>
-      <Mentions content={ user.defaultQuotation.mentions } />
+      <Mentions content={ user.quotationConfig.mentions } />
     </PaperSheet>
   )
 }
@@ -38,8 +38,8 @@ function PrintQuotation( props ) {
 function state2prop( state ) {
   const { current } = state.quotations
   const result = {
-    quotation: current,
-    user: state.users.current,
+    quotation:  current,
+    user:       state.account.get( `current` ),
   }
   return result
 }
