@@ -2,8 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import Table from '../ui/table.jsx'
-import EmptyLine from '../ui/table-empty-line.jsx'
+import { Table, EmptyLine } from '../ui/table.jsx'
 import { Amount, Percent } from '../ui/format.jsx'
 
 //----- TBODY
@@ -18,7 +17,7 @@ function QuotationStatus( props ) {
 }
 
 function QuotationRow( props ) {
-  const { quotation, quotationConfig } = props
+  const { quotation, currency } = props
   return (
     <tr>
       <td>
@@ -44,13 +43,13 @@ function QuotationRow( props ) {
       <td className="is-number">
         <Amount
           value={quotation._total.net}
-          currency={ quotationConfig.currency }
+          currency={ currency }
         />
       </td>
       <td className="is-number">
         <Amount
           value={quotation._total.all}
-          currency={ quotationConfig.currency }
+          currency={ currency }
         />
       </td>
     </tr>
@@ -59,7 +58,7 @@ function QuotationRow( props ) {
 //----- ALL
 
 function QuotationTable( props ) {
-  const { quotations, quotationConfig } = props
+  const { quotations, currency } = props
   const hasQuotations = Array.isArray( quotations ) && quotations.length > 0
   return (
     <Table
@@ -80,7 +79,7 @@ function QuotationTable( props ) {
         <QuotationRow
           key={ q.id }
           quotation={ q }
-          quotationConfig={ quotationConfig }
+          currency={ currency }
         />
       ))
     }
@@ -90,9 +89,8 @@ function QuotationTable( props ) {
 
 function state2prop( state ) {
   return {
-    quotations:       state.quotations && state.quotations.list,
-    user:             state.users.current,
-    quotationConfig: state.users.current && state.users.current.quotationConfig
+    quotations: state.quotations && state.quotations.list,
+    currency  : state.users.current && state.users.current.currency,
   }
 }
 
