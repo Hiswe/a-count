@@ -132,7 +132,7 @@ privateRouter
   ctx.assert(instance, 404, `Can't find User. The associated user isn't found`)
   const updated   = await instance.update( body )
 
-  const relations = [`defaultQuotation`, `defaultInvoice`, `defaultProduct`]
+  const relations = [`quotationConfig`, `invoiceConfig`, `productConfig`]
   await Promise.all( relations.map( relationName => {
     return instance[ relationName ].update( body[ relationName ] )
   }))
