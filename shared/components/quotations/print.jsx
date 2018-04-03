@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { PaperSheet, Party, Reference, Mentions, Subject, Between } from '../layout/paper-sheet.jsx'
-import Spinner from '../ui/spinner.jsx'
 import ProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
 

@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react'
 
 import { BtnIcon } from '../ui/buttons.jsx'
-import { BASE_CLASS } from './form.pres.jsx'
+import { FORM_ID } from './form.pres.jsx'
 
 export function ButtonList( props ) {
   return (
@@ -49,7 +48,7 @@ export function ButtonSubmit( props ) {
 
   return (
     <BtnIcon
-      form={ BASE_CLASS } disabled={ isSaving } type="submit"
+      form={ FORM_ID } disabled={ isSaving } type="submit"
       svgId={ iconName }
     />
   )

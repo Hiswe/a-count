@@ -9,6 +9,7 @@ import { Input, Textarea } from '../ui/field.jsx'
 
 import './form.pres.scss'
 export const BASE_CLASS = `customer-form`
+export const FORM_ID    = BASE_CLASS
 
 function CustomerFormPres( props ) {
   const {

@@ -12,15 +12,23 @@ import ProductLine from '../products/line.jsx'
 import { ButtonSubmit } from'./secondary-nav-actions.jsx'
 
 import './form.pres.scss'
-export const BASE_CLASS = `profile-form`
+export const BASE_CLASS = `setting-form`
+export const FORM_ID    = BASE_CLASS
 
 const customerExample = {
   name: `Customer name`,
   address: `123 6th St.
 __Melbourne, FL 32904__
-AUSTRALIA
-`
+AUSTRALIA`
 }
+const currencies = [
+  {value: `USD`, label: `USD`},
+  {value: `EUR`, label: `EUR`},
+]
+const languages = [
+  {value: `fr`, label: `français`},
+  {value: `en`, label: `english`},
+]
 
 function UserFormPres( props ) {
   const {
@@ -58,15 +66,6 @@ function UserFormPres( props ) {
     fakeProduct,
     quotationConfig
   ]
-  const currencies = [
-    {value: `USD`, label: `USD`},
-    {value: `EUR`, label: `EUR`},
-  ]
-  const languages = [
-    {value: `fr`, label: `français`},
-    {value: `en`, label: `english`},
-  ]
-  const submitMessage = isSaving ? `saving…` : `update`
 
   return (
     <Form

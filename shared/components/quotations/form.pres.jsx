@@ -13,6 +13,7 @@ import ProductLine from '../products/line.jsx'
 
 import './form.pres.scss'
 export const BASE_CLASS = `quotation-form`
+export const FORM_ID    = BASE_CLASS
 
 function QuotationFormPres( props ) {
   const {
@@ -35,7 +36,7 @@ function QuotationFormPres( props ) {
 
   return (
     <Form
-      id={ `${BASE_CLASS}` }
+      id={ FORM_ID }
       isSaving={ isSaving }
       onChange={ handleFormChange }
       onSubmit={ handleSubmit }

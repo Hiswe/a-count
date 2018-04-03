@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
 import { BtnIcon } from '../ui/buttons.jsx'
-import { BASE_CLASS } from './form.pres.jsx'
+import { FORM_ID } from './form.pres.jsx'
 
 export function ButtonSubmit( props ) {
   const { isSaving } = props
@@ -9,7 +9,7 @@ export function ButtonSubmit( props ) {
 
   return (
     <BtnIcon
-      form={ BASE_CLASS }
+      form={ FORM_ID }
       disabled={ isSaving }
       type="submit"
       svgId={ iconName }

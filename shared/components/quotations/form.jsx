@@ -103,8 +103,8 @@ class QuotationForm extends Component {
     const body = serialize( event.target, { hash: true, empty: true } )
     this.props.saveOne( { params: {body} } )
   }
-  handleFormChange( e ) {
-    const { target } = e
+  handleFormChange( event ) {
+    const { target } = event
     const { name, value } = target
 
     // ignore stepper presentational radio input
