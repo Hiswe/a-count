@@ -14,7 +14,6 @@ const jwtStore         = require( './jwt-store'             )
 const formatResponse   = require( './utils/format-response' )
 const User             = require( './db/model-user'         )
 const routerAccount    = require( './router-account'        )
-const routerUsers      = require( './router-users'          )
 const routerCustomers  = require( './router-customers'      )
 const routerQuotations = require( './router-quotations'     )
 const routerInvoices   = require( './router-invoices'       )
@@ -68,7 +67,6 @@ apiRouter.use( async function isAuthorizedRoute(ctx, next) {
 //----- MOUNT
 
 apiRouter.use( routerAccount.private.routes() )
-apiRouter.use( routerUsers.routes() )
 apiRouter.use( routerCustomers.routes() )
 apiRouter.use( routerQuotations.routes() )
 apiRouter.use( routerInvoices.routes() )
