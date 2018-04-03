@@ -44,6 +44,7 @@ export default {
   'notifications.invoice.error': `Une erreur est survenue lors de la sauvegarde`,
   'notifications.customer.saved': `Le client a été sauvegardé`,
   'notifications.generic.saved': `enregistrement effectué`,
+  'notifications.generic.error': `• une erreur est survenue •`,
 
   'customer.button.create': `Créer le client`,
   'customer.button.update': `Mettre à jour`,

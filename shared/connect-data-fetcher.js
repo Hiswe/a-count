@@ -1,6 +1,6 @@
 import React from 'react'
 
-import * as users from './ducks/users'
+import * as account from './ducks/account'
 
 // Connect data fetcher
 // • we need to collect data for the components to render properly
@@ -20,7 +20,7 @@ export default function connectDataFetchers({Component, actionCreators}) {
   actionCreators = Array.isArray( actionCreators ) ? actionCreators
     : [ actionCreators ]
   // always query the authentication
-  actionCreators.unshift( users.auth )
+  actionCreators.unshift( account.auth )
 
   return class DataFetchersWrapper extends React.Component {
 

@@ -185,7 +185,7 @@ function state2prop( state ) {
     isNew,
     current,
     customers: state.customers && state.customers.list,
-    user: state.users.current
+    user: state.account.current
   }
   return result
 }

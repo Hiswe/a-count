@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
-import * as users from '../../ducks/users'
+import * as account from '../../ducks/account'
 
 import './main.scss'
 const BASE_CLASS = `nav-main`
@@ -107,14 +107,14 @@ function MainNav( props ) {
 
 function state2props( state ) {
   return {
-    isAuthenticated: state.users.isAuthenticated,
-    email: state.users.current.email,
+    isAuthenticated:  state.account.get( `isAuthenticated` ),
+    email:            state.account.get( `current.email` ),
   }
 }
 
 function dispatch2props( dispatch ) {
   return bindActionCreators({
-    logout: users.logout,
+    logout: account.logout,
   }, dispatch)
 }
 

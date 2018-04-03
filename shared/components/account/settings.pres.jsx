@@ -10,7 +10,7 @@ import ProductTable from '../products/table.jsx'
 import ProductLine from '../products/line.jsx'
 import { ButtonSubmit } from'./secondary-nav-actions.jsx'
 
-import './form.pres.scss'
+import './settings.pres.scss'
 export const BASE_CLASS = `setting-form`
 export const FORM_ID    = BASE_CLASS
 
@@ -29,7 +29,7 @@ const languages = [
   {value: `en`, label: `english`},
 ]
 
-function UserFormPres( props ) {
+function SettingFormPres( props ) {
   const {
     isSaving,
     intl,
@@ -268,4 +268,4 @@ function UserFormPres( props ) {
   )
 }
 
-export default injectIntl( UserFormPres )
+export default injectIntl( SettingFormPres )

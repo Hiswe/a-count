@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
 import { BtnIcon } from '../ui/buttons.jsx'
-import { FORM_ID } from './form.pres.jsx'
+import { FORM_ID } from './settings.pres.jsx'
 
 export function ButtonSubmit( props ) {
   const { isSaving } = props

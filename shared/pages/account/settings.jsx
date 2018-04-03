@@ -6,7 +6,7 @@ import { injectIntl } from 'react-intl'
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers'
 import NavSecondary from '../../components/nav/secondary.jsx'
-import UserForm from '../../components/users/form.jsx'
+import SettingForm from '../../components/account/settings.jsx'
 import { ButtonSubmit } from '../../components/users/secondary-nav-actions.jsx'
 
 function EditProfile( props ) {
@@ -20,14 +20,14 @@ function EditProfile( props ) {
       })}>
         <ButtonSubmit isSaving={ props.isSaving } />
       </NavSecondary>
-      <UserForm {...props} />
+      <SettingForm {...props} />
     </Fragment>
   )
 }
 
 function state2prop( state ) {
   return {
-    isSaving: state.users.isSaving
+    isSaving: state.account.get( `isSaving` ),
   }
 }
 

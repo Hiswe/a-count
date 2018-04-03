@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { injectIntl, FormattedMessage } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
-import * as users from '../../ducks/users'
+import * as account from '../../ducks/account'
 import LayoutBoarding from '../../components/layout/boarding.jsx'
 import Form from '../../components/ui/form.jsx'
 import { Button } from '../../components/ui/buttons.jsx'
@@ -21,9 +21,7 @@ class Login extends PureComponent {
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true } )
-    this.props.dispatch( users.login({
-      params: { body },
-    }) )
+    this.props.login( {params: { body }} )
   }
 
   render() {
@@ -59,7 +57,13 @@ class Login extends PureComponent {
   }
 }
 
-export default connect()( ConnectDataFetcher({
+function dispatch2prop( dispatch ) {
+  return bindActionCreators({
+    login: account.login,
+  }, dispatch)
+}
+
+export default connect(null, dispatch2prop)( ConnectDataFetcher({
   Component: injectIntl( Login ),
   actionCreators: [
   ],

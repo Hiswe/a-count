@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import serialize from 'form-serialize'
 
-import * as users from '../../ducks/users'
-import UserFormPres from './form.pres.jsx'
+import * as account from '../../ducks/account'
+import SettingFormPres from './settings.pres.jsx'
 
-class UserForm extends Component {
+class SettingForm extends Component {
 
   constructor( props ) {
     super( props )
@@ -33,7 +33,7 @@ class UserForm extends Component {
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true, empty: true } )
-    this.props.dispatch(  users.saveOne( { params: {body} } ))
+    this.props.updateSettings( {params: {body}} )
   }
   handleFormChange( event ) {
     const { target } = event
@@ -60,16 +60,22 @@ class UserForm extends Component {
     }
 
     return (
-      <UserFormPres {...renderProps} />
+      <SettingFormPres {...renderProps} />
     )
   }
 }
 
-const state2props = state => {
+function state2props( state ) {
   return {
-    current : state.users.current,
-    isSaving: state.users.isSaving,
+    current : state.account.current,
+    isSaving: state.account.isSaving,
   }
 }
 
-export default connect( state2props )( UserForm )
+function dispatch2props ( dispatch ) {
+  return bindActionCreators({
+    updateSettings: account.updateSettings,
+  }, dispatch )
+}
+
+export default connect( state2props, dispatch2props )( SettingForm )

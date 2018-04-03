@@ -90,7 +90,7 @@ function QuotationTable( props ) {
 function state2prop( state ) {
   return {
     quotations: state.quotations && state.quotations.list,
-    currency  : state.users.current && state.users.current.currency,
+    currency  : state.account.get( `current.currency` ),
   }
 }
 

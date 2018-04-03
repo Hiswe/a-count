@@ -16,14 +16,14 @@ import {
   SAVE_ONE as CUSTOMER_SAVE_ONE,
 } from './customers.js'
 import {
-  AUTH     as USER_AUTH,
-  LOGIN    as USER_LOGIN,
-  FORGOT   as USER_FORGOT,
-  RESET    as USER_RESET,
-  LOGOUT   as USER_LOGOUT,
-  REGISTER as USER_REGISTER,
-  SAVE_ONE as USER_SAVE_ONE,
-} from './users.js'
+  AUTH     as ACCOUNT_AUTH,
+  LOGIN    as ACCOUNT_LOGIN,
+  FORGOT   as ACCOUNT_FORGOT,
+  RESET    as ACCOUNT_RESET,
+  LOGOUT   as ACCOUNT_LOGOUT,
+  REGISTER as ACCOUNT_REGISTER,
+  UPDATE   as ACCOUNT_UPDATE,
+} from './account.js'
 
 const NAME = `notifications`
 export const REMOVE     = `@concompte/${NAME}/remove`
@@ -64,14 +64,14 @@ export default function reducer( state = initialState, action ) {
       return state.splice( index, 1 )
     }
     //----- USER
-    case USER_REGISTER.SUCCESS:
-    case USER_LOGIN.SUCCESS:
-    case USER_RESET.SUCCESS: {
+    case ACCOUNT_REGISTER.SUCCESS:
+    case ACCOUNT_LOGIN.SUCCESS:
+    case ACCOUNT_RESET.SUCCESS: {
       const { user } = payload
       const name = user.name || user.email
       return notifySuccess( state, `notifications.user.welcome`, { name } )
     }
-    case USER_FORGOT.SUCCESS: {
+    case ACCOUNT_FORGOT.SUCCESS: {
       const { email } = payload
       return notifySuccess( state, `notifications.user.mail-sent`, { email } )
     }

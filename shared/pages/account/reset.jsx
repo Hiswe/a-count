@@ -6,7 +6,7 @@ import queryString from 'query-string'
 import { injectIntl, FormattedMessage } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
-import * as users from '../../ducks/users'
+import * as account from '../../ducks/account'
 import LayoutBoarding from '../../components/layout/boarding.jsx'
 import Form from '../../components/ui/form.jsx'
 import { Button } from '../../components/ui/buttons.jsx'
@@ -61,13 +61,10 @@ class Reset extends PureComponent {
   }
 }
 
-function state2prop( state ) {
-  return {}
-}
 
 function dispatch2prop( dispatch ) {
   return bindActionCreators({
-    reset: users.reset,
+    reset: account.reset,
   }, dispatch)
 }
 

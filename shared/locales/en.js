@@ -44,6 +44,7 @@ export default {
   'notifications.invoice.error': `An error occurred while backing up`,
   'notifications.customer.saved': `The customer has been saved`,
   'notifications.generic.saved': `saved`,
+  'notifications.generic.error': `• something went wrong •`,
 
   'customer.button.create': `Create a customer`,
   'customer.button.update': `update`,

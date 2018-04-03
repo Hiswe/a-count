@@ -3,7 +3,7 @@ import crio from 'crio'
 import createActionNames from './utils/create-action-names.js'
 import fetchDispatch from './utils/fetch-dispatch.js'
 
-const NAME = `users`
+const NAME = `account`
 
 export const AUTH     = createActionNames( NAME, `get`,   `auth` )
 export const LOGIN    = createActionNames( NAME, `post`,  `login` )
@@ -11,7 +11,7 @@ export const FORGOT   = createActionNames( NAME, `post`,  `forgot` )
 export const RESET    = createActionNames( NAME, `post`,  `reset` )
 export const LOGOUT   = createActionNames( NAME, `get`,   `logout` )
 export const REGISTER = createActionNames( NAME, `post`,  `register` )
-export const SAVE_ONE = createActionNames( NAME, `post`,  `one` )
+export const UPDATE   = createActionNames( NAME, `post`,  `one` )
 
 const initialState = crio({
   isSaving       : false,
@@ -40,11 +40,11 @@ export default function reducer( state = initialState, action ) {
       state = state.set( `isAuthenticated`, false )
       return state.set( `current`, {} )
 
-    case SAVE_ONE.LOADING:
+    case UPDATE.LOADING:
       return state.set( `isSaving`, true )
-    case SAVE_ONE.DONE:
+    case UPDATE.DONE:
       return state.set( `isSaving`, false )
-    case SAVE_ONE.SUCCESS:
+    case UPDATE.SUCCESS:
       return state.set( `current`, payload.user )
 
     default:
@@ -58,7 +58,7 @@ export default function reducer( state = initialState, action ) {
 
 export const auth = ({params, cookie}) => async dispatch => {
   const options = {
-    url: `/account/auth`,
+    url: `/${ NAME }/auth`,
   }
   await fetchDispatch({
     dispatch,
@@ -70,7 +70,7 @@ export const auth = ({params, cookie}) => async dispatch => {
 export const login = ({params, cookie}) => async dispatch => {
   const { body } = params
   const options = {
-    url: `/account/login`,
+    url: `/${ NAME }/login`,
     body,
   }
   await fetchDispatch({
@@ -82,7 +82,7 @@ export const login = ({params, cookie}) => async dispatch => {
 
 export const logout = ({params, cookie}) => async dispatch => {
   const options = {
-    url: `/account/logout`,
+    url: `/${ NAME }/logout`,
   }
   await fetchDispatch({
     dispatch,
@@ -94,7 +94,7 @@ export const logout = ({params, cookie}) => async dispatch => {
 export const register = ({params, cookie}) => async dispatch => {
   const { body } = params
   const options = {
-    url: `/account/register`,
+    url: `/${ NAME }/register`,
     body,
   }
   await fetchDispatch({
@@ -107,7 +107,7 @@ export const register = ({params, cookie}) => async dispatch => {
 export const forgot = ({params, cookie}) => async dispatch => {
   const { body } = params
   const options = {
-    url: `/account/forgot`,
+    url: `/${ NAME }/forgot`,
     body,
   }
   await fetchDispatch({
@@ -120,7 +120,7 @@ export const forgot = ({params, cookie}) => async dispatch => {
 export const reset = ({params, cookie}) => async dispatch => {
   const { body } = params
   const options = {
-    url: `/account/reset`,
+    url: `/${ NAME }/reset`,
     body,
   }
   await fetchDispatch({
@@ -130,15 +130,15 @@ export const reset = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const saveOne = ({params, cookie}) => async dispatch => {
+export const updateSettings = ({params, cookie}) => async dispatch => {
   const { body } = params
   const options = {
-    url: `${NAME}/${body.id}`,
+    url: `${NAME}/settings`,
     body,
   }
   await fetchDispatch({
     dispatch,
-    actions:  SAVE_ONE,
+    actions:  UPDATE,
     fetch:    { options, cookie },
   })
 }

@@ -30,9 +30,8 @@ export function authenticationRequired( Component ) {
   }
 
   function state2prop( state ) {
-    // pass global states
     return {
-      isAuthenticated:  state.users.isAuthenticated,
+      isAuthenticated:  state.account.get( `isAuthenticated` ),
     }
   }
 

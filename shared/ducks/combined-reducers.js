@@ -4,14 +4,14 @@ import customers from './customers'
 import quotations from './quotations'
 import invoices from './invoices'
 import notifications from './notifications'
-import users, { LOGOUT, AUTH } from './users'
+import account, { LOGOUT, AUTH } from './account'
 
 const appReducer = combineReducers({
   customers,
   quotations,
   invoices,
   notifications,
-  users,
+  account,
 })
 
 // make a global reducer
