@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { injectIntl, FormattedMessage } from 'react-intl'
 
-import Main from '../layout/main.jsx'
+import { Main, Content} from '../layout/main.jsx'
 import { PaperSheet, Party } from '../layout/paper-sheet.jsx'
 import Form from '../ui/form.jsx'
 import { Button } from '../ui/buttons.jsx'
@@ -30,40 +30,38 @@ function CustomerFormPres( props ) {
         onChange={ handleFormChange }
       >
       { formData.id && <input type="hidden" defaultValue={formData.id} name="id" />  }
-      <Main
-        content={() => (
-          <Fragment>
-            <div className={`${BASE_CLASS}__address`}>
-              <fieldset>
-                <Input
-                  name="name"
-                  label={intl.formatMessage({
-                    id: `field.name`,
-                    defaultMessage: `name`,
-                  })}
-                  value={ formData.name }
-                />
-                <Textarea
-                  name="address"
-                  label={intl.formatMessage({
-                    id: `field.address`,
-                    defaultMessage: `address`,
-                  })}
-                  value={ formData.address }
-                />
-              </fieldset>
-              <PaperSheet part="top-right">
-                <Party title="to" {...formData} />
-              </PaperSheet>
-            </div>
-            <div className="actions">
-              <Button type="submit">
-                <FormattedMessage id={ submitI18nId } />
-              </Button>
-            </div>
-          </Fragment>
-        )}
-      />
+      <Main>
+        <Content>
+          <div className={`${BASE_CLASS}__address`}>
+            <fieldset>
+              <Input
+                name="name"
+                label={intl.formatMessage({
+                  id: `field.name`,
+                  defaultMessage: `name`,
+                })}
+                value={ formData.name }
+              />
+              <Textarea
+                name="address"
+                label={intl.formatMessage({
+                  id: `field.address`,
+                  defaultMessage: `address`,
+                })}
+                value={ formData.address }
+              />
+            </fieldset>
+            <PaperSheet part="top-right">
+              <Party title="to" {...formData} />
+            </PaperSheet>
+          </div>
+          <div className="actions">
+            <Button type="submit">
+              <FormattedMessage id={ submitI18nId } />
+            </Button>
+          </div>
+        </Content>
+      </Main>
     </Form>
   )
 }

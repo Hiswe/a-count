@@ -6,7 +6,7 @@ import { injectIntl } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
-import Main from '../../components/layout/main.jsx'
+import { Main, Content } from '../../components/layout/main.jsx'
 import NavSecondary from '../../components/nav/secondary.jsx'
 import { BtnFab } from '../../components/ui/buttons.jsx'
 import Icon from '../../components/ui/svg-icons.jsx'
@@ -24,11 +24,11 @@ function Quotations( props ) {
       })}>
         <ButtonNew />
       </NavSecondary>
-      <Main
-        content={() => (
-          <QuotationsList {...props} />
-        )}
-      />
+      <Main>
+        <Content>
+          <QuotationsList />
+        </Content>
+      </Main>
       <BtnFab to="/quotations/new">
         <Icon svgId="note-add" />
       </BtnFab>

@@ -7,7 +7,7 @@ import ConnectDataFetcher from '../connect-data-fetcher.js'
 import * as quotations from '../ducks/quotations'
 import NavSecondary from '../components/nav/secondary.jsx'
 import { ButtonNew as NewQuotation } from '../components/quotations/secondary-nav-actions.jsx'
-import Main from '../components/layout/main.jsx'
+import { Main, Content } from '../components/layout/main.jsx'
 import QuotationsList from '../components/quotations/list.jsx'
 
 function Home( props ) {
@@ -18,16 +18,14 @@ function Home( props ) {
       <NavSecondary title={intl.formatMessage({id: `page.home`})}>
         <NewQuotation />
       </NavSecondary>
-      <Main
-        content={() => (
-          <Fragment>
-            <h3>
-              <FormattedHTMLMessage id="page.quotations" />
-            </h3>
-            <QuotationsList />
-          </Fragment>
-        )}
-      />
+      <Main>
+        <Content>
+          <h3>
+            <FormattedHTMLMessage id="page.quotations" />
+          </h3>
+          <QuotationsList />
+        </Content>
+      </Main>
     </Fragment>
   )
 }

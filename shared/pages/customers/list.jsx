@@ -6,7 +6,7 @@ import { injectIntl } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers.js'
-import Main from '../../components/layout/main.jsx'
+import { Main, Content } from '../../components/layout/main.jsx'
 import NavSecondary from '../../components/nav/secondary.jsx'
 import { BtnFab } from '../../components/ui/buttons.jsx'
 import Icon from '../../components/ui/svg-icons.jsx'
@@ -24,11 +24,11 @@ function Customers( props ) {
       })}>
         <ButtonNew />
       </NavSecondary>
-      <Main
-        content={ () => (
+      <Main>
+        <Content>
           <CustomersTable />
-        )}
-      />
+        </Content>
+      </Main>
       <BtnFab to="/customers/new">
         <Icon svgId="person-add" />
       </BtnFab>

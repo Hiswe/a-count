@@ -4,7 +4,7 @@ import { injectIntl } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
-import Main from '../../components/layout/main.jsx'
+import { Main, Content } from '../../components/layout/main.jsx'
 import NavSecondary from '../../components/nav/secondary.jsx'
 import { ButtonList, ButtonNew, ButtonEdit } from '../../components/quotations/secondary-nav-actions.jsx'
 import PrintQuotation from '../../components/quotations/print.jsx'
@@ -23,9 +23,11 @@ function PrintQuotationPage( props ) {
         <ButtonList />
         <ButtonEdit id={id} />
       </NavSecondary>
-      <Main
-        content={() => <PrintQuotation /> }
-      />
+      <Main>
+        <Content>
+          <PrintQuotation />
+        </Content>
+      </Main>
     </Fragment>
   )
 }

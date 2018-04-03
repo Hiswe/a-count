@@ -6,7 +6,7 @@ import { injectIntl } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as invoices from '../../ducks/invoices'
-import Main from '../../components/layout/main.jsx'
+import { Main, Content } from '../../components/layout/main.jsx'
 import NavSecondary from '../../components/nav/secondary.jsx'
 import { BtnFab } from '../../components/ui/buttons.jsx'
 import InvoiceTable from '../../components/invoices/list.jsx'
@@ -18,11 +18,11 @@ function Invoices( props ) {
     <Fragment>
       <NavSecondary title={intl.formatMessage({ id: `page.invoices` })}>
       </NavSecondary>
-      <Main
-        content={ () => (
+      <Main>
+        <Content>
           <InvoiceTable />
-        )}
-      />
+        </Content>
+      </Main>
     </Fragment>
   )
 }

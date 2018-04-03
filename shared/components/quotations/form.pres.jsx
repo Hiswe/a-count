@@ -1,7 +1,7 @@
 import React, {  Fragment } from 'react'
 import { injectIntl, FormattedMessage } from 'react-intl'
 
-import Main from '../layout/main.jsx'
+import { Main, Meta, Content } from '../layout/main.jsx'
 import { PaperSheet, Party, Reference, Mentions, Between } from '../layout/paper-sheet.jsx'
 import Form from '../ui/form.jsx'
 import { Button, BtnLink, BtnIcon } from '../ui/buttons.jsx'
@@ -41,8 +41,8 @@ function QuotationFormPres( props ) {
       onChange={ handleFormChange }
       onSubmit={ handleSubmit }
     >
-      <Main
-        meta={ () => (
+      <Main withMeta>
+        <Meta>
           <div className={ `${BASE_CLASS}__meta` }>
             { !isNew && <input type="hidden" defaultValue={ formData.id } name="id" /> }
             <Stepper
@@ -69,57 +69,55 @@ function QuotationFormPres( props ) {
               value={ formData.tax }
             />
           </div>
-        ) }
-        content={ () => (
-          <Fragment>
-            <PaperSheet>
-              <Reference type="quotation" product={ formData } />
-              <Between>
-                <Party title="from" {...user} />
-                <Party title="to" {...customer} />
-              </Between>
-              <Input
-                name="name"
-                label={intl.formatMessage({ id: `field.subject` })}
-                value={ formData.name }
-              />
-              <ProductTable
-                products={ products }
-                tax={ formData.tax }
-                currency={ user.currency }
-              >
-                { hasProducts && products.map( (product, index) => {
-                  const isLast = index === productsLength - 1
-                  const fieldPath = `products[${ index }]`
-                  return (
-                    <ProductLine
-                      key={ product._id }
-                      fieldPath={ fieldPath }
-                      product={ product }
-                      currency={ user.currency }
-                    >
-                      { !isLast && (
-                        <BtnIcon
-                          link
-                          onClick={ e => handleProductRemove(index, fieldPath) }
-                          type="button"
-                          svgId="delete"
-                        />
-                      ) }
-                    </ProductLine>
-                  )
-                }) }
-              </ProductTable>
-              <Mentions content={ formData.quotationConfig.mentions }/>
-            </PaperSheet>
-            <div className={ `${BASE_CLASS}__actions` }>
-              <Button type="submit">
-                <FormattedMessage id={ submitI18nId } />
-              </Button>
-            </div>
-          </Fragment>
-        )}
-      />
+        </Meta>
+        <Content>
+          <PaperSheet>
+            <Reference type="quotation" product={ formData } />
+            <Between>
+              <Party title="from" {...user} />
+              <Party title="to" {...customer} />
+            </Between>
+            <Input
+              name="name"
+              label={intl.formatMessage({ id: `field.subject` })}
+              value={ formData.name }
+            />
+            <ProductTable
+              products={ products }
+              tax={ formData.tax }
+              currency={ user.currency }
+            >
+              { hasProducts && products.map( (product, index) => {
+                const isLast = index === productsLength - 1
+                const fieldPath = `products[${ index }]`
+                return (
+                  <ProductLine
+                    key={ product._id }
+                    fieldPath={ fieldPath }
+                    product={ product }
+                    currency={ user.currency }
+                  >
+                    { !isLast && (
+                      <BtnIcon
+                        link
+                        onClick={ e => handleProductRemove(index, fieldPath) }
+                        type="button"
+                        svgId="delete"
+                      />
+                    ) }
+                  </ProductLine>
+                )
+              }) }
+            </ProductTable>
+            <Mentions content={ formData.quotationConfig.mentions }/>
+          </PaperSheet>
+          <div className={ `${BASE_CLASS}__actions` }>
+            <Button type="submit">
+              <FormattedMessage id={ submitI18nId } />
+            </Button>
+          </div>
+        </Content>
+      </Main>
     </Form>
   )
 }
