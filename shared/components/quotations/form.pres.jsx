@@ -6,7 +6,7 @@ import { PaperSheet, Party, Reference, Mentions, Between } from '../layout/paper
 import Form from '../ui/form.jsx'
 import { Button, BtnLink, BtnIcon } from '../ui/buttons.jsx'
 import { Input, Textarea, Select } from '../ui/field.jsx'
-import { Stepper, Step } from '../ui/stepper.jsx'
+import { Stepper } from '../ui/stepper.jsx'
 import Icon from '../ui/svg-icons.jsx'
 import { ProductTable, ProductLine } from '../ui/table-product.jsx'
 

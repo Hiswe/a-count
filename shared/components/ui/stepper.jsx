@@ -5,6 +5,7 @@ import DatePicker from '../ui/date-picker.jsx'
 
 import './stepper.scss'
 const BASE_CLASS    = `stepper`
+export const CHECKED_CLASS = `${BASE_CLASS}--is-all-checked`
 const CHECKBOX_NAME = `stepper-display-form`
 
 // always open the next step after one has a date
@@ -18,7 +19,7 @@ export function getSelectedIndex( steps ) {
 }
 
 export function Stepper( props ) {
-  const { children, steps, ...otherProps} = props
+  const { steps, ...otherProps} = props
   if ( !Array.isArray(steps) ) return null
   const { length }        = steps
   const currentStepIndex  = getSelectedIndex( steps )
@@ -26,7 +27,7 @@ export function Stepper( props ) {
   const COMP_CLASS        = [
     BASE_CLASS
   ]
-  if ( isAllChecked ) COMP_CLASS.push( `${BASE_CLASS}--is-all-checked` )
+  if ( isAllChecked ) COMP_CLASS.push( CHECKED_CLASS )
   return (
     <div className={ COMP_CLASS.join(` `) }>
       {
