@@ -90,7 +90,7 @@ Invoice.mergeWithDefaultRelations = (additionalParams = {}) => {
       },
       {
         model: Customer,
-        attributes: [`id`, `name`],
+        attributes: [`id`, `name`, `address`],
       }
     ]
   }, additionalParams )
