@@ -35,8 +35,9 @@
     --button-text-color: var(--c-text);
 
     &:hover {
-      background: var(--button-bg-color);
-      color: var(--c-accent);
+      --button-bg-color: var(--c-text);
+      --button-text-color: var(--c-accent-lightest);
+      border-color: var(--button-text-color);
     }
   }
 

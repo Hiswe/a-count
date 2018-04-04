@@ -7,20 +7,21 @@ import './buttons.scss'
 const BASE_CLASS = `button`
 
 export function Button( props ) {
-  const { className, to, ...others } = props
-  const btnClass = [ BASE_CLASS ]
-  if ( className ) btnClass.push( className )
+  const { className, to, secondary, ...others } = props
+  const COMP_CLASS = [ BASE_CLASS ]
+  if ( className ) COMP_CLASS.push( className )
+  if ( secondary ) COMP_CLASS.push( `${ BASE_CLASS }--secondary` )
 
   if ( to ) {
     return (
-      <Link to={to} className={ btnClass.join(` `) } {...others} >
+      <Link to={to} className={ COMP_CLASS.join(` `) } {...others} >
         { props.children }
       </Link>
     )
   }
 
   return (
-    <button className={ btnClass.join(` `) } {...others} >
+    <button className={ COMP_CLASS.join(` `) } {...others} >
       { props.children }
     </button>
   )

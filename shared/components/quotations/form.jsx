@@ -170,17 +170,15 @@ class QuotationForm extends Component {
       customer:         state.customer,
       isNew:            props.isNew,
       handle: {
-        createInvoice:  this.handleCreateInvoice,
         submit:         this.handleSubmit,
+        createInvoice:  this.handleCreateInvoice,
         formChange:     this.handleFormChange,
         dayChange:      this.handleDayChange,
         productRemove:  this.handleProductRemove,
       }
     }
 
-    return (
-      <QuotationFormPres {...renderProps}/>
-    )
+    return <QuotationFormPres {...renderProps} />
   }
 }
 

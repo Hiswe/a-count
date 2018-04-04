@@ -7,11 +7,16 @@ import * as quotations from '../../ducks/quotations'
 import * as customers from '../../ducks/customers'
 import NavSecondary from '../../components/nav/secondary.jsx'
 import QuotationForm, { BASE_CLASS } from '../../components/quotations/form.jsx'
-import { ButtonList, ButtonNew, ButtonSubmit, ButtonPrint,
+import {
+  ButtonList,
+  ButtonNew,
+  ButtonSubmit,
+  ButtonPrint,
+  ButtonCreateInvoice,
 } from '../../components/quotations/secondary-nav-actions.jsx'
 
 function EditQuotation( props ) {
-  const { reference, intl } = props
+  const { reference, intl, canBeTransformedToInvoice } = props
   const { id } = props.match.params
 
   return (
@@ -23,6 +28,7 @@ function EditQuotation( props ) {
         <ButtonNew />
         <ButtonList />
         <ButtonPrint id={ id } />
+        <ButtonCreateInvoice />
         <ButtonSubmit isSaving={ props.isSaving } />
       </NavSecondary>
       <QuotationForm {...props} />
@@ -33,7 +39,7 @@ function EditQuotation( props ) {
 function state2prop( state ) {
   const { current, isSaving } = state.quotations
   const result = {
-    reference:  current.reference,
+    reference:                  current.get( `reference` ),
     isSaving,
   }
   return result

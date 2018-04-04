@@ -1,7 +1,7 @@
 import React, {  Fragment } from 'react'
 import { injectIntl, FormattedMessage } from 'react-intl'
 
-import { Main, Meta, Content } from '../layout/main.jsx'
+import { Main, Meta, Content, ContentActions } from '../layout/main.jsx'
 import { PaperSheet, Party, Reference, Mentions, Between } from '../layout/paper-sheet.jsx'
 import Form from '../ui/form.jsx'
 import { Button, BtnLink, BtnIcon } from '../ui/buttons.jsx'
@@ -9,6 +9,7 @@ import { Input, Textarea, Select } from '../ui/field.jsx'
 import { Stepper } from '../ui/stepper.jsx'
 import Icon from '../ui/svg-icons.jsx'
 import { ProductTable, ProductLine } from '../ui/table-product.jsx'
+import { ButtonCreateInvoice } from './secondary-nav-actions.jsx'
 
 import './form.pres.scss'
 export const BASE_CLASS = `quotation-form`
@@ -107,11 +108,12 @@ function QuotationFormPres( props ) {
             </ProductTable>
             <Mentions content={ formData.quotationConfig.mentions }/>
           </PaperSheet>
-          <div className={ `${BASE_CLASS}__actions` }>
+          <ContentActions>
             <Button type="submit">
               <FormattedMessage id={ submitI18nId } />
             </Button>
-          </div>
+            <ButtonCreateInvoice />
+          </ContentActions>
         </Content>
       </Main>
     </Form>

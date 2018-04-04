@@ -30,3 +30,11 @@ export function Content( props ) {
     </article>
   )
 }
+
+export function ContentActions( props ) {
+  return (
+    <div className={`${BASE_CLASS}__content_actions`}>
+      { props.children }
+    </div>
+  )
+}

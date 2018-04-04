@@ -57,5 +57,16 @@
     grid-area: content;
     padding: 0;
     z-index: 1;
+
+    &_actions {
+      margin-top: var(--s-gutter);
+
+      @media print {
+        display: none;
+      }
+      .button + .button {
+        margin-left: var(--s-half-gutter);
+      }
+    }
   }
 }
