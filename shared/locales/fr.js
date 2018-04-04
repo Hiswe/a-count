@@ -99,4 +99,5 @@ export default {
   'table.amount-ht': `montant HT`,
   'table.amount-taxes': `taxes`,
   'table.amount': `total`,
+  'table.convert-quotation-to-invoice': `créer la facture`,
 }

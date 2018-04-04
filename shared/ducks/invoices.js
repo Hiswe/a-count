@@ -3,6 +3,7 @@ import isNil from 'lodash.isnil'
 
 import createActionNames from './utils/create-action-names.js'
 import fetchDispatch from './utils/fetch-dispatch.js'
+import { CONVERT } from './quotations.js'
 
 const NAME = `invoices`
 export const GET_ALL  = createActionNames( NAME, `get`, `all`)

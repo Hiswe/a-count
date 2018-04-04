@@ -99,4 +99,5 @@ export default {
   'table.amount-ht': `pre-tax amount`,
   'table.amount-taxes': `taxes`,
   'table.amount': `amount`,
+  'table.convert-quotation-to-invoice': `create invoice`,
 }

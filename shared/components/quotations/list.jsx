@@ -1,7 +1,10 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
 
+import * as quotations from '../../ducks/quotations.js'
 import { Table, EmptyLine } from '../ui/table.jsx'
 import { Amount, Date } from '../ui/format.jsx'
 
@@ -17,7 +20,7 @@ function QuotationStatus( props ) {
 }
 
 function QuotationRow( props ) {
-  const { quotation, currency } = props
+  const { quotation, currency, handleConvert } = props
   return (
     <tr>
       <td>
@@ -56,6 +59,19 @@ function QuotationRow( props ) {
             { quotation.invoice.reference }
           </Link>
         )}
+        {
+          quotation._canBeTransformedToInvoice && (
+            <a
+              href={`/quotations/${quotation.id}/convert-to-invoice`}
+              onClick={ event => {
+                event.preventDefault()
+                handleConvert()
+              }}
+            >
+              <FormattedMessage id="table.convert-quotation-to-invoice" />
+            </a>
+          )
+        }
       </td>
       <td className="is-number">
         <Amount
@@ -92,6 +108,7 @@ function QuotationTable( props ) {
           key={ q.id }
           quotation={ q }
           currency={ currency }
+          handleConvert={ () => props.convert( {params: {id: q.id}}) }
         />
       ))
     }
@@ -101,10 +118,16 @@ function QuotationTable( props ) {
 
 function state2prop( state ) {
   return {
-    quotations: state.quotations && state.quotations.list,
+    quotations: state.quotations.get( `list` ),
     currency  : state.account.get( `current.currency` ),
   }
 }
 
-export default connect( state2prop )( QuotationTable )
+function dispatch2prop( dispatch ) {
+  return bindActionCreators({
+    convert: quotations.convert,
+  }, dispatch)
+}
+
+export default connect( state2prop, dispatch2prop )( QuotationTable )
 
