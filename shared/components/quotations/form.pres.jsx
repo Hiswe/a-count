@@ -23,10 +23,7 @@ function QuotationFormPres( props ) {
     formData,
     customer,
     isNew,
-    handleFormChange,
-    handleSubmit,
-    handleDayChange,
-    handleProductRemove,
+    handle,
   } = props
   const { products } = formData
   const hasProducts = Array.isArray( products )
@@ -37,8 +34,8 @@ function QuotationFormPres( props ) {
     <Form
       id={ FORM_ID }
       isSaving={ isSaving }
-      onChange={ handleFormChange }
-      onSubmit={ handleSubmit }
+      onChange={ handle.formChange }
+      onSubmit={ handle.submit }
     >
       <Main withMeta>
         <Meta>
@@ -46,7 +43,7 @@ function QuotationFormPres( props ) {
             { !isNew && <input type="hidden" defaultValue={ formData.id } name="id" /> }
             <Stepper
               steps={ formData.steps }
-              handleDayChange={ handleDayChange }
+              handleDayChange={ handle.dayChange }
             />
             <Select darkBg
               label={intl.formatMessage({ id: `field.customer` })}
@@ -99,7 +96,7 @@ function QuotationFormPres( props ) {
                     { !isLast && (
                       <BtnIcon
                         link
-                        onClick={ e => handleProductRemove(index, fieldPath) }
+                        onClick={ e => handle.productRemove(index, fieldPath) }
                         type="button"
                         svgId="delete"
                       />

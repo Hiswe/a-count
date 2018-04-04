@@ -10,6 +10,21 @@ export default {
   'account.reset.notice'   : `Veuillez rentrer votre nouveau mot de passe`,
   'account.reset.button'   : `Réinitialiser`,
 
+  'configuration.tab.from'           : `Émetteur`,
+  'configuration.tab.default-product': `Produit par défaut`,
+  'configuration.tab.mentions'       : `Bas de page`,
+  'configuration.tab.reference'      : `Référence`,
+  'configuration.mentions.quotations': `Pour les devis`,
+  'configuration.mentions.invoices'  : `Pour les factures`,
+  'configuration.button.save'        : `Mettre à jour`,
+  'configuration.reference.warning': `
+    Changer <strong>le chiffre de début</strong> renumérotera toutes les références du type concerné.
+    <br />
+    Soyez prudent !`,
+
+  'customer.button.create': `Créer le client`,
+  'customer.button.update': `Mettre à jour`,
+
   'field.email'      : `email`,
   'field.password'   : `mot de passe`,
   'field.name'       : `nom`,
@@ -24,30 +39,17 @@ export default {
   'field.start-at'   : `commence à`,
   'field.language'   : `langue`,
 
-  'configuration.tab.from'           : `Émetteur`,
-  'configuration.tab.default-product': `Produit par défaut`,
-  'configuration.tab.mentions'       : `Bas de page`,
-  'configuration.tab.reference'      : `Référence`,
-  'configuration.mentions.quotations': `Pour les devis`,
-  'configuration.mentions.invoices'  : `Pour les factures`,
-  'configuration.button.save'        : `Mettre à jour`,
-  'configuration.reference.warning': `
-    Changer <strong>le chiffre de début</strong> renumérotera toutes les références du type concerné.
-    <br />
-    Soyez prudent !`,
-
-  'notifications.user.welcome'   : `Bienvenue {name}`,
-  'notifications.user.mail-sent' : `Un email a été envoyé à {email}`,
-  'notifications.quotation.saved': `Le devis a été sauvegardé`,
-  'notifications.quotation.error': `Une erreur est survenue lors de la sauvegarde`,
-  'notifications.invoice.saved'  : `La facture a été sauvegardé`,
-  'notifications.invoice.error'  : `Une erreur est survenue lors de la sauvegarde`,
-  'notifications.customer.saved' : `Le client a été sauvegardé`,
-  'notifications.generic.saved'  : `enregistrement effectué`,
-  'notifications.generic.error'  : `• une erreur est survenue •`,
-
-  'customer.button.create': `Créer le client`,
-  'customer.button.update': `Mettre à jour`,
+  'notifications.user.welcome'                     : `Bienvenue {name}`,
+  'notifications.user.mail-sent'                   : `Un email a été envoyé à {email}`,
+  'notifications.quotation.saved'                  : `Le devis a été sauvegardé`,
+  'notifications.quotation.error'                  : `Une erreur est survenue lors de la sauvegarde`,
+  'notifications.quotation.create-invoice.success' : `Facture créée`,
+  'notifications.quotation.create-invoice.error'   : `Une erreur est survenue lors de la création de la facture`,
+  'notifications.invoice.saved'                    : `La facture a été sauvegardé`,
+  'notifications.invoice.error'                    : `Une erreur est survenue lors de la sauvegarde`,
+  'notifications.customer.saved'                   : `Le client a été sauvegardé`,
+  'notifications.generic.saved'                    : `enregistrement effectué`,
+  'notifications.generic.error'                    : `• une erreur est survenue •`,
 
   'page.home'            : `accueil`,
   'page.quotations'      : `devis`,

@@ -4,8 +4,9 @@ import shortid from 'shortid'
 import createActionNames from './utils/create-action-names.js'
 
 import {
-  GET_ONE  as QUOTATION_GET_ONE,
-  SAVE_ONE as QUOTATION_SAVE_ONE,
+  GET_ONE        as QUOTATION_GET_ONE       ,
+  SAVE_ONE       as QUOTATION_SAVE_ONE      ,
+  CREATE_INVOICE as QUOTATION_CREATE_INVOICE,
 } from './quotations.js'
 import {
   GET_ONE  as INVOICE_GET_ONE,
@@ -81,6 +82,12 @@ export default function reducer( state = initialState, action ) {
     }
     case QUOTATION_SAVE_ONE.ERROR: {
       return notifyError( state, `notifications.quotation.error` )
+    }
+    case QUOTATION_CREATE_INVOICE.SUCCESS: {
+      return notifySuccess( state, `notifications.quotation.create-invoice.success` )
+    }
+    case QUOTATION_CREATE_INVOICE.SUCCESS: {
+      return notifyError( state, `notifications.quotation.create-invoice.error` )
     }
     //----- INVOICES
     case INVOICE_SAVE_ONE.SUCCESS: {

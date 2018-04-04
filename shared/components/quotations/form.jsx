@@ -35,6 +35,7 @@ class QuotationForm extends Component {
     // • but better to bind than relying on arrow functions in render()
     //   https://codeburst.io/how-to-not-react-common-anti-patterns-and-gotchas-in-react-40141fe0dcd#aef5
     this.handleSubmit        = this.handleSubmit       .bind( this )
+    this.handleCreateInvoice = this.handleCreateInvoice.bind( this )
     this.handleFormChange    = this.handleFormChange   .bind( this )
     this.handleDayChange     = this.handleDayChange    .bind( this )
     this.handleProductRemove = this.handleProductRemove.bind( this )
@@ -103,6 +104,12 @@ class QuotationForm extends Component {
     const body = serialize( event.target, { hash: true, empty: true } )
     this.props.saveOne( { params: {body} } )
   }
+  handleCreateInvoice( event ) {
+    event.preventDefault()
+      this.props.createInvoice({
+        params: {id: this.props.current.get(`id`)}
+      })
+    }
   handleFormChange( event ) {
     const { target } = event
     const { name, value } = target
@@ -162,10 +169,13 @@ class QuotationForm extends Component {
       isSaving:         isSaving,
       customer:         state.customer,
       isNew:            props.isNew,
-      handleSubmit:         this.handleSubmit,
-      handleFormChange:     this.handleFormChange,
-      handleDayChange:      this.handleDayChange,
-      handleProductRemove:  this.handleProductRemove,
+      handle: {
+        createInvoice:  this.handleCreateInvoice,
+        submit:         this.handleSubmit,
+        formChange:     this.handleFormChange,
+        dayChange:      this.handleDayChange,
+        productRemove:  this.handleProductRemove,
+      }
     }
 
     return (
@@ -189,8 +199,9 @@ function state2prop( state ) {
 
 function dispatch2prop( dispatch ) {
   return bindActionCreators({
-    getOne: quotations.getOne,
-    saveOne: quotations.saveOne,
+    getOne         : quotations.getOne,
+    saveOne        : quotations.saveOne,
+    createInvoice  : quotations.createInvoice,
     getAllCustomers: customers.getAll,
   }, dispatch)
 }

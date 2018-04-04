@@ -5,10 +5,10 @@ import createActionNames from './utils/create-action-names.js'
 import fetchDispatch from './utils/fetch-dispatch.js'
 
 const NAME = `quotations`
-export const GET_ALL              = createActionNames( NAME, `get`  , `all`     )
-export const GET_ONE              = createActionNames( NAME, `get`  , `one`     )
-export const SAVE_ONE             = createActionNames( NAME, `post` , `one`     )
-export const QUOTATION_TO_INVOICE = createActionNames( NAME, `post` , `convert` )
+export const GET_ALL        = createActionNames( NAME, `get`  , `all`     )
+export const GET_ONE        = createActionNames( NAME, `get`  , `one`     )
+export const SAVE_ONE       = createActionNames( NAME, `post` , `one`     )
+export const CREATE_INVOICE = createActionNames( NAME, `post` , `convert` )
 
 const initialState = crio({
   isSaving:   false,
@@ -24,7 +24,6 @@ export default function reducer(state = initialState, action) {
   switch ( type ) {
 
     case GET_ALL.SUCCESS:
-      console.log( `GET_ALL.SUCCESS` )
       return state.set( `list`, payload.list )
 
     case GET_ONE.LOADING:
@@ -34,17 +33,19 @@ export default function reducer(state = initialState, action) {
         products: [],
       })
     case GET_ONE.SUCCESS:
-      console.log( `GET_ONE.SUCCESS` )
       return state.set( `current`, payload )
 
-    case QUOTATION_TO_INVOICE.LOADING:
+    case CREATE_INVOICE.LOADING:
       return state.set( `isSaving`, true )
-    case QUOTATION_TO_INVOICE.DONE:
+    case CREATE_INVOICE.DONE:
       return state.set( `isSaving`, false )
-    case QUOTATION_TO_INVOICE.SUCCESS: {
+    case CREATE_INVOICE.SUCCESS: {
       const { id }      = meta
+      // maybe the quotation isn't already in the listing
       const index       = state.get( `list` ).findIndex(quot => quot.id === id)
-      const updated     = state.set( `list[${index}]`, payload )
+      const updated     = index < 0 ?  state
+        : state.set( `list[${index}]`, payload )
+      // always update the current quotation
       return updated.set( `current`, payload )
     }
 
@@ -101,7 +102,7 @@ export const saveOne = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const convert = ({params, cookie}) => async dispatch => {
+export const createInvoice = ({params, cookie}) => async dispatch => {
   const { id } = params
   const options = {
     url: `${ NAME }/${ id }/create-invoice`,
@@ -110,7 +111,7 @@ export const convert = ({params, cookie}) => async dispatch => {
   await fetchDispatch({
     dispatch,
     meta:     { id },
-    actions:  QUOTATION_TO_INVOICE,
+    actions:  CREATE_INVOICE,
     fetch:    { options, cookie },
   })
 }

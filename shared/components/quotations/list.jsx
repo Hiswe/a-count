@@ -20,7 +20,7 @@ function QuotationStatus( props ) {
 }
 
 function QuotationRow( props ) {
-  const { quotation, currency, handleConvert } = props
+  const { quotation, currency, handleCreate } = props
   return (
     <tr>
       <td>
@@ -65,7 +65,7 @@ function QuotationRow( props ) {
               href={`/quotations/${quotation.id}/create-invoice`}
               onClick={ event => {
                 event.preventDefault()
-                handleConvert()
+                handleCreate()
               }}
             >
               <FormattedMessage id="quotation.create.invoice" />
@@ -108,7 +108,7 @@ function QuotationTable( props ) {
           key={ q.id }
           quotation={ q }
           currency={ currency }
-          handleConvert={ () => props.convert( {params: {id: q.id}}) }
+          handleCreate={ () => props.createInvoice( {params: {id: q.id}}) }
         />
       ))
     }
@@ -125,7 +125,7 @@ function state2prop( state ) {
 
 function dispatch2prop( dispatch ) {
   return bindActionCreators({
-    convert: quotations.convert,
+    createInvoice: quotations.createInvoice,
   }, dispatch)
 }
 

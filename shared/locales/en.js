@@ -10,6 +10,21 @@ export default {
   'account.reset.notice'   : `Please set your new password`,
   'account.reset.button'   : `Reset`,
 
+  'configuration.tab.from'           : `from`,
+  'configuration.tab.default-product': `Default product`,
+  'configuration.tab.mentions'       : `Footer mentions`,
+  'configuration.tab.reference'      : `Reference`,
+  'configuration.mentions.quotations': `For the quotations`,
+  'configuration.mentions.invoices'  : `For the invoices`,
+  'configuration.button.save'        : `Update`,
+  'configuration.reference.warning': `
+    Changing <strong>the starting number</strong> will renumber all references of the type concerned.
+    <br />
+    Be cautious!`,
+
+  'customer.button.create': `Create a customer`,
+  'customer.button.update': `update`,
+
   'field.email'      : `email`,
   'field.password'   : `password`,
   'field.name'       : `name`,
@@ -24,30 +39,17 @@ export default {
   'field.start-at'   : `start at`,
   'field.language'   : `language`,
 
-  'configuration.tab.from'           : `from`,
-  'configuration.tab.default-product': `Default product`,
-  'configuration.tab.mentions'       : `Footer mentions`,
-  'configuration.tab.reference'      : `Reference`,
-  'configuration.mentions.quotations': `For the quotations`,
-  'configuration.mentions.invoices'  : `For the invoices`,
-  'configuration.button.save'        : `Update`,
-  'configuration.reference.warning': `
-    Changing <strong>the starting number</strong> will renumber all references of the type concerned.
-    <br />
-    Be cautious!`,
-
-  'notifications.user.welcome'   : `Welcome {name}`,
-  'notifications.user.mail-sent' : `An email has been sent to {email}`,
-  'notifications.quotation.saved': `The quotation has been saved`,
-  'notifications.quotation.error': `An error occurred while backing up`,
-  'notifications.invoice.saved'  : `The invoice has been saved`,
-  'notifications.invoice.error'  : `An error occurred while backing up`,
-  'notifications.customer.saved' : `The customer has been saved`,
-  'notifications.generic.saved'  : `saved`,
-  'notifications.generic.error'  : `• something went wrong •`,
-
-  'customer.button.create': `Create a customer`,
-  'customer.button.update': `update`,
+  'notifications.user.welcome'                     : `Welcome {name}`,
+  'notifications.user.mail-sent'                   : `An email has been sent to {email}`,
+  'notifications.quotation.saved'                  : `The quotation has been saved`,
+  'notifications.quotation.error'                  : `An error occurred while backing up`,
+  'notifications.quotation.create-invoice.success' : `Invoice created`,
+  'notifications.quotation.create-invoice.error'   : `An error as occurred while creating invoice`,
+  'notifications.invoice.saved'                    : `The invoice has been saved`,
+  'notifications.invoice.error'                    : `An error occurred while backing up`,
+  'notifications.customer.saved'                   : `The customer has been saved`,
+  'notifications.generic.saved'                    : `saved`,
+  'notifications.generic.error'                    : `• something went wrong •`,
 
   'page.home'            : `home`,
   'page.quotations'      : `quotations`,
