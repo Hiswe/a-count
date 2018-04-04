@@ -107,9 +107,6 @@ class QuotationForm extends Component {
     const { target } = event
     const { name, value } = target
 
-    // ignore stepper presentational radio input
-    if ( name === `stepper-display-form` ) return
-
     this.setState( (prevState, props) => {
       const type = typeof prevState.formData.get( name)
       const updated = prevState.formData.set( name, value )

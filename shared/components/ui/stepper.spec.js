@@ -4,22 +4,29 @@ import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { IntlProvider, intlShape } from 'react-intl'
 
-// import messages from '../../locales/en.js'
-import { Stepper, getSelectedIndex, CHECKED_CLASS } from './stepper.jsx'
+import {
+  Stepper,
+  CHECKED_CLASS,
+  RADIO_CLASS,
+} from './stepper.jsx'
 
 Enzyme.configure({ adapter: new Adapter() })
 const { shallow, mount } = Enzyme
-const messages = {
-  'stepper.foo.label': `foo`,
-  'stepper.bar.label': `bar`,
-}
-const value = `2018-04-02 13:09:29.564+02`
-
+const messages = { 'stepper.foo.label': `foo`, 'stepper.bar.label': `bar`, }
+const value    = `2018-04-02 13:09:29.564+02`
 // https://github.com/yahoo/react-intl/wiki/Testing-with-React-Intl#enzyme
 const intlProvider = new IntlProvider({ locale: 'en', messages }, {})
-const { intl } = intlProvider.getChildContext()
+const { intl }     = intlProvider.getChildContext()
 
-test( `getSelectedIndex utility method`, t => {
+function getMountedStepper( initialSteps ) {
+  return mount( <Stepper steps={ initialSteps } />, {
+    context:            { intl },
+    childContextTypes:  { intl: intlShape },
+  })
+}
+
+test( `<stepper> getSelectedIndex static method`, t => {
+  const { getSelectedIndex } = Stepper
   const noValues = [{value: ''}, {value: ''}, {value: ''}]
   t.is( getSelectedIndex(noValues), 0, `output 0 if no entry has a value` )
   const firstHaveValue = [{value: 'oui'}, {value: ''}, {value: ''}]
@@ -35,12 +42,11 @@ test( `getSelectedIndex utility method`, t => {
 })
 
 test( `<stepper> component with empty values`, t => {
-  const steps   = [
+  const stepper   = getMountedStepper([
     { key: `foo`, label: `foo.label` },
     { key: `bar`, label: `bar.label` },
-  ]
-  const stepper     = shallow( <Stepper steps={ steps } /> )
-  t.false( stepper.hasClass( CHECKED_CLASS ), `doesn't have “all check” class` )
+  ])
+  t.false( stepper.find(`.${CHECKED_CLASS}`).exists(), `doesn't have “all check” class` )
   const children    = stepper.find( `Step` )
   t.is( children.length, 2, `has the right amount of steps` )
   const firstChild  = children.first()
@@ -50,12 +56,11 @@ test( `<stepper> component with empty values`, t => {
 })
 
 test( `<stepper> with first values`, t => {
-  const steps   = [
+  const stepper     = getMountedStepper([
     { key: `foo`, label: `foo.label`, value },
     { key: `bar`, label: `bar.label` },
-  ]
-  const stepper     = shallow( <Stepper steps={ steps } /> )
-  t.false( stepper.hasClass( CHECKED_CLASS ), `doesn't have “all check” class` )
+  ])
+  t.false( stepper.find(`.${CHECKED_CLASS}`).exists(), `doesn't have “all check” class` )
   const children    = stepper.find( `Step` )
   const firstChild  = children.first()
   t.false( firstChild.prop( `checked` ), `first one isn't selected` )
@@ -64,12 +69,11 @@ test( `<stepper> with first values`, t => {
 })
 
 test( `<stepper> with all values`, t => {
-  const steps   = [
+  const stepper     = getMountedStepper([
     { key: `foo`, label: `foo.label`, value },
     { key: `bar`, label: `bar.label`, value },
-  ]
-  const stepper     = shallow( <Stepper steps={ steps } /> )
-  t.true( stepper.hasClass( CHECKED_CLASS ), `have “all check” class` )
+  ])
+  t.true(stepper.find(`.${CHECKED_CLASS}`).exists(), `have “all check” class` )
   const children    = stepper.find( `Step` )
   const firstChild  = children.first()
   t.false( firstChild.prop( `checked` ), `first one isn't selected` )
@@ -77,7 +81,9 @@ test( `<stepper> with all values`, t => {
   t.false( secondChild.prop( `checked` ), `second one isn't selected` )
 })
 
-test( `<stepper> behave good on multiple rendering`, t => {
+test.only( `<stepper> behave as expected on multiple rendering`, t => {
+  let firstCheckbox
+  let secondCheckbox
   const initialSteps   = [
     { key: `foo`, label: `foo.label`},
     { key: `bar`, label: `bar.label`},
@@ -86,24 +92,25 @@ test( `<stepper> behave good on multiple rendering`, t => {
     { key: `foo`, label: `foo.label`, value},
     { key: `bar`, label: `bar.label`},
   ]
-  const stepper   = mount( <Stepper steps={ initialSteps } />, {
-    context:            { intl },
-    childContextTypes:  { intl: intlShape },
-  })
-  let firstChild  = stepper.find( `Step` ).first()
-  let secondChild = stepper.find( `Step` ).last()
-  t.true( firstChild.prop( `checked` ), `on first render: first one is selected` )
-  t.false( secondChild.prop( `checked` ), `on first render: second one isn't selected` )
+  function updateInput( stepper ) {
+    const steps    = stepper.find( `Step` )
+    firstCheckbox  = steps.first().find(`.${ RADIO_CLASS }`)
+    secondCheckbox = steps.last ().find(`.${ RADIO_CLASS }`)
+  }
+  const stepper   = getMountedStepper( initialSteps )
+  updateInput( stepper )
+  t.true ( firstCheckbox .prop( `checked` ), `on first render: first one is selected`     )
+  t.false( secondCheckbox.prop( `checked` ), `on first render: second one isn't selected` )
+
   stepper.setProps({ steps: updatedSteps})
-  firstChild  = stepper.find( `Step` ).first()
-  secondChild = stepper.find( `Step` ).last()
-  t.false( firstChild.prop( `checked` ), `on second render: first one isn't selected` )
-  t.true( secondChild.prop( `checked` ), `on second render: second one is selected` )
+  updateInput( stepper )
+  t.false( firstCheckbox .prop( `checked` ), `on second render: first one isn't selected` )
+  t.true ( secondCheckbox.prop( `checked` ), `on second render: second one is selected`   )
+
   stepper.unmount()
   stepper.mount()
   stepper.setProps({ steps: initialSteps})
-  firstChild  = stepper.find( `Step` ).first()
-  secondChild = stepper.find( `Step` ).last()
-  t.true( firstChild.prop( `checked` ), `on first render: first one is selected` )
-  t.false( secondChild.prop( `checked` ), `on first render: second one isn't selected` )
+  updateInput( stepper )
+  t.true ( firstCheckbox .prop( `checked` ), `on first render: first one is selected`     )
+  t.false( secondCheckbox.prop( `checked` ), `on first render: second one isn't selected` )
 })
