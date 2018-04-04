@@ -22,7 +22,13 @@ router
   //     ) AS "quotationsCount"
   //   FROM customers AS customer
   // `, { model: Quotation })
-  const list = await Customer.findAll()
+  const list = await Customer.findAll({
+    where: {
+      userId: ctx.state.user.id,
+      isDeactivated:  { $not: true },
+    },
+    attributes: {exclude: [`createdAt`, `updatedAt`, `userId`, `isDeactivated`]}
+  })
   // put response in a list key
   // • we will add pagination information later
   ctx.body = formatResponse( {list} )
