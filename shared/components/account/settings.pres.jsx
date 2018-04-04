@@ -109,7 +109,7 @@ function SettingFormPres( props ) {
               <Select
                 name="currency"
                 label={intl.formatMessage({ id: `field.currency` })}
-                value={ quotationConfig.currency }
+                value={ formData.currency }
               >{ currencies.map( c => (
                 <option key={ c.value } value={ c.value }>{ c.label }</option>
               ))}

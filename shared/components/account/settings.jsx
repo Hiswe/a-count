@@ -40,7 +40,6 @@ class SettingForm extends Component {
     const { name, value } = target
 
     this.setState( prevState => {
-      const type = typeof prevState.formData.get( name)
       const updated = prevState.formData.set( name, value )
       return { formData: updated }
     })
