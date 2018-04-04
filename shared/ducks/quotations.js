@@ -44,9 +44,8 @@ export default function reducer(state = initialState, action) {
     case QUOTATION_TO_INVOICE.SUCCESS: {
       const { id }      = meta
       const index       = state.get( `list` ).findIndex(quot => quot.id === id)
-      const quotation   = state.get( `list` ).find(quot => quot.id === id)
-      const withInvoice = quotation.set( `invoice`, payload )
-      return state.set( `list[${index}]`, withInvoice )
+      const updated     = state.set( `list[${index}]`, payload )
+      return updated.set( `current`, payload )
     }
 
     case SAVE_ONE.LOADING:

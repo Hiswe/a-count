@@ -56,7 +56,7 @@ function QuotationRow( props ) {
       <td>
         { quotation._hasInvoice && (
           <Link to={`/invoices/${quotation.invoice.id}`}>
-            { quotation.invoice.reference }
+            { quotation.get(`invoice.reference`) }
           </Link>
         )}
         {
