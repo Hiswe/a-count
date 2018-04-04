@@ -4,6 +4,7 @@ const merge  = require( 'lodash.merge' )
 const Router = require( 'koa-router'   )
 
 const config          = require( './config'                    )
+const addRelations    = require( './utils/db-default-relations' )
 const log             = require( './utils/log'                 )
 const formatResponse  = require( './utils/format-response'     )
 const dbGetterSetter  = require( './utils/db-getter-setter'    )
@@ -23,9 +24,14 @@ module.exports = {
 //----- UTILS
 
 async function connectUser( ctx, user ) {
-  const userId = user.id
-  user = await User.findOneWithRelations( { where: {id: userId }} )
+  const { id } = id
+  const queryParams = addRelations.user({
+    where: { id }
+  })
+  user = await User.findOne( queryParams )
+
   const accessToken = await jwtStore.add( user )
+
   const result = formatResponse({
     user,
     access_token: accessToken,
@@ -123,11 +129,12 @@ privateRouter
   })
 })
 .post( `/settings`, async (ctx, next) => {
-  const { id }    = ctx.state && ctx.state.user
-  const { body }  = ctx.request
-  const instance  = await User.findOneWithRelations({
+  const { id }      = ctx.state && ctx.state.user
+  const { body }    = ctx.request
+  const queryParams = addRelations({
     where: { id }
   })
+  const instance    = await User.findOne( queryParams )
 
   ctx.assert(instance, 404, `Can't find User. The associated user isn't found`)
   const updated   = await instance.update( body )
@@ -137,9 +144,7 @@ privateRouter
     return instance[ relationName ].update( body[ relationName ] )
   }))
 
-  const user      = await User.findOneWithRelations({
-    where: {id: updated.id}
-  })
+  const user        = await User.findOne( queryParams )
 
   const result      = formatResponse( { user } )
   ctx.state.user    = result

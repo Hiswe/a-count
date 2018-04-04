@@ -8,6 +8,7 @@ const   omit      = require( 'lodash.omit'  )
 
 const   formatResponse     = require( './utils/format-response'      )
 const { normalizeString  } = require( './utils/db-getter-setter'     )
+const   addRelations       = require( './utils/db-default-relations' )
 const   User               = require( './db/model-user'              )
 const   Customer           = require( './db/model-customer'          )
 const   Quotation          = require( './db/model-quotation'         )
@@ -26,25 +27,29 @@ const MESSAGES = Object.freeze({
 
 router
 .get(`/`, async (ctx, next) => {
-  const params = Invoice.mergeWithDefaultRelations({
+  const queryParams = addRelations.invoice({
     where: {
       userId: ctx.state.user.id,
     },
   })
-  const list = await Invoice.findAll( params )
+  const list = await Invoice.findAll( queryParams )
 
   // put response in a “list“ key
   // • we will add pagination information later
-  ctx.body = formatResponse( {
+  ctx.body = {
     list: list.map( c => c.toJSON() ),
-  } )
+  }
 })
 
 //----- EDIT
 
 .get( `/:id`, async (ctx, next) => {
-  const { id }    = ctx.params
-  const instance  = await Invoice.findOneWithRelations( {where: { id }} )
+  const { id }      = ctx.params
+  const queryParams = addRelations.invoice({
+    where: { id },
+  })
+  const instance    = await Invoice.findOne( queryParams )
+
   ctx.assert( instance, 404, MESSAGES.NOT_FOUND )
   ctx.body = formatResponse( instance )
 })

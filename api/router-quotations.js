@@ -6,12 +6,13 @@ const   Router    = require( 'koa-router'   )
 const   merge     = require( 'lodash.merge' )
 const   omit      = require( 'lodash.omit'  )
 
-const { normalizeString } = require( './utils/db-getter-setter'  )
-const   User              = require( './db/model-user'           )
-const   Customer          = require( './db/model-customer'       )
-const   Quotation         = require( './db/model-quotation'      )
-const   Invoice           = require( './db/model-invoice'        )
-const   InvoiceConfig     = require( './db/model-invoice-config' )
+const { normalizeString } = require( './utils/db-getter-setter'     )
+const   addRelations      = require( './utils/db-default-relations' )
+const   User              = require( './db/model-user'              )
+const   Customer          = require( './db/model-customer'          )
+const   Quotation         = require( './db/model-quotation'         )
+const   Invoice           = require( './db/model-invoice'           )
+const   InvoiceConfig     = require( './db/model-invoice-config'    )
 
 const  prefix  = `quotations`
 const  router  = new Router({prefix: `/${prefix}`})
@@ -32,7 +33,7 @@ const MESSAGES = Object.freeze({
 
 router
 .get(`/`, async (ctx, next) => {
-  const params = Quotation.mergeWithDefaultRelations({
+  const params = addRelations.quotation({
     where: {
       userId: ctx.state.user.id,
     },
@@ -56,18 +57,23 @@ router
     productConfig: user.productConfig,
   })
   // Build non-persistent instance
-  const params    = Quotation.mergeWithDefaultRelations( {} )
-  const quotation = new Quotation( body , params )
-  const instance  = Quotation.build( body , params ).toJSON()
+  const queryParams = getDefaultRelations.quotation()
+  const instance    = Quotation.build( body , queryParams ).toJSON()
   delete instance.id
   ctx.body = instance
 })
 .post(`/new`,  async (ctx, next) => {
-  const { user } = ctx.state
-  const { body } = ctx.request
-  const [ customer, dbUser ] = await Promise.all([
+  const { user }  = ctx.state
+  const { body }  = ctx.request
+  const userQuery = addRelations.user({
+    where: {id: user.id }
+  })
+  const [
+    customer,
+    dbUser,
+  ] = await Promise.all([
     Customer.findById( body.customerId ),
-    User.findOneWithRelations( {where: {id: user.id }} ),
+    User.findOne( userQuery ),
   ])
 
   ctx.assert( customer, 412, MESSAGES.NO_CUSTOMER )
@@ -87,7 +93,7 @@ router
   })
   ctx.assert( newInstance, 500, MESSAGES.DEFAULT )
 
-  const withRelations = await Quotation.findOneWithRelations({
+  const withRelations = await Quotation.findOne({
     where: { id: newInstance.get(`id`) }
   })
 
@@ -97,25 +103,37 @@ router
 
   // just passing the updatedQuotation return the Tax as a string O_O
   // • prevent that by getting a new instance…
-  const quotation     = await Quotation.findOneWithRelations({
+  const queryParams   = addRelations.quotation({
     where: { id: updated.get(`id`) }
   })
+  const quotation     = await Quotation.findOne( queryParams )
   ctx.body = quotation
 })
 
 //----- EDIT
 
 .get(`/:id`, async (ctx, next) => {
-  const { id }    = ctx.params
-  const instance  = await Quotation.findOneWithRelations( {where: { id }} )
+  const { id }      = ctx.params
+  const queryParams = addRelations.quotation({
+    where: { id }
+  })
+  const instance  = await Quotation.findOne( queryParams )
+
   ctx.assert( instance, 404, MESSAGES.NOT_FOUND )
   ctx.body = instance
 })
+
 .post(`/:id`, async (ctx, next) => {
   const { id }    = ctx.params
   const { body }  = ctx.request
-  const [ quotation, customer ] = await Promise.all([
-    Quotation.findOneWithRelations( {where: { id }} ),
+  const queryParams    = addRelations.quotation({
+    where: { id }
+  })
+  const [
+    quotation,
+    customer,
+  ] = await Promise.all([
+    Quotation.findOne( queryParams ),
     Customer.findById( body.customerId ),
   ])
 
@@ -125,19 +143,25 @@ router
 
   // just passing the updatedQuotation return the Tax as a string O_O
   // • prevent that by getting a new instance…
-  const instance  = await Quotation.findOneWithRelations( {where: { id }} )
+  const instance  = await Quotation.findOne( queryParams )
   ctx.body = instance
 })
 .post(`/:id/create-invoice`, async (ctx, next) => {
-  const userId    = ctx.state.user.id
-  const { id }    = ctx.params
-  const { body }  = ctx.request
+  const userId          = ctx.state.user.id
+  const { id }          = ctx.params
+  const { body }        = ctx.request
+  const userQuery       = addRelations.user({
+    where: { id: userId }
+  })
+  const quotationQuery  = addRelations.quotation({
+    where: { id }
+  })
   const [
     quotation,
     user,
   ] = await Promise.all([
-    Quotation.findOneWithRelations( {where: { id }} ),
-    User.findOneWithRelations( {where: {id: userId }} ),
+    Quotation.findOne( quotationQuery ),
+    User.findOne( userQuery ),
   ])
 
   ctx.assert( user    , 412, MESSAGES.NO_USER     )
@@ -166,9 +190,7 @@ router
   })
 
   ctx.assert( emptyInvoice, 500, MESSAGES.CONVERT_ERROR )
-  const updatedQuotation = await Quotation.findOneWithRelations( {
-    where: { id },
-  })
+  const updatedQuotation = await Quotation.findOne( quotationQuery )
 
   ctx.body = updatedQuotation
 })

@@ -7,13 +7,10 @@
 const Sequelize = require( 'sequelize'    )
 const merge     = require( 'lodash.merge' )
 
-const config         = require( '../config'                 )
-const compute        = require( '../utils/compute-products' )
-const dbGetterSetter = require( '../utils/db-getter-setter' )
-const sequelize      = require( './connection'              )
-const User           = require( './model-user'              )
-const Customer       = require( './model-customer'          )
-const InvoiceConfig  = require( './model-invoice-config'    )
+const config          = require( '../config'                 )
+const compute         = require( '../utils/compute-products' )
+const dbGetterSetter  = require( '../utils/db-getter-setter' )
+const sequelize       = require( './connection'              )
 
 const Invoice = sequelize.define( `invoice`, {
   id: {
@@ -72,34 +69,5 @@ const Invoice = sequelize.define( `invoice`, {
     set:          dbGetterSetter.setNormalizedDate( `archivedAt` ),
   },
 })
-
-//////
-// MODEL METHODS
-//////
-
-Invoice.mergeWithDefaultRelations = (additionalParams = {}) => {
-  return merge({
-    include: [
-      {
-        model: User,
-        attributes: [`currency`],
-      },
-      {
-        model: InvoiceConfig,
-        attributes: {exclude: [`id`, `userId`]},
-      },
-      {
-        model: Customer,
-        attributes: [`id`, `name`, `address`],
-      }
-    ]
-  }, additionalParams )
-}
-
-Invoice.findOneWithRelations = async additionalParams => {
-  const params    = Invoice.mergeWithDefaultRelations( additionalParams )
-  const instance  = await Invoice.findOne( params )
-  return instance
-}
 
 module.exports = Invoice

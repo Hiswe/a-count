@@ -10,12 +10,6 @@ const compute               = require( '../utils/compute-products'         )
 const dbGetterSetter        = require( '../utils/db-getter-setter'         )
 const filterDefaultProducts = require( `../utils/filter-array-with-object` )
 const sequelize             = require( './connection'                      )
-const User                  = require( './model-user'                      )
-const Customer              = require( './model-customer'                  )
-const Invoice               = require( './model-invoice'                   )
-const QuotationConfig       = require( './model-quotation-config'          )
-const ProductConfig         = require( './model-product-config'            )
-const InvoiceConfig         = require( './model-invoice-config'            )
 
 const Quotation = sequelize.define( `quotation`, {
   id: {
@@ -127,43 +121,5 @@ const Quotation = sequelize.define( `quotation`, {
     },
   },
 })
-
-//////
-// MODEL METHODS
-//////
-
-Quotation.mergeWithDefaultRelations = (additionalParams = {}) => {
-  return merge({
-    include: [
-      {
-        model: User,
-        attributes: [`currency`],
-      },
-      Invoice.mergeWithDefaultRelations({
-        model:      Invoice,
-        required:   false,
-        attributes: [`id`, `index`],
-      }),
-      {
-        model: ProductConfig,
-        attributes: {exclude: [`id`, `userId`]},
-      },
-      {
-        model: QuotationConfig,
-        attributes: {exclude: [`id`, `userId`]},
-      },
-      {
-        model: Customer,
-        attributes: [`id`, `name`, `address`]
-      }
-    ]
-  }, additionalParams )
-}
-
-Quotation.findOneWithRelations = async additionalParams => {
-  const params = Quotation.mergeWithDefaultRelations( additionalParams )
-  const quotation = await Quotation.findOne( params )
-  return quotation
-}
 
 module.exports = Quotation

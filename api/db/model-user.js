@@ -11,9 +11,6 @@ const config          = require( '../config'                 )
 const mailing         = require( '../mailing'                )
 const dbGetterSetter  = require( '../utils/db-getter-setter' )
 const sequelize       = require( './connection'              )
-const QuotationConfig = require( './model-quotation-config'  )
-const InvoiceConfig   = require( './model-invoice-config'    )
-const ProductConfig   = require( './model-product-config'    )
 
 function encodePassword(password) {
   if (typeof password === `undefined`) return null
@@ -119,41 +116,6 @@ ${ redirectUrl }
 User.prototype.setPassword = async function ( password ) {
   this.set( `password`, password )
   const user = await this.save()
-  return user
-}
-
-//////
-// MODEL METHODS
-//////
-
-User.findOneWithRelations = async additionalParams => {
-  const params = merge({
-    where: {
-      isDeactivated:  { $not: true },
-    },
-    attributes: [`id`, `email`, `name`, `lang`, `currency`],
-    include: [
-      {
-        model: QuotationConfig,
-        attributes: {
-          exclude: [`userId`],
-        }
-      },
-      {
-        model: InvoiceConfig,
-        attributes: {
-          exclude: [`userId`],
-        }
-      },
-      {
-        model: ProductConfig,
-        attributes: {
-          exclude: [`userId`],
-        }
-      },
-    ]
-  }, additionalParams )
-  const user = await User.findOne( params )
   return user
 }
 

@@ -11,6 +11,7 @@ const   chalk     = require( 'chalk'        )
 const config           = require( './config'                )
 const redis            = require( './redis'                 )
 const jwtStore         = require( './jwt-store'             )
+const addRelations     = require( './utils/db-default-relations' )
 const formatResponse   = require( './utils/format-response' )
 const User             = require( './db/model-user'         )
 const routerAccount    = require( './router-account'        )
@@ -52,14 +53,12 @@ apiRouter.use( async function isAuthorizedRoute(ctx, next) {
   const userId      = await jwtStore.check( jwtData )
   ctx.assert( userId, 401, `Not connected – token invalid` )
 
-  const user = await User.findOneWithRelations({
-    where: {
-      id: userId,
-      isDeactivated: { $not: true },
-    },
+  const userQuery = addRelations.user({
+    id: userId,
   })
-  ctx.assert( user, 401, `Not connected – user not found` )
+  const user = await User.findOne( userQuery )
 
+  ctx.assert( user, 401, `Not connected – user not found` )
   ctx.state.user = user
   await next()
 })
