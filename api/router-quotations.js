@@ -132,8 +132,10 @@ router
   const userId    = ctx.state.user.id
   const { id }    = ctx.params
   const { body }  = ctx.request
-
-  const [ quotation, user ] = await Promise.all([
+  const [
+    quotation,
+    user,
+  ] = await Promise.all([
     Quotation.findOneWithRelations( {where: { id }} ),
     User.findOneWithRelations( {where: {id: userId }} ),
   ])
@@ -141,11 +143,14 @@ router
   ctx.assert( user    , 412, MESSAGES.NO_USER     )
   ctx.assert( quotation , 404, MESSAGES.NOT_FOUND   )
   ctx.assert( quotation._canBeTransformedToInvoice, 412, MESSAGES.CANT_CONVERT )
-
-  const [ customer, invoiceConfig ] = await Promise.all([
+  const [
+    customer,
+    invoiceConfig,
+  ] = await Promise.all([
     Customer.findById( quotation.get( `customerId`) ),
     InvoiceConfig.findOne( {where: {userId }} ),
   ])
+
   ctx.assert( customer  , 412, MESSAGES.NO_CUSTOMER )
   const updateInvoiceConfig = await invoiceConfig.increment( `count`, {by: 1} )
 
@@ -160,10 +165,7 @@ router
     index          : updateInvoiceConfig.get( `count` ),
   })
 
-  const invoice = await Invoice.findOneWithRelations({
-    where: { id: emptyInvoice.get(`id`) },
-  })
-  ctx.assert( invoice, 500, MESSAGES.CONVERT_ERROR )
+  ctx.assert( emptyInvoice, 500, MESSAGES.CONVERT_ERROR )
   const updatedQuotation = await Quotation.findOneWithRelations( {
     where: { id },
   })
