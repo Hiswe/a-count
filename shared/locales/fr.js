@@ -90,6 +90,7 @@ export default {
   'table.header.customer'       : `client`,
   'table.header.status'         : `statut`,
   'table.header.tax'            : `taxe`,
+  'table.header.quotation'      : `devis`,
   'table.header.quotation-count': `nombre de devis`,
   'table.header.invoice'        : `facture`,
   'table.header.invoice-count'  : `nombre de factures`,

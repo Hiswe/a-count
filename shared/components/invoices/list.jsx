@@ -3,10 +3,11 @@ import { Link }     from 'react-router-dom'
 import { connect }  from 'react-redux'
 
 import { Table, EmptyLine } from '../ui/table.jsx'
+import { Amount, Date } from '../ui/format.jsx'
 
 function InvoiceRow( props ) {
-  const invoice = props.invoice
-  const url      = `/invoices/${invoice.id}`
+  const { invoice, currency } = props
+  const url = `/invoices/${invoice.id}`
   return (
     <tr>
       <td>
@@ -15,7 +16,22 @@ function InvoiceRow( props ) {
       <td>
         <Link to={ url }>{ invoice.name }</Link>
       </td>
-      <td></td>
+      <td>
+        <Link to={`/customers/${invoice.customerId}`}>
+          {invoice.customer.name}
+        </Link>
+      </td>
+      <td>
+        <Link to={`/quotations/${invoice.get('quotation.id')}`}>
+          {invoice.get(`quotation.reference`)}
+        </Link>
+      </td>
+      <td className="is-number">
+        <Amount
+          value={invoice._total.all}
+          currency={ currency }
+        />
+      </td>
     </tr>
   )
 }
@@ -28,23 +44,30 @@ function InvoiceList( props ) {
       columns={[
         {label: `table.header.id`},
         {label: `table.header.name`},
-        {label: `table.header.invoice-count`},
+        {label: `table.header.customer`},
+        {label: `table.header.quotation`},
+        {label: `table.amount`},
       ]}
       className="table--pres"
     >
       {
         !hasInvoices ? ( <EmptyLine colspan="3" /> )
         : invoices.map( (invoice, i) => (
-          <InvoiceRow key={invoice.id} invoice={invoice} />
+          <InvoiceRow
+            key={ invoice.id }
+            invoice={ invoice }
+            currency={ props.currency }
+          />
         ))
       }
     </Table>
   )
 }
 
-const state2prop = state => {
+function state2prop( state ) {
   return {
-    invoices: state.invoices && state.invoices.list
+    invoices: state.invoices.get( `list` ),
+    currency: state.account.get( `current.currency` ),
   }
 }
 
