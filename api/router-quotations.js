@@ -164,6 +164,9 @@ router
     where: { id: emptyInvoice.get(`id`) },
   })
   ctx.assert( invoice, 500, MESSAGES.CONVERT_ERROR )
+  const updatedQuotation = await Quotation.findOneWithRelations( {
+    where: { id },
+  })
 
-  ctx.body = invoice
+  ctx.body = updatedQuotation
 })
