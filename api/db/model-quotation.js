@@ -142,7 +142,7 @@ Quotation.mergeWithDefaultRelations = (additionalParams = {}) => {
       Invoice.mergeWithDefaultRelations({
         model:      Invoice,
         required:   false,
-        attributes: [`id`],
+        attributes: [`id`, `index`],
       }),
       {
         model: ProductConfig,
