@@ -62,13 +62,13 @@ function QuotationRow( props ) {
         {
           quotation._canBeTransformedToInvoice && (
             <a
-              href={`/quotations/${quotation.id}/convert-to-invoice`}
+              href={`/quotations/${quotation.id}/create-invoice`}
               onClick={ event => {
                 event.preventDefault()
                 handleConvert()
               }}
             >
-              <FormattedMessage id="table.convert-quotation-to-invoice" />
+              <FormattedMessage id="quotation.create.invoice" />
             </a>
           )
         }

@@ -102,10 +102,9 @@ export const saveOne = ({params, cookie}) => async dispatch => {
 }
 
 export const convert = ({params, cookie}) => async dispatch => {
-  console.log( params )
   const { id } = params
   const options = {
-    url: `${ NAME }/${ id }/convert-to-invoice`,
+    url: `${ NAME }/${ id }/create-invoice`,
     body: {},
   }
   await fetchDispatch({
