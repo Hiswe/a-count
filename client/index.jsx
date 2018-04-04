@@ -14,23 +14,27 @@ import fr from 'react-intl/locale-data/fr'
 import routes from '../shared/routes'
 import reducers from '../shared/ducks/combined-reducers'
 
-const $root             = document.querySelector('#react-main-mount')
-const initialState      = window.__INITIAL_STATE__ || {}
-
+// I18N
 addLocaleData( [...en, ...fr] )
+
 // Redux combineReducers only accept plain objects
 // • We don't want to use any other combine reducer function that handle immutables
 // • but we want all the inner values to be immutable
 // • hence this code :)
-const crioState         = {}
-const stateEntries      = Object.entries( initialState )
+const initialState  = window.__INITIAL_STATE__ || {}
+const crioState     = {}
+const stateEntries  = Object.entries( initialState )
 stateEntries.forEach( ([key, value]) => crioState[ key] = crio(value) )
-
-const middlewares       = [
+const middlewares   = [
   thunk,
 ]
-const store = createStore(reducers, crioState, composeWithDevTools(applyMiddleware(...middlewares)))
+const store = createStore(
+  reducers,
+  crioState,
+  composeWithDevTools(applyMiddleware(...middlewares)),
+)
 
+const $root   = document.getElementById( `react-main-mount` )
 hydrate((
   <Provider store={store}>
     <BrowserRouter>
