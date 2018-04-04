@@ -128,7 +128,7 @@ router
   const instance  = await Quotation.findOneWithRelations( {where: { id }} )
   ctx.body = instance
 })
-.post(`/:id/convert-to-invoice`, async (ctx, next) => {
+.post(`/:id/create-invoice`, async (ctx, next) => {
   const userId    = ctx.state.user.id
   const { id }    = ctx.params
   const { body }  = ctx.request
