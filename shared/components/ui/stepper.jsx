@@ -4,10 +4,10 @@ import { FormattedMessage } from 'react-intl'
 import DatePicker from '../ui/date-picker.jsx'
 
 import './stepper.scss'
-const BASE_CLASS    = `stepper`
+const BASE_CLASS           = `stepper`
 export const CHECKED_CLASS = `${BASE_CLASS}--is-all-checked`
-export const RADIO_CLASS = `${BASE_CLASS}__input`
-const CHECKBOX_NAME = `stepper-display-form`
+export const RADIO_CLASS   = `${BASE_CLASS}__input`
+const CHECKBOX_NAME        = `stepper-display-form`
 
 export class Stepper extends Component {
 

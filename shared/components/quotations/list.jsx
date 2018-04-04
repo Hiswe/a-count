@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { Table, EmptyLine } from '../ui/table.jsx'
-import { Amount, Percent } from '../ui/format.jsx'
+import { Amount, Date } from '../ui/format.jsx'
 
 //----- TBODY
 
@@ -32,26 +32,30 @@ function QuotationRow( props ) {
       </td>
       <td>
         <Link to={`/customers/${quotation.customerId}`}>
-          {quotation.customerName}
+          {quotation.customer.name}
         </Link>
       </td>
-      <td></td>
+      <td>
+        <p>
+          <Date value={quotation.sendAt} />
+        </p>
+      </td>
+      <td>
+        <p>
+          <Date value={quotation.validatedAt} />
+        </p>
+      </td>
+      <td>
+        <p>
+          <Date value={quotation.signedAt} />
+        </p>
+      </td>
       <td>
         { quotation._hasInvoice && (
           <Link to={`/invoices/${quotation.invoice.id}`}>
             { quotation.invoice.reference }
           </Link>
         )}
-      </td>
-      {/* {status.date ? <QuotationStatus status={status} /> : <td>-</td>} */}
-      <td className="is-number">
-        <Percent value={quotation.tax} />
-      </td>
-      <td className="is-number">
-        <Amount
-          value={quotation._total.net}
-          currency={ currency }
-        />
       </td>
       <td className="is-number">
         <Amount
@@ -73,10 +77,10 @@ function QuotationTable( props ) {
         {label: `table.header.id`},
         {label: `table.header.name`},
         {label: `table.header.customer`},
-        {label: `table.header.status`},
+        {label: `table.header.sent`},
+        {label: `table.header.validated`},
+        {label: `table.header.signed`},
         {label: `table.header.invoice`},
-        {label: `table.header.tax`},
-        {label: `table.amount-ht`},
         {label: `table.amount`},
       ]}
       className="table--pres"

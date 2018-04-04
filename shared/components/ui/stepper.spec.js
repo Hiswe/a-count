@@ -1,6 +1,6 @@
-import test from 'ava'
-import React from 'react'
-import Enzyme from 'enzyme'
+import test    from 'ava'
+import React   from 'react'
+import Enzyme  from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import { IntlProvider, intlShape } from 'react-intl'
 
@@ -12,9 +12,9 @@ import {
 
 Enzyme.configure({ adapter: new Adapter() })
 const { shallow, mount } = Enzyme
-const messages = { 'stepper.foo.label': `foo`, 'stepper.bar.label': `bar`, }
 const value    = `2018-04-02 13:09:29.564+02`
 // https://github.com/yahoo/react-intl/wiki/Testing-with-React-Intl#enzyme
+const messages = { 'stepper.foo.label': `foo`, 'stepper.bar.label': `bar`, }
 const intlProvider = new IntlProvider({ locale: 'en', messages }, {})
 const { intl }     = intlProvider.getChildContext()
 
