@@ -62,6 +62,8 @@ const Invoice = sequelize.define( `invoice`, {
       const products  = this.getDataValue( `products` )
       const tax       = this.getDataValue( `tax` )
       const totals    = compute.totals( products, tax )
+      const payments  = this.getDataValue( `payments` )
+      if ( !Array.isArray(payments) ) return totals
       const paid      = this.getDataValue( `payments` )
         .reduce( (acc, payment) => parseFloat( payment.amount, 10 ) + acc, 0 )
       const left      = totals.all - paid
