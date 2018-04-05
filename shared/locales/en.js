@@ -116,5 +116,6 @@ export default {
   'table.amount-ht'                   : `pre-tax amount`,
   'table.amount-taxes'                : `taxes`,
   'table.amount'                      : `amount`,
-  'table.amount.left-to-pay'          : `left to pay`,
+  'table.amount.paid'                 : `paid`,
+  'table.amount.left-to-pay'          : `left`,
 }

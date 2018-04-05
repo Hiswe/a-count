@@ -116,5 +116,6 @@ export default {
   'table.amount-ht'                   : `montant HT`,
   'table.amount-taxes'                : `taxes`,
   'table.amount'                      : `total`,
-  'table.amount.left-to-pay'          : `reste à payer`,
+  'table.amount.paid'                 : `payé`,
+  'table.amount.left-to-pay'          : `reste`,
 }
