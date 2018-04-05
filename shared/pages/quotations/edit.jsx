@@ -6,14 +6,19 @@ import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
 import * as customers from '../../ducks/customers'
 import NavSecondary from '../../components/nav/secondary.jsx'
-import QuotationForm, { BASE_CLASS } from '../../components/quotations/form.jsx'
 import {
-  ButtonList,
   ButtonNew,
-  ButtonSubmit,
+  ButtonList,
   ButtonPrint,
+  ButtonNewQuotation,
+} from '../../components/nav/secondary-buttons.jsx'
+import QuotationForm from '../../components/quotations/form.jsx'
+import {
+  ButtonSubmit,
   ButtonCreateInvoice,
 } from '../../components/quotations/secondary-nav-actions.jsx'
+
+const TYPE = `quotations`
 
 function EditQuotation( props ) {
   const { reference, intl, canBeTransformedToInvoice } = props
@@ -25,9 +30,9 @@ function EditQuotation( props ) {
         {id: `page.quotations.edit`},
         {reference: props.reference}
       )}>
-        <ButtonNew />
-        <ButtonList />
-        <ButtonPrint id={ id } />
+        <ButtonNew   type={ TYPE } />
+        <ButtonList  type={ TYPE } />
+        <ButtonPrint type={ TYPE } id={ id } />
         <ButtonCreateInvoice />
         <ButtonSubmit isSaving={ props.isSaving } />
       </NavSecondary>

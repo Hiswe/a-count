@@ -8,10 +8,12 @@ import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
 import { Main, Content } from '../../components/layout/main.jsx'
 import NavSecondary from '../../components/nav/secondary.jsx'
+import { ButtonNew } from '../../components/nav/secondary-buttons.jsx'
 import { BtnFab } from '../../components/ui/buttons.jsx'
 import Icon from '../../components/ui/svg-icons.jsx'
-import { ButtonNew } from '../../components/quotations/secondary-nav-actions.jsx'
 import QuotationsList from '../../components/quotations/list.jsx'
+
+const TYPE = `quotations`
 
 function Quotations( props ) {
   const { intl } = props
@@ -22,7 +24,7 @@ function Quotations( props ) {
         id: `page.quotations`,
         defaultMessage: `quotations`,
       })}>
-        <ButtonNew />
+        <ButtonNew type={ TYPE } />
       </NavSecondary>
       <Main>
         <Content>

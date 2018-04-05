@@ -6,8 +6,14 @@ import { injectIntl } from 'react-intl'
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers'
 import NavSecondary from '../../components/nav/secondary.jsx'
-import { ButtonList, ButtonNew, ButtonSubmit } from '../../components/customers/secondary-nav-actions.jsx'
+import {
+  ButtonNew,
+  ButtonList,
+} from '../../components/nav/secondary-buttons.jsx'
+import { ButtonSubmit } from '../../components/customers/secondary-nav-actions.jsx'
 import CustomerForm from '../../components/customers/form.jsx'
+
+const TYPE = `customers`
 
 function EditCustomer( props ) {
   const { intl } = props
@@ -18,8 +24,8 @@ function EditCustomer( props ) {
         {id: `page.customers.edit`},
         {name: props.name}
       )}>
-        <ButtonNew />
-        <ButtonList />
+        <ButtonNew  type={ TYPE } />
+        <ButtonList type={ TYPE } />
         <ButtonSubmit isSaving={ props.isSaving } />
       </NavSecondary>
       <CustomerForm {...props} />
@@ -28,10 +34,9 @@ function EditCustomer( props ) {
 }
 
 function state2prop( state ) {
-  const { current, isSaving } = state.customers
   return {
-    name:     current.name,
-    isSaving,
+    name:     state.customers.get( `current.name` ),
+    isSaving: state.customers.get( `isSaving` ),
   }
 }
 

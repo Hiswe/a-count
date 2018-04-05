@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 
 import * as compute from '../utils/compute-total.js'
 import Table from './table.jsx'
-import { Amount } from './format.jsx'
+import { Amount, Markdown } from './format.jsx'
 import TextareaAutoResize from './textarea-auto-resize.jsx'
 
 import './table-product.scss'
@@ -18,7 +18,7 @@ export function ProductLine( props ) {
   return (
     <tr>
       <td>{
-        readOnly ? <p>{ product.description }</p>
+        readOnly ? <Markdown text={ product.description } />
           : <TextareaAutoResize
           name={`${fieldPath}[description]`}
           defaultValue={ product.description }

@@ -6,11 +6,17 @@ import { injectIntl } from 'react-intl'
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as invoices from '../../ducks/invoices'
 import NavSecondary from '../../components/nav/secondary.jsx'
-import { ButtonList } from '../../components/invoices/secondary-nav-actions.jsx'
+import {
+  ButtonList,
+  ButtonPrint,
+} from '../../components/nav/secondary-buttons.jsx'
 import InvoiceForm from '../../components/invoices/form.jsx'
+
+const TYPE = `invoices`
 
 function EditInvoice( props ) {
   const { reference, intl } = props
+  const { id } = props.match.params
 
   return (
     <Fragment>
@@ -18,7 +24,8 @@ function EditInvoice( props ) {
         {id: `page.invoices.edit`},
         {reference: props.reference}
       )}>
-        <ButtonList />
+        <ButtonList type={ TYPE } />
+        <ButtonPrint type={ TYPE } id={ id } />
       </NavSecondary>
       <InvoiceForm />
     </Fragment>
@@ -26,10 +33,9 @@ function EditInvoice( props ) {
 }
 
 function state2prop( state ) {
-  const { current, isSaving } = state.invoices
   return {
-    reference: current.reference,
-    isSaving,
+    reference:  state.invoices.get( `current.reference` ),
+    isSaving:   state.invoices.get( `isSaving` ),
   }
 }
 

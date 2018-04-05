@@ -18,6 +18,7 @@ import QuotationsPrint from './pages/quotations/print.jsx'
 
 import InvoicesList from './pages/invoices/list.jsx'
 import InvoicesEdit from './pages/invoices/edit.jsx'
+import InvoicesPrint from './pages/invoices/print.jsx'
 
 import CustomersList from './pages/customers/list.jsx'
 import CustomerNew from './pages/customers/new.jsx'
@@ -75,6 +76,10 @@ const routes = [{
   path: `/invoices/:id`,
     exact: true,
     component: authenticationRequired( InvoicesEdit ),
+  }, {
+    path: `/invoices/:id/print`,
+    exact: true,
+    component: authenticationRequired( InvoicesPrint ),
   }, {
     path: `/customers`,
     exact: true,

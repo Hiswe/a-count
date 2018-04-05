@@ -8,10 +8,12 @@ import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers.js'
 import { Main, Content } from '../../components/layout/main.jsx'
 import NavSecondary from '../../components/nav/secondary.jsx'
+import { ButtonNew } from '../../components/nav/secondary-buttons.jsx'
 import { BtnFab } from '../../components/ui/buttons.jsx'
 import Icon from '../../components/ui/svg-icons.jsx'
 import CustomersTable from '../../components/customers/list.jsx'
-import { ButtonNew } from '../../components/customers/secondary-nav-actions.jsx'
+
+const TYPE = `customers`
 
 function Customers( props ) {
   const { intl } = props
@@ -22,7 +24,7 @@ function Customers( props ) {
         id: `page.customers`,
         defaultMessage: `customers`,
       })}>
-        <ButtonNew />
+        <ButtonNew type={ TYPE } />
       </NavSecondary>
       <Main>
         <Content>

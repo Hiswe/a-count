@@ -58,6 +58,7 @@ export default {
   'page.quotations.print': `imprimer le devis {reference}`,
   'page.invoices'        : `factures`,
   'page.invoices.edit'   : `facture – {reference}`,
+  'page.invoices.print'  : `imprimer la facture {reference}`,
   'page.customers'       : `clients`,
   'page.customers.new'   : `nouveau client`,
   'page.customers.edit'  : `client : {name}`,

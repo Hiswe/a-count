@@ -7,8 +7,13 @@ import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
 import * as customers from '../../ducks/customers'
 import NavSecondary from '../../components/nav/secondary.jsx'
+import {
+  ButtonList,
+} from '../../components/nav/secondary-buttons.jsx'
 import QuotationForm from '../../components/quotations/form.jsx'
-import { ButtonList, ButtonSubmit } from '../../components/quotations/secondary-nav-actions.jsx'
+import { ButtonSubmit } from '../../components/quotations/secondary-nav-actions.jsx'
+
+const TYPE = `quotations`
 
 function NewQuotation( props ) {
   const { intl } = props
@@ -16,7 +21,7 @@ function NewQuotation( props ) {
   return (
     <Fragment>
       <NavSecondary title={intl.formatMessage({id: `page.quotations.new`})}>
-        <ButtonList />
+        <ButtonList type={ TYPE }/>
         <ButtonSubmit isSaving={ props.isSaving } />
       </NavSecondary>
       <QuotationForm {...props} />

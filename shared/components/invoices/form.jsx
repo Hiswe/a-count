@@ -8,6 +8,12 @@ import * as invoices from '../../ducks/invoices'
 import Spinner from '../ui/spinner.jsx'
 import InvoiceFormPres from './form.pres.jsx'
 
+// const STEPS = crio([
+//   { key: `sendAt`,       label: `send` },
+//   { key: `validatedAt`,  label: `validated` },
+//   { key: `signedAt`,     label: `signed` },
+// ])
+
 class InvoiceForm extends Component {
 
   constructor( props ) {

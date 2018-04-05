@@ -3,35 +3,33 @@ import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
-import * as quotations from '../../ducks/quotations'
+import * as invoices from '../../ducks/invoices'
 import { Main, Content } from '../../components/layout/main.jsx'
 import NavSecondary from '../../components/nav/secondary.jsx'
 import {
-  ButtonNew,
   ButtonList,
   ButtonEdit,
 } from '../../components/nav/secondary-buttons.jsx'
-import PrintQuotation from '../../components/quotations/print.jsx'
+import PrintInvoice from '../../components/invoices/print.jsx'
 
-const TYPE = `quotations`
+const TYPE = `invoices`
 
-function PrintQuotationPage( props ) {
+function PrintInvoicePage( props ) {
   const { reference, intl } = props
   const { id } = props.match.params
 
   return (
     <Fragment>
       <NavSecondary title={intl.formatMessage(
-        {id: `page.quotations.print`},
+        {id: `page.invoices.print`},
         {reference: props.reference}
       )}>
-        <ButtonNew type={ TYPE }  />
-        <ButtonList type={ TYPE } />
-        <ButtonEdit type={ TYPE } id={id} />
+        <ButtonList type={TYPE} />
+        <ButtonEdit type={TYPE} id={id} />
       </NavSecondary>
       <Main>
         <Content>
-          <PrintQuotation />
+          <PrintInvoice />
         </Content>
       </Main>
     </Fragment>
@@ -39,17 +37,15 @@ function PrintQuotationPage( props ) {
 }
 
 function state2prop( state ) {
-  const { current } = state.quotations
-  const result = {
-    reference:  current.reference
+  return {
+    reference:  state.invoices.get( `current.reference` ),
   }
-  return result
 }
 
 export default connect( state2prop )( ConnectDataFetcher({
-  Component: injectIntl( PrintQuotationPage ),
+  Component: injectIntl( PrintInvoicePage ),
   actionCreators: [
-    quotations.getOne,
+    invoices.getOne,
   ],
 }) )
 

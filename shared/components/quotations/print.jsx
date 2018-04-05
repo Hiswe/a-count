@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { PaperSheet, Party, Reference, Mentions, Subject, Between } from '../layout/paper-sheet.jsx'
+import { PaperSheet, Party, Reference, Between, Subject, Mentions } from '../layout/paper-sheet.jsx'
 import { ProductTable, ProductLine } from '../ui/table-product.jsx'
 
 function PrintQuotation( props ) {
@@ -13,31 +13,30 @@ function PrintQuotation( props ) {
         <Party title="from" {...user} />
         <Party title="to" {...quotation.customer} />
       </Between>
-      <Subject value={quotation.name} />
+      <Subject value={quotation.get(`name`)} />
       <ProductTable
         readOnly
-        products={ quotation.products }
-        tax={ quotation.tax }
-        currency={ user.currency }
+        products={ quotation.get(`products`) }
+        tax={ quotation.get(`tax`) }
+        currency={ user.get(`currency`) }
       >
-        {quotation.products.map( (product, index) =>  (
+        {quotation.get(`products`).map( (product, index) =>  (
           <ProductLine
             readOnly
             key={ index }
             product={ product }
-            currency={ user.currency }
+            currency={ user.get(`currency`) }
           />
         ))}
       </ProductTable>
-      <Mentions content={ user.quotationConfig.mentions } />
+      <Mentions content={ user.get(`quotationConfig.mentions`) } />
     </PaperSheet>
   )
 }
 
 function state2prop( state ) {
-  const { current } = state.quotations
   const result = {
-    quotation:  current,
+    quotation:  state.quotations.get(`current`),
     user:       state.account.get( `current` ),
   }
   return result

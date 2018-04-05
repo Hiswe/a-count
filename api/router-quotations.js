@@ -57,7 +57,7 @@ router
     productConfig: user.productConfig,
   })
   // Build non-persistent instance
-  const queryParams = getDefaultRelations.quotation()
+  const queryParams = addRelations.quotation()
   const instance    = Quotation.build( body , queryParams ).toJSON()
   delete instance.id
   ctx.body = instance
