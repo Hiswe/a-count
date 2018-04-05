@@ -42,10 +42,10 @@ class InvoiceForm extends Component {
   //----- RENDER
 
   render() {
-    const { props     , state } = this
-    const { formData          } = state
-    const { isSaving          } = props
-    if ( formData.isLoading ) return <Spinner />
+    const { props    , state    } = this
+    const { formData            } = state
+    const { isSaving, isLoading } = props
+    if ( isLoading ) return <Spinner />
 
     const renderProps = {
       user            : props.user,
@@ -59,12 +59,12 @@ class InvoiceForm extends Component {
 
 function state2prop( state ) {
   const { current, isSaving } = state.invoices
-  const result = {
-    isSaving,
-    current,
-    user: state.account.get( `current` ),
+  return {
+    isSaving : state.invoices.get( `isSaving` ),
+    current  : state.invoices.get( `current` ),
+    isLoading: state.invoices.get( `current.isLoading` ),
+    user     : state.account.get( `current` ),
   }
-  return result
 }
 
 export default connect( state2prop )( InvoiceForm )

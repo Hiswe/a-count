@@ -8,7 +8,7 @@ function PrintInvoice( props ) {
   const { invoice, user } = props
   const currency = user.get(`currency`)
   return (
-    <PaperSheet>
+    <PaperSheet print>
       <Reference type="invoice" product={ invoice } />
       <Between>
         <Party title="from" {...user} />

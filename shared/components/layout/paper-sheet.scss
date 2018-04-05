@@ -2,6 +2,8 @@
 
 .paper-sheet {
   $root: &;
+  $party: '#{$root}__party';
+  $party-empty: '#{$party}-address--empty';
   // css custom properties doesn't seems to work with background size
   $shred-size: 20px;
   background: white;
@@ -238,6 +240,10 @@
     .table--product {
       margin-bottom: auto;
     }
+    #{ $party-empty } {
+      display: none;
+    }
+
     #{ $root }__mentions {
       // margin: 0;
       // padding: 0;

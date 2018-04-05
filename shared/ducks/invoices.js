@@ -32,7 +32,6 @@ export default function reducer(state = initialState, action) {
         reference: `loading…`,
         products: [],
       })
-
     case GET_ONE.SUCCESS:
       return state.set( `current`, payload )
 
