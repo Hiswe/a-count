@@ -20,11 +20,12 @@ export default class Spinner extends PureComponent {
   }
 
   componentWillUnmount() {
-    clearTimeout( this.timerID )
+    this.timerId && clearTimeout( this.timerId )
+    this.timerId = false
   }
 
   showSpinner() {
-    this.setState( prevState => ({
+    this.timerId && this.setState( prevState => ({
       showSpinner: true,
     }))
   }

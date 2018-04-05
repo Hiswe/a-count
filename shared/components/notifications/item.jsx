@@ -14,17 +14,22 @@ export default class Notification extends PureComponent {
     const type = error ? `error` : `information`
 
     this.state = { type }
+    this.autoRemove = this.autoRemove.bind( this )
   }
 
   componentDidMount() {
     const { notification, handleRemove } = this.props
-    this.timerId = setTimeout( () => {
-      handleRemove( notification )
-    }, NOTIFICATION_LIFETIME )
+    this.timerId = setTimeout( this.autoRemove, NOTIFICATION_LIFETIME )
   }
 
   componentWillUnmount() {
-    clearTimeout( this.timerID )
+    this.timerId && clearTimeout( this.timerId )
+    this.timerId = false
+  }
+
+  autoRemove( ) {
+    const { notification, handleRemove } = this.props
+    handleRemove( notification )
   }
 
   render() {
