@@ -10,11 +10,12 @@ import {
   ButtonNew,
   ButtonList,
   ButtonPrint,
-  ButtonNewQuotation,
-} from '../../components/nav/secondary-buttons.jsx'
-import QuotationForm from '../../components/quotations/form.jsx'
-import {
   ButtonSubmit,
+} from '../../components/nav/secondary-buttons.jsx'
+import { Button } from '../../components/ui/buttons.jsx'
+import QuotationForm from '../../components/quotations/form.jsx'
+import { FORM_ID } from '../../components/quotations/form.pres.jsx'
+import {
   ButtonCreateInvoice,
 } from '../../components/quotations/secondary-nav-actions.jsx'
 
@@ -34,20 +35,21 @@ function EditQuotation( props ) {
         <ButtonList  type={ TYPE } />
         <ButtonPrint type={ TYPE } id={ id } />
         <ButtonCreateInvoice />
-        <ButtonSubmit isSaving={ props.isSaving } />
+        <ButtonSubmit
+          formId   = { FORM_ID }
+          isSaving = { props.isSaving }
+        />
       </NavSecondary>
-      <QuotationForm {...props} />
+      <QuotationForm {...others} />
     </Fragment>
   )
 }
 
 function state2prop( state ) {
-  const { current, isSaving } = state.quotations
-  const result = {
-    reference:                  current.get( `reference` ),
-    isSaving,
+  return {
+    reference: state.quotations.get( `current.reference` ),
+    isSaving : state.quotations.get( `isSaving` ),
   }
-  return result
 }
 
 export default connect( state2prop )( ConnectDataFetcher({

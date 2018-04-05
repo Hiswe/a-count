@@ -9,8 +9,10 @@ import NavSecondary from '../../components/nav/secondary.jsx'
 import {
   ButtonList,
   ButtonPrint,
+  ButtonSubmit,
 } from '../../components/nav/secondary-buttons.jsx'
 import InvoiceForm from '../../components/invoices/form.jsx'
+import { FORM_ID } from '../../components/invoices/form.pres.jsx'
 
 const TYPE = `invoices`
 
@@ -26,6 +28,7 @@ function EditInvoice( props ) {
       )}>
         <ButtonList type={ TYPE } />
         <ButtonPrint type={ TYPE } id={ id } />
+        <ButtonSubmit formId={ FORM_ID } isSaving={ props.isSaving } />
       </NavSecondary>
       <InvoiceForm />
     </Fragment>

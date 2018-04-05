@@ -4,22 +4,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import * as quotations from '../../ducks/quotations'
-import { Button, BtnIcon } from '../ui/buttons.jsx'
+import { Button } from '../ui/buttons.jsx'
 import { FORM_ID } from './form.pres.jsx'
-
-export function ButtonSubmit( props ) {
-  const { isSaving } = props
-  const iconName = isSaving ? `block` : `save`
-
-  return (
-    <BtnIcon
-      form={ FORM_ID }
-      disabled={ isSaving }
-      type="submit"
-      svgId={ iconName }
-    />
-  )
-}
 
 function BtnCreateInvoice( props ) {
   const { id, createInvoice, isAvailable, isSaving } = props

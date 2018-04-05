@@ -43,3 +43,16 @@ export function ButtonNew( props ) {
     />
   )
 }
+
+export function ButtonSubmit( props ) {
+  const { isSaving, formId } = props
+  const iconId = isSaving ? `block` : `save`
+  return (
+    <BtnIcon
+      form={ formId }
+      disabled={ isSaving }
+      type="submit"
+      svgId={ iconId }
+    />
+  )
+}

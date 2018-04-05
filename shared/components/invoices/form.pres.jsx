@@ -4,8 +4,6 @@ import { injectIntl, FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import Form from '../ui/form.jsx'
 import { Main, Meta, Content } from '../layout/main.jsx'
 import PrintInvoice from './print.jsx'
-// import { PaperSheet, Reference, Between, Party, Subject, Mentions } from '../layout/paper-sheet.jsx'
-// import { ProductTable, ProductLine } from '../ui/table-product.jsx'
 
 export const BASE_CLASS = `invoice-form`
 export const FORM_ID = BASE_CLASS
