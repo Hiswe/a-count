@@ -30,7 +30,7 @@ function BtnCreateInvoice( props ) {
 export const ButtonCreateInvoice = connect(
   state => ({
     id          : state.quotations.get( `current.id` ),
-    isAvailable : state.quotations.get( `current._canBeTransformedToInvoice` ),
+    isAvailable : state.quotations.get( `current._canCreateInvoice` ),
     isSaving    : state.quotations.get( `isSaving` ),
   }),
   dispatch => {

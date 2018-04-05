@@ -60,7 +60,7 @@ function QuotationRow( props ) {
           </Link>
         )}
         {
-          quotation._canBeTransformedToInvoice && (
+          quotation._canCreateInvoice && (
             <a
               href={`/quotations/${quotation.id}/create-invoice`}
               onClick={ event => {
