@@ -32,14 +32,14 @@ export function ButtonEdit( props ) {
 }
 
 export function ButtonNew( props ) {
-  const { type } = props
+  const { type, ...others } = props
   const iconId = type === `customers` ? `person-add`
     : `note-add`
   return (
     <BtnIcon
-      secondary
       to={`/${type}/new`}
       svgId={ iconId }
+      {...others}
     />
   )
 }

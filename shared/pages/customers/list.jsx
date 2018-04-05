@@ -9,8 +9,6 @@ import * as customers from '../../ducks/customers.js'
 import { Main, Content } from '../../components/layout/main.jsx'
 import NavSecondary from '../../components/nav/secondary.jsx'
 import { ButtonNew } from '../../components/nav/secondary-buttons.jsx'
-import { BtnFab } from '../../components/ui/buttons.jsx'
-import Icon from '../../components/ui/svg-icons.jsx'
 import CustomersTable from '../../components/customers/list.jsx'
 
 const TYPE = `customers`
@@ -24,16 +22,14 @@ function Customers( props ) {
         id: `page.customers`,
         defaultMessage: `customers`,
       })}>
-        <ButtonNew type={ TYPE } />
+        <ButtonNew secondary  type={ TYPE } />
       </NavSecondary>
       <Main>
         <Content>
           <CustomersTable />
         </Content>
       </Main>
-      <BtnFab to="/customers/new">
-        <Icon svgId="person-add" />
-      </BtnFab>
+      <ButtonNew fab type={ TYPE } />
     </Fragment>
   )
 }

@@ -30,7 +30,7 @@ function EditQuotation( props ) {
         {id: `page.quotations.edit`},
         {reference: props.reference}
       )}>
-        <ButtonNew   type={ TYPE } />
+        <ButtonNew   type={ TYPE } secondary />
         <ButtonList  type={ TYPE } />
         <ButtonPrint type={ TYPE } id={ id } />
         <ButtonCreateInvoice />

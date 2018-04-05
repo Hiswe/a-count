@@ -50,10 +50,11 @@ export function BtnLink( props ) {
 )}
 
 export function BtnIcon( props ) {
-  const { className, svgId, secondary, link, ...others } = props
+  const { className, svgId, secondary, fab, link, ...others } = props
   const btnClass = [ `${BASE_CLASS}--icon` ]
   if ( secondary ) btnClass.push( `${BASE_CLASS}--icon-secondary` )
   if ( link ) btnClass.push( `${BASE_CLASS}--icon-link` )
+  if ( fab ) btnClass.push( `${BASE_CLASS}--fab` )
   if ( className ) btnClass.push( className )
   return (
     <Button

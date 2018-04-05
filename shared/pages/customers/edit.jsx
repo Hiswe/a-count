@@ -24,7 +24,7 @@ function EditCustomer( props ) {
         {id: `page.customers.edit`},
         {name: props.name}
       )}>
-        <ButtonNew  type={ TYPE } />
+        <ButtonNew  type={ TYPE } secondary  />
         <ButtonList type={ TYPE } />
         <ButtonSubmit isSaving={ props.isSaving } />
       </NavSecondary>

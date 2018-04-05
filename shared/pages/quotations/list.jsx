@@ -9,8 +9,6 @@ import * as quotations from '../../ducks/quotations'
 import { Main, Content } from '../../components/layout/main.jsx'
 import NavSecondary from '../../components/nav/secondary.jsx'
 import { ButtonNew } from '../../components/nav/secondary-buttons.jsx'
-import { BtnFab } from '../../components/ui/buttons.jsx'
-import Icon from '../../components/ui/svg-icons.jsx'
 import QuotationsList from '../../components/quotations/list.jsx'
 
 const TYPE = `quotations`
@@ -24,16 +22,14 @@ function Quotations( props ) {
         id: `page.quotations`,
         defaultMessage: `quotations`,
       })}>
-        <ButtonNew type={ TYPE } />
+        <ButtonNew secondary type={ TYPE } />
       </NavSecondary>
       <Main>
         <Content>
           <QuotationsList />
         </Content>
       </Main>
-      <BtnFab to="/quotations/new">
-        <Icon svgId="note-add" />
-      </BtnFab>
+      <ButtonNew fab type={ TYPE } />
     </Fragment>
   )
 }
