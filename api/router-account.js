@@ -131,7 +131,7 @@ privateRouter
 .post( `/settings`, async (ctx, next) => {
   const { id }      = ctx.state && ctx.state.user
   const { body }    = ctx.request
-  const queryParams = addRelations({
+  const queryParams = addRelations.user({
     where: { id }
   })
   const instance    = await User.findOne( queryParams )
