@@ -86,6 +86,8 @@ export default {
   'quotation.button.create' : `Create the new quotation`,
   'quotation.button.update' : `Update the quotation`,
 
+  'spinner.loading'  : `loading…` ,
+
   'stepper.send'     : `send at:`,
   'stepper.validated': `validated at:`,
   'stepper.signed'   : `signed at:`,

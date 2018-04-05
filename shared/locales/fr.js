@@ -86,6 +86,8 @@ export default {
   'quotation.button.create' : `Créer le nouveau devis`,
   'quotation.button.update' : `Mettre à jour le devis`,
 
+  'spinner.loading'  : `chargement…`,
+
   'stepper.send'     : `envoyé le :`,
   'stepper.validated': `validé le :`,
   'stepper.signed'   : `signé le :`,

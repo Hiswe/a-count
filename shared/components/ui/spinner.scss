@@ -12,20 +12,9 @@
   color: transparent;
   background: linear-gradient(white var(--s-nav-top-height), transparent var(--s-nav-top-height));
 
-  &::before {
-    // content: '   loading   ';
-    // animation: spinnerText var(--spinner-speed) linear infinite;
-    color: var(--c-primary-darker);
-    white-space: pre;
-    width: 100%;
-    position: absolute;
-    top: calc( 50% + var(--spinner-size) / 2 + 1em );
-    text-align: center;
-    left: 0;
-  }
-
   &::after {
     content: '';
+    opacity: 0;
     width: var(--spinner-size);
     height: var(--spinner-size);
     position: absolute;
@@ -34,19 +23,15 @@
     transform: translate3d(-50%, -50%, 0);
     background: transparent;
     box-shadow: inset 0 0 0 var(--spinner-thickness) var(--spinner-color);
-    animation: spinner var(--spinner-speed) linear infinite;
+    animation: spin var(--spinner-speed) linear infinite;
+    transition: opacity .25s;
+  }
+  &--is-loading::after {
+    opacity: 1;
   }
 }
 
-@keyframes spinnerText {
-  0% {    content: '   loading   '; }
-  25% {   content: '   loading.  '; }
-  50% {   content: '   loading.. '; }
-  75% {   content: '   loading...'; }
-  100% {  content: '   loading   '; }
-}
-
-@keyframes spinner {
+@keyframes spin {
   0% {  clip: rect(
       0,
       var(--spinner-size),
