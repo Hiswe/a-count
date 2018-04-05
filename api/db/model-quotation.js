@@ -105,7 +105,7 @@ const Quotation = sequelize.define( `quotation`, {
       return invoice != null
     },
   },
-  _canBeTransformedToInvoice: {
+  _canCreateInvoice: {
     type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`sendAt`, `validatedAt`, `signedAt`, `invoice`, `products`]),
     get: function() {
       const sendAt      = this.get( `sendAt`      )
