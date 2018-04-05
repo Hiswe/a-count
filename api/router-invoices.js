@@ -19,10 +19,10 @@ const  router  = new Router({prefix: `/${prefix}`})
 module.exports = router
 
 const MESSAGES = Object.freeze({
-  DEFAULT      : `invoice.error.default`,
-  NOT_FOUND    : `invoice.error.not-found`,
-  NO_USER      : `invoice.error.user-not-found`,
-  NO_CUSTOMER  : `invoice.error.customer-not-found`,
+  DEFAULT      : `invoices.error.default`,
+  NOT_FOUND    : `invoices.error.not-found`,
+  NO_USER      : `invoices.error.user-not-found`,
+  NO_CUSTOMER  : `invoices.error.customer-not-found`,
 })
 
 router
@@ -53,4 +53,16 @@ router
   ctx.assert( instance, 404, MESSAGES.NOT_FOUND )
   ctx.body = formatResponse( instance )
 })
+.post(`/:id`, async (ctx, next) => {
+  const { id }    = ctx.params
+  const { body }  = ctx.request
+  const queryParams    = addRelations.invoice({
+    where: { id }
+  })
+  const invoice = await Invoice.findOne( queryParams )
 
+  ctx.assert( invoice, 404, MESSAGES.NOT_FOUND )
+  const updatedInvoice = await invoice.update ( body        )
+  const instance       = await Invoice.findOne( queryParams )
+  ctx.body = instance
+})
