@@ -11,14 +11,14 @@ function InvoiceRow( props ) {
   return (
     <tr>
       <td>
-        <Link to={ url }>{ invoice.reference }</Link>
+        <Link to={ url }>{ invoice.get( `reference` ) }</Link>
       </td>
       <td>
-        <Link to={ url }>{ invoice.name }</Link>
+        <Link to={ url }>{ invoice.get( `name` ) }</Link>
       </td>
       <td>
         <Link to={`/customers/${invoice.customerId}`}>
-          {invoice.customer.name}
+          {invoice.get( `customer.name` )}
         </Link>
       </td>
       <td>

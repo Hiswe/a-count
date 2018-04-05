@@ -39,6 +39,10 @@ export default {
   'field.start-at'   : `commence à`,
   'field.language'   : `langue`,
 
+  'invoices.tab.payments' : `Paiements`,
+  'invoices.tab.preview'  : `Aperçu de la facture`,
+  'invoices.button.save'  : `Mettre à jour`,
+
   'notifications.user.welcome'                     : `Bienvenue {name}`,
   'notifications.user.mail-sent'                   : `Un email a été envoyé à {email}`,
   'notifications.quotation.saved'                  : `Le devis a été sauvegardé`,

@@ -6,4 +6,14 @@
       pointer-events: none;
     }
   }
+  &__actions {
+    margin-top: var(--s-gutter);
+
+    @media print {
+      display: none;
+    }
+    .button + .button {
+      margin-left: var(--s-half-gutter);
+    }
+  }
 }

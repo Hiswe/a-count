@@ -2,9 +2,8 @@ import React, { Fragment } from 'react'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import { injectIntl, FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
-import { Main, Meta, Content, ContentActions } from '../layout/main.jsx'
 import { PaperSheet, Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
-import Form from '../ui/form.jsx'
+import { Form, FormActions } from '../ui/form.jsx'
 import { Button } from '../ui/buttons.jsx'
 import { Input, Textarea, Select } from '../ui/field.jsx'
 import { ProductTable, ProductLine } from '../ui/table-product.jsx'
@@ -254,11 +253,11 @@ function SettingFormPres( props ) {
           </TabPanel>
 
           {/* ACTIONS */}
-          <ContentActions>
+          <FormActions>
             <Button type="submit">
               <FormattedMessage id="configuration.button.save" />
             </Button>
-          </ContentActions>
+          </FormActions>
 
       </Tabs>
     </Form>

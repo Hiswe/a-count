@@ -39,6 +39,10 @@ export default {
   'field.start-at'   : `start at`,
   'field.language'   : `language`,
 
+  'invoices.tab.payments' : `Payments`,
+  'invoices.tab.preview'  : `Invoice Preview`,
+  'invoices.button.save'  : `Update Invoice`,
+
   'notifications.user.welcome'                     : `Welcome {name}`,
   'notifications.user.mail-sent'                   : `An email has been sent to {email}`,
   'notifications.quotation.saved'                  : `The quotation has been saved`,
