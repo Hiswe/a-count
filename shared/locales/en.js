@@ -43,6 +43,7 @@ export default {
   'invoices.tab.preview'   : `Invoice Preview`,
   'invoices.button.save'   : `Update Invoice`,
   'invoices.event.name'    : `name`,
+  'invoices.event.payment' : `payment`,
   'invoices.event.date'    : `date`,
   'invoices.event.amount'  : `amount`,
   'invoices.event.sent'    : `sent`,

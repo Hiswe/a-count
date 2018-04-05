@@ -89,18 +89,33 @@ function InvoiceEvents( props ) {
         <td className="is-number"><p>–</p></td>
         <td></td>
       </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
+      {formData.get(`payments`).map((payment, index) => (
+        <tr key={payment.get(`_id`)} >
+          <td>
+            <input
+              type="hidden"
+              name={`${payment._fieldPath}[_id]`}
+              value={ payment.get(`_id`) }
+            />
+            <p><FormattedMessage id="invoices.event.payment" /></p>
+          </td>
+          <td>
+            <DatePicker
+              name={`${payment._fieldPath}[date]`}
+              value={ payment.get(`date`) }
+              handleDayChange={ handleDayChange }
+            />
+          </td>
+          <td>
+            <input
+              type="number"
+              name={`${payment._fieldPath}[amount]`}
+              defaultValue={ payment.get(`amount`) }
+            />
+          </td>
+          <td></td>
+        </tr>
+      ))}
     </Table>
   )
 }

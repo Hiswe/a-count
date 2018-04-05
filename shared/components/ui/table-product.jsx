@@ -38,7 +38,7 @@ export function ProductLine( props ) {
           : <input
             type="number"
             min="0"
-            step="1"
+            step="0.5"
             name={ `${fieldPath}[price]` }
             defaultValue={ product.price }
           />

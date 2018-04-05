@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import crio from 'crio'
+import shortid from 'shortid'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import serialize from 'form-serialize'
@@ -8,12 +10,17 @@ import * as invoices from '../../ducks/invoices'
 import Spinner         from '../ui/spinner.jsx'
 import InvoiceFormPres from './form.pres.jsx'
 
+function isPaymentFieldName( inputName ) {
+  return /^payments\[\d+\]/.test( inputName )
+}
+
 class InvoiceForm extends Component {
 
   constructor( props ) {
     super( props )
+
     this.state = {
-      formData: props.invoice,
+      formData: InvoiceForm.updatePayments( props.invoice ),
     }
     this.handleSubmit      = this.handleSubmit.bind( this )
     this.handleFormChange  = this.handleFormChange.bind( this )
@@ -26,7 +33,29 @@ class InvoiceForm extends Component {
     const { isSaving } = nextProps
     if ( isSaving ) return null
     if ( current === next ) return null
-    return { formData: next }
+    return { formData: InvoiceForm.updatePayments( next ) }
+  }
+
+  //----- UTILS
+
+  static updatePayments( formData ) {
+    const payments        = formData.get( `payments` )
+    if ( !crio.isArray(payments) ) return crio([])
+    const updatedPayments = payments
+      .filter( payment => payment.date || payment.amount )
+      .map( payment => {
+        if (!payment._id) return payment.set( `_id`, shortid() )
+        return payment
+      } )
+      .push(crio({
+        _id:    shortid(),
+        date:   ``,
+        amount: 0,
+      }))
+      .map( (payment, index) => {
+        return payment.set(`_fieldPath`, `payments[${index}]`)
+      })
+    return formData.set( `payments`, updatedPayments )
   }
 
   //----- EVENTS
@@ -40,18 +69,16 @@ class InvoiceForm extends Component {
   handleFormChange( event ) {
     const { target } = event
     const { name, value } = target
-    console.log( { name, value } )
+    this.setState( prevState => {
+      const updated = prevState.formData.set( name, value )
+      const isPaymentChange = isPaymentFieldName( name )
+      if ( !isPaymentChange ) return { formData: updated }
+      return { formData: InvoiceForm.updatePayments( updated ) }
+    })
   }
 
   handleDayChange( target ) {
-    const { name, value } = target
-    console.log( {name, value })
-    this.setState( prevState => {
-      console.log(prevState.formData.get( name))
-      const updated = prevState.formData.set( name, value )
-      console.log(updated.get( name))
-      return { formData: updated }
-    })
+    return this.handleFormChange({target})
   }
 
   //----- RENDER
