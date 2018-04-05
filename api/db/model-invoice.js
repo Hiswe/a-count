@@ -64,9 +64,9 @@ const Invoice = sequelize.define( `invoice`, {
       const totals    = compute.totals( products, tax )
       const paid      = this.getDataValue( `payments` )
         .reduce( (acc, payment) => parseFloat( payment.amount, 10 ) + acc, 0 )
-      const unpaid    = totals.all - paid
+      const left      = totals.all - paid
       totals.paid     = paid
-      totals.unpaid   = unpaid
+      totals.left     = left
       return totals
     }
   },
