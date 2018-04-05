@@ -13,6 +13,9 @@ import InvoiceFormPres from './form.pres.jsx'
 function isPaymentFieldName( inputName ) {
   return /^payments\[\d+\]/.test( inputName )
 }
+function isAmountFieldName( inputName ) {
+  return /^payments\[\d+\]\[amount\]/.test( inputName )
+}
 
 class InvoiceForm extends Component {
 
@@ -58,6 +61,16 @@ class InvoiceForm extends Component {
     return formData.set( `payments`, updatedPayments )
   }
 
+  static recomputeTotals( formData ) {
+    const total   = formData.get( `_total.all` )
+    const paid    = formData.get( `payments` )
+      .reduce( (acc, payment) => parseFloat(payment.amount, 10) + acc, 0)
+    const left    = total - paid
+    return formData
+      .set(`_total.paid`, paid )
+      .set(`_total.left`, left )
+  }
+
   //----- EVENTS
 
   handleSubmit( event ) {
@@ -70,10 +83,13 @@ class InvoiceForm extends Component {
     const { target } = event
     const { name, value } = target
     this.setState( prevState => {
-      const updated = prevState.formData.set( name, value )
+      let updated           = prevState.formData.set( name, value )
       const isPaymentChange = isPaymentFieldName( name )
-      if ( !isPaymentChange ) return { formData: updated }
-      return { formData: InvoiceForm.updatePayments( updated ) }
+      if ( isPaymentChange ) updated = InvoiceForm.updatePayments( updated )
+      console.log( name, isAmountFieldName( name ) )
+      const isAmountChange  = isAmountFieldName( name )
+      if ( isPaymentChange ) updated = InvoiceForm.recomputeTotals( updated )
+      return { formData: updated }
     })
   }
 
