@@ -22,16 +22,20 @@ const getNormalizedDate = key => function() {
   return date
 }
 
-const setNormalizedDate = key => function( val ) {
+function normalizeDate( val ) {
   const date = moment( val, `DD-MM-YYYY` )
-  const value = date.isValid() ? date.toDate() : null
-  this.setDataValue( key, value )
+  return date.isValid() ? date.toDate() : null
+}
+
+const setNormalizedDate = key => function( val ) {
+  this.setDataValue( key, normalizeDate(val) )
 }
 
 module.exports = {
   normalizeString,
   setNormalizedString,
   setTrimmedString,
+  normalizeDate,
   getNormalizedDate,
   setNormalizedDate,
 }

@@ -46,6 +46,15 @@ const Invoice = sequelize.define( `invoice`, {
     type:         Sequelize.ARRAY( Sequelize.JSON ),
     allowNull:    false,
     defaultValue: [],
+    set: function( payments ) {
+      payments = payments
+        .filter( payment => payment.date && payment.amount )
+        .map( payment => {
+          payment.date = dbGetterSetter.normalizeDate( payment.date )
+          return payment
+        })
+      this.setDataValue( `payments`, payments )
+    }
   },
   _total: {
     type: new Sequelize.VIRTUAL(Sequelize.JSON, [`products`]),
