@@ -6,8 +6,9 @@ import { injectIntl } from 'react-intl'
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers'
 import NavSecondary from '../../components/nav/secondary.jsx'
+import { ButtonSubmit } from '../../components/nav/secondary-buttons.jsx'
 import SettingForm from '../../components/account/settings.jsx'
-import { ButtonSubmit } from '../../components/account/secondary-nav-actions.jsx'
+import { FORM_ID } from '../../components/account/settings.pres.jsx'
 
 function EditProfile( props ) {
   const { intl } = props
@@ -18,7 +19,7 @@ function EditProfile( props ) {
         id: `page.settings`,
         defaultMessage: `settings`,
       })}>
-        <ButtonSubmit isSaving={ props.isSaving } />
+        <ButtonSubmit formId={ FORM_ID } isSaving={ props.isSaving } />
       </NavSecondary>
       <SettingForm {...props} />
     </Fragment>
@@ -36,3 +37,5 @@ export default connect( state2prop )( ConnectDataFetcher({
   actionCreators: [
   ],
 }) )
+
+

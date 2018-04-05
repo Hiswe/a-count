@@ -7,7 +7,7 @@ import * as quotations from '../../ducks/quotations'
 import { Button } from '../ui/buttons.jsx'
 import { FORM_ID } from './form.pres.jsx'
 
-function BtnCreateInvoice( props ) {
+function ButtonCreateInvoice( props ) {
   const { id, createInvoice, isAvailable, isSaving } = props
   if ( !isAvailable ) return null
   return (
@@ -27,15 +27,18 @@ function BtnCreateInvoice( props ) {
   )
 }
 
-export const ButtonCreateInvoice = connect(
-  state => ({
+function state2prop( state ) {
+  return {
     id          : state.quotations.get( `current.id` ),
     isAvailable : state.quotations.get( `current._canCreateInvoice` ),
     isSaving    : state.quotations.get( `isSaving` ),
-  }),
-  dispatch => {
-    return bindActionCreators({
+  }
+}
+
+function dispatch2prop( dispatch ) {
+  return bindActionCreators({
       createInvoice: quotations.createInvoice
     }, dispatch)
-  }
-)( BtnCreateInvoice )
+}
+
+export default connect( state2prop, dispatch2prop )( ButtonCreateInvoice )

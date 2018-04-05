@@ -9,7 +9,7 @@ import { Input, Textarea, Select } from '../ui/field.jsx'
 import { Stepper } from '../ui/stepper.jsx'
 import Icon from '../ui/svg-icons.jsx'
 import { ProductTable, ProductLine } from '../ui/table-product.jsx'
-import { ButtonCreateInvoice } from './secondary-nav-actions.jsx'
+import ButtonCreateInvoice from './create-invoice-button.jsx'
 
 import './form.pres.scss'
 export const BASE_CLASS = `quotation-form`

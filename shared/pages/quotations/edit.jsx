@@ -12,17 +12,14 @@ import {
   ButtonPrint,
   ButtonSubmit,
 } from '../../components/nav/secondary-buttons.jsx'
-import { Button } from '../../components/ui/buttons.jsx'
 import QuotationForm from '../../components/quotations/form.jsx'
 import { FORM_ID } from '../../components/quotations/form.pres.jsx'
-import {
-  ButtonCreateInvoice,
-} from '../../components/quotations/secondary-nav-actions.jsx'
+import ButtonCreateInvoice from '../../components/quotations/create-invoice-button.jsx'
 
 const TYPE = `quotations`
 
 function EditQuotation( props ) {
-  const { reference, intl, canBeTransformedToInvoice } = props
+  const { reference, intl, ...others } = props
   const { id } = props.match.params
 
   return (

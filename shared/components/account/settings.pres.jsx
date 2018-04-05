@@ -7,7 +7,6 @@ import Form from '../ui/form.jsx'
 import { Button } from '../ui/buttons.jsx'
 import { Input, Textarea, Select } from '../ui/field.jsx'
 import { ProductTable, ProductLine } from '../ui/table-product.jsx'
-import { ButtonSubmit } from'./secondary-nav-actions.jsx'
 
 import './settings.pres.scss'
 export const BASE_CLASS = `setting-form`

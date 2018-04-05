@@ -7,7 +7,7 @@ import ConnectDataFetcher from '../connect-data-fetcher.js'
 import * as quotations from '../ducks/quotations.js'
 import * as invoices from '../ducks/invoices.js'
 import NavSecondary from '../components/nav/secondary.jsx'
-import { ButtonNew as NewQuotation } from '../components/quotations/secondary-nav-actions.jsx'
+import { ButtonNew } from '../components/nav/secondary-buttons.jsx'
 import { Main, Content } from '../components/layout/main.jsx'
 import QuotationsList from '../components/quotations/list.jsx'
 import InvoicesList from '../components/invoices/list.jsx'
@@ -18,7 +18,7 @@ function Home( props ) {
   return (
     <Fragment>
       <NavSecondary title={intl.formatMessage({id: `page.home`})}>
-        <NewQuotation />
+        <ButtonNew type="quotations" />
       </NavSecondary>
       <Main>
         <Content>
