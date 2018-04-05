@@ -18,13 +18,13 @@ const disabledDays = {
   after: new Date(),
 }
 
-function DatePicker( props ) {
-  const { handleDayChange, value, ...otherProps } = props
+export function DatePicker( props ) {
+  const { handleDayChange, value, ...others } = props
   const dateObject = moment( value )
   const dateValue = dateObject.isValid() ? dateObject.toDate() : ``
   return (
     <DayPickerInput
-      inputProps={ otherProps }
+      inputProps={ others }
       value={ dateValue }
       locale={ `fr` }
       formatDate={ formatDate }
@@ -40,13 +40,11 @@ function DatePicker( props ) {
         localeUtils: MomentLocaleUtils,
       }}
       onDayChange={ day => {
-        handleDayChange( {
-          name: otherProps.name,
+        handleDayChange && handleDayChange( {
+          name: others.name,
           value: day || ``,
         })
       } }
     />
   )
 }
-
-export default DatePicker

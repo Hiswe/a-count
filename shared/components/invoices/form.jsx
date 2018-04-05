@@ -5,24 +5,28 @@ import serialize from 'form-serialize'
 
 import * as invoices from '../../ducks/invoices'
 
-import Spinner from '../ui/spinner.jsx'
+import Spinner         from '../ui/spinner.jsx'
 import InvoiceFormPres from './form.pres.jsx'
-
-// const STEPS = crio([
-//   { key: `sendAt`,       label: `send` },
-//   { key: `validatedAt`,  label: `validated` },
-//   { key: `signedAt`,     label: `signed` },
-// ])
 
 class InvoiceForm extends Component {
 
   constructor( props ) {
     super( props )
     this.state = {
-      formData: props.current,
+      formData: props.invoice,
     }
     this.handleSubmit      = this.handleSubmit.bind( this )
     this.handleFormChange  = this.handleFormChange.bind( this )
+    this.handleDayChange   = this.handleDayChange.bind( this )
+  }
+
+  static getDerivedStateFromProps( nextProps, prevState ) {
+    const   current = prevState.formData
+    const   next    = nextProps.invoice
+    const { isSaving } = nextProps
+    if ( isSaving ) return null
+    if ( current === next ) return null
+    return { formData: next }
   }
 
   //----- EVENTS
@@ -30,7 +34,7 @@ class InvoiceForm extends Component {
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true, empty: true } )
-    console.log( { body } )
+    this.props.save( {params: {body}} )
   }
 
   handleFormChange( event ) {
@@ -39,32 +43,49 @@ class InvoiceForm extends Component {
     console.log( { name, value } )
   }
 
+  handleDayChange( target ) {
+    const { name, value } = target
+    console.log( {name, value })
+    this.setState( prevState => {
+      console.log(prevState.formData.get( name))
+      const updated = prevState.formData.set( name, value )
+      console.log(updated.get( name))
+      return { formData: updated }
+    })
+  }
+
   //----- RENDER
 
   render() {
-    const { props    , state    } = this
-    const { formData            } = state
-    const { isSaving, isLoading } = props
+    const { isSaving, isLoading } = this.props
     if ( isLoading ) return <Spinner />
 
     const renderProps = {
-      user            : props.user,
-      formData        : formData,
-      handleSubmit    : this.handleSubmit,
-      handleFormChange: this.handleFormChange,
+      user            : this.props.user,
+      formData        : this.state.formData,
+      handle: {
+        submit    : this.handleSubmit,
+        formChange: this.handleFormChange,
+        dayChange : this.handleDayChange,
+      },
     }
     return <InvoiceFormPres {...renderProps}/>
   }
 }
 
 function state2prop( state ) {
-  const { current, isSaving } = state.invoices
   return {
     isSaving : state.invoices.get( `isSaving` ),
-    current  : state.invoices.get( `current` ),
+    invoice  : state.invoices.get( `current` ),
     isLoading: state.invoices.get( `current.isLoading` ),
     user     : state.account.get( `current` ),
   }
 }
 
-export default connect( state2prop )( InvoiceForm )
+function dispatch2prop( dispatch ) {
+  return bindActionCreators({
+    save: invoices.saveOne,
+  }, dispatch)
+}
+
+export default connect( state2prop, dispatch2prop )( InvoiceForm )

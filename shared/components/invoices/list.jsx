@@ -41,6 +41,7 @@ function InvoiceList( props ) {
   const hasInvoices = Array.isArray( invoices ) && invoices.length
   return (
     <Table
+      className="table--pres"
       columns={[
         {label: `table.header.id`},
         {label: `table.header.name`},
@@ -48,10 +49,9 @@ function InvoiceList( props ) {
         {label: `table.header.quotation`},
         {label: `table.amount`},
       ]}
-      className="table--pres"
     >
       {
-        !hasInvoices ? ( <EmptyLine colspan="3" /> )
+        !hasInvoices ? ( <EmptyLine colspan="5" /> )
         : invoices.map( (invoice, i) => (
           <InvoiceRow
             key={ invoice.id }

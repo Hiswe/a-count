@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import DatePicker from '../ui/date-picker.jsx'
+import { DatePicker } from '../ui/date-picker.jsx'
 
 import './stepper.scss'
 const BASE_CLASS           = `stepper`

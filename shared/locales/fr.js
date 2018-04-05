@@ -42,6 +42,10 @@ export default {
   'invoices.tab.payments' : `Paiements`,
   'invoices.tab.preview'  : `Aperçu de la facture`,
   'invoices.button.save'  : `Mettre à jour`,
+  'invoices.event.name'    : `nom`,
+  'invoices.event.date'    : `date`,
+  'invoices.event.amount'  : `montant`,
+  'invoices.event.sent'    : `envoyé`,
 
   'notifications.user.welcome'                     : `Bienvenue {name}`,
   'notifications.user.mail-sent'                   : `Un email a été envoyé à {email}`,

@@ -39,9 +39,13 @@ export default {
   'field.start-at'   : `start at`,
   'field.language'   : `language`,
 
-  'invoices.tab.payments' : `Payments`,
-  'invoices.tab.preview'  : `Invoice Preview`,
-  'invoices.button.save'  : `Update Invoice`,
+  'invoices.tab.payments'  : `Payments`,
+  'invoices.tab.preview'   : `Invoice Preview`,
+  'invoices.button.save'   : `Update Invoice`,
+  'invoices.event.name'    : `name`,
+  'invoices.event.date'    : `date`,
+  'invoices.event.amount'  : `amount`,
+  'invoices.event.sent'    : `sent`,
 
   'notifications.user.welcome'                     : `Welcome {name}`,
   'notifications.user.mail-sent'                   : `An email has been sent to {email}`,

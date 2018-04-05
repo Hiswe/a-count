@@ -1,19 +1,26 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { injectIntl, FormattedMessage } from 'react-intl'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
-import { Form, FormActions } from '../ui/form.jsx'
-import { Amount } from '../ui/format.jsx'
-import { Button } from '../ui/buttons.jsx'
-import { Main, Meta, Content } from '../layout/main.jsx'
-import PrintInvoice from './print.jsx'
+import { Form      , FormActions } from '../ui/form.jsx'
+import { Amount                  } from '../ui/format.jsx'
+import { Button                  } from '../ui/buttons.jsx'
+import { DatePicker              } from '../ui/date-picker.jsx'
+import { Table                   } from '../ui/table.jsx'
+import {
+  Tab,
+  Tabs,
+  TabList,
+  TabListHeader,
+  TabPanel,
+} from '../ui/tabs.jsx'
+import   PrintInvoice   from './print.jsx'
 
 import './form.pres.scss'
-export const BASE_CLASS = `invoice-form`
-const HEADER_TITLE_CLASS = `${BASE_CLASS}__header_title`
+export const BASE_CLASS    = `invoice-form`
+const HEADER_TITLE_CLASS   = `${BASE_CLASS}__header_title`
 const HEADER_CONTENT_CLASS = `${BASE_CLASS}__header_content`
-export const FORM_ID = BASE_CLASS
+export const FORM_ID       = BASE_CLASS
 
 function InvoiceFormHeader( props ) {
   const { formData, currency } = props
@@ -57,21 +64,65 @@ function InvoiceFormHeader( props ) {
   )
 }
 
+const eventsColumns = [
+  {label: `invoices.event.name`},
+  {label: `invoices.event.date`, style:{ width: '10em'}},
+  {label: `invoices.event.amount`},
+  {label: ``},
+]
+function InvoiceEvents( props ) {
+  const { formData, handleDayChange } = props
+
+  return (
+    <Table columns={eventsColumns}>
+      <tr>
+        <td>
+          <p><FormattedMessage id="invoices.event.sent" /></p>
+        </td>
+        <td>
+          <DatePicker
+            name="sendAt"
+            value={ formData.get(`sendAt`) }
+            handleDayChange={ handleDayChange }
+          />
+        </td>
+        <td className="is-number"><p>–</p></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </Table>
+  )
+}
+
 function InvoiceFormPres( props ) {
-  const { formData, user } = props
+  const { formData, user, handle } = props
 
   return (
     <Form
       isSaving={ props.isSaving }
-      onChange={ props.handleFormChange }
-      onSubmit={ props.handleSubmit }
+      onChange={ handle.formChange }
+      onSubmit={ handle.submit }
     >
+      <input type="hidden" defaultValue={ formData.get(`id`) } name="id" />
       <Tabs>
         <TabList>
-          <InvoiceFormHeader
-            formData={formData}
-            currency={user.get(`currency`)}
-          />
+          <TabListHeader>
+            <InvoiceFormHeader
+              formData={ formData }
+              currency={ user.get(`currency`) }
+            />
+          </TabListHeader>
           <Tab>
             <FormattedMessage id="invoices.tab.payments" />
           </Tab>
@@ -82,7 +133,10 @@ function InvoiceFormPres( props ) {
 
         {/* PAYMENTS */}
         <TabPanel>
-
+          <InvoiceEvents
+            formData={ formData }
+            handleDayChange={ handle.dayChange }
+          />
           <FormActions>
             <Button type="submit">
               <FormattedMessage id="invoices.button.save" />
