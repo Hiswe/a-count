@@ -24,7 +24,7 @@ module.exports = {
 //----- UTILS
 
 async function connectUser( ctx, user ) {
-  const { id } = id
+  const { id } = user
   const queryParams = addRelations.user({
     where: { id }
   })

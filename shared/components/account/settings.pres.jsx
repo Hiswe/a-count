@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import { injectIntl, FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
+import { Main, Meta, Content, ContentActions } from '../layout/main.jsx'
 import { PaperSheet, Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
 import Form from '../ui/form.jsx'
 import { Button } from '../ui/buttons.jsx'
@@ -76,9 +77,8 @@ function SettingFormPres( props ) {
       <input type="hidden" name="quotationConfig[id]" defaultValue={ quotationConfig.id } />
       <input type="hidden" name="invoiceConfig[id]"   defaultValue={ invoiceConfig.id } />
       <input type="hidden" name="productConfig[id]"   defaultValue={ productConfig.id } />
-      <Tabs>
-        <main role="main" className={`${BASE_CLASS}__main`}>
 
+      <Tabs>
           <TabList>
             <Tab>
               <FormattedMessage id="configuration.tab.from" />
@@ -254,13 +254,12 @@ function SettingFormPres( props ) {
           </TabPanel>
 
           {/* ACTIONS */}
-          <div className={`${BASE_CLASS}__actions`}>
+          <ContentActions>
             <Button type="submit">
               <FormattedMessage id="configuration.button.save" />
             </Button>
-          </div>
+          </ContentActions>
 
-        </main>
       </Tabs>
     </Form>
   )

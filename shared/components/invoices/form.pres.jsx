@@ -17,9 +17,7 @@ function InvoiceFormPres( props ) {
       onChange={ props.handleFormChange }
       onSubmit={ props.handleSubmit }
     >
-      <Main withMeta>
-        <Meta>
-        </Meta>
+      <Main>
         <Content>
           <PrintInvoice />
         </Content>

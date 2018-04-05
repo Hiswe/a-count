@@ -96,6 +96,56 @@ fieldset {
 }
 
 ///////
+// TABS
+///////
+
+.react-tabs {
+  --gutter: minmax(var(--s-gutter), calc(50% - var(--s-max-width) / 2));
+  display: grid;
+  grid-template-columns:
+    var(--gutter) [content-col-start] 1fr [content-col-end] var(--gutter);
+  grid-template-rows: auto ;
+
+  &::before {
+    content: '';
+    background: var(--c-primary-darker);
+    grid-column: 1 / span 3;
+    grid-row: 1 / 2;
+  }
+
+  > * {
+    grid-column: content-col-start / content-col-end;
+  }
+
+  &__tab-list {
+    margin: 0;
+    padding: var(--s-gutter) 0 0;
+    list-style: none;
+    display: flex;
+    // force grid overlapping
+    grid-row: 1 / 2;
+  }
+  &__tab {
+    flex: 1 1;
+    text-align: center;
+    padding: var(--s-half-gutter) 0;
+    color: var(--c-primary-lighter);
+
+    &--selected {
+      color: var(--c-primary);
+      background: var(--c-background);
+    }
+  }
+  &__tab-panel {
+    padding-top: var(--s-gutter);
+
+    &:empty {
+      display: none;
+    }
+  }
+}
+
+///////
 // PRINT
 ///////
 
