@@ -24,18 +24,16 @@ export function DatePicker( props ) {
   const dateValue = dateObject.isValid() ? dateObject.toDate() : ``
   return (
     <DayPickerInput
-      inputProps={ others }
       value={ dateValue }
       locale={ `fr` }
       formatDate={ formatDate }
       parseDate={ parseDate }
       clickUnselectsDay
+      format="L"
+      placeholder={ `dd/mm/yyyy` }
+      inputProps={ others }
       dayPickerProps={{
         disabledDays,
-      }}
-      format="L"
-      placeholder={`dd/mm/yyyy`}
-      dayPickerProps={{
         locale:     `fr`,
         localeUtils: MomentLocaleUtils,
       }}
