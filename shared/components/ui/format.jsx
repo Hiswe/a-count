@@ -21,6 +21,16 @@ export function Amount( props ) {
   )
 }
 
+export function FormatNumber( props ) {
+  return (
+    <p className={`${BASE_CLASS} ${BASE_CLASS}--number`}>
+      <FormattedNumber
+        value={ props.value }
+      />
+    </p>
+  )
+}
+
 export function Percent( props ) {
   return (
     <p className={`${BASE_CLASS} ${BASE_CLASS}--percent`}>

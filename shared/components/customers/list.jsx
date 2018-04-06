@@ -3,6 +3,7 @@ import { Link }     from 'react-router-dom'
 import { connect }  from 'react-redux'
 
 import { Table, EmptyLine } from '../ui/table.jsx'
+import { FormatNumber }     from '../ui/format.jsx'
 
 function CustomerRow( props ) {
   const customer = props.customer
@@ -12,8 +13,12 @@ function CustomerRow( props ) {
       <td>
         <Link to={ url }>{ customer.name }</Link>
       </td>
-      <td>{ customer.quotationsCount }</td>
-      <td>{ customer.invoicesCount }</td>
+      <td class="is-number">
+        <FormatNumber value={customer.quotationsCount} />
+      </td>
+      <td class="is-number">
+        <FormatNumber value={customer.invoicesCount} />
+      </td>
     </tr>
   )
 }
@@ -25,8 +30,8 @@ function CustomerList( props ) {
     <Table
       columns={[
         {label: `table.header.name`},
-        {label: `table.header.quotation-count`},
-        {label: `table.header.invoice-count`},
+        {label: `table.header.quotations`, style:{ width: `18em`} },
+        {label: `table.header.invoices`,   style:{ width: `18em`} },
       ]}
       className="table--pres"
     >
