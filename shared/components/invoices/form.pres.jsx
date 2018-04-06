@@ -22,6 +22,7 @@ export const FORM_ID       = BASE_CLASS
 
 function InvoiceFormPres( props ) {
   const { formData, user, handle } = props
+  const currency= user.get(`currency`)
 
   return (
     <Form
@@ -35,7 +36,7 @@ function InvoiceFormPres( props ) {
           <TabListHeader>
             <InvoiceFormHeader
               formData={ formData }
-              currency={ user.get(`currency`) }
+              currency={ currency }
             />
           </TabListHeader>
           <Tab>
@@ -54,6 +55,7 @@ function InvoiceFormPres( props ) {
           />
           <InvoiceEvents
             formData={ formData }
+            currency={ currency }
             handle={ handle  }
           />
           <FormActions>

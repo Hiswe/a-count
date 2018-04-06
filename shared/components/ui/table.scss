@@ -62,6 +62,13 @@
     }
   }
 
+  tfoot {
+    background-color: var(--c-primary-lightest);
+    text-align: right;
+    font-weight: bold;
+    border: 1px solid var(--table-border-color);
+  }
+
   .is-action {
     text-align: center;
     width: 50px;

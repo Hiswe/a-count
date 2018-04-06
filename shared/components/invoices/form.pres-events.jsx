@@ -4,20 +4,61 @@ import { FormattedMessage } from 'react-intl'
 import { Table      } from '../ui/table.jsx'
 import { BtnIcon }    from '../ui/buttons.jsx'
 import { DatePicker } from '../ui/date-picker.jsx'
+import { Amount }     from '../ui/format.jsx'
 
 const eventsColumns = [
   {label: `invoices.event.name`},
-  {label: `invoices.event.date`, style:{ width: '10em'}},
-  {label: `invoices.event.amount`},
+  {label: `invoices.event.date`,  style:{ width: '10em'}},
+  {label: `invoices.event.amount`, style:{ width: '10em'}},
   {label: ``},
 ]
+
+function InvoiceEventsFooter( props ) {
+  const { formData, currency } = props
+
+  return (
+    <tfoot>
+      <tr>
+        <td colspan="2">
+          <p>
+            <FormattedMessage id="table.amount.paid" />
+          </p>
+        </td>
+        <td>
+          <Amount
+            value={ formData.get(`_total.paid`) }
+            currency={ currency }
+          />
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <p>
+            <FormattedMessage id="table.amount.left-to-pay" />
+          </p>
+        </td>
+        <td>
+          <Amount
+            value={ formData.get(`_total.left`) }
+            currency={ currency }
+          />
+        </td>
+        <td></td>
+      </tr>
+    </tfoot>
+  )
+}
 
 export default function InvoiceEvents( props ) {
   const { formData, handle } = props
   const payments = formData.get(`payments`)
 
   return (
-    <Table columns={eventsColumns}>
+    <Table
+      columns={ eventsColumns }
+      footer={ <InvoiceEventsFooter {...props} /> }
+    >
       <tr>
         <td>
           <p><FormattedMessage id="invoices.event.sent" /></p>
