@@ -13,25 +13,27 @@ module.exports = router
 
 router
 .get(`/`, async (ctx, next) => {
-  // const all = await sequelize.query(`
-  //   SELECT
-  //     *,
-  //     ( SELECT COUNT(*)
-  //       FROM quotations as quotation
-  //       WHERE "quotation"."customerId" = customer.id
-  //     ) AS "quotationsCount"
-  //   FROM customers AS customer
-  // `, { model: Quotation })
-  const list = await Customer.findAll({
-    where: {
-      userId: ctx.state.user.id,
-      isDeactivated:  { $not: true },
-    },
-    attributes: {exclude: [`createdAt`, `updatedAt`, `userId`, `isDeactivated`]}
-  })
+  const { userId }  = ctx.state
+  const list = await sequelize.query(`
+    SELECT
+      "customer"."id",
+      "customer"."name",
+      ( SELECT COUNT(*)
+        FROM quotations as quotation
+        WHERE "quotation"."customerId" = customer.id
+      ) AS "quotationsCount",
+      ( SELECT COUNT(*)
+        FROM invoices as invoice
+        WHERE "invoice"."customerId" = customer.id
+      ) AS "invoicesCount"
+    FROM customers AS customer
+    WHERE
+      "customer"."userId" = \'${userId}\'
+      AND "customer"."isDeactivated" IS NOT true
+  `, { model: Quotation, raw: true })
   // put response in a list key
   // • we will add pagination information later
-  ctx.body = formatResponse( {list} )
+  ctx.body = formatResponse( {list } )
 })
 
 //----- NEW
@@ -52,20 +54,24 @@ router
 //----- EDIT
 
 .get(`/:id`, async (ctx, next) => {
-  const { id }    = ctx.params
+  const { userId }  = ctx.state
+  const { id }      = ctx.params
   const instance  = await Customer.findOne({
-    where: { id },
-    // include: [{
-    //   model: Quotation,
-    // }],
+    where: {
+      id,
+      userId,
+    },
   })
   ctx.assert(instance, 404, `Customer not found`)
   ctx.body        = formatResponse( instance )
 })
 .post(`/:id`, async (ctx, next) => {
+  const { userId }  = ctx.state
   const { id }    = ctx.params
   const { body }  = ctx.request
-  const instance  = await Customer.findOne( {where: { id }} )
+  const instance  = await Customer.findOne({
+    where: { id, userId }
+  })
   // TODO: check if the user doesn't already have a customer with the same name
   ctx.assert(instance, 404, `Customer not found`)
   const result    = await instance.update( body )

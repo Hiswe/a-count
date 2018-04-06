@@ -33,10 +33,9 @@ const MESSAGES = Object.freeze({
 
 router
 .get(`/`, async (ctx, next) => {
-  const params = addRelations.quotation({
-    where: {
-      userId: ctx.state.user.id,
-    },
+  const { userId }  = ctx.state
+  const params      = addRelations.quotation({
+    where: { userId }
   })
   const list = await Quotation.findAll( params )
 
@@ -113,9 +112,10 @@ router
 //----- EDIT
 
 .get(`/:id`, async (ctx, next) => {
+  const { userId }  = ctx.state
   const { id }      = ctx.params
   const queryParams = addRelations.quotation({
-    where: { id }
+    where: { id, userId }
   })
   const instance  = await Quotation.findOne( queryParams )
 
@@ -124,10 +124,11 @@ router
 })
 
 .post(`/:id`, async (ctx, next) => {
-  const { id }    = ctx.params
-  const { body }  = ctx.request
+  const { userId }  = ctx.state
+  const { id }      = ctx.params
+  const { body }    = ctx.request
   const queryParams    = addRelations.quotation({
-    where: { id }
+    where: { id, userId }
   })
   const [
     quotation,
@@ -147,14 +148,14 @@ router
   ctx.body = instance
 })
 .post(`/:id/create-invoice`, async (ctx, next) => {
-  const userId          = ctx.state.user.id
+  const { userId }      = ctx.state
   const { id }          = ctx.params
   const { body }        = ctx.request
   const userQuery       = addRelations.user({
     where: { id: userId }
   })
   const quotationQuery  = addRelations.quotation({
-    where: { id }
+    where: { id, userId }
   })
   const [
     quotation,

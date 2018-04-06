@@ -59,7 +59,8 @@ apiRouter.use( async function isAuthorizedRoute(ctx, next) {
   const user = await User.findOne( userQuery )
 
   ctx.assert( user, 401, `Not connected – user not found` )
-  ctx.state.user = user
+  ctx.state.userId  = userId
+  ctx.state.user    = user
   await next()
 })
 

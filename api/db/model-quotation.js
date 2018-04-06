@@ -20,7 +20,9 @@ const Quotation = sequelize.define( `quotation`, {
   reference: {
     type: new Sequelize.VIRTUAL(Sequelize.STRING, [`quotationConfig`, `index`]),
     get:  function() {
-      const { prefix, startAt, count } = this.get( `quotationConfig` )
+      const config = this.get( `quotationConfig` )
+      if ( !config ) return `–`
+      const { prefix, startAt, count } = config
       const index = this.getDataValue( `index` ) || count + 1
       return `${ prefix }${ index + startAt }`
     }
@@ -37,8 +39,8 @@ const Quotation = sequelize.define( `quotation`, {
     type:         Sequelize.FLOAT,
     allowNull:    true,
     get:          function() {
-      const quotationConfig = this.get( `quotationConfig` )
-      if ( !quotationConfig ) throw new Error( `“quotationConfig” relation is needed for computing products` )
+      const quotationConfig   = this.get( `quotationConfig` )
+      if ( !quotationConfig ) return -1
 
       const tax = this.getDataValue( `tax` )
       return isNil( tax ) ? quotationConfig.tax : tax

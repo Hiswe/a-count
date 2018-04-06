@@ -27,10 +27,9 @@ const MESSAGES = Object.freeze({
 
 router
 .get(`/`, async (ctx, next) => {
+  const { userId }  = ctx.state
   const queryParams = addRelations.invoice({
-    where: {
-      userId: ctx.state.user.id,
-    },
+    where: { userId },
   })
   const list = await Invoice.findAll( queryParams )
 
@@ -44,9 +43,10 @@ router
 //----- EDIT
 
 .get( `/:id`, async (ctx, next) => {
+  const { userId }  = ctx.state
   const { id }      = ctx.params
   const queryParams = addRelations.invoice({
-    where: { id },
+    where: { id, userId },
   })
   const instance    = await Invoice.findOne( queryParams )
 
@@ -54,10 +54,11 @@ router
   ctx.body = formatResponse( instance )
 })
 .post(`/:id`, async (ctx, next) => {
-  const { id }    = ctx.params
-  const { body }  = ctx.request
-  const queryParams    = addRelations.invoice({
-    where: { id }
+  const { userId }  = ctx.state
+  const { id }      = ctx.params
+  const { body }    = ctx.request
+  const queryParams = addRelations.invoice({
+    where: { id, userId }
   })
   const invoice = await Invoice.findOne( queryParams )
 
