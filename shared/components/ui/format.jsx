@@ -22,11 +22,12 @@ export function Amount( props ) {
 }
 
 export function FormatNumber( props ) {
+  const value = Number.isFinite( props.value ) ? props.value
+    : Number.isNaN( parseFloat( props.value, 10) ) ? null
+    : parseFloat( props.value, 10)
   return (
     <p className={`${BASE_CLASS} ${BASE_CLASS}--number`}>
-      <FormattedNumber
-        value={ props.value }
-      />
+      { value === null ? `–` : <FormattedNumber value={ props.value } /> }
     </p>
   )
 }
