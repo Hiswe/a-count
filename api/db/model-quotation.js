@@ -50,20 +50,15 @@ const Quotation = sequelize.define( `quotation`, {
     type:         Sequelize.BIGINT,
     allowNull:    false,
   },
-  // products: {
-  //   type:         Sequelize.ARRAY( Sequelize.JSON ),
-  //   allowNull:    false,
-  //   defaultValue: [],
-  //   set: function ( products ) {
-  //     const productConfig = this.getDataValue( `productConfig` )
-  //     if ( !productConfig ) return []
-  //     const filteredProducts = filterDefaultProducts( {
-  //       defaultObject: productConfig.toJSON(),
-  //       array        : products,
-  //     } )
-  //     this.setDataValue( `products`, filteredProducts )
-  //   }
-  // },
+  products: {
+    type:         Sequelize.ARRAY( Sequelize.JSON ),
+    allowNull:    false,
+    defaultValue: [],
+  },
+  // TOTALS
+  // • need to keep them outside a virtual
+  // • this will allow us to make some queries upon them
+  //   like SUM :)
   totalNet: {
     type:         Sequelize.FLOAT,
     default:      -1,
@@ -76,37 +71,25 @@ const Quotation = sequelize.define( `quotation`, {
     type:         Sequelize.FLOAT,
     default:      -1,
   },
-  // _total: {
-  //   type: new Sequelize.VIRTUAL(Sequelize.JSON, [`products`]),
-  //   get: function () {
-  //     const products  = this.getDataValue( `products` )
-  //     const tax       = this.getDataValue( `tax` )
-  //     return compute.totals( products, tax )
-  //   }
-  // },
   // STATUS
   sendAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    // get:          dbGetterSetter.getNormalizedDate( `sendAt` ),
     set:          dbGetterSetter.setNormalizedDate( `sendAt` ),
   },
   validatedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    // get:          dbGetterSetter.getNormalizedDate( `validatedAt` ),
     set:          dbGetterSetter.setNormalizedDate( `validatedAt` ),
   },
   signedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    // get:          dbGetterSetter.getNormalizedDate( `signedAt` ),
     set:          dbGetterSetter.setNormalizedDate( `signedAt` ),
   },
   archivedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    // get:          dbGetterSetter.getNormalizedDate( `archivedAt` ),
     set:          dbGetterSetter.setNormalizedDate( `archivedAt` ),
   },
   _hasInvoice: {
@@ -119,23 +102,13 @@ const Quotation = sequelize.define( `quotation`, {
   _canCreateInvoice: {
     type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`sendAt`, `validatedAt`, `signedAt`, `invoice`, `products`]),
     get: function() {
-      const informations = [ `invoiceId`, `products`, `sendAt`, `validatedAt`,  `signedAt` ]
+      const informations = [ `products`, `sendAt`, `validatedAt`,  `signedAt` ]
         .map( infoName => this.get( infoName) )
       const hasEmpty = informations.some( info => info === undefined )
       if ( hasEmpty ) return false
-      const [ invoiceId, products ] = informations
+      const [ products ]  = informations
+      const invoiceId     = this.get( `invoiceId` )
       return !invoiceId && products.length > 0
-
-      // const sendAt      = this.get( `sendAt`      )
-      // const validatedAt = this.get( `validatedAt` )
-      // const signedAt    = this.get( `signedAt`    )
-      // const invoice     = this.get( `invoice`     )
-      // const products    = this.get( `products`    )
-      // return sendAt !== ''
-      //   && validatedAt !== ''
-      //   && signedAt !== ''
-      //   && products.length > 0
-      //   && !invoice
     },
   },
 })

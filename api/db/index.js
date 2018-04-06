@@ -12,38 +12,28 @@ const User            = require( './model-user'             )
 const Customer        = require( './model-customer'         )
 const Quotation       = require( './model-quotation'        )
 const Invoice         = require( './model-invoice'          )
-const Payment         = require( './model-payment'          )
 const QuotationConfig = require( './model-quotation-config' )
 const InvoiceConfig   = require( './model-invoice-config'   )
-const Product         = require( './model-product'   )
 const ProductConfig   = require( './model-product-config'   )
 
 //////
 // RELATIONS
 //////
 
-Payment.belongsTo( Invoice )
-Payment.belongsTo( Customer )
-
-Product.belongsTo( Quotation )
-
 Quotation.belongsTo( User )
 Quotation.belongsTo( Customer )
 Quotation.belongsTo( ProductConfig )
 Quotation.belongsTo( QuotationConfig )
 Quotation.hasOne( Invoice )
-Quotation.hasMany( Product )
 
 Invoice.belongsTo( User )
 Invoice.belongsTo( Quotation )
 Invoice.belongsTo( Customer )
 Invoice.belongsTo( InvoiceConfig )
-Invoice.hasMany( Payment )
 
 Customer.belongsTo( User )
 Customer.hasMany( Quotation )
 Customer.hasMany( Invoice )
-Customer.hasMany( Payment )
 
 QuotationConfig.belongsTo( User )
 InvoiceConfig.belongsTo( User )

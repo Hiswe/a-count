@@ -8,9 +8,9 @@ const   omit      = require( 'lodash.omit'  )
 
 const { normalizeString } = require( './utils/db-getter-setter'     )
 const   addRelations      = require( './utils/db-default-relations' )
+const   cleanProducts     = require( './utils/clean-products'       )
 const   User              = require( './db/model-user'              )
 const   Customer          = require( './db/model-customer'          )
-const   Product           = require( './db/model-product'          )
 const   Quotation         = require( './db/model-quotation'         )
 const   Invoice           = require( './db/model-invoice'           )
 const   InvoiceConfig     = require( './db/model-invoice-config'    )
@@ -71,7 +71,7 @@ router
     customer,
   ] = await Promise.all([
     User.findOne( addRelations.user({where: {id: userId }}) ),
-    Customer.findOne({ where: {id: body.customerId} }),
+    Customer.findOne({ where: {id: body.customerId, userId} }),
   ])
 
   ctx.assert( customer , 412, MESSAGES.NO_CUSTOMER )
@@ -81,12 +81,12 @@ router
   const updatedConfig   = await quotationConfig.increment( `count`, {by: 1} )
 
   ctx.assert( updatedConfig, 500, MESSAGES.DEFAULT )
-  let { products, tax, ...creationData } = body
+  const { products, tax, ...creationData } = body
   // PARSE PRODUCTS
-  const { totals, filtered } = Product.cleanProducts({
+  const { totals, filtered } = cleanProducts({
     products,
     tax,
-    user,
+    productConfig: user.get( `productConfig` ),
   })
   // CREATE QUOTATION WITH RELATIONS
   const quotation = await Quotation.create({
@@ -96,9 +96,8 @@ router
     productConfigId:    user.productConfig.id,
     index:              updatedConfig.count,
     products:           filtered,
+    ...totals,
     ...creationData,
-  }, {
-    include: [Product],
   })
 
   ctx.assert( quotation, 500, MESSAGES.DEFAULT )
@@ -138,17 +137,31 @@ router
     customer,
   ] = await Promise.all([
     Quotation.findOne( queryParams ),
-    Customer.findById( body.customerId ),
+    Customer.findOne( {where: {userId, id: body.customerId}} ),
   ])
 
-  ctx.assert( quotation, 404, MESSAGES.NOT_FOUND )
   ctx.assert( customer, 412, MESSAGES.NO_CUSTOMER )
-  const updatedQuotation = await quotation.update( body )
+  ctx.assert( quotation, 404, MESSAGES.NOT_FOUND )
 
-  // just passing the updatedQuotation return the Tax as a string O_O
-  // • prevent that by getting a new instance…
-  const instance  = await Quotation.findOne( queryParams )
-  ctx.body = instance
+  // PARSE PRODUCTS
+  const { products, tax, ...creationData } = body
+  const { totals, filtered } = cleanProducts({
+    products,
+    tax,
+    productConfig: quotation.get( `productConfig` ),
+  })
+  const updatedQuotation = await quotation.update({
+    tax,
+    products: filtered,
+    ...totals,
+    ...creationData,
+  })
+
+  ctx.assert( updatedQuotation, 500, MESSAGES.DEFAULT )
+  const quotationWithProducts  = await Quotation.findOne( queryParams )
+
+  ctx.assert( quotationWithProducts, 500, MESSAGES.DEFAULT )
+  ctx.body = quotationWithProducts
 })
 .post(`/:id/create-invoice`, async (ctx, next) => {
   const { userId }      = ctx.state
