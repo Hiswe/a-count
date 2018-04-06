@@ -54,7 +54,7 @@ function InvoiceFormPres( props ) {
           />
           <InvoiceEvents
             formData={ formData }
-            handleDayChange={ handle.dayChange }
+            handle={ handle  }
           />
           <FormActions>
             <Button type="submit">

@@ -25,9 +25,10 @@ class InvoiceForm extends Component {
     this.state = {
       formData: InvoiceForm.updatePayments( props.invoice ),
     }
-    this.handleSubmit      = this.handleSubmit.bind( this )
-    this.handleFormChange  = this.handleFormChange.bind( this )
-    this.handleDayChange   = this.handleDayChange.bind( this )
+    this.handleSubmit        = this.handleSubmit.bind( this )
+    this.handleFormChange    = this.handleFormChange.bind( this )
+    this.handleDayChange     = this.handleDayChange.bind( this )
+    this.handleRemovePayment = this.handleRemovePayment.bind( this )
   }
 
   static getDerivedStateFromProps( nextProps, prevState ) {
@@ -78,7 +79,6 @@ class InvoiceForm extends Component {
     const body = serialize( event.target, { hash: true, empty: true } )
     this.props.save( {params: {body}} )
   }
-
   handleFormChange( event ) {
     const { target } = event
     const { name, value } = target
@@ -92,9 +92,21 @@ class InvoiceForm extends Component {
       return { formData: updated }
     })
   }
-
   handleDayChange( target ) {
     return this.handleFormChange({target})
+  }
+  handleRemovePayment( index, prefix ) {
+    const { formData } = this.state
+    const line         = formData.get( prefix )
+    if ( !line ) return
+
+    this.setState( prevState => {
+      const payments = prevState.formData
+        .get( `payments` )
+        .splice( index, 1 )
+      const updated = prevState.formData.set( `payments`, payments )
+      return { formData: InvoiceForm.recomputeTotals( updated ) }
+    })
   }
 
   //----- RENDER
@@ -107,9 +119,10 @@ class InvoiceForm extends Component {
       user            : this.props.user,
       formData        : this.state.formData,
       handle: {
-        submit    : this.handleSubmit,
-        formChange: this.handleFormChange,
-        dayChange : this.handleDayChange,
+        submit        : this.handleSubmit,
+        formChange    : this.handleFormChange,
+        dayChange     : this.handleDayChange,
+        removePayment : this.handleRemovePayment,
       },
     }
     return <InvoiceFormPres {...renderProps}/>

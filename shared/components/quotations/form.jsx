@@ -142,7 +142,6 @@ class QuotationForm extends Component {
   handleProductRemove( index, prefix ) {
     const { formData } = this.state
     const line = formData.get( prefix )
-
     if ( !line ) return
 
     this.setState( prevState => {
