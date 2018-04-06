@@ -33,7 +33,7 @@ export default function InvoiceFormHeader( props ) {
       </dt>
       <dd className={ CONTENT_CLASS }>
         <Amount
-          value={ formData.get(`_total.all`) }
+          value={ formData.get(`total`) }
           currency={ currency }
         />
       </dd>
@@ -42,7 +42,7 @@ export default function InvoiceFormHeader( props ) {
       </dt>
       <dd className={ CONTENT_CLASS }>
         <Amount
-          value={ formData.get(`_total.paid`) }
+          value={ formData.get(`totalPaid`) }
           currency={ currency }
         />
       </dd>
@@ -51,7 +51,7 @@ export default function InvoiceFormHeader( props ) {
       </dt>
       <dd className={ CONTENT_CLASS }>
         <Amount
-          value={ formData.get(`_total.left`) }
+          value={ formData.get(`totalLeft`) }
           currency={ currency }
         />
       </dd>

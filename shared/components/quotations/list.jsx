@@ -21,48 +21,49 @@ function QuotationStatus( props ) {
 
 function QuotationRow( props ) {
   const { quotation, currency, handleCreate } = props
+  const id = quotation.get( `id` )
   return (
     <tr>
       <td>
-        <Link to={`/quotations/${quotation.id}`}>
-          { quotation.reference }
+        <Link to={`/quotations/${id}`}>
+          { quotation.get(`reference`) }
         </Link>
       </td>
       <td>
-        <Link to={`/quotations/${quotation.id}`}>
-          {quotation.name}
+        <Link to={`/quotations/${id}`}>
+          {quotation.get(`name`)}
         </Link>
       </td>
       <td>
-        <Link to={`/customers/${quotation.customerId}`}>
-          {quotation.customer.name}
+        <Link to={`/customers/${quotation.get(`customerId`)}`}>
+          {quotation.get(`customer.name`)}
         </Link>
       </td>
       <td>
         <p>
-          <Date value={quotation.sendAt} />
+          <Date value={quotation.get(`sendAt`)} />
         </p>
       </td>
       <td>
         <p>
-          <Date value={quotation.validatedAt} />
+          <Date value={quotation.get(`validatedAt`)} />
         </p>
       </td>
       <td>
         <p>
-          <Date value={quotation.signedAt} />
+          <Date value={quotation.get(`signedAt`)} />
         </p>
       </td>
       <td>
         { quotation._hasInvoice && (
-          <Link to={`/invoices/${quotation.invoice.id}`}>
+          <Link to={`/invoices/${quotation.get('invoice.id')}`}>
             { quotation.get(`invoice.reference`) }
           </Link>
         )}
         {
           quotation._canCreateInvoice && (
             <a
-              href={`/quotations/${quotation.id}/create-invoice`}
+              href={`/quotations/${id}/create-invoice`}
               onClick={ event => {
                 event.preventDefault()
                 handleCreate()
@@ -75,7 +76,7 @@ function QuotationRow( props ) {
       </td>
       <td className="is-number">
         <Amount
-          value={quotation._total.all}
+          value={quotation.get(`total`) }
           currency={ currency }
         />
       </td>

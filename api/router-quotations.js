@@ -166,31 +166,25 @@ router
 .post(`/:id/create-invoice`, async (ctx, next) => {
   const { userId }      = ctx.state
   const { id }          = ctx.params
-  const { body }        = ctx.request
   const userQuery       = addRelations.user({
     where: { id: userId }
   })
-  const quotationQuery  = addRelations.quotation({
-    where: { id, userId }
-  })
   const [
     quotation,
-    user,
-  ] = await Promise.all([
-    Quotation.findOne( quotationQuery ),
-    User.findOne( userQuery ),
-  ])
-
-  ctx.assert( user      , 412, MESSAGES.NO_USER   )
-  ctx.assert( quotation , 404, MESSAGES.NOT_FOUND )
-  ctx.assert( quotation._canBeTransformedToInvoice, 412, MESSAGES.CANT_CONVERT )
-  const [
-    customer,
     invoiceConfig,
   ] = await Promise.all([
-    Customer.findById( quotation.get( `customerId`) ),
-    InvoiceConfig.findOne( {where: {userId }} ),
+    Quotation.findOne({ where: {id, userId} }),
+    InvoiceConfig.findOne({ where: {userId} }),
   ])
+
+  console.log( quotation.toJSON() )
+
+  ctx.assert( quotation , 404, MESSAGES.NOT_FOUND )
+  ctx.assert( quotation._canCreateInvoice, 412, MESSAGES.CANT_CONVERT )
+  const customer = await Customer.findOne( {where: {
+    id: quotation.get( `customerId`)},
+    userId,
+  })
 
   ctx.assert( customer  , 412, MESSAGES.NO_CUSTOMER )
   const updateInvoiceConfig = await invoiceConfig.increment( `count`, {by: 1} )
@@ -199,6 +193,11 @@ router
     name           : quotation.get( `name` ),
     tax            : quotation.get( `tax` ),
     products       : quotation.get( `products` ),
+    totalNet       : quotation.get( `totalNet` ),
+    totalTax       : quotation.get( `totalTax` ),
+    total          : quotation.get( `total` ),
+    totalLeft      : quotation.get( `total` ),
+    totalPaid      : 0,
     userId         : quotation.get( `userId` ),
     customerId     : quotation.get( `customerId` ),
     quotationId    : id,
@@ -207,7 +206,9 @@ router
   })
 
   ctx.assert( emptyInvoice, 500, MESSAGES.CONVERT_ERROR )
+  const quotationQuery  = addRelations.quotation({
+    where: { id, userId }
+  })
   const updatedQuotation = await Quotation.findOne( quotationQuery )
-
   ctx.body = updatedQuotation
 })

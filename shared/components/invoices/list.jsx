@@ -29,15 +29,15 @@ function InvoiceRow( props ) {
       </td>
       <td className="is-number">
         <Amount
-          value={invoice.get(`_total.all`)}
+          value={invoice.get(`total`)}
           currency={ currency }
         />
       </td>
       <td className="is-progress">
         <Progress
           tableLayout
-          value={ invoice.get(`_total.paid`) }
-          max={ invoice.get(`_total.all`) }
+          value={ invoice.get(`totalPaid`) }
+          max={ invoice.get(`total`) }
         />
       </td>
     </tr>

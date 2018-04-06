@@ -50,8 +50,8 @@ function InvoiceFormPres( props ) {
         {/* PAYMENTS */}
         <TabPanel>
           <Progress
-            max={   formData.get(`_total.all`) }
-            value={ formData.get(`_total.paid`) }
+            max={   formData.get(`total`) }
+            value={ formData.get(`totalPaid`) }
           />
           <InvoiceEvents
             formData={ formData }

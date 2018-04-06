@@ -26,7 +26,7 @@ function InvoiceEventsFooter( props ) {
         </td>
         <td>
           <Amount
-            value={ formData.get(`_total.paid`) }
+            value={ formData.get(`totalPaid`) }
             currency={ currency }
           />
         </td>
@@ -40,7 +40,7 @@ function InvoiceEventsFooter( props ) {
         </td>
         <td>
           <Amount
-            value={ formData.get(`_total.left`) }
+            value={ formData.get(`totalLeft`) }
             currency={ currency }
           />
         </td>

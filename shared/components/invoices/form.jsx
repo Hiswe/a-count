@@ -63,13 +63,13 @@ class InvoiceForm extends Component {
   }
 
   static recomputeTotals( formData ) {
-    const total   = formData.get( `_total.all` )
+    const total   = formData.get( `total` )
     const paid    = formData.get( `payments` )
       .reduce( (acc, payment) => parseFloat(payment.amount, 10) + acc, 0)
     const left    = total - paid
     return formData
-      .set(`_total.paid`, paid )
-      .set(`_total.left`, left )
+      .set(`totalPaid`, paid )
+      .set(`totalLeft`, left )
   }
 
   //----- EVENTS
