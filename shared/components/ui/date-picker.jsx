@@ -20,7 +20,9 @@ const disabledDays = {
 
 export function DatePicker( props ) {
   const { handleDayChange, value, ...others } = props
-  const dateObject = moment( value )
+  // empty values should treated as invalid date
+  // • maybe the serve doesn't send us a date all!
+  const dateObject = moment( value || `` )
   const dateValue = dateObject.isValid() ? dateObject.toDate() : ``
   return (
     <DayPickerInput

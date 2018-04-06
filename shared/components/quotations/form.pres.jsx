@@ -8,7 +8,7 @@ import { Button, BtnLink, BtnIcon } from '../ui/buttons.jsx'
 import { Input, Textarea, Select } from '../ui/field.jsx'
 import { Stepper } from '../ui/stepper.jsx'
 import Icon from '../ui/svg-icons.jsx'
-import { ProductTable, ProductLine } from '../ui/table-product.jsx'
+import { ProductTable, ProductLineEditable } from '../ui/table-product.jsx'
 import ButtonCreateInvoice from './create-invoice-button.jsx'
 
 import './form.pres.scss'
@@ -88,11 +88,12 @@ function QuotationFormPres( props ) {
                 const isLast = index === productsLength - 1
                 const fieldPath = `products[${ index }]`
                 return (
-                  <ProductLine
+                  <ProductLineEditable
                     key={ product._id }
                     fieldPath={ fieldPath }
                     product={ product }
                     currency={ user.currency }
+                    isLast={ isLast }
                   >
                     { !isLast && (
                       <BtnIcon
@@ -102,7 +103,7 @@ function QuotationFormPres( props ) {
                         svgId="delete"
                       />
                     ) }
-                  </ProductLine>
+                  </ProductLineEditable>
                 )
               }) }
             </ProductTable>

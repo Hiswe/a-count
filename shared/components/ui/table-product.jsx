@@ -12,6 +12,50 @@ const BASE_CLASS = `product-total`
 // only use defaultValue
 // • handleChange is handled globally at the form level
 
+export function ProductLineEditable( props ) {
+  const { fieldPath, product, currency } = props
+  const total = compute.productTotal( product )
+
+  return (
+    <tr>
+      <td>
+        <TextareaAutoResize
+          name={`${fieldPath}[description]`}
+          defaultValue={ product.description }
+        />
+      </td>
+      <td className="is-number">
+        <input
+          type="number"
+          min="0"
+          step="0.25"
+          name={ `${fieldPath}[quantity]` }
+          defaultValue={ product.quantity }
+        />
+      </td>
+      <td className="is-number">
+        <input
+          type="number"
+          min="0"
+          step="0.5"
+          name={ `${fieldPath}[price]` }
+          defaultValue={ product.price }
+        />
+      </td>
+      <td className="is-total is-number">
+        <Amount value={ total } currency={ currency } />
+      </td>
+      <td className="is-action">
+        { props.children }
+      </td>
+    </tr>
+  )
+}
+
+export function DisplayProductLine( props ) {
+
+}
+
 export function ProductLine( props ) {
   const { fieldPath, product, readOnly, currency } = props
   const total = compute.productTotal( product )

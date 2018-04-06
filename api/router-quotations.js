@@ -10,6 +10,7 @@ const { normalizeString } = require( './utils/db-getter-setter'     )
 const   addRelations      = require( './utils/db-default-relations' )
 const   User              = require( './db/model-user'              )
 const   Customer          = require( './db/model-customer'          )
+const   Product           = require( './db/model-product'          )
 const   Quotation         = require( './db/model-quotation'         )
 const   Invoice           = require( './db/model-invoice'           )
 const   InvoiceConfig     = require( './db/model-invoice-config'    )
@@ -19,12 +20,13 @@ const  router  = new Router({prefix: `/${prefix}`})
 module.exports = router
 
 const MESSAGES = Object.freeze({
-  DEFAULT      : `quotation.error.default`,
-  NOT_FOUND    : `quotation.error.not-found`,
-  CANT_CONVERT : `quotation.error.cant-convert`,
-  CONVERT_ERROR: `quotation.error.in-conversion`,
-  NO_USER      : `quotation.error.user-not-found`,
-  NO_CUSTOMER  : `quotation.error.customer-not-found`,
+  DEFAULT              : `quotation.error.default`            ,
+  NOT_FOUND            : `quotation.error.not-found`          ,
+  CANT_CONVERT         : `quotation.error.cant-convert`       ,
+  CONVERT_ERROR        : `quotation.error.in-conversion`      ,
+  CANT_CREATE_PRODUCTS : `quotation.error.in-product-creation`,
+  NO_USER              : `quotation.error.user-not-found`     ,
+  NO_CUSTOMER          : `quotation.error.customer-not-found` ,
 })
 
 //////
@@ -62,51 +64,54 @@ router
   ctx.body = instance
 })
 .post(`/new`,  async (ctx, next) => {
-  const { user }  = ctx.state
-  const { body }  = ctx.request
-  const userQuery = addRelations.user({
-    where: {id: user.id }
-  })
+  const { userId }  = ctx.state
+  const { body }    = ctx.request
   const [
+    user,
     customer,
-    dbUser,
   ] = await Promise.all([
-    Customer.findById( body.customerId ),
-    User.findOne( userQuery ),
+    User.findOne( addRelations.user({where: {id: userId }}) ),
+    Customer.findOne({ where: {id: body.customerId} }),
   ])
 
-  ctx.assert( customer, 412, MESSAGES.NO_CUSTOMER )
-  ctx.assert( dbUser, 412, MESSAGES.NO_USER )
-
-  const quotationConfig = dbUser.get( `quotationConfig` )
+  ctx.assert( customer , 412, MESSAGES.NO_CUSTOMER )
+  ctx.assert( user     , 412, MESSAGES.NO_USER     )
+  // UPDATE QUOTATION COUNT
+  const quotationConfig = user.get( `quotationConfig` )
   const updatedConfig   = await quotationConfig.increment( `count`, {by: 1} )
-
-  // create an “safe” instance
-  // • add all needed relations
-  // • doesn't trigger any setter depending on those relations
-  const newInstance = await Quotation.create({
-    userId:             dbUser.id,
-    quotationConfigId:  dbUser.quotationConfig.id,
-    productConfigId  :  dbUser.productConfig.id,
-    index:              updatedConfig.count,
+  // BUILD QUOTATION
+  const { products, ...creationData } = body
+  creationData.userId                 = userId
+  creationData.quotationConfigId      = user.quotationConfig.id
+  creationData.productConfigId        = user.productConfig.id
+  creationData.index                  = updatedConfig.count
+  let quotation               = Quotation.build( creationData )
+  // PARSE PRODUCTS
+  const { totals, filtered }  = Product.cleanProducts({
+    quotation,
+    products,
+    user,
   })
-  ctx.assert( newInstance, 500, MESSAGES.DEFAULT )
-
-  const withRelations = await Quotation.findOne({
-    where: { id: newInstance.get(`id`) }
+  // CREATE QUOTATION FIRST
+  // • products need them to exist
+  quotation.set( totals )
+  const newQuotation = await quotation.save({
+    include: [Product]
   })
 
-  ctx.assert( withRelations, 500, MESSAGES.DEFAULT )
-  const updated = await withRelations.update( body )
-  ctx.assert( updated, 500, MESSAGES.DEFAULT )
+  ctx.assert( newQuotation, 500, MESSAGES.DEFAULT )
+  // CREATE PRODUCTS
+  const newProducts = await Product.bulkCreate( filtered )
 
-  // just passing the updatedQuotation return the Tax as a string O_O
-  // • prevent that by getting a new instance…
-  const queryParams   = addRelations.quotation({
-    where: { id: updated.get(`id`) }
+  ctx.assert( newProducts, 500, MESSAGES.CANT_CREATE_PRODUCTS )
+  // RENDER A FULL QUOTATION
+  const queryParams = addRelations.quotation({
+    where: { id: newQuotation.get(`id`) }
   })
-  const quotation     = await Quotation.findOne( queryParams )
-  ctx.body = quotation
+  const quotationWithProducts = await Quotation.findOne( queryParams )
+
+  ctx.assert( quotationWithProducts, 500, MESSAGES.DEFAULT )
+  ctx.body = quotationWithProducts
 })
 
 //----- EDIT
@@ -165,8 +170,8 @@ router
     User.findOne( userQuery ),
   ])
 
-  ctx.assert( user    , 412, MESSAGES.NO_USER     )
-  ctx.assert( quotation , 404, MESSAGES.NOT_FOUND   )
+  ctx.assert( user      , 412, MESSAGES.NO_USER   )
+  ctx.assert( quotation , 404, MESSAGES.NOT_FOUND )
   ctx.assert( quotation._canBeTransformedToInvoice, 412, MESSAGES.CANT_CONVERT )
   const [
     customer,

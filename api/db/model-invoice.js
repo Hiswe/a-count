@@ -1,9 +1,4 @@
 'use strict'
-
-'fully paid'
-'partially paid'
-'send'
-
 const Sequelize = require( 'sequelize'    )
 const merge     = require( 'lodash.merge' )
 
@@ -42,36 +37,56 @@ const Invoice = sequelize.define( `invoice`, {
     allowNull:    false,
     defaultValue: [],
   },
-  payments: {
-    type:         Sequelize.ARRAY( Sequelize.JSON ),
-    allowNull:    false,
-    defaultValue: [],
-    set: function( payments ) {
-      payments = payments
-        .filter( payment => payment.date && payment.amount )
-        .map( payment => {
-          payment.date = dbGetterSetter.normalizeDate( payment.date )
-          return payment
-        })
-      this.setDataValue( `payments`, payments )
-    }
+  // payments: {
+  //   type:         Sequelize.ARRAY( Sequelize.JSON ),
+  //   allowNull:    false,
+  //   defaultValue: [],
+  //   set: function( payments ) {
+  //     payments = payments
+  //       .filter( payment => payment.date && payment.amount )
+  //       .map( payment => {
+  //         payment.date = dbGetterSetter.normalizeDate( payment.date )
+  //         return payment
+  //       })
+  //     this.setDataValue( `payments`, payments )
+  //   }
+  // },
+  totalNet: {
+    type:         Sequelize.FLOAT,
+    default:      -1,
   },
-  _total: {
-    type: new Sequelize.VIRTUAL(Sequelize.JSON, [`products`]),
-    get: function () {
-      const products  = this.getDataValue( `products` )
-      const tax       = this.getDataValue( `tax` )
-      const totals    = compute.totals( products, tax )
-      const payments  = this.getDataValue( `payments` )
-      if ( !Array.isArray(payments) ) return totals
-      const paid      = this.getDataValue( `payments` )
-        .reduce( (acc, payment) => parseFloat( payment.amount, 10 ) + acc, 0 )
-      const left      = totals.all - paid
-      totals.paid     = paid
-      totals.left     = left
-      return totals
-    }
+  totalTax: {
+    type:         Sequelize.FLOAT,
+    default:      -1,
   },
+  total: {
+    type:         Sequelize.FLOAT,
+    default:      -1,
+  },
+  totalLeft: {
+    type:         Sequelize.FLOAT,
+    default:      -1,
+  },
+  totalPaid: {
+    type:         Sequelize.FLOAT,
+    default:      -1,
+  },
+  // _total: {
+  //   type: new Sequelize.VIRTUAL(Sequelize.JSON, [`products`]),
+  //   get: function () {
+  //     const products  = this.getDataValue( `products` )
+  //     const tax       = this.getDataValue( `tax` )
+  //     const totals    = compute.totals( products, tax )
+  //     const payments  = this.getDataValue( `payments` )
+  //     if ( !Array.isArray(payments) ) return totals
+  //     const paid      = this.getDataValue( `payments` )
+  //       .reduce( (acc, payment) => parseFloat( payment.amount, 10 ) + acc, 0 )
+  //     const left      = totals.all - paid
+  //     totals.paid     = paid
+  //     totals.left     = left
+  //     return totals
+  //   }
+  // },
   // STATUS
   sendAt: {
     type:         Sequelize.DATE,

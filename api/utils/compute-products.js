@@ -18,9 +18,9 @@ const totals = ( products = [], taxRate = 0 ) => {
   const tax = roundToNearestQuarter( net * taxRate / 100 )
   const all = net + tax
   return {
-    net,
-    tax,
-    all,
+    totalNet: net,
+    totalTax: tax,
+    total:    all,
   }
 }
 

@@ -4,6 +4,7 @@ const merge = require( 'lodash.merge' )
 
 const User            = require( '../db/model-user'             )
 const Customer        = require( '../db/model-customer'         )
+const Product         = require( '../db/model-product'          )
 const ProductConfig   = require( '../db/model-product-config'   )
 const Quotation       = require( '../db/model-quotation'        )
 const QuotationConfig = require( '../db/model-quotation-config' )
@@ -54,6 +55,13 @@ const defaultQuotationParams = {
     {
       model: Customer,
       attributes: [`id`, `name`, `address`]
+    },
+    {
+      model:      Product,
+      required:   false,
+      order: [
+        [`createdAt`, `DESC`],
+      ]
     },
     {
       model:      Invoice,
