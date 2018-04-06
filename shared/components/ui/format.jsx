@@ -26,7 +26,7 @@ export function Percent( props ) {
     <p className={`${BASE_CLASS} ${BASE_CLASS}--percent`}>
       <FormattedNumber
         style="percent"
-        value={ props.value / 100 }
+        value={ props.value }
       />
     </p>
   )

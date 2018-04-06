@@ -4,6 +4,7 @@ import { connect }  from 'react-redux'
 
 import { Table, EmptyLine } from '../ui/table.jsx'
 import { Amount, Date } from '../ui/format.jsx'
+import { Progress } from '../ui/progress.jsx'
 
 function InvoiceRow( props ) {
   const { invoice, currency } = props
@@ -28,8 +29,15 @@ function InvoiceRow( props ) {
       </td>
       <td className="is-number">
         <Amount
-          value={invoice._total.all}
+          value={invoice.get(`_total.all`)}
           currency={ currency }
+        />
+      </td>
+      <td className="is-progress">
+        <Progress
+          tableLayout
+          value={ invoice.get(`_total.paid`) }
+          max={ invoice.get(`_total.all`) }
         />
       </td>
     </tr>
@@ -48,10 +56,11 @@ function InvoiceList( props ) {
         {label: `table.header.customer`},
         {label: `table.header.quotation`},
         {label: `table.amount`},
+        {label: `table.amount.paid`},
       ]}
     >
       {
-        !hasInvoices ? ( <EmptyLine colspan="5" /> )
+        !hasInvoices ? ( <EmptyLine colspan="6" /> )
         : invoices.map( (invoice, i) => (
           <InvoiceRow
             key={ invoice.id }

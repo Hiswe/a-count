@@ -4,6 +4,7 @@ import { injectIntl, FormattedMessage } from 'react-intl'
 
 import { Form      , FormActions } from '../ui/form.jsx'
 import { Button                  } from '../ui/buttons.jsx'
+import { Progress                } from '../ui/progress.jsx'
 import {
   Tab,
   Tabs,
@@ -47,6 +48,10 @@ function InvoiceFormPres( props ) {
 
         {/* PAYMENTS */}
         <TabPanel>
+          <Progress
+            max={   formData.get(`_total.all`) }
+            value={ formData.get(`_total.paid`) }
+          />
           <InvoiceEvents
             formData={ formData }
             handleDayChange={ handle.dayChange }

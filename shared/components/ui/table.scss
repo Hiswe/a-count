@@ -80,9 +80,14 @@
       text-align: right;
     }
 
-    a,
-    .amount,
-    p {
+    &.is-progress {
+      position: relative;
+      width: 125px;
+    }
+
+    > a,
+    > .amount,
+    > p {
       display: inline-block;
       margin: 0;
       padding: 0.5em 0.75em;
