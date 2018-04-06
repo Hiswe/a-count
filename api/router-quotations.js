@@ -79,34 +79,32 @@ router
   // UPDATE QUOTATION COUNT
   const quotationConfig = user.get( `quotationConfig` )
   const updatedConfig   = await quotationConfig.increment( `count`, {by: 1} )
-  // BUILD QUOTATION
-  const { products, ...creationData } = body
-  creationData.userId                 = userId
-  creationData.quotationConfigId      = user.quotationConfig.id
-  creationData.productConfigId        = user.productConfig.id
-  creationData.index                  = updatedConfig.count
-  let quotation               = Quotation.build( creationData )
+
+  ctx.assert( updatedConfig, 500, MESSAGES.DEFAULT )
+  let { products, tax, ...creationData } = body
   // PARSE PRODUCTS
-  const { totals, filtered }  = Product.cleanProducts({
-    quotation,
+  const { totals, filtered } = Product.cleanProducts({
     products,
+    tax,
     user,
   })
-  // CREATE QUOTATION FIRST
-  // • products need them to exist
-  quotation.set( totals )
-  const newQuotation = await quotation.save({
-    include: [Product]
+  // CREATE QUOTATION WITH RELATIONS
+  const quotation = await Quotation.create({
+    userId,
+    tax,
+    quotationConfigId:  user.quotationConfig.id,
+    productConfigId:    user.productConfig.id,
+    index:              updatedConfig.count,
+    products:           filtered,
+    ...creationData,
+  }, {
+    include: [Product],
   })
 
-  ctx.assert( newQuotation, 500, MESSAGES.DEFAULT )
-  // CREATE PRODUCTS
-  const newProducts = await Product.bulkCreate( filtered )
-
-  ctx.assert( newProducts, 500, MESSAGES.CANT_CREATE_PRODUCTS )
+  ctx.assert( quotation, 500, MESSAGES.DEFAULT )
   // RENDER A FULL QUOTATION
   const queryParams = addRelations.quotation({
-    where: { id: newQuotation.get(`id`) }
+    where: { id: quotation.get(`id`) }
   })
   const quotationWithProducts = await Quotation.findOne( queryParams )
 

@@ -36,10 +36,8 @@ function getDefaultProduct( productConfig ) {
 }
 
 Product.cleanProducts = function cleanProducts( params ) {
-  const { quotation, user, products = [] } = params
+  const { user, tax, products = [] } = params
   const defaultProduct  = getDefaultProduct( user.productConfig )
-  const quotationId     = quotation.id
-  const { tax }         = quotation
   if ( !products.length ) return {
     filtered: [],
     totals:   compute.totals( [], tax ),
@@ -47,9 +45,6 @@ Product.cleanProducts = function cleanProducts( params ) {
   const filtered = filterArray({
     array         : products ,
     defaultObject : defaultProduct,
-  }).map( product => {
-    if ( !product.quotationId ) product.quotationId = quotation.id
-    return product
   })
 
   return {
@@ -58,30 +53,10 @@ Product.cleanProducts = function cleanProducts( params ) {
   }
 }
 
-Product.bulkCreateFor = async function( params ) {
-  const { quotation, user, products = [] } = params
-  const defaultProduct  = getDefaultProduct( user.productConfig )
-  const quotationId     = quotation.id
-  const { tax }         = quotation
-  if ( !products.length ) return compute.totals( [], tax )
-
-  const filtered = filterArray({
-    array         : products ,
-    defaultObject : defaultProduct,
-  }).map( product => {
-    product.quotationId = quotation.id
-    return product
-  })
-  const savedProducts = await this.bulkCreate( filtered )
-  console.log( savedProducts )
-  return compute.totals( savedProducts, tax )
-}
-
 Product.bulkUpsertFor = async function( params ) {
   const { quotation, defaultProduct, products = [] } = params
   if ( !products.length ) return {total: 0}
   const productsToCreate = products.filter( product => !product.id )
-  console.log( productsToCreate )
   return {total: 0}
   // const currentProducts = await this.findAll({ where: {quotationId}})
   // this.bulkCreate( products )
