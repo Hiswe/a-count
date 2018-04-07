@@ -1,5 +1,7 @@
 .react-tabs {
   --gutter: minmax(var(--s-gutter), calc(50% - var(--s-max-width) / 2));
+  --tab-selected-border-radius: var(--s-quarter-gutter);
+  --tab-selected-bg: var(--c-background);
   display: grid;
   grid-template-columns:
     var(--gutter) [content-col-start] 1fr [content-col-end] var(--gutter);
@@ -39,7 +41,27 @@
 
     &--selected {
       color: var(--c-primary);
-      background: var(--c-background);
+      background: var(--tab-selected-bg);
+      border-radius: var(--tab-selected-border-radius) var(--tab-selected-border-radius) 0 0;
+      position: relative;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        width:  calc(var(--tab-selected-border-radius) * 1);
+        height: calc(var(--tab-selected-border-radius) * 1);
+      }
+      &::before {
+        right: 100%;
+        background: radial-gradient(farthest-corner at top left, transparent 65%, var(--tab-selected-bg) 70%)
+      }
+      &::after {
+        left: 100%;
+        background: radial-gradient(farthest-corner at top right, transparent 65%, var(--tab-selected-bg) 70%)
+      }
+
     }
   }
   &__tab-panel {
