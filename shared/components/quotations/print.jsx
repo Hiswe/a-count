@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { PaperSheet, Party, Reference, Between, Subject, Mentions } from '../layout/paper-sheet.jsx'
-import { ProductTable, ProductLine } from '../ui/table-product.jsx'
+import { ProductTable, ProductLineDisplay } from '../ui/table-product.jsx'
 
 function PrintQuotation( props ) {
   const { quotation, user } = props
@@ -21,8 +21,7 @@ function PrintQuotation( props ) {
         currency={ user.get(`currency`) }
       >
         {quotation.get(`products`).map( (product, index) =>  (
-          <ProductLine
-            readOnly
+          <ProductLineDisplay
             key={ index }
             product={ product }
             currency={ user.get(`currency`) }

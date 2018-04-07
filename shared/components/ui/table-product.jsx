@@ -19,9 +19,14 @@ export function ProductLineEditable( props ) {
   return (
     <tr>
       <td>
+        <input
+          type="hidden"
+          name={`${fieldPath}[_id]`}
+          value={ product.get(`_id`) }
+        />
         <TextareaAutoResize
           name={`${fieldPath}[description]`}
-          defaultValue={ product.description }
+          defaultValue={ product.get(`description`) }
         />
       </td>
       <td className="is-number">
@@ -30,7 +35,7 @@ export function ProductLineEditable( props ) {
           min="0"
           step="0.25"
           name={ `${fieldPath}[quantity]` }
-          defaultValue={ product.quantity }
+          defaultValue={ product.get(`quantity`) }
         />
       </td>
       <td className="is-number">
@@ -39,7 +44,7 @@ export function ProductLineEditable( props ) {
           min="0"
           step="0.5"
           name={ `${fieldPath}[price]` }
-          defaultValue={ product.price }
+          defaultValue={ product.get(`price`) }
         />
       </td>
       <td className="is-total is-number">
@@ -52,48 +57,23 @@ export function ProductLineEditable( props ) {
   )
 }
 
-export function DisplayProductLine( props ) {
-
-}
-
-export function ProductLine( props ) {
-  const { fieldPath, product, readOnly, currency } = props
+export function ProductLineDisplay( props ) {
+    const { fieldPath, product, currency } = props
   const total = compute.productTotal( product )
   return (
     <tr>
-      <td>{
-        readOnly ? <Markdown text={ product.description } />
-          : <TextareaAutoResize
-          name={`${fieldPath}[description]`}
-          defaultValue={ product.description }
-        />
-      }</td>
-      <td className="is-number">{
-        readOnly ? <p>{ product.quantity }</p>
-          : <input
-        type="number" min="0" step="0.25"
-        name={ `${fieldPath}[quantity]` }
-        defaultValue={ product.quantity }
-      />
-      }
+      <td>
+        <Markdown text={ product.description } />
       </td>
-      <td className="is-number">{
-        readOnly ? <p>{ product.price }</p>
-          : <input
-            type="number"
-            min="0"
-            step="0.5"
-            name={ `${fieldPath}[price]` }
-            defaultValue={ product.price }
-          />
-      }</td>
+      <td className="is-number">
+        <p>{ product.quantity }</p>
+      </td>
+      <td className="is-number">
+        <p>{ product.price }</p>
+      </td>
       <td className="is-total is-number">
         <Amount value={ total } currency={ currency } />
       </td>
-      {!readOnly && <td className="is-action">
-        { props.children }
-        </td>
-      }
     </tr>
   )
 }

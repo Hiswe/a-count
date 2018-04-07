@@ -6,7 +6,7 @@ import { PaperSheet, Party, Reference, Mentions } from '../layout/paper-sheet.js
 import { Form, FormActions } from '../ui/form.jsx'
 import { Button } from '../ui/buttons.jsx'
 import { Input, Textarea, Select } from '../ui/field.jsx'
-import { ProductTable, ProductLine } from '../ui/table-product.jsx'
+import { ProductTable, ProductLineDisplay } from '../ui/table-product.jsx'
 
 import './settings.pres.scss'
 export const BASE_CLASS = `setting-form`
@@ -158,11 +158,11 @@ function SettingFormPres( props ) {
                   tax={ quotationConfig.tax }
                   currency={ quotationConfig.currency }
                 >
-                  <ProductLine readOnly
+                  <ProductLineDisplay
                     product={ fakeProduct }
                     currency={ quotationConfig.currency }
                   />
-                  <ProductLine readOnly
+                  <ProductLineDisplay
                     product={ productConfig }
                     currency={ quotationConfig.currency }
                   />

@@ -19,7 +19,7 @@ function InvoiceEventsFooter( props ) {
   return (
     <tfoot>
       <tr>
-        <td colspan="2">
+        <td colSpan="2">
           <p>
             <FormattedMessage id="table.amount.paid" />
           </p>
@@ -33,7 +33,7 @@ function InvoiceEventsFooter( props ) {
         <td></td>
       </tr>
       <tr>
-        <td colspan="2">
+        <td colSpan="2">
           <p>
             <FormattedMessage id="table.amount.left-to-pay" />
           </p>

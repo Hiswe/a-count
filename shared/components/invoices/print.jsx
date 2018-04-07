@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { PaperSheet, Party, Reference, Mentions, Subject, Between } from '../layout/paper-sheet.jsx'
-import { ProductTable, ProductLine } from '../ui/table-product.jsx'
+import { ProductTable, ProductLineDisplay } from '../ui/table-product.jsx'
 
 function PrintInvoice( props ) {
   const { invoice, user } = props
@@ -21,8 +21,7 @@ function PrintInvoice( props ) {
         currency={ currency }
       >
         {invoice.get(`products`).map( (product, index) =>  (
-          <ProductLine
-            readOnly
+          <ProductLineDisplay
             key={ index }
             product={ product }
             currency={ currency }
