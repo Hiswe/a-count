@@ -20,13 +20,15 @@ const  router  = new Router({prefix: `/${prefix}`})
 module.exports = router
 
 const MESSAGES = Object.freeze({
-  DEFAULT              : `quotation.error.default`            ,
-  NOT_FOUND            : `quotation.error.not-found`          ,
-  CANT_CONVERT         : `quotation.error.cant-convert`       ,
-  CONVERT_ERROR        : `quotation.error.in-conversion`      ,
-  CANT_CREATE_PRODUCTS : `quotation.error.in-product-creation`,
-  NO_USER              : `quotation.error.user-not-found`     ,
-  NO_CUSTOMER          : `quotation.error.customer-not-found` ,
+  DEFAULT                   : `quotation.error.default`                   ,
+  NOT_FOUND                 : `quotation.error.not-found`                 ,
+  CANT_CONVERT              : `quotation.error.cant-convert`              ,
+  CONVERT_ERROR             : `quotation.error.in-conversion`             ,
+  CANT_UPDATE_QUOTE_COUNT   : `quotation.error.in-quotation-count-update` ,
+  CANT_UPDATE_INVOICE_COUNT : `quotation.error.in-invoice-count-update`   ,
+  CANT_CREATE_PRODUCTS      : `quotation.error.in-product-creation`       ,
+  NO_USER                   : `quotation.error.user-not-found`            ,
+  NO_CUSTOMER               : `quotation.error.customer-not-found`        ,
 })
 
 //////
@@ -80,7 +82,7 @@ router
   const quotationConfig = user.get( `quotationConfig` )
   const updatedConfig   = await quotationConfig.increment( `count`, {by: 1} )
 
-  ctx.assert( updatedConfig, 500, MESSAGES.DEFAULT )
+  ctx.assert( updatedConfig, 500, MESSAGES.CANT_UPDATE_QUOTE_COUNT )
   const { products, tax, ...creationData } = body
   // PARSE PRODUCTS
   const { totals, filtered } = cleanProducts({
@@ -177,8 +179,6 @@ router
     InvoiceConfig.findOne({ where: {userId} }),
   ])
 
-  console.log( quotation.toJSON() )
-
   ctx.assert( quotation , 404, MESSAGES.NOT_FOUND )
   ctx.assert( quotation._canCreateInvoice, 412, MESSAGES.CANT_CONVERT )
   const customer = await Customer.findOne( {where: {
@@ -189,6 +189,7 @@ router
   ctx.assert( customer  , 412, MESSAGES.NO_CUSTOMER )
   const updateInvoiceConfig = await invoiceConfig.increment( `count`, {by: 1} )
 
+  ctx.assert( updateInvoiceConfig, 500, MESSAGES.CANT_UPDATE_INVOICE_COUNT )
   const emptyInvoice   = await Invoice.create({
     name           : quotation.get( `name` ),
     tax            : quotation.get( `tax` ),

@@ -9,6 +9,7 @@ const   omit      = require( 'lodash.omit'  )
 const   formatResponse     = require( './utils/format-response'      )
 const { normalizeString  } = require( './utils/db-getter-setter'     )
 const   addRelations       = require( './utils/db-default-relations' )
+const   cleanPayments      = require( './utils/clean-payments'       )
 const   User               = require( './db/model-user'              )
 const   Customer           = require( './db/model-customer'          )
 const   Quotation          = require( './db/model-quotation'         )
@@ -63,7 +64,21 @@ router
   const invoice = await Invoice.findOne( queryParams )
 
   ctx.assert( invoice, 404, MESSAGES.NOT_FOUND )
-  const updatedInvoice = await invoice.update ( body        )
+  const { payments, ...creationData } = body
+  const { totals, filtered } = cleanPayments({
+    payments: payments,
+    tax:      invoice.get(`tax`),
+    total:    invoice.get(`total`),
+  })
+  const updatedInvoice = await invoice.update({
+    payments: filtered,
+    ...totals,
+    ...creationData,
+  })
+
+  ctx.assert( updatedInvoice, 500,  MESSAGES.DEFAULT )
   const instance       = await Invoice.findOne( queryParams )
+
+  ctx.assert( instance, 500,  MESSAGES.DEFAULT )
   ctx.body = instance
 })

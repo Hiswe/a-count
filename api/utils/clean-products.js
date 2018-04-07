@@ -3,6 +3,8 @@
 const compute     = require( './compute-products'         )
 const filterArray = require( './filter-array-with-object' )
 
+module.exports = cleanProducts
+
 function getDefaultProduct( productConfig ) {
   const { description, quantity, price } = productConfig
   return { description, quantity, price }
@@ -21,5 +23,3 @@ function cleanProducts( params ) {
     totals:   compute.totals( filtered, tax )
   }
 }
-
-module.exports = cleanProducts
