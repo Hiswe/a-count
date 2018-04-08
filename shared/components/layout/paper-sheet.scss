@@ -10,7 +10,7 @@
   padding: var(--s-gutter);
   border-radius: var(--sheet-border-radius);
   position: relative;
-  box-shadow: 0 0 10px 0 var(--c-primary-lightest);
+  border: 1px solid var(--c-primary-lightest);
 
   // paper-sheet shadow
   &::before,
@@ -148,81 +148,32 @@
     }
   }
 
-  &--part-top-left {
-    border-radius: var(--sheet-border-radius) 0 0 0;
-    background-image:
-      linear-gradient(-45deg, var(--c-background) 50%, transparent 50%),
-      linear-gradient(45deg, var(--c-background) 50%, transparent 50%),
-      linear-gradient(-45deg, var(--c-background) 50%, transparent 50%),
-      linear-gradient(315deg, var(--c-background) 50%, transparent 50%),
-      linear-gradient(225deg, var(--c-background) 50%, transparent 50%);
-    background-size: ($shred-size * 2) ($shred-size * 2),
-      $shred-size $shred-size,
-      $shred-size $shred-size,
-      $shred-size $shred-size,
-      $shred-size $shred-size;
-    background-repeat: no-repeat, repeat-x, repeat-x, repeat-y, repeat-y;
-    background-position: right bottom;
+  &--part-top-left,
+  &--part-top-right,
+  &--part-center,
+  &--part-bottom {
+    border-radius: 0;
+    border-image-slice: 9 fill;
+    border-image-width: 12px;
+    border-image-outset: 0;
+    border-image-repeat: round round;
+    border-image-source: url('/paper-part-top-left.svg');
 
     &::before,
     &::after {
       display: none;
     }
   }
-
   &--part-top-right {
-    display: block;
-    border-radius: 0 var(--sheet-border-radius) 0 0;
-    padding: var(--s-gutter);
-    background-image:
-      linear-gradient(45deg, var(--c-background) 50%, transparent 50%),
-      linear-gradient(45deg, var(--c-background) 50%, transparent 50%),
-      linear-gradient(-45deg, var(--c-background) 50%, transparent 50%),
-      linear-gradient(135deg, var(--c-background) 50%, transparent 50%),
-      linear-gradient(45deg, var(--c-background) 50%, transparent 50%);
-    background-size: ($shred-size * 2) ($shred-size * 2),
-      $shred-size $shred-size,
-      $shred-size $shred-size,
-      $shred-size $shred-size,
-      $shred-size $shred-size;
-    background-repeat: no-repeat, repeat-x, repeat-x, repeat-y, repeat-y;
-    background-position: left bottom;
-
-    &::before,
-    &::after {
-      display: none;
-    }
+    border-image-source: url('/paper-part-top-right.svg');
   }
 
   &--part-center {
-    display: block;
-    border-radius: 0;
-    padding: var(--s-big-gutter) var(--s-gutter);
-    background-image:
-      linear-gradient(225deg, var(--c-background) 50%, transparent 50%),
-      linear-gradient(135deg, var(--c-background) 50%, transparent 50%),
-      linear-gradient(45deg, var(--c-background) 50%, transparent 50%),
-      linear-gradient(-45deg, var(--c-background) 50%, transparent 50%);
-    background-size: $shred-size $shred-size;
-    background-repeat: repeat-x;
-    background-position: top left, top left, bottom left, bottom left;
-
-    &::before,
-    &::after {
-      display: none;
-    }
+    border-image-source: url('/paper-part-middle.svg');
   }
 
   &--part-bottom {
-    background-image:
-      linear-gradient(225deg, var(--c-background) 50%, transparent 50%),
-      linear-gradient(135deg, var(--c-background) 50%, transparent 50%);
-    background-size:
-      $shred-size $shred-size,
-      $shred-size $shred-size,
-      $shred-size $shred-size,
-      $shred-size $shred-size;
-    background-repeat: repeat-x, repeat-x;
+    border-image-source: url('/paper-part-bottom.svg');
   }
 
   &--print-mode {
@@ -243,11 +194,6 @@
     }
     #{ $party-empty } {
       display: none;
-    }
-
-    #{ $root }__mentions {
-      // margin: 0;
-      // padding: 0;
     }
   }
 }

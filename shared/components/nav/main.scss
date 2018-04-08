@@ -2,7 +2,6 @@
 
 :root {
   --main-nav-bg: white;
-  --main-nav-bg-hover: var(--c-primary-lightest);
   --main-nav-link-color: var(--c-primary);
   --main-nav-link-color-selected: var(--c-accent);
 }
@@ -54,7 +53,7 @@
     color: var(--main-nav-link-color);
 
     &:hover {
-      background: var(--main-nav-bg-hover);
+      color: var(--main-nav-link-color-selected);
     }
     &.is-active {
       color: var(--main-nav-link-color-selected);

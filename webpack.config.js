@@ -130,7 +130,10 @@ const client = {
         fallback: `style-loader`,
         use: [{
           loader: `css-loader`,
-          options: { sourceMap: true },
+          options: {
+            sourceMap: true,
+            url: false,
+          },
         }, {
           loader: `postcss-loader`,
           options: {
