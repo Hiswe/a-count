@@ -2,6 +2,7 @@
 
 .nav-secondary {
   --c-nav-secondary: white;
+  --shadow-opacity: 0;
   margin: 0;
   height: var(--s-nav-top-height);
   background: var(--c-nav-secondary);
@@ -27,10 +28,22 @@
     z-index: 10;
     display: flex;
     align-items: center;
-    transition: box-shadow .5s;
+
+    &::after {
+      position: absolute;
+      content: '';
+      top: 100%;
+      left: 0;
+      right: 0;
+      pointer-events: none;
+      height: 10px;
+      background: radial-gradient(farthest-side at top, rgba(0, 0, 0, 0.15), transparent);
+      opacity: var(--shadow-opacity);
+      transition: opacity .25s;
+    }
 
     &--is-stuck {
-      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+      --shadow-opacity: 1;
     }
   }
   &__title {

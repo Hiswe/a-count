@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import { injectIntl, FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
+import { Tabs, TabList, TabListHeader, Tab, TabPanel } from '../ui/tabs.jsx'
 import { PaperSheet, Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
 import { Form, FormActions } from '../ui/form.jsx'
 import { Button } from '../ui/buttons.jsx'
