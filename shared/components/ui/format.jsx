@@ -27,7 +27,7 @@ export function FormatNumber( props ) {
     : parseFloat( props.value, 10)
   return (
     <p className={`${BASE_CLASS} ${BASE_CLASS}--number`}>
-      { value === null ? `–` : <FormattedNumber value={ props.value } /> }
+      { value === null ? `–` : <FormattedNumber value={ props.value } minimumFractionDigits={2} /> }
     </p>
   )
 }

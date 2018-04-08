@@ -1,18 +1,15 @@
 @import '../config';
 
 .table {
+  $root: &;
+  $print: '#{$root}--print';
+
   --table-border-color: var(--c-primary-lighter);
   --table-header-border-color: var(--c-primary);
   --table-header-bg-color: var(--c-primary-darker);
   border-collapse: collapse;
   border-radius: var(--s-border-radius);
   width: 100%;
-
-  &--print {
-    --table-border-color: var(--c-text-lighter);
-    --table-header-border-color: var(--c-text);
-    --table-header-bg-color: var(--c-text-darker);
-  }
 
   a {
     color: var(--c-accent);
@@ -31,6 +28,8 @@
     padding: 1em 1.3em;
     background: var(--table-header-bg-color);
     color: white;
+
+
 
     @media #{$mq-print} {
       // box-shadow act as a background for print
@@ -94,12 +93,25 @@
     }
 
     > a,
-    > .amount,
+    // > .amount,
     > p {
       display: inline-block;
       margin: 0;
       padding: 0.5em 0.75em;
     }
+  }
+
+  .is-padded {
+    padding: 0.5em 0.75em;
+  }
+
+  .is-number {
+    text-align: right;
+  }
+
+  .is-progress {
+    position: relative;
+    width: 125px;
   }
 
   .amount {
@@ -125,6 +137,21 @@
   &--pres {
     tbody tr:nth-child(even) {
       background: rgba(255, 255, 255, .35);
+    }
+  }
+
+  &--print {
+    --table-border-color: var(--c-text-lighter);
+    --table-header-border-color: var(--c-text);
+    --table-header-bg-color: var(--c-text-darker);
+
+    tfoot {
+      background: none;
+      border: 0;
+
+      p {
+        padding-bottom: 0;
+      }
     }
   }
 }

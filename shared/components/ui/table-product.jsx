@@ -3,10 +3,9 @@ import { FormattedMessage } from 'react-intl'
 
 import * as compute from '../utils/compute-total.js'
 import Table from './table.jsx'
-import { Amount, Markdown } from './format.jsx'
+import { Amount, Markdown, FormatNumber } from './format.jsx'
 import TextareaAutoResize from './textarea-auto-resize.jsx'
 
-import './table-product.scss'
 const BASE_CLASS = `product-total`
 
 // only use defaultValue
@@ -62,14 +61,14 @@ export function ProductLineDisplay( props ) {
   const total = compute.productTotal( product )
   return (
     <tr>
-      <td>
+      <td className="is-padded">
         <Markdown text={ product.description } />
       </td>
       <td className="is-number">
-        <p>{ product.quantity }</p>
+        <FormatNumber value={ product.quantity } />
       </td>
       <td className="is-number">
-        <p>{ product.price }</p>
+        <FormatNumber value={ product.price } />
       </td>
       <td className="is-total is-number">
         <Amount value={ total } currency={ currency } />
