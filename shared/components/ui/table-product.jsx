@@ -12,7 +12,7 @@ const BASE_CLASS = `product-total`
 // • handleChange is handled globally at the form level
 
 export function ProductLineEditable( props ) {
-  const { fieldPath, product, currency } = props
+  const { fieldPath, product } = props
   const total = compute.productTotal( product )
 
   return (
@@ -47,7 +47,7 @@ export function ProductLineEditable( props ) {
         />
       </td>
       <td className="is-total is-number">
-        <Amount value={ total } currency={ currency } />
+        <Amount value={ total } />
       </td>
       <td className="is-action">
         { props.children }
