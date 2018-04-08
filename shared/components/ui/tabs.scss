@@ -10,7 +10,8 @@
 
   &::before {
     content: '';
-    background: var(--c-primary-darker);
+    background: var(--c-primary-lightest);
+    border-radius: var(--tab-selected-border-radius) 0 0 var(--tab-selected-border-radius);
     grid-column: 1 / span 3;
     grid-row: 1 / 2;
   }
@@ -37,7 +38,7 @@
     flex: 1 1;
     text-align: center;
     padding: var(--s-half-gutter) 0;
-    color: var(--c-primary-lighter);
+    color: var(--c-primary);
 
     &--selected {
       color: var(--c-primary);

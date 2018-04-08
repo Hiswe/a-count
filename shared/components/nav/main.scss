@@ -1,9 +1,14 @@
 @import '../config';
 
+:root {
+  --main-nav-bg: white;
+  --main-nav-bg-hover: var(--c-primary-lightest);
+  --main-nav-link-color: var(--c-primary);
+  --main-nav-link-color-selected: var(--c-accent);
+}
+
 .nav-main {
-  --main-nav-bg: var(--c-primary-darkest);
-  --main-nav-bg-selected: var(--c-primary-darker);
-  --main-nav-bg-hover: var(--c-primary-darker);
+
   $root: &;
   background: var(--main-nav-bg);
   position: fixed;
@@ -21,7 +26,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    color: var(--c-primary);
+    color: var(--c-primary-lightest);
   }
   &__in {
     display: flex;
@@ -46,13 +51,13 @@
     }
   }
   a {
-    color: var(--c-primary-lightest);
+    color: var(--main-nav-link-color);
 
     &:hover {
       background: var(--main-nav-bg-hover);
     }
     &.is-active {
-      color: var(--c-accent-lighter);
+      color: var(--main-nav-link-color-selected);
 
       &::before,
       &::after  {
@@ -74,11 +79,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 100;
+  font-weight: 200;
   letter-spacing: .05em;
   text-transform: uppercase;
-  background: var(--c-primary-darkest);
-  color: var(--c-primary-lighter);
+  background: var(--main-nav-bg);
+  color: var(--c-primary);
   position: fixed;
   top: 0;
   left: 0;

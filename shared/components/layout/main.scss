@@ -5,8 +5,7 @@
   --knockout-max-width: var(--s-max-width);
   --knockout-gutter: minmax(var(--s-gutter), calc(50% - var(--s-max-width) / 2));
   --knockout-overlap-height: var(--s-two-gutter);
-  --knockout-bg: none;
-  --knockout-meta-bg: var(--c-primary-darker);
+  --knockout-meta-bg: var(--c-primary-lightest);
   margin: 0;
   padding: var(--s-gutter) 0;
   background: var(--knockout-bg);
@@ -24,7 +23,6 @@
 
   &--has-meta {
     padding: 0 0 var(--s-gutter);
-    --knockout-bg: var(--c-primary);
     grid-template-areas:
       "left-gutter meta right-gutter"
       "left-gutter content right-gutter"
@@ -37,6 +35,7 @@
       // • no need to position it in absolute:
       //   the CSS grid will take care of it for us \O/
       content: '';
+      border-radius: var(--s-half-gutter) 0 0 var(--s-half-gutter);
       background: var(--knockout-meta-bg);
       grid-row: meta-row-start / meta-row-end;
       grid-column: meta-col-start / meta-col-end;
@@ -49,7 +48,6 @@
     margin: 0;
   }
   &__meta {
-    color: white;
     grid-area: meta;
     padding: var(--s-gutter) 0;
   }

@@ -3,23 +3,24 @@
   --stepper-bullet-size: 2rem;
   --stepper-bullet-size-half: calc( var(--stepper-bullet-size) / 2 );
   --step-transition: background .5s, color .5s;
+  --step-bg: var(--c-primary-lightest);
   // active color
-  --step-color-active: white;
-  --step-bar-bg-active: var(--c-accent);
+  --step-color-active: var(--c-primary);
+  --step-bar-bg-active: var(--c-primary);
   --step-bullet-bg-active: var(--step-bar-bg-active);
-  --step-bullet-color-active: white;
+  --step-bullet-color-active: var(--c-text);
   // inactive color
-  --step-color-inactive: var(--c-primary);
-  --step-bar-bg-inactive: var(--c-primary);
+  --step-color-inactive: var(--c-primary-lighter);
+  --step-bar-bg-inactive: var(--c-primary-lighter);
   --step-bullet-bg-inactive: var(--step-bar-bg-inactive);
-  --step-bullet-color-inactive: var(--c-primary-darker);
+  --step-bullet-color-inactive: var(--step-bg);
   // all colors are define by default to the active state
   --step-content: '✓';
   --step-current-bullet-color: var(--c-accent-lighter);
   --step-color: var(--step-color-active);
   --step-bar-bg: var(--step-bar-bg-active);
   --step-bullet-bg: var(--step-bullet-bg-active);
-  --step-bullet-color: var(--step-color-active);
+  --step-bullet-color: var(--step-bg);
 
   counter-reset: current-step;
   display: grid;
@@ -27,31 +28,6 @@
   position: relative;
   // this to make the date picker show ok
   z-index: 2;
-
-  &[data-debug] {
-    counter-reset: steps;
-
-    &::after {
-      content: "number of steps: " counter(steps);
-      display: block;
-      position: absolute;
-      bottom: -1.5rem;
-      width: 100%;
-      text-align: center;
-      color: hsl(40, 50%, 50%);
-    }
-    input {
-      --s-separation: 1.5rem;
-      position: absolute;
-      display: initial;
-      top: -2rem;
-      @for $i from 1 through 10 {
-        &:nth-of-type(#{$i}) {
-          left: calc( var(--s-separation) * #{$i} + .75rem);
-        }
-      }
-    }
-  }
 
   &__input {
     counter-increment: steps;
@@ -79,7 +55,7 @@
       --step-color: var(--step-color-active);
       // as a bridge between done & undone, its bar is inactive!
       --step-bar-bg: var(--step-bar-bg-inactive);
-      --step-bullet-bg: var(--c-primary-darker);
+      --step-bullet-bg: var(--step-bg);
       --step-bullet-color: var(--step-bullet-color-active);
 
       #{$root}__button {
@@ -151,6 +127,6 @@
 
   .DayPickerInput input {
     padding: 0.5em 0 0;
-    color: white;
+    // color: white;
   }
 }

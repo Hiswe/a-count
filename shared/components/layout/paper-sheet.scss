@@ -10,6 +10,7 @@
   padding: var(--s-gutter);
   border-radius: var(--sheet-border-radius);
   position: relative;
+  box-shadow: 0 0 10px 0 var(--c-primary-lightest);
 
   // paper-sheet shadow
   &::before,

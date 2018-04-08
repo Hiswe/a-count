@@ -45,7 +45,7 @@ export default function QuotationFormPres( props ) {
               steps={ formData.steps }
               handleDayChange={ handle.dayChange }
             />
-            <Select darkBg
+            <Select
               label="field.customer"
               name="customerId"
               value={ formData.customerId }
@@ -56,7 +56,7 @@ export default function QuotationFormPres( props ) {
                 )
               )}
             </Select>
-            <Input darkBg
+            <Input
               name="tax"
               label="field.tax"
               type="number"
