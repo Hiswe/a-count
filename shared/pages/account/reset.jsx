@@ -46,10 +46,7 @@ class Reset extends PureComponent {
           <Input
             name="password"
             type="password"
-            label={intl.formatMessage({
-              id: `field.password`,
-              defaultMessage: `password`,
-            })}
+            label="field.password"
             defaultValue=""
           />
           <Button type="submit">

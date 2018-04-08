@@ -1,6 +1,7 @@
 import isNil from 'lodash.isnil'
 import crio from 'crio'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import TextareaAutoResize from '../ui/textarea-auto-resize.jsx'
 
@@ -43,7 +44,6 @@ const fieldWrapper = ({ControlComponent, fieldType}) => class extends PureCompon
 
     const { id, label, darkBg, onChange, onBlur, ...rest } = props
     const _id     = id ? id : rest.name
-    const _label  = label ? label : _id
     const _id2class = idToClassName( _id )
     const { type }  = props
 
@@ -61,7 +61,7 @@ const fieldWrapper = ({ControlComponent, fieldType}) => class extends PureCompon
     const labelProps = {
       className: `${BASE_CLASS}__label`,
       htmlFor:    _id,
-      label:      _label,
+      label:      label,
     }
     const controlProps = {
       id:         _id,
@@ -155,7 +155,7 @@ const fieldWrapper = ({ControlComponent, fieldType}) => class extends PureCompon
           className={ labelProps.className }
           htmlFor={ labelProps.htmlFor }
         >
-          { labelProps.label }
+          <FormattedMessage id={labelProps.label} />
         </label>
       </div>
     )

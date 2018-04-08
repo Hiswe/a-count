@@ -13,10 +13,10 @@ function CustomerRow( props ) {
       <td>
         <Link to={ url }>{ customer.name }</Link>
       </td>
-      <td class="is-number">
+      <td className="is-number">
         <FormatNumber value={customer.quotationsCount} />
       </td>
-      <td class="is-number">
+      <td className="is-number">
         <FormatNumber value={customer.invoicesCount} />
       </td>
     </tr>

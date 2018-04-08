@@ -38,16 +38,14 @@ class Register extends PureComponent {
         <Form action="/account/register" onSubmit={ this.handleSubmit } >
           <Input
             name="email"
+            label="field.email"
             type="email"
             defaultValue=""
           />
           <Input
             name="password"
             type="password"
-            label={intl.formatMessage({
-              id: `field.password`,
-              defaultMessage: `password`,
-            })}
+            label="field.password"
             defaultValue=""
           />
           <Button type="submit">

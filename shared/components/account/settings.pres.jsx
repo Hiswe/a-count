@@ -27,7 +27,7 @@ const languages = [
   {value: `en`, label: `english`},
 ]
 
-function SettingFormPres( props ) {
+export default function SettingFormPres( props ) {
   const {
     isSaving,
     intl,
@@ -98,7 +98,7 @@ function SettingFormPres( props ) {
             <div className={`${BASE_CLASS}__user`}>
               <Select
                 name="lang"
-                label={intl.formatMessage({ id: `field.language` })}
+                label="field.language"
                 value={ formData.lang }
               >{ languages.map( c => (
                 <option key={ c.value } value={ c.value }>{ c.label }</option>
@@ -106,7 +106,7 @@ function SettingFormPres( props ) {
               </Select>
               <Select
                 name="currency"
-                label={intl.formatMessage({ id: `field.currency` })}
+                label="field.currency"
                 value={ formData.currency }
               >{ currencies.map( c => (
                 <option key={ c.value } value={ c.value }>{ c.label }</option>
@@ -118,12 +118,12 @@ function SettingFormPres( props ) {
               <div className={`${BASE_CLASS}__user-form`}>
                 <Input
                   name="name"
-                  label={intl.formatMessage({ id: `field.name` })}
+                  label="field.name"
                   value={ formData.name }
                 />
                 <Textarea
                   name="address"
-                  label={intl.formatMessage({ id: `field.address` })}
+                  label="field.address"
                   value={ formData.address }
                 />
               </div>
@@ -136,18 +136,18 @@ function SettingFormPres( props ) {
               <div className={`${BASE_CLASS}__product-form`}>
                 <Textarea
                   name="productConfig[description]"
-                  label={intl.formatMessage({ id: `field.description` })}
+                  label="field.description"
                   value={ productConfig.description }
                 />
                 <Input
                   name="productConfig[quantity]"
-                  label={intl.formatMessage({ id: `field.quantity` })}
+                  label="field.quantity"
                   type="number"
                   value={ productConfig.quantity }
                 />
                 <Input
                   name="quotationConfig[tax]"
-                  label={intl.formatMessage({ id: `field.tax` })}
+                  label="field.tax"
                   type="number"
                   value={ quotationConfig.tax }
                 />
@@ -156,15 +156,15 @@ function SettingFormPres( props ) {
                 <ProductTable readOnly
                   products={ fakeProducts }
                   tax={ quotationConfig.tax }
-                  currency={ quotationConfig.currency }
+                  currency={ formData.currency }
                 >
                   <ProductLineDisplay
                     product={ fakeProduct }
-                    currency={ quotationConfig.currency }
+                    currency={ formData.currency }
                   />
                   <ProductLineDisplay
                     product={ productConfig }
-                    currency={ quotationConfig.currency }
+                    currency={ formData.currency }
                   />
                 </ProductTable>
               </PaperSheet>
@@ -176,7 +176,7 @@ function SettingFormPres( props ) {
             <div className={`${BASE_CLASS}__mentions`}>
               <Textarea
                 name="quotationConfig[mentions]"
-                label={intl.formatMessage({ id: `configuration.mentions.quotations` })}
+                label="configuration.mentions.quotations"
                 value={ quotationConfig.mentions }
               />
               <PaperSheet part="bottom">
@@ -184,7 +184,7 @@ function SettingFormPres( props ) {
               </PaperSheet>
               <Textarea
                 name="invoiceConfig[mentions]"
-                label={intl.formatMessage({ id: `configuration.mentions.invoices` })}
+                label="configuration.mentions.invoices"
                 value={ invoiceConfig.mentions }
               />
               <PaperSheet part="bottom">
@@ -207,12 +207,12 @@ function SettingFormPres( props ) {
                   <div className={`${BASE_CLASS}__references-form`}>
                     <Input
                       name="quotationConfig[prefix]"
-                      label={intl.formatMessage({ id: `field.prefix` })}
+                      label="field.prefix"
                       value={ quotationConfig.prefix }
                     />
                     <Input
                       name="quotationConfig[startAt]"
-                      label={intl.formatMessage({ id: `field.start-at` })}
+                      label="field.start-at"
                       value={ quotationConfig.startAt }
                       type="number"
                       min="0"
@@ -232,12 +232,12 @@ function SettingFormPres( props ) {
                   <div className={`${BASE_CLASS}__references-form`}>
                     <Input
                       name="invoiceConfig[prefix]"
-                      label={intl.formatMessage({ id: `field.prefix` })}
+                      label="field.prefix"
                       value={ invoiceConfig.prefix }
                     />
                     <Input
                       name="invoiceConfig[startAt]"
-                      label={intl.formatMessage({ id: `field.start-at` })}
+                      label="field.start-at"
                       value={ invoiceConfig.startAt }
                       type="number"
                       min="0"
@@ -263,5 +263,3 @@ function SettingFormPres( props ) {
     </Form>
   )
 }
-
-export default injectIntl( SettingFormPres )

@@ -1,5 +1,5 @@
 import React, {  Fragment } from 'react'
-import { injectIntl, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import { Main, Meta, Content, ContentActions } from '../layout/main.jsx'
 import { PaperSheet, Party, Reference, Mentions, Between } from '../layout/paper-sheet.jsx'
@@ -15,9 +15,8 @@ import './form.pres.scss'
 export const BASE_CLASS = `quotation-form`
 export const FORM_ID    = BASE_CLASS
 
-function QuotationFormPres( props ) {
+export default function QuotationFormPres( props ) {
   const {
-    intl,
     isSaving,
     user,
     customers,
@@ -47,7 +46,7 @@ function QuotationFormPres( props ) {
               handleDayChange={ handle.dayChange }
             />
             <Select darkBg
-              label={intl.formatMessage({ id: `field.customer` })}
+              label="field.customer"
               name="customerId"
               value={ formData.customerId }
               options={ customers }
@@ -59,7 +58,7 @@ function QuotationFormPres( props ) {
             </Select>
             <Input darkBg
               name="tax"
-              label={intl.formatMessage({ id: `field.tax` })}
+              label="field.tax"
               type="number"
               min="0"
               step="0.5"
@@ -76,7 +75,7 @@ function QuotationFormPres( props ) {
             </Between>
             <Input
               name="name"
-              label={intl.formatMessage({ id: `field.subject` })}
+              label="field.subject"
               value={ formData.name }
             />
             <ProductTable
@@ -120,5 +119,3 @@ function QuotationFormPres( props ) {
     </Form>
   )
 }
-
-export default injectIntl( QuotationFormPres )

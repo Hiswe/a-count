@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { injectIntl, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import { Form      , FormActions } from '../ui/form.jsx'
 import { Button                  } from '../ui/buttons.jsx'
@@ -20,7 +20,7 @@ import './form.pres.scss'
 export const BASE_CLASS    = `invoice-form`
 export const FORM_ID       = BASE_CLASS
 
-function InvoiceFormPres( props ) {
+export default function InvoiceFormPres( props ) {
   const { formData, user, handle } = props
   const currency= user.get(`currency`)
 
@@ -73,5 +73,3 @@ function InvoiceFormPres( props ) {
     </Form>
   )
 }
-
-export default injectIntl( InvoiceFormPres )

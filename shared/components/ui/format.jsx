@@ -22,12 +22,13 @@ export function Amount( props ) {
 }
 
 export function FormatNumber( props ) {
-  const value = Number.isFinite( props.value ) ? props.value
-    : Number.isNaN( parseFloat( props.value, 10) ) ? null
-    : parseFloat( props.value, 10)
+  const { value, ...others} = props
+  const safeValue = Number.isFinite( value ) ? value
+    : Number.isNaN( parseFloat( value, 10) ) ? null
+    : parseFloat( value, 10)
   return (
     <p className={`${BASE_CLASS} ${BASE_CLASS}--number`}>
-      { value === null ? `–` : <FormattedNumber value={ props.value } minimumFractionDigits={2} /> }
+      { safeValue === null ? `–` : <FormattedNumber value={ value } {...others}  /> }
     </p>
   )
 }

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { injectIntl, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import { Main, Content} from '../layout/main.jsx'
 import { PaperSheet, Party } from '../layout/paper-sheet.jsx'
@@ -11,13 +11,12 @@ import './form.pres.scss'
 export const BASE_CLASS = `customer-form`
 export const FORM_ID    = BASE_CLASS
 
-function CustomerFormPres( props ) {
+ export default function CustomerFormPres( props ) {
   const {
     isSaving,
     handleSubmit,
     handleFormChange,
     formData,
-    intl,
   } = props
   const isNew = formData.id == null
   const submitI18nId =  `customer.button.${isNew ? 'create' : 'update'}`
@@ -36,18 +35,12 @@ function CustomerFormPres( props ) {
             <fieldset>
               <Input
                 name="name"
-                label={intl.formatMessage({
-                  id: `field.name`,
-                  defaultMessage: `name`,
-                })}
+                label="field.name"
                 value={ formData.name }
               />
               <Textarea
                 name="address"
-                label={intl.formatMessage({
-                  id: `field.address`,
-                  defaultMessage: `address`,
-                })}
+                label="field.address"
                 value={ formData.address }
               />
             </fieldset>
@@ -65,5 +58,3 @@ function CustomerFormPres( props ) {
     </Form>
   )
 }
-
-export default injectIntl( CustomerFormPres )

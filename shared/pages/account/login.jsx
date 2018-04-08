@@ -36,15 +36,13 @@ class Login extends PureComponent {
         <Form id="login" action="/account/login" onSubmit={ this.handleSubmit } >
           <Input
             name="email"
+            label="field.email"
             type="email"
             defaultValue=""
           />
           <Input
             name="password"
-            label={intl.formatMessage({
-              id: `field.password`,
-              defaultMessage: `password`,
-            })}
+            label="field.password"
             type="password"
             defaultValue=""
           />

@@ -65,10 +65,10 @@ export function ProductLineDisplay( props ) {
         <Markdown text={ product.description } />
       </td>
       <td className="is-number">
-        <FormatNumber value={ product.quantity } />
+        <FormatNumber value={ product.quantity } minimumFractionDigits={2} />
       </td>
       <td className="is-number">
-        <FormatNumber value={ product.price } />
+        <FormatNumber value={ product.price } minimumFractionDigits={2} />
       </td>
       <td className="is-total is-number">
         <Amount value={ total } currency={ currency } />

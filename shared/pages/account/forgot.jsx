@@ -44,6 +44,7 @@ class Forgot extends PureComponent {
           <input type="hidden" name="redirectUrl" value={ MAIL_REDIRECT_URL } />
           <Input
             name="email"
+            label="field.email"
             type="email"
             defaultValue=""
           />
