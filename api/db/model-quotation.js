@@ -95,7 +95,7 @@ const Quotation = sequelize.define( `quotation`, {
   _hasInvoice: {
     type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`invoice`]),
     get: function() {
-      const invoice     = this.get( `invoice` )
+      const invoice     = this.getDataValue( `invoiceId` )
       return invoice != null
     },
   },
@@ -108,7 +108,7 @@ const Quotation = sequelize.define( `quotation`, {
       if ( dateMissing ) return false
       const totalNet    = this.getDataValue( `totalNet` )
       const hasInvoice  = this.get( `_hasInvoice` )
-      return !hasInvoice && totalNet <= 0
+      return !hasInvoice && totalNet > 0
     },
   },
 })

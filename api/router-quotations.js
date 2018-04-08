@@ -194,7 +194,7 @@ router
   const updateInvoiceConfig = await invoiceConfig.increment( `count`, {by: 1} )
 
   ctx.assert( updateInvoiceConfig, 500, MESSAGES.CANT_UPDATE_INVOICE_COUNT )
-  const emptyInvoice   = await Invoice.create({
+  const invoice   = await Invoice.create({
     name           : quotation.get( `name` ),
     tax            : quotation.get( `tax` ),
     products       : quotation.get( `products` ),
@@ -205,12 +205,13 @@ router
     totalPaid      : 0,
     userId         : quotation.get( `userId` ),
     customerId     : quotation.get( `customerId` ),
-    quotationId    : id,
     invoiceConfigId: updateInvoiceConfig.get( `id` ),
     index          : updateInvoiceConfig.get( `count` ),
   })
 
-  ctx.assert( emptyInvoice, 500, MESSAGES.CONVERT_ERROR )
+  await quotation.update({ invoiceId: invoice.id } )
+
+  ctx.assert( invoice, 500, MESSAGES.CONVERT_ERROR )
   const quotationQuery  = addRelations.quotation({
     where: { id, userId }
   })
