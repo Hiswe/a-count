@@ -1,4 +1,7 @@
 export default {
+  '_.quotations': `quotations`,
+  '_.invoices'  : `invoices`  ,
+
   'account.login.title'    : `login`,
   'account.login.button'   : `connect`,
   'account.register.title' : `Sign up`,
@@ -22,8 +25,9 @@ export default {
     <br />
     Be cautious!`,
 
-  'customer.button.create': `Create a customer`,
-  'customer.button.update': `update`,
+  'customer.button.create'    : `Create a customer`,
+  'customer.button.update'    : `update`           ,
+  'customer.tab.configuration': `name & address`   ,
 
   'field.email'      : `email`,
   'field.password'   : `password`,

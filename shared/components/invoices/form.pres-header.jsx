@@ -9,7 +9,7 @@ const TITLE_CLASS   = `${BASE_CLASS}_title`
 const CONTENT_CLASS = `${BASE_CLASS}_content`
 
 export default function InvoiceFormHeader( props ) {
-  const { formData, currency } = props
+  const { formData  } = props
   return (
     <dl className={ BASE_CLASS }>
       <dt className={ TITLE_CLASS }>
@@ -32,28 +32,19 @@ export default function InvoiceFormHeader( props ) {
         <FormattedMessage id="table.amount" />
       </dt>
       <dd className={ CONTENT_CLASS }>
-        <Amount
-          value={ formData.get(`total`) }
-          currency={ currency }
-        />
+        <Amount value={ formData.get(`total`) } />
       </dd>
       <dt className={ TITLE_CLASS }>
         <FormattedMessage id="table.amount.paid" />
       </dt>
       <dd className={ CONTENT_CLASS }>
-        <Amount
-          value={ formData.get(`totalPaid`) }
-          currency={ currency }
-        />
+        <Amount value={ formData.get(`totalPaid`) } />
       </dd>
       <dt className={ TITLE_CLASS }>
         <FormattedMessage id="table.amount.left-to-pay" />
       </dt>
       <dd className={ CONTENT_CLASS }>
-        <Amount
-          value={ formData.get(`totalLeft`) }
-          currency={ currency }
-        />
+        <Amount value={ formData.get(`totalLeft`) } />
       </dd>
     </dl>
   )

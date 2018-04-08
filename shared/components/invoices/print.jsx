@@ -6,7 +6,6 @@ import { ProductTable, ProductLineDisplay } from '../ui/table-product.jsx'
 
 function PrintInvoice( props ) {
   const { invoice, user } = props
-  const currency = user.get(`currency`)
   return (
     <PaperSheet print>
       <Reference type="invoice" product={ invoice } />
@@ -18,13 +17,11 @@ function PrintInvoice( props ) {
       <ProductTable readOnly
         products={ invoice.get(`products`) }
         tax={ invoice.get(`tax`) }
-        currency={ currency }
       >
         {invoice.get(`products`).map( (product, index) =>  (
           <ProductLineDisplay
             key={ index }
             product={ product }
-            currency={ currency }
           />
         ))}
       </ProductTable>

@@ -1,4 +1,7 @@
 export default {
+  '_.quotations': `devis`,
+  '_.invoices'  : `factures`  ,
+
   'account.login.title'    : `connexion`,
   'account.login.button'   : `se connecter`,
   'account.register.title' : `Créer un compte`,
@@ -22,8 +25,9 @@ export default {
     <br />
     Soyez prudent !`,
 
-  'customer.button.create': `Créer le client`,
-  'customer.button.update': `Mettre à jour`,
+  'customer.button.create'    : `Créer le client`,
+  'customer.button.update'    : `Mettre à jour`  ,
+  'customer.tab.configuration': `Nom & adresse`  ,
 
   'field.email'      : `email`,
   'field.password'   : `mot de passe`,

@@ -78,187 +78,186 @@ export default function SettingFormPres( props ) {
       <input type="hidden" name="productConfig[id]"   defaultValue={ productConfig.id } />
 
       <Tabs>
-          <TabList>
-            <Tab>
-              <FormattedMessage id="configuration.tab.from" />
-            </Tab>
-            <Tab>
-              <FormattedMessage id="configuration.tab.default-product" />
-            </Tab>
-            <Tab>
-              <FormattedMessage id="configuration.tab.mentions" />
-            </Tab>
-            <Tab>
-              <FormattedMessage id="configuration.tab.reference" />
-            </Tab>
-          </TabList>
+        <TabList>
+          <Tab>
+            <FormattedMessage id="configuration.tab.from" />
+          </Tab>
+          <Tab>
+            <FormattedMessage id="configuration.tab.default-product" />
+          </Tab>
+          <Tab>
+            <FormattedMessage id="configuration.tab.mentions" />
+          </Tab>
+          <Tab>
+            <FormattedMessage id="configuration.tab.reference" />
+          </Tab>
+        </TabList>
 
-          {/* USER */}
-          <TabPanel>
-            <div className={`${BASE_CLASS}__user`}>
-              <Select
-                name="lang"
-                label="field.language"
-                value={ formData.lang }
-              >{ languages.map( c => (
-                <option key={ c.value } value={ c.value }>{ c.label }</option>
-              ))}
-              </Select>
-              <Select
-                name="currency"
-                label="field.currency"
-                value={ formData.currency }
-              >{ currencies.map( c => (
-                <option key={ c.value } value={ c.value }>{ c.label }</option>
-              ))}
-              </Select>
-              <PaperSheet part="top-left">
-                <Party title="from" {...formData} />
-              </PaperSheet>
-              <div className={`${BASE_CLASS}__user-form`}>
-                <Input
-                  name="name"
-                  label="field.name"
-                  value={ formData.name }
-                />
-                <Textarea
-                  name="address"
-                  label="field.address"
-                  value={ formData.address }
-                />
-              </div>
+        {/* USER */}
+        <TabPanel>
+          <div className={`${BASE_CLASS}__user`}>
+            <Select
+              name="lang"
+              label="field.language"
+              value={ formData.lang }
+            >{ languages.map( c => (
+              <option key={ c.value } value={ c.value }>{ c.label }</option>
+            ))}
+            </Select>
+            <Select
+              name="currency"
+              label="field.currency"
+              value={ formData.currency }
+            >{ currencies.map( c => (
+              <option key={ c.value } value={ c.value }>{ c.label }</option>
+            ))}
+            </Select>
+            <PaperSheet part="top-left">
+              <Party title="from" {...formData} />
+            </PaperSheet>
+            <div className={`${BASE_CLASS}__user-form`}>
+              <Input
+                name="name"
+                label="field.name"
+                value={ formData.name }
+              />
+              <Textarea
+                name="address"
+                label="field.address"
+                value={ formData.address }
+              />
             </div>
-          </TabPanel>
+          </div>
+        </TabPanel>
 
-          {/* PRODUCT */}
-          <TabPanel>
-            <div className={`${BASE_CLASS}__product`}>
-              <div className={`${BASE_CLASS}__product-form`}>
-                <Textarea
-                  name="productConfig[description]"
-                  label="field.description"
-                  value={ productConfig.description }
-                />
-                <Input
-                  name="productConfig[quantity]"
-                  label="field.quantity"
-                  type="number"
-                  value={ productConfig.quantity }
-                />
-                <Input
-                  name="quotationConfig[tax]"
-                  label="field.tax"
-                  type="number"
-                  value={ quotationConfig.tax }
-                />
-              </div>
-              <PaperSheet part="center">
-                <ProductTable readOnly
-                  products={ fakeProducts }
-                  tax={ quotationConfig.tax }
+        {/* PRODUCT */}
+        <TabPanel>
+          <div className={`${BASE_CLASS}__product`}>
+            <div className={`${BASE_CLASS}__product-form`}>
+              <Textarea
+                name="productConfig[description]"
+                label="field.description"
+                value={ productConfig.description }
+              />
+              <Input
+                name="productConfig[quantity]"
+                label="field.quantity"
+                type="number"
+                value={ productConfig.quantity }
+              />
+              <Input
+                name="quotationConfig[tax]"
+                label="field.tax"
+                type="number"
+                value={ quotationConfig.tax }
+              />
+            </div>
+            <PaperSheet part="center">
+              <ProductTable readOnly
+                products={ fakeProducts }
+                tax={ quotationConfig.tax }
+                currency={ formData.currency }
+              >
+                <ProductLineDisplay
+                  product={ fakeProduct }
                   currency={ formData.currency }
-                >
-                  <ProductLineDisplay
-                    product={ fakeProduct }
-                    currency={ formData.currency }
+                />
+                <ProductLineDisplay
+                  product={ productConfig }
+                  currency={ formData.currency }
+                />
+              </ProductTable>
+            </PaperSheet>
+          </div>
+        </TabPanel>
+
+        {/* MENTIONS */}
+        <TabPanel>
+          <div className={`${BASE_CLASS}__mentions`}>
+            <Textarea
+              name="quotationConfig[mentions]"
+              label="configuration.mentions.quotations"
+              value={ quotationConfig.mentions }
+            />
+            <PaperSheet part="bottom">
+              <Mentions content={ quotationConfig.mentions }/>
+            </PaperSheet>
+            <Textarea
+              name="invoiceConfig[mentions]"
+              label="configuration.mentions.invoices"
+              value={ invoiceConfig.mentions }
+            />
+            <PaperSheet part="bottom">
+              <Mentions content={ invoiceConfig.mentions }/>
+            </PaperSheet>
+          </div>
+        </TabPanel>
+
+        {/* REFERENCES */}
+        <TabPanel>
+          <p className={`${BASE_CLASS}__warning`}>
+            <FormattedHTMLMessage id="configuration.reference.warning" />
+          </p>
+          <div className={`${BASE_CLASS}__references`}>
+            <dl className={`${BASE_CLASS}__references-section`}>
+              <dt className={`${BASE_CLASS}__sub-title`}>
+                <FormattedMessage id="page.quotations" />
+              </dt>
+              <dd className={`${BASE_CLASS}__references-content`}>
+                <div className={`${BASE_CLASS}__references-form`}>
+                  <Input
+                    name="quotationConfig[prefix]"
+                    label="field.prefix"
+                    value={ quotationConfig.prefix }
                   />
-                  <ProductLineDisplay
-                    product={ productConfig }
-                    currency={ formData.currency }
+                  <Input
+                    name="quotationConfig[startAt]"
+                    label="field.start-at"
+                    value={ quotationConfig.startAt }
+                    type="number"
+                    min="0"
+                    step="1"
                   />
-                </ProductTable>
-              </PaperSheet>
-            </div>
-          </TabPanel>
+                </div>
+                <PaperSheet part="top-right">
+                  <Reference {...fakeQuotationReference} />
+                </PaperSheet>
+              </dd>
+            </dl>
+            <dl className={`${BASE_CLASS}__references-section`}>
+              <dt className={`${BASE_CLASS}__sub-title`}>
+                <FormattedMessage id="page.invoices" />
+              </dt>
+              <dd className={`${BASE_CLASS}__references-content`}>
+                <div className={`${BASE_CLASS}__references-form`}>
+                  <Input
+                    name="invoiceConfig[prefix]"
+                    label="field.prefix"
+                    value={ invoiceConfig.prefix }
+                  />
+                  <Input
+                    name="invoiceConfig[startAt]"
+                    label="field.start-at"
+                    value={ invoiceConfig.startAt }
+                    type="number"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <PaperSheet part="top-right">
+                  <Reference {...fakeInvoiceReference} />
+                </PaperSheet>
+              </dd>
+            </dl>
+          </div>
+        </TabPanel>
 
-          {/* MENTIONS */}
-          <TabPanel>
-            <div className={`${BASE_CLASS}__mentions`}>
-              <Textarea
-                name="quotationConfig[mentions]"
-                label="configuration.mentions.quotations"
-                value={ quotationConfig.mentions }
-              />
-              <PaperSheet part="bottom">
-                <Mentions content={ quotationConfig.mentions }/>
-              </PaperSheet>
-              <Textarea
-                name="invoiceConfig[mentions]"
-                label="configuration.mentions.invoices"
-                value={ invoiceConfig.mentions }
-              />
-              <PaperSheet part="bottom">
-                <Mentions content={ invoiceConfig.mentions }/>
-              </PaperSheet>
-            </div>
-          </TabPanel>
-
-          {/* REFERENCES */}
-          <TabPanel>
-            <p className={`${BASE_CLASS}__warning`}>
-              <FormattedHTMLMessage id="configuration.reference.warning" />
-            </p>
-            <div className={`${BASE_CLASS}__references`}>
-              <dl className={`${BASE_CLASS}__references-section`}>
-                <dt className={`${BASE_CLASS}__sub-title`}>
-                  <FormattedMessage id="page.quotations" />
-                </dt>
-                <dd className={`${BASE_CLASS}__references-content`}>
-                  <div className={`${BASE_CLASS}__references-form`}>
-                    <Input
-                      name="quotationConfig[prefix]"
-                      label="field.prefix"
-                      value={ quotationConfig.prefix }
-                    />
-                    <Input
-                      name="quotationConfig[startAt]"
-                      label="field.start-at"
-                      value={ quotationConfig.startAt }
-                      type="number"
-                      min="0"
-                      step="1"
-                    />
-                  </div>
-                  <PaperSheet part="top-right">
-                    <Reference {...fakeQuotationReference} />
-                  </PaperSheet>
-                </dd>
-              </dl>
-              <dl className={`${BASE_CLASS}__references-section`}>
-                <dt className={`${BASE_CLASS}__sub-title`}>
-                  <FormattedMessage id="page.invoices" />
-                </dt>
-                <dd className={`${BASE_CLASS}__references-content`}>
-                  <div className={`${BASE_CLASS}__references-form`}>
-                    <Input
-                      name="invoiceConfig[prefix]"
-                      label="field.prefix"
-                      value={ invoiceConfig.prefix }
-                    />
-                    <Input
-                      name="invoiceConfig[startAt]"
-                      label="field.start-at"
-                      value={ invoiceConfig.startAt }
-                      type="number"
-                      min="0"
-                      step="1"
-                    />
-                  </div>
-                  <PaperSheet part="top-right">
-                    <Reference {...fakeInvoiceReference} />
-                  </PaperSheet>
-                </dd>
-              </dl>
-            </div>
-          </TabPanel>
-
-          {/* ACTIONS */}
-          <FormActions>
-            <Button type="submit">
-              <FormattedMessage id="configuration.button.save" />
-            </Button>
-          </FormActions>
-
+        {/* ACTIONS */}
+        <FormActions>
+          <Button type="submit">
+            <FormattedMessage id="configuration.button.save" />
+          </Button>
+        </FormActions>
       </Tabs>
     </Form>
   )

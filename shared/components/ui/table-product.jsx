@@ -57,7 +57,7 @@ export function ProductLineEditable( props ) {
 }
 
 export function ProductLineDisplay( props ) {
-    const { fieldPath, product, currency } = props
+    const { fieldPath, product } = props
   const total = compute.productTotal( product )
   return (
     <tr>
@@ -71,7 +71,7 @@ export function ProductLineDisplay( props ) {
         <FormatNumber value={ product.price } minimumFractionDigits={2} />
       </td>
       <td className="is-total is-number">
-        <Amount value={ total } currency={ currency } />
+        <Amount value={ total } />
       </td>
     </tr>
   )
@@ -87,10 +87,7 @@ function TotalFooter( props ) {
           <p><FormattedMessage id="table.amount-ht"/></p>
         </td>
         <td>
-          <Amount
-            value={ totals.net }
-            currency={ props.currency }
-          />
+          <Amount value={ totals.net } />
         </td>
         { !readOnly && <td className="is-action"></td> }
       </tr>
@@ -99,10 +96,7 @@ function TotalFooter( props ) {
           <p><FormattedMessage id="table.amount-taxes"/></p>
         </td>
         <td>
-          <Amount
-            value={ totals.tax }
-            currency={ props.currency }
-          />
+          <Amount value={ totals.tax } />
         </td>
         { !readOnly && <td className="is-action"></td> }
       </tr>
@@ -111,10 +105,7 @@ function TotalFooter( props ) {
           <p><FormattedMessage id="table.amount"/></p>
         </td>
         <td>
-          <Amount
-            value={ totals.all }
-            currency={ props.currency }
-          />
+          <Amount value={ totals.all } />
         </td>
         { !readOnly && <td className="is-action"></td> }
       </tr>

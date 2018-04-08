@@ -9,9 +9,10 @@ import * as invoices from '../../ducks/invoices'
 import { Main, Content } from '../../components/layout/main.jsx'
 import NavSecondary from '../../components/nav/secondary.jsx'
 import { BtnFab } from '../../components/ui/buttons.jsx'
-import InvoiceTable from '../../components/invoices/list.jsx'
+import InvoicesList from '../../components/invoices/list.jsx'
 
 function Invoices( props ) {
+  const { invoices } = props
 
   return (
     <Fragment>
@@ -21,14 +22,20 @@ function Invoices( props ) {
       </NavSecondary>
       <Main>
         <Content>
-          <InvoiceTable />
+          <InvoicesList invoices={ invoices } />
         </Content>
       </Main>
     </Fragment>
   )
 }
 
-export default connect()( ConnectDataFetcher({
+function state2props( state ) {
+  return {
+    invoices: state.invoices.get( `list` ),
+  }
+}
+
+export default connect( state2props )( ConnectDataFetcher({
   Component: Invoices,
   actionCreators: [
     invoices.getAll

@@ -75,10 +75,7 @@ function QuotationRow( props ) {
         }
       </td>
       <td className="is-number">
-        <Amount
-          value={quotation.get(`total`) }
-          currency={ currency }
-        />
+        <Amount value={quotation.get(`total`) } />
       </td>
     </tr>
   )
@@ -108,7 +105,6 @@ function QuotationTable( props ) {
         <QuotationRow
           key={ q.id }
           quotation={ q }
-          currency={ currency }
           handleCreate={ () => props.createInvoice( {params: {id: q.id}}) }
         />
       ))
@@ -119,8 +115,7 @@ function QuotationTable( props ) {
 
 function state2prop( state ) {
   return {
-    quotations: state.quotations.get( `list` ),
-    currency  : state.account.get( `current.currency` ),
+    quotations: state.quotations.get( `list` )
   }
 }
 

@@ -13,6 +13,8 @@ import QuotationsList from '../components/quotations/list.jsx'
 import InvoicesList from '../components/invoices/list.jsx'
 
 function Home( props ) {
+  const { invoices } = props
+
   return (
     <Fragment>
       <NavSecondary
@@ -29,14 +31,20 @@ function Home( props ) {
           <h3>
             <FormattedHTMLMessage id="page.invoices" />
           </h3>
-          <InvoicesList />
+          <InvoicesList invoices={ invoices } />
         </Content>
       </Main>
     </Fragment>
   )
 }
 
-export default connect()( ConnectDataFetcher({
+function state2props( state ) {
+  return {
+    invoices: state.invoices.get( `list` ),
+  }
+}
+
+export default connect( state2props )( ConnectDataFetcher({
   Component: Home,
   actionCreators: [
     quotations.getAll,

@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { FormattedNumber, FormattedDate } from 'react-intl'
 import marked from 'marked'
 
@@ -16,16 +17,25 @@ function parseValue( value ) {
 // • https://github.com/yahoo/react-intl/wiki/Components#formatteddate
 // • https://github.com/yahoo/react-intl/wiki/Components#formattednumber
 
-export function Amount( props ) {
-  const { value, ...others} = props
+export function AmountPres( props ) {
+  const { value, currency, ...others} = props
   others.style = `currency`
   const safeValue = parseValue( value )
   return (
     <p className={`${BASE_CLASS} ${BASE_CLASS}--currency`}>
-      { safeValue === null ? `–` : <FormattedNumber value={ value } {...others}  /> }
+      { safeValue === null ? `–` : <FormattedNumber value={ value } currency={ currency } {...others}  /> }
     </p>
   )
 }
+
+function currency2prop( state ) {
+  return {
+    currency: state.account.get( `current.currency` ),
+  }
+}
+
+export const Amount = connect( currency2prop )( AmountPres )
+
 
 export function FormatNumber( props ) {
   const { value, ...others} = props

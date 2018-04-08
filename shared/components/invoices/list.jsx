@@ -7,7 +7,7 @@ import { Amount, Date } from '../ui/format.jsx'
 import { Progress } from '../ui/progress.jsx'
 
 function InvoiceRow( props ) {
-  const { invoice, currency } = props
+  const { invoice } = props
   const url = `/invoices/${invoice.id}`
   return (
     <tr>
@@ -30,7 +30,6 @@ function InvoiceRow( props ) {
       <td className="is-number">
         <Amount
           value={invoice.get(`total`)}
-          currency={ currency }
         />
       </td>
       <td className="is-progress">
@@ -44,20 +43,22 @@ function InvoiceRow( props ) {
   )
 }
 
-function InvoiceList( props ) {
+const columns = [
+  {label: `table.header.id`},
+  {label: `table.header.name`},
+  {label: `table.header.customer`},
+  {label: `table.header.quotation`},
+  {label: `table.amount`},
+  {label: `table.amount.paid`},
+]
+
+export default function InvoiceList( props ) {
   const { invoices } = props
   const hasInvoices = Array.isArray( invoices ) && invoices.length
   return (
     <Table
       className="table--pres"
-      columns={[
-        {label: `table.header.id`},
-        {label: `table.header.name`},
-        {label: `table.header.customer`},
-        {label: `table.header.quotation`},
-        {label: `table.amount`},
-        {label: `table.amount.paid`},
-      ]}
+      columns={ columns }
     >
       {
         !hasInvoices ? ( <EmptyLine colspan="6" /> )
@@ -65,19 +66,9 @@ function InvoiceList( props ) {
           <InvoiceRow
             key={ invoice.id }
             invoice={ invoice }
-            currency={ props.currency }
           />
         ))
       }
     </Table>
   )
 }
-
-function state2prop( state ) {
-  return {
-    invoices: state.invoices.get( `list` ),
-    currency: state.account.get( `current.currency` ),
-  }
-}
-
-export default connect( state2prop )( InvoiceList )
