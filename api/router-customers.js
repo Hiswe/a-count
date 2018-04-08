@@ -22,10 +22,26 @@ router
         FROM quotations as quotation
         WHERE "quotation"."customerId" = customer.id
       ) AS "quotationsCount",
+      ( SELECT SUM("quotation"."total")
+        FROM quotations as quotation
+        WHERE "quotation"."customerId" = customer.id
+      ) AS "quotationsTotal",
       ( SELECT COUNT(*)
         FROM invoices as invoice
         WHERE "invoice"."customerId" = customer.id
-      ) AS "invoicesCount"
+      ) AS "invoicesCount",
+      ( SELECT SUM("invoice"."total")
+        FROM invoices as invoice
+        WHERE "invoice"."customerId" = customer.id
+      ) AS "invoicesTotal",
+      ( SELECT SUM("invoice"."totalLeft")
+        FROM invoices as invoice
+        WHERE "invoice"."customerId" = customer.id
+      ) AS "invoicesTotalLeft",
+      ( SELECT SUM("invoice"."totalPaid")
+        FROM invoices as invoice
+        WHERE "invoice"."customerId" = customer.id
+      ) AS "invoicesTotalPaid"
     FROM customers AS customer
     WHERE
       "customer"."userId" = \'${userId}\'

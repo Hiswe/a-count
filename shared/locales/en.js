@@ -116,6 +116,7 @@ export default {
   'table.header.sent'                 : `sent`,
   'table.header.validated'            : `validated`,
   'table.header.signed'               : `signed`,
+  'table.header.cumulative-amount'    : `cumulative amount`,
   'table.amount-ht'                   : `pre-tax amount`,
   'table.amount-taxes'                : `taxes`,
   'table.amount'                      : `amount`,
