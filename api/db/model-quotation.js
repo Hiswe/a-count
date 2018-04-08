@@ -102,13 +102,13 @@ const Quotation = sequelize.define( `quotation`, {
   _canCreateInvoice: {
     type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`sendAt`, `validatedAt`, `signedAt`, `invoice`, `products`]),
     get: function() {
-      const informations = [ `products`, `sendAt`, `validatedAt`,  `signedAt` ]
-        .map( infoName => this.get( infoName) )
-      const hasEmpty = informations.some( info => info === undefined )
-      if ( hasEmpty ) return false
-      const [ products ]  = informations
-      const invoiceId     = this.get( `invoiceId` )
-      return !invoiceId && products.length > 0
+      const dateMissing = [ `sendAt`, `validatedAt`,  `signedAt` ]
+        .map( infoName => this.getDataValue( infoName) )
+        .some( info => info === null )
+      if ( dateMissing ) return false
+      const totalNet    = this.getDataValue( `totalNet` )
+      const hasInvoice  = this.get( `_hasInvoice` )
+      return !hasInvoice && totalNet <= 0
     },
   },
 })
