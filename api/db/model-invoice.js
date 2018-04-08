@@ -16,7 +16,9 @@ const Invoice = sequelize.define( `invoice`, {
   reference: {
     type: new Sequelize.VIRTUAL(Sequelize.STRING, [`invoiceConfig`, `index`]),
     get:  function() {
-      const { prefix, startAt, count } = this.get( `invoiceConfig` )
+      const config = this.get( `invoiceConfig` )
+      if ( !config ) return `–`
+      const { prefix, startAt, count } = config
       const index = this.getDataValue( `index` ) || count + 1
       return `${ prefix }${ index + startAt }`
     }
