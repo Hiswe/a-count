@@ -29,7 +29,7 @@ function CustomerRow( props ) {
       <td className="is-progress">
         <Progress
           tableLayout
-          value={ customer.get(`invoicesTotalLeft`) }
+          value={ customer.get(`invoicesTotalPaid`) }
           max={ customer.get(`invoicesTotal`) }
         />
       </td>
