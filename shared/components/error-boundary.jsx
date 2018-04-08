@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react'
 
 import LayoutBoarding from './layout/boarding.jsx'
+import { FormattedMessage } from 'react-intl'
 
-class ErrorBoundary extends PureComponent {
+export default class ErrorBoundary extends PureComponent {
 
   constructor(props) {
     super(props)
@@ -22,7 +23,9 @@ class ErrorBoundary extends PureComponent {
     if (this.state.errorInfo) {
       // Error path
       return (
-        <LayoutBoarding title="Something went wrong">
+        <LayoutBoarding
+          title={ <FormattedMessage id="page.error" />}
+        >
           <div style={{ whiteSpace: 'pre-wrap' }}>
             {this.state.error && this.state.error.toString()}
             <br />
@@ -35,5 +38,3 @@ class ErrorBoundary extends PureComponent {
     return this.props.children
   }
 }
-
-export default ErrorBoundary

@@ -79,6 +79,7 @@ export default {
   'page.login'           : `connexion`,
   'page.register'        : `enregistrement`,
   'page.forgot'          : `mot de passe oublié`,
+  'page.error'           : `Une erreur est survenue`,
 
   'paper-sheet.reference.quotation': `Devis`,
   'paper-sheet.reference.invoice'  : `Facture`,

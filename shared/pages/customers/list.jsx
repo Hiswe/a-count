@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { injectIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers.js'
@@ -14,14 +14,11 @@ import CustomersTable from '../../components/customers/list.jsx'
 const TYPE = `customers`
 
 function Customers( props ) {
-  const { intl } = props
-
   return (
     <Fragment>
-      <NavSecondary title={intl.formatMessage({
-        id: `page.customers`,
-        defaultMessage: `customers`,
-      })}>
+      <NavSecondary
+        title={ <FormattedMessage id="page.customers" /> }
+      >
         <ButtonNew secondary  type={ TYPE } />
       </NavSecondary>
       <Main>
@@ -35,7 +32,7 @@ function Customers( props ) {
 }
 
 export default connect()( ConnectDataFetcher({
-  Component: injectIntl( Customers ),
+  Component: Customers,
   actionCreators: [
     customers.getAll
   ],

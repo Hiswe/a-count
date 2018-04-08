@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { injectIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as invoices from '../../ducks/invoices'
@@ -12,11 +12,12 @@ import { BtnFab } from '../../components/ui/buttons.jsx'
 import InvoiceTable from '../../components/invoices/list.jsx'
 
 function Invoices( props ) {
-  const { intl } = props
 
   return (
     <Fragment>
-      <NavSecondary title={intl.formatMessage({ id: `page.invoices` })}>
+      <NavSecondary
+        title={ <FormattedMessage id="page.invoices" /> }
+      >
       </NavSecondary>
       <Main>
         <Content>
@@ -28,7 +29,7 @@ function Invoices( props ) {
 }
 
 export default connect()( ConnectDataFetcher({
-  Component: injectIntl( Invoices ),
+  Component: Invoices,
   actionCreators: [
     invoices.getAll
   ],

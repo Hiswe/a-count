@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { injectIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers'
@@ -17,14 +17,13 @@ import { FORM_ID } from '../../components/customers/form.pres.jsx'
 const TYPE = `customers`
 
 function EditCustomer( props ) {
-  const { intl } = props
+  const { name } = props
 
   return (
     <Fragment>
-      <NavSecondary title={intl.formatMessage(
-        {id: `page.customers.edit`},
-        {name: props.name}
-      )}>
+      <NavSecondary
+        title={ <FormattedMessage id="page.customers.edit" values={{name}} /> }
+      >
         <ButtonNew  type={ TYPE } secondary  />
         <ButtonList type={ TYPE } />
         <ButtonSubmit formId={FORM_ID} isSaving={ props.isSaving } />
@@ -42,7 +41,7 @@ function state2prop( state ) {
 }
 
 export default connect( state2prop )( ConnectDataFetcher({
-  Component: injectIntl( EditCustomer ),
+  Component: EditCustomer,
   actionCreators: [
     customers.getOne
   ],

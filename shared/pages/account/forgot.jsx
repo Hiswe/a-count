@@ -3,7 +3,7 @@ import serialize from 'form-serialize'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import urlJoin from 'url-join'
-import { injectIntl, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import config from '../../isomorphic-config.js'
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
@@ -30,13 +30,11 @@ class Forgot extends PureComponent {
 
   render() {
     const { props } = this
-    const { intl } = props
 
     return (
-      <LayoutBoarding title={intl.formatMessage({
-        id: `account.forgot.title`,
-        defaultMessage: `password forgotten`,
-      })}>
+      <LayoutBoarding
+        title={ <FormattedMessage id="account.forgot.title" /> }
+      >
         <Form id="forgot" action="/account/forgot" onSubmit={ this.handleSubmit } >
           <p>
             <FormattedMessage id="account.forgot.notice" defaultValue="after submitting the form you will receive a reset link by email" />
@@ -64,7 +62,7 @@ function dispatch2prop( dispatch ) {
 }
 
 export default connect( null, dispatch2prop )( ConnectDataFetcher({
-  Component: injectIntl( Forgot ),
+  Component: Forgot,
   actionCreators: [
   ],
 }) )

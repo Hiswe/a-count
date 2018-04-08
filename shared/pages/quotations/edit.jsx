@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
-import { injectIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
@@ -19,15 +19,14 @@ import ButtonCreateInvoice from '../../components/quotations/create-invoice-butt
 const TYPE = `quotations`
 
 function EditQuotation( props ) {
-  const { reference, intl, ...others } = props
+  const { reference, ...others } = props
   const { id } = props.match.params
 
   return (
     <Fragment>
-      <NavSecondary title={intl.formatMessage(
-        {id: `page.quotations.edit`},
-        {reference: props.reference}
-      )}>
+      <NavSecondary
+        title={ <FormattedMessage id="page.quotations.edit" values={{reference}} /> }
+      >
         <ButtonNew   type={ TYPE } secondary />
         <ButtonList  type={ TYPE } />
         <ButtonPrint type={ TYPE } id={ id } />
@@ -50,7 +49,7 @@ function state2prop( state ) {
 }
 
 export default connect( state2prop )( ConnectDataFetcher({
-  Component: injectIntl( EditQuotation ),
+  Component: EditQuotation,
   actionCreators: [
     quotations.getOne,
     customers.getAll,

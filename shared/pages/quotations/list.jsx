@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { injectIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
@@ -14,14 +14,11 @@ import QuotationsList from '../../components/quotations/list.jsx'
 const TYPE = `quotations`
 
 function Quotations( props ) {
-  const { intl } = props
-
   return (
     <Fragment>
-      <NavSecondary title={intl.formatMessage({
-        id: `page.quotations`,
-        defaultMessage: `quotations`,
-      })}>
+      <NavSecondary
+        title={ <FormattedMessage id="page.quotations" /> }
+      >
         <ButtonNew secondary type={ TYPE } />
       </NavSecondary>
       <Main>
@@ -35,7 +32,7 @@ function Quotations( props ) {
 }
 
 export default connect()( ConnectDataFetcher({
-  Component: injectIntl( Quotations ),
+  Component: Quotations,
   actionCreators: [
     quotations.getAll,
   ],

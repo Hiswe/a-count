@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { injectIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as invoices from '../../ducks/invoices'
@@ -17,15 +17,14 @@ import { FORM_ID } from '../../components/invoices/form.pres.jsx'
 const TYPE = `invoices`
 
 function EditInvoice( props ) {
-  const { reference, intl } = props
+  const { reference } = props
   const { id } = props.match.params
 
   return (
     <Fragment>
-      <NavSecondary title={intl.formatMessage(
-        {id: `page.invoices.edit`},
-        {reference: props.reference}
-      )}>
+      <NavSecondary
+        title={ <FormattedMessage id="page.invoices.edit" values={{reference}} /> }
+      >
         <ButtonList type={ TYPE } />
         <ButtonPrint type={ TYPE } id={ id } />
         <ButtonSubmit formId={ FORM_ID } isSaving={ props.isSaving } />
@@ -43,7 +42,7 @@ function state2prop( state ) {
 }
 
 export default connect( state2prop )( ConnectDataFetcher({
-  Component: injectIntl( EditInvoice ),
+  Component: EditInvoice,
   actionCreators: [
     invoices.getOne,
   ],

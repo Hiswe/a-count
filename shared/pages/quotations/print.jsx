@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
@@ -16,15 +17,14 @@ import PrintQuotation from '../../components/quotations/print.jsx'
 const TYPE = `quotations`
 
 function PrintQuotationPage( props ) {
-  const { reference, intl } = props
+  const { reference } = props
   const { id } = props.match.params
 
   return (
     <Fragment>
-      <NavSecondary title={intl.formatMessage(
-        {id: `page.quotations.print`},
-        {reference: props.reference}
-      )}>
+      <NavSecondary
+        title={ <FormattedMessage id="page.quotations.print" values={{reference}} /> }
+      >
         <ButtonNew type={ TYPE }  />
         <ButtonList type={ TYPE } />
         <ButtonEdit type={ TYPE } id={id} />
@@ -39,15 +39,13 @@ function PrintQuotationPage( props ) {
 }
 
 function state2prop( state ) {
-  const { current } = state.quotations
-  const result = {
-    reference:  current.reference
+  return {
+    reference:  state.quotations.get(`current.reference`)
   }
-  return result
 }
 
 export default connect( state2prop )( ConnectDataFetcher({
-  Component: injectIntl( PrintQuotationPage ),
+  Component: PrintQuotationPage,
   actionCreators: [
     quotations.getOne,
   ],

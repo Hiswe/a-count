@@ -79,6 +79,7 @@ export default {
   'page.login'           : `login`,
   'page.register'        : `register`,
   'page.forgot'          : `forgotten password`,
+  'page.error'           : `something went wrong`,
 
   'paper-sheet.reference.quotation': `Quotation`,
   'paper-sheet.reference.invoice'  : `Invoice`,
