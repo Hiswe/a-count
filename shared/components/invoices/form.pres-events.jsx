@@ -7,7 +7,9 @@ import { DatePicker } from '../ui/date-picker.jsx'
 import { Amount }     from '../ui/format.jsx'
 
 const eventsColumns = [
-  {label: `invoices.event.name`},
+  {label: `invoices.event.#`, style:{ width: `2em`}},
+  {label: `invoices.event`, style:{ width: `5em`}},
+  {label: `invoices.event.description`},
   {label: `invoices.event.date`,  style:{ width: '10em'}},
   {label: `invoices.event.amount`, style:{ width: '10em'}},
   {label: ``},
@@ -19,7 +21,7 @@ function InvoiceEventsFooter( props ) {
   return (
     <tfoot>
       <tr>
-        <td colSpan="2">
+        <td colSpan="4">
           <p>
             <FormattedMessage id="table.amount.paid" />
           </p>
@@ -33,7 +35,7 @@ function InvoiceEventsFooter( props ) {
         <td></td>
       </tr>
       <tr>
-        <td colSpan="2">
+        <td colSpan="4">
           <p>
             <FormattedMessage id="table.amount.left-to-pay" />
           </p>
@@ -60,8 +62,12 @@ export default function InvoiceEvents( props ) {
       footer={ <InvoiceEventsFooter {...props} /> }
     >
       <tr>
+        <td></td>
         <td>
           <p><FormattedMessage id="invoices.event.sent" /></p>
+        </td>
+        <td>
+          <p>–</p>
         </td>
         <td>
           <DatePicker
@@ -75,15 +81,28 @@ export default function InvoiceEvents( props ) {
       </tr>
       {payments.map((payment, index) => (
         <tr key={payment.get(`_id`)} >
-          <td>
+          <td className="is-number">
             <input
               type="hidden"
               name={`${payment._fieldPath}[_id]`}
               value={ payment.get(`_id`) }
             />
             <p>
+              { index + 1}
+            </p>
+          </td>
+          <td>
+            <p>
               <FormattedMessage id="invoices.event.payment" />
             </p>
+          </td>
+          <td>
+            <input
+              type="text"
+              key={`${payment._fieldPath}-${payment.get(`_id`)}-message`}
+              name={`${payment._fieldPath}[message]`}
+              defaultValue={payment.get(`message`)}
+            />
           </td>
           <td>
             <DatePicker

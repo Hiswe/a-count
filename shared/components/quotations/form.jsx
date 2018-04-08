@@ -182,16 +182,15 @@ class QuotationForm extends Component {
 }
 
 function state2prop( state ) {
-  const { current, isSaving } = state.quotations
+  const { current } = state.quotations
   const isNew = current.id == null
-  const result = {
-    isSaving,
+  return {
+    isSaving:   state.quotations.get(`isSaving`),
     isNew,
-    current,
-    customers: state.customers && state.customers.list,
-    user: state.account.current
+    current:    state.quotations.get(`current`),
+    customers:  state.customers.get(`list`),
+    user:       state.account.get(`current`),
   }
-  return result
 }
 
 function dispatch2prop( dispatch ) {

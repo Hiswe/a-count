@@ -85,6 +85,8 @@ router
   ctx.assert( updatedConfig, 500, MESSAGES.CANT_UPDATE_QUOTE_COUNT )
   const { products, tax, ...creationData } = body
   // PARSE PRODUCTS
+  // • we don't use sequelize hooks because we need to access the productConfig
+  // • it won't be available on creation
   const { totals, filtered } = cleanProducts({
     products,
     tax,
@@ -146,6 +148,8 @@ router
   ctx.assert( quotation, 404, MESSAGES.NOT_FOUND )
 
   // PARSE PRODUCTS
+  // • we don't use sequelize hooks because we need to access the productConfig
+  // • it won't be available on creation
   const { products, tax, ...creationData } = body
   const { totals, filtered } = cleanProducts({
     products,

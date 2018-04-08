@@ -7,8 +7,9 @@ const   filterArray     = require( './filter-array-with-object' )
 module.exports = cleanPayments
 
 const defaultObject = Object.freeze({
-  date:   null,
-  amount: 0,
+  date        : null,
+  description : ``  ,
+  amount      : 0   ,
 })
 
 function computeAmount( acc, payment ) {
