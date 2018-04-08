@@ -9,6 +9,7 @@ export function Progress( props ) {
   const { max, value, tableLayout } = props
   const percent    = value / max
   const cssPercent = Math.max( 0, Math.min(100, percent * 100) )
+  const width      = Number.isNaN( cssPercent ) ? `0` : `${ cssPercent }%`
   const COMP_CLASS = [ BASE_CLASS ]
   if ( tableLayout ) COMP_CLASS.push( `${BASE_CLASS}--table-layout` )
   return (
@@ -18,7 +19,7 @@ export function Progress( props ) {
       </dt>
       <dd
         className={`${BASE_CLASS}__bar`}
-        style={{width: `${cssPercent}%`}}
+        style={{width}}
       />
     </dl>
   )

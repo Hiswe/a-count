@@ -43,10 +43,11 @@ function CustomerList( props ) {
   return (
     <Table
       columns={[
-        {label: `table.header.name`},
+        {
+          label: `table.header.name`,
+        },
         {
           label: `table.header.quotations`,
-          style:{ width: `18em`},
         },
         {
           label: `table.header.cumulative-amount`,
@@ -54,7 +55,6 @@ function CustomerList( props ) {
         },
         {
           label: `table.header.invoices`,
-          style:{ width: `18em`}
         },
         {
           label: `table.header.cumulative-amount`,
@@ -66,7 +66,7 @@ function CustomerList( props ) {
       className="table--pres"
     >
       {
-        !hasCustomer ? ( <EmptyLine colspan="3" /> )
+        !hasCustomer ? ( <EmptyLine colspan="6" /> )
         : props.customers.map( (customer, i) => (
           <CustomerRow key={customer.id} customer={customer} currency={currency} />
         ))
