@@ -16,7 +16,6 @@ import PrintInvoice      from './print.jsx'
 import InvoiceFormHeader from './form.pres-header.jsx'
 import InvoiceEvents     from './form.pres-events.jsx'
 
-import './form.pres.scss'
 export const BASE_CLASS    = `invoice-form`
 export const FORM_ID       = BASE_CLASS
 
