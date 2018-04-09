@@ -45,7 +45,7 @@
     "@koa/cors": "2",
     "bcryptjs": "^2.4.3",
     "chalk": "2.3.2",
-    "crio": "^5.0.0",
+    "crio": "^5.0.1",
     "form-serialize": "^0.7.2",
     "formattor": "^0.0.2",
     "gulp-cheerio": "^0.6.3",
@@ -54,7 +54,7 @@
     "intl-locales-supported": "^1.0.0",
     "isomorphic-fetch": "2.2.1",
     "js-cookie": "^2.2.0",
-    "jsonwebtoken": "^8.2.0",
+    "jsonwebtoken": "^8.2.1",
     "koa": "^2.5.0",
     "koa-body": "^2.5.0",
     "koa-compress": "^2.0.0",
@@ -90,7 +90,7 @@
     "redis": "^2.8.0",
     "redux": "3.7.2",
     "redux-thunk": "^2.2.0",
-    "sequelize": "^4.37.5",
+    "sequelize": "^4.37.6",
     "serialize-javascript": "^1.4.0",
     "shortid": "^2.2.8",
     "url-join": "^4.0.0"
@@ -126,8 +126,8 @@
     "redux-devtools-extension": "^2.13.2",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",
-    "webpack": "^4.4.1",
-    "webpack-cli": "^2.0.13",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14",
     "webpack-node-externals": "^1.7.2",
     "yargs": "11.0.0"
   }

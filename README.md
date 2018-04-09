@@ -49,6 +49,10 @@ available:
 - https://reactjsnews.com/isomorphic-react-in-real-life
 - https://github.com/tomatau/breko-hub
 
+### optimize performances
+
+- https://reactjsnews.com/how-to-make-your-react-apps-10x-faster
+
 #### components
 
 - https://www.muicss.com/docs/v1/react/forms
@@ -61,7 +65,6 @@ available:
 #### redux
 
 - https://github.com/pburtchaell/redux-promise-middleware
-- http://redux.js.org/
 
 ### test
 
