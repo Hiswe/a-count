@@ -34,7 +34,7 @@ export function EmptyLine( props ) {
   const message = `none (yet)`
   return (
     <tr>
-      <td colSpan={props.colspan} style={{textAlign: `center`}}>
+      <td colSpan={props.colSpan} style={{textAlign: `center`}}>
         <p>{ message }</p>
       </td>
     </tr>

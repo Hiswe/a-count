@@ -64,7 +64,7 @@ export default function InvoiceList( props ) {
       columns={ columns }
     >
       {
-        !hasInvoices ? ( <EmptyLine colspan={ columnCount } /> )
+        !hasInvoices ? ( <EmptyLine colSpan={ columnCount } /> )
         : invoices.map( (invoice, i) => (
           <InvoiceRow
             key={ invoice.id }

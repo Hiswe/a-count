@@ -66,7 +66,7 @@ function CustomerList( props ) {
       className="table--pres"
     >
       {
-        !hasCustomer ? ( <EmptyLine colspan="6" /> )
+        !hasCustomer ? ( <EmptyLine colSpan="6" /> )
         : props.customers.map( (customer, i) => (
           <CustomerRow key={customer.id} customer={customer} currency={currency} />
         ))
