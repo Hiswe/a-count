@@ -154,6 +154,7 @@
   &--part-center,
   &--part-bottom {
     border-radius: 0;
+    background: none;
     border-image-slice: 9 fill;
     border-image-width: 12px;
     border-image-outset: 0;

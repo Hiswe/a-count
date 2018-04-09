@@ -43,7 +43,8 @@
     "promisify",
     "randtoken",
     "timestamps",
-    "xlink"
+    "xlink",
+    "xmlns"
   ],
   "cSpell.ignorePaths": [
     "**/node_modules/**",

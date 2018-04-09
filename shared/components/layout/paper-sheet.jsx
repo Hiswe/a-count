@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 
 import { Date, Markdown } from '../ui/format.jsx'
 
@@ -57,6 +58,10 @@ export function Party( props ) {
     </aside>
   )
 }
+
+export const PartyUser = connect(
+  state => ({user: state.account.get(`current`)})
+)( props => <Party title="from" {...props.user}/> )
 
 function PartyAddress( props ) {
   const { content, PARTY_CLASS } = props

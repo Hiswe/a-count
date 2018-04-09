@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -6,9 +6,12 @@ import serialize from 'form-serialize'
 
 import * as customers from '../../ducks/customers'
 import needRedirect from '../utils/need-redirection.js'
-
 import Spinner from '../ui/spinner.jsx'
-import CustomerFormPres from './form.pres.jsx'
+import { Form } from '../ui/form.jsx'
+
+export const FORM_ID = `customer-form`
+
+export const FormContext = React.createContext({})
 
 class CustomerForm extends Component {
 
@@ -50,34 +53,30 @@ class CustomerForm extends Component {
   //----- RENDER
 
   render() {
-    const { formData        } = this.state
-    const { isSaving , user, quotations, invoices } = this.props
-    const { isLoading       } = formData
+    const { formData  } = this.state
+    const { isSaving  } = this.props
+    const { isLoading } =      formData
     if ( isLoading ) return <Spinner />
 
     const formProps = {
       formData,
-      user,
-      quotations,
-      invoices,
       isSaving,
-      handle: {
-        submit:     this.handleSubmit,
-        formChange: this.handleFormChange,
-      }
     }
 
-    return <CustomerFormPres {...formProps} />
+    return (
+      <Form
+        id={ `${FORM_ID}` }
+        isSaving={ isSaving }
+        onSubmit={ this.handleSubmit }
+        onChange={ this.handleFormChange }
+      >
+        { formData.id && <input type="hidden" value={formData.id} name="id" />  }
+        <FormContext.Provider value={ formProps }>
+          { this.props.children }
+        </FormContext.Provider>
+      </Form>
+    )
   }
-}
-
-function state2props( state ) {
-  const result  = {
-    user:     state.account.get( `current` ),
-    isSaving: state.customers.get( `isSaving` ),
-    customer: state.customers.get( `current` ),
-  }
-  return result
 }
 
 function dispatch2props( dispatch ) {
@@ -86,4 +85,4 @@ function dispatch2props( dispatch ) {
   }, dispatch)
 }
 
-export default connect( state2props, dispatch2props )( CustomerForm )
+export default connect( null, dispatch2props )( CustomerForm )
