@@ -71,6 +71,7 @@ class CustomerForm extends Component {
         onChange={ this.handleFormChange }
       >
         { formData.id && <input type="hidden" value={formData.id} name="id" />  }
+        {/* Provide a context for children to be able to access formData */}
         <FormContext.Provider value={ formProps }>
           { this.props.children }
         </FormContext.Provider>

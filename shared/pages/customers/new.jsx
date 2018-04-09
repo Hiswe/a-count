@@ -4,7 +4,12 @@ import { FormattedMessage } from 'react-intl'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers'
-import { PaperSheet, Between, Party, PartyUser } from '../../components/layout/paper-sheet.jsx'
+import {
+  PaperSheet,
+  Between,
+  Party,
+  PartyUser,
+} from '../../components/layout/paper-sheet.jsx'
 import { Main, Meta, Content } from '../../components/layout/main.jsx'
 import NavSecondary from '../../components/nav/secondary.jsx'
 import {

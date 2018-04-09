@@ -1,21 +1,11 @@
 import React, { Fragment } from 'react'
-import { FormattedMessage } from 'react-intl'
 
 import { Input, Textarea } from '../ui/field.jsx'
 
 import './form.pres.scss'
 
 export default function CustomerFormPres( props ) {
-  const {
-    isSaving,
-    handle,
-    formData,
-    user,
-    quotations,
-    invoices,
-  } = props
-  const isNew = formData.id == null
-  const submitI18nId =  `customer.button.${isNew ? 'create' : 'update'}`
+  const { formData } = props
 
   return (
     <Fragment>

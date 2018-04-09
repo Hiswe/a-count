@@ -7,7 +7,7 @@ import { Amount, Date } from '../ui/format.jsx'
 import { Progress } from '../ui/progress.jsx'
 
 function InvoiceRow( props ) {
-  const { invoice } = props
+  const { invoice, showCustomer } = props
   const url = `/invoices/${invoice.id}`
   return (
     <tr>
@@ -17,11 +17,15 @@ function InvoiceRow( props ) {
       <td>
         <Link to={ url }>{ invoice.get( `name` ) }</Link>
       </td>
-      <td>
-        <Link to={`/customers/${invoice.customerId}`}>
-          {invoice.get( `customer.name` )}
-        </Link>
-      </td>
+      {
+        showCustomer && (
+          <td>
+            <Link to={`/customers/${invoice.customerId}`}>
+              {invoice.get( `customer.name` )}
+            </Link>
+          </td>
+        )
+      }
       <td>
         <Link to={`/quotations/${invoice.get('quotation.id')}`}>
           {invoice.get(`quotation.reference`)}
@@ -69,6 +73,7 @@ export default function InvoiceList( props ) {
           <InvoiceRow
             key={ invoice.id }
             invoice={ invoice }
+            showCustomer={ showCustomer }
           />
         ))
       }
