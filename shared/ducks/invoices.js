@@ -6,9 +6,10 @@ import fetchDispatch from './utils/fetch-dispatch.js'
 import { CONVERT } from './quotations.js'
 
 const NAME = `invoices`
-export const GET_ALL  = createActionNames( NAME, `get`, `all`)
-export const GET_ONE  = createActionNames( NAME, `get`, `one` )
-export const SAVE_ONE = createActionNames( NAME, `post`, `one` )
+export const GET_ALL              = createActionNames( NAME, `get`  , `all`              )
+export const GET_ALL_FOR_CUSTOMER = createActionNames( NAME, `get`  , `all-for-customer` )
+export const GET_ONE              = createActionNames( NAME, `get`  , `one`              )
+export const SAVE_ONE             = createActionNames( NAME, `post` , `one`              )
 
 const initialState = crio({
   isSaving: false,
@@ -23,6 +24,7 @@ export default function reducer(state = initialState, action) {
 
   switch ( type ) {
 
+    case GET_ALL_FOR_CUSTOMER.SUCCESS:
     case GET_ALL.SUCCESS:
       return state.set( `list`, payload.list )
 
@@ -54,6 +56,18 @@ export const getAll = ({params, cookie}) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:   GET_ALL,
+    fetch:    { options, cookie },
+  })
+}
+
+export const getAllForCustomer = ({params, cookie}) => async dispatch => {
+  const { id } = params
+  const options = {
+    url: `/customers/${ id }/${NAME}`,
+  }
+  await fetchDispatch({
+    dispatch,
+    actions:   GET_ALL_FOR_CUSTOMER,
     fetch:    { options, cookie },
   })
 }

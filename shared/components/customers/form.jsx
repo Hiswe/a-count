@@ -50,16 +50,21 @@ class CustomerForm extends Component {
   //----- RENDER
 
   render() {
-    const { formData  } = this.state
-    const { isSaving  } = this.props
-    const { isLoading } =      formData
+    const { formData        } = this.state
+    const { isSaving , user, quotations, invoices } = this.props
+    const { isLoading       } = formData
     if ( isLoading ) return <Spinner />
 
     const formProps = {
-      handleSubmit:     this.handleSubmit,
-      handleFormChange: this.handleFormChange,
       formData,
+      user,
+      quotations,
+      invoices,
       isSaving,
+      handle: {
+        submit:     this.handleSubmit,
+        formChange: this.handleFormChange,
+      }
     }
 
     return <CustomerFormPres {...formProps} />
@@ -68,6 +73,7 @@ class CustomerForm extends Component {
 
 function state2props( state ) {
   const result  = {
+    user:     state.account.get( `current` ),
     isSaving: state.customers.get( `isSaving` ),
     customer: state.customers.get( `current` ),
   }

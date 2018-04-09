@@ -20,7 +20,7 @@ function QuotationStatus( props ) {
 }
 
 function QuotationRow( props ) {
-  const { quotation, currency, handleCreate } = props
+  const { quotation, showCustomer, currency, handleCreate } = props
   const id = quotation.get( `id` )
   return (
     <tr>
@@ -34,11 +34,13 @@ function QuotationRow( props ) {
           {quotation.get(`name`)}
         </Link>
       </td>
-      <td>
-        <Link to={`/customers/${quotation.get(`customerId`)}`}>
-          {quotation.get(`customer.name`)}
-        </Link>
-      </td>
+      {showCustomer && (
+        <td>
+          <Link to={`/customers/${quotation.get(`customerId`)}`}>
+            {quotation.get(`customer.name`)}
+          </Link>
+        </td>
+      )}
       <td>
         <p>
           <Date value={quotation.get(`sendAt`)} />
@@ -82,28 +84,35 @@ function QuotationRow( props ) {
 }
 //----- ALL
 
+const defaultColumns = [
+  {label: `table.header.id`},
+  {label: `table.header.name`},
+  {label: `table.header.customer`},
+  {label: `table.header.sent`},
+  {label: `table.header.validated`},
+  {label: `table.header.signed`},
+  {label: `table.header.invoice`},
+  {label: `table.amount`},
+]
+
 function QuotationTable( props ) {
-  const { quotations, currency } = props
+  const { quotations, currency, showCustomer = true } = props
   const hasQuotations = Array.isArray( quotations ) && quotations.length > 0
+  const columns = showCustomer ? defaultColumns
+    : defaultColumns.filter( col => col.label !== `table.header.customer` )
+  const columnCount = columns.length
+
   return (
     <Table
-      columns={[
-        {label: `table.header.id`},
-        {label: `table.header.name`},
-        {label: `table.header.customer`},
-        {label: `table.header.sent`},
-        {label: `table.header.validated`},
-        {label: `table.header.signed`},
-        {label: `table.header.invoice`},
-        {label: `table.amount`},
-      ]}
+      columns={ columns }
       className="table--pres"
     >
     {
-      !hasQuotations ? ( <EmptyLine colspan="8" /> )
+      !hasQuotations ? ( <EmptyLine colSpan={columnCount} /> )
       : quotations.map( (q, i) => (
         <QuotationRow
           key={ q.id }
+          showCustomer={ showCustomer }
           quotation={ q }
           handleCreate={ () => props.createInvoice( {params: {id: q.id}}) }
         />
@@ -113,17 +122,11 @@ function QuotationTable( props ) {
   )
 }
 
-function state2prop( state ) {
-  return {
-    quotations: state.quotations.get( `list` )
-  }
-}
-
 function dispatch2prop( dispatch ) {
   return bindActionCreators({
     createInvoice: quotations.createInvoice,
   }, dispatch)
 }
 
-export default connect( state2prop, dispatch2prop )( QuotationTable )
+export default connect( null, dispatch2prop )( QuotationTable )
 

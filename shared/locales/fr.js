@@ -25,9 +25,9 @@ export default {
     <br />
     Soyez prudent !`,
 
-  'customer.button.create'    : `Créer le client`,
-  'customer.button.update'    : `Mettre à jour`  ,
-  'customer.tab.configuration': `Nom & adresse`  ,
+  'customer.button.create'     : `Créer le client`,
+  'customer.button.update'     : `Mettre à jour` ,
+  'customer.tab.configuration' : `Aperçu de l'entête` ,
 
   'field.email'      : `email`,
   'field.password'   : `mot de passe`,

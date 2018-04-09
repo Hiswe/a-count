@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import crio from 'crio'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
@@ -32,8 +33,11 @@ const NewCustomer = props => {
 }
 
 function state2prop( state ) {
-  const { isSaving } = state.customers
-  return { isSaving }
+  return {
+    isSaving  : state.customers.get( `isSaving` ),
+    quotations: crio([]),
+    invoices  : crio([]),
+  }
 }
 
 export default connect( state2prop )( ConnectDataFetcher({

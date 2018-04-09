@@ -14,16 +14,18 @@ import QuotationsList from '../../components/quotations/list.jsx'
 const TYPE = `quotations`
 
 function Quotations( props ) {
+  const { quotations } = props
+
   return (
     <Fragment>
       <NavSecondary
         title={ <FormattedMessage id="page.quotations" /> }
       >
-        <ButtonNew secondary type={ TYPE } />
+        <ButtonNew type={ TYPE } />
       </NavSecondary>
       <Main>
         <Content>
-          <QuotationsList />
+          <QuotationsList quotations={ quotations } />
         </Content>
       </Main>
       <ButtonNew fab type={ TYPE } />
@@ -31,7 +33,13 @@ function Quotations( props ) {
   )
 }
 
-export default connect()( ConnectDataFetcher({
+function state2prop( state ) {
+  return {
+    quotations: state.quotations.get(`list`),
+  }
+}
+
+export default connect( state2prop )( ConnectDataFetcher({
   Component: Quotations,
   actionCreators: [
     quotations.getAll,

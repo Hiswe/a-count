@@ -27,7 +27,7 @@ export default {
 
   'customer.button.create'    : `Create a customer`,
   'customer.button.update'    : `update`           ,
-  'customer.tab.configuration': `name & address`   ,
+  'customer.tab.configuration': `header preview`   ,
 
   'field.email'      : `email`,
   'field.password'   : `password`,

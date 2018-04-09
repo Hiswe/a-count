@@ -13,7 +13,7 @@ import QuotationsList from '../components/quotations/list.jsx'
 import InvoicesList from '../components/invoices/list.jsx'
 
 function Home( props ) {
-  const { invoices } = props
+  const { invoices, quotations } = props
 
   return (
     <Fragment>
@@ -27,7 +27,7 @@ function Home( props ) {
           <h3>
             <FormattedHTMLMessage id="page.quotations" />
           </h3>
-          <QuotationsList />
+          <QuotationsList quotations={ quotations } />
           <h3>
             <FormattedHTMLMessage id="page.invoices" />
           </h3>
@@ -40,7 +40,8 @@ function Home( props ) {
 
 function state2props( state ) {
   return {
-    invoices: state.invoices.get( `list` ),
+    quotations: state.quotations.get( `list` ),
+    invoices:   state.invoices.get( `list` ),
   }
 }
 

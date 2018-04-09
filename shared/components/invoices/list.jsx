@@ -43,7 +43,7 @@ function InvoiceRow( props ) {
   )
 }
 
-const columns = [
+const defaultColumns = [
   {label: `table.header.id`},
   {label: `table.header.name`},
   {label: `table.header.customer`},
@@ -53,15 +53,18 @@ const columns = [
 ]
 
 export default function InvoiceList( props ) {
-  const { invoices } = props
+  const { invoices, showCustomer = true } = props
   const hasInvoices = Array.isArray( invoices ) && invoices.length
+  const columns = showCustomer ? defaultColumns
+    : defaultColumns.filter( col => col.label !== `table.header.customer` )
+  const columnCount = columns.length
   return (
     <Table
       className="table--pres"
       columns={ columns }
     >
       {
-        !hasInvoices ? ( <EmptyLine colspan="6" /> )
+        !hasInvoices ? ( <EmptyLine colspan={ columnCount } /> )
         : invoices.map( (invoice, i) => (
           <InvoiceRow
             key={ invoice.id }

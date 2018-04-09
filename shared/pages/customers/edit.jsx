@@ -3,9 +3,11 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 
-import ConnectDataFetcher from '../../connect-data-fetcher.js'
-import * as customers from '../../ducks/customers'
-import NavSecondary from '../../components/nav/secondary.jsx'
+import      ConnectDataFetcher from '../../connect-data-fetcher.js'
+import * as customers          from '../../ducks/customers'
+import * as quotations         from '../../ducks/quotations'
+import * as invoices           from '../../ducks/invoices'
+import      NavSecondary       from '../../components/nav/secondary.jsx'
 import {
   ButtonNew,
   ButtonList,
@@ -35,14 +37,18 @@ function EditCustomer( props ) {
 
 function state2prop( state ) {
   return {
-    name:     state.customers.get( `current.name` ),
-    isSaving: state.customers.get( `isSaving` ),
+    name       : state.customers  .get( `current.name` ),
+    isSaving   : state.customers  .get( `isSaving`     ),
+    quotations : state.quotations .get( `list`         ),
+    invoices   : state.invoices   .get( `list`         ),
   }
 }
 
 export default connect( state2prop )( ConnectDataFetcher({
   Component: EditCustomer,
   actionCreators: [
-    customers.getOne
+    customers.getOne,
+    quotations.getAllForCustomer,
+    invoices.getAllForCustomer,
   ],
 }) )

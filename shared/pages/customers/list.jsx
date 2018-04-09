@@ -19,7 +19,7 @@ function Customers( props ) {
       <NavSecondary
         title={ <FormattedMessage id="page.customers" /> }
       >
-        <ButtonNew secondary  type={ TYPE } />
+        <ButtonNew type={ TYPE } />
       </NavSecondary>
       <Main>
         <Content>
