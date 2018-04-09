@@ -145,10 +145,20 @@ router
       `total`,
       `sendAt`,
     ],
-    include: [{
-      model: InvoiceConfig,
-      attributes: [`startAt`, `prefix`],
-    }]
+    include: [
+      {
+        model: InvoiceConfig,
+        attributes: [`startAt`, `prefix`],
+      },
+      {
+        model: Quotation,
+        attributes: [`id`, `index`],
+        include: [{
+          model: QuotationConfig,
+          attributes: [`startAt`, `prefix`],
+        }]
+      }
+    ]
   }
   const invoices  = await Invoice.findAll( query )
   ctx.body = { list: invoices }

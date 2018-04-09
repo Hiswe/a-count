@@ -18,7 +18,7 @@ const QuotationConfig = sequelize.define( `quotationConfig`, {
     defaultValue: Sequelize.UUIDV4,
     primaryKey:   true,
   },
-  count: {
+  creationCount: {
     type:         Sequelize.BIGINT,
     defaultValue: 0,
     allowNull:    false,

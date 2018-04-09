@@ -80,7 +80,7 @@ router
   ctx.assert( user     , 412, MESSAGES.NO_USER     )
   // UPDATE QUOTATION COUNT
   const quotationConfig = user.get( `quotationConfig` )
-  const updatedConfig   = await quotationConfig.increment( `count`, {by: 1} )
+  const updatedConfig   = await quotationConfig.increment( `creationCount`, {by: 1} )
 
   ctx.assert( updatedConfig, 500, MESSAGES.CANT_UPDATE_QUOTE_COUNT )
   const { products, tax, ...creationData } = body
@@ -98,7 +98,7 @@ router
     tax,
     quotationConfigId:  user.quotationConfig.id,
     productConfigId:    user.productConfig.id,
-    index:              updatedConfig.count,
+    index:              updatedConfig.get(`creationCount`),
     products:           filtered,
     ...totals,
     ...creationData,
@@ -191,7 +191,7 @@ router
   })
 
   ctx.assert( customer  , 412, MESSAGES.NO_CUSTOMER )
-  const updateInvoiceConfig = await invoiceConfig.increment( `count`, {by: 1} )
+  const updateInvoiceConfig = await invoiceConfig.increment( `creationCount`, {by: 1} )
 
   ctx.assert( updateInvoiceConfig, 500, MESSAGES.CANT_UPDATE_INVOICE_COUNT )
   const invoice   = await Invoice.create({
@@ -206,7 +206,7 @@ router
     userId         : quotation.get( `userId` ),
     customerId     : quotation.get( `customerId` ),
     invoiceConfigId: updateInvoiceConfig.get( `id` ),
-    index          : updateInvoiceConfig.get( `count` ),
+    index          : updateInvoiceConfig.get( `creationCount` ),
   })
 
   await quotation.update({ invoiceId: invoice.id } )

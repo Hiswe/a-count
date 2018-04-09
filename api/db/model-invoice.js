@@ -18,8 +18,8 @@ const Invoice = sequelize.define( `invoice`, {
     get:  function() {
       const config = this.get( `invoiceConfig` )
       if ( !config ) return `–`
-      const { prefix, startAt, count } = config
-      const index = this.getDataValue( `index` ) || count + 1
+      const { prefix, startAt, creationCount } = config
+      const index = this.getDataValue( `index` ) || creationCount + 1
       return `${ prefix }${ index + startAt }`
     }
   },

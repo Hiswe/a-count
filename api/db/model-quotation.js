@@ -22,8 +22,8 @@ const Quotation = sequelize.define( `quotation`, {
     get:  function() {
       const config = this.get( `quotationConfig` )
       if ( !config ) return `–`
-      const { prefix, startAt, count } = config
-      const index = this.getDataValue( `index` ) || count + 1
+      const { prefix, startAt, creationCount } = config
+      const index = this.getDataValue( `index` ) || creationCount + 1
       return `${ prefix }${ index + startAt }`
     }
   },
