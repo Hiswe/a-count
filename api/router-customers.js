@@ -15,52 +15,68 @@ const router = new Router({prefix: `/${prefix}`})
 module.exports = router
 
 // Sequelize make it hard to have COUNT and SUM
-// • just go with a raw query :D
-function createQueryWithCountAndSum({userId, id}) {
-  return `
-    SELECT
-      "customer"."id",
-      "customer"."name",
-      ( SELECT COUNT(*)
-        FROM quotations as quotation
-        WHERE "quotation"."customerId" = customer.id
-      ) AS "quotationsCount",
-      ( SELECT SUM("quotation"."total")
-        FROM quotations as quotation
-        WHERE "quotation"."customerId" = customer.id
-      ) AS "quotationsTotal",
-      ( SELECT COUNT(*)
-        FROM invoices as invoice
-        WHERE "invoice"."customerId" = customer.id
-      ) AS "invoicesCount",
-      ( SELECT SUM("invoice"."total")
-        FROM invoices as invoice
-        WHERE "invoice"."customerId" = customer.id
-      ) AS "invoicesTotal",
-      ( SELECT SUM("invoice"."totalLeft")
-        FROM invoices as invoice
-        WHERE "invoice"."customerId" = customer.id
-      ) AS "invoicesTotalLeft",
-      ( SELECT SUM("invoice"."totalPaid")
-        FROM invoices as invoice
-        WHERE "invoice"."customerId" = customer.id
-      ) AS "invoicesTotalPaid"
-    FROM customers AS customer
-    WHERE
-      ${ id ? `"customer"."id"=\'${id}\'`  : `TRUE` }
-      AND "customer"."userId" = \'${userId}\'
-      AND "customer"."isDeactivated" IS NOT true
-  `
-}
+// • just go with some raw attributes :D
+const quotationFromWhere = `
+FROM quotations as quotation
+WHERE "quotation"."customerId" = customer.id AND "quotation"."invoiceId" IS NULL
+`
+const quotationsCountAndSum = [
+  [
+    `( SELECT COUNT(*)
+      ${ quotationFromWhere }
+    )`,
+    'quotationsCount',
+  ],
+  [
+    `( SELECT SUM("quotation"."total")
+      ${ quotationFromWhere }
+    )`,
+    `quotationsTotal`
+  ],
+]
+
+const invoiceFromWhere = `
+FROM invoices as invoice
+WHERE "invoice"."customerId" = customer.id
+`
+const invoicesCountAndSum = [
+  [
+    `( SELECT COUNT(*)
+      ${invoiceFromWhere}
+    )`,
+    'invoicesCount',
+  ],
+  [
+    `( SELECT SUM("invoice"."total")
+      ${invoiceFromWhere}
+    )`,
+    `invoicesTotal`,
+  ],
+  [
+    `( SELECT SUM("invoice"."totalPaid")
+      ${invoiceFromWhere}
+    )`,
+    `invoicesTotalPaid`,
+  ]
+]
 
 router
 .get(`/`, async (ctx, next) => {
   const { userId }  = ctx.state
-  const query = createQueryWithCountAndSum({userId})
-  const list = await sequelize.query( query, {
-    model: Quotation,
-    raw: true,
-  })
+  // https://github.com/sequelize/sequelize/issues/4446#issuecomment-138291810
+  const query = {
+    where: {
+      userId,
+    },
+    attributes: [
+      `id`,
+      `name`,
+      `address`,
+      ...quotationsCountAndSum,
+      ...invoicesCountAndSum,
+    ],
+  }
+  const list = await Customer.findAll( query )
   // put response in a list key
   // • we will add pagination information later
   ctx.body = formatResponse( {list } )
@@ -86,13 +102,20 @@ router
 .get(`/:id`, async (ctx, next) => {
   const { userId } = ctx.state
   const { id }     = ctx.params
-  const query      = createQueryWithCountAndSum({
-    userId, id,
-  })
-  const [customer]  = await sequelize.query( query, {
-    raw:  true,
-    type: sequelize.QueryTypes.SELECT,
-  })
+  const query      = {
+    where:  {
+      userId,
+      id,
+    },
+    attributes: [
+      `id`,
+      `name`,
+      `address`,
+      ...quotationsCountAndSum,
+      ...invoicesCountAndSum,
+    ],
+  }
+  const customer  = await Customer.findOne( query )
   // const customer   = await Customer.findOne( query )
   ctx.assert(customer, 404, `Customer not found`)
   ctx.body        = customer
@@ -104,6 +127,7 @@ router
     where: {
       userId,
       customerId: id,
+      invoiceId: { $eq: null },
     },
     attributes: [
       `id`,
@@ -114,9 +138,7 @@ router
       `total`,
       `sendAt`,
       `validatedAt`,
-      `archivedAt`,
       `signedAt`,
-      `invoiceId`,
     ],
     include: [{
       model: QuotationConfig,

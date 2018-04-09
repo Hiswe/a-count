@@ -39,7 +39,10 @@ router
 .get(`/`, async (ctx, next) => {
   const { userId }  = ctx.state
   const params      = addRelations.quotation({
-    where: { userId }
+    where: {
+      userId,
+      invoiceId: { $eq: null },
+    }
   })
   const list = await Quotation.findAll( params )
 
