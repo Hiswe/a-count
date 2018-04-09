@@ -14,10 +14,10 @@ const prefix = `customers`
 const router = new Router({prefix: `/${prefix}`})
 module.exports = router
 
-router
-.get(`/`, async (ctx, next) => {
-  const { userId }  = ctx.state
-  const list = await sequelize.query(`
+// Sequelize make it hard to have COUNT and SUM
+// • just go with a raw query :D
+function createQueryWithCountAndSum({userId, id}) {
+  return `
     SELECT
       "customer"."id",
       "customer"."name",
@@ -47,9 +47,20 @@ router
       ) AS "invoicesTotalPaid"
     FROM customers AS customer
     WHERE
-      "customer"."userId" = \'${userId}\'
+      ${ id ? `"customer"."id"=\'${id}\'`  : `TRUE` }
+      AND "customer"."userId" = \'${userId}\'
       AND "customer"."isDeactivated" IS NOT true
-  `, { model: Quotation, raw: true })
+  `
+}
+
+router
+.get(`/`, async (ctx, next) => {
+  const { userId }  = ctx.state
+  const query = createQueryWithCountAndSum({userId})
+  const list = await sequelize.query( query, {
+    model: Quotation,
+    raw: true,
+  })
   // put response in a list key
   // • we will add pagination information later
   ctx.body = formatResponse( {list } )
@@ -73,74 +84,74 @@ router
 //----- EDIT
 
 .get(`/:id`, async (ctx, next) => {
-  const { userId }  = ctx.state
-  const { id }      = ctx.params
-  // exclude parameters broke the generated query
-  // • make our own…
-  const query       = `
-  SELECT "customer"."id",
-  "customer"."name",
-  "customer"."address",
-  "customer"."isDeactivated",
-  "quotations"."id" AS "quotations.id",
-  "quotations"."index" AS "quotations.index",
-  "quotations"."totalNet" AS "quotations.totalNet",
-  "quotations"."totalTax" AS "quotations.totalTax",
-  "quotations"."total" AS "quotations.total",
-  "quotations"."sendAt" AS "quotations.sendAt",
-  "quotations"."validatedAt" AS "quotations.validatedAt",
-  "quotations"."signedAt" AS "quotations.signedAt",
-  "quotations"."archivedAt" AS "quotations.archivedAt",
-  "quotations"."invoiceId" AS "quotations.invoiceId",
-  "quotations->quotationConfig"."prefix" AS "quotations.quotationConfig.prefix",
-  "quotations->quotationConfig"."startAt" AS "quotations.quotationConfig.startAt",
-  "invoices"."id" AS "invoices.id",
-  "invoices"."name" AS "invoices.name",
-  "invoices"."index" AS "invoices.index",
-  "invoices"."totalNet" AS "invoices.totalNet",
-  "invoices"."totalTax" AS "invoices.totalTax",
-  "invoices"."total" AS "invoices.total",
-  "invoices"."totalLeft" AS "invoices.totalLeft",
-  "invoices"."totalPaid" AS "invoices.totalPaid",
-  "invoices"."sendAt" AS "invoices.sendAt",
-  "invoices"."archivedAt" AS "invoices.archivedAt",
-  "invoices->invoiceConfig"."prefix" AS "invoices.invoiceConfig.prefix",
-  "invoices->invoiceConfig"."startAt" AS "invoices.invoiceConfig.startAt"
-FROM "customers" AS "customer" LEFT OUTER
-  JOIN "quotations" AS "quotations"
-    ON "customer"."id" = "quotations"."customerId" LEFT OUTER
-  JOIN "quotationConfigs" AS "quotations->quotationConfig"
-    ON "quotations"."quotationConfigId" = "quotations->quotationConfig"."id" LEFT OUTER
-  JOIN "invoices" AS "invoices"
-    ON "customer"."id" = "invoices"."customerId" LEFT OUTER
-  JOIN "invoiceConfigs" AS "invoices->invoiceConfig"
-    ON "invoices"."invoiceConfigId" = "invoices->invoiceConfig"."id"
-WHERE "customer"."id" = '${id}'
-  AND "customer"."userId" = '${userId}'`
-
-  const options = {
-      hasJoin: true,
-      include: [
-      {
-        model: Quotation,
-        include: [{
-          model: QuotationConfig,
-        }]
-      },
-      {
-        model: Invoice,
-        include: [{
-          model: InvoiceConfig,
-        }]
-      },
-    ]
-  }
-  // use a private API to have a lovely JSON instead of a monolithic one
-  // https://github.com/sequelize/sequelize/issues/1830#issuecomment-348012038
-  Customer._validateIncludedElements( options )
-  const [ customer ]    = await sequelize.query( query, options )
+  const { userId } = ctx.state
+  const { id }     = ctx.params
+  const query      = createQueryWithCountAndSum({
+    userId, id,
+  })
+  const [customer]  = await sequelize.query( query, {
+    raw:  true,
+    type: sequelize.QueryTypes.SELECT,
+  })
+  // const customer   = await Customer.findOne( query )
   ctx.assert(customer, 404, `Customer not found`)
   ctx.body        = customer
+})
+.get(`/:id/quotations`, async (ctx, next) => {
+  const { userId }  = ctx.state
+  const { id }      = ctx.params
+  const query       = {
+    where: {
+      userId,
+      customerId: id,
+    },
+    attributes: [
+      `id`,
+      `index`,
+      `name`,
+      `totalNet`,
+      `totalTax`,
+      `total`,
+      `sendAt`,
+      `validatedAt`,
+      `archivedAt`,
+      `signedAt`,
+      `invoiceId`,
+    ],
+    include: [{
+      model: QuotationConfig,
+      attributes: [`startAt`, `prefix`],
+    }]
+  }
+  const quotations  = await Quotation.findAll( query )
+  ctx.body = {list: quotations}
+})
+.get(`/:id/invoices`, async (ctx, next) => {
+  const { userId }  = ctx.state
+  const { id }      = ctx.params
+  const query       = {
+    where: {
+      userId,
+      customerId: id,
+    },
+    attributes: [
+      `id`,
+      `index`,
+      `name`,
+      `totalNet`,
+      `totalTax`,
+      `totalPaid`,
+      `totalLeft`,
+      `total`,
+      `sendAt`,
+    ],
+    include: [{
+      model: InvoiceConfig,
+      attributes: [`startAt`, `prefix`],
+    }]
+  }
+  const invoices  = await Invoice.findAll( query )
+  ctx.body = { list: invoices }
 })
 .post(`/:id`, async (ctx, next) => {
   const { userId }  = ctx.state
