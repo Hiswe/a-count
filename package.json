@@ -93,6 +93,7 @@
     "sequelize": "^4.37.6",
     "serialize-javascript": "^1.4.0",
     "shortid": "^2.2.8",
+    "squel": "^5.12.1",
     "url-join": "^4.0.0"
   },
   "devDependencies": {

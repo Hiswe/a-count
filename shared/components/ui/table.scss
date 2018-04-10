@@ -29,8 +29,6 @@
     background: var(--table-header-bg-color);
     color: white;
 
-
-
     @media #{$mq-print} {
       // box-shadow act as a background for print
       box-shadow: inset var(--table-header-bg-color) 0 0 0 100px;
@@ -52,7 +50,6 @@
 
   tbody {
     tr {
-      background: white;
       border: solid var(--table-border-color);
       border-width: 0 1px 1px;
     }
@@ -93,7 +90,6 @@
     }
 
     > a,
-    // > .amount,
     > p {
       display: inline-block;
       margin: 0;
@@ -136,7 +132,7 @@
 
   &--pres {
     tbody tr:nth-child(even) {
-      background: rgba(255, 255, 255, .35);
+      background: var(--c-primary-white);
     }
   }
 

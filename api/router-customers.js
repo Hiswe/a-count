@@ -4,6 +4,7 @@ const Router = require( 'koa-router' )
 
 const { sequelize       } = require( './db'                        )
 const   formatResponse    = require( './utils/format-response'     )
+const   dbColumns         = require( './utils/db-columns'          )
 const   Customer          = require( './db/model-customer'         )
 const   Quotation         = require( './db/model-quotation'        )
 const   QuotationConfig   = require( './db/model-quotation-config' )
@@ -13,60 +14,6 @@ const   InvoiceConfig     = require( './db/model-invoice-config'   )
 const prefix = `customers`
 const router = new Router({prefix: `/${prefix}`})
 module.exports = router
-
-// Sequelize make it hard to have COUNT and SUM
-// • just go with some raw attributes :D
-const quotationFromWhere = `
-FROM quotations as quotation
-WHERE
-  "quotation"."customerId" = customer.id
-  AND "quotation"."invoiceId" IS NULL
-`
-const quotationsCountAndSum = [
-  [
-    `( SELECT COUNT(*)
-      ${ quotationFromWhere }
-    )`,
-    `quotationsCount`,
-  ],
-  [
-    `( SELECT SUM("quotation"."total")
-      ${ quotationFromWhere }
-    )`,
-    `quotationsTotal`
-  ],
-]
-
-const invoiceFromWhere = `
-FROM invoices as invoice
-WHERE "invoice"."customerId" = customer.id
-`
-const invoicesCountAndSum = [
-  [
-    `( SELECT COUNT(*)
-      ${invoiceFromWhere}
-    )`,
-    `invoicesCount`,
-  ],
-  [
-    `( SELECT SUM("invoice"."total")
-      ${invoiceFromWhere}
-    )`,
-    `invoicesTotal`,
-  ],
-  [
-    `( SELECT SUM("invoice"."totalPaid")
-      ${invoiceFromWhere}
-    )`,
-    `invoicesPaid`,
-  ],
-  [
-    `( SELECT SUM("invoice"."totalLeft")
-      ${invoiceFromWhere}
-    )`,
-    `invoicesLeft`,
-  ]
-]
 
 router
 .get(`/`, async (ctx, next) => {
@@ -80,8 +27,8 @@ router
       `id`,
       `name`,
       `address`,
-      ...quotationsCountAndSum,
-      ...invoicesCountAndSum,
+      // ...countAndTotal,
+      ...dbColumns.customer.countAndTotal,
     ],
   }
   const list = await Customer.findAll( query )
@@ -119,12 +66,11 @@ router
       `id`,
       `name`,
       `address`,
-      ...quotationsCountAndSum,
-      ...invoicesCountAndSum,
+      ...dbColumns.customer.countAndTotal,
     ],
   }
   const customer  = await Customer.findOne( query )
-  // const customer   = await Customer.findOne( query )
+
   ctx.assert(customer, 404, `Customer not found`)
   ctx.body        = customer
 })

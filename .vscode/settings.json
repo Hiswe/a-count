@@ -42,6 +42,7 @@
     "presentational",
     "promisify",
     "randtoken",
+    "squel",
     "timestamps",
     "xlink",
     "xmlns"
