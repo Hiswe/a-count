@@ -1,6 +1,8 @@
 export default {
-  '_.quotations': `devis`,
-  '_.invoices'  : `factures`  ,
+  '_.quotations'  : `devis`         ,
+  '_.invoices'    : `factures`      ,
+  '_.amount'      : `montant`       ,
+  '_.left-to-pay' : `reste à payer` ,
 
   'account.login.title'    : `connexion`,
   'account.login.button'   : `se connecter`,
@@ -25,9 +27,13 @@ export default {
     <br />
     Soyez prudent !`,
 
-  'customer.button.create'     : `Créer le client`,
-  'customer.button.update'     : `Mettre à jour` ,
-  'customer.tab.configuration' : `Aperçu de l'entête` ,
+  'customer.button.create'     : `Créer le client`  ,
+  'customer.button.update'     : `Mettre à jour`    ,
+  'customer.tab.configuration' : `Édition l'entête` ,
+  'customer.total.quotation'   : `total devis`      ,
+  'customer.total.invoice'     : `total factures`   ,
+  'customer.total.to-be-paid'  : `reste à payer`    ,
+  'customer.total.progress'    : `progression`      ,
 
   'field.email'      : `email`,
   'field.password'   : `mot de passe`,

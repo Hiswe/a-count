@@ -11,13 +11,13 @@
 
 .progress {
   $root: &;
-  --progress-bg: var(--c-primary-lightest);
+  --progress-bg: var(--c-primary-white);
   --progress-bar-bg: var(--c-accent);
   --progress-border-radius: var(--s-gutter);
   --progress-bar-height: var(--s-gutter);
   --progress-shadow:
     0 1px 0 0 white,
-    0 -1px 0 0 HSL( var(--c-primary-h), var(--c-primary-s), 75% );
+    0 -1px 0 0 var(--c-primary-lightest);
   position: relative;
   margin-bottom: var(--s-gutter);
   height: var(--s-gutter);

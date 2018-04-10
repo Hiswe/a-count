@@ -1,6 +1,8 @@
 export default {
-  '_.quotations': `quotations`,
-  '_.invoices'  : `invoices`  ,
+  '_.quotations'  : `quotations`      ,
+  '_.invoices'    : `invoices`        ,
+  '_.amount'      : `amount`          ,
+  '_.left-to-pay' : `left to be paid` ,
 
   'account.login.title'    : `login`,
   'account.login.button'   : `connect`,
@@ -25,9 +27,13 @@ export default {
     <br />
     Be cautious!`,
 
-  'customer.button.create'    : `Create a customer`,
-  'customer.button.update'    : `update`           ,
-  'customer.tab.configuration': `header preview`   ,
+  'customer.button.create'     : `Create a customer` ,
+  'customer.button.update'     : `update`            ,
+  'customer.tab.configuration' : `configure header`  ,
+  'customer.total.quotation'   : `quotation total`   ,
+  'customer.total.invoice'     : `invoice total`     ,
+  'customer.total.to-be-paid'  : `to be paid`        ,
+  'customer.total.progress'    : `progress`          ,
 
   'field.email'      : `email`,
   'field.password'   : `password`,

@@ -184,7 +184,7 @@ export const Textarea = fieldWrapper( {
 
 export const Select = fieldWrapper( {
   ControlComponent: props => {
-    const { children, controlRef,...rest} = props
+    const { children, controlRef, ...rest} = props
     return (
       <select ref={ controlRef } {...rest}>
         { children }

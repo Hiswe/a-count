@@ -26,6 +26,16 @@ import {
   Tab,
   TabPanel,
 } from '../../components/ui/tabs.jsx'
+import {
+  PresByKey,
+  KeyLabel,
+  KeyValue
+} from '../../components/ui/key-presentation.jsx'
+import {
+  Amount,
+  FormatNumber,
+} from '../../components/ui/format.jsx'
+import { Progress } from '../../components/ui/progress.jsx'
 import CustomerForm, {
   FORM_ID,
   FormContext,
@@ -55,10 +65,28 @@ function EditCustomer( props ) {
 
           <TabList>
             <TabListHeader>
-              {/* CUSTOMER FORM */}
-              <FormContext.Consumer>
-                { context => <CustomerFormPres {...context} />}
-              </FormContext.Consumer>
+              <PresByKey>
+                <KeyLabel id="customer.total.quotation" />
+                <KeyValue>
+                  <Amount value={ customer.get(`quotationsTotal`) } />
+                </KeyValue>
+                <KeyLabel id="customer.total.invoice" />
+                <KeyValue>
+                  <Amount value={ customer.get(`invoicesTotal`) } />
+                </KeyValue>
+                <KeyLabel id="customer.total.to-be-paid" />
+                <KeyValue>
+                  <Amount value={ customer.get(`invoicesLeft`) } />
+                </KeyValue>
+                <KeyLabel id="customer.total.progress" />
+                <KeyValue>
+                  <Progress
+                    value={ customer.get(`invoicesPaid`) }
+                    max={ customer.get(`invoicesTotal`) }
+                  />
+                </KeyValue>
+              </PresByKey>
+
             </TabListHeader>
             <Tab>
               <FormattedMessage id="_.quotations" />
@@ -78,16 +106,21 @@ function EditCustomer( props ) {
           <TabPanel>
             <InvoicesList showCustomer={false} invoices={ invoices } />
           </TabPanel>
-          {/* ADDRESS PREVIEW */}
+          {/* CUSTOMER FORM */}
           <TabPanel>
-            <PaperSheet part="top">
-              <Between>
-                <PartyUser />
-                <FormContext.Consumer>
-                  { context => <Party title="to" {...context.formData} />}
-                </FormContext.Consumer>
-              </Between>
-            </PaperSheet>
+            <FormContext.Consumer>
+              { context => (
+                <Fragment>
+                  <CustomerFormPres {...context} />
+                  <PaperSheet part="top">
+                    <Between>
+                      <PartyUser />
+                      <Party title="to" {...context.formData} />
+                    </Between>
+                  </PaperSheet>
+                </Fragment>
+              )}
+            </FormContext.Consumer>
           </TabPanel>
         </Tabs>
       </CustomerForm>

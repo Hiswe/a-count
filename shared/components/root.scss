@@ -22,6 +22,7 @@
   --c-primary:          HSL(var(--c-primary-h), var(--c-primary-s), var(--c-primary-l));
   --c-primary-lighter:  HSL(var(--c-primary-h), var(--c-primary-s), $c-primary-lighter-l);
   --c-primary-lightest: HSL(var(--c-primary-h), var(--c-primary-s), 90%);
+  --c-primary-white:    HSL(var(--c-primary-h), var(--c-primary-s), 97%);
 
   --c-accent:           HSL(var(--c-accent-h), var(--c-accent-s), var(--c-accent-l));
   --c-accent-lighter:   HSL(var(--c-accent-h), var(--c-accent-s), 60%);

@@ -1,14 +1,12 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
 import { Input, Textarea } from '../ui/field.jsx'
-
-import './form.pres.scss'
 
 export default function CustomerFormPres( props ) {
   const { formData } = props
 
   return (
-    <Fragment>
+    <div className="customer-fields">
       <Input
         name="name"
         label="field.name"
@@ -19,6 +17,6 @@ export default function CustomerFormPres( props ) {
         label="field.address"
         value={ formData.address }
       />
-    </Fragment>
+    </div>
   )
 }

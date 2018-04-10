@@ -49,7 +49,6 @@ export default function QuotationFormPres( props ) {
               label="field.customer"
               name="customerId"
               value={ formData.customerId }
-              options={ customers }
             >
               { customers.map( c => (
                   <option key={ c.id } value={ c.id }>{ c.name }</option>

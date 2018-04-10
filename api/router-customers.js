@@ -18,14 +18,16 @@ module.exports = router
 // • just go with some raw attributes :D
 const quotationFromWhere = `
 FROM quotations as quotation
-WHERE "quotation"."customerId" = customer.id AND "quotation"."invoiceId" IS NULL
+WHERE
+  "quotation"."customerId" = customer.id
+  AND "quotation"."invoiceId" IS NULL
 `
 const quotationsCountAndSum = [
   [
     `( SELECT COUNT(*)
       ${ quotationFromWhere }
     )`,
-    'quotationsCount',
+    `quotationsCount`,
   ],
   [
     `( SELECT SUM("quotation"."total")
@@ -44,7 +46,7 @@ const invoicesCountAndSum = [
     `( SELECT COUNT(*)
       ${invoiceFromWhere}
     )`,
-    'invoicesCount',
+    `invoicesCount`,
   ],
   [
     `( SELECT SUM("invoice"."total")
@@ -56,7 +58,13 @@ const invoicesCountAndSum = [
     `( SELECT SUM("invoice"."totalPaid")
       ${invoiceFromWhere}
     )`,
-    `invoicesTotalPaid`,
+    `invoicesPaid`,
+  ],
+  [
+    `( SELECT SUM("invoice"."totalLeft")
+      ${invoiceFromWhere}
+    )`,
+    `invoicesLeft`,
   ]
 ]
 

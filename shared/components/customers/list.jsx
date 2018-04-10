@@ -7,7 +7,7 @@ import { FormatNumber, Amount } from '../ui/format.jsx'
 import { Progress } from '../ui/progress.jsx'
 
 function CustomerRow( props ) {
-  const { customer, currency } = props
+  const { customer } = props
   const url      = `/customers/${customer.id}`
   return (
     <tr>
@@ -18,18 +18,18 @@ function CustomerRow( props ) {
         <FormatNumber value={customer.quotationsCount} />
       </td>
       <td className="is-number">
-        <Amount value={customer.quotationsTotal} currency={ currency }/>
+        <Amount value={customer.quotationsTotal} />
       </td>
       <td className="is-number">
         <FormatNumber value={customer.invoicesCount} />
       </td>
       <td className="is-number">
-        <Amount value={customer.get(`invoicesTotal`)} currency={ currency } />
+        <Amount value={customer.get(`invoicesTotal`)} />
       </td>
       <td className="is-progress">
         <Progress
           tableLayout
-          value={ customer.get(`invoicesTotalPaid`) }
+          value={ customer.get(`invoicesPaid`) }
           max={ customer.get(`invoicesTotal`) }
         />
       </td>
@@ -68,7 +68,7 @@ function CustomerList( props ) {
       {
         !hasCustomer ? ( <EmptyLine colSpan="6" /> )
         : props.customers.map( (customer, i) => (
-          <CustomerRow key={customer.id} customer={customer} currency={currency} />
+          <CustomerRow key={customer.id} customer={customer} />
         ))
       }
     </Table>
@@ -78,7 +78,6 @@ function CustomerList( props ) {
 function state2prop( state ) {
   return {
     customers: state.customers.get(`list`),
-    currency: state.account.get(`current.currency`),
   }
 }
 
