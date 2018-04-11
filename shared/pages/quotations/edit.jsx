@@ -14,7 +14,8 @@ import {
 } from '../../components/nav/secondary-buttons.jsx'
 import QuotationForm from '../../components/quotations/form.jsx'
 import { FORM_ID } from '../../components/quotations/form.pres.jsx'
-import ButtonCreateInvoice from '../../components/quotations/create-invoice-button.jsx'
+import ButtonCreateInvoice from '../../components/quotations/button-create-invoice.jsx'
+import ButtonShowInvoice from '../../components/quotations/button-show-invoice.jsx'
 
 const TYPE = `quotations`
 
@@ -31,6 +32,7 @@ function EditQuotation( props ) {
         <ButtonList  type={ TYPE } />
         <ButtonPrint type={ TYPE } id={ id } />
         <ButtonCreateInvoice />
+        <ButtonShowInvoice />
         <ButtonSubmit
           formId   = { FORM_ID }
           isSaving = { props.isSaving }

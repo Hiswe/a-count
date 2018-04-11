@@ -101,7 +101,8 @@ export default {
 
   'quotation.create'           : `créer`                        ,
   'quotation.ready-to-invoice' : `Devis prêts pour facturation` ,
-  'quotation.create.invoice'   : `créer la facture`             ,
+  'quotation.invoice.create'   : `créer la facture`             ,
+  'quotation.invoice.show'     : `voir la facture`              ,
   'quotation.button.create'    : `Créer le nouveau devis`       ,
   'quotation.button.update'    : `Mettre à jour le devis`       ,
 

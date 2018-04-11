@@ -101,7 +101,8 @@ export default {
 
   'quotation.create'           : `create`                    ,
   'quotation.ready-to-invoice' : `quote ready for invoicing` ,
-  'quotation.create.invoice'   : `create invoice`            ,
+  'quotation.invoice.create'   : `create invoice`            ,
+  'quotation.invoice.show'     : `show invoice`              ,
   'quotation.button.create'    : `Create the new quotation`  ,
   'quotation.button.update'    : `Update the quotation`      ,
 

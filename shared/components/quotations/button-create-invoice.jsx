@@ -22,7 +22,7 @@ function ButtonCreateInvoice( props ) {
       formAction={`/quotations/${ id }/create-invoice` }
       disabled={ isSaving }
     >
-      <FormattedMessage id="quotation.create.invoice" />
+      <FormattedMessage id="quotation.invoice.create" />
     </Button>
   )
 }

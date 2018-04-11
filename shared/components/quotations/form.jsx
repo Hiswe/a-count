@@ -189,7 +189,6 @@ function state2prop( state ) {
     isNew,
     current:    state.quotations.get(`current`),
     customers:  state.customers.get(`list`),
-    user:       state.account.get(`current`),
   }
 }
 

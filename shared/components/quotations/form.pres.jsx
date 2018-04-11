@@ -2,14 +2,15 @@ import React, {  Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Main, Meta, Content, ContentActions } from '../layout/main.jsx'
-import { PaperSheet, Party, Reference, Mentions, Between } from '../layout/paper-sheet.jsx'
+import { PaperSheet, Between, PartyUser, Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
 import Form from '../ui/form.jsx'
 import { Button, BtnLink, BtnIcon } from '../ui/buttons.jsx'
 import { Input, Textarea, Select } from '../ui/field.jsx'
 import { Stepper } from '../ui/stepper.jsx'
 import Icon from '../ui/svg-icons.jsx'
 import { ProductTable, ProductLineEditable } from '../ui/table-product.jsx'
-import ButtonCreateInvoice from './create-invoice-button.jsx'
+import ButtonCreateInvoice from './button-create-invoice.jsx'
+import ButtonShowInvoice from './button-show-invoice.jsx'
 
 import './form.pres.scss'
 export const BASE_CLASS = `quotation-form`
@@ -18,7 +19,6 @@ export const FORM_ID    = BASE_CLASS
 export default function QuotationFormPres( props ) {
   const {
     isSaving,
-    user,
     customers,
     formData,
     customer,
@@ -66,7 +66,7 @@ export default function QuotationFormPres( props ) {
           <PaperSheet>
             <Reference type="quotation" product={ formData } />
             <Between>
-              <Party title="from" {...user} />
+              <PartyUser />
               <Party title="to" {...customer} />
             </Between>
             <Input
@@ -77,7 +77,6 @@ export default function QuotationFormPres( props ) {
             <ProductTable
               products={ products }
               tax={ formData.tax }
-              currency={ user.currency }
             >
               { hasProducts && products.map( (product, index) => {
                 const isLast = index === productsLength - 1
@@ -87,7 +86,6 @@ export default function QuotationFormPres( props ) {
                     key={ product._id }
                     fieldPath={ fieldPath }
                     product={ product }
-                    currency={ user.currency }
                     isLast={ isLast }
                   >
                     { !isLast && (
@@ -109,6 +107,7 @@ export default function QuotationFormPres( props ) {
               <FormattedMessage id={ submitI18nId } />
             </Button>
             <ButtonCreateInvoice />
+            <ButtonShowInvoice />
           </ContentActions>
         </Content>
       </Main>

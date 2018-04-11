@@ -25,7 +25,7 @@ function PrintQuotationPage( props ) {
       <NavSecondary
         title={ <FormattedMessage id="page.quotations.print" values={{reference}} /> }
       >
-        <ButtonNew type={ TYPE }  />
+        <ButtonNew secondary type={ TYPE }  />
         <ButtonList type={ TYPE } />
         <ButtonEdit type={ TYPE } id={id} />
       </NavSecondary>

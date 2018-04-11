@@ -14,7 +14,7 @@
   &__sentinel {
     position: absolute;
     width: 100%;
-    top: var(--s-nav-top-height);
+    top: 1px;
     pointer-events: none;
   }
   &__sticky {
