@@ -30,14 +30,9 @@
       // don't use display: none
       // • we want textarea-auto-resize to be able to compute size :)
       &:not(:checked) ~ section:nth-of-type(#{$i}) {
-        border: 0;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
         position: absolute;
-        width: 1px;
+        opacity: 0;
+        pointer-events: none;
       }
       &:checked ~ #{$root}__list label:nth-of-type(#{$i}) {
         color: var(--c-primary);
