@@ -12,9 +12,10 @@ import {
   TabListHeader,
   TabPanel,
 } from '../ui/tabs.jsx'
-import PrintInvoice      from './print.jsx'
-import InvoiceFormHeader from './form.pres-header.jsx'
-import InvoiceEvents     from './form.pres-events.jsx'
+import PrintInvoice        from './print.jsx'
+import InvoiceFormHeader   from './form.pres-header.jsx'
+import InvoiceEvents       from './form.pres-events.jsx'
+import ButtonShowQuotation from './button-show-quotation.jsx'
 
 export const BASE_CLASS    = `invoice-form`
 export const FORM_ID       = BASE_CLASS
@@ -56,6 +57,7 @@ export default function InvoiceFormPres( props ) {
             <Button type="submit">
               <FormattedMessage id="invoices.button.save" />
             </Button>
+            <ButtonShowQuotation />
           </FormActions>
         </TabPanel>
 

@@ -52,6 +52,7 @@ export default {
   'invoices.tab.payments'      : `Paiements`,
   'invoices.tab.preview'       : `Aperçu de la facture`,
   'invoices.button.save'       : `Mettre à jour`,
+  'invoices.button.quotation'  : `Voir le devis`,
   'invoices.event'             : `évènement`,
   'invoices.event.#'           : `n˚`,
   'invoices.event.description' : `description`,
