@@ -38,6 +38,9 @@ const defaultUserParams = {
 }
 
 const defaultQuotationParams = {
+  order: [
+    [`updatedAt`, `DESC`],
+  ],
   include: [
     {
       model: User,

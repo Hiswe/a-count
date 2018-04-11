@@ -42,7 +42,13 @@ router
     where: {
       userId,
       invoiceId: { $eq: null },
-    }
+      $or: {
+        sendAt      : { $eq : null },
+        validatedAt : { $eq : null },
+        signedAt    : { $eq : null },
+        total       : { $eq : 0    },
+      },
+    },
   })
   const list = await Quotation.findAll( params )
 
@@ -51,6 +57,27 @@ router
   ctx.body = {
     list: list.map( c => c.toJSON() ),
   }
+})
+.get(`/ready-to-create-invoice`, async (ctx, next) => {
+  const { userId }  = ctx.state
+  const params      = addRelations.quotation({
+    where: {
+      userId,
+      invoiceId   : { $eq  : null },
+      sendAt      : { $not : null },
+      validatedAt : { $not : null },
+      signedAt    : { $not : null },
+      total       : { $not : 0    },
+    }
+
+  })
+  const list = await Quotation.findAll( params )
+  // put response in a “list“ key
+  // • we will add pagination information later
+  ctx.body = {
+    list: list.map( c => c.toJSON() ),
+  }
+
 })
 
 //----- NEW
@@ -131,7 +158,6 @@ router
   ctx.assert( instance, 404, MESSAGES.NOT_FOUND )
   ctx.body = instance
 })
-
 .post(`/:id`, async (ctx, next) => {
   const { userId }  = ctx.state
   const { id }      = ctx.params
