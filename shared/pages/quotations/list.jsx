@@ -14,7 +14,7 @@ import QuotationsList from '../../components/quotations/list.jsx'
 const TYPE = `quotations`
 
 function Quotations( props ) {
-  const { quotations } = props
+  const { active, readyToInvoice } = props
 
   return (
     <Fragment>
@@ -25,7 +25,15 @@ function Quotations( props ) {
       </NavSecondary>
       <Main>
         <Content>
-          <QuotationsList quotations={ quotations } />
+          <QuotationsList quotations={ active } />
+          { readyToInvoice.length > 0 && (
+          <Fragment>
+            <h3>
+              <FormattedMessage id="quotation.ready-to-invoice" />
+            </h3>
+            <QuotationsList quotations={ readyToInvoice } />
+          </Fragment>
+          )}
         </Content>
       </Main>
       <ButtonNew fab type={ TYPE } />
@@ -35,13 +43,15 @@ function Quotations( props ) {
 
 function state2prop( state ) {
   return {
-    quotations: state.quotations.get(`list`),
+    active:         state.quotations.get(`active`),
+    readyToInvoice: state.quotations.get(`readyToInvoice`),
   }
 }
 
 export default connect( state2prop )( ConnectDataFetcher({
   Component: Quotations,
   actionCreators: [
-    quotations.getAll,
+    quotations.getActive,
+    quotations.getReadyToInvoice,
   ],
 }) )

@@ -132,7 +132,7 @@ function state2prop( state ) {
   return {
     isSaving   : state.customers  .get( `isSaving` ),
     customer   : state.customers  .get( `current`  ),
-    quotations : state.quotations .get( `list`     ),
+    quotations : state.quotations .get( `active`   ),
     invoices   : state.invoices   .get( `list`     ),
   }
 }

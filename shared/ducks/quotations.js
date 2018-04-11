@@ -5,15 +5,17 @@ import createActionNames from './utils/create-action-names.js'
 import fetchDispatch from './utils/fetch-dispatch.js'
 
 const NAME = `quotations`
-export const GET_ALL              = createActionNames( NAME, `get`  , `all`              )
+export const GET_ACTIVE           = createActionNames( NAME, `get`  , `active`           )
+export const GET_READY_INVOICE    = createActionNames( NAME, `get`  , `ready-to-invoice` )
 export const GET_ALL_FOR_CUSTOMER = createActionNames( NAME, `get`  , `all-for-customer` )
 export const GET_ONE              = createActionNames( NAME, `get`  , `one`              )
 export const SAVE_ONE             = createActionNames( NAME, `post` , `one`              )
 export const CREATE_INVOICE       = createActionNames( NAME, `post` , `convert`          )
 
 const initialState = crio({
-  isSaving:   false,
-  list:       [],
+  isSaving:       false,
+  active:         [],
+  readyToInvoice: [],
   current:    {
     isLoading: true,
   },
@@ -25,8 +27,11 @@ export default function reducer(state = initialState, action) {
   switch ( type ) {
 
     case GET_ALL_FOR_CUSTOMER.SUCCESS:
-    case GET_ALL.SUCCESS:
-      return state.set( `list`, payload.list )
+    case GET_ACTIVE.SUCCESS:
+      return state.set( `active`, payload.list )
+
+    case GET_READY_INVOICE.SUCCESS:
+      return state.set( `readyToInvoice`, payload.list )
 
     case GET_ONE.LOADING:
       return state.set( `current`, {
@@ -44,9 +49,10 @@ export default function reducer(state = initialState, action) {
     case CREATE_INVOICE.SUCCESS: {
       const { id }      = meta
       // maybe the quotation isn't already in the listing
-      const index       = state.get( `list` ).findIndex(quot => quot.id === id)
+      const index       = state.get( `readyToInvoice` )
+        .findIndex(quot => quot.id === id)
       const updated     = index < 0 ?  state
-        : state.set( `list[${index}]`, payload )
+        : state.set( `readyToInvoice[${index}]`, payload )
       // always update the current quotation
       return updated.set( `current`, payload )
     }
@@ -63,13 +69,24 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export const getAll = ({params, cookie}) => async dispatch => {
+export const getActive = ({params, cookie}) => async dispatch => {
   const options = {
     url: `${NAME}`,
   }
   await fetchDispatch({
     dispatch,
-    actions:   GET_ALL,
+    actions:   GET_ACTIVE,
+    fetch:    { options, cookie },
+  })
+}
+
+export const getReadyToInvoice = ({params, cookie}) => async dispatch => {
+  const options = {
+    url: `${NAME}/ready-to-invoice`,
+  }
+  await fetchDispatch({
+    dispatch,
+    actions:   GET_READY_INVOICE,
     fetch:    { options, cookie },
   })
 }

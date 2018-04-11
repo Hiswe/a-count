@@ -99,10 +99,11 @@ export default {
   'paper-sheet.party.no-address'   : `No address defined`,
   'paper-sheet.subject'            : `Subject:`,
 
-  'quotation.create'        : `create`,
-  'quotation.create.invoice': `create invoice`,
-  'quotation.button.create' : `Create the new quotation`,
-  'quotation.button.update' : `Update the quotation`,
+  'quotation.create'           : `create`                    ,
+  'quotation.ready-to-invoice' : `quote ready for invoicing` ,
+  'quotation.create.invoice'   : `create invoice`            ,
+  'quotation.button.create'    : `Create the new quotation`  ,
+  'quotation.button.update'    : `Update the quotation`      ,
 
   'spinner.loading'  : `loading…` ,
 

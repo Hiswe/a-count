@@ -99,10 +99,11 @@ export default {
   'paper-sheet.party.no-address'   : `Pas d'adresse définie`,
   'paper-sheet.subject'            : `Objet :`,
 
-  'quotation.create'        : `créer`,
-  'quotation.create.invoice': `créer la facture`,
-  'quotation.button.create' : `Créer le nouveau devis`,
-  'quotation.button.update' : `Mettre à jour le devis`,
+  'quotation.create'           : `créer`                        ,
+  'quotation.ready-to-invoice' : `Devis prêts pour facturation` ,
+  'quotation.create.invoice'   : `créer la facture`             ,
+  'quotation.button.create'    : `Créer le nouveau devis`       ,
+  'quotation.button.update'    : `Mettre à jour le devis`       ,
 
   'spinner.loading'  : `chargement…`,
 

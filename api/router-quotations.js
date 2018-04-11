@@ -58,7 +58,7 @@ router
     list: list.map( c => c.toJSON() ),
   }
 })
-.get(`/ready-to-create-invoice`, async (ctx, next) => {
+.get(`/ready-to-invoice`, async (ctx, next) => {
   const { userId }  = ctx.state
   const params      = addRelations.quotation({
     where: {
