@@ -36,7 +36,6 @@ function Quotations( props ) {
           )}
         </Content>
       </Main>
-      <ButtonNew fab type={ TYPE } />
     </Fragment>
   )
 }

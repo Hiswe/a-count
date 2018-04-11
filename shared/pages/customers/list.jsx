@@ -26,7 +26,6 @@ function Customers( props ) {
           <CustomersTable />
         </Content>
       </Main>
-      <ButtonNew fab type={ TYPE } />
     </Fragment>
   )
 }
