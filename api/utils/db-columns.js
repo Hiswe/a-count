@@ -25,9 +25,6 @@ const CUSTOMER_QUOTATION = squel
   .and( quote(`quotation.customerId = customer.id`) )
   .and( quote(`quotation.invoiceId IS NULL `) )
 
-console.log( `CUSTOMER_QUOTATION.toString()` )
-console.log( CUSTOMER_QUOTATION.toString() )
-
 const CUSTOMER_INVOICE = squel
   .expr()
   .and( quote(`invoice.customerId = customer.id`) )

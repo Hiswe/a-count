@@ -71,7 +71,7 @@ function QuotationRow( props ) {
                 handleCreate()
               }}
             >
-              <FormattedMessage id="quotation.create.invoice" />
+              <FormattedMessage id="quotation.invoice.create" />
             </a>
           )
         }

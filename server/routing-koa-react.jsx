@@ -10,7 +10,6 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import IntlPolyfill from 'intl'
 import areIntlLocalesSupported from 'intl-locales-supported'
-import * as ReactTabs from 'react-tabs'
 
 import log from './log.js'
 import config from './config.js'
@@ -64,10 +63,6 @@ router.get( '*', async (ctx, next) => {
   // • Because it's mutable, it will change during the React's server rendering process
   // • So that's a good way to pass data from react-router-config to the server
   const staticContext = {}
-
-  // Reset Tab counter ID for getting rid of React warning “Prop `id` did not match”
-  // • https://github.com/reactjs/react-tabs#resetidcounter-void
-  ReactTabs.resetIdCounter()
 
   // Finally render!
   const content = renderToString(

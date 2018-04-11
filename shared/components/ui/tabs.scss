@@ -1,7 +1,12 @@
-.react-tabs {
+.tabs {
+  $root: &;
   --gutter: minmax(var(--s-gutter), calc(50% - var(--s-max-width) / 2));
   --tab-selected-border-radius: var(--s-quarter-gutter);
   --tab-selected-bg: var(--c-background);
+
+  --tab-list-bg: DarkSlateBlue;
+  --tab-color: white;
+  --tab-bg: transparent;
   display: grid;
   grid-template-columns:
     var(--gutter) [content-col-start] 1fr [content-col-end] var(--gutter);
@@ -20,7 +25,38 @@
     grid-column: content-col-start / content-col-end;
   }
 
-  &__tab-list {
+  @for $i from 1 through 10 {
+    input:nth-of-type(#{$i}) {
+      // don't use display: none
+      // • we want textarea-auto-resize to be able to compute size :)
+      &:not(:checked) ~ section:nth-of-type(#{$i}) {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+      }
+      &:checked ~ #{$root}__list label:nth-of-type(#{$i}) {
+        color: var(--c-primary);
+        background: var(--tab-selected-bg);
+        border-radius: var(--tab-selected-border-radius) var(--tab-selected-border-radius) 0 0;
+
+        &::before,
+        &::after {
+          content: '';
+        }
+      }
+    }
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__list {
     margin: 0;
     padding: var(--s-gutter) 0 0;
     list-style: none;
@@ -32,23 +68,15 @@
     &_header {
       width: 100%;
     }
-  }
-
-  &__tab {
-    flex: 1 1;
-    text-align: center;
-    padding: var(--s-half-gutter) 0;
-    color: var(--c-primary);
-
-    &--selected {
+    &_tab {
+      flex: 1 1;
+      text-align: center;
+      padding: var(--s-half-gutter) 0;
       color: var(--c-primary);
-      background: var(--tab-selected-bg);
-      border-radius: var(--tab-selected-border-radius) var(--tab-selected-border-radius) 0 0;
       position: relative;
 
       &::before,
       &::after {
-        content: '';
         position: absolute;
         bottom: 0;
         width:  calc(var(--tab-selected-border-radius) * 1);
@@ -62,14 +90,10 @@
         left: 100%;
         background: radial-gradient(farthest-corner at top right, transparent 65%, var(--tab-selected-bg) 70%)
       }
-
     }
   }
-  &__tab-panel {
-    padding-top: var(--s-gutter);
 
-    &:empty {
-      display: none;
-    }
+  &__panel {
+    padding-top: var(--s-gutter);
   }
 }
