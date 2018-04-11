@@ -100,18 +100,14 @@ export default function SettingFormPres( props ) {
               name="lang"
               label="field.language"
               value={ formData.lang }
-            >{ languages.map( c => (
-              <option key={ c.value } value={ c.value }>{ c.label }</option>
-            ))}
-            </Select>
+              options={ languages }
+            />
             <Select
               name="currency"
               label="field.currency"
               value={ formData.currency }
-            >{ currencies.map( c => (
-              <option key={ c.value } value={ c.value }>{ c.label }</option>
-            ))}
-            </Select>
+              options={ currencies }
+            />
             <PaperSheet part="top-left">
               <Party title="from" {...formData} />
             </PaperSheet>

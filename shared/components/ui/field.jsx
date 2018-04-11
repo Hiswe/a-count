@@ -55,34 +55,34 @@ const fieldWrapper = ({ControlComponent, fieldType}) => class extends PureCompon
     if ( type ) wrapperClassName.push( `${BASE_CLASS}--type-${type}` )
     if ( darkBg ) wrapperClassName.push( `${BASE_CLASS}--dark-background` )
 
-    const wrapperProps = {
+    const wrapperProps = crio({
       className: wrapperClassName.join( ` ` ),
-    }
-    const labelProps = {
+    })
+    const labelProps = crio({
       className: `${BASE_CLASS}__label`,
       htmlFor:    _id,
       label:      label,
-    }
-    const controlProps = {
+    })
+    const controlProps = crio({
       id:         _id,
       className:  `${ BASE_CLASS }__control`,
       onChange:   this.handleChange,
       onBlur:     this.handleBlur,
       ...rest,
-    }
+    })
 
     if ( isNil(props.defaultValue) ) {
       controlProps.value = ensureValue( props.value )
     }
 
-    this.state = crio({
+    this.state = {
       wrapperProps,
       labelProps,
       controlProps,
       isEmpty:    false,
       isTouched:  false,
       isPristine: true,
-    })
+    }
   }
   // activate floating label only if JS on client-side
   // • without JS all label will be stuck by default
@@ -98,6 +98,15 @@ const fieldWrapper = ({ControlComponent, fieldType}) => class extends PureCompon
 
   static getDerivedStateFromProps( nextProps, prevState ) {
     if ( `defaultValue` in nextProps ) return null
+    if ( `options` in  nextProps ) {
+      // console.log( prevState )
+      const currentOptions = prevState.controlProps.get(`options`)
+      const nextOptions    = nextProps.options
+      if ( currentOptions === nextOptions ) return null
+      return {
+        controlProps: prevState.controlProps.set(`options`, nextOptions )
+      }
+    }
     const value = ensureValue( nextProps.value )
     return {
       isEmpty:      isEmpty( value ),
@@ -182,13 +191,21 @@ export const Textarea = fieldWrapper( {
   fieldType: `textarea`,
 })
 
+// sometime <options> list doesn't come with the expected keys
+// • make it possible to configure that with optionsKeys prop
+const keyDefault = crio({value: `value`, label: `label`})
 export const Select = fieldWrapper( {
   ControlComponent: props => {
-    const { children, controlRef, ...rest} = props
+    const { options, optionsKeys = keyDefault, controlRef, ...rest} = props
     return (
-      <select ref={ controlRef } {...rest}>
-        { children }
-      </ select>
+      <select ref={ controlRef } {...rest}>{ options.map( c => (
+        <option
+          key={ `${controlRef}-${c.get(optionsKeys.value)}` }
+          value={ c.get(optionsKeys.value) }
+        >
+          { c.get(optionsKeys.label) }
+        </option>
+      ))}</ select>
     )
   },
   fieldType: `select`,
