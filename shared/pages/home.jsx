@@ -12,7 +12,8 @@ import { ButtonNew } from '../components/nav/secondary-buttons.jsx'
 import { Main, Content } from '../components/layout/main.jsx'
 import QuotationsList from '../components/quotations/list.jsx'
 import InvoicesList from '../components/invoices/list.jsx'
-import { PieChart } from '../components/ui/pie-chart.jsx'
+import { Amount } from '../components/ui/format.jsx'
+import { PieChart, PieChartDefs } from '../components/ui/pie-chart.jsx'
 
 function Home( props ) {
   const {
@@ -24,6 +25,7 @@ function Home( props ) {
 
   return (
     <Fragment>
+
       <NavSecondary
         title={ <FormattedMessage id="page.home"/> }
       >
@@ -32,21 +34,29 @@ function Home( props ) {
       <Main>
         <Content>
           <div style={{display: `grid`, gridGap: `2rem`, gridTemplateColumns: `1fr 1fr`}}>
+            <PieChartDefs />
             <PieChart
-              title="count"
+              title="_.count"
               slices={[
-                {label: `quotations` , value: statistics.quotationsCount },
-                {label: `invoices`   , value: statistics.invoicesCount   },
+                {label: `_.quotations` , value: statistics.quotationsCount },
+                {label: `_.invoices`   , value: statistics.invoicesCount   },
               ]}
-            />
+            >
+              <p style={{fontSize: `3rem`}}>
+                { statistics.quotationsCount + statistics.invoicesCount }
+              </p>
+            </PieChart>
             <PieChart
-              title="amount"
+              title="_.amount"
+              type="currency"
               slices={[
-                {label: `quotations`  , value: statistics.quotationsTotal   },
-                {label: `invoice left`, value: statistics.invoicesTotalLeft },
-                {label: `invoice paid`, value: statistics.invoicesTotalPaid },
+                {label: `_.quotations`    , value: statistics.quotationsTotal   },
+                {label: `_.invoices.left` , value: statistics.invoicesTotalLeft },
+                {label: `_.invoices.paid` , value: statistics.invoicesTotalPaid },
               ]}
-            />
+            >
+              <Amount value={ statistics.quotationsTotal + statistics.invoicesTotal } />
+            </PieChart>
           </div>
           <h3>
             <FormattedMessage id="page.quotations" />

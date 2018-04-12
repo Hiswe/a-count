@@ -1,8 +1,11 @@
 export default {
-  '_.quotations'  : `quotations`      ,
-  '_.invoices'    : `invoices`        ,
-  '_.amount'      : `amount`          ,
-  '_.left-to-pay' : `left to be paid` ,
+  '_.quotations'    : `quotations`      ,
+  '_.invoices'      : `invoices`        ,
+  '_.invoices.paid' : `paid`            ,
+  '_.invoices.left' : `left`            ,
+  '_.amount'        : `amount`          ,
+  '_.count'         : `count`           ,
+  '_.left-to-pay'   : `left to be paid` ,
 
   'account.login.title'    : `login`,
   'account.login.button'   : `connect`,

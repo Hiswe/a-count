@@ -36,7 +36,6 @@ function currency2prop( state ) {
 
 export const Amount = connect( currency2prop )( AmountPres )
 
-
 export function FormatNumber( props ) {
   const { value, ...others} = props
   const safeValue = parseValue( value )
@@ -48,11 +47,16 @@ export function FormatNumber( props ) {
 }
 
 export function Percent( props ) {
-  const { value, ...others} = props
+  const { value, className, ...others} = props
   others.style = `percent`
   const safeValue = parseValue( value )
+  const COMP_CLASS = [
+    BASE_CLASS,
+    `${BASE_CLASS}--percent`,
+  ]
+  if ( className ) COMP_CLASS.push( className )
   return (
-    <p className={`${BASE_CLASS} ${BASE_CLASS}--percent`}>
+    <p className={COMP_CLASS.join(` `)}>
       { safeValue === null ? `–` : <FormattedNumber value={ value } {...others}  /> }
     </p>
   )

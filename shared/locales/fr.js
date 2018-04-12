@@ -1,8 +1,11 @@
 export default {
-  '_.quotations'  : `devis`         ,
-  '_.invoices'    : `factures`      ,
-  '_.amount'      : `montant`       ,
-  '_.left-to-pay' : `reste à payer` ,
+  '_.quotations'    : `devis`         ,
+  '_.invoices'      : `factures`      ,
+  '_.amount'        : `montant`       ,
+  '_.invoices.paid' : `payé`          ,
+  '_.invoices.left' : `à payer`       ,
+  '_.count'         : `nombre`        ,
+  '_.left-to-pay'   : `reste à payer` ,
 
   'account.login.title'    : `connexion`,
   'account.login.button'   : `se connecter`,
