@@ -3,15 +3,16 @@
 const merge  = require( 'lodash.merge' )
 const Router = require( 'koa-router'   )
 
-const config          = require( './config'                    )
+const config          = require( './config'                     )
 const addRelations    = require( './utils/db-default-relations' )
-const log             = require( './utils/log'                 )
-const dbGetterSetter  = require( './utils/db-getter-setter'    )
-const User            = require( './db/model-user'             )
-const QuotationConfig = require( './db/model-quotation-config' )
-const InvoiceConfig   = require( './db/model-invoice-config'   )
-const ProductConfig   = require( './db/model-product-config'   )
-const jwtStore        = require( './jwt-store'                 )
+const dbColumns       = require( './utils/db-columns'           )
+const log             = require( './utils/log'                  )
+const dbGetterSetter  = require( './utils/db-getter-setter'     )
+const User            = require( './db/model-user'              )
+const QuotationConfig = require( './db/model-quotation-config'  )
+const InvoiceConfig   = require( './db/model-invoice-config'    )
+const ProductConfig   = require( './db/model-product-config'    )
+const jwtStore        = require( './jwt-store'                  )
 
 const prefix        = `account`
 const publicRouter  = new Router({prefix: `/${prefix}`})
@@ -115,9 +116,6 @@ privateRouter
   ctx.assert( ctx.state && ctx.state.user, 401, `Not connected` )
   ctx.body = { user: ctx.state.user }
 })
-.get( `/statistics`, async (ctx, next) => {
-  ctx.body = {}
-})
 .get( `/logout`, async (ctx, next) => {
   const { jwtData } = ctx.state
   await jwtStore.remove( jwtData )
@@ -128,6 +126,20 @@ privateRouter
     message:      `bye bye`,
     access_token: ``,
   }
+})
+.get( `/statistics`, async (ctx, next) => {
+  const { userId }  = ctx.state
+  const user        = await User.findOne({
+    where: {
+      id:             userId,
+      isDeactivated:  { $not: true },
+    },
+    attributes: [
+      `id`,
+      ...dbColumns.statistics,
+    ]
+  })
+  ctx.body = user
 })
 .post( `/settings`, async (ctx, next) => {
   const { id }      = ctx.state && ctx.state.user

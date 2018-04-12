@@ -5,9 +5,6 @@ const Sequelize = require( 'sequelize' )
 
 // Sequelize make it hard to have COUNT and SUM
 // • just go with some raw attributes :D
-const OPTIONS    = { autoQuoteAliasNames: false }
-const QUOTATIONS = [ `quotations`,  `quotation`]
-const INVOICES   = [ `invoices`,    `invoice`]
 
 const fieldReg = /([a-zA-Z]*)\.([a-zA-Z]*)/g
 // add double quote around field names
@@ -20,88 +17,63 @@ const SUM        = (modelName, column) => `SUM("${modelName}"."${column}")`
 const AS         = (modelName, column) => `${modelName}s${capitalize(column)}`
 const QUERY      = query => Sequelize.literal( `(${query.toString()})` )
 
-const CUSTOMER_QUOTATION = squel
-  .expr( { rawNesting: true,})
-  .and( quote(`quotation.customerId = customer.id`) )
-  .and( quote(`quotation.invoiceId IS NULL `) )
+const OPTIONS    = { autoQuoteAliasNames: false }
 
-const CUSTOMER_INVOICE = squel
-  .expr()
-  .and( quote(`invoice.customerId = customer.id`) )
+const find  = {
+  quotationFor: who => (
+    squel.expr()
+    .and( quote(`quotation.${ who }Id = ${ who }.id`) )
+    .and( quote(`quotation.invoiceId IS NULL `) )
+    .and( quote(`quotation.archivedAt IS NULL `) )
+  ),
+  invoiceFor: who => (
+    squel.expr()
+    .and( quote(`invoice.${ who }Id = ${ who }.id`) )
+    .and( quote(`invoice.archivedAt IS NULL `) )
+  )
+}
 
-const customer = {
-  quotation: {
-    count: [
-      QUERY(
-        squel.select( OPTIONS )
-        .field( COUNT() )
-        .where( CUSTOMER_QUOTATION )
-        .from( ...QUOTATIONS )
-      ),
-      AS( `quotation`, `count` )
-    ],
-    total: [
-      QUERY(
-        squel.select( OPTIONS )
-        .field( SUM(`quotation`, `total` ) )
-        .where( CUSTOMER_QUOTATION )
-        .from( ...QUOTATIONS )
-      ),
-      AS( `quotation`, `total` )
-    ],
+const FROM       = {
+  quotation:  [ `quotations`,  `quotation`],
+  invoice:    [ `invoices`,    `invoice`],
+}
+const WHERE = {
+  customer: {
+    quotation:  find.quotationFor( `customer` ),
+    invoice:    find.invoiceFor( `customer` ),
   },
-  invoice: {
-    count: [
-      QUERY(
-        squel.select( OPTIONS )
-        .field( COUNT() )
-        .where( CUSTOMER_INVOICE )
-        .from( ...INVOICES )
-      ),
-      AS( `invoice`, `count` )
-    ],
-    total: [
-      QUERY(
-        squel.select( OPTIONS )
-        .field( SUM(`invoice`, `total`) )
-        .where( CUSTOMER_INVOICE )
-        .from( ...INVOICES )
-      ),
-      AS( `invoice`, `total` )
-    ],
-    totalPaid: [
-      QUERY(
-        squel.select( OPTIONS )
-        .field( SUM(`invoice`, `totalPaid` ) )
-        .where( CUSTOMER_INVOICE )
-        .from( ...INVOICES )
-      ),
-      AS( `invoice`, `totalPaid` )
-    ],
-    totalLeft: [
-      QUERY(
-        squel.select( OPTIONS )
-        .field( SUM(`invoice`, `totalLeft` ) )
-        .where( CUSTOMER_INVOICE )
-        .from( ...INVOICES )
-      ),
-      AS( `invoice`, `totalLeft` )
-    ],
+  user: {
+    quotation:  find.quotationFor( `user` ),
+    invoice:    find.invoiceFor( `user` ),
   }
+}
+
+function getCountAndSums( where ) {
+  const queries = [
+    [`quotation`, `count`    ],
+    [`quotation`, `total`    ],
+    [`invoice`  , `count`    ],
+    [`invoice`  , `total`    ],
+    [`invoice`  , `totalPaid`],
+    [`invoice`  , `totalLeft`],
+  ].map( field => {
+    const [type, query] = field
+    return [
+      QUERY(
+        squel.select( OPTIONS )
+        .field( query === `count` ? COUNT() : SUM( ...field ) )
+        .where( where[ type ] )
+        .from( ...FROM[ type ] )
+      ),
+      AS( ...field ),
+    ]
+  })
+  return queries
 }
 
 module.exports = {
   customer: {
-    countAndTotal: [
-      customer.quotation.count,
-      customer.quotation.total,
-      customer.invoice.count,
-      customer.invoice.total,
-      customer.invoice.totalPaid,
-      customer.invoice.totalLeft,
-    ]
+    countAndTotal: getCountAndSums( WHERE.customer )
   },
-  user: {
-
-  }
+  statistics: getCountAndSums( WHERE.user )
 }
