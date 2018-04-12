@@ -97,21 +97,23 @@ const fieldWrapper = ({ControlComponent, fieldType}) => class extends PureCompon
   }
 
   static getDerivedStateFromProps( nextProps, prevState ) {
-    if ( `defaultValue` in nextProps ) return null
-    if ( `options` in  nextProps ) {
-      // console.log( prevState )
-      const currentOptions = prevState.controlProps.get(`options`)
-      const nextOptions    = nextProps.options
-      if ( currentOptions === nextOptions ) return null
-      return {
-        controlProps: prevState.controlProps.set(`options`, nextOptions )
-      }
+    const { controlProps } = prevState
+    const isValueUpdate    = nextProps.value   !== controlProps.value
+    const isOptionsUpdate  = nextProps.options !== controlProps.options
+    if ( !isValueUpdate && !isOptionsUpdate ) return null
+    const update = {
+      controlProps,
+      isEmpty: prevState.isEmpty,
     }
-    const value = ensureValue( nextProps.value )
-    return {
-      isEmpty:      isEmpty( value ),
-      controlProps: prevState.controlProps.set( `value`, value )
+    if ( isOptionsUpdate ) {
+      update.controlProps = update.controlProps.set(`options`, nextProps.options )
     }
+    if ( isValueUpdate ) {
+      const value     = ensureValue( nextProps.value )
+      update.isEmpty  = isEmpty( value )
+      update.controlProps = update.controlProps.set(`value`, value )
+    }
+    return update
   }
 
   //----- EVENTS
