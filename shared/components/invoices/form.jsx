@@ -6,9 +6,12 @@ import { connect } from 'react-redux'
 import serialize from 'form-serialize'
 
 import * as invoices from '../../ducks/invoices'
+import { Form } from '../ui/form.jsx'
 
 import Spinner         from '../ui/spinner.jsx'
 import InvoiceFormPres from './form.pres.jsx'
+
+export const FORM_ID = `invoice-form`
 
 function isPaymentFieldName( inputName ) {
   return /^payments\[\d+\]/.test( inputName )
@@ -113,19 +116,27 @@ class InvoiceForm extends Component {
 
   render() {
     const { isSaving, isLoading } = this.props
+    const { formData } = this.state
     if ( isLoading ) return <Spinner />
 
     const renderProps = {
-      user            : this.props.user,
-      formData        : this.state.formData,
+      formData,
       handle: {
-        submit        : this.handleSubmit,
-        formChange    : this.handleFormChange,
         dayChange     : this.handleDayChange,
         removePayment : this.handleRemovePayment,
       },
     }
-    return <InvoiceFormPres {...renderProps}/>
+    return (
+      <Form
+        id={ FORM_ID }
+        isSaving={ isSaving }
+        onChange={ this.handleFormChange }
+        onSubmit={ this.handleSubmit }
+      >
+        <input type="hidden" defaultValue={ formData.get(`id`) } name="id" />
+        <InvoiceFormPres {...renderProps}/>
+      </Form>
+    )
   }
 }
 
@@ -134,7 +145,6 @@ function state2prop( state ) {
     isSaving : state.invoices.get( `isSaving` ),
     invoice  : state.invoices.get( `current` ),
     isLoading: state.invoices.get( `current.isLoading` ),
-    user     : state.account.get( `current` ),
   }
 }
 

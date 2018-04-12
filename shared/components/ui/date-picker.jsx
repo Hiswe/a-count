@@ -19,7 +19,7 @@ const disabledDays = {
 }
 
 export function DatePicker( props ) {
-  const { handleDayChange, value, ...others } = props
+  const { handleDayChange, value, ...inputProps } = props
   // empty values should treated as invalid date
   // • maybe the serve doesn't send us a date all!
   const dateObject = moment( value || `` )
@@ -33,7 +33,7 @@ export function DatePicker( props ) {
       clickUnselectsDay
       format="L"
       placeholder={ `dd/mm/yyyy` }
-      inputProps={ others }
+      inputProps={ inputProps }
       dayPickerProps={{
         disabledDays,
         locale:     `fr`,
@@ -41,7 +41,7 @@ export function DatePicker( props ) {
       }}
       onDayChange={ day => {
         handleDayChange && handleDayChange( {
-          name: others.name,
+          name: inputProps.name,
           value: day || ``,
         })
       } }

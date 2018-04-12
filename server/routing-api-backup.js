@@ -68,9 +68,21 @@ router
   const { payload } = ctx.state
   ctx.redirect( `/` )
 })
-.post( `/users/:id`, proxyRequest, async (ctx, next) => {
+.post( `/account/settings`, proxyRequest, async (ctx, next) => {
   const { payload } = ctx.state
-  ctx.redirect( `/profile` )
+  ctx.redirect( ctx.request.url )
+})
+
+//----- CUSTOMERS
+
+router
+.post( `/customers/new`, proxyRequest, async (ctx, next) => {
+  const { payload } = ctx.state
+  ctx.redirect( `/customers/${ payload.id }` )
+})
+.post( `/customers/:id`, proxyRequest, async (ctx, next) => {
+  const { url } = ctx.request
+  ctx.redirect( ctx.request.url )
 })
 
 //----- QUOTATIONS
@@ -84,16 +96,15 @@ router
   const { url } = ctx.request
   ctx.redirect( ctx.request.url )
 })
-// app.post('/quotation/convert-to-invoice/:fakeId', quotation.convert);
+.post( `/quotations/:id/create-invoice`, proxyRequest, async (ctx, next) => {
+  const { id }  = ctx.params
+  ctx.redirect( `/quotations/${ id}` )
+})
 
-//----- CUSTOMERS
+//----- INVOICES
 
 router
-.post( `/customers/new`, proxyRequest, async (ctx, next) => {
-  const { payload } = ctx.state
-  ctx.redirect( `/customers/${ payload.id }` )
-})
-.post( `/customers/:id`, proxyRequest, async (ctx, next) => {
+.post( `/invoices/:id`, proxyRequest, async (ctx, next) => {
   const { url } = ctx.request
   ctx.redirect( ctx.request.url )
 })

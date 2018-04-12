@@ -11,8 +11,7 @@ import {
   ButtonPrint,
   ButtonSubmit,
 } from '../../components/nav/secondary-buttons.jsx'
-import InvoiceForm from '../../components/invoices/form.jsx'
-import { FORM_ID } from '../../components/invoices/form.pres.jsx'
+import InvoiceForm, { FORM_ID } from '../../components/invoices/form.jsx'
 import ButtonShowQuotation from '../../components/invoices/button-show-quotation.jsx'
 
 const TYPE = `invoices`

@@ -48,7 +48,7 @@ export default function QuotationFormPres( props ) {
             <Select
               label="field.customer"
               name="customerId"
-              value={ formData.customerId }
+              value={ formData.get(`customerId`) }
               options={ customers }
               optionsKeys={{ value: `id`, label: `name`}}
             />
@@ -58,7 +58,7 @@ export default function QuotationFormPres( props ) {
               type="number"
               min="0"
               step="0.5"
-              value={ formData.tax }
+              value={ formData.get(`tax`) }
             />
           </div>
         </Meta>

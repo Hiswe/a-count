@@ -5,7 +5,10 @@ import { Link } from 'react-router-dom'
 import serialize from 'form-serialize'
 
 import * as account from '../../ducks/account'
+import { Form } from '../ui/form.jsx'
 import SettingFormPres from './settings.pres.jsx'
+
+export const FORM_ID    = `setting-form`
 
 class SettingForm extends Component {
 
@@ -51,23 +54,46 @@ class SettingForm extends Component {
     const { formData } = this.state
     const { isSaving } = this.props
 
-    const renderProps = {
-      formData,
-      isSaving,
-      handleSubmit: this.handleSubmit,
-      handleFormChange: this.handleFormChange,
-    }
+    const renderProps = { formData }
 
     return (
-      <SettingFormPres {...renderProps} />
+      <Form
+        id={ `${FORM_ID}` }
+        action={ `/account/settings` }
+        isSaving={ isSaving }
+        onChange={ this.handleFormChange }
+        onSubmit={ this.handleSubmit }
+      >
+        <input
+          type="hidden"
+          name="id"
+          value={ formData.get(`id`) }
+        />
+        <input
+          type="hidden"
+          name="quotationConfig[id]"
+          value={ formData.get(`quotationConfig.id`) }
+        />
+        <input
+          type="hidden"
+          name="invoiceConfig[id]"
+          value={ formData.get(`invoiceConfig.id`) }
+        />
+        <input
+          type="hidden"
+          name="productConfig[id]"
+          value={ formData.get(`productConfig.id`) }
+        />
+        <SettingFormPres {...renderProps} />
+      </Form>
     )
   }
 }
 
 function state2props( state ) {
   return {
-    current : state.account.current,
-    isSaving: state.account.isSaving,
+    current : state.account.get(`current`),
+    isSaving: state.account.get(`isSaving`),
   }
 }
 
