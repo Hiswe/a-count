@@ -60,7 +60,7 @@ export function Party( props ) {
 }
 
 export const PartyUser = connect(
-  state => ({user: state.account.get(`current`)})
+  state => ({user: state.account.get(`user`)})
 )( props => <Party title="from" {...props.user}/> )
 
 function PartyAddress( props ) {

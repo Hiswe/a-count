@@ -108,7 +108,7 @@ function MainNav( props ) {
 function state2props( state ) {
   return {
     isAuthenticated:  state.account.get( `isAuthenticated` ),
-    email:            state.account.get( `current.email` ),
+    email:            state.account.get( `user.email` ),
   }
 }
 

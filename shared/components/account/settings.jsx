@@ -15,19 +15,19 @@ class SettingForm extends Component {
   constructor( props ) {
     super( props )
     this.state = {
-      formData: this.props.current,
+      formData: this.props.user,
     }
     this.handleSubmit = this.handleSubmit.bind( this )
     this.handleFormChange = this.handleFormChange.bind( this )
   }
 
   static getDerivedStateFromProps( nextProps, prevState ) {
-    const   current    = prevState.formData
-    const   next       = nextProps.current
+    const   user       = prevState.formData
+    const   next       = nextProps.user
     const { isSaving } = nextProps
     if ( isSaving ) return null
     // update state on redux status change
-    if (current === next) return null
+    if (user === next) return null
     return { formData: next }
   }
 
@@ -92,8 +92,8 @@ class SettingForm extends Component {
 
 function state2props( state ) {
   return {
-    current : state.account.get(`current`),
-    isSaving: state.account.get(`isSaving`),
+    user     : state.account.get(`user`    ),
+    isSaving : state.account.get(`isSaving`),
   }
 }
 

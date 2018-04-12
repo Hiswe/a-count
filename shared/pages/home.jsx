@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 
 import ConnectDataFetcher from '../connect-data-fetcher.js'
+import * as account from '../ducks/account.js'
 import * as quotations from '../ducks/quotations.js'
 import * as invoices from '../ducks/invoices.js'
 import NavSecondary from '../components/nav/secondary.jsx'
@@ -48,9 +49,10 @@ function Home( props ) {
 
 function state2props( state ) {
   return {
-    quotationsActive:         state.quotations.get( `active` ),
+    statistics              : state.account.get(`statistics`),
+    quotationsActive        : state.quotations.get( `active` ),
     quotationsReadyToInvoice: state.quotations.get( `readyToInvoice` ),
-    invoices:   state.invoices.get( `list` ),
+    invoices                : state.invoices.get( `list` ),
   }
 }
 
@@ -60,5 +62,6 @@ export default connect( state2props )( ConnectDataFetcher({
     quotations.getActive,
     quotations.getReadyToInvoice,
     invoices.getAll,
+    account.statistics,
   ],
 }) )

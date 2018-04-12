@@ -135,7 +135,6 @@ privateRouter
       isDeactivated:  { $not: true },
     },
     attributes: [
-      `id`,
       ...dbColumns.statistics,
     ]
   })

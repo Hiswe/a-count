@@ -1,16 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { PaperSheet, Party, Reference, Mentions, Subject, Between } from '../layout/paper-sheet.jsx'
+import { PaperSheet, Party, PartyUser, Reference, Mentions, Subject, Between } from '../layout/paper-sheet.jsx'
 import { ProductTable, ProductLineDisplay } from '../ui/table-product.jsx'
 
 function PrintInvoice( props ) {
-  const { invoice, user } = props
+  const { invoice } = props
   return (
     <PaperSheet print>
       <Reference type="invoice" product={ invoice } />
       <Between>
-        <Party title="from" {...user} />
+        <PartyUser />
         <Party title="to" {...invoice.customer} />
       </Between>
       <Subject value={ invoice.get(`name`) } />
@@ -33,7 +33,6 @@ function PrintInvoice( props ) {
 function state2prop( state ) {
   return {
     invoice: state.invoices.get( `current` ),
-    user   : state.account .get( `current` ),
   }
 }
 

@@ -46,7 +46,7 @@ class Root extends React.Component {
 }
 
 function state2props( state ) {
-  const lang = state.account.get( `current.lang` )  || `en`
+  const lang = state.account.get( `user.lang` )  || `en`
   return { lang }
 }
 

@@ -1,16 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { PaperSheet, Party, Reference, Between, Subject, Mentions } from '../layout/paper-sheet.jsx'
+import { PaperSheet, Party, PartyUser, Reference, Between, Subject, Mentions } from '../layout/paper-sheet.jsx'
 import { ProductTable, ProductLineDisplay } from '../ui/table-product.jsx'
 
 function PrintQuotation( props ) {
-  const { quotation, user } = props
+  const { quotation } = props
   return (
     <PaperSheet print>
       <Reference type="quotation" product={ quotation } />
       <Between>
-        <Party title="from" {...user} />
+        <PartyUser />
         <Party title="to" {...quotation.customer} />
       </Between>
       <Subject value={quotation.get(`name`)} />
@@ -36,7 +36,6 @@ function PrintQuotation( props ) {
 function state2prop( state ) {
   const result = {
     quotation:  state.quotations.get(`current`),
-    user:       state.account.get( `current` ),
   }
   return result
 }

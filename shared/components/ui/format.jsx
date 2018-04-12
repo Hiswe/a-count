@@ -30,7 +30,7 @@ export function AmountPres( props ) {
 
 function currency2prop( state ) {
   return {
-    currency: state.account.get( `current.currency` ),
+    currency: state.account.get( `user.currency` ),
   }
 }
 

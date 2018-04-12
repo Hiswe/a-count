@@ -5,18 +5,20 @@ import fetchDispatch from './utils/fetch-dispatch.js'
 
 const NAME = `account`
 
-export const AUTH     = createActionNames( NAME, `get`,   `auth` )
-export const LOGIN    = createActionNames( NAME, `post`,  `login` )
-export const FORGOT   = createActionNames( NAME, `post`,  `forgot` )
-export const RESET    = createActionNames( NAME, `post`,  `reset` )
-export const LOGOUT   = createActionNames( NAME, `get`,   `logout` )
-export const REGISTER = createActionNames( NAME, `post`,  `register` )
-export const UPDATE   = createActionNames( NAME, `post`,  `one` )
+export const AUTH       = createActionNames( NAME, `get` , `auth`       )
+export const STATISTICS = createActionNames( NAME, `get` , `statistics` )
+export const LOGIN      = createActionNames( NAME, `post`, `login`      )
+export const FORGOT     = createActionNames( NAME, `post`, `forgot`     )
+export const RESET      = createActionNames( NAME, `post`, `reset`      )
+export const LOGOUT     = createActionNames( NAME, `get` , `logout`     )
+export const REGISTER   = createActionNames( NAME, `post`, `register`   )
+export const UPDATE     = createActionNames( NAME, `post`, `one`        )
 
 const initialState = crio({
-  isSaving       : false,
-  isAuthenticated: false,
-  current        : {}   ,
+  isSaving        : false,
+  isAuthenticated : false,
+  user            : {}   ,
+  statistics      : {}   ,
 })
 
 //////
@@ -33,19 +35,22 @@ export default function reducer( state = initialState, action ) {
     case REGISTER.SUCCESS:
     case RESET.SUCCESS:
       state = state.set( `isAuthenticated`, true )
-      return state.set( `current`, payload.user )
+      return state.set( `user`, payload.user )
 
     case AUTH.ERROR:
     case LOGOUT.SUCCESS:
       state = state.set( `isAuthenticated`, false )
-      return state.set( `current`, {} )
+      return state.set( `user`, {} )
+
+    case STATISTICS.SUCCESS:
+      return state.set( `statistics`, payload )
 
     case UPDATE.LOADING:
       return state.set( `isSaving`, true )
     case UPDATE.DONE:
       return state.set( `isSaving`, false )
     case UPDATE.SUCCESS:
-      return state.set( `current`, payload.user )
+      return state.set( `user`, payload.user )
 
     default:
       return state
@@ -63,6 +68,17 @@ export const auth = ({params, cookie}) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:  AUTH,
+    fetch:    { options, cookie },
+  })
+}
+
+export const statistics = ({params, cookie}) => async dispatch => {
+  const options = {
+    url: `/${ NAME }/statistics`,
+  }
+  await fetchDispatch({
+    dispatch,
+    actions:  STATISTICS,
     fetch:    { options, cookie },
   })
 }
