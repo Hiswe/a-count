@@ -12,9 +12,15 @@ import { ButtonNew } from '../components/nav/secondary-buttons.jsx'
 import { Main, Content } from '../components/layout/main.jsx'
 import QuotationsList from '../components/quotations/list.jsx'
 import InvoicesList from '../components/invoices/list.jsx'
+import { PieChart } from '../components/ui/pie-chart.jsx'
 
 function Home( props ) {
-  const { invoices, quotationsActive, quotationsReadyToInvoice } = props
+  const {
+    statistics,
+    quotationsActive,
+    quotationsReadyToInvoice,
+    invoices,
+  } = props
 
   return (
     <Fragment>
@@ -25,6 +31,23 @@ function Home( props ) {
       </NavSecondary>
       <Main>
         <Content>
+          <div style={{display: `grid`, gridGap: `2rem`, gridTemplateColumns: `1fr 1fr`}}>
+            <PieChart
+              title="count"
+              slices={[
+                {label: `quotations` , value: statistics.quotationsCount },
+                {label: `invoices`   , value: statistics.invoicesCount   },
+              ]}
+            />
+            <PieChart
+              title="amount"
+              slices={[
+                {label: `quotations`  , value: statistics.quotationsTotal   },
+                {label: `invoice left`, value: statistics.invoicesTotalLeft },
+                {label: `invoice paid`, value: statistics.invoicesTotalPaid },
+              ]}
+            />
+          </div>
           <h3>
             <FormattedMessage id="page.quotations" />
           </h3>
