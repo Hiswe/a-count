@@ -15,7 +15,6 @@ const redis          = require( './redis'            )
 const config         = require( './config'           )
 const router         = require( './router'           )
 const log            = require( './utils/log'        )
-const formatResponse = require( './utils/format-response' )
 
 //////
 // SERVER CONFIG
@@ -85,12 +84,12 @@ app.use( async function handleApiError(ctx, next) {
       // console.log( inspect(err, {colors: true}) )
       console.log( inspect(err.original ? err.original : err, {colors: true, depth: 1}) )
     }
-    ctx.body = formatResponse({
+    ctx.body = {
       error: true,
       status,
       message,
       stacktrace: err.stacktrace || err.stack || false,
-    }, ctx)
+    }
     ctx.app.emit( 'error', err, ctx )
   }
 })

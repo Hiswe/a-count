@@ -3,7 +3,6 @@
 const Router = require( 'koa-router' )
 
 const { sequelize       } = require( './db'                        )
-const   formatResponse    = require( './utils/format-response'     )
 const   dbColumns         = require( './utils/db-columns'          )
 const   Customer          = require( './db/model-customer'         )
 const   Quotation         = require( './db/model-quotation'        )
@@ -34,7 +33,7 @@ router
   const list = await Customer.findAll( query )
   // put response in a list key
   // • we will add pagination information later
-  ctx.body = formatResponse( {list } )
+  ctx.body = {list }
 })
 
 //----- NEW
@@ -42,14 +41,14 @@ router
 .get(`/new`, async (ctx, next) => {
   const modelTemplate = new Customer().toJSON()
   delete modelTemplate.id
-  ctx.body = formatResponse( modelTemplate )
+  ctx.body = modelTemplate
 })
 .post(`/new`,  async (ctx, next) => {
   const { body }  = ctx.request
   // TODO: check if the user doesn't already have a customer with the same name
   body.userId     = ctx.state.user.id
   const customer  = await Customer.create( body )
-  ctx.body        = formatResponse( customer )
+  ctx.body        = customer
 })
 
 //----- EDIT

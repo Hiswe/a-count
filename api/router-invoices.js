@@ -6,7 +6,6 @@ const   Router    = require( 'koa-router'   )
 const   merge     = require( 'lodash.merge' )
 const   omit      = require( 'lodash.omit'  )
 
-const   formatResponse     = require( './utils/format-response'      )
 const { normalizeString  } = require( './utils/db-getter-setter'     )
 const   addRelations       = require( './utils/db-default-relations' )
 const   cleanPayments      = require( './utils/clean-payments'       )
@@ -52,7 +51,7 @@ router
   const instance    = await Invoice.findOne( queryParams )
 
   ctx.assert( instance, 404, MESSAGES.NOT_FOUND )
-  ctx.body = formatResponse( instance )
+  ctx.body = instance
 })
 .post(`/:id`, async (ctx, next) => {
   const { userId }  = ctx.state

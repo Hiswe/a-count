@@ -12,7 +12,6 @@ const config           = require( './config'                )
 const redis            = require( './redis'                 )
 const jwtStore         = require( './jwt-store'             )
 const addRelations     = require( './utils/db-default-relations' )
-const formatResponse   = require( './utils/format-response' )
 const User             = require( './db/model-user'         )
 const routerAccount    = require( './router-account'        )
 const routerCustomers  = require( './router-customers'      )
@@ -30,10 +29,10 @@ module.exports = apiRouter
 
 apiRouter
 .get( `/`, (ctx, next) => {
-  ctx.body = formatResponse( {
+  ctx.body = {
     name:     config.NAME,
     version:  config.VERSION,
-  }, ctx )
+  }
 })
 
 apiRouter.use( routerAccount.public.routes() )

@@ -6,7 +6,6 @@ const Router = require( 'koa-router'   )
 const config          = require( './config'                    )
 const addRelations    = require( './utils/db-default-relations' )
 const log             = require( './utils/log'                 )
-const formatResponse  = require( './utils/format-response'     )
 const dbGetterSetter  = require( './utils/db-getter-setter'    )
 const User            = require( './db/model-user'             )
 const QuotationConfig = require( './db/model-quotation-config' )
@@ -32,10 +31,10 @@ async function connectUser( ctx, user ) {
 
   const accessToken = await jwtStore.add( user )
 
-  const result = formatResponse({
+  const result = {
     user,
     access_token: accessToken,
-  })
+  }
   ctx.body = result
 }
 
@@ -86,10 +85,10 @@ publicRouter
   ctx.assert( user, 404, `Email not found` )
 
   await user.resetPassword( body.redirectUrl )
-  ctx.body = formatResponse({
+  ctx.body = {
     email: user.email,
     reset: true,
-  })
+  }
 })
 .post( `/reset`, async (ctx, next) => {
   const { body }  = ctx.request
@@ -114,8 +113,10 @@ publicRouter
 privateRouter
 .get( `/auth`, async (ctx, next) => {
   ctx.assert( ctx.state && ctx.state.user, 401, `Not connected` )
-  const result = formatResponse( {user: ctx.state.user} )
-  ctx.body = result
+  ctx.body = { user: ctx.state.user }
+})
+.get( `/statistics`, async (ctx, next) => {
+  ctx.body = {}
 })
 .get( `/logout`, async (ctx, next) => {
   const { jwtData } = ctx.state
@@ -123,10 +124,10 @@ privateRouter
 
   ctx.state.user = null
   ctx.response.set( `authorization`, `` )
-  ctx.body = formatResponse({
+  ctx.body = {
     message:      `bye bye`,
     access_token: ``,
-  })
+  }
 })
 .post( `/settings`, async (ctx, next) => {
   const { id }      = ctx.state && ctx.state.user
@@ -146,7 +147,7 @@ privateRouter
 
   const user        = await User.findOne( queryParams )
 
-  const result      = formatResponse( { user } )
+  const result      = { user }
   ctx.state.user    = result
   ctx.body          = result
 })
