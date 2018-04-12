@@ -49,7 +49,7 @@ config.isProd     = config.NODE_ENV === `production`
 if ( config.isProd ) {
   // This can ruin the database!
   config.db.forceSync = false
-  // Want the prod version to be as fas as possible
+  // Want the prod version to be as fast as possible
   config.delay = false
 }
 

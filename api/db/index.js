@@ -2,7 +2,6 @@
 
 const chalk = require( 'chalk' )
 const { inspect } = require( 'util' )
-const { normalize, schema } = require( 'normalizr' )
 
 const config    = require( '../config'       )
 const dbLog     = require( `../utils/log-db` )
