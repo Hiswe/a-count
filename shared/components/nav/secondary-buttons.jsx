@@ -1,6 +1,7 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
-import { BtnIcon } from '../ui/buttons.jsx'
+import { BtnIcon, Button } from '../ui/buttons.jsx'
 
 export function ButtonList( props ) {
   return (
@@ -32,15 +33,19 @@ export function ButtonEdit( props ) {
 }
 
 export function ButtonNew( props ) {
-  const { type, ...others } = props
+  const { type, icon, message,...others } = props
   const iconId = type === `customers` ? `person-add`
     : `note-add`
+
+  const renderProps = { to: `/${type}/new` }
+  if ( icon ) return <BtnIcon {...renderProps} svgId={ iconId } {...others} />
   return (
-    <BtnIcon
-      to={`/${type}/new`}
-      svgId={ iconId }
+    <Button
+      {...renderProps}
       {...others}
-    />
+    >
+      <FormattedMessage id={ message } />
+    </Button>
   )
 }
 

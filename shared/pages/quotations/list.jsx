@@ -21,7 +21,7 @@ function Quotations( props ) {
       <NavSecondary
         title={ <FormattedMessage id="page.quotations" /> }
       >
-        <ButtonNew type={ TYPE } />
+        <ButtonNew type={ TYPE } message="quotation.button.new" />
       </NavSecondary>
       <Main>
         <Content>

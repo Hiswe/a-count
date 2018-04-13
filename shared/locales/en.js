@@ -32,6 +32,7 @@ export default {
 
   'customer.button.create'     : `Create a customer` ,
   'customer.button.update'     : `update`            ,
+  'customer.button.new'        : `new customer`      ,
   'customer.tab.configuration' : `configure header`  ,
   'customer.total.quotation'   : `quotation total`   ,
   'customer.total.invoice'     : `invoice total`     ,
@@ -110,6 +111,7 @@ export default {
   'quotation.button.create'    : `Create the new quotation`  ,
   'quotation.button.update'    : `Update the quotation`      ,
   'quotation.button.archive'   : `Archive`                   ,
+  'quotation.button.new'       : `New quotation`             ,
 
   'spinner.loading'  : `loading…` ,
 

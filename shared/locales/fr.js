@@ -32,6 +32,7 @@ export default {
 
   'customer.button.create'     : `Créer le client`  ,
   'customer.button.update'     : `Mettre à jour`    ,
+  'customer.button.new'        : `nouveau client`   ,
   'customer.tab.configuration' : `Édition l'entête` ,
   'customer.total.quotation'   : `total devis`      ,
   'customer.total.invoice'     : `total factures`   ,
@@ -110,6 +111,7 @@ export default {
   'quotation.button.create'    : `Créer le nouveau devis`       ,
   'quotation.button.update'    : `Mettre à jour le devis`       ,
   'quotation.button.archive'   : `Archiver`                     ,
+  'quotation.button.new'       : `Nouveau devis`                ,
 
   'spinner.loading'  : `chargement…`,
 

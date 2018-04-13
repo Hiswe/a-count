@@ -29,7 +29,7 @@ function EditQuotation( props ) {
       <NavSecondary
         title={ <FormattedMessage id="page.quotations.edit" values={{reference}} /> }
       >
-        <ButtonNew   type={ TYPE } secondary />
+        <ButtonNew   type={ TYPE } secondary icon />
         <ButtonList  type={ TYPE } />
         <ButtonPrint type={ TYPE } id={ id } />
         <ButtonArchiveQuotation icon />

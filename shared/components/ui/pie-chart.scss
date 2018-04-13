@@ -42,6 +42,7 @@
   &__title {
     text-align: center;
     text-transform: uppercase;
+    margin: 0 0 var(--s-quarter-gutter);
   }
   &__pie-wrapper {
     height: var(--pie-size);

@@ -29,7 +29,7 @@ function Home( props ) {
       <NavSecondary
         title={ <FormattedMessage id="page.home"/> }
       >
-        <ButtonNew type="quotations" />
+        <ButtonNew type="quotations" message="quotation.button.new" />
       </NavSecondary>
       <Main>
         <Content>
