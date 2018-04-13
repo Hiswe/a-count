@@ -109,7 +109,7 @@ export default function QuotationFormPres( props ) {
             </Button>
             <ButtonCreateInvoice />
             <ButtonShowInvoice />
-            <ButtonArchiveQuotation />
+            <ButtonArchiveQuotation quotation={ formData } />
           </FormActions>
         </Content>
       </Main>

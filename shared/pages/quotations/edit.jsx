@@ -21,24 +21,28 @@ import ButtonArchiveQuotation from '../../components/quotations/button-archive-q
 const TYPE = `quotations`
 
 function EditQuotation( props ) {
-  const { reference, ...others } = props
+  const { quotation, ...others } = props
   const { id } = props.match.params
+  const reference = quotation.get(`reference`)
 
   return (
     <Fragment>
       <NavSecondary
         title={ <FormattedMessage id="page.quotations.edit" values={{reference}} /> }
       >
-        <ButtonNew   type={ TYPE } secondary icon />
-        <ButtonList  type={ TYPE } />
-        <ButtonPrint type={ TYPE } id={ id } />
-        <ButtonArchiveQuotation icon />
-        <ButtonCreateInvoice />
-        <ButtonShowInvoice />
         <ButtonSubmit
           formId   = { FORM_ID }
           isSaving = { props.isSaving }
         />
+        <ButtonShowInvoice />
+        <ButtonArchiveQuotation icon
+          quotation={ quotation }
+          form={ FORM_ID }
+        />
+        <ButtonCreateInvoice />
+        <ButtonPrint type={ TYPE } id={ id } />
+        <ButtonList  type={ TYPE } />
+        <ButtonNew   type={ TYPE } secondary icon />
       </NavSecondary>
       <QuotationForm {...others} />
     </Fragment>
@@ -47,7 +51,7 @@ function EditQuotation( props ) {
 
 function state2prop( state ) {
   return {
-    reference: state.quotations.get( `current.reference` ),
+    quotation: state.quotations.get( `current` ),
     isSaving : state.quotations.get( `isSaving` ),
   }
 }

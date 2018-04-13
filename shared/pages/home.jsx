@@ -62,7 +62,7 @@ function Home( props ) {
           <h3>
             <FormattedMessage id="page.quotations" />
           </h3>
-          <QuotationsList quotations={ quotationsActive } />
+          <QuotationsList quotations={ quotationsActive } hideInvoice />
           { quotationsReadyToInvoice.length > 0 && (
           <Fragment>
             <h3>

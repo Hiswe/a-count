@@ -25,10 +25,10 @@ function EditInvoice( props ) {
       <NavSecondary
         title={ <FormattedMessage id="page.invoices.edit" values={{reference}} /> }
       >
-        <ButtonList type={ TYPE } />
-        <ButtonPrint type={ TYPE } id={ id } />
-        <ButtonShowQuotation />
         <ButtonSubmit formId={ FORM_ID } isSaving={ props.isSaving } />
+        <ButtonShowQuotation />
+        <ButtonPrint type={ TYPE } id={ id } />
+        <ButtonList type={ TYPE } />
       </NavSecondary>
       <InvoiceForm />
     </Fragment>

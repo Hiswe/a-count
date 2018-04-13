@@ -61,9 +61,19 @@ export default function reducer(state = initialState, action) {
       return updated.set( `current`, payload )
     }
 
+    case ARCHIVE.SUCCESS: {
+      const { id }      = meta
+      const removeId    = quot => quot.id !== id
+      const active         = state.get( `active` ).filter( removeId )
+      const readyToInvoice = state.get( `readyToInvoice` ).filter( removeId )
+      const updated        = state.set( `active`, active )
+        .set( `readyToInvoice`, readyToInvoice )
+        .set( `current`, payload )
+      return updated
+    }
+
     case GET_ONE.SUCCESS:
     case SAVE_ONE.SUCCESS:
-    case ARCHIVE.SUCCESS:
       return state.set( `current`, payload )
 
     default:
@@ -143,6 +153,7 @@ export const archiveOne = ({params, cookie}) => async dispatch => {
   }
   await fetchDispatch({
     dispatch,
+    meta:     { id },
     actions:  ARCHIVE,
     fetch:    { options, cookie },
   })

@@ -56,7 +56,7 @@ export default function reducer( state = initialState, action ) {
 
   if ( postErrorRegexp.test( type ) ) {
     console.error( `error` )
-    console.error( payload )
+    console.log( payload )
   }
 
   switch ( type ) {

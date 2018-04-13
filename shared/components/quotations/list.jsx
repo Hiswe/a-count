@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
@@ -7,20 +7,12 @@ import { Link } from 'react-router-dom'
 import * as quotations from '../../ducks/quotations.js'
 import { Table, EmptyLine } from '../ui/table.jsx'
 import { Amount, Date } from '../ui/format.jsx'
+import { Button } from '../ui/buttons.jsx'
+import ButtonArchiveQuotation from './button-archive-quotation.jsx'
 
-//----- TBODY
-
-function QuotationStatus( props ) {
-  return (
-    <td>
-      {props.status.message}
-      <p>{props.status.date}</p>
-    </td>
-  )
-}
 
 function QuotationRow( props ) {
-  const { quotation, showCustomer, currency, handleCreate } = props
+  const { quotation, showCustomer, currency, handle } = props
   const id = quotation.get( `id` )
   return (
     <tr>
@@ -64,24 +56,25 @@ function QuotationRow( props ) {
         )}
         {
           quotation._canCreateInvoice && (
-            <a
-              href={`/quotations/${id}/create-invoice`}
-              onClick={ event => {
-                event.preventDefault()
-                handleCreate()
-              }}
+            <Button
+              onClick={ handle.createInvoice }
+              value={ id }
             >
               <FormattedMessage id="quotation.invoice.create" />
-            </a>
+            </Button>
           )
         }
       </td>
       <td className="is-number">
         <Amount value={quotation.get(`total`) } />
       </td>
+      <td className="is-action">
+        <ButtonArchiveQuotation icon quotation={ quotation } />
+      </td>
     </tr>
   )
 }
+
 //----- ALL
 
 const defaultColumns = [
@@ -93,38 +86,58 @@ const defaultColumns = [
   {label: `table.header.signed`},
   {label: `table.header.invoice`},
   {label: `table.amount`},
+  {label: false },
 ]
 
-function QuotationTable( props ) {
-  const { quotations, currency, showCustomer = true } = props
-  const hasQuotations = Array.isArray( quotations ) && quotations.length > 0
-  const columns = showCustomer ? defaultColumns
-    : defaultColumns.filter( col => col.label !== `table.header.customer` )
-  const columnCount = columns.length
+class QuotationTable extends PureComponent {
+  constructor( props ) {
+    super( props )
 
-  return (
-    <Table
-      columns={ columns }
-      className="table--pres"
-    >
-    {
-      !hasQuotations ? ( <EmptyLine colSpan={columnCount} /> )
-      : quotations.map( (q, i) => (
-        <QuotationRow
-          key={ q.id }
-          showCustomer={ showCustomer }
-          quotation={ q }
-          handleCreate={ () => props.createInvoice( {params: {id: q.id}}) }
-        />
-      ))
+    this.handleCreateInvoice = this.handleCreateInvoice .bind( this )
+  }
+
+  handleCreateInvoice( event ) {
+    event.preventDefault()
+    const id = event.target.value
+    this.props.createInvoice({params: {id}})
+  }
+
+  render() {
+    const { quotations, currency, showCustomer = true } = this.props
+    const hasQuotations = Array.isArray( quotations ) && quotations.length > 0
+    const columns = showCustomer ? defaultColumns
+      : defaultColumns.filter( col => col.label !== `table.header.customer` )
+    const columnCount = columns.length
+    const handle = {
+      createInvoice: this.handleCreateInvoice,
     }
-    </Table>
-  )
+
+    return (
+      <Table
+        columns={ columns }
+        className="table--pres"
+      >
+      {
+        !hasQuotations ? ( <EmptyLine colSpan={ columnCount } /> )
+        : quotations.map( (q, i) => (
+          <QuotationRow
+            key={ q.id }
+            showCustomer={ showCustomer }
+            quotation={ q }
+            handle={ handle }
+          />
+        ))
+      }
+      </Table>
+    )
+
+  }
 }
 
 function dispatch2prop( dispatch ) {
   return bindActionCreators({
     createInvoice: quotations.createInvoice,
+    archiveOne:    quotations.archiveOne,
   }, dispatch)
 }
 

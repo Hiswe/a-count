@@ -25,7 +25,7 @@ function Quotations( props ) {
       </NavSecondary>
       <Main>
         <Content>
-          <QuotationsList quotations={ active } />
+          <QuotationsList quotations={ active } hideInvoice />
           { readyToInvoice.length > 0 && (
           <Fragment>
             <h3>
