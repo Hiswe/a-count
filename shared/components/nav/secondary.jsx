@@ -34,7 +34,7 @@ export default class NavSecondary extends PureComponent {
   //----- UTILS
 
   observeIntersection() {
-    if ( !`IntersectionObserver` in window ) return
+    if ( !window.IntersectionObserver ) return
     const { wrapper } = this
     if ( !wrapper ) return
     const sentinel = document.createElement( `div` )
@@ -45,6 +45,7 @@ export default class NavSecondary extends PureComponent {
   }
 
   unobserveIntersection() {
+    if ( !window.IntersectionObserver ) return
     this.observer.disconnect()
   }
 
