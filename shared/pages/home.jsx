@@ -12,7 +12,7 @@ import { ButtonNew } from '../components/nav/secondary-buttons.jsx'
 import { Main, Content } from '../components/layout/main.jsx'
 import QuotationsList from '../components/quotations/list.jsx'
 import InvoicesList from '../components/invoices/list.jsx'
-import { Amount } from '../components/ui/format.jsx'
+import { Amount, FormatNumber } from '../components/ui/format.jsx'
 import { PieChart, PieChartDefs } from '../components/ui/pie-chart.jsx'
 
 function Home( props ) {
@@ -43,7 +43,9 @@ function Home( props ) {
               ]}
             >
               <p style={{fontSize: `3rem`}}>
-                { statistics.quotationsCount + statistics.invoicesCount }
+                <FormatNumber
+                  value={statistics.quotationsCount + statistics.invoicesCount }
+                />
               </p>
             </PieChart>
             <PieChart

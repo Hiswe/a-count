@@ -7,6 +7,7 @@ import './pie-chart.scss'
 const BASE_CLASS = `pie-chart`
 
 function computeTotal( total, slice ) {
+  if ( !Number.isFinite(slice.value) ) return 0
   return slice.value + total
 }
 
@@ -34,13 +35,15 @@ export class PieChart extends PureComponent {
   }
 
   static getDerivedStateFromProps( nextProps, prevState ) {
-    const total = nextProps.slices.reduce( computeTotal, 0 )
-
+    const slices  = nextProps.slices.filter( slice => {
+      return Number.isFinite( slice.value )
+    })
+    const total   = slices.reduce( computeTotal, 0 )
     if ( total === prevState.total ) return null
 
     return {
       total,
-      slices:  nextProps.slices.map( slice => ({
+      slices:  slices.map( slice => ({
         ...slice,
         percent: slice.value / total,
       })),
@@ -56,7 +59,8 @@ export class PieChart extends PureComponent {
   createSlices() {
     const { slices } = this.state
     let cumulativePercent = 0
-    return slices.map( (slice, index) => {
+    return slices
+    .map( (slice, index) => {
       const [ startX, startY ] = PieChart.getCoordinates( cumulativePercent )
       // each slice starts where the last slice ended, so keep a cumulative percent
       cumulativePercent = cumulativePercent + slice.percent
