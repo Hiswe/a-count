@@ -102,9 +102,10 @@ const Quotation = sequelize.define( `quotation`, {
   _canBeArchived: {
     type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`invoiceId`, `archivedAt`]),
     get: function() {
+      const createdAt  = this.getDataValue( `createdAt` )
       const invoice    = this.getDataValue( `invoiceId` )
       const archivedAt = this.getDataValue( `archivedAt` )
-      return !invoice && !archivedAt
+      return createdAt && !invoice && !archivedAt
     }
   },
   _canCreateInvoice: {

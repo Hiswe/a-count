@@ -80,7 +80,8 @@ router
     where: {
       userId,
       customerId: id,
-      invoiceId: { $eq: null },
+      invoiceId:  { $eq: null },
+      archivedAt: { $eq: null },
     },
     attributes: [
       `id`,
@@ -89,9 +90,11 @@ router
       `totalNet`,
       `totalTax`,
       `total`,
+      `createdAt`,
       `sendAt`,
       `validatedAt`,
       `signedAt`,
+      `archivedAt`,
     ],
     include: [{
       model: QuotationConfig,
