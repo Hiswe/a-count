@@ -5,7 +5,7 @@ const Router = require( 'koa-router'   )
 
 const config          = require( './config'                     )
 const addRelations    = require( './utils/db-default-relations' )
-const dbColumns       = require( './utils/db-columns'           )
+const dbColumns       = require( './utils/db-sub-queries'       )
 const log             = require( './utils/log'                  )
 const dbGetterSetter  = require( './utils/db-getter-setter'     )
 const User            = require( './db/model-user'              )

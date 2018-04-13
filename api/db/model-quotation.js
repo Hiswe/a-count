@@ -106,9 +106,10 @@ const Quotation = sequelize.define( `quotation`, {
         .map( infoName => this.getDataValue( infoName) )
         .some( info => info === null )
       if ( dateMissing ) return false
+      const archivedAt  = this.getDataValue( `archivedAt` )
       const totalNet    = this.getDataValue( `totalNet` )
       const hasInvoice  = this.get( `_hasInvoice` )
-      return !hasInvoice && totalNet > 0
+      return !hasInvoice && !archivedAt && totalNet > 0
     },
   },
 })

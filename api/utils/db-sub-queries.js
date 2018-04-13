@@ -23,13 +23,13 @@ const find  = {
   quotationFor: who => (
     squel.expr()
     .and( quote(`quotation.${ who }Id = ${ who }.id`) )
-    .and( quote(`quotation.invoiceId IS NULL `) )
-    .and( quote(`quotation.archivedAt IS NULL `) )
+    .and( quote(`quotation.invoiceId IS NULL`) )
+    .and( quote(`quotation.archivedAt IS NULL`) )
   ),
   invoiceFor: who => (
     squel.expr()
     .and( quote(`invoice.${ who }Id = ${ who }.id`) )
-    .and( quote(`invoice.archivedAt IS NULL `) )
+    .and( quote(`invoice.archivedAt IS NULL`) )
   )
 }
 

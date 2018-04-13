@@ -22,6 +22,7 @@ module.exports = router
 const MESSAGES = Object.freeze({
   DEFAULT                   : `quotation.error.default`                   ,
   NOT_FOUND                 : `quotation.error.not-found`                 ,
+  FORBIDDEN                 : `quotation.error.forbidden`                 ,
   CANT_CONVERT              : `quotation.error.cant-convert`              ,
   CONVERT_ERROR             : `quotation.error.in-conversion`             ,
   CANT_UPDATE_QUOTE_COUNT   : `quotation.error.in-quotation-count-update` ,
@@ -38,10 +39,12 @@ const MESSAGES = Object.freeze({
 router
 .get(`/`, async (ctx, next) => {
   const { userId }  = ctx.state
+  // get all not ready to have invoice
   const params      = addRelations.quotation({
     where: {
       userId,
-      invoiceId: { $eq: null },
+      invoiceId  : { $eq : null },
+      archivedAt : { $eq : null },
       $or: {
         sendAt      : { $eq : null },
         validatedAt : { $eq : null },
@@ -64,6 +67,7 @@ router
     where: {
       userId,
       invoiceId   : { $eq  : null },
+      archivedAt  : { $eq  : null },
       sendAt      : { $not : null },
       validatedAt : { $not : null },
       signedAt    : { $not : null },
@@ -176,6 +180,10 @@ router
   ctx.assert( customer, 412, MESSAGES.NO_CUSTOMER )
   ctx.assert( quotation, 404, MESSAGES.NOT_FOUND )
 
+  // DON'T ALLOW UPDATES ON ARCHIVE
+  const isLiving = quotation.get( `archivedAt` ) === null
+  ctx.assert( isLiving, 403, MESSAGES.FORBIDDEN )
+
   // PARSE PRODUCTS
   // • we don't use sequelize hooks because we need to access the productConfig
   // • it won't be available on creation
@@ -222,7 +230,6 @@ router
   ctx.assert( customer  , 412, MESSAGES.NO_CUSTOMER )
   const updateInvoiceConfig = await invoiceConfig.increment( `creationCount`, {by: 1} )
 
-  ctx.assert( updateInvoiceConfig, 500, MESSAGES.CANT_UPDATE_INVOICE_COUNT )
   const invoice   = await Invoice.create({
     name           : quotation.get( `name` ),
     tax            : quotation.get( `tax` ),
@@ -238,12 +245,30 @@ router
     index          : updateInvoiceConfig.get( `creationCount` ),
   })
 
-  await quotation.update({ invoiceId: invoice.id } )
-
-  ctx.assert( invoice, 500, MESSAGES.CONVERT_ERROR )
+  await quotation.update({
+    invoiceId:  invoice.id,
+    archivedAt: new Date(),
+  })
   const quotationQuery  = addRelations.quotation({
     where: { id, userId }
   })
   const updatedQuotation = await Quotation.findOne( quotationQuery )
+  ctx.body = updatedQuotation
+})
+.post(`/:id/archive`, async (ctx, next) => {
+  const { userId }  = ctx.state
+  const { id }      = ctx.params
+  const quotation   = await Quotation.findOne({ where: {
+    id,
+    userId,
+    archivedAt : { $eq : null },
+  }})
+
+  ctx.assert( quotation , 404, MESSAGES.NOT_FOUND )
+  await quotation.update({ archivedAt: new Date() })
+  const query       = addRelations.quotation({ where: { id, userId }})
+  const updatedQuotation = await Quotation.findOne( query )
+
+  ctx.assert( updatedQuotation , 404, MESSAGES.NOT_FOUND )
   ctx.body = updatedQuotation
 })

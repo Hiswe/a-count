@@ -3,7 +3,7 @@
 const Router = require( 'koa-router' )
 
 const { sequelize       } = require( './db'                        )
-const   dbColumns         = require( './utils/db-columns'          )
+const   dbColumns         = require( './utils/db-sub-queries'      )
 const   Customer          = require( './db/model-customer'         )
 const   Quotation         = require( './db/model-quotation'        )
 const   QuotationConfig   = require( './db/model-quotation-config' )
