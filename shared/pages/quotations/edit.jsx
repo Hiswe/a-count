@@ -16,6 +16,7 @@ import QuotationForm from '../../components/quotations/form.jsx'
 import { FORM_ID } from '../../components/quotations/form.pres.jsx'
 import ButtonCreateInvoice from '../../components/quotations/button-create-invoice.jsx'
 import ButtonShowInvoice from '../../components/quotations/button-show-invoice.jsx'
+import ButtonArchiveQuotation from '../../components/quotations/button-archive-quotation.jsx'
 
 const TYPE = `quotations`
 
@@ -31,6 +32,7 @@ function EditQuotation( props ) {
         <ButtonNew   type={ TYPE } secondary />
         <ButtonList  type={ TYPE } />
         <ButtonPrint type={ TYPE } id={ id } />
+        <ButtonArchiveQuotation icon />
         <ButtonCreateInvoice />
         <ButtonShowInvoice />
         <ButtonSubmit

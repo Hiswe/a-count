@@ -71,10 +71,16 @@
     --button-text-color: white;
     --button-bg-color-hover: var(--c-accent-lightest);
 
+    &-danger,
     &-secondary {
       --button-text-color: var(--c-text);
       --button-bg-color: white;
-      --button-text-color-hover: var(--c-text);
+      --button-text-color-hover: var(--button-text-color);
+    }
+
+    &-danger {
+      --button-text-color: var(--c-alert-darker);
+      --button-bg-color-hover: var(--c-alert-lightest);
     }
 
     &-link {

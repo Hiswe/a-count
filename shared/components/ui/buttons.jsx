@@ -51,15 +51,15 @@ export function BtnLink( props ) {
 )}
 
 export function BtnIcon( props ) {
-  const { className, svgId, secondary, fab, link, ...others } = props
-  const btnClass = [ `${BASE_CLASS}--icon` ]
-  if ( secondary ) btnClass.push( `${BASE_CLASS}--icon-secondary` )
-  if ( link ) btnClass.push( `${BASE_CLASS}--icon-link` )
-  if ( fab ) btnClass.push( `${BASE_CLASS}--fab` )
-  if ( className ) btnClass.push( className )
+  const { className, svgId, secondary, link, danger, ...others } = props
+  const COMP_CLASS = [ `${BASE_CLASS}--icon` ]
+  if ( secondary ) COMP_CLASS.push( `${BASE_CLASS}--icon-secondary` )
+  if ( link )      COMP_CLASS.push( `${BASE_CLASS}--icon-link` )
+  if ( danger )    COMP_CLASS.push( `${ BASE_CLASS }--icon-danger` )
+  if ( className ) COMP_CLASS.push( className )
   return (
     <Button
-      className={ btnClass.join(` `) }
+      className={ COMP_CLASS.join(` `) }
       {...others}
     >
       <Icon svgId={svgId} />

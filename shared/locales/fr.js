@@ -109,6 +109,7 @@ export default {
   'quotation.invoice.show'     : `voir la facture`              ,
   'quotation.button.create'    : `Créer le nouveau devis`       ,
   'quotation.button.update'    : `Mettre à jour le devis`       ,
+  'quotation.button.archive'   : `Archiver`                     ,
 
   'spinner.loading'  : `chargement…`,
 

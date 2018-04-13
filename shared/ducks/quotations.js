@@ -10,6 +10,7 @@ export const GET_READY_INVOICE    = createActionNames( NAME, `get`  , `ready-to-
 export const GET_ALL_FOR_CUSTOMER = createActionNames( NAME, `get`  , `all-for-customer` )
 export const GET_ONE              = createActionNames( NAME, `get`  , `one`              )
 export const SAVE_ONE             = createActionNames( NAME, `post` , `one`              )
+export const ARCHIVE              = createActionNames( NAME, `post` , `archive`              )
 export const CREATE_INVOICE       = createActionNames( NAME, `post` , `convert`          )
 
 const initialState = crio({
@@ -26,8 +27,8 @@ export default function reducer(state = initialState, action) {
 
   switch ( type ) {
 
-    case GET_ALL_FOR_CUSTOMER.SUCCESS:
     case GET_ACTIVE.SUCCESS:
+    case GET_ALL_FOR_CUSTOMER.SUCCESS:
       return state.set( `active`, payload.list )
 
     case GET_READY_INVOICE.SUCCESS:
@@ -39,13 +40,16 @@ export default function reducer(state = initialState, action) {
         reference: `loading…`,
         products: [],
       })
-    case GET_ONE.SUCCESS:
-      return state.set( `current`, payload )
 
+    case SAVE_ONE.LOADING:
+    case ARCHIVE.LOADING:
     case CREATE_INVOICE.LOADING:
       return state.set( `isSaving`, true )
+    case ARCHIVE.DONE:
+    case SAVE_ONE.DONE:
     case CREATE_INVOICE.DONE:
       return state.set( `isSaving`, false )
+
     case CREATE_INVOICE.SUCCESS: {
       const { id }      = meta
       // maybe the quotation isn't already in the listing
@@ -57,11 +61,9 @@ export default function reducer(state = initialState, action) {
       return updated.set( `current`, payload )
     }
 
-    case SAVE_ONE.LOADING:
-      return state.set( `isSaving`, true )
-    case SAVE_ONE.DONE:
-      return state.set( `isSaving`, false )
+    case GET_ONE.SUCCESS:
     case SAVE_ONE.SUCCESS:
+    case ARCHIVE.SUCCESS:
       return state.set( `current`, payload )
 
     default:
@@ -129,6 +131,19 @@ export const saveOne = ({params, cookie}) => async dispatch => {
     dispatch,
     meta:     { isNew },
     actions:  SAVE_ONE,
+    fetch:    { options, cookie },
+  })
+}
+
+export const archiveOne = ({params, cookie}) => async dispatch => {
+  const { id } = params
+  const options = {
+    url: `${ NAME }/${ id }/archive`,
+    body: {},
+  }
+  await fetchDispatch({
+    dispatch,
+    actions:  ARCHIVE,
     fetch:    { options, cookie },
   })
 }

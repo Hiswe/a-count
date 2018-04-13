@@ -109,6 +109,7 @@ export default {
   'quotation.invoice.show'     : `show invoice`              ,
   'quotation.button.create'    : `Create the new quotation`  ,
   'quotation.button.update'    : `Update the quotation`      ,
+  'quotation.button.archive'   : `Archive`                   ,
 
   'spinner.loading'  : `loading…` ,
 

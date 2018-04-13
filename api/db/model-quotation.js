@@ -93,11 +93,19 @@ const Quotation = sequelize.define( `quotation`, {
     set:          dbGetterSetter.setNormalizedDate( `archivedAt` ),
   },
   _hasInvoice: {
-    type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`invoice`]),
+    type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`invoiceId`]),
     get: function() {
       const invoice     = this.getDataValue( `invoiceId` )
       return invoice != null
     },
+  },
+  _canBeArchived: {
+    type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`invoiceId`, `archivedAt`]),
+    get: function() {
+      const invoice    = this.getDataValue( `invoiceId` )
+      const archivedAt = this.getDataValue( `archivedAt` )
+      return !invoice && !archivedAt
+    }
   },
   _canCreateInvoice: {
     type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`sendAt`, `validatedAt`, `signedAt`, `invoice`, `products`]),

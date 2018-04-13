@@ -8,12 +8,20 @@
   }
   &__actions {
     margin-top: var(--s-gutter);
+    display: flex;
 
     @media print {
       display: none;
     }
-    .button + .button {
+    .button {
       margin-left: var(--s-half-gutter);
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+    .button--danger {
+      margin-left: auto;
     }
   }
 }

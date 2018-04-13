@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { Main, Meta, Content, ContentActions } from '../layout/main.jsx'
 import { PaperSheet, Between, PartyUser, Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
-import Form from '../ui/form.jsx'
+import { Form, FormActions } from '../ui/form.jsx'
 import { Button, BtnLink, BtnIcon } from '../ui/buttons.jsx'
 import { Input, Textarea, Select } from '../ui/field.jsx'
 import { Stepper } from '../ui/stepper.jsx'
@@ -11,6 +11,7 @@ import Icon from '../ui/svg-icons.jsx'
 import { ProductTable, ProductLineEditable } from '../ui/table-product.jsx'
 import ButtonCreateInvoice from './button-create-invoice.jsx'
 import ButtonShowInvoice from './button-show-invoice.jsx'
+import ButtonArchiveQuotation from './button-archive-quotation.jsx'
 
 import './form.pres.scss'
 export const BASE_CLASS = `quotation-form`
@@ -25,9 +26,9 @@ export default function QuotationFormPres( props ) {
     isNew,
     handle,
   } = props
-  const { products } = formData
-  const hasProducts = Array.isArray( products )
-  const productsLength = hasProducts ? products.length : 0
+  const { products }    = formData
+  const hasProducts     = Array.isArray( products )
+  const productsLength  = hasProducts ? products.length : 0
   const submitI18nId =  `quotation.button.${isNew ? 'create' : 'update'}`
 
   return (
@@ -102,13 +103,14 @@ export default function QuotationFormPres( props ) {
             </ProductTable>
             <Mentions content={ formData.quotationConfig.mentions }/>
           </PaperSheet>
-          <ContentActions>
+          <FormActions>
             <Button type="submit">
               <FormattedMessage id={ submitI18nId } />
             </Button>
             <ButtonCreateInvoice />
             <ButtonShowInvoice />
-          </ContentActions>
+            <ButtonArchiveQuotation />
+          </FormActions>
         </Content>
       </Main>
     </Form>
