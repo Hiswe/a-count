@@ -34,12 +34,18 @@ function EditQuotation( props ) {
           formId   = { FORM_ID }
           isSaving = { props.isSaving }
         />
-        <ButtonShowInvoice />
+        <ButtonShowInvoice
+          withMessage
+          quotation={ quotation }
+        />
         <ButtonArchiveQuotation icon
           quotation={ quotation }
           form={ FORM_ID }
         />
-        <ButtonCreateInvoice />
+        <ButtonCreateInvoice
+          quotation={ quotation }
+          form={ FORM_ID }
+        />
         <ButtonPrint type={ TYPE } id={ id } />
         <ButtonList  type={ TYPE } />
         <ButtonNew   type={ TYPE } secondary icon />

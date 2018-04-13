@@ -9,10 +9,11 @@ import { Table, EmptyLine } from '../ui/table.jsx'
 import { Amount, Date } from '../ui/format.jsx'
 import { Button } from '../ui/buttons.jsx'
 import ButtonArchiveQuotation from './button-archive-quotation.jsx'
-
+import ButtonCreateInvoice from './button-create-invoice.jsx'
+import ButtonShowInvoice from './button-show-invoice.jsx'
 
 function QuotationRow( props ) {
-  const { quotation, showCustomer, currency, handle } = props
+  const { quotation, hideCustomer, hideInvoice } = props
   const id = quotation.get( `id` )
   return (
     <tr>
@@ -26,7 +27,7 @@ function QuotationRow( props ) {
           {quotation.get(`name`)}
         </Link>
       </td>
-      {showCustomer && (
+      {!hideCustomer && (
         <td>
           <Link to={`/customers/${quotation.get(`customerId`)}`}>
             {quotation.get(`customer.name`)}
@@ -48,23 +49,12 @@ function QuotationRow( props ) {
           <Date value={quotation.get(`signedAt`)} />
         </p>
       </td>
-      <td>
-        { quotation._hasInvoice && (
-          <Link to={`/invoices/${quotation.get('invoice.id')}`}>
-            { quotation.get(`invoice.reference`) }
-          </Link>
-        )}
-        {
-          quotation._canCreateInvoice && (
-            <Button
-              onClick={ handle.createInvoice }
-              value={ id }
-            >
-              <FormattedMessage id="quotation.invoice.create" />
-            </Button>
-          )
-        }
-      </td>
+      {!hideInvoice && (
+        <td>
+          <ButtonShowInvoice  quotation={ quotation } />
+          <ButtonCreateInvoice quotation={ quotation } />
+        </td>
+      )}
       <td className="is-number">
         <Amount value={quotation.get(`total`) } />
       </td>
@@ -89,57 +79,41 @@ const defaultColumns = [
   {label: false },
 ]
 
-class QuotationTable extends PureComponent {
-  constructor( props ) {
-    super( props )
-
-    this.handleCreateInvoice = this.handleCreateInvoice .bind( this )
+export default function QuotationTable( props ) {
+  const {
+    quotations,
+    hideInvoice  = false,
+    showCustomer = true,
+    hideCustomer = true,
+  } = props
+  const hasQuotations = Array.isArray( quotations ) && quotations.length > 0
+  let columns = defaultColumns
+  if ( hideCustomer ) {
+    columns = columns.filter( col => col.label !== `table.header.customer` )
   }
-
-  handleCreateInvoice( event ) {
-    event.preventDefault()
-    const id = event.target.value
-    this.props.createInvoice({params: {id}})
+  if ( hideInvoice ) {
+    columns = columns.filter( col => col.label !== `table.header.invoice` )
   }
+  const columnCount = columns.length
 
-  render() {
-    const { quotations, currency, showCustomer = true } = this.props
-    const hasQuotations = Array.isArray( quotations ) && quotations.length > 0
-    const columns = showCustomer ? defaultColumns
-      : defaultColumns.filter( col => col.label !== `table.header.customer` )
-    const columnCount = columns.length
-    const handle = {
-      createInvoice: this.handleCreateInvoice,
+  return (
+    <Table
+      columns={ columns }
+      className="table--pres"
+    >
+    {
+      !hasQuotations ? ( <EmptyLine colSpan={ columnCount } /> )
+      : quotations.map( (q, i) => (
+        <QuotationRow
+          key={ q.id }
+          hideCustomer={ hideCustomer }
+          hideInvoice={  hideInvoice }
+          quotation={ q }
+        />
+      ))
     }
+    </Table>
+  )
 
-    return (
-      <Table
-        columns={ columns }
-        className="table--pres"
-      >
-      {
-        !hasQuotations ? ( <EmptyLine colSpan={ columnCount } /> )
-        : quotations.map( (q, i) => (
-          <QuotationRow
-            key={ q.id }
-            showCustomer={ showCustomer }
-            quotation={ q }
-            handle={ handle }
-          />
-        ))
-      }
-      </Table>
-    )
-
-  }
 }
-
-function dispatch2prop( dispatch ) {
-  return bindActionCreators({
-    createInvoice: quotations.createInvoice,
-    archiveOne:    quotations.archiveOne,
-  }, dispatch)
-}
-
-export default connect( null, dispatch2prop )( QuotationTable )
 

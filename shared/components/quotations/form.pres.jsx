@@ -107,8 +107,8 @@ export default function QuotationFormPres( props ) {
             <Button type="submit">
               <FormattedMessage id={ submitI18nId } />
             </Button>
-            <ButtonCreateInvoice />
-            <ButtonShowInvoice />
+            <ButtonCreateInvoice quotation={ formData } />
+            <ButtonShowInvoice quotation={ formData } withMessage />
             <ButtonArchiveQuotation quotation={ formData } />
           </FormActions>
         </Content>

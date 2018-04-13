@@ -8,19 +8,26 @@ import { Button } from '../ui/buttons.jsx'
 import { FORM_ID } from './form.pres.jsx'
 
 function ButtonCreateInvoice( props ) {
-  const { id, createInvoice, isAvailable, isSaving } = props
+  const { quotation, createInvoice, isSaving, ...others } = props
+  if ( !quotation ) return null
+  const id          = quotation.get(`id`         )
+  const isAvailable = quotation.get(`_canCreateInvoice`)
   if ( !isAvailable ) return null
+
+  const btnProps = {
+    onClick: event => {
+      event.preventDefault()
+      createInvoice({params: {id}})
+    },
+    type      : `submit`                     ,
+    formMethod: `post`                       ,
+    formAction: `/quotations/${ id }/create-invoice`,
+    disabled  : isSaving                     ,
+    ...others
+  }
   return (
     <Button secondary
-      onClick={ event => {
-        event.preventDefault()
-        createInvoice({params: {id}})
-      }}
-      type="submit"
-      form={ FORM_ID }
-      formMethod="post"
-      formAction={`/quotations/${ id }/create-invoice` }
-      disabled={ isSaving }
+      {...btnProps}
     >
       <FormattedMessage id="quotation.invoice.create" />
     </Button>
@@ -29,16 +36,14 @@ function ButtonCreateInvoice( props ) {
 
 function state2prop( state ) {
   return {
-    id          : state.quotations.get( `current.id` ),
-    isAvailable : state.quotations.get( `current._canCreateInvoice` ),
-    isSaving    : state.quotations.get( `isSaving` ),
+    isSaving: state.quotations.get( `isSaving` ),
   }
 }
 
 function dispatch2prop( dispatch ) {
   return bindActionCreators({
-      createInvoice: quotations.createInvoice
-    }, dispatch)
+    createInvoice: quotations.createInvoice
+  }, dispatch)
 }
 
 export default connect( state2prop, dispatch2prop )( ButtonCreateInvoice )

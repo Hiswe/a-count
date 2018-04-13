@@ -9,10 +9,11 @@ import { Button, BtnIcon } from '../ui/buttons.jsx'
 function ButtonArchiveQuotation( props ) {
   const { quotation, archiveOne, isSaving, icon, ...others } = props
   if ( !quotation ) return null
+
   const id          = quotation.get(`id`         )
   const isAvailable = quotation.get(`_canBeArchived`)
-
   if ( !isAvailable ) return null
+
   const btnProps = {
     danger: true,
     onClick: event => {
@@ -25,7 +26,6 @@ function ButtonArchiveQuotation( props ) {
     disabled  : isSaving                     ,
     ...others
   }
-
   if ( icon ) return <BtnIcon svgId="archive" {...btnProps }/>
 
   return (

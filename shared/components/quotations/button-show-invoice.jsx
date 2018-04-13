@@ -5,22 +5,26 @@ import { connect } from 'react-redux'
 import { Button } from '../ui/buttons.jsx'
 
 function ButtonShowInvoice( props ) {
-  const { invoiceId, isSaving } = props
+  const { quotation, withMessage, isSaving } = props
+  if ( !quotation ) return null
 
+  const invoiceId = quotation.get(`invoiceId`)
   if ( !invoiceId ) return null
   return (
     <Button secondary
       to={`/invoices/${ invoiceId }` }
       disabled={ isSaving }
     >
-      <FormattedMessage id="quotation.invoice.show" />
+      {
+        withMessage ? <FormattedMessage id="quotation.invoice.show" />
+          : quotation.get(`invoice.reference`)
+      }
     </Button>
   )
 }
 
 function state2prop( state ) {
   return {
-    invoiceId: state.quotations.get( `current.invoiceId` ),
     isSaving : state.quotations.get( `isSaving` ),
   }
 }
