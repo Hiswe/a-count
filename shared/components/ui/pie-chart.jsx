@@ -11,6 +11,10 @@ function computeTotal( total, slice ) {
   return slice.value + total
 }
 
+function round( number, decimals = 4 ) {
+  return Number.parseFloat(  number.toFixed( decimals), 10 )
+}
+
 // don't repeat the defs on every SVG
 export function PieChartDefs( props ) {
   return (
@@ -45,7 +49,7 @@ export class PieChart extends PureComponent {
       total,
       slices:  slices.map( slice => ({
         ...slice,
-        percent: slice.value / total,
+        percent: round(slice.value / total),
       })),
     }
   }
@@ -53,7 +57,7 @@ export class PieChart extends PureComponent {
   static getCoordinates( percent ) {
     const x = Math.cos(2 * Math.PI * percent)
     const y = Math.sin(2 * Math.PI * percent)
-    return [ x, y ]
+    return [ round(x, 8), round(y, 8) ]
   }
 
   createSlices() {
@@ -83,9 +87,9 @@ export class PieChart extends PureComponent {
       <ol className={`${BASE_CLASS}__list`}>
         { slices.map( (slice, index) => (
           <li key={index} className={`${BASE_CLASS}__list_item`}>
-            <p className={`${BASE_CLASS}__label`}>
+            <div className={`${BASE_CLASS}__label`}>
               <FormattedMessage id={ slice.label } />
-            </p>
+            </div>
             <Percent className={`${BASE_CLASS}__value`} value={ slice.percent } />
           </li>
         ))}

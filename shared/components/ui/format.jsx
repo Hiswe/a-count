@@ -37,10 +37,10 @@ function currency2prop( state ) {
 export const Amount = connect( currency2prop )( AmountPres )
 
 export function FormatNumber( props ) {
-  const { value, ...others} = props
+  const { value, wrapperProps = {}, ...others} = props
   const safeValue = parseValue( value )
   return (
-    <p className={`${BASE_CLASS} ${BASE_CLASS}--number`}>
+    <p className={`${BASE_CLASS} ${BASE_CLASS}--number`} {...wrapperProps}>
       { safeValue === null ? `–` : <FormattedNumber value={ value } {...others}  /> }
     </p>
   )

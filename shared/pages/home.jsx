@@ -42,11 +42,10 @@ function Home( props ) {
                 {label: `_.invoices`   , value: statistics.invoicesCount   },
               ]}
             >
-              <p style={{fontSize: `3rem`}}>
-                <FormatNumber
-                  value={statistics.quotationsCount + statistics.invoicesCount }
-                />
-              </p>
+              <FormatNumber
+                wrapperProps={{style: {fontSize: `3rem`}}}
+                value={statistics.quotationsCount + statistics.invoicesCount }
+              />
             </PieChart>
             <PieChart
               title="_.amount"
