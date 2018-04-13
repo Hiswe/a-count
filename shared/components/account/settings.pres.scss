@@ -6,7 +6,8 @@
     font-size: 1.25rem;
   }
   &__warning {
-    color: red;
+    color: var(--c-alert);
+    background: var(--c-alert-lightest);
     text-align: center;
     margin: 0;
   }

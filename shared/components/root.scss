@@ -5,12 +5,15 @@
 ///////
 
 :root {
-  --c-primary-h:    $c-primary-h;
-  --c-primary-s:    $c-primary-s;
-  --c-primary-l:    $c-primary-l;
-  --c-accent-h:    $c-accent-h;
-  --c-accent-s:    $c-accent-s;
-  --c-accent-l:    $c-accent-l;
+  --c-primary-h: $c-primary-h;
+  --c-primary-s: $c-primary-s;
+  --c-primary-l: $c-primary-l;
+  --c-accent-h:  $c-accent-h;
+  --c-accent-s:  $c-accent-s;
+  --c-accent-l:  $c-accent-l;
+  --c-alert-h:   $c-alert-h;
+  --c-alert-s:   $c-alert-s;
+  --c-alert-l:   $c-alert-l;
   --c-text-h:    $c-text-h;
   --c-text-s:    $c-text-s;
   --c-text-l:    $c-text-l;
@@ -27,7 +30,13 @@
   --c-accent:           HSL(var(--c-accent-h), var(--c-accent-s), var(--c-accent-l));
   --c-accent-lighter:   HSL(var(--c-accent-h), var(--c-accent-s), 60%);
   --c-accent-lightest:  HSL(var(--c-accent-h), var(--c-accent-s), 90%);
+
   --c-background:       white;
+
+  --c-alert-darker:     HSL(var(--c-alert-h), var(--c-alert-s), 40%);
+  --c-alert:            HSL(var(--c-alert-h), var(--c-alert-s), var(--c-alert-l));
+  --c-alert-lighter:    HSL(var(--c-alert-h), var(--c-alert-s), 60%);
+  --c-alert-lightest:   HSL(var(--c-alert-h), var(--c-alert-s), 95%);
 
   --c-text-darker:      HSL(var(--c-text-h), var(--c-text-s), 15%);
   --c-text:             HSL(var(--c-text-h), var(--c-text-s), var(--c-text-l));

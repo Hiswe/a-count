@@ -7,22 +7,26 @@
 }
 
 .button {
-  --button-bg-color: var(--c-accent);
+  --button-bg-color:    var(--c-accent);
+  --button-border-color: var(--c-accent);
   --button-text-color: white;
-  --button-fab-size: 5em;
+  --button-bg-color-hover:    var(--c-button-text-color);
+  --button-border-color-hover: var(--button-border-color);
+  --button-text-color-hover: var(--button-bg-color);
   --button-icon-size: 2.5em;
   border: 2px solid;
   padding: .75em 1em;
   border-radius: var(--s-quarter-gutter);
   cursor: pointer;
   display: inline-block;
-  border-color: var(--button-bg-color);
+  border-color: var(--button-border-color);
   background: var(--button-bg-color);
   color: var(--button-text-color);
 
   &:hover {
-    background: var(--button-text-color);
-    color: var(--button-bg-color);
+    border-color: var(--button-border-color-hover);
+    background: var(--button-bg-color-hover);
+    color: var(--button-text-color-hover);
   }
 
   &[disabled] {
@@ -30,15 +34,19 @@
     pointer-events: none;
   }
 
-  &--secondary {
+  &--secondary,
+  &--danger {
     --button-bg-color: white;
-    --button-text-color: var(--c-text);
+    --button-border-color: var(--button-bg-color);
+    --button-text-color: var(--c-accent);
+    --button-bg-color-hover: var(--c-accent-lightest);
+    --button-bg-border-hover: var(--button-bg-color-hover);
+    --button-text-color-hover: var(--button-text-color);
+  }
 
-    &:hover {
-      --button-bg-color: var(--c-text);
-      --button-text-color: var(--c-accent-lightest);
-      border-color: var(--button-text-color);
-    }
+  &--danger {
+    --button-text-color: var(--c-alert-darker);
+    --button-bg-color-hover: var(--c-alert-lightest);
   }
 
   &--link {
@@ -61,20 +69,12 @@
     border: 0;
     --button-bg-color: var(--c-accent);
     --button-text-color: white;
-
-    &:hover {
-      --button-bg-color: var(--c-accent);
-      --button-text-color:var(--c-accent-lightest);
-    }
+    --button-bg-color-hover: var(--c-accent-lightest);
 
     &-secondary {
       --button-text-color: var(--c-text);
       --button-bg-color: white;
-
-      &:hover {
-        --button-bg-color: var(--c-text);
-        --button-text-color: var(--c-accent-lightest);
-      }
+      --button-text-color-hover: var(--c-text);
     }
 
     &-link {
@@ -92,28 +92,6 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-    }
-  }
-
-
-  &--fab {
-    width: var(--button-fab-size);
-    height: var(--button-fab-size);
-    line-height: calc( var(--button-fab-size) * 0.9 );
-    border-radius: var(--button-fab-size);
-    padding: 0;
-    text-align: center;
-    position: fixed;
-    z-index: 2;
-    bottom: var(--s-half-gutter);
-    right: var(--s-half-gutter);
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.2);
-
-    &:active {
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    }
-    .svg-icon {
-      font-size: 1.5em;
     }
   }
 }

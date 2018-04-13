@@ -7,10 +7,11 @@ import './buttons.scss'
 const BASE_CLASS = `button`
 
 export function Button( props ) {
-  const { className, to, secondary, ...others } = props
+  const { className, to, secondary, danger,...others } = props
   const COMP_CLASS = [ BASE_CLASS ]
   if ( className ) COMP_CLASS.push( className )
   if ( secondary ) COMP_CLASS.push( `${ BASE_CLASS }--secondary` )
+  if ( danger ) COMP_CLASS.push( `${ BASE_CLASS }--danger` )
 
   if ( to ) {
     return (

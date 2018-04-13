@@ -30,12 +30,20 @@ $c-primary:    hsl(248, 41%, 43%);
 $c-primary-h:   hue($c-primary) / 1deg;
 $c-primary-s:   saturation($c-primary);
 $c-primary-l:   lightness($c-primary);
+// used for SVG url background images
 $c-primary-lighter-l: 65%;
 $c-primary-lighter: hsl($c-primary-h, $c-primary-s, $c-primary-lighter-l);
+
 $c-accent:      hsl(199, 71%, 47%);
 $c-accent-h:    hue($c-accent) / 1deg;
 $c-accent-s:    saturation($c-accent);
 $c-accent-l:    lightness($c-accent);
+
+$c-alert:       hsl(0, 100%, 50%);
+$c-alert-h:     hue($c-alert) / 1deg;
+$c-alert-s:     saturation($c-alert);
+$c-alert-l:     lightness($c-alert);
+
 $c-black:       hsl(240, 11%, 30%);
 $c-text:        hsl(240, 11%, 30%);
 $c-text-h:      hue($c-text) / 1deg;
