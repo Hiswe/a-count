@@ -6,6 +6,10 @@ import { Percent } from './format.jsx'
 import './pie-chart.scss'
 const BASE_CLASS = `pie-chart`
 
+function computeTotal( total, slice ) {
+  return slice.value + total
+}
+
 // don't repeat the defs on every SVG
 export function PieChartDefs( props ) {
   return (
@@ -23,13 +27,21 @@ export class PieChart extends PureComponent {
   constructor( props ) {
     super( props )
 
-    const total = props.slices.reduce( (total, slice) => slice.value + total, 0 )
-
     this.state = {
+      total : 0 ,
+      slices: [],
+    }
+  }
+
+  static getDerivedStateFromProps( nextProps, prevState ) {
+    const total = nextProps.slices.reduce( computeTotal, 0 )
+
+    if ( total === prevState.total ) return null
+
+    return {
       total,
-      slices:  props.slices.map( slice => ({
-        value: slice.value,
-        label: slice.label,
+      slices:  nextProps.slices.map( slice => ({
+        ...slice,
         percent: slice.value / total,
       })),
     }
