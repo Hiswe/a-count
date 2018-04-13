@@ -67,6 +67,7 @@
     "lodash.isnil": "^4.0.0",
     "lodash.merge": "^4.6.1",
     "lodash.omit": "4.5.0",
+    "lodash.round": "^4.0.4",
     "marked": "0.3.19",
     "moment": "2.22.0",
     "ms": "^2.1.1",

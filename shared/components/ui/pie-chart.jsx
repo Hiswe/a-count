@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
+import round from 'lodash.round'
 
 import { Percent } from './format.jsx'
 
@@ -9,10 +10,6 @@ const BASE_CLASS = `pie-chart`
 function computeTotal( total, slice ) {
   if ( !Number.isFinite(slice.value) ) return 0
   return slice.value + total
-}
-
-function round( number, decimals = 4 ) {
-  return Number.parseFloat(  number.toFixed( decimals), 10 )
 }
 
 // don't repeat the defs on every SVG
@@ -49,7 +46,7 @@ export class PieChart extends PureComponent {
       total,
       slices:  slices.map( slice => ({
         ...slice,
-        percent: round(slice.value / total),
+        percent: round(slice.value / total, 4),
       })),
     }
   }
