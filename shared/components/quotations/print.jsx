@@ -11,24 +11,22 @@ function PrintQuotation( props ) {
       <Reference type="quotation" product={ quotation } />
       <Between>
         <PartyUser />
-        <Party title="to" {...quotation.customer} />
+        <Party title="to" people={ quotation.customer } />
       </Between>
       <Subject value={quotation.get(`name`)} />
       <ProductTable
         readOnly
         products={ quotation.get(`products`) }
         tax={ quotation.get(`tax`) }
-        currency={ user.get(`currency`) }
       >
         {quotation.get(`products`).map( (product, index) =>  (
           <ProductLineDisplay
             key={ index }
             product={ product }
-            currency={ user.get(`currency`) }
           />
         ))}
       </ProductTable>
-      <Mentions content={ user.get(`quotationConfig.mentions`) } />
+      <Mentions content={ quotation.get(`quotationConfig.mentions`) } />
     </PaperSheet>
   )
 }

@@ -46,32 +46,36 @@ export function Between( props ) {
 }
 
 export function Party( props ) {
-  const { title, ...people } = props
+  const {
+    title,
+    people = {},
+  } = props
   const PARTY_CLASS = `${BASE_CLASS}__party`
+  const address     = people.address
   return (
     <aside className={`${PARTY_CLASS}`}>
       <p className={`${PARTY_CLASS}-title`}>
         <FormattedMessage id={`paper-sheet.party.${ title }`} />
       </p>
-      <h4 className={`${PARTY_CLASS}-name`}>{ people.name }</h4>
-      <PartyAddress content={ people.address} PARTY_CLASS={PARTY_CLASS} />
+      <h4 className={`${PARTY_CLASS}-name`}>
+        { people.name ? people.name : (
+          <p className={`${PARTY_CLASS}-address ${PARTY_CLASS}-name--empty`}>
+            <FormattedMessage id={`paper-sheet.party.no-name.${title}`}/>
+          </p>
+        )}
+      </h4>
+      { address ? <Markdown text={ address } /> : (
+        <p className={`${PARTY_CLASS}-address ${PARTY_CLASS}-address--empty`}>
+          <FormattedMessage id={`paper-sheet.party.no-address.${title}`} />
+        </p>
+      )}
     </aside>
   )
 }
 
 export const PartyUser = connect(
   state => ({user: state.account.get(`user`)})
-)( props => <Party title="from" {...props.user}/> )
-
-function PartyAddress( props ) {
-  const { content, PARTY_CLASS } = props
-  if ( !content ) return (
-    <p className={`${PARTY_CLASS}-address ${PARTY_CLASS}-address--empty`}>
-      <FormattedMessage id="paper-sheet.party.no-address" />
-    </p>
-  )
-  return <Markdown text={content} />
-}
+)( props => <Party title="from" people={props.user}/> )
 
 export function Subject( props ) {
   const COMP_CLASS = `${BASE_CLASS}__subject`

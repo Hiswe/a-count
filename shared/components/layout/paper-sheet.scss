@@ -3,7 +3,8 @@
 .paper-sheet {
   $root: &;
   $party: '#{$root}__party';
-  $party-empty: '#{$party}-address--empty';
+  $party-empty-name: '#{$party}-name--empty';
+  $party-empty-address: '#{$party}-address--empty';
   // css custom properties doesn't seems to work with background size
   $shred-size: 20px;
   background: white;
@@ -11,6 +12,10 @@
   border-radius: var(--sheet-border-radius);
   position: relative;
   border: 1px solid var(--c-primary-lightest);
+
+  @media #{$mq-print} {
+    border: none;
+  }
 
   // paper-sheet shadow
   &::before,
@@ -73,7 +78,6 @@
 
   &__party {
 
-
     & + & {
       text-align: right;
     }
@@ -91,12 +95,28 @@
       font-size: var(--sheet-big-font-size);
       text-transform: capitalize;
       font-weight: 700;
+
+      &--empty {
+        margin: 0;
+        color: var(--c-text-lighter);
+        font-style: italic;
+        font-size: 1rem;
+        text-transform: initial;
+
+        @media #{$mq-print} {
+          display: none;
+        }
+      }
     }
     // facing blocks description
     &-address{
       &--empty {
         color: var(--c-text-lighter);
         font-style: italic;
+
+        @media #{$mq-print} {
+          display: none;
+        }
       }
       > * {
         margin: 0;
@@ -194,9 +214,6 @@
     }
     .table--product {
       margin-bottom: auto;
-    }
-    #{ $party-empty } {
-      display: none;
     }
   }
 }

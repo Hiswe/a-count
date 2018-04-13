@@ -115,7 +115,7 @@ function EditCustomer( props ) {
                   <PaperSheet part="top">
                     <Between>
                       <PartyUser />
-                      <Party title="to" {...context.formData} />
+                      <Party title="to" people={context.formData} />
                     </Between>
                   </PaperSheet>
                 </Fragment>

@@ -49,7 +49,7 @@ const NewCustomer = props => {
               <Between>
                 <PartyUser />
                 <FormContext.Consumer>
-                  { context => <Party title="to" {...context.formData} />}
+                  { context => <Party title="to" people={ context.formData } />}
                 </FormContext.Consumer>
               </Between>
             </PaperSheet>

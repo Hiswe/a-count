@@ -68,7 +68,7 @@ export default function QuotationFormPres( props ) {
             <Reference type="quotation" product={ formData } />
             <Between>
               <PartyUser />
-              <Party title="to" {...customer} />
+              <Party title="to" people={ customer } />
             </Between>
             <Input
               name="name"

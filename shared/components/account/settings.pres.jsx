@@ -92,7 +92,7 @@ export default function SettingFormPres( props ) {
             options={ currencies }
           />
           <PaperSheet part="top-left">
-            <Party title="from" {...formData} />
+            <Party title="from" people={formData} />
           </PaperSheet>
           <div className={`${BASE_CLASS}__user-form`}>
             <Input

@@ -11,7 +11,7 @@ function PrintInvoice( props ) {
       <Reference type="invoice" product={ invoice } />
       <Between>
         <PartyUser />
-        <Party title="to" {...invoice.customer} />
+        <Party title="to" pepople={invoice.customer} />
       </Between>
       <Subject value={ invoice.get(`name`) } />
       <ProductTable readOnly
