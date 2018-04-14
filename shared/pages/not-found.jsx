@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import LayoutBoarding from '../components/layout/boarding.jsx'
+import { Helmet } from 'react-helmet'
 
 const NotFound = () => (
   // we need a route to have access to staticContext

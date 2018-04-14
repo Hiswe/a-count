@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import serialize from 'form-serialize'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -12,6 +12,7 @@ import LayoutBoarding from '../../components/layout/boarding.jsx'
 import Form from '../../components/ui/form.jsx'
 import { Button } from '../../components/ui/buttons.jsx'
 import { Input } from '../../components/ui/field.jsx'
+import { Helmet } from 'react-helmet'
 
 const MAIL_REDIRECT_URL = urlJoin( config.HOST_URL, '/account/reset' )
 
@@ -30,27 +31,33 @@ class Forgot extends PureComponent {
 
   render() {
     const { props } = this
+    const titleProps  = { id:`account.forgot.title` }
 
     return (
-      <LayoutBoarding
-        title={ <FormattedMessage id="account.forgot.title" /> }
-      >
-        <Form id="forgot" action="/account/forgot" onSubmit={ this.handleSubmit } >
-          <p>
-            <FormattedMessage id="account.forgot.notice" defaultValue="after submitting the form you will receive a reset link by email" />
-          </p>
-          <input type="hidden" name="redirectUrl" value={ MAIL_REDIRECT_URL } />
-          <Input
-            name="email"
-            label="field.email"
-            type="email"
-            defaultValue=""
-          />
-          <Button type="submit">
-            <FormattedMessage id="account.forgot.button" defaultValue="Send reset link" />
-          </Button>
-        </Form>
-      </LayoutBoarding>
+      <Fragment>
+        <FormattedMessage {...titleProps} >
+          {title => <Helmet><title>{title}</title></Helmet>}
+        </FormattedMessage>
+        <LayoutBoarding
+          title={ <FormattedMessage {...titleProps} /> }
+        >
+          <Form id="forgot" action="/account/forgot" onSubmit={ this.handleSubmit } >
+            <p>
+              <FormattedMessage id="account.forgot.notice" defaultValue="after submitting the form you will receive a reset link by email" />
+            </p>
+            <input type="hidden" name="redirectUrl" value={ MAIL_REDIRECT_URL } />
+            <Input
+              name="email"
+              label="field.email"
+              type="email"
+              defaultValue=""
+            />
+            <Button type="submit">
+              <FormattedMessage id="account.forgot.button" defaultValue="Send reset link" />
+            </Button>
+          </Form>
+        </LayoutBoarding>
+      </Fragment>
     )
   }
 }

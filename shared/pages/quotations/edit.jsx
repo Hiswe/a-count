@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { Helmet } from 'react-helmet'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
@@ -22,13 +23,17 @@ const TYPE = `quotations`
 
 function EditQuotation( props ) {
   const { quotation, ...others } = props
-  const { id } = props.match.params
-  const reference = quotation.get(`reference`)
+  const { id }      = props.match.params
+  const reference   = quotation.get(`reference`)
+  const titleProps  = { id:`page.quotations.edit`, values: {reference} }
 
   return (
     <Fragment>
+      <FormattedMessage {...titleProps} >
+        {title => <Helmet><title>{title}</title></Helmet>}
+      </FormattedMessage>
       <NavSecondary
-        title={ <FormattedMessage id="page.quotations.edit" values={{reference}} /> }
+        title={ <FormattedMessage {...titleProps} /> }
       >
         <ButtonSubmit
           formId   = { FORM_ID }

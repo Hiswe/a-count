@@ -1,9 +1,10 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import serialize from 'form-serialize'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
 import { FormattedMessage } from 'react-intl'
+import { Helmet } from 'react-helmet'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as account from '../../ducks/account'
@@ -31,27 +32,33 @@ class Reset extends PureComponent {
 
   render() {
     const { props, state } = this
+    const titleProps  = { id:`account.reset.title` }
 
     return (
-      <LayoutBoarding
-        title={ <FormattedMessage id="account.reset.title" /> }
-      >
-        <Form id="login" action="/account/reset" onSubmit={ this.handleSubmit } >
-          <p>
-            <FormattedMessage id="account.reset.notice" defaultValue="Set your new password here" />
-          </p>
-          <input type="hidden" name="token" defaultValue={state.token} />
-          <Input
-            name="password"
-            type="password"
-            label="field.password"
-            defaultValue=""
-          />
-          <Button type="submit">
-            <FormattedMessage id="account.reset.button" defaultValue="reset password" />
-          </Button>
-        </Form>
-      </LayoutBoarding>
+      <Fragment>
+        <FormattedMessage {...titleProps} >
+          {title => <Helmet><title>{title}</title></Helmet>}
+        </FormattedMessage>
+        <LayoutBoarding
+          title={ <FormattedMessage {...titleProps} /> }
+        >
+          <Form id="login" action="/account/reset" onSubmit={ this.handleSubmit } >
+            <p>
+              <FormattedMessage id="account.reset.notice" defaultValue="Set your new password here" />
+            </p>
+            <input type="hidden" name="token" defaultValue={state.token} />
+            <Input
+              name="password"
+              type="password"
+              label="field.password"
+              defaultValue=""
+            />
+            <Button type="submit">
+              <FormattedMessage id="account.reset.button" defaultValue="reset password" />
+            </Button>
+          </Form>
+        </LayoutBoarding>
+      </Fragment>
     )
   }
 }

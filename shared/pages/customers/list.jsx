@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
+import { Helmet } from 'react-helmet'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers.js'
@@ -14,10 +15,15 @@ import CustomersTable from '../../components/customers/list.jsx'
 const TYPE = `customers`
 
 function Customers( props ) {
+  const titleProps  = { id:`page.customers` }
+
   return (
     <Fragment>
+      <FormattedMessage {...titleProps} >
+        {title => <Helmet><title>{title}</title></Helmet>}
+      </FormattedMessage>
       <NavSecondary
-        title={ <FormattedMessage id="page.customers" /> }
+        title={ <FormattedMessage {...titleProps} /> }
       >
         <ButtonNew type={ TYPE } message="customer.button.new" />
       </NavSecondary>

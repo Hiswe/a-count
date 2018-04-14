@@ -5,6 +5,7 @@ const config      = rc( `concompte`, {
   API_URL:          `http://localhost:4040/v1`,
   API_COOKIE_NAME:  `concompte_api`,
   HOST_URL:         `http://localhost:3000`,
+  APP_NAME:         `Concompte`,
 })
 
 config.PORT       = config.PORT || process.env.PORT || 3000

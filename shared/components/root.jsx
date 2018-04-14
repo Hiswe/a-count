@@ -4,6 +4,7 @@ import { IntlProvider } from 'react-intl'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 
+import config from '../isomorphic-config.js'
 import * as locales from '../locales'
 import ErrorBoundary from './error-boundary.jsx'
 import NavMain from './nav/main.jsx'
@@ -31,21 +32,24 @@ class Root extends PureComponent {
               • Switch
            */}
           {/* <React.StrictMode> */}
-            <Helmet meta={[
-              {
-                'http-equiv': `Content-Language`,
-                content: lang,
-              },
-              {
-                'http-equiv': `X-UA-Compatible`,
-                content: `IE=edge`,
-              },
-              {
-                name:    `viewport`,
-                content: `width=device-width, initial-scale=1.0`,
-              },
-            ]}>
-              <title>ConCompte</title>
+            <Helmet
+              defaultTitle={ config.APP_NAME }
+              titleTemplate={`${config.APP_NAME} – %s`}
+              meta={[
+                {
+                  'http-equiv': `Content-Language`,
+                  content: lang,
+                },
+                {
+                  'http-equiv': `X-UA-Compatible`,
+                  content: `IE=edge`,
+                },
+                {
+                  name:    `viewport`,
+                  content: `width=device-width, initial-scale=1.0`,
+                },
+              ]}
+            >
               <html lang={ lang } />
               <link rel="stylesheet" href="/concompte.css" />
               <link rel="icon" href="/favicon.png" type="image/png" />

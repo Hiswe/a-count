@@ -17,7 +17,8 @@ import config from './config.js'
 import routes from '../shared/routes.js'
 import reducer from '../shared/ducks/combined-reducers.js'
 
-// node only has `en`locales
+// I18N SETUP
+// • node only has `en` locales
 // • polyfill the other languages
 //   https://formatjs.io/guides/runtime-environments/#polyfill-node
 if ( !areIntlLocalesSupported([`en`, `fr`]) ) {
@@ -41,7 +42,15 @@ const reduxActionLogger = ({ getState }) => {
   }
 }
 
-const store = createStore(reducer, {}, applyMiddleware(thunk, reduxActionLogger))
+const store         = createStore(reducer, {}, applyMiddleware(thunk, reduxActionLogger))
+
+// only pass a subset of the config. enough for the client side
+const clientConfig  = serializeJS( {
+  API_URL:          config.API_URL,
+  API_COOKIE_NAME:  config.API_COOKIE_NAME,
+  HOST_URL:         config.HOST_URL,
+  APP_NAME:         config.APP_NAME,
+}, { isJSON: true } )
 
 router.get( '*', async (ctx, next) => {
   const { url, header } = ctx
@@ -91,12 +100,7 @@ router.get( '*', async (ctx, next) => {
   // Use serialize-javascript over JSON.stringify()
   // • https://www.npmjs.com/package/serialize-javascript#overview
   await ctx.render( `view-react`, {
-    // only pass a subset of the config. enough for the client side
-    config: serializeJS( {
-      API_URL:          config.API_URL,
-      API_COOKIE_NAME:  config.API_COOKIE_NAME,
-      HOST_URL:         config.HOST_URL,
-    }, { isJSON: true } ),
+    config: clientConfig,
     // those will be used to initialize the store client side
     initialState: serializeJS( store.getState(), { isJSON: true } ),
     // the right HTML produced by react ^^

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { Helmet } from 'react-helmet'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
@@ -17,13 +18,18 @@ import { FORM_ID } from '../../components/quotations/form.pres.jsx'
 const TYPE = `quotations`
 
 function NewQuotation( props ) {
+  const titleProps = { id: `page.quotations.new` }
+
   return (
     <Fragment>
+      <FormattedMessage {...titleProps} >
+        {title => <Helmet><title>{title}</title></Helmet>}
+      </FormattedMessage>
       <NavSecondary
-        title={ <FormattedMessage id="page.quotations.new" /> }
+        title={ <FormattedMessage {...titleProps} /> }
       >
-        <ButtonList type={ TYPE }/>
         <ButtonSubmit formId={FORM_ID} isSaving={ props.isSaving } />
+        <ButtonList type={ TYPE }/>
       </NavSecondary>
       <QuotationForm {...props} />
     </Fragment>

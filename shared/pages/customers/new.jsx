@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { Helmet } from 'react-helmet'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as customers from '../../ducks/customers'
@@ -26,12 +27,15 @@ const TYPE = `customers`
 
 const NewCustomer = props => {
   const { intl } = props
+  const titleProps  = { id:`page.customers.new` }
 
   return (
     <Fragment>
-
+      <FormattedMessage {...titleProps} >
+        {title => <Helmet><title>{title}</title></Helmet>}
+      </FormattedMessage>
       <NavSecondary
-        title={ <FormattedMessage id="page.customers.new" /> }
+        title={ <FormattedMessage {...titleProps} /> }
       >
         <ButtonList type={ TYPE } />
         <ButtonSubmit formId={ FORM_ID } isSaving={ props.isSaving } />

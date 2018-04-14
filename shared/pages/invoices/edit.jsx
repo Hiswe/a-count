@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { Helmet } from 'react-helmet'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as invoices from '../../ducks/invoices'
@@ -19,11 +20,15 @@ const TYPE = `invoices`
 function EditInvoice( props ) {
   const { reference } = props
   const { id } = props.match.params
+  const titleProps  = { id:`page.invoices.edit`, values: {reference} }
 
   return (
     <Fragment>
+      <FormattedMessage {...titleProps} >
+        {title => <Helmet><title>{title}</title></Helmet>}
+      </FormattedMessage>
       <NavSecondary
-        title={ <FormattedMessage id="page.invoices.edit" values={{reference}} /> }
+        title={ <FormattedMessage {...titleProps} /> }
       >
         <ButtonSubmit formId={ FORM_ID } isSaving={ props.isSaving } />
         <ButtonShowQuotation />

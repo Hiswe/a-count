@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
+import { Helmet } from 'react-helmet'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
@@ -15,11 +16,15 @@ import QuotationsList from '../../components/quotations/list.jsx'
 
 function Invoices( props ) {
   const { invoices, readyToInvoice } = props
+  const titleProps  = { id:`page.invoices` }
 
   return (
     <Fragment>
+      <FormattedMessage {...titleProps} >
+        {title => <Helmet><title>{title}</title></Helmet>}
+      </FormattedMessage>
       <NavSecondary
-        title={ <FormattedMessage id="page.invoices" /> }
+        title={ <FormattedMessage {...titleProps} /> }
       >
       </NavSecondary>
       <Main>

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
+import { Helmet } from 'react-helmet'
 
 import ConnectDataFetcher from '../connect-data-fetcher.js'
 import * as account from '../ducks/account.js'
@@ -22,12 +23,16 @@ function Home( props ) {
     quotationsReadyToInvoice,
     invoices,
   } = props
+  const titleProps = { id: `page.home` }
 
   return (
     <Fragment>
-
+      {/* https://github.com/nfl/react-helmet/issues/268#issuecomment-368148249 */}
+      <FormattedMessage {...titleProps} >
+        {title => <Helmet><title>{title}</title></Helmet>}
+      </FormattedMessage>
       <NavSecondary
-        title={ <FormattedMessage id="page.home"/> }
+        title={ <FormattedMessage {...titleProps} /> }
       >
         <ButtonNew type="quotations" message="quotation.button.new" />
       </NavSecondary>

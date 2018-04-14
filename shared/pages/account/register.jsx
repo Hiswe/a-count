@@ -1,8 +1,9 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import serialize from 'form-serialize'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { Helmet } from 'react-helmet'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as account from '../../ducks/account'
@@ -28,29 +29,35 @@ class Register extends PureComponent {
 
   render() {
     const { props } = this
+    const titleProps  = { id:`account.register.title` }
 
     return (
-      <LayoutBoarding
-        title={ <FormattedMessage id="account.register.title" /> }
-      >
-        <Form action="/account/register" onSubmit={ this.handleSubmit } >
-          <Input
-            name="email"
-            label="field.email"
-            type="email"
-            defaultValue=""
-          />
-          <Input
-            name="password"
-            type="password"
-            label="field.password"
-            defaultValue=""
-          />
-          <Button type="submit">
-            <FormattedMessage id="account.register.button" defaultValue="Create" />
-          </Button>
-        </Form>
-      </LayoutBoarding>
+      <Fragment>
+        <FormattedMessage {...titleProps} >
+          {title => <Helmet><title>{title}</title></Helmet>}
+        </FormattedMessage>
+        <LayoutBoarding
+          title={ <FormattedMessage {...titleProps} /> }
+        >
+          <Form action="/account/register" onSubmit={ this.handleSubmit } >
+            <Input
+              name="email"
+              label="field.email"
+              type="email"
+              defaultValue=""
+            />
+            <Input
+              name="password"
+              type="password"
+              label="field.password"
+              defaultValue=""
+            />
+            <Button type="submit">
+              <FormattedMessage id="account.register.button" defaultValue="Create" />
+            </Button>
+          </Form>
+        </LayoutBoarding>
+      </Fragment>
     )
   }
 }

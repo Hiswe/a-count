@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
+import { Helmet } from 'react-helmet'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
@@ -15,11 +16,15 @@ const TYPE = `quotations`
 
 function Quotations( props ) {
   const { active, readyToInvoice } = props
+  const titleProps = { id: `page.quotations` }
 
   return (
     <Fragment>
+      <FormattedMessage {...titleProps} >
+        {title => <Helmet><title>{title}</title></Helmet>}
+      </FormattedMessage>
       <NavSecondary
-        title={ <FormattedMessage id="page.quotations" /> }
+        title={ <FormattedMessage {...titleProps} /> }
       >
         <ButtonNew type={ TYPE } message="quotation.button.new" />
       </NavSecondary>

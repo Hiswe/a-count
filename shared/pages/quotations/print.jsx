@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
 import { FormattedMessage } from 'react-intl'
+import { Helmet } from 'react-helmet'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
@@ -19,11 +20,15 @@ const TYPE = `quotations`
 function PrintQuotationPage( props ) {
   const { reference } = props
   const { id } = props.match.params
+  const titleProps  = { id:`page.quotations.print`, values: {reference} }
 
   return (
     <Fragment>
+      <FormattedMessage {...titleProps} >
+        {title => <Helmet><title>{title}</title></Helmet>}
+      </FormattedMessage>
       <NavSecondary
-        title={ <FormattedMessage id="page.quotations.print" values={{reference}} /> }
+        title={ <FormattedMessage {...titleProps} /> }
       >
         <ButtonEdit type={ TYPE } id={id} />
         <ButtonList type={ TYPE } />
