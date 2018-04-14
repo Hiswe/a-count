@@ -33,6 +33,7 @@ In a functional point of view:
 
 In a tech point view, should support:
 
+- should work without JS activated on the client
 - clear separation of the app & the API
 - authentication
 - i18n

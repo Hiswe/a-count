@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import serialize from 'serialize-javascript'
+import serializeJS from 'serialize-javascript'
 import Router from 'koa-router'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
@@ -10,6 +10,7 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import IntlPolyfill from 'intl'
 import areIntlLocalesSupported from 'intl-locales-supported'
+import { Helmet } from 'react-helmet'
 
 import log from './log.js'
 import config from './config.js'
@@ -73,6 +74,9 @@ router.get( '*', async (ctx, next) => {
       </StaticRouter>
     </Provider>
   )
+  // render HEAD tags
+  // • https://www.npmjs.com/package/react-helmet#server-usage
+  const helmet = Helmet.renderStatic()
 
   // reflect status from react-router to express
   if ( staticContext.status === 302 ) {
@@ -84,17 +88,21 @@ router.get( '*', async (ctx, next) => {
     ctx.status = 404
   }
 
+  // Use serialize-javascript over JSON.stringify()
+  // • https://www.npmjs.com/package/serialize-javascript#overview
   await ctx.render( `view-react`, {
     // only pass a subset of the config. enough for the client side
-    config: serialize( {
+    config: serializeJS( {
       API_URL:          config.API_URL,
       API_COOKIE_NAME:  config.API_COOKIE_NAME,
       HOST_URL:         config.HOST_URL,
     }, { isJSON: true } ),
     // those will be used to initialize the store client side
-    initialState: serialize( store.getState(), { isJSON: true } ),
+    initialState: serializeJS( store.getState(), { isJSON: true } ),
     // the right HTML produced by react ^^
     dom: content,
+    // for HEAD tags
+    helmet,
   })
 })
 

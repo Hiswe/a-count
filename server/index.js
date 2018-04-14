@@ -28,8 +28,9 @@ app.use( serveStatic(path.join(__dirname, `./public`)) )
 
 // format json https://github.com/koajs/json
 app.use( json() )
-// templates: even if React is used for the most part…
-// …Pug is still used for wrappers & error
+// templates:
+// • even if React is used for the most part pug is still used for wrappers & error
+// • BUT with react-helmet that's getting less relevant…
 app.use( views( __dirname, {extension: `pug`}) )
 
 //----- LOGGING
