@@ -25,7 +25,8 @@
     "dev:api": "npm run serve:api:dev",
     "dev:app": "parallelshell \"npm run serve:app:watch\" \"npm run browsersync\"",
     "dev:no-build": "parallelshell \"npm run watch:app\" \"npm run serve:all:dev\" \"npm run browsersync\"",
-    "dev": "npm run build:app && npm run dev:no-build"
+    "dev": "npm run build:app && npm run dev:no-build",
+    "toc": "doctoc README.md --github"
   },
   "ava": {
     "files": [
@@ -109,6 +110,7 @@
     "babel-plugin-transform-require-ignore": "^0.1.1",
     "browser-sync": "2.23.6",
     "css-loader": "^0.28.11",
+    "doctoc": "^1.3.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",

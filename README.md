@@ -3,9 +3,30 @@
 Personal project for building an universal application.  
 Based on [codemancer code](https://crypt.codemancers.com/posts/2017-06-03-reactjs-server-side-rendering-with-router-v4-and-redux/)
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Prerequisite](#prerequisite)
+- [Tech view](#tech-view)
+  - [Stack:](#stack)
+  - [Build tools:](#build-tools)
+- [Build the app on your computer](#build-the-app-on-your-computer)
+  - [First and always step](#first-and-always-step)
+  - [Dev server](#dev-server)
+- [Documentation](#documentation)
+  - [Universal Application](#universal-application)
+  - [optimize performances](#optimize-performances)
+    - [components](#components)
+    - [components architecture](#components-architecture)
+  - [test](#test)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 In a functional point of view:
 
 - build a simple account app
+- can create an account
 - can manage customers
 - can manage quotations/invoices
 - can select a currency for **presentational purpose only**
@@ -21,41 +42,51 @@ As an exercice
 - could integrate with some browser API (IntersectionObserver)
 - could use some pre-build react components
 - build some custom components
-- should stay away for Stage < 2 JS
+- should stay close to JS (no typescript, no experimental JS specs)
 - shouldn't use too much external modules
 
-## prerequisite
+## Prerequisite
 
-- [node js >= 8.10.0](https://nodejs.org/en/)
-- [PostgreSQL](https://www.postgresql.org/) >=9.6 ([postgresapp](http://postgresapp.com/) on a mac)
-- [Redis](https://redis.io/) (`brew install redis` on mac `redis-server` to start)
-- SMTP server (like [mailcatcher](https://mailcatcher.me/): `brew install ruby` – restart terminal – `gem install mailcatcher` then `mailcatcher`)
+- [node js](https://nodejs.org/en/) >= 8.10.0
+- [PostgreSQL](https://www.postgresql.org/) >=9.6 
+  - create a clean __concompte__ database
+  - [postgresapp](http://postgresapp.com/) on a mac
+  - [postico](https://eggerapps.at/postico/) to visualize
+- [Redis](https://redis.io/) 
+  - on a mac `brew install redis` → `redis-server` to start
+- SMTP server
+  - like [mailcatcher](https://mailcatcher.me/)
+  - on a mac `brew install ruby` → restart terminal → `gem install mailcatcher` → `mailcatcher` to start
 
 ## Tech view
 
 ### Stack:
 
-- *components*: React 16
-- *router*: React router 4 & react-router-config 1 for the universal support
-- *state*: redux 3
-- *server*: Koa 2
-- *database*: Sequelize 4
+- *components*: [React 16.3](https://reactjs.org/)
+- *router*: [React router 4](https://reacttraining.com/react-router/) & [react-router-config 1](https://www.npmjs.com/package/react-router-config) for the universal support
+- *application state*: [redux 3](https://redux.js.org/) in conjonction with:
+  - [redux thunk](https://www.npmjs.com/package/redux-thunk) for a better handling of asynchronous actions
+  - [react redux](https://github.com/reactjs/react-redux) for a better integration with React
+- *server*: [Koa 2](http://koajs.com/) for having a cleaner use of `async/await` in comparison to [express.js](https://expressjs.com/)
+- *database querying*: 
+  - [Sequelize 4](http://docs.sequelizejs.com/) for the main parts
+  - [Squel](https://hiddentao.com/squel/) for handling SQL queries creation when the sequelize API can't get it (mostly `COUNT` & `SUM`  queries)
 
 ### Build tools:
 
-- Babel 7
-- Webpack 4
-- Ava 1
+- [Babel 7](http://babeljs.io/) – still in beta but already working great
+- [Webpack 4](https://webpack.js.org/) 
+- [Ava 1](https://github.com/avajs/ava) – still in beta also –__-' waiting for Babel 7 to get out of beta for getting out ^_^
 
-## build
+## Build the app on your computer
 
-### first and always step 
+### First and always step 
 
 ```
 npm install
 ```
 
-### dev server
+### Dev server
 
 ```
 npm run dev
@@ -80,7 +111,6 @@ available:
 
 ### Universal Application
 
-- https://crypt.codemancers.com/posts/2017-06-03-reactjs-server-side-rendering-with-router-v4-and-redux/
 - https://medium.com/front-end-developers/handcrafting-an-isomorphic-redux-application-with-love-40ada4468af4
 - https://www.npmjs.com/package/react-isomorphic-render
 - https://reactjsnews.com/isomorphic-react-in-real-life
