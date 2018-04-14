@@ -9,8 +9,8 @@ Based on [codemancer code](https://crypt.codemancers.com/posts/2017-06-03-reactj
 
 - [Prerequisite](#prerequisite)
 - [Tech view](#tech-view)
-  - [Stack:](#stack)
-  - [Build tools:](#build-tools)
+  - [Stack](#stack)
+  - [Build tools](#build-tools)
 - [Build the app on your computer](#build-the-app-on-your-computer)
   - [First and always step](#first-and-always-step)
   - [Dev server](#dev-server)
@@ -61,19 +61,19 @@ As an exercice
 
 ## Tech view
 
-### Stack:
+### Stack
 
-- *components*: [React 16.3](https://reactjs.org/)
-- *router*: [React router 4](https://reacttraining.com/react-router/) & [react-router-config 1](https://www.npmjs.com/package/react-router-config) for the universal support
-- *application state*: [redux 3](https://redux.js.org/) in conjonction with:
+- *views* – [React 16.3](https://reactjs.org/)
+- *router* – [React router 4](https://reacttraining.com/react-router/) & [react-router-config 1](https://www.npmjs.com/package/react-router-config) for the universal support
+- *application state* – [redux 3](https://redux.js.org/) in conjonction with:
   - [redux thunk](https://www.npmjs.com/package/redux-thunk) for a better handling of asynchronous actions
   - [react redux](https://github.com/reactjs/react-redux) for a better integration with React
-- *server*: [Koa 2](http://koajs.com/) for having a cleaner use of `async/await` in comparison to [express.js](https://expressjs.com/)
-- *database querying*: 
+- *server* – [Koa 2](http://koajs.com/) for having a cleaner use of `async/await` in comparison to [express.js](https://expressjs.com/)
+- *database querying* 
   - [Sequelize 4](http://docs.sequelizejs.com/) for the main parts
   - [Squel](https://hiddentao.com/squel/) for handling SQL queries creation when the sequelize API can't get it (mostly `COUNT` & `SUM`  queries)
 
-### Build tools:
+### Build tools
 
 - [Babel 7](http://babeljs.io/) – still in beta but already working great
 - [Webpack 4](https://webpack.js.org/) 
