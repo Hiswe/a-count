@@ -13,12 +13,12 @@ export function ButtonList( props ) {
   )
 }
 
-export function ButtonPrint( props ) {
+export function ButtonPreview( props ) {
   return (
     <BtnIcon
       secondary
-      to={`/${props.type}/${ props.id }/print`}
-      svgId="print"
+      to={`/${props.type}/${ props.id }/preview`}
+      svgId="visibility"
     />
   )
 }

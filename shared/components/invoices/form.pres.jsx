@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { FormActions } from '../ui/form.jsx'
 import { Button      } from '../ui/buttons.jsx'
 import { Progress    } from '../ui/progress.jsx'
+import { Preview     } from '../ui/preview.jsx'
 import {
   Tab,
   Tabs,
@@ -12,7 +13,7 @@ import {
   TabListHeader,
   TabPanel,
 } from '../ui/tabs.jsx'
-import PrintInvoice        from './print.jsx'
+// import PrintInvoice        from './print.jsx'
 import InvoiceFormHeader   from './form.pres-header.jsx'
 import InvoiceEvents       from './form.pres-events.jsx'
 import ButtonShowQuotation from './button-show-quotation.jsx'
@@ -56,7 +57,7 @@ export default function InvoiceFormPres( props ) {
 
       {/* PREVIEW */}
       <TabPanel>
-        <PrintInvoice />
+        <Preview type="invoice" document={ formData } />
       </TabPanel>
     </Tabs>
   )

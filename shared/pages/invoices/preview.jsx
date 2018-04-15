@@ -11,29 +11,35 @@ import {
   ButtonList,
   ButtonEdit,
 } from '../../components/nav/secondary-buttons.jsx'
-import PrintInvoice from '../../components/invoices/print.jsx'
+import { Preview } from '../../components/ui/preview.jsx'
 
 const TYPE = `invoices`
 
-function PrintInvoicePage( props ) {
-  const { reference } = props
+function PreviewInvoicePage( props ) {
+  const { invoice } = props
+  const reference = invoice.get(`reference`)
   const { id } = props.match.params
-  const titleProps  = { id:`page.invoices.print`, values: {reference} }
+  const titleProps  = { id:`page.invoices.preview`, values: {reference} }
 
   return (
     <Fragment>
       <FormattedMessage {...titleProps} >
-        {title => <Helmet><title>{title}</title></Helmet>}
+        {title => (
+          <Helmet>
+            <title>{title}</title>
+            <body className="dark-background" />
+          </Helmet>
+        )}
       </FormattedMessage>
       <NavSecondary
         title={ <FormattedMessage {...titleProps} /> }
       >
-        <ButtonList type={TYPE} />
         <ButtonEdit type={TYPE} id={id} />
+        <ButtonList type={TYPE} />
       </NavSecondary>
       <Main>
         <Content>
-          <PrintInvoice />
+          <Preview type="invoice" document={ invoice } />
         </Content>
       </Main>
     </Fragment>
@@ -42,12 +48,12 @@ function PrintInvoicePage( props ) {
 
 function state2prop( state ) {
   return {
-    reference:  state.invoices.get( `current.reference` ),
+    invoice: state.invoices.get( `current` ),
   }
 }
 
 export default connect( state2prop )( ConnectDataFetcher({
-  Component: PrintInvoicePage,
+  Component: PreviewInvoicePage,
   actionCreators: [
     invoices.getOne,
   ],

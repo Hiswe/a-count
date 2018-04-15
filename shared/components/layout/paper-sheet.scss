@@ -11,7 +11,7 @@
   padding: var(--s-gutter);
   border-radius: var(--sheet-border-radius);
   position: relative;
-  border: 1px solid var(--c-primary-lightest);
+  border: 1px solid var(--sheet-border-color);
 
   @media #{$mq-print} {
     border: none;
@@ -199,7 +199,7 @@
     border-image-source: url('/paper-part-bottom.svg');
   }
 
-  &--print-mode {
+  &--preview-mode {
     width: 210mm;
     min-height: 296mm;
     margin: 0 auto;

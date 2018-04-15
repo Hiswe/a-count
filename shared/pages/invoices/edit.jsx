@@ -9,7 +9,7 @@ import * as invoices from '../../ducks/invoices'
 import NavSecondary from '../../components/nav/secondary.jsx'
 import {
   ButtonList,
-  ButtonPrint,
+  ButtonPreview,
   ButtonSubmit,
 } from '../../components/nav/secondary-buttons.jsx'
 import InvoiceForm, { FORM_ID } from '../../components/invoices/form.jsx'
@@ -32,8 +32,8 @@ function EditInvoice( props ) {
       >
         <ButtonSubmit formId={ FORM_ID } isSaving={ props.isSaving } />
         <ButtonShowQuotation />
-        <ButtonPrint type={ TYPE } id={ id } />
-        <ButtonList type={ TYPE } />
+        <ButtonPreview type={ TYPE } id={ id } />
+        <ButtonList    type={ TYPE }           />
       </NavSecondary>
       <InvoiceForm />
     </Fragment>

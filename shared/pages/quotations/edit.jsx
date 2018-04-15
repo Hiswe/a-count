@@ -10,7 +10,7 @@ import NavSecondary from '../../components/nav/secondary.jsx'
 import {
   ButtonNew,
   ButtonList,
-  ButtonPrint,
+  ButtonPreview,
   ButtonSubmit,
 } from '../../components/nav/secondary-buttons.jsx'
 import QuotationForm from '../../components/quotations/form.jsx'
@@ -51,9 +51,9 @@ function EditQuotation( props ) {
           quotation={ quotation }
           form={ FORM_ID }
         />
-        <ButtonPrint type={ TYPE } id={ id } />
-        <ButtonList  type={ TYPE } />
-        <ButtonNew   type={ TYPE } secondary icon />
+        <ButtonPreview type={ TYPE } id={ id }      />
+        <ButtonList    type={ TYPE }                />
+        <ButtonNew     type={ TYPE } secondary icon />
       </NavSecondary>
       <QuotationForm {...others} />
     </Fragment>

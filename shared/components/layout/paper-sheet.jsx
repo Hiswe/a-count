@@ -8,10 +8,10 @@ import './paper-sheet.scss'
 const BASE_CLASS = `paper-sheet`
 
 export function PaperSheet( props ) {
-  const { part, print } = props
+  const { part, preview } = props
   const className = [ BASE_CLASS ]
   if ( part ) className.push(`${BASE_CLASS}--part-${part}` )
-  if ( print ) className.push(`${BASE_CLASS}--print-mode` )
+  if ( preview ) className.push(`${BASE_CLASS}--preview-mode` )
   return (
     <div className={className.join(` `)}>
       { props.children }

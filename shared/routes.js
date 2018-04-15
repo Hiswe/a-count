@@ -14,11 +14,11 @@ import Home from './pages/home.jsx'
 import QuotationsList from './pages/quotations/list.jsx'
 import QuotationsNew from './pages/quotations/new.jsx'
 import QuotationsEdit from './pages/quotations/edit.jsx'
-import QuotationsPrint from './pages/quotations/print.jsx'
+import QuotationsPreview from './pages/quotations/preview.jsx'
 
 import InvoicesList from './pages/invoices/list.jsx'
 import InvoicesEdit from './pages/invoices/edit.jsx'
-import InvoicesPrint from './pages/invoices/print.jsx'
+import InvoicesPreview from './pages/invoices/preview.jsx'
 
 import CustomersList from './pages/customers/list.jsx'
 import CustomerNew from './pages/customers/new.jsx'
@@ -65,9 +65,9 @@ const routes = [{
     exact: true,
     component: authenticationRequired( QuotationsEdit ),
   }, {
-    path: `/quotations/:id/print`,
+    path: `/quotations/:id/preview`,
     exact: true,
-    component: authenticationRequired( QuotationsPrint ),
+    component: authenticationRequired( QuotationsPreview ),
   }, {
     path: `/invoices`,
     exact: true,
@@ -77,9 +77,9 @@ const routes = [{
     exact: true,
     component: authenticationRequired( InvoicesEdit ),
   }, {
-    path: `/invoices/:id/print`,
+    path: `/invoices/:id/preview`,
     exact: true,
-    component: authenticationRequired( InvoicesPrint ),
+    component: authenticationRequired( InvoicesPreview ),
   }, {
     path: `/customers`,
     exact: true,

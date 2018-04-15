@@ -13,19 +13,25 @@ import {
   ButtonList,
   ButtonEdit,
 } from '../../components/nav/secondary-buttons.jsx'
-import PrintQuotation from '../../components/quotations/print.jsx'
+import { Preview } from '../../components/ui/preview.jsx'
 
 const TYPE = `quotations`
 
-function PrintQuotationPage( props ) {
-  const { reference } = props
+function PreviewQuotationPage( props ) {
   const { id } = props.match.params
-  const titleProps  = { id:`page.quotations.print`, values: {reference} }
+  const { quotation } = props
+  const reference     = quotation.get(`reference`)
+  const titleProps    = { id:`page.quotations.preview`, values: {reference} }
 
   return (
     <Fragment>
       <FormattedMessage {...titleProps} >
-        {title => <Helmet><title>{title}</title></Helmet>}
+        {title => (
+          <Helmet>
+            <title>{title}</title>
+            <body className="dark-background" />
+          </Helmet>
+        )}
       </FormattedMessage>
       <NavSecondary
         title={ <FormattedMessage {...titleProps} /> }
@@ -36,7 +42,7 @@ function PrintQuotationPage( props ) {
       </NavSecondary>
       <Main>
         <Content>
-          <PrintQuotation />
+          <Preview type="quotation" document={ quotation } />
         </Content>
       </Main>
     </Fragment>
@@ -45,12 +51,12 @@ function PrintQuotationPage( props ) {
 
 function state2prop( state ) {
   return {
-    reference:  state.quotations.get(`current.reference`)
+    quotation: state.quotations.get(`current`),
   }
 }
 
 export default connect( state2prop )( ConnectDataFetcher({
-  Component: PrintQuotationPage,
+  Component: PreviewQuotationPage,
   actionCreators: [
     quotations.getOne,
   ],
