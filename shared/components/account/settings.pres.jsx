@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
-import { Tabs, TabList, TabListHeader, Tab, TabPanel } from '../ui/tabs.jsx'
 import { PaperSheet, Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
-import { FormActions } from '../ui/form.jsx'
+import { Alert } from '../ui/alerts.jsx'
 import { Button } from '../ui/buttons.jsx'
+import { FormActions } from '../ui/form.jsx'
+import { Tabs, TabList, TabListHeader, Tab, TabPanel } from '../ui/tabs.jsx'
 import { Input, Textarea, Select } from '../ui/field.jsx'
 import { ProductTable, ProductLineDisplay } from '../ui/table-product.jsx'
 
@@ -174,9 +175,9 @@ export default function SettingFormPres( props ) {
 
       {/* REFERENCES */}
       <TabPanel>
-        <p className={`${BASE_CLASS}__warning`}>
+        <Alert danger>
           <FormattedHTMLMessage id="configuration.reference.warning" />
-        </p>
+        </Alert>
         <div className={`${BASE_CLASS}__references`}>
           <dl className={`${BASE_CLASS}__references-section`}>
             <dt className={`${BASE_CLASS}__sub-title`}>

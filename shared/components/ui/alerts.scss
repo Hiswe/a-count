@@ -1,0 +1,15 @@
+.alert {
+  --alert-color: var(--c-primary-darker);
+  --alert-background: var(--c-primary-lightest);
+  color: var(--alert-color);
+  background: var(--alert-background);
+  text-align: center;
+  margin: 0;
+  padding: 1em;
+  border-radius: var(--s-quarter-gutter);
+
+  &--danger {
+    --alert-color: var(--c-danger);
+    --alert-background: var(--c-danger-lightest);
+  }
+}

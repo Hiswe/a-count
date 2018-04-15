@@ -39,10 +39,10 @@ $c-accent-h:    hue($c-accent) / 1deg;
 $c-accent-s:    saturation($c-accent);
 $c-accent-l:    lightness($c-accent);
 
-$c-alert:       hsl(0, 100%, 50%);
-$c-alert-h:     hue($c-alert) / 1deg;
-$c-alert-s:     saturation($c-alert);
-$c-alert-l:     lightness($c-alert);
+$c-danger:      hsl(0, 100%, 50%);
+$c-danger-h:    hue($c-danger) / 1deg;
+$c-danger-s:    saturation($c-danger);
+$c-danger-l:    lightness($c-danger);
 
 $c-black:       hsl(240, 11%, 30%);
 $c-text:        hsl(240, 11%, 30%);

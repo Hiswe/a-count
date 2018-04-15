@@ -11,9 +11,9 @@
   --c-accent-h:  $c-accent-h;
   --c-accent-s:  $c-accent-s;
   --c-accent-l:  $c-accent-l;
-  --c-alert-h:   $c-alert-h;
-  --c-alert-s:   $c-alert-s;
-  --c-alert-l:   $c-alert-l;
+  --c-danger-h:  $c-danger-h;
+  --c-danger-s:  $c-danger-s;
+  --c-danger-l:  $c-danger-l;
   --c-text-h:    $c-text-h;
   --c-text-s:    $c-text-s;
   --c-text-l:    $c-text-l;
@@ -33,10 +33,10 @@
 
   --c-background:       white;
 
-  --c-alert-darker:     HSL(var(--c-alert-h), var(--c-alert-s), 40%);
-  --c-alert:            HSL(var(--c-alert-h), var(--c-alert-s), var(--c-alert-l));
-  --c-alert-lighter:    HSL(var(--c-alert-h), var(--c-alert-s), 60%);
-  --c-alert-lightest:   HSL(var(--c-alert-h), var(--c-alert-s), 95%);
+  --c-danger-darker:     HSL(var(--c-danger-h), var(--c-danger-s), 40%);
+  --c-danger:            HSL(var(--c-danger-h), var(--c-danger-s), var(--c-danger-l));
+  --c-danger-lighter:    HSL(var(--c-danger-h), var(--c-danger-s), 60%);
+  --c-danger-lightest:   HSL(var(--c-danger-h), var(--c-danger-s), 95%);
 
   --c-text-darker:      HSL(var(--c-text-h), var(--c-text-s), 15%);
   --c-text:             HSL(var(--c-text-h), var(--c-text-s), var(--c-text-l));
@@ -63,7 +63,7 @@
   --nav-secondary-color:  var(--c-primary-darkest);
   --nav-secondary-shadow:  rgba(0, 0, 0, 0.15);
 
-  // PAPER SHEET BORDER RADIUS
+  // PAPER SHEET
   --sheet-border-radius: var(--s-quarter-gutter);
   --sheet-border-color:  var(--c-primary-lightest);
   --sheet-shadow-color: rgba(0, 0, 0, .25);

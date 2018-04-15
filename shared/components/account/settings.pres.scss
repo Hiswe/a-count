@@ -5,13 +5,6 @@
     font-weight: 700;
     font-size: 1.25rem;
   }
-  &__warning {
-    color: var(--c-alert);
-    background: var(--c-alert-lightest);
-    text-align: center;
-    margin: 0;
-    padding: 1em;
-  }
   &__user {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
