@@ -1,4 +1,6 @@
 import chalk from 'chalk'
+import fs from 'fs'
+import path from 'path'
 import serializeJS from 'serialize-javascript'
 import Router from 'koa-router'
 import React from 'react'
@@ -45,12 +47,37 @@ const reduxActionLogger = ({ getState }) => {
 const store         = createStore(reducer, {}, applyMiddleware(thunk, reduxActionLogger))
 
 // only pass a subset of the config. enough for the client side
+// • Use serialize-javascript over JSON.stringify()
+//   https://www.npmjs.com/package/serialize-javascript#overview
 const clientConfig  = serializeJS( {
   API_URL:          config.API_URL,
   API_COOKIE_NAME:  config.API_COOKIE_NAME,
   HOST_URL:         config.HOST_URL,
   APP_NAME:         config.APP_NAME,
 }, { isJSON: true } )
+
+const svgIcons = fs.readFileSync( path.join(__dirname, './svg-icons.svg'), `utf8`)
+function render( { store, content, helmet} ) {
+  return `
+<!DOCTYPE html>
+<html ${helmet.htmlAttributes.toString()}>
+  <head>
+    ${ helmet.title.toString() }
+    ${ helmet.meta.toString() }
+    ${ helmet.link.toString() }
+  </head>
+  <body ${helmet.bodyAttributes.toString()}>
+    ${ svgIcons }
+    <div id="react-main-mount">${ content }</div>
+    <script>
+      window.__CONFIG__ = ${ clientConfig }
+      window.__INITIAL_STATE__ = ${ serializeJS( store.getState(), { isJSON: true } ) }
+    </script>
+    <script src="/vendor.concompte.js"></script>
+    <script src="/concompte.js"></script>
+  </body>
+</html>`
+}
 
 router.get( '*', async (ctx, next) => {
   const { url, header } = ctx
@@ -87,6 +114,9 @@ router.get( '*', async (ctx, next) => {
   // • https://www.npmjs.com/package/react-helmet#server-usage
   const helmet = Helmet.renderStatic()
 
+  console.log(helmet.bodyAttributes.toComponent())
+  console.log(helmet.bodyAttributes.toString())
+
   // reflect status from react-router to express
   if ( staticContext.status === 302 ) {
     ctx.status = 302
@@ -97,16 +127,10 @@ router.get( '*', async (ctx, next) => {
     ctx.status = 404
   }
 
-  // Use serialize-javascript over JSON.stringify()
-  // • https://www.npmjs.com/package/serialize-javascript#overview
-  await ctx.render( `view-react`, {
-    config: clientConfig,
-    // those will be used to initialize the store client side
-    initialState: serializeJS( store.getState(), { isJSON: true } ),
-    // the right HTML produced by react ^^
-    dom: content,
-    // for HEAD tags
-    helmet,
+  ctx.body = render({
+    store,    // those will be used to initialize the store client side
+    content,  // the right HTML produced by react ^^
+    helmet,   // for HEAD tags
   })
 })
 
