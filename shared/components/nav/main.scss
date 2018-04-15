@@ -1,19 +1,12 @@
 @import '../config';
 
-:root {
-  --main-nav-bg: white;
-  --main-nav-link-color: var(--c-primary);
-  --main-nav-link-color-selected: var(--c-accent);
-}
-
 .nav-main {
-
   $root: &;
-  background: var(--main-nav-bg);
+  background: var(--nav-main-bg);
   position: fixed;
-  top: var(--s-nav-top-height);
+  top: var(--nav-secondary-height);
   left: 0;
-  width: var(--s-nav-main-width);
+  width: var(--nav-main-width);
   bottom: 0;
 
   @media #{$mq-print} {
@@ -34,7 +27,7 @@
   }
   &__item {
     text-align: center;
-    height: var(--s-nav-main-item-height);
+    height: var(--nav-main-item-height);
     display: flex;
     justify-content: center;
 
@@ -50,13 +43,13 @@
     }
   }
   a {
-    color: var(--main-nav-link-color);
+    color: var(--nav-main-link-color);
 
     &:hover {
-      color: var(--main-nav-link-color-selected);
+      color: var(--nav-main-link-color-selected);
     }
     &.is-active {
-      color: var(--main-nav-link-color-selected);
+      color: var(--nav-main-link-color-selected);
 
       &::before,
       &::after  {
@@ -81,13 +74,13 @@
   font-weight: 200;
   letter-spacing: .05em;
   text-transform: uppercase;
-  background: var(--main-nav-bg);
-  color: var(--c-primary);
+  background: var(--nav-main-bg);
+  color: var(--nav-main-link-color);
   position: fixed;
   top: 0;
   left: 0;
-  width: var(--s-nav-main-width);
-  height: var(--s-nav-top-height);
+  width: var(--nav-main-width);
+  height: var(--nav-secondary-height);
 
   @media #{$mq-print} {
     display: none;

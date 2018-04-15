@@ -1,11 +1,9 @@
 @import '../config';
 
 .nav-secondary {
-  --c-nav-secondary: white;
   --shadow-opacity: 0;
   margin: 0;
-  height: var(--s-nav-top-height);
-  background: var(--c-nav-secondary);
+  height: var(--nav-secondary-height);
 
   @media #{$mq-print} {
     display: none;
@@ -18,12 +16,12 @@
     pointer-events: none;
   }
   &__sticky {
-    color: var(--c-nav);
-    background: var(--c-nav-secondary);
+    color: var(--nav-secondary-color);
+    background: var(--nav-secondary-bg);
     padding: 0 var(--s-gutter);
     position: fixed;
-    left: var(--s-nav-main-width);
-    height: var(--s-nav-top-height);
+    left: var(--nav-main-width);
+    height: var(--nav-secondary-height);
     right: 0;
     z-index: 10;
     display: flex;
@@ -37,7 +35,7 @@
       right: 0;
       pointer-events: none;
       height: 10px;
-      background: radial-gradient(farthest-side at top, rgba(0, 0, 0, 0.15), transparent);
+      background: radial-gradient(farthest-side at top, var(--nav-secondary-shadow), transparent);
       opacity: var(--shadow-opacity);
       transition: opacity .25s;
     }

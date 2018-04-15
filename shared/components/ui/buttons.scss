@@ -73,9 +73,9 @@
 
     &-danger,
     &-secondary {
-      --button-text-color: var(--c-text);
+      --button-text-color: currentColor;
       --button-bg-color: transparent;
-      --button-text-color-hover: var(--button-text-color);
+      --button-text-color-hover: var(--c-text);
     }
 
     &-danger {

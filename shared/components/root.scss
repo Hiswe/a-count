@@ -54,13 +54,18 @@
   --s-border-radius: 0px;
 
   // NAV CONFIG
-  --c-nav:                  var(--c-primary-darkest);
-  --s-nav-main-width:       230px;
-  --s-nav-main-item-height: 50px;
-  --s-nav-top-height:       70px;
+  --nav-main-width:       230px;
+  --nav-main-item-height: 50px;
+  --nav-main-link-color:          var(--c-primary);
+  --nav-main-link-color-selected: var(--c-accent);
+  --nav-secondary-bg:     var(--c-background);
+  --nav-secondary-height: 70px;
+  --nav-secondary-color:  var(--c-primary-darkest);
+  --nav-secondary-shadow:  rgba(0, 0, 0, 0.15);
 
   // PAPER SHEET BORDER RADIUS
   --sheet-border-radius: var(--s-quarter-gutter);
+  --sheet-border-color:  var(--c-primary-lightest);
   --sheet-shadow-color: rgba(0, 0, 0, .25);
   --sheet-big-font-size: 1.5rem;
 }
@@ -102,7 +107,17 @@ fieldset {
 }
 #react-main-mount {
   min-height: 100vh;
-  margin-left: var(--s-nav-main-width);
+  margin-left: var(--nav-main-width);
+}
+
+body.dark-background {
+  --c-background: var(--c-primary);
+  --nav-secondary-bg: var(--c-primary);
+  --nav-secondary-color: white;
+  --nav-main-link-color: var(--c-primary-lightest);
+  --sheet-border-radius: 0;
+  --sheet-border-color: white;
+  --nav-secondary-shadow: rgba(0, 0, 0, 0.5);
 }
 
 ///////
