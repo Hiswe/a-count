@@ -6,6 +6,7 @@ export default {
   '_.invoices.left' : `à payer`       ,
   '_.count'         : `nombre`        ,
   '_.left-to-pay'   : `reste à payer` ,
+  '_.print-notice'  : `Dans le navigateur Firefox, n'oubliez pas de cocher la case <b>Imprimer la couleur d'arrière-plan</b>` ,
 
   'account.login.title'    : `connexion`,
   'account.login.button'   : `se connecter`,

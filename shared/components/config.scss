@@ -39,6 +39,11 @@ $c-accent-h:    hue($c-accent) / 1deg;
 $c-accent-s:    saturation($c-accent);
 $c-accent-l:    lightness($c-accent);
 
+$c-warning:     hsl(41, 100%, 50%);
+$c-warning-h:   hue($c-warning) / 1deg;
+$c-warning-s:   saturation($c-warning);
+$c-warning-l:   lightness($c-warning);
+
 $c-danger:      hsl(0, 100%, 50%);
 $c-danger-h:    hue($c-danger) / 1deg;
 $c-danger-s:    saturation($c-danger);

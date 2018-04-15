@@ -13,7 +13,8 @@ import {
   ButtonList,
   ButtonEdit,
 } from '../../components/nav/secondary-buttons.jsx'
-import { Preview } from '../../components/ui/preview.jsx'
+import { Alert } from '../../components/ui/alerts.jsx'
+import { Preview, PrintingNotice } from '../../components/ui/preview.jsx'
 
 const TYPE = `quotations`
 
@@ -42,6 +43,7 @@ function PreviewQuotationPage( props ) {
       </NavSecondary>
       <Main>
         <Content>
+          <PrintingNotice />
           <Preview type="quotation" document={ quotation } />
         </Content>
       </Main>

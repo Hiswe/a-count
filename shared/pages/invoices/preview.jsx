@@ -11,7 +11,7 @@ import {
   ButtonList,
   ButtonEdit,
 } from '../../components/nav/secondary-buttons.jsx'
-import { Preview } from '../../components/ui/preview.jsx'
+import { Preview, PrintingNotice } from '../../components/ui/preview.jsx'
 
 const TYPE = `invoices`
 
@@ -39,6 +39,7 @@ function PreviewInvoicePage( props ) {
       </NavSecondary>
       <Main>
         <Content>
+          <PrintingNotice />
           <Preview type="invoice" document={ invoice } />
         </Content>
       </Main>

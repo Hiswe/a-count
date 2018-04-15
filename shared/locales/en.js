@@ -6,6 +6,7 @@ export default {
   '_.amount'        : `amount`          ,
   '_.count'         : `count`           ,
   '_.left-to-pay'   : `left to be paid` ,
+  '_.print-notice'  : `In Firefox browser, don't forget to check the <b>Print Background Color</b> checkbox` ,
 
   'account.login.title'    : `login`,
   'account.login.button'   : `connect`,
