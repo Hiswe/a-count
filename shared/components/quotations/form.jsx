@@ -6,7 +6,7 @@ import crio from 'crio'
 
 import * as quotations from '../../ducks/quotations'
 import * as customers from '../../ducks/customers'
-import needRedirect from '../utils/need-redirection.js'
+import { isNewQuotation, isNewInvoice } from '../utils/check-redirection.js'
 import recomputeQuotationProducts from '../utils/recompute-quotation-products.js'
 
 import Spinner from '../ui/spinner.jsx'
@@ -47,8 +47,9 @@ class QuotationForm extends Component {
     const { history, customers, isSaving } = nextProps
     if ( isSaving ) return null
     if ( current === next ) return null
-    // redirect if new customer
-    if ( needRedirect(current, next) ) history.push( `/quotations/${next.id}` )
+    // redirects
+    if ( isNewQuotation(current, next) ) history.push( `/quotations/${next.id}` )
+    if ( isNewInvoice(current, next) )  history.push( `/invoices/${next.invoiceId}` )
     return {
       formData: QuotationForm.recomputeFormData( next ),
       customer: QuotationForm.getCustomerData( next, customers ),

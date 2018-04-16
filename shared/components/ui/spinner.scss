@@ -7,10 +7,10 @@
   top: 0;
   right: 0;
   bottom: 0;
-  left: var(--s-nav-main-width);
+  left: var(--nav-main-width);
   pointer-events: none;
   color: transparent;
-  background: linear-gradient(white var(--s-nav-top-height), transparent var(--s-nav-top-height));
+  background: linear-gradient(white var(--nav-secondary-height), transparent var(--nav-secondary-height));
 
   &::after {
     content: '';
