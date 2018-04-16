@@ -142,8 +142,9 @@ body.dark-background {
 @media #{$mq-print} {
 
   :root {
-    --s-nav-main-width: 0;
-    --s-nav-top-height: 0;
+    --nav-main-width: 0;
+    --nav-top-height: 0;
+    --c-background: white;
   }
 
   html,

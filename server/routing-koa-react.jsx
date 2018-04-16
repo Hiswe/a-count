@@ -28,7 +28,8 @@ if ( !areIntlLocalesSupported([`en`, `fr`]) ) {
   Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat
 }
 
-const router = new Router()
+const SVG_ICONS_PATH = path.join(__dirname, './svg-icons.svg')
+const router         = new Router()
 
 // simple server side action logger
 // • for the creation of a custom middleware see:
@@ -56,7 +57,7 @@ const clientConfig  = serializeJS( {
   APP_NAME:         config.APP_NAME,
 }, { isJSON: true } )
 
-const svgIcons = fs.readFileSync( path.join(__dirname, './svg-icons.svg'), `utf8`)
+const svgIcons = fs.readFileSync( SVG_ICONS_PATH, `utf8`)
 function render( { store, content, helmet} ) {
   return `
 <!DOCTYPE html>
@@ -113,9 +114,6 @@ router.get( '*', async (ctx, next) => {
   // render HEAD tags
   // • https://www.npmjs.com/package/react-helmet#server-usage
   const helmet = Helmet.renderStatic()
-
-  console.log(helmet.bodyAttributes.toComponent())
-  console.log(helmet.bodyAttributes.toString())
 
   // reflect status from react-router to express
   if ( staticContext.status === 302 ) {
