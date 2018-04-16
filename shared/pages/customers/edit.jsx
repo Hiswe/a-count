@@ -42,7 +42,7 @@ import CustomerForm, {
   FormContext,
 } from '../../components/customers/form.jsx'
 import CustomerFormPres from '../../components/customers/form.pres.jsx'
-import QuotationsList   from '../../components/quotations/list.jsx'
+import { CustomerQuotations }   from '../../components/quotations/list.jsx'
 import InvoicesList     from '../../components/invoices/list.jsx'
 
 const TYPE = `customers`
@@ -105,11 +105,11 @@ function EditCustomer( props ) {
           </TabList>
           {/* QUOTATIONS */}
           <TabPanel>
-            <QuotationsList showCustomer={false} quotations={ quotations } />
+            <CustomerQuotations />
           </TabPanel>
           {/* INVOICES */}
           <TabPanel>
-            <InvoicesList showCustomer={false} invoices={ invoices } />
+            <InvoicesList showCustomer={ false } invoices={ invoices } />
           </TabPanel>
           {/* CUSTOMER FORM */}
           <TabPanel>

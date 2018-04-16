@@ -90,7 +90,7 @@ function filterColumns({ hideInvoice, hideCustomer }) {
   return columns
 }
 
-export function QuotationsList( props ) {
+function QuotationsList( props ) {
   const {
     quotations,
     meta,
@@ -123,5 +123,37 @@ export function QuotationsList( props ) {
     </Table>
   )
 }
+
+export const ActiveQuotations = connect(
+  state => ({
+    quotations:   state.quotations.get(`active`),
+    meta:         state.quotations.get(`meta.active`),
+    hideInvoice:  true,
+  }),
+  dispatch => ( bindActionCreators({
+    handlePagination: quotations.getActive
+  }, dispatch ))
+)( QuotationsList )
+
+export const QuotationsReadyToInvoice = connect(
+  state => ({
+    quotations:   state.quotations.get(`readyToInvoice`),
+    meta:         state.quotations.get(`meta.readyToInvoice`),
+  }),
+  dispatch => ( bindActionCreators({
+    handlePagination: quotations.getReadyToInvoice
+  }, dispatch ))
+)( QuotationsList )
+
+export const CustomerQuotations = connect(
+  state => ({
+    quotations:   state.quotations.get(`active`),
+    meta:         state.quotations.get(`meta.active`),
+    hideCustomer: true,
+  }),
+  dispatch => ( bindActionCreators({
+    handlePagination: quotations.getAllForCustomer
+  }, dispatch ))
+)( QuotationsList )
 
 export default QuotationsList

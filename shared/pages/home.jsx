@@ -11,15 +11,17 @@ import * as invoices from '../ducks/invoices.js'
 import NavSecondary from '../components/nav/secondary.jsx'
 import { ButtonNew } from '../components/nav/secondary-buttons.jsx'
 import { Main, Content } from '../components/layout/main.jsx'
-import QuotationsList from '../components/quotations/list.jsx'
 import InvoicesList from '../components/invoices/list.jsx'
 import { Amount, FormatNumber } from '../components/ui/format.jsx'
 import { PieChart, PieChartDefs } from '../components/ui/pie-chart.jsx'
+import {
+  ActiveQuotations,
+  QuotationsReadyToInvoice,
+} from '../components/quotations/list.jsx'
 
 function Home( props ) {
   const {
     statistics,
-    quotationsActive,
     quotationsReadyToInvoice,
     invoices,
   } = props
@@ -67,13 +69,13 @@ function Home( props ) {
           <h3>
             <FormattedMessage id="page.quotations" />
           </h3>
-          <QuotationsList quotations={ quotationsActive } hideInvoice />
+          <ActiveQuotations />
           { quotationsReadyToInvoice.length > 0 && (
           <Fragment>
             <h3>
               <FormattedMessage id="quotation.ready-to-invoice" />
             </h3>
-            <QuotationsList quotations={ quotationsReadyToInvoice } />
+            <QuotationsReadyToInvoice />
           </Fragment>
           )}
           <h3>
@@ -88,8 +90,7 @@ function Home( props ) {
 
 function state2props( state ) {
   return {
-    statistics              : state.account.get(`statistics`),
-    quotationsActive        : state.quotations.get( `active` ),
+    statistics              : state.account.get( `statistics` ),
     quotationsReadyToInvoice: state.quotations.get( `readyToInvoice` ),
     invoices                : state.invoices.get( `list` ),
   }
