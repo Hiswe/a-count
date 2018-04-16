@@ -27,10 +27,9 @@ const CLIENT_CONFIG  = serializeJS( {
 const SVG_ICONS_PATH = path.join(__dirname, './svg-icons.svg')
 const SVG_ICONS      = fs.readFileSync( SVG_ICONS_PATH, `utf8`)
 
-export function reactApp( { store, content, helmet} ) {
+export function reactApp({ store, content, helmet}) {
   const INITIAL_STATE = serializeJS( store.getState(), { isJSON: true } )
-  return `
-<!DOCTYPE html>
+  return `<!DOCTYPE html>
 <html ${helmet.htmlAttributes.toString()}>
   <head>
     ${ helmet.title.toString() }
@@ -46,6 +45,29 @@ export function reactApp( { store, content, helmet} ) {
     </script>
     <script src="/vendor.concompte.js"></script>
     <script src="/concompte.js"></script>
+  </body>
+</html>`
+}
+
+function renderStackTrace( stacktrace ) {
+  if (!stacktrace) return ``
+  stacktrace = Array.isArray( stacktrace ) ? stacktrace.join(`\n`) : stacktrace
+  return `<pre>${stacktrace}</pre>`
+}
+
+export function errorPage({reason, stacktrace}) {
+
+return `<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <main role="main">
+      <h1>[SERVER] error</h1>
+      <h2>${ reason }</h2>
+      <hr />
+      ${ renderStackTrace(stacktrace) }
+    </main>
   </body>
 </html>`
 }

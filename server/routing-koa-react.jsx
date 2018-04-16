@@ -63,11 +63,11 @@ router.get( '*', async (ctx, next) => {
       </StaticRouter>
     </Provider>
   )
-  // render HEAD tags
+  // render tags outside the app (meta, links…)
   // • https://www.npmjs.com/package/react-helmet#server-usage
   const helmet = Helmet.renderStatic()
 
-  // reflect status from react-router to express
+  // reflect status from react-router to koa
   if ( staticContext.status === 302 ) {
     ctx.status = 302
     log( `redirect` )

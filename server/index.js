@@ -7,7 +7,6 @@ import bodyParser from 'koa-body'
 import serveStatic from 'koa-static'
 import compress from 'koa-compress'
 import logger from 'koa-logger'
-import views from 'koa-views'
 import json from 'koa-json'
 import Router from 'koa-router'
 
@@ -15,6 +14,7 @@ import config from './config.js'
 import log from './log.js'
 import apiBackupRoutes from './routing-api-backup.js'
 import reactRoutes from './routing-koa-react.jsx'
+import * as render from './render'
 
 //////
 // SERVER CONFIG
@@ -28,10 +28,6 @@ app.use( serveStatic(path.join(__dirname, `./public`)) )
 
 // format json https://github.com/koajs/json
 app.use( json() )
-// templates:
-// • even if React is used for the most part pug is still used for wrappers & error
-// • BUT with react-helmet that's getting less relevant…
-app.use( views( __dirname, {extension: `pug`}) )
 
 //----- LOGGING
 
@@ -49,9 +45,9 @@ app.use( async (ctx, next) => {
     // 404 are already handled by REACT
     // no need to render the 404 here ^^
   } catch (err) {
-    ctx.status = err.statusCode || err.status || 500
     console.log( inspect(err, {colors: true}) )
-    await ctx.render(`view-error`, {
+    ctx.status  = err.statusCode || err.status || 500
+    ctx.body    = render.errorPage({
       reason: err.message,
       stacktrace: err.stacktrace || err.stack || false,
     })
