@@ -7,7 +7,7 @@
   "author": "Hiswe <hiswehalya@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "npm run build && parallelshell \"npm run server\" \"npm run api\"",
+    "start": "npm run build && parallelshell \"npm run serve:api\" \"npm run serve:app\"",
     "test": "ava --verbose",
     "build": "npm run build:icons && build:app",
     "build:icons": "gulp icons",
@@ -59,7 +59,7 @@
     "jsonwebtoken": "^8.2.1",
     "koa": "^2.5.0",
     "koa-body": "^2.5.0",
-    "koa-compress": "^2.1.0",
+    "koa-compress": "^3.0.0",
     "koa-json": "^2.0.2",
     "koa-jwt": "^3.3.1",
     "koa-logger": "^3.2.0",

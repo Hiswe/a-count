@@ -83,8 +83,7 @@ export default function QuotationTable( props ) {
   const {
     quotations,
     hideInvoice  = false,
-    showCustomer = true,
-    hideCustomer = true,
+    hideCustomer = false,
   } = props
   const hasQuotations = Array.isArray( quotations ) && quotations.length > 0
   let columns = defaultColumns
