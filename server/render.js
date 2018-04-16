@@ -1,8 +1,19 @@
 import fs from 'fs'
 import path from 'path'
 import serializeJS from 'serialize-javascript'
+import IntlPolyfill from 'intl'
+import areIntlLocalesSupported from 'intl-locales-supported'
 
 import config from './config.js'
+
+// I18N SETUP
+// • node only has `en` locales
+// • polyfill the other languages
+//   https://formatjs.io/guides/runtime-environments/#polyfill-node
+if ( !areIntlLocalesSupported([`en`, `fr`]) ) {
+  Intl.NumberFormat   = IntlPolyfill.NumberFormat
+  Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat
+}
 
 // only pass a subset of the config. enough for the client side
 // • Use serialize-javascript over JSON.stringify()
