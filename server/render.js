@@ -24,7 +24,7 @@ const CLIENT_CONFIG  = serializeJS( {
   HOST_URL:         config.HOST_URL,
   APP_NAME:         config.APP_NAME,
 }, { isJSON: true } )
-const SVG_ICONS_PATH = path.join(__dirname, './svg-icons.svg')
+const SVG_ICONS_PATH = path.join(__dirname, './public/svg-icons.svg')
 const SVG_ICONS      = fs.readFileSync( SVG_ICONS_PATH, `utf8`)
 
 export function reactApp({ store, content, helmet}) {
