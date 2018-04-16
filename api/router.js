@@ -63,6 +63,26 @@ apiRouter.use( async function isAuthorizedRoute(ctx, next) {
   await next()
 })
 
+//----- DEFAULT QUERY PARAMS
+
+const defaultParams = {
+  limit: 10,
+  page:  1,
+  order: [
+    [`updatedAt`, `DESC`],
+  ],
+}
+
+apiRouter.use( async function getDefaultQueryParams( ctx, next) {
+  const { query }   = ctx.request
+  const dbQuery     = merge({}, defaultParams, query)
+  dbQuery.limit     = parseInt( dbQuery.limit, 10 )
+  dbQuery.page      = parseInt( dbQuery.page, 10 )
+  dbQuery.offset    = (dbQuery.page - 1) * dbQuery.limit
+  ctx.state.dbQuery = dbQuery
+  await next()
+})
+
 //----- MOUNT
 
 apiRouter.use( routerAccount.private.routes() )

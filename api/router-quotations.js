@@ -8,6 +8,7 @@ const   omit      = require( 'lodash.omit'  )
 
 const { normalizeString } = require( './utils/db-getter-setter'     )
 const   addRelations      = require( './utils/db-default-relations' )
+const   formatList        = require( './utils/db-format-list'       )
 const   cleanProducts     = require( './utils/clean-products'       )
 const   User              = require( './db/model-user'              )
 const   Customer          = require( './db/model-customer'          )
@@ -38,9 +39,10 @@ const MESSAGES = Object.freeze({
 
 router
 .get(`/`, async (ctx, next) => {
-  const { userId }  = ctx.state
+  const { userId, dbQuery } = ctx.state
+  //
   // get all not ready to have invoice
-  const params      = addRelations.quotation({
+  const params      = addRelations.quotations({
     where: {
       userId,
       invoiceId  : { $eq : null },
@@ -52,18 +54,15 @@ router
         total       : { $eq : 0    },
       },
     },
+    ...dbQuery,
   })
-  const list = await Quotation.findAll( params )
+  const list  = await Quotation.findAndCount( params )
 
-  // put response in a “list“ key
-  // • we will add pagination information later
-  ctx.body = {
-    list: list.map( c => c.toJSON() ),
-  }
+  ctx.body = formatList({list, dbQuery})
 })
 .get(`/ready-to-invoice`, async (ctx, next) => {
-  const { userId }  = ctx.state
-  const params      = addRelations.quotation({
+  const { userId, dbQuery } = ctx.state
+  const params      = addRelations.quotations({
     where: {
       userId,
       invoiceId   : { $eq  : null },
@@ -72,16 +71,12 @@ router
       validatedAt : { $not : null },
       signedAt    : { $not : null },
       total       : { $not : 0    },
-    }
-
+    },
+    ...dbQuery
   })
-  const list = await Quotation.findAll( params )
-  // put response in a “list“ key
-  // • we will add pagination information later
-  ctx.body = {
-    list: list.map( c => c.toJSON() ),
-  }
+  const list = await Quotation.findAndCount( params )
 
+  ctx.body = formatList({list, dbQuery})
 })
 
 //----- NEW
