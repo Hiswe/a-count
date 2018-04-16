@@ -12,6 +12,7 @@ import {
   ButtonNew,
   ButtonList,
   ButtonEdit,
+  ButtonPrint,
 } from '../../components/nav/secondary-buttons.jsx'
 import { Alert } from '../../components/ui/alerts.jsx'
 import { Preview, PrintingNotice } from '../../components/ui/preview.jsx'
@@ -38,6 +39,7 @@ function PreviewQuotationPage( props ) {
         title={ <FormattedMessage {...titleProps} /> }
       >
         <ButtonEdit type={ TYPE } id={id} />
+        <ButtonPrint />
         <ButtonList type={ TYPE } />
         <ButtonNew  type={ TYPE } secondary icon  />
       </NavSecondary>

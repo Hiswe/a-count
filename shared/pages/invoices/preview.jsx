@@ -10,6 +10,7 @@ import NavSecondary from '../../components/nav/secondary.jsx'
 import {
   ButtonList,
   ButtonEdit,
+  ButtonPrint,
 } from '../../components/nav/secondary-buttons.jsx'
 import { Preview, PrintingNotice } from '../../components/ui/preview.jsx'
 
@@ -35,6 +36,7 @@ function PreviewInvoicePage( props ) {
         title={ <FormattedMessage {...titleProps} /> }
       >
         <ButtonEdit type={TYPE} id={id} />
+        <ButtonPrint />
         <ButtonList type={TYPE} />
       </NavSecondary>
       <Main>

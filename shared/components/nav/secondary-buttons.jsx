@@ -23,6 +23,16 @@ export function ButtonPreview( props ) {
   )
 }
 
+export function ButtonPrint( props ) {
+  return (
+    <BtnIcon
+      secondary
+      svgId="print"
+      onClick={ event => window.print() }
+    />
+  )
+}
+
 export function ButtonEdit( props ) {
   return (
     <BtnIcon
