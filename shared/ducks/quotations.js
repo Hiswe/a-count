@@ -10,13 +10,17 @@ export const GET_READY_INVOICE    = createActionNames( NAME, `get`  , `ready-to-
 export const GET_ALL_FOR_CUSTOMER = createActionNames( NAME, `get`  , `all-for-customer` )
 export const GET_ONE              = createActionNames( NAME, `get`  , `one`              )
 export const SAVE_ONE             = createActionNames( NAME, `post` , `one`              )
-export const ARCHIVE              = createActionNames( NAME, `post` , `archive`              )
+export const ARCHIVE              = createActionNames( NAME, `post` , `archive`          )
 export const CREATE_INVOICE       = createActionNames( NAME, `post` , `convert`          )
 
 const initialState = crio({
-  isSaving:       false,
-  active:         [],
-  readyToInvoice: [],
+  isSaving: false,
+  active:   [],
+  meta:     {
+    active:         {},
+    readyToInvoice: {},
+  },
+  readyToInvoice:   [],
   current:    {
     isLoading: true,
   },
@@ -29,10 +33,12 @@ export default function reducer(state = initialState, action) {
 
     case GET_ACTIVE.SUCCESS:
     case GET_ALL_FOR_CUSTOMER.SUCCESS:
-      return state.set( `active`, payload.list )
+      state = state.set( `active`, payload.rows )
+      return  state.set( `meta.active`, payload.meta )
 
     case GET_READY_INVOICE.SUCCESS:
-      return state.set( `readyToInvoice`, payload.list )
+      state = state.set( `readyToInvoice`, payload.rows )
+      return  state.set( `meta.readyToInvoice`, payload.meta )
 
     case GET_ONE.LOADING:
       return state.set( `current`, {

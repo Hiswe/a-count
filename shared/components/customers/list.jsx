@@ -42,6 +42,7 @@ function CustomerList( props ) {
   const hasCustomer = Array.isArray( customers ) && customers.length
   return (
     <Table
+      presentation
       columns={[
         {
           label: `table.header.name`,
@@ -63,7 +64,6 @@ function CustomerList( props ) {
           label: `table.amount.paid`,
         },
       ]}
-      className="table--pres"
     >
       {
         !hasCustomer ? ( <EmptyLine colSpan="6" /> )

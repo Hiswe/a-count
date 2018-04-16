@@ -1,13 +1,26 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import classNames from 'classnames'
 
 import './table.scss'
+const BASE_CLASS = `table`
 
 export function normalizeColumns( columns ) {
   if (typeof columns === `string`) {
     return columns.split(`,`).map( c => ({label: c.trim()}))
   }
   return columns
+}
+
+export function Thead( props ) {
+  const { columns } = props
+  return (
+    <thead>
+      <tr>
+        { columns.map( (c, i) => (<Th key={i} {...c} />) ) }
+      </tr>
+    </thead>
+  )
 }
 
 export function Th( props ) {
@@ -19,14 +32,12 @@ export function Th( props ) {
   )
 }
 
-export function Thead( props ) {
-  const { columns } = props
+export function Pagination( props ) {
+  const { meta, handlePagination } = props
   return (
-    <thead>
-      <tr>
-        { columns.map( (c, i) => (<Th key={i} {...c} />) ) }
-      </tr>
-    </thead>
+    <footer className={`${BASE_CLASS}__pagination`}>
+      <FormattedMessage id="table.pagination" values={ meta } />
+    </footer>
   )
 }
 
@@ -42,18 +53,29 @@ export function EmptyLine( props ) {
 }
 
 export function Table( props ) {
-  const columns = normalizeColumns( props.columns )
+  let { className, presentation, columns, handlePagination } = props
+  columns = normalizeColumns( columns )
   const hasFooter = props.footer != null
-  const COMP_CLASS = [`table`]
-  if ( props.className ) COMP_CLASS.push( props.className )
+  const hasMeta   = props.meta   != null
+  const COMP_CLASS = classNames( BASE_CLASS, className, {
+    [`${BASE_CLASS}--presentation`]: presentation,
+  })
   return (
-    <table className={COMP_CLASS.join(` `)} cellSpacing="0">
-      <Thead columns={columns} />
-      <tbody>
-        { props.children }
-      </tbody>
-      { hasFooter && props.footer }
-    </table>
+    <div className={ COMP_CLASS }>
+      <table cellSpacing="0">
+        <Thead columns={ columns } />
+        <tbody>
+          { props.children }
+        </tbody>
+        { hasFooter && props.footer }
+      </table>
+      { hasMeta && (
+        <Pagination
+          meta={ props.meta }
+          handlePagination={ handlePagination }
+        />
+      )}
+    </div>
   )
 }
 

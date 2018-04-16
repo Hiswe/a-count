@@ -64,7 +64,7 @@ export default function InvoiceList( props ) {
   const columnCount = columns.length
   return (
     <Table
-      className="table--pres"
+      presentation
       columns={ columns }
     >
       {

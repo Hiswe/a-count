@@ -5,12 +5,12 @@ import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
 
 import * as quotations from '../../ducks/quotations.js'
-import { Table, EmptyLine } from '../ui/table.jsx'
-import { Amount, Date } from '../ui/format.jsx'
-import { Button } from '../ui/buttons.jsx'
+import { Table , EmptyLine } from '../ui/table.jsx'
+import { Amount, Date      } from '../ui/format.jsx'
+import { Button            } from '../ui/buttons.jsx'
 import ButtonArchiveQuotation from './button-archive-quotation.jsx'
-import ButtonCreateInvoice from './button-create-invoice.jsx'
-import ButtonShowInvoice from './button-show-invoice.jsx'
+import ButtonCreateInvoice    from './button-create-invoice.jsx'
+import ButtonShowInvoice      from './button-show-invoice.jsx'
 
 function QuotationRow( props ) {
   const { quotation, hideCustomer, hideInvoice } = props
@@ -79,26 +79,35 @@ const defaultColumns = [
   {label: false },
 ]
 
-export default function QuotationTable( props ) {
+const filterColumn = key =>  col => col.label !== key
+
+function filterColumns({ hideInvoice, hideCustomer }) {
+  let columns = defaultColumns
+  if ( hideCustomer ) {
+    columns = columns.filter( filterColumn(`table.header.customer`) )
+  }
+  if ( hideInvoice ) {
+    columns = columns.filter( filterColumn(`table.header.invoice`) )
+  }
+  return columns
+}
+
+export function QuotationsList( props ) {
   const {
     quotations,
+    meta,
     hideInvoice  = false,
     hideCustomer = false,
   } = props
-  const hasQuotations = Array.isArray( quotations ) && quotations.length > 0
-  let columns = defaultColumns
-  if ( hideCustomer ) {
-    columns = columns.filter( col => col.label !== `table.header.customer` )
-  }
-  if ( hideInvoice ) {
-    columns = columns.filter( col => col.label !== `table.header.invoice` )
-  }
-  const columnCount = columns.length
+  const hasQuotations  = Array.isArray( quotations ) && quotations.length > 0
+  const columns        = filterColumns({ hideInvoice, hideCustomer })
+  const columnCount    = columns.length
 
   return (
     <Table
+      presentation
       columns={ columns }
-      className="table--pres"
+      meta={ meta }
     >
     {
       !hasQuotations ? ( <EmptyLine colSpan={ columnCount } /> )
@@ -113,6 +122,6 @@ export default function QuotationTable( props ) {
     }
     </Table>
   )
-
 }
 
+export default QuotationsList

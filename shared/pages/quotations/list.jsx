@@ -7,15 +7,15 @@ import { Helmet } from 'react-helmet'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
 import * as quotations from '../../ducks/quotations'
-import { Main, Content } from '../../components/layout/main.jsx'
-import NavSecondary from '../../components/nav/secondary.jsx'
-import { ButtonNew } from '../../components/nav/secondary-buttons.jsx'
-import QuotationsList from '../../components/quotations/list.jsx'
+import { Main, Content  } from '../../components/layout/main.jsx'
+import { NavSecondary   } from '../../components/nav/secondary.jsx'
+import { ButtonNew      } from '../../components/nav/secondary-buttons.jsx'
+import { QuotationsList } from '../../components/quotations/list.jsx'
 
 const TYPE = `quotations`
 
 function Quotations( props ) {
-  const { active, readyToInvoice } = props
+  const { active, readyToInvoice, meta } = props
   const titleProps = { id: `page.quotations` }
 
   return (
@@ -30,13 +30,22 @@ function Quotations( props ) {
       </NavSecondary>
       <Main>
         <Content>
-          <QuotationsList quotations={ active } hideInvoice />
+          <QuotationsList
+            hideInvoice
+            meta={ meta.get(`active`) }
+            handlePagination={ props.getActive }
+            quotations={ active }
+          />
           { readyToInvoice.length > 0 && (
           <Fragment>
             <h3>
               <FormattedMessage id="quotation.ready-to-invoice" />
             </h3>
-            <QuotationsList quotations={ readyToInvoice } />
+            <QuotationsList
+              meta={ meta.get(`readyToInvoice`) }
+              handlePagination={ props.getReadyToInvoice }
+              quotations={ readyToInvoice }
+            />
           </Fragment>
           )}
         </Content>
@@ -49,10 +58,18 @@ function state2prop( state ) {
   return {
     active:         state.quotations.get(`active`),
     readyToInvoice: state.quotations.get(`readyToInvoice`),
+    meta:           state.quotations.get(`meta`),
   }
 }
 
-export default connect( state2prop )( ConnectDataFetcher({
+function dispatch2prop( dispatch ) {
+  return bindActionCreators({
+    getActive        : quotations.getActive,
+    getReadyToInvoice: quotations.getReadyToInvoice,
+  }, dispatch)
+}
+
+export default connect( state2prop, dispatch2prop )( ConnectDataFetcher({
   Component: Quotations,
   actionCreators: [
     quotations.getActive,

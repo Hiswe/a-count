@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import './secondary.scss'
 const BASE_CLASS = `nav-secondary`
 
-export default class NavSecondary extends PureComponent {
+export class NavSecondary extends PureComponent {
 
   constructor( props ) {
     super( props )
@@ -70,3 +70,5 @@ export default class NavSecondary extends PureComponent {
     )
   }
 }
+
+export default NavSecondary

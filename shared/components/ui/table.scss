@@ -7,9 +7,17 @@
   --table-border-color: var(--c-primary-lighter);
   --table-header-border-color: var(--c-primary);
   --table-header-bg-color: var(--c-primary-darker);
-  border-collapse: collapse;
-  border-radius: var(--s-border-radius);
-  width: 100%;
+
+  &__pagination {
+    padding: 1em 0;
+    text-align: right;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-radius: var(--s-border-radius);
+    width: 100%;
+  }
 
   a {
     color: var(--c-accent);
@@ -130,7 +138,8 @@
     display: block;
   }
 
-  &--pres {
+  &--pres,
+  &--presentation {
     tbody tr:nth-child(even) {
       background: var(--c-primary-white);
     }
