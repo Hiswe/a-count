@@ -4,6 +4,7 @@ const Router = require( 'koa-router' )
 
 const { sequelize       } = require( './db'                        )
 const   dbColumns         = require( './utils/db-sub-queries'      )
+const   formatList        = require( './utils/db-format-list'      )
 const   Customer          = require( './db/model-customer'         )
 const   Quotation         = require( './db/model-quotation'        )
 const   QuotationConfig   = require( './db/model-quotation-config' )
@@ -74,9 +75,9 @@ router
   ctx.body        = customer
 })
 .get(`/:id/quotations`, async (ctx, next) => {
-  const { userId }  = ctx.state
-  const { id }      = ctx.params
-  const query       = {
+  const { userId, dbQuery } = ctx.state
+  const { id } = ctx.params
+  const query  = {
     where: {
       userId,
       customerId: id,
@@ -99,10 +100,12 @@ router
     include: [{
       model: QuotationConfig,
       attributes: [`startAt`, `prefix`],
-    }]
+    }],
+    ...dbQuery
   }
-  const quotations  = await Quotation.findAll( query )
-  ctx.body = {list: quotations}
+  const list  = await Quotation.findAndCount( query )
+
+  ctx.body = formatList({list, dbQuery})
 })
 .get(`/:id/invoices`, async (ctx, next) => {
   const { userId }  = ctx.state

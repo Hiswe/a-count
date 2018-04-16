@@ -40,7 +40,6 @@ const MESSAGES = Object.freeze({
 router
 .get(`/`, async (ctx, next) => {
   const { userId, dbQuery } = ctx.state
-  //
   // get all not ready to have invoice
   const params      = addRelations.quotations({
     where: {

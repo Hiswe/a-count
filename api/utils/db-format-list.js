@@ -3,8 +3,8 @@
 module.exports = function formatList({list, dbQuery}) {
   const { page, limit } = dbQuery
   const pages     = Math.ceil(list.count / limit)
-  const start     = page * limit
-  const end       = start + list.rows.length
+  const start     = (page  - 1) * limit + 1
+  const end       = start + list.rows.length - 1
   return {
     meta: {
       start,
