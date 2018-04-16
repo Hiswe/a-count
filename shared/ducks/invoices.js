@@ -49,7 +49,7 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export const getAll = ({params, cookie}) => async dispatch => {
+export const getAll = (params, cookie) => async dispatch => {
   const options = {
     url: `${NAME}`,
   }
@@ -60,7 +60,7 @@ export const getAll = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const getAllForCustomer = ({params, cookie}) => async dispatch => {
+export const getAllForCustomer = (params, cookie) => async dispatch => {
   const { id } = params
   const options = {
     url: `/customers/${ id }/${NAME}`,
@@ -72,7 +72,7 @@ export const getAllForCustomer = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const getOne = ({params, cookie}) => async dispatch => {
+export const getOne = (params, cookie) => async dispatch => {
   const { id }  = params
   const options = {
     url: `${ NAME }/${ id }`,
@@ -84,7 +84,7 @@ export const getOne = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const saveOne = ({params, cookie}) => async dispatch => {
+export const saveOne = (params, cookie) => async dispatch => {
   const { body }  = params
   const { id }    = body
   const options   = {

@@ -1,8 +1,9 @@
 import 'isomorphic-fetch'
-import merge from 'lodash.merge'
-import isNil from 'lodash.isnil'
-import urlJoin from 'url-join'
-import Cookies from 'js-cookie'
+import merge       from 'lodash.merge'
+import isNil       from 'lodash.isnil'
+import urlJoin     from 'url-join'
+import Cookies     from 'js-cookie'
+import queryString from 'query-string'
 
 import config from './isomorphic-config.js'
 
@@ -20,19 +21,27 @@ const defaultOptions = {
 }
 
 function create( method ) {
-  const options = merge( {}, defaultOptions, {
+  const fetchOptions = merge( {}, defaultOptions, {
     method: method.toUpperCase()
   })
-  if ( options.method === `POST` ) {
-    options.headers[`Content-Type`] = `application/json`
+  // we communicate to the API only in json
+  if ( method === `post` ) {
+    fetchOptions.headers[`Content-Type`] = `application/json`
   }
 
-  return async function( params, cookie ) {
-    const { url, body } = params
-    if ( options.method === `POST` ) options.body = JSON.stringify( body )
-    if ( cookie ) options.headers.Cookie = cookie
+  return async function( options, cookie ) {
+    const { url, body, query } = options
+    // set body on post
+    if ( method === `post` ) fetchOptions.body = JSON.stringify( body )
+    // force cookie if server side
+    if ( cookie ) fetchOptions.headers.Cookie = cookie
+    // Build fetch url
+    // • we need to append the query string as the fetch API doesn't handle other ways
+    let fetchUrl = urlJoin( config.API_URL, url )
+    if ( query ) fetchUrl = urlJoin( fetchUrl, `?${queryString.stringify( query )}`)
+
     try {
-      const response  = await fetch( urlJoin(config.API_URL, url), options )
+      const response  = await fetch( fetchUrl, fetchOptions )
       const payload   = await response.json()
       if ( !response.ok ) {
         merge( payload, {
@@ -42,6 +51,7 @@ function create( method ) {
         })
       }
       // copy access token to a cookie
+      // • we will need this cookie for universal render
       if ( process.env.BROWSER ) {
         const accessToken = payload.access_token
         if ( !isNil( accessToken ) ) {
@@ -49,7 +59,7 @@ function create( method ) {
           delete payload.access_token
         }
       }
-      return { response, payload}
+      return { response, payload }
     } catch(err) {
       const error = merge({
         error:      true,
@@ -63,5 +73,5 @@ function create( method ) {
 
 //----- EXPORTS
 
-export const get = create( `get` )
+export const get  = create( `get`  )
 export const post = create( `post` )

@@ -65,8 +65,6 @@ function QuotationRow( props ) {
   )
 }
 
-//----- ALL
-
 const defaultColumns = [
   {label: `table.header.id`},
   {label: `table.header.name`},
@@ -79,7 +77,7 @@ const defaultColumns = [
   {label: false },
 ]
 
-const filterColumn = key =>  col => col.label !== key
+const filterColumn = key => column => column.label !== key
 
 function filterColumns({ hideInvoice, hideCustomer }) {
   let columns = defaultColumns
@@ -96,6 +94,7 @@ export function QuotationsList( props ) {
   const {
     quotations,
     meta,
+    handlePagination,
     hideInvoice  = false,
     hideCustomer = false,
   } = props
@@ -108,6 +107,7 @@ export function QuotationsList( props ) {
       presentation
       columns={ columns }
       meta={ meta }
+      handlePagination={ handlePagination }
     >
     {
       !hasQuotations ? ( <EmptyLine colSpan={ columnCount } /> )

@@ -22,7 +22,7 @@ class Login extends PureComponent {
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true } )
-    this.props.login( {params: { body }} )
+    this.props.login({ body })
   }
 
   render() {

@@ -27,7 +27,7 @@ class Reset extends PureComponent {
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true } )
-    this.props.reset( { params: { body }} )
+    this.props.reset({ body })
   }
 
   render() {

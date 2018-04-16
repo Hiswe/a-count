@@ -61,7 +61,7 @@ export default function reducer( state = initialState, action ) {
 // ACTION CREATORS
 //////
 
-export const auth = ({params, cookie}) => async dispatch => {
+export const auth = (params, cookie) => async dispatch => {
   const options = {
     url: `/${ NAME }/auth`,
   }
@@ -72,7 +72,7 @@ export const auth = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const statistics = ({params, cookie}) => async dispatch => {
+export const statistics = (params, cookie) => async dispatch => {
   const options = {
     url: `/${ NAME }/statistics`,
   }
@@ -83,7 +83,7 @@ export const statistics = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const login = ({params, cookie}) => async dispatch => {
+export const login = (params, cookie) => async dispatch => {
   const { body } = params
   const options = {
     url: `/${ NAME }/login`,
@@ -96,7 +96,7 @@ export const login = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const logout = ({params, cookie}) => async dispatch => {
+export const logout = (params, cookie) => async dispatch => {
   const options = {
     url: `/${ NAME }/logout`,
   }
@@ -107,7 +107,7 @@ export const logout = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const register = ({params, cookie}) => async dispatch => {
+export const register = (params, cookie) => async dispatch => {
   const { body } = params
   const options = {
     url: `/${ NAME }/register`,
@@ -120,7 +120,7 @@ export const register = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const forgot = ({params, cookie}) => async dispatch => {
+export const forgot = (params, cookie) => async dispatch => {
   const { body } = params
   const options = {
     url: `/${ NAME }/forgot`,
@@ -133,7 +133,7 @@ export const forgot = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const reset = ({params, cookie}) => async dispatch => {
+export const reset = (params, cookie) => async dispatch => {
   const { body } = params
   const options = {
     url: `/${ NAME }/reset`,
@@ -146,7 +146,7 @@ export const reset = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const updateSettings = ({params, cookie}) => async dispatch => {
+export const updateSettings = (params, cookie) => async dispatch => {
   const { body } = params
   const options = {
     url: `${NAME}/settings`,

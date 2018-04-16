@@ -17,7 +17,7 @@ function ButtonCreateInvoice( props ) {
   const btnProps = {
     onClick: event => {
       event.preventDefault()
-      createInvoice({params: {id}})
+      createInvoice({ id })
     },
     type      : `submit`                     ,
     formMethod: `post`                       ,

@@ -29,7 +29,7 @@ export default function connectDataFetchers({Component, actionCreators}) {
     static fetchData( {dispatch, params = {}, query = {}, cookie } ) {
       return Promise.all(
         actionCreators.map( actionCreator => {
-          return dispatch( actionCreator({params, cookie}) )
+          return dispatch( actionCreator(params, cookie) )
         })
       )
     }

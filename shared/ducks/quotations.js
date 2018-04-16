@@ -87,9 +87,10 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export const getActive = ({params, cookie}) => async dispatch => {
+export const getActive = (params = {}, cookie) => async dispatch => {
   const options = {
     url: `${NAME}`,
+    ...params,
   }
   await fetchDispatch({
     dispatch,
@@ -98,9 +99,10 @@ export const getActive = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const getReadyToInvoice = ({params, cookie}) => async dispatch => {
+export const getReadyToInvoice = (params = {}, cookie) => async dispatch => {
   const options = {
     url: `${NAME}/ready-to-invoice`,
+    ...params,
   }
   await fetchDispatch({
     dispatch,
@@ -109,7 +111,7 @@ export const getReadyToInvoice = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const getAllForCustomer = ({params, cookie}) => async dispatch => {
+export const getAllForCustomer = (params, cookie) => async dispatch => {
   const { id } = params
   const options = {
     url: `/customers/${ id }/${NAME}`,
@@ -121,7 +123,7 @@ export const getAllForCustomer = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const getOne = ({params, cookie}) => async dispatch => {
+export const getOne = (params, cookie) => async dispatch => {
   let { id } = params
   id = id ? id : `new`
   const options = {
@@ -134,7 +136,7 @@ export const getOne = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const saveOne = ({params, cookie}) => async dispatch => {
+export const saveOne = (params, cookie) => async dispatch => {
   const { body } = params
   const { id } = body
   const isNew = isNil( id )
@@ -151,7 +153,7 @@ export const saveOne = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const archiveOne = ({params, cookie}) => async dispatch => {
+export const archiveOne = (params, cookie) => async dispatch => {
   const { id } = params
   const options = {
     url: `${ NAME }/${ id }/archive`,
@@ -165,7 +167,7 @@ export const archiveOne = ({params, cookie}) => async dispatch => {
   })
 }
 
-export const createInvoice = ({params, cookie}) => async dispatch => {
+export const createInvoice = (params, cookie) => async dispatch => {
   const { id } = params
   const options = {
     url: `${ NAME }/${ id }/create-invoice`,

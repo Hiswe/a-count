@@ -36,7 +36,7 @@ class SettingForm extends Component {
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true, empty: true } )
-    this.props.updateSettings( {params: {body}} )
+    this.props.updateSettings({ body })
   }
   handleFormChange( event ) {
     const { target } = event

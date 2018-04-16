@@ -18,7 +18,7 @@ function ButtonArchiveQuotation( props ) {
     danger: true,
     onClick: event => {
       event.preventDefault()
-      archiveOne({params: {id}})
+      archiveOne({id})
     },
     type      : `submit`                     ,
     formMethod: `post`                       ,

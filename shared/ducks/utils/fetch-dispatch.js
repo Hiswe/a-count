@@ -5,7 +5,7 @@ import * as isoFetch from '../../iso-fetch'
 
 export default async function fetchDispatch( params ) {
   const { dispatch, fetch, actions, meta = {} } = params
-  const { cookie, options } = fetch
+  const { options, cookie } = fetch
   const { method = `get` } = actions
   dispatch({
     type:   actions.LOADING,

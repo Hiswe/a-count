@@ -103,12 +103,12 @@ class QuotationForm extends Component {
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true, empty: true } )
-    this.props.saveOne( { params: {body} } )
+    this.props.saveOne({ body })
   }
   handleCreateInvoice( event ) {
     event.preventDefault()
       this.props.createInvoice({
-        params: {id: this.props.current.get(`id`)}
+        id: this.props.current.get(`id`),
       })
     }
   handleFormChange( event ) {

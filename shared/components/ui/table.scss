@@ -10,7 +10,13 @@
 
   &__pagination {
     padding: 1em 0;
-    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+
+    &_prev,
+    &_next {
+      display: inline-block;
+    }
   }
 
   table {

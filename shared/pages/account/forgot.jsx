@@ -26,7 +26,7 @@ class Forgot extends PureComponent {
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true } )
-    this.props.forgot( { params: { body }} )
+    this.props.forgot({ body })
   }
 
   render() {

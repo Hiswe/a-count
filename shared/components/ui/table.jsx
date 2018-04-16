@@ -1,6 +1,9 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import React      from 'react'
 import classNames from 'classnames'
+import { Link             } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
+
+import { Icon } from './svg-icons.jsx'
 
 import './table.scss'
 const BASE_CLASS = `table`
@@ -32,13 +35,57 @@ export function Th( props ) {
   )
 }
 
-export function Pagination( props ) {
-  const { meta, handlePagination } = props
-  return (
-    <footer className={`${BASE_CLASS}__pagination`}>
-      <FormattedMessage id="table.pagination" values={ meta } />
-    </footer>
-  )
+export class Pagination extends React.PureComponent {
+  constructor( props ) {
+    super( props )
+
+    this.handlePrev = this.handlePrev.bind( this )
+    this.handleNext = this.handleNext.bind( this )
+  }
+
+  handlePrev( event ) {
+    event.preventDefault()
+    const { meta, handlePagination } = this.props
+    if ( !meta.previousPage ) return
+    handlePagination({
+      query: {
+        page: meta.previousPage,
+      },
+    })
+  }
+
+  handleNext( event ) {
+    event.preventDefault()
+    const { meta, handlePagination } = this.props
+    if ( !meta.nextPage ) return
+    handlePagination({
+      query: {
+        page: meta.nextPage,
+      },
+    })
+  }
+
+  render() {
+    const { meta } = this.props
+    if ( !meta.total ) return null
+    return (
+      <footer className={`${BASE_CLASS}__pagination`}>
+        <FormattedMessage id="table.pagination" values={ meta } />
+        <div
+          onClick={ this.handlePrev }
+          className={`${BASE_CLASS}__pagination_next`}
+        >
+          <Icon svgId="chevron-left" />
+        </div>
+        <div
+          onClick={ this.handleNext }
+          className={`${BASE_CLASS}__pagination_prev`}
+        >
+          <Icon svgId="chevron-right" />
+        </div>
+      </footer>
+    )
+  }
 }
 
 export function EmptyLine( props ) {

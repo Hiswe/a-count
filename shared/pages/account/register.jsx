@@ -22,9 +22,7 @@ class Register extends PureComponent {
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true } )
-    this.props.register({
-      params: { body },
-    })
+    this.props.register({ body })
   }
 
   render() {

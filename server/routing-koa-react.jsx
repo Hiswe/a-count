@@ -30,7 +30,7 @@ const reduxActionLogger = ({ getState }) => {
   }
 }
 
-const store         = createStore(reducer, {}, applyMiddleware(thunk, reduxActionLogger))
+const store = createStore(reducer, {}, applyMiddleware(thunk, reduxActionLogger))
 
 router.get( '*', async (ctx, next) => {
   const { url, header } = ctx
@@ -43,8 +43,8 @@ router.get( '*', async (ctx, next) => {
       // fetch will need it to maintain authentication
       return route.component.fetchData({
         dispatch: store.dispatch,
-        params: match.params,
-        cookie: header.cookie,
+        params  : match.params,
+        cookie  : header.cookie,
       })
     } )
   await Promise.all( initFetches )

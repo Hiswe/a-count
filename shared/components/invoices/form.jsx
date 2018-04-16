@@ -80,7 +80,7 @@ class InvoiceForm extends Component {
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true, empty: true } )
-    this.props.save( {params: {body}} )
+    this.props.save({ body })
   }
   handleFormChange( event ) {
     const { target } = event
