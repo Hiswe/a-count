@@ -3,17 +3,11 @@
 .table {
   $root: &;
   $print: '#{$root}--print';
+  $presentation: '#{$root}--presentation';
 
   --table-border-color: var(--c-primary-lighter);
   --table-header-border-color: var(--c-primary);
   --table-header-bg-color: var(--c-primary-darker);
-
-  &--pres,
-  &--presentation {
-    tbody tr:nth-child(even) {
-      background: var(--c-primary-white);
-    }
-  }
 
   &--print {
     --table-border-color: var(--c-text-lighter);
@@ -84,14 +78,15 @@
     }
   }
 
-  &__body_row,
-  tbody tr {
-    border: solid var(--table-border-color);
-    border-width: 0 1px 1px;
-  }
+  &__body {
+    &_row {
+      border: solid var(--table-border-color);
+      border-width: 0 1px 1px;
 
-  &__body,
-  tbody {
+      #{$presentation} &:nth-child(even) {
+        background: var(--c-primary-white);
+      }
+    }
     td + td {
       border-left: 1px solid var(--table-border-color);
     }

@@ -1,7 +1,7 @@
 import   React              from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Table      } from '../ui/table.jsx'
+import { Table, Row } from '../ui/table.jsx'
 import { BtnIcon }    from '../ui/buttons.jsx'
 import { DatePicker } from '../ui/date-picker.jsx'
 import { Amount }     from '../ui/format.jsx'
@@ -61,7 +61,7 @@ export default function InvoiceEvents( props ) {
       columns={ eventsColumns }
       footer={ <InvoiceEventsFooter {...props} /> }
     >
-      <tr>
+      <Row>
         <td></td>
         <td>
           <p><FormattedMessage id="invoices.event.sent" /></p>
@@ -78,9 +78,9 @@ export default function InvoiceEvents( props ) {
         </td>
         <td className="is-number"><p>–</p></td>
         <td></td>
-      </tr>
+      </Row>
       {payments.map((payment, index) => (
-        <tr key={payment.get(`_id`)} >
+        <Row key={payment.get(`_id`)} >
           <td className="is-number">
             <input
               type="hidden"
@@ -127,7 +127,7 @@ export default function InvoiceEvents( props ) {
               svgId="delete"
             />}
           </td>
-        </tr>
+        </Row>
       ))}
     </Table>
   )

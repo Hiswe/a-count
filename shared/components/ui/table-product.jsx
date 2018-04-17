@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import * as compute from '../utils/compute-total.js'
-import Table from './table.jsx'
+import { Table, Row } from './table.jsx'
 import { Amount, Markdown, FormatNumber } from './format.jsx'
 import TextareaAutoResize from './textarea-auto-resize.jsx'
 
@@ -16,7 +16,7 @@ export function ProductLineEditable( props ) {
   const total = compute.productTotal( product )
 
   return (
-    <tr>
+    <Row>
       <td>
         <input
           type="hidden"
@@ -52,7 +52,7 @@ export function ProductLineEditable( props ) {
       <td className="is-action">
         { props.children }
       </td>
-    </tr>
+    </Row>
   )
 }
 
@@ -60,7 +60,7 @@ export function ProductLineDisplay( props ) {
     const { fieldPath, product } = props
   const total = compute.productTotal( product )
   return (
-    <tr>
+    <Row>
       <td className="is-padded">
         <Markdown text={ product.description } />
       </td>
@@ -73,7 +73,7 @@ export function ProductLineDisplay( props ) {
       <td className="is-total is-number">
         <Amount value={ total } />
       </td>
-    </tr>
+    </Row>
   )
 }
 

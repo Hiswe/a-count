@@ -3,17 +3,17 @@ import { Link               } from 'react-router-dom'
 import { connect            } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import * as invoices        from '../../ducks/invoices'
-import * as TableUtils      from '../utils/tables'
-import { Table, EmptyLine } from '../ui/table.jsx'
-import { Amount, Date }     from '../ui/format.jsx'
-import { Progress }         from '../ui/progress.jsx'
+import * as invoices             from '../../ducks/invoices'
+import * as TableUtils           from '../utils/tables'
+import { Table, EmptyLine, Row } from '../ui/table.jsx'
+import { Amount, Date }          from '../ui/format.jsx'
+import { Progress }              from '../ui/progress.jsx'
 
 function InvoiceRow( props ) {
   const { invoice, hideCustomer } = props
   const url = `/invoices/${invoice.id}`
   return (
-    <tr>
+    <Row>
       <td>
         <Link to={ url }>{ invoice.get( `reference` ) }</Link>
       </td>
@@ -46,7 +46,7 @@ function InvoiceRow( props ) {
           max={ invoice.get(`total`) }
         />
       </td>
-    </tr>
+    </Row>
   )
 }
 
