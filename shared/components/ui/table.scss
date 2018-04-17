@@ -78,6 +78,10 @@
   &__head_row {
     border: 1px solid var(--table-header-bg-color);
     border-bottom: 0;
+
+    .svg-icon {
+      vertical-align: text-bottom;
+    }
   }
 
   &__body_row,

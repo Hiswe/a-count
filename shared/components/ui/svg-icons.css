@@ -3,6 +3,16 @@
   height: 1.5em;
 }
 
+.icon-arrow-downward {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.icon-arrow-upward {
+  width: 1.5em;
+  height: 1.5em;
+}
+
 .icon-block {
   width: 1.5em;
   height: 1.5em;
@@ -39,6 +49,11 @@
 }
 
 .icon-print {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.icon-receipt {
   width: 1.5em;
   height: 1.5em;
 }

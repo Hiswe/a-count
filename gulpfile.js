@@ -17,6 +17,8 @@ const icons = () => {
     run: $$ => {
       // remove Google's background path
       $$( `path[fill=none]` ).remove()
+      // icon-arrow-downward was having a fill of #010101…
+      $$( `path[fill=#010101]`).removeAttr( `fill` )
     },
     parserOptions: {
       xmlMode: true,

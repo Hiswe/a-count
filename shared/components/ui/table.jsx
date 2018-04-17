@@ -40,9 +40,11 @@ export function Table( props ) {
   columns = normalizeColumns( columns )
   const hasFooter = props.footer != null
   const hasMeta   = props.meta   != null
-  const COMP_CLASS = classNames( BASE_CLASS, className, {
-    [`${BASE_CLASS}--presentation`]: presentation,
-  })
+  const COMP_CLASS = classNames(
+    BASE_CLASS,
+    className,
+    presentation ? `${BASE_CLASS}--presentation` : false,
+  )
   return (
     <div className={ COMP_CLASS }>
       <table cellSpacing="0" className={`${BASE_CLASS}__content`}>

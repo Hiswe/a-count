@@ -2,13 +2,21 @@ import   React              from 'react'
 import { FormattedMessage } from 'react-intl'
 import { withRouter       } from 'react-router-dom'
 
+import { Icon } from './svg-icons.jsx'
+
 const BASE_CLASS = `table__head`
 
 function Th( props ) {
-  const { column, onClick  }  = props
-  const { label, order, ...rest } = column
+  const {
+    column,
+    onClick,
+    isSorted,
+    dir,
+  }  = props
+  const { label, sort, ...rest } = column
   return (
     <th {...rest} onClick={ onClick }>
+      { isSorted && <Icon svgId={ dir === `ASC` ? `arrow-upward` : `arrow-downward` } /> }
       { label && <FormattedMessage id={label.trim()} /> }
     </th>
   )
@@ -41,20 +49,24 @@ export class TableThead extends React.PureComponent {
       query,
       ...match.params,
     })
-    this.setState( prevState => query )
+    this.setState( prevState => ({
+      sort: query.sort,
+      dir:  query.dir,
+    }))
   }
 
   render() {
     const { columns, match, location } = this.props
+    const { sort, dir } = this.state
     return (
       <thead className={ BASE_CLASS }>
         <tr className={`${BASE_CLASS}_row`}>
           { columns.map( (c, i) => (
             <Th
               key={ i }
-              // location={ location }
-              // match={ match }
               column={ c }
+              isSorted={ sort === c.sort }
+              dir={ dir }
               onClick={ !c.sort ? null : event => this.handleSort(event, c.sort ) }
             />)) }
         </tr>

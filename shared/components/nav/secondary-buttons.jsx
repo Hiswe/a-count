@@ -18,7 +18,7 @@ export function ButtonPreview( props ) {
     <BtnIcon
       secondary
       to={`/${props.type}/${ props.id }/preview`}
-      svgId="visibility"
+      svgId="receipt"
     />
   )
 }
