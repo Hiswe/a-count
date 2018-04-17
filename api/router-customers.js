@@ -17,7 +17,7 @@ module.exports = router
 
 router
 .get(`/`, async (ctx, next) => {
-  const { userId }  = ctx.state
+  const { userId, dbQuery }  = ctx.state
   // https://github.com/sequelize/sequelize/issues/4446#issuecomment-138291810
   const query = {
     where: {
@@ -30,11 +30,10 @@ router
       // ...countAndTotal,
       ...dbColumns.customer.countAndTotal,
     ],
+    ...dbQuery
   }
-  const list = await Customer.findAll( query )
-  // put response in a list key
-  // • we will add pagination information later
-  ctx.body = {list }
+  const list = await Customer.findAndCount( query )
+  ctx.body = formatList({list, dbQuery})
 })
 
 //----- NEW
