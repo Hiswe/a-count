@@ -11,7 +11,7 @@ export const SAVE_ONE = createActionNames( NAME, `post`, `one` )
 
 const initialState = crio({
   isSaving: false,
-  all:      [],
+  active:   [],
   meta: {
     all: {},
   },

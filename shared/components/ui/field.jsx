@@ -199,8 +199,9 @@ const keyDefault = crio({value: `value`, label: `label`})
 export const Select = fieldWrapper( {
   ControlComponent: props => {
     const { options, optionsKeys = keyDefault, controlRef, ...rest} = props
+    const hasOptions = Array.isArray( options ) && options.length > 0
     return (
-      <select ref={ controlRef } {...rest}>{ options.map( c => (
+      <select ref={ controlRef } {...rest}>{ hasOptions && options.map( c => (
         <option
           key={ `${controlRef}-${c.get(optionsKeys.value)}` }
           value={ c.get(optionsKeys.value) }
