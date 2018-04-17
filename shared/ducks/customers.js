@@ -11,7 +11,10 @@ export const SAVE_ONE = createActionNames( NAME, `post`, `one` )
 
 const initialState = crio({
   isSaving: false,
-  list:     [],
+  all:      [],
+  meta: {
+    all: {},
+  },
   current:  {},
 })
 
@@ -20,7 +23,8 @@ export default function reducer(state = initialState, action) {
 
   switch (type) {
     case GET_ALL.SUCCESS:
-      return state.set( `list`, payload.list )
+      state = state.set( `active`, payload.rows )
+      return  state.set( `meta.active`, payload.meta )
 
     case GET_ONE.LOADING:
       return state.set( `current`, {

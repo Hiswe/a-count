@@ -101,7 +101,7 @@ function QuotationsList( props ) {
     ...others
   } = props
   const hasQuotations  = TableUtils.hasRows( quotations )
-  if ( hideOnEmpty && hasQuotations ) return null
+  if ( hideOnEmpty && !hasQuotations ) return null
   const columns        = filterColumns({ hideInvoice, hideCustomer })
   const columnCount    = columns.length
   return (

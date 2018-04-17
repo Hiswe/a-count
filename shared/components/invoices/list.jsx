@@ -1,7 +1,7 @@
 import React from 'react'
+import { Link               } from 'react-router-dom'
+import { connect            } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Link }     from 'react-router-dom'
-import { connect }  from 'react-redux'
 
 import * as invoices        from '../../ducks/invoices'
 import * as TableUtils      from '../utils/tables'
@@ -67,7 +67,7 @@ function InvoiceList( props ) {
     ...others
   } = props
   const hasInvoices = TableUtils.hasRows( invoices )
-  if ( hideOnEmpty && hasInvoices ) return null
+  if ( hideOnEmpty && !hasInvoices ) return null
   const columns     = hideCustomer ? defaultColumns.filter(TableUtils.filterColumn(`customer`))
     : defaultColumns
   const columnCount = columns.length

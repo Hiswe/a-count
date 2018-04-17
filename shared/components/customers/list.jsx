@@ -1,7 +1,11 @@
 import React        from 'react'
-import { Link }     from 'react-router-dom'
-import { connect }  from 'react-redux'
+import { Link               } from 'react-router-dom'
+import { connect            } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
+
+import * as customers  from '../../ducks/customers'
+import * as TableUtils from '../utils/tables'
 import { Table, EmptyLine } from '../ui/table.jsx'
 import { FormatNumber, Amount } from '../ui/format.jsx'
 import { Progress } from '../ui/progress.jsx'
@@ -37,36 +41,34 @@ function CustomerRow( props ) {
   )
 }
 
+const defaultColumns = [
+  { label: `table.header.name`             ,                         },
+  { label: `table.header.quotations`       ,                         },
+  { label: `table.header.cumulative-amount`, style:{ width: `18em`}, },
+  { label: `table.header.invoices`         ,                         },
+  { label: `table.header.cumulative-amount`, style:{ width: `18em`}  },
+  { label: `table.amount.paid`             ,                         },
+]
+
 function CustomerList( props ) {
-  const { customers, currency } = props
-  const hasCustomer = Array.isArray( customers ) && customers.length
+  const {
+    customers,
+    hideOnEmpty  = false,
+    ...others
+  } = props
+  const hasCustomer = TableUtils.hasRows( customers )
+  if ( hideOnEmpty && !hasCustomer ) return null
+  const columns     = defaultColumns
+  const columnCount = columns.length
+
   return (
     <Table
       presentation
-      columns={[
-        {
-          label: `table.header.name`,
-        },
-        {
-          label: `table.header.quotations`,
-        },
-        {
-          label: `table.header.cumulative-amount`,
-          style:{ width: `18em`},
-        },
-        {
-          label: `table.header.invoices`,
-        },
-        {
-          label: `table.header.cumulative-amount`,
-          style:{ width: `18em`},
-        }, {
-          label: `table.amount.paid`,
-        },
-      ]}
+      columns={ columns }
+      { ...others }
     >
       {
-        !hasCustomer ? ( <EmptyLine colSpan="6" /> )
+        !hasCustomer ? ( <EmptyLine colSpan={ columnCount } /> )
         : props.customers.map( (customer, i) => (
           <CustomerRow key={customer.id} customer={customer} />
         ))
@@ -75,10 +77,12 @@ function CustomerList( props ) {
   )
 }
 
-function state2prop( state ) {
-  return {
-    customers: state.customers.get(`list`),
-  }
-}
-
-export default connect( state2prop )( CustomerList )
+export const ActiveCustomers = connect(
+  state => ({
+    customers: state.customers.get(`active`      ),
+    meta    :  state.customers.get(`meta.active` ),
+  }),
+  dispatch => ( bindActionCreators({
+    handlePagination: customers.getAll,
+  }, dispatch ))
+)( CustomerList )

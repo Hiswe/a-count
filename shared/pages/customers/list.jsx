@@ -10,7 +10,7 @@ import * as customers from '../../ducks/customers.js'
 import { Main, Content } from '../../components/layout/main.jsx'
 import NavSecondary from '../../components/nav/secondary.jsx'
 import { ButtonNew } from '../../components/nav/secondary-buttons.jsx'
-import CustomersTable from '../../components/customers/list.jsx'
+import { ActiveCustomers } from '../../components/customers/list.jsx'
 
 const TYPE = `customers`
 
@@ -29,7 +29,7 @@ function Customers( props ) {
       </NavSecondary>
       <Main>
         <Content>
-          <CustomersTable />
+          <ActiveCustomers />
         </Content>
       </Main>
     </Fragment>
@@ -39,6 +39,6 @@ function Customers( props ) {
 export default connect()( ConnectDataFetcher({
   Component: Customers,
   actionCreators: [
-    customers.getAll
+    customers.getAll,
   ],
 }) )
