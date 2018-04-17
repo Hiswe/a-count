@@ -146,4 +146,5 @@ export default {
   'table.amount.paid'                 : `payé`                        ,
   'table.amount.left-to-pay'          : `reste`                       ,
   'table.pagination'                  : `{start} – {end} sur {total}` ,
+  'table.rows-per-page'               : `lignes par page :`           ,
 }

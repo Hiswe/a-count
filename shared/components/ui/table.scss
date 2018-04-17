@@ -8,17 +8,6 @@
   --table-header-border-color: var(--c-primary);
   --table-header-bg-color: var(--c-primary-darker);
 
-  &__pagination {
-    padding: 1em 0;
-    display: flex;
-    justify-content: flex-end;
-
-    &_prev,
-    &_next {
-      display: inline-block;
-    }
-  }
-
   table {
     border-collapse: collapse;
     border-radius: var(--s-border-radius);
