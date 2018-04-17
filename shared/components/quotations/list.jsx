@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 import * as quotations from '../../ducks/quotations.js'
 import * as TableUtils from '../utils/tables'
-import { Table , EmptyLine } from '../ui/table.jsx'
+import { Table , EmptyLine, Row } from '../ui/table.jsx'
 import { Amount, Date      } from '../ui/format.jsx'
 import { Button            } from '../ui/buttons.jsx'
 import ButtonArchiveQuotation from './button-archive-quotation.jsx'
@@ -17,7 +17,7 @@ function QuotationRow( props ) {
   const { quotation, hideCustomer, hideInvoice } = props
   const id = quotation.get( `id` )
   return (
-    <tr>
+    <Row>
       <td>
         <Link to={`/quotations/${id}`}>
           { quotation.get(`reference`) }
@@ -62,20 +62,20 @@ function QuotationRow( props ) {
       <td className="is-action">
         <ButtonArchiveQuotation icon quotation={ quotation } />
       </td>
-    </tr>
+    </Row>
   )
 }
 
 const defaultColumns = [
-  {label: `table.header.id`},
-  {label: `table.header.name`},
-  {label: `table.header.customer`},
-  {label: `table.header.sent`},
-  {label: `table.header.validated`},
-  {label: `table.header.signed`},
-  {label: `table.header.invoice`},
-  {label: `table.amount`},
-  {label: false },
+  {label: `table.header.id`        , order: `index`        },
+  {label: `table.header.name`      , order: `name`         },
+  {label: `table.header.customer`  , order: `customer.name`},
+  {label: `table.header.sent`      , order: `sendAt`       },
+  {label: `table.header.validated` , order: `validatedAd`  },
+  {label: `table.header.signed`    , order: `signedAt`     },
+  {label: `table.header.invoice`                           },
+  {label: `table.amount`           , order: `amount`       },
+  {label: false                                            },
 ]
 
 const filterColumn = key => column => column.label !== key
@@ -94,7 +94,7 @@ function filterColumns({ hideInvoice, hideCustomer }) {
 function QuotationsList( props ) {
   const {
     quotations,
-    handlePagination,
+    handlePageSort,
     hideOnEmpty  = false,
     hideInvoice  = false,
     hideCustomer = false,
@@ -108,7 +108,7 @@ function QuotationsList( props ) {
     <Table
       presentation
       columns={ columns }
-      handlePagination={ handlePagination }
+      handlePageSort={ handlePageSort }
       { ...others }
     >
     {
@@ -133,7 +133,7 @@ export const ActiveQuotations = connect(
     hideInvoice:  true,
   }),
   dispatch => ( bindActionCreators({
-    handlePagination: quotations.getActive
+    handlePageSort: quotations.getActive
   }, dispatch ))
 )( QuotationsList )
 
@@ -145,7 +145,7 @@ export const QuotationsReadyToInvoice = connect(
     hideOnEmpty:  true,
   }),
   dispatch => ( bindActionCreators({
-    handlePagination: quotations.getReadyToInvoice
+    handlePageSort: quotations.getReadyToInvoice
   }, dispatch ))
 )(  QuotationsList )
 
@@ -156,7 +156,7 @@ export const CustomerQuotations = connect(
     hideCustomer: true,
   }),
   dispatch => ( bindActionCreators({
-    handlePagination: quotations.getAllForCustomer
+    handlePageSort: quotations.getAllForCustomer
   }, dispatch ))
 )( QuotationsList )
 

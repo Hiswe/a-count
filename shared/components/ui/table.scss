@@ -8,6 +8,28 @@
   --table-header-border-color: var(--c-primary);
   --table-header-bg-color: var(--c-primary-darker);
 
+  &--pres,
+  &--presentation {
+    tbody tr:nth-child(even) {
+      background: var(--c-primary-white);
+    }
+  }
+
+  &--print {
+    --table-border-color: var(--c-text-lighter);
+    --table-header-border-color: var(--c-text);
+    --table-header-bg-color: var(--c-text-darker);
+
+    tfoot {
+      background: none;
+      border: 0;
+
+      p {
+        padding-bottom: 0;
+      }
+    }
+  }
+
   &__title {
     text-align: left;
     font-size: 1.25rem;
@@ -15,7 +37,7 @@
     text-transform: uppercase;
   }
 
-  table {
+  &__content {
     border-collapse: collapse;
     border-radius: var(--s-border-radius);
     width: 100%;
@@ -53,16 +75,19 @@
     vertical-align: top;
   }
 
-  thead tr {
+  &__head_row {
     border: 1px solid var(--table-header-bg-color);
     border-bottom: 0;
   }
 
+  &__body_row,
+  tbody tr {
+    border: solid var(--table-border-color);
+    border-width: 0 1px 1px;
+  }
+
+  &__body,
   tbody {
-    tr {
-      border: solid var(--table-border-color);
-      border-width: 0 1px 1px;
-    }
     td + td {
       border-left: 1px solid var(--table-border-color);
     }
@@ -138,27 +163,5 @@
     width: 100%;
     border: 0;
     display: block;
-  }
-
-  &--pres,
-  &--presentation {
-    tbody tr:nth-child(even) {
-      background: var(--c-primary-white);
-    }
-  }
-
-  &--print {
-    --table-border-color: var(--c-text-lighter);
-    --table-header-border-color: var(--c-text);
-    --table-header-bg-color: var(--c-text-darker);
-
-    tfoot {
-      background: none;
-      border: 0;
-
-      p {
-        padding-bottom: 0;
-      }
-    }
   }
 }

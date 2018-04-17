@@ -71,6 +71,12 @@ const defaultParams = {
   sort:  `updatedAt`,
   dir:   `DESC`,
 }
+const sortOnRelation = /^[a-z]+\.[a-zA-Z]+$/
+const parseSort = sort => {
+  if ( !sortOnRelation.test( sort) ) return [ sort ]
+  return sort.split(`.`)
+
+}
 const ensureDir = dir => [`DESC`, `ASC`].includes( dir ) ? dir : defaultParams.dir
 
 apiRouter.use( async function getDefaultQueryParams( ctx, next) {
@@ -81,7 +87,10 @@ apiRouter.use( async function getDefaultQueryParams( ctx, next) {
   dbQuery.offset    = (dbQuery.page - 1) * dbQuery.limit
   // query will crash if ordering on a non valid column…
   // • but a this point we don't anything about the model
-  dbQuery.order     = [[dbQuery.sort, ensureDir(dbQuery.dir)]]
+  dbQuery.order     = [[
+    ...parseSort( dbQuery.sort ),
+    ensureDir( dbQuery.dir ),
+  ]]
   // remove some unused keys
   const { dir, sort, ...others } = dbQuery
   ctx.state.dbQuery = others

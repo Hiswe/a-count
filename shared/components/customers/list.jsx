@@ -83,6 +83,6 @@ export const ActiveCustomers = connect(
     meta    :  state.customers.get(`meta.active` ),
   }),
   dispatch => ( bindActionCreators({
-    handlePagination: customers.getAll,
+    handlePageSort: customers.getAll,
   }, dispatch ))
 )( CustomerList )

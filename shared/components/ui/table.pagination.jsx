@@ -21,9 +21,9 @@ class Pagination extends React.PureComponent {
   // • needed for example by /customers/quotations
   handlePrev( event ) {
     event.preventDefault()
-    const { meta, handlePagination, match } = this.props
+    const { meta, handlePageSort, match } = this.props
     if ( !meta.previousPage ) return
-    handlePagination({
+    handlePageSort({
       query: {
         page: meta.previousPage,
       },
@@ -33,9 +33,9 @@ class Pagination extends React.PureComponent {
 
   handleNext( event ) {
     event.preventDefault()
-    const { meta, handlePagination, match } = this.props
+    const { meta, handlePageSort, match } = this.props
     if ( !meta.nextPage ) return
-    handlePagination({
+    handlePageSort({
       query: {
         page: meta.nextPage,
       },

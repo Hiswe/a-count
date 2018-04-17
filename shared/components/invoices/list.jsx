@@ -97,7 +97,7 @@ export const ActiveInvoices = connect(
     meta    : state.invoices.get(`meta.active`),
   }),
   dispatch => ( bindActionCreators({
-    handlePagination: invoices.getAll,
+    handlePageSort: invoices.getAll,
   }, dispatch ))
 )( InvoiceList )
 
@@ -108,6 +108,6 @@ export const CustomerInvoices = connect(
     hideCustomer : true                             ,
   }),
   dispatch => ( bindActionCreators({
-    handlePagination: invoices.getAllForCustomer,
+    handlePageSort: invoices.getAllForCustomer,
   }, dispatch ))
 )( InvoiceList )

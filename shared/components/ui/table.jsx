@@ -4,6 +4,7 @@ import { Link             } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 
 import { Pagination } from './table.pagination.jsx'
+import { Thead } from './table.header.jsx'
 
 import './table.scss'
 const BASE_CLASS = `table`
@@ -15,39 +16,27 @@ export function normalizeColumns( columns ) {
   return columns
 }
 
-export function Thead( props ) {
-  const { columns } = props
+export function Row( props ) {
   return (
-    <thead>
-      <tr>
-        { columns.map( (c, i) => (<Th key={i} {...c} />) ) }
-      </tr>
-    </thead>
-  )
-}
-
-export function Th( props ) {
-  const { label, ...rest } = props
-  return (
-    <th {...rest}>
-      { label && <FormattedMessage id={label.trim()} /> }
-    </th>
+    <tr className={`${BASE_CLASS}__body_row`}>
+      { props.children }
+    </tr>
   )
 }
 
 export function EmptyLine( props ) {
   const message = `none (yet)`
   return (
-    <tr>
+    <Row>
       <td colSpan={props.colSpan} style={{textAlign: `center`}}>
         <p>{ message }</p>
       </td>
-    </tr>
+    </Row>
   )
 }
 
 export function Table( props ) {
-  let { className, presentation, columns, handlePagination } = props
+  let { className, presentation, columns, handlePageSort } = props
   columns = normalizeColumns( columns )
   const hasFooter = props.footer != null
   const hasMeta   = props.meta   != null
@@ -56,14 +45,14 @@ export function Table( props ) {
   })
   return (
     <div className={ COMP_CLASS }>
-      <table cellSpacing="0">
+      <table cellSpacing="0" className={`${BASE_CLASS}__content`}>
         { props.title && (
         <caption className={`${BASE_CLASS}__title`}>
           <FormattedMessage id={ props.title } />
         </caption>
       )}
         <Thead columns={ columns } />
-        <tbody>
+        <tbody className={`${BASE_CLASS}__body`}>
           { props.children }
         </tbody>
         { hasFooter && props.footer }
@@ -71,7 +60,7 @@ export function Table( props ) {
       { hasMeta && (
         <Pagination
           meta={ props.meta }
-          handlePagination={ handlePagination }
+          handlePageSort={ handlePageSort }
         />
       )}
     </div>
