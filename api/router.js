@@ -68,18 +68,23 @@ apiRouter.use( async function isAuthorizedRoute(ctx, next) {
 const defaultParams = {
   limit: 10,
   page:  1,
-  order: [
-    [`updatedAt`, `DESC`],
-  ],
+  sort:  `updatedAt`,
+  dir:   `DESC`,
 }
+const ensureDir = dir => [`DESC`, `ASC`].includes( dir ) ? dir : defaultParams.dir
 
 apiRouter.use( async function getDefaultQueryParams( ctx, next) {
   const { query }   = ctx.request
-  const dbQuery     = merge({}, defaultParams, query)
+  const dbQuery     = merge( {}, defaultParams, query )
   dbQuery.limit     = parseInt( dbQuery.limit, 10 )
   dbQuery.page      = parseInt( dbQuery.page, 10 )
   dbQuery.offset    = (dbQuery.page - 1) * dbQuery.limit
-  ctx.state.dbQuery = dbQuery
+  // query will crash if ordering on a non valid column…
+  // • but a this point we don't anything about the model
+  dbQuery.order     = [[dbQuery.sort, ensureDir(dbQuery.dir)]]
+  // remove some unused keys
+  const { dir, sort, ...others } = dbQuery
+  ctx.state.dbQuery = others
   await next()
 })
 
