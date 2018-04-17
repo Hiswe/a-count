@@ -22,6 +22,7 @@ class Pagination extends React.PureComponent {
   handlePrev( event ) {
     event.preventDefault()
     const { meta, handlePageSort, match } = this.props
+    if ( !handlePageSort ) return
     if ( !meta.previousPage ) return
     handlePageSort({
       query: {
@@ -34,6 +35,7 @@ class Pagination extends React.PureComponent {
   handleNext( event ) {
     event.preventDefault()
     const { meta, handlePageSort, match } = this.props
+    if ( !handlePageSort ) return
     if ( !meta.nextPage ) return
     handlePageSort({
       query: {
@@ -82,6 +84,7 @@ class Pagination extends React.PureComponent {
   }
 }
 // we need to have access to the router
+// • the redux actions may need to access to route params
 const PaginationWithRouter = withRouter( Pagination )
 
 export { PaginationWithRouter as Pagination }

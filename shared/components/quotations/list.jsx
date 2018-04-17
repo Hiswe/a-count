@@ -67,15 +67,15 @@ function QuotationRow( props ) {
 }
 
 const defaultColumns = [
-  {label: `table.header.id`        , order: `index`        },
-  {label: `table.header.name`      , order: `name`         },
-  {label: `table.header.customer`  , order: `customer.name`},
-  {label: `table.header.sent`      , order: `sendAt`       },
-  {label: `table.header.validated` , order: `validatedAd`  },
-  {label: `table.header.signed`    , order: `signedAt`     },
-  {label: `table.header.invoice`                           },
-  {label: `table.amount`           , order: `amount`       },
-  {label: false                                            },
+  {label: `table.header.id`        , sort: `index`        },
+  {label: `table.header.name`      , sort: `name`         },
+  {label: `table.header.customer`  , sort: `customer.name`},
+  {label: `table.header.sent`      , sort: `sendAt`       },
+  {label: `table.header.validated` , sort: `validatedAd`  },
+  {label: `table.header.signed`    , sort: `signedAt`     },
+  {label: `table.header.invoice`                          },
+  {label: `table.amount`           , sort: `total`        },
+  {label: false                                           },
 ]
 
 const filterColumn = key => column => column.label !== key

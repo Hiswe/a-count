@@ -47,9 +47,9 @@ const time = start => {
     : `${ Math.round(delta / 1000) }s`
 }
 app.use( async (ctx, next) => {
-  const { method, path } = ctx.request
+  const { method, path, search } = ctx.request
   const start = Date.now()
-  const logPath = chalk.grey(`api: ${path}`)
+  const logPath = chalk.grey(`api: ${path}${search}`)
   const logMethod = method.toUpperCase()
   log( chalk.grey(`  ==>`), logMethod, logPath  )
   await next()

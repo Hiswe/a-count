@@ -51,7 +51,10 @@ export function Table( props ) {
           <FormattedMessage id={ props.title } />
         </caption>
       )}
-        <Thead columns={ columns } />
+        <Thead
+          columns={ columns }
+          handlePageSort={ handlePageSort }
+        />
         <tbody className={`${BASE_CLASS}__body`}>
           { props.children }
         </tbody>
