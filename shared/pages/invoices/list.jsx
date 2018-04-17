@@ -10,7 +10,6 @@ import * as quotations         from '../../ducks/quotations'
 import * as invoices           from '../../ducks/invoices'
 import { Main, Content            } from '../../components/layout/main.jsx'
 import { NavSecondary             } from '../../components/nav/secondary.jsx'
-import { BtnFab                   } from '../../components/ui/buttons.jsx'
 import { ActiveInvoices           } from '../../components/invoices/list.jsx'
 import { QuotationsReadyToInvoice } from '../../components/quotations/list.jsx'
 

@@ -60,9 +60,21 @@ function EditCustomer( props ) {
       <NavSecondary
         title={ <FormattedMessage {...titleProps} /> }
       >
-        <ButtonSubmit formId={FORM_ID} isSaving={ props.isSaving } />
-        <ButtonList type={ TYPE } />
-        <ButtonNew  type={ TYPE } icon secondary />
+        <ButtonSubmit
+          formId={FORM_ID}
+          isSaving={ props.isSaving }
+          label="_.save"
+        />
+        <ButtonList
+          type={ TYPE }
+          label="customer.button.list"
+        />
+        <ButtonNew
+          type={ TYPE }
+          icon
+          secondary
+          label="customer.button.new"
+        />
       </NavSecondary>
 
       <CustomerForm {...props} >

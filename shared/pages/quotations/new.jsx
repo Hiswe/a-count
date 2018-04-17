@@ -28,8 +28,15 @@ function NewQuotation( props ) {
       <NavSecondary
         title={ <FormattedMessage {...titleProps} /> }
       >
-        <ButtonSubmit formId={FORM_ID} isSaving={ props.isSaving } />
-        <ButtonList type={ TYPE }/>
+        <ButtonSubmit
+          formId={FORM_ID}
+          isSaving={ props.isSaving }
+          label="quotation.button.create"
+        />
+        <ButtonList
+          type={ TYPE }
+          label="quotation.button.list"
+        />
       </NavSecondary>
       <QuotationForm {...props} />
     </Fragment>

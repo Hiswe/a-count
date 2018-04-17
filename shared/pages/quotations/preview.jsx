@@ -38,10 +38,22 @@ function PreviewQuotationPage( props ) {
       <NavSecondary
         title={ <FormattedMessage {...titleProps} /> }
       >
-        <ButtonEdit type={ TYPE } id={id} />
+        <ButtonEdit
+          type={ TYPE }
+          id={id}
+          label="_.edit"
+        />
         <ButtonPrint />
-        <ButtonList type={ TYPE } />
-        <ButtonNew  type={ TYPE } secondary icon  />
+        <ButtonList
+          type={ TYPE }
+          label="quotation.button.list"
+        />
+        <ButtonNew
+          type={ TYPE }
+          secondary
+          icon
+          label="quotation.button.new"
+        />
       </NavSecondary>
       <Main>
         <Content>

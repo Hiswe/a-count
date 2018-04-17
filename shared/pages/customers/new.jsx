@@ -37,8 +37,15 @@ const NewCustomer = props => {
       <NavSecondary
         title={ <FormattedMessage {...titleProps} /> }
       >
-        <ButtonList type={ TYPE } />
-        <ButtonSubmit formId={ FORM_ID } isSaving={ props.isSaving } />
+        <ButtonSubmit
+          formId={ FORM_ID }
+          isSaving={ props.isSaving }
+          label="_.create"
+        />
+        <ButtonList
+          type={ TYPE }
+          label="customer.button.list"
+        />
       </NavSecondary>
 
       <CustomerForm {...props} >

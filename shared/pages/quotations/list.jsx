@@ -28,7 +28,10 @@ function Quotations( props ) {
       <NavSecondary
         title={ <FormattedMessage {...titleProps} /> }
       >
-        <ButtonNew type={ TYPE } message="quotation.button.new" />
+        <ButtonNew
+          type={ TYPE }
+          message="quotation.button.new"
+        />
       </NavSecondary>
       <Main>
         <Content>

@@ -35,9 +35,16 @@ function PreviewInvoicePage( props ) {
       <NavSecondary
         title={ <FormattedMessage {...titleProps} /> }
       >
-        <ButtonEdit type={TYPE} id={id} />
+        <ButtonEdit
+          type={TYPE}
+          id={id}
+          label="_.edit"
+        />
         <ButtonPrint />
-        <ButtonList type={TYPE} />
+        <ButtonList
+          type={TYPE}
+          label="invoices.button.list"
+        />
       </NavSecondary>
       <Main>
         <Content>

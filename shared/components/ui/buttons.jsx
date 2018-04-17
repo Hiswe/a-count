@@ -1,5 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import   React              from 'react'
+import { Link             } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
+import   classNames         from 'classnames'
 
 import Icon from './svg-icons.jsx'
 
@@ -28,17 +30,6 @@ export function Button( props ) {
   )
 }
 
-export function BtnFab( props ) {
-  const { className, ...others } = props
-  const btnClass = [ `${BASE_CLASS}--fab` ]
-  if ( className ) btnClass.push( className )
-  return (
-    <Button
-      className={ btnClass.join(` `) }
-      {...others}
-    />
-)}
-
 export function BtnLink( props ) {
   const { className, ...others } = props
   const btnClass = [ `${BASE_CLASS}--link` ]
@@ -50,18 +41,35 @@ export function BtnLink( props ) {
     />
 )}
 
+const BTN_ICON_CLASS = `${BASE_CLASS}--icon`
 export function BtnIcon( props ) {
-  const { className, svgId, secondary, link, danger, ...others } = props
-  const COMP_CLASS = [ `${BASE_CLASS}--icon` ]
-  if ( secondary ) COMP_CLASS.push( `${BASE_CLASS}--icon-secondary` )
-  if ( link )      COMP_CLASS.push( `${BASE_CLASS}--icon-link` )
-  if ( danger )    COMP_CLASS.push( `${ BASE_CLASS }--icon-danger` )
-  if ( className ) COMP_CLASS.push( className )
+  const {
+    className,
+    svgId,
+    secondary,
+    link,
+    danger,
+    label,
+    ...others
+  } = props
+  const COMP_CLASS = classNames(className, {
+    [   BTN_ICON_CLASS            ]: true     ,
+    [`${BTN_ICON_CLASS}-secondary`]: secondary,
+    [`${BTN_ICON_CLASS}-link`     ]: link     ,
+    [`${BTN_ICON_CLASS}-danger`   ]: danger   ,
+    [`${BTN_ICON_CLASS}--icon`    ]: className,
+  })
   return (
     <Button
-      className={ COMP_CLASS.join(` `) }
+      className={ COMP_CLASS }
       {...others}
     >
       <Icon svgId={svgId} />
+      { label && (
+        <span className={`${BASE_CLASS}__notice`}>
+          <FormattedMessage id={ label } />
+        </span>
+      )}
     </Button>
-)}
+  )
+}

@@ -21,7 +21,11 @@ function EditProfile( props ) {
       <NavSecondary
         title={ <FormattedMessage {...titleProps} /> }
       >
-        <ButtonSubmit formId={ FORM_ID } isSaving={ props.isSaving } />
+        <ButtonSubmit
+          formId={ FORM_ID }
+          isSaving={ props.isSaving }
+          label="configuration.button.save"
+        />
       </NavSecondary>
       <SettingForm {...props} />
     </Fragment>

@@ -4,21 +4,25 @@ import { FormattedMessage } from 'react-intl'
 import { BtnIcon, Button } from '../ui/buttons.jsx'
 
 export function ButtonList( props ) {
+  const { type, ...rest } = props
   return (
     <BtnIcon
       secondary
       to={`/${props.type}`}
       svgId="view-list"
+      {...rest}
     />
   )
 }
 
 export function ButtonPreview( props ) {
+  const { type, id, ...rest } = props
   return (
     <BtnIcon
       secondary
-      to={`/${props.type}/${ props.id }/preview`}
+      to={`/${type}/${ id }/preview`}
       svgId="receipt"
+      { ...rest }
     />
   )
 }
@@ -29,15 +33,19 @@ export function ButtonPrint( props ) {
       secondary
       svgId="print"
       onClick={ event => window.print() }
+      label="_.print"
+      {...props}
     />
   )
 }
 
 export function ButtonEdit( props ) {
+  const { type, id, ...rest } = props
   return (
     <BtnIcon
-      to={`/${props.type}/${ props.id }`}
+      to={`/${type}/${ id }`}
       svgId="edit"
+      { ...rest }
     />
   )
 }
@@ -60,7 +68,7 @@ export function ButtonNew( props ) {
 }
 
 export function ButtonSubmit( props ) {
-  const { isSaving, formId } = props
+  const { isSaving, formId, ...rest } = props
   const iconId = isSaving ? `block` : `save`
   return (
     <BtnIcon
@@ -68,6 +76,7 @@ export function ButtonSubmit( props ) {
       disabled={ isSaving }
       type="submit"
       svgId={ iconId }
+      {...rest}
     />
   )
 }

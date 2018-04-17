@@ -1,12 +1,5 @@
-%btn {
-  border: 2px solid;
-  padding: .75em 1em;
-  border-radius: var(--s-quarter-gutter);
-  cursor: pointer;
-  display: inline-block;
-}
-
 .button {
+  $root: &;
   --button-bg-color:    var(--c-accent);
   --button-border-color: var(--c-accent);
   --button-text-color: white;
@@ -98,6 +91,39 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+    }
+  }
+  &__notice {
+    --arrow-width: .5em;
+    position: absolute;
+    top: calc( 100%  + var(--arrow-width) * 1.5);
+    font-size: .8rem;
+    left: 50%;
+    transform: translate( -50%, 0);
+    background: var(--c-text);
+    padding: .5em .65em;
+    border-radius: .25em;
+    color: white;
+    pointer-events: none;
+    display: none;
+    line-height: 1.1em;
+    text-align: center;
+    text-transform: lowercase;
+    white-space: nowrap;
+
+    #{$root}:hover & {
+      display: block;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      border-style: solid;
+      border-color: transparent transparent var(--c-text);
+      border-width: 0 var(--arrow-width) var(--arrow-width);
+      left: 50%;
+      transform: translate( -50%, 0);
     }
   }
 }

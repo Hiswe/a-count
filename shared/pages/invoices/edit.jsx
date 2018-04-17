@@ -30,10 +30,21 @@ function EditInvoice( props ) {
       <NavSecondary
         title={ <FormattedMessage {...titleProps} /> }
       >
-        <ButtonSubmit formId={ FORM_ID } isSaving={ props.isSaving } />
+        <ButtonSubmit
+          formId={ FORM_ID }
+          isSaving={ props.isSaving }
+          label="_.save"
+        />
         <ButtonShowQuotation />
-        <ButtonPreview type={ TYPE } id={ id } />
-        <ButtonList    type={ TYPE }           />
+        <ButtonPreview
+          type={ TYPE }
+          id={ id }
+          label="invoices.button.preview"
+        />
+        <ButtonList
+          type={ TYPE }
+          label="invoices.button.list"
+        />
       </NavSecondary>
       <InvoiceForm />
     </Fragment>
