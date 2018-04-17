@@ -189,7 +189,7 @@ function state2prop( state ) {
     isSaving:   state.quotations.get(`isSaving`),
     isNew,
     current:    state.quotations.get(`current`),
-    customers:  state.customers.get(`list`),
+    customers:  state.customers.get(`active`),
   }
 }
 
