@@ -6,13 +6,14 @@ const   Router    = require( 'koa-router'   )
 const   merge     = require( 'lodash.merge' )
 const   omit      = require( 'lodash.omit'  )
 
-const { normalizeString  } = require( './utils/db-getter-setter'     )
-const   addRelations       = require( './utils/db-default-relations' )
-const   cleanPayments      = require( './utils/clean-payments'       )
-const   User               = require( './db/model-user'              )
-const   Customer           = require( './db/model-customer'          )
-const   Quotation          = require( './db/model-quotation'         )
-const   Invoice            = require( './db/model-invoice'           )
+const { normalizeString } = require( './utils/db-getter-setter'     )
+const   addRelations      = require( './utils/db-default-relations' )
+const   formatList        = require( './utils/db-format-list'       )
+const   cleanPayments     = require( './utils/clean-payments'       )
+const   User              = require( './db/model-user'              )
+const   Customer          = require( './db/model-customer'          )
+const   Quotation         = require( './db/model-quotation'         )
+const   Invoice           = require( './db/model-invoice'           )
 
 const  prefix  = `invoices`
 const  router  = new Router({prefix: `/${prefix}`})
@@ -27,17 +28,14 @@ const MESSAGES = Object.freeze({
 
 router
 .get(`/`, async (ctx, next) => {
-  const { userId }  = ctx.state
+  const { userId, dbQuery }  = ctx.state
   const queryParams = addRelations.invoice({
     where: { userId },
+    ...dbQuery,
   })
-  const list = await Invoice.findAll( queryParams )
+  const list = await Invoice.findAndCount( queryParams )
 
-  // put response in a “list“ key
-  // • we will add pagination information later
-  ctx.body = {
-    list: list.map( c => c.toJSON() ),
-  }
+  ctx.body = formatList({list, dbQuery})
 })
 
 //----- EDIT

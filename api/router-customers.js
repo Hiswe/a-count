@@ -104,13 +104,12 @@ router
     ...dbQuery
   }
   const list  = await Quotation.findAndCount( query )
-
-  ctx.body = formatList({list, dbQuery})
+  ctx.body    = formatList({list, dbQuery})
 })
 .get(`/:id/invoices`, async (ctx, next) => {
-  const { userId }  = ctx.state
+  const { userId, dbQuery }  = ctx.state
   const { id }      = ctx.params
-  const query       = {
+  const queryParams = {
     where: {
       userId,
       customerId: id,
@@ -139,10 +138,11 @@ router
           attributes: [`startAt`, `prefix`],
         }]
       }
-    ]
+    ],
+    ...dbQuery
   }
-  const invoices  = await Invoice.findAll( query )
-  ctx.body = { list: invoices }
+  const list = await Invoice.findAndCount( queryParams )
+  ctx.body   = formatList({list, dbQuery})
 })
 .post(`/:id`, async (ctx, next) => {
   const { userId }  = ctx.state
