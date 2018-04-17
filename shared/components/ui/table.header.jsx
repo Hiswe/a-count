@@ -65,7 +65,7 @@ export class TableThead extends React.PureComponent {
             <Th
               key={ i }
               column={ c }
-              isSorted={ sort === c.sort }
+              isSorted={ c.sort && sort === c.sort }
               dir={ dir }
               onClick={ !c.sort ? null : event => this.handleSort(event, c.sort ) }
             />)) }
