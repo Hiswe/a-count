@@ -3,8 +3,8 @@ import { FormattedMessage } from 'react-intl'
 
 import { Main, Meta, Content, ContentActions } from '../layout/main.jsx'
 import { PaperSheet, Between, PartyUser, Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
-import { Form, FormActions } from '../ui/form.jsx'
-import { Button, BtnLink, BtnIcon } from '../ui/buttons.jsx'
+import { Form  , FormActions } from '../ui/form.jsx'
+import { Button, BtnIcon     } from '../ui/buttons.jsx'
 import { Input, Textarea, Select } from '../ui/field.jsx'
 import { Stepper } from '../ui/stepper.jsx'
 import Icon from '../ui/svg-icons.jsx'
@@ -91,7 +91,7 @@ export default function QuotationFormPres( props ) {
                   >
                     { !isLast && (
                       <BtnIcon
-                        link
+                        linkAlike
                         onClick={ e => handle.productRemove(index, fieldPath) }
                         type="button"
                         svgId="delete"

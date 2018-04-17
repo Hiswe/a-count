@@ -51,9 +51,9 @@ function QuotationRow( props ) {
         </p>
       </td>
       {!hideInvoice && (
-        <td>
+        <td className="is-padded">
           <ButtonShowInvoice  quotation={ quotation } />
-          <ButtonCreateInvoice quotation={ quotation } />
+          <ButtonCreateInvoice linkAlike quotation={ quotation } />
         </td>
       )}
       <td className="is-number">

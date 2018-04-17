@@ -43,14 +43,13 @@
   }
 
   &--link {
-    background: none;
-    color: var(--c-accent);
     border: 0;
-    padding: 0.5em 0.75em;
-
-    &:hover {
-      text-decoration: underline;
-    }
+    padding: 0;
+    --button-bg-color: transparent;
+    --button-text-color: var(--c-accent);
+    --button-bg-color-hover: transparent;
+    --button-bg-border-hover: transparent;
+    --button-text-color-hover: var(--c-text);
   }
 
   &--icon {

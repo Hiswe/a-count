@@ -43,7 +43,7 @@ class Forgot extends React.PureComponent {
         >
           <Form id="forgot" action="/account/forgot" onSubmit={ this.handleSubmit } >
             <p>
-              <FormattedMessage id="account.forgot.notice" defaultValue="after submitting the form you will receive a reset link by email" />
+              <FormattedMessage id="account.forgot.notice"/>
             </p>
             <input type="hidden" name="redirectUrl" value={ MAIL_REDIRECT_URL } />
             <Input
@@ -53,7 +53,7 @@ class Forgot extends React.PureComponent {
               defaultValue=""
             />
             <Button type="submit">
-              <FormattedMessage id="account.forgot.button" defaultValue="Send reset link" />
+              <FormattedMessage id="account.forgot.button" />
             </Button>
           </Form>
         </LayoutBoarding>

@@ -121,7 +121,7 @@ export default function InvoiceEvents( props ) {
           </td>
           <td className="is-action">
             {(index < payments.length - 1 )&& <BtnIcon
-              link
+              linkAlike
               onClick={ e => handle.removePayment(index, payment._fieldPath) }
               type="button"
               svgId="delete"
