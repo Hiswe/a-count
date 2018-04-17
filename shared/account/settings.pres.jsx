@@ -1,5 +1,8 @@
-import React, { Fragment } from 'react'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import React from 'react'
+import {
+  FormattedMessage,
+  FormattedHTMLMessage
+} from 'react-intl'
 
 import { PaperSheet, Party, Reference, Mentions } from '../layout/paper-sheet.jsx'
 import { Alert } from '../ui/alerts.jsx'

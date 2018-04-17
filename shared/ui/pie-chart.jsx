@@ -1,6 +1,6 @@
-import React, { PureComponent, Fragment } from 'react'
+import   React              from 'react'
 import { FormattedMessage } from 'react-intl'
-import round from 'lodash.round'
+import   round              from 'lodash.round'
 
 import { Percent } from './format.jsx'
 
@@ -25,7 +25,7 @@ export function PieChartDefs( props ) {
   )
 }
 
-export class PieChart extends PureComponent {
+export class PieChart extends React.PureComponent {
   constructor( props ) {
     super( props )
 

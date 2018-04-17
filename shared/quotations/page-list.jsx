@@ -5,15 +5,15 @@ import { Link               } from 'react-router-dom'
 import { FormattedMessage   } from 'react-intl'
 import { Helmet             } from 'react-helmet'
 
-import ConnectDataFetcher from '../../connect-data-fetcher.js'
-import * as quotations    from '../../ducks/quotations'
-import { Main, Content  } from '../../components/layout/main.jsx'
-import { NavSecondary   } from '../../components/nav/secondary.jsx'
-import { ButtonNew      } from '../../components/nav/secondary-buttons.jsx'
+import ConnectDataFetcher from '../connect-data-fetcher.js'
+import * as quotations    from '../ducks/quotations'
+import { Main, Content  } from '../layout/main.jsx'
+import { NavSecondary   } from '../nav/secondary.jsx'
+import { ButtonNew      } from '../nav/secondary-buttons.jsx'
 import {
   ActiveQuotations,
   QuotationsReadyToInvoice,
-} from '../../components/quotations/list.jsx'
+} from './list.jsx'
 
 const TYPE = `quotations`
 

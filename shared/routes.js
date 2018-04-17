@@ -1,30 +1,30 @@
 import authenticationRequired from './authentication-required.jsx'
 import authenticationForbidden from './authentication-forbidden.jsx'
 
-import Root from './components/root.jsx'
+import Root from './layout/root.jsx'
 
-import Login from './pages/account/login.jsx'
-import Register from './pages/account/register.jsx'
-import Forgot from './pages/account/forgot.jsx'
-import Reset from './pages/account/reset.jsx'
-import Settings from './pages/account/settings.jsx'
+import Login    from './account/page-login.jsx'
+import Register from './account/page-register.jsx'
+import Forgot   from './account/page-forgot.jsx'
+import Reset    from './account/page-reset.jsx'
+import Settings from './account/page-settings.jsx'
 
-import Home from './pages/home.jsx'
+import Home from './home/page-home.jsx'
 
-import QuotationsList from './pages/quotations/list.jsx'
-import QuotationsNew from './pages/quotations/new.jsx'
-import QuotationsEdit from './pages/quotations/edit.jsx'
-import QuotationsPreview from './pages/quotations/preview.jsx'
+import QuotationsList    from './quotations/page-list.jsx'
+import QuotationsNew     from './quotations/page-new.jsx'
+import QuotationsEdit    from './quotations/page-edit.jsx'
+import QuotationsPreview from './quotations/page-preview.jsx'
 
-import InvoicesList from './pages/invoices/list.jsx'
-import InvoicesEdit from './pages/invoices/edit.jsx'
-import InvoicesPreview from './pages/invoices/preview.jsx'
+import InvoicesList    from './invoices/page-list.jsx'
+import InvoicesEdit    from './invoices/page-edit.jsx'
+import InvoicesPreview from './invoices/page-preview.jsx'
 
-import CustomersList from './pages/customers/list.jsx'
-import CustomerNew from './pages/customers/new.jsx'
-import CustomerEdit from './pages/customers/edit.jsx'
+import CustomersList from './customers/page-list.jsx'
+import CustomerNew   from './customers/page-new.jsx'
+import CustomerEdit  from './customers/page-edit.jsx'
 
-import NotFound from './pages/not-found.jsx'
+import NotFound from './page-not-found.jsx'
 
 const routes = [{
   component: Root,

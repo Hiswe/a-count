@@ -1,10 +1,10 @@
-import React        from 'react'
+import   React                from 'react'
 import { Link               } from 'react-router-dom'
 import { connect            } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 
-import * as customers  from '../../ducks/customers'
+import * as customers  from '../ducks/customers'
 import * as TableUtils from '../utils/tables'
 import { Table, EmptyLine, Row } from '../ui/table.jsx'
 import { FormatNumber, Amount } from '../ui/format.jsx'

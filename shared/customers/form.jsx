@@ -1,19 +1,19 @@
-import React, { Component } from 'react'
+import   React                from 'react'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import serialize from 'form-serialize'
+import { connect            } from 'react-redux'
+import { Link               } from 'react-router-dom'
+import   serialize            from 'form-serialize'
 
-import * as customers from '../../ducks/customers'
-import { isNewCustomer } from '../utils/check-redirection.js'
-import Spinner from '../ui/spinner.jsx'
-import { Form } from '../ui/form.jsx'
+import * as customers       from '../ducks/customers'
+import {    isNewCustomer } from '../utils/check-redirection.js'
+import      Spinner         from '../ui/spinner.jsx'
+import {    Form          } from '../ui/form.jsx'
 
 export const FORM_ID = `customer-form`
 
 export const FormContext = React.createContext({})
 
-class CustomerForm extends Component {
+class CustomerForm extends React.Component {
 
   constructor( props ) {
     super( props )

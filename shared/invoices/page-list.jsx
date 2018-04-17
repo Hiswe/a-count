@@ -5,13 +5,13 @@ import { Link               } from 'react-router-dom'
 import { FormattedMessage   } from 'react-intl'
 import { Helmet             } from 'react-helmet'
 
-import      ConnectDataFetcher from '../../connect-data-fetcher.js'
-import * as quotations         from '../../ducks/quotations'
-import * as invoices           from '../../ducks/invoices'
-import { Main, Content            } from '../../components/layout/main.jsx'
-import { NavSecondary             } from '../../components/nav/secondary.jsx'
-import { ActiveInvoices           } from '../../components/invoices/list.jsx'
-import { QuotationsReadyToInvoice } from '../../components/quotations/list.jsx'
+import      ConnectDataFetcher from '../connect-data-fetcher.js'
+import * as quotations         from '../ducks/quotations'
+import * as invoices           from '../ducks/invoices'
+import { Main, Content            } from '../layout/main.jsx'
+import { NavSecondary             } from '../nav/secondary.jsx'
+import { QuotationsReadyToInvoice } from '../quotations/list.jsx'
+import { ActiveInvoices           } from './list.jsx'
 
 function Invoices( props ) {
   const titleProps  = { id:`page.invoices` }

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import './item.scss'
@@ -6,7 +6,7 @@ const BASE_CLASS = `notification`
 
 const NOTIFICATION_LIFETIME = 5000
 
-export default class Notification extends PureComponent {
+export default class Notification extends React.PureComponent {
 
   constructor( props ) {
     super( props )

@@ -1,10 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import   React                from 'react'
+import { connect            } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage   } from 'react-intl'
 
-import * as quotations from '../../ducks/quotations'
-import { Button, BtnIcon } from '../ui/buttons.jsx'
+import * as quotations            from '../ducks/quotations'
+import {    Button    , BtnIcon } from '../ui/buttons.jsx'
 
 function ButtonArchiveQuotation( props ) {
   const { quotation, archiveOne, isSaving, icon, ...others } = props

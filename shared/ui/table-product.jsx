@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import   React              from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import * as compute from '../utils/compute-total.js'

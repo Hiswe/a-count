@@ -1,16 +1,16 @@
-import React, { Component, Fragment } from 'react'
+import   React                from 'react'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import serialize from 'form-serialize'
+import { connect            } from 'react-redux'
+import { Link               } from 'react-router-dom'
+import   serialize            from 'form-serialize'
 
-import * as account from '../../ducks/account'
-import { Form } from '../ui/form.jsx'
-import SettingFormPres from './settings.pres.jsx'
+import * as account           from '../ducks/account'
+import {    Form            } from '../ui/form.jsx'
+import      SettingFormPres   from './settings.pres.jsx'
 
 export const FORM_ID    = `setting-form`
 
-class SettingForm extends Component {
+class SettingForm extends React.Component {
 
   constructor( props ) {
     super( props )

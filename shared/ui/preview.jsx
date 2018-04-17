@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { FormattedHTMLMessage } from 'react-intl'
 
@@ -18,29 +18,27 @@ export function Preview( props ) {
   const { document, type } = props
 
   return (
-    <Fragment>
-      <PaperSheet preview>
-        <Reference type={ type } product={ document } />
-        <Between>
-          <PartyUser />
-          <Party title="to" people={ document.get(`customer`) } />
-        </Between>
-        <Subject value={ document.get(`name`)} />
-        <ProductTable
-          readOnly
-          products={ document.get(`products`) }
-          tax={ document.get(`tax`) }
-        >
-          {document.get(`products`).map( (product, index) =>  (
-            <ProductLineDisplay
-              key={ index }
-              product={ product }
-            />
-          ))}
-        </ProductTable>
-        <Mentions content={ document.get(`${type}Config.mentions`) } />
-      </PaperSheet>
-    </Fragment>
+    <PaperSheet preview>
+      <Reference type={ type } product={ document } />
+      <Between>
+        <PartyUser />
+        <Party title="to" people={ document.get(`customer`) } />
+      </Between>
+      <Subject value={ document.get(`name`)} />
+      <ProductTable
+        readOnly
+        products={ document.get(`products`) }
+        tax={ document.get(`tax`) }
+      >
+        {document.get(`products`).map( (product, index) =>  (
+          <ProductLineDisplay
+            key={ index }
+            product={ product }
+          />
+        ))}
+      </ProductTable>
+      <Mentions content={ document.get(`${type}Config.mentions`) } />
+    </PaperSheet>
   )
 }
 

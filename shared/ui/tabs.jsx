@@ -1,4 +1,4 @@
-import React, { Fragment, PureComponent } from 'react'
+import React from 'react'
 
 import './tabs.scss'
 const BASE_CLASS = `tabs`
@@ -11,7 +11,7 @@ export function Tabs( props ) {
   )
 }
 
-export class TabList extends PureComponent {
+export class TabList extends React.PureComponent {
 
   constructor( props ) {
     super( props )
@@ -50,7 +50,7 @@ export class TabList extends PureComponent {
 
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
 
         { this.tabsIds.map( (id, index) => (
           <input
@@ -67,7 +67,7 @@ export class TabList extends PureComponent {
         <header className={`${BASE_CLASS}__list`}>
           { this.tabsContent }
         </header>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

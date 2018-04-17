@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 
 import './secondary.scss'
 const BASE_CLASS = `nav-secondary`
 
-export class NavSecondary extends PureComponent {
+export class NavSecondary extends React.PureComponent {
 
   constructor( props ) {
     super( props )

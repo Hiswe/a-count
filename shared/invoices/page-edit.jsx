@@ -1,19 +1,19 @@
-import React, { Fragment } from 'react'
+import   React                from 'react'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { Helmet } from 'react-helmet'
+import { connect            } from 'react-redux'
+import { FormattedMessage   } from 'react-intl'
+import { Helmet             } from 'react-helmet'
 
-import ConnectDataFetcher from '../../connect-data-fetcher.js'
-import * as invoices from '../../ducks/invoices'
-import NavSecondary from '../../components/nav/secondary.jsx'
+import      ConnectDataFetcher from '../connect-data-fetcher.js'
+import * as invoices           from '../ducks/invoices'
+import      NavSecondary       from '../nav/secondary.jsx'
 import {
   ButtonList,
   ButtonPreview,
   ButtonSubmit,
-} from '../../components/nav/secondary-buttons.jsx'
-import InvoiceForm, { FORM_ID } from '../../components/invoices/form.jsx'
-import ButtonShowQuotation from '../../components/invoices/button-show-quotation.jsx'
+} from '../nav/secondary-buttons.jsx'
+import InvoiceForm        , { FORM_ID } from './form.jsx'
+import ButtonShowQuotation              from './button-show-quotation.jsx'
 
 const TYPE = `invoices`
 
@@ -23,7 +23,7 @@ function EditInvoice( props ) {
   const titleProps  = { id:`page.invoices.edit`, values: {reference} }
 
   return (
-    <Fragment>
+    <React.Fragment>
       <FormattedMessage {...titleProps} >
         {title => <Helmet><title>{title}</title></Helmet>}
       </FormattedMessage>
@@ -47,7 +47,7 @@ function EditInvoice( props ) {
         />
       </NavSecondary>
       <InvoiceForm />
-    </Fragment>
+    </React.Fragment>
   )
 }
 

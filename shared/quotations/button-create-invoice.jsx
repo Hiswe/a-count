@@ -1,11 +1,11 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import   React                from 'react'
+import { FormattedMessage   } from 'react-intl'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect            } from 'react-redux'
 
-import * as quotations from '../../ducks/quotations'
-import { Button } from '../ui/buttons.jsx'
-import { FORM_ID } from './form.pres.jsx'
+import * as quotations   from '../ducks/quotations'
+import {    Button     } from '../ui/buttons.jsx'
+import {    FORM_ID    } from './form.pres.jsx'
 
 function ButtonCreateInvoice( props ) {
   const { quotation, createInvoice, isSaving, ...others } = props

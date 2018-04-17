@@ -1,18 +1,18 @@
-import React, { PureComponent, Fragment } from 'react'
+import   React          from 'react'
 import { renderRoutes } from 'react-router-config'
 import { IntlProvider } from 'react-intl'
-import { connect } from 'react-redux'
-import { Helmet } from 'react-helmet'
+import { connect      } from 'react-redux'
+import { Helmet       } from 'react-helmet'
 
-import config from '../isomorphic-config.js'
-import * as locales from '../locales'
-import ErrorBoundary from './error-boundary.jsx'
-import NavMain from './nav/main.jsx'
-import Notifications from './notifications/list.jsx'
+import      config        from '../isomorphic-config.js'
+import * as locales       from '../locales'
+import      ErrorBoundary from '../error-boundary.jsx'
+import      NavMain       from '../nav/main.jsx'
+import      Notifications from '../notifications/list.jsx'
 
 import './root.scss'
 
-class Root extends PureComponent {
+class Root extends React.PureComponent {
 
   constructor( props ) {
     super( props )
@@ -25,7 +25,7 @@ class Root extends PureComponent {
     // • https://github.com/yahoo/react-intl/wiki/Components#dynamic-language-selection
     return (
       <IntlProvider locale={ lang } key={ lang } messages={ locales[ lang ] } >
-        <Fragment>
+        <React.Fragment>
           {/* React.StrictMode throw for any:
               • Connect component
               • Route
@@ -63,7 +63,7 @@ class Root extends PureComponent {
             </ErrorBoundary>
             <Notifications />
           {/* </React.StrictMode> */}
-        </Fragment>
+        </React.Fragment>
       </IntlProvider>
     )
   }

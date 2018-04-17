@@ -1,7 +1,7 @@
 import   React              from 'react'
+import   classNames         from 'classnames'
 import { withRouter       } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
-import   classNames         from 'classnames'
 
 import { Icon } from './svg-icons.jsx'
 

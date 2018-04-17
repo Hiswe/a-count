@@ -1,18 +1,18 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
+import   React              from 'react'
+import { connect          } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import { Helmet } from 'react-helmet'
+import { Helmet           } from 'react-helmet'
 
-import ConnectDataFetcher from '../../connect-data-fetcher.js'
-import * as invoices from '../../ducks/invoices'
-import { Main, Content } from '../../components/layout/main.jsx'
-import NavSecondary from '../../components/nav/secondary.jsx'
+import      ConnectDataFetcher            from '../connect-data-fetcher.js'
+import * as invoices                      from '../ducks/invoices'
+import {    Main              , Content } from '../layout/main.jsx'
+import      NavSecondary                  from '../nav/secondary.jsx'
 import {
   ButtonList,
   ButtonEdit,
   ButtonPrint,
-} from '../../components/nav/secondary-buttons.jsx'
-import { Preview, PrintingNotice } from '../../components/ui/preview.jsx'
+} from '../nav/secondary-buttons.jsx'
+import { Preview, PrintingNotice } from '../ui/preview.jsx'
 
 const TYPE = `invoices`
 
@@ -23,7 +23,7 @@ function PreviewInvoicePage( props ) {
   const titleProps  = { id:`page.invoices.preview`, values: {reference} }
 
   return (
-    <Fragment>
+    <React.Fragment>
       <FormattedMessage {...titleProps} >
         {title => (
           <Helmet>
@@ -52,7 +52,7 @@ function PreviewInvoicePage( props ) {
           <Preview type="invoice" document={ invoice } />
         </Content>
       </Main>
-    </Fragment>
+    </React.Fragment>
   )
 }
 

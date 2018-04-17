@@ -1,21 +1,21 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import { injectIntl } from 'react-intl'
+import   React              from 'react'
+import { connect          } from 'react-redux'
+import { injectIntl       } from 'react-intl'
 import { FormattedMessage } from 'react-intl'
-import { Helmet } from 'react-helmet'
+import { Helmet           } from 'react-helmet'
 
-import ConnectDataFetcher from '../../connect-data-fetcher.js'
-import * as quotations from '../../ducks/quotations'
-import { Main, Content } from '../../components/layout/main.jsx'
-import NavSecondary from '../../components/nav/secondary.jsx'
+import      ConnectDataFetcher            from '../connect-data-fetcher.js'
+import * as quotations                    from '../ducks/quotations'
+import {    Main              , Content } from '../layout/main.jsx'
+import      NavSecondary                  from '../nav/secondary.jsx'
 import {
   ButtonNew,
   ButtonList,
   ButtonEdit,
   ButtonPrint,
-} from '../../components/nav/secondary-buttons.jsx'
-import { Alert } from '../../components/ui/alerts.jsx'
-import { Preview, PrintingNotice } from '../../components/ui/preview.jsx'
+} from '../nav/secondary-buttons.jsx'
+import { Alert } from '../ui/alerts.jsx'
+import { Preview, PrintingNotice } from '../ui/preview.jsx'
 
 const TYPE = `quotations`
 
@@ -26,7 +26,7 @@ function PreviewQuotationPage( props ) {
   const titleProps    = { id:`page.quotations.preview`, values: {reference} }
 
   return (
-    <Fragment>
+    <React.Fragment>
       <FormattedMessage {...titleProps} >
         {title => (
           <Helmet>
@@ -61,7 +61,7 @@ function PreviewQuotationPage( props ) {
           <Preview type="quotation" document={ quotation } />
         </Content>
       </Main>
-    </Fragment>
+    </React.Fragment>
   )
 }
 

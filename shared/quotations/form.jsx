@@ -1,16 +1,15 @@
-import React, { Component, Fragment } from 'react'
+import   React                from 'react'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import serialize from 'form-serialize'
-import crio from 'crio'
+import { connect            } from 'react-redux'
+import   serialize            from 'form-serialize'
+import   crio                 from 'crio'
 
-import * as quotations from '../../ducks/quotations'
-import * as customers from '../../ducks/customers'
+import * as quotations from '../ducks/quotations'
+import * as customers  from '../ducks/customers'
 import { isNewQuotation, isNewInvoice } from '../utils/check-redirection.js'
 import recomputeQuotationProducts from '../utils/recompute-quotation-products.js'
-
-import Spinner from '../ui/spinner.jsx'
-import QuotationFormPres from './form.pres.jsx'
+import {Spinner          } from '../ui/spinner.jsx'
+import  QuotationFormPres  from './form.pres.jsx'
 
 const STEPS = crio([
   { key: `sendAt`,       label: `send` },
@@ -18,7 +17,7 @@ const STEPS = crio([
   { key: `signedAt`,     label: `signed` },
 ])
 
-class QuotationForm extends Component {
+class QuotationForm extends React.Component {
 
   constructor( props ) {
     super( props )

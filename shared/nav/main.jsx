@@ -1,17 +1,17 @@
-import React, { Fragment, PureComponent } from 'react'
-import { NavLink, withRouter } from 'react-router-dom'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import   React                                      from 'react'
+import { NavLink           , withRouter }           from 'react-router-dom'
+import { bindActionCreators }                       from 'redux'
+import { connect            }                       from 'react-redux'
+import { FormattedMessage  , FormattedHTMLMessage } from 'react-intl'
 
-import * as account from '../../ducks/account'
+import * as account from '../ducks/account'
 
 import './main.scss'
 const BASE_CLASS = `nav-main`
 const ITEM_CLASS = `${BASE_CLASS}__item`
 const ACTIVE_CLASS = `is-active`
 
-class LogoutButton extends PureComponent {
+class LogoutButton extends React.PureComponent {
   constructor( props ) {
     super( props )
     this.logout = this.logout.bind( this )
@@ -31,7 +31,7 @@ class LogoutButton extends PureComponent {
 
 function ConnectedNav( props )  {
   return (
-    <Fragment>
+    <React.Fragment>
       <li className={ ITEM_CLASS }>
         <NavLink to="/" exact activeClassName={ ACTIVE_CLASS }>
           <FormattedMessage id="page.home" />
@@ -65,13 +65,13 @@ function ConnectedNav( props )  {
       <li className={ ITEM_CLASS }>
         <LogoutButton logout={ props.logout} />
       </li>
-    </Fragment>
+    </React.Fragment>
   )
 }
 
 function ConnectionNav( props ) {
   return (
-    <Fragment>
+    <React.Fragment>
       <li className="nav-main__item">
         <NavLink to="/account/login" activeClassName={ ACTIVE_CLASS }>
           <FormattedMessage id="page.login" />
@@ -87,7 +87,7 @@ function ConnectionNav( props ) {
           <FormattedMessage id="page.forgot" />
         </NavLink>
       </li>
-    </Fragment>
+    </React.Fragment>
   )
 }
 

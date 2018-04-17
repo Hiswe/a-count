@@ -1,19 +1,19 @@
-import React, { PureComponent, Fragment } from 'react'
-import serialize from 'form-serialize'
+import   React                from 'react'
+import   serialize            from 'form-serialize'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import queryString from 'query-string'
-import { FormattedMessage } from 'react-intl'
-import { Helmet } from 'react-helmet'
+import { connect            } from 'react-redux'
+import   queryString          from 'query-string'
+import { FormattedMessage   } from 'react-intl'
+import { Helmet             } from 'react-helmet'
 
-import ConnectDataFetcher from '../../connect-data-fetcher.js'
-import * as account from '../../ducks/account'
-import LayoutBoarding from '../../components/layout/boarding.jsx'
-import Form from '../../components/ui/form.jsx'
-import { Button } from '../../components/ui/buttons.jsx'
-import { Input } from '../../components/ui/field.jsx'
+import      ConnectDataFetcher   from '../connect-data-fetcher.js'
+import * as account              from '../ducks/account'
+import      LayoutBoarding       from '../layout/boarding.jsx'
+import      Form                 from '../ui/form.jsx'
+import {    Button             } from '../ui/buttons.jsx'
+import {    Input              } from '../ui/field.jsx'
 
-class Reset extends PureComponent {
+class Reset extends React.PureComponent {
 
   constructor( props ) {
     super( props )
@@ -35,7 +35,7 @@ class Reset extends PureComponent {
     const titleProps  = { id:`account.reset.title` }
 
     return (
-      <Fragment>
+      <React.Fragment>
         <FormattedMessage {...titleProps} >
           {title => <Helmet><title>{title}</title></Helmet>}
         </FormattedMessage>
@@ -58,7 +58,7 @@ class Reset extends PureComponent {
             </Button>
           </Form>
         </LayoutBoarding>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

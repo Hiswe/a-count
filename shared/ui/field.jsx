@@ -1,6 +1,6 @@
-import isNil from 'lodash.isnil'
-import crio from 'crio'
-import React, { PureComponent } from 'react'
+import   isNil              from 'lodash.isnil'
+import   crio               from 'crio'
+import   React              from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import TextareaAutoResize from '../ui/textarea-auto-resize.jsx'
@@ -34,7 +34,7 @@ export function idToClassName( id ) {
 
 // inspired by
 // • https://github.com/muicss/mui/blob/master/src/react/_textfieldHelpers.jsx
-const fieldWrapper = ({ControlComponent, fieldType}) => class extends PureComponent {
+const fieldWrapper = ({ControlComponent, fieldType}) => class extends React.PureComponent {
 
   constructor( props ) {
     super( props )

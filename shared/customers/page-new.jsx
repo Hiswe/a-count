@@ -1,27 +1,27 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
+import   React              from 'react'
+import { connect          } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import { Helmet } from 'react-helmet'
+import { Helmet           } from 'react-helmet'
 
-import ConnectDataFetcher from '../../connect-data-fetcher.js'
-import * as customers from '../../ducks/customers'
+import      ConnectDataFetcher from '../connect-data-fetcher.js'
+import * as customers          from '../ducks/customers'
 import {
   PaperSheet,
   Between,
   Party,
   PartyUser,
-} from '../../components/layout/paper-sheet.jsx'
-import { Main, Meta, Content } from '../../components/layout/main.jsx'
-import NavSecondary from '../../components/nav/secondary.jsx'
+} from '../layout/paper-sheet.jsx'
+import { Main, Meta, Content } from '../layout/main.jsx'
+import NavSecondary from '../nav/secondary.jsx'
 import {
   ButtonList,
   ButtonSubmit,
-} from '../../components/nav/secondary-buttons.jsx'
+} from '../nav/secondary-buttons.jsx'
 import CustomerForm, {
   FORM_ID,
   FormContext,
-} from '../../components/customers/form.jsx'
-import CustomerFormPres from '../../components/customers/form.pres.jsx'
+} from './form.jsx'
+import CustomerFormPres from './form.pres.jsx'
 
 const TYPE = `customers`
 
@@ -30,7 +30,7 @@ const NewCustomer = props => {
   const titleProps  = { id:`page.customers.new` }
 
   return (
-    <Fragment>
+    <React.Fragment>
       <FormattedMessage {...titleProps} >
         {title => <Helmet><title>{title}</title></Helmet>}
       </FormattedMessage>
@@ -68,7 +68,7 @@ const NewCustomer = props => {
         </Main>
       </CustomerForm>
 
-    </Fragment>
+    </React.Fragment>
   )
 }
 

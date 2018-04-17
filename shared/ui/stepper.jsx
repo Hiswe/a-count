@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import   React              from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { DatePicker } from '../ui/date-picker.jsx'
@@ -9,7 +9,7 @@ export const CHECKED_CLASS = `${BASE_CLASS}--is-all-checked`
 export const RADIO_CLASS   = `${BASE_CLASS}__input`
 const CHECKBOX_NAME        = `stepper-display-form`
 
-export class Stepper extends Component {
+export class Stepper extends React.Component {
 
   constructor( props ) {
     super( props )
@@ -81,7 +81,7 @@ export function Step( props ) {
   const { step, checked, index, handleDayChange } = props
   const id  = `${ step.key }-${ index }`
   return (
-    <Fragment>
+    <React.Fragment>
       <input id={ id }
         name={ CHECKBOX_NAME }
         className={`${ RADIO_CLASS }`}
@@ -101,6 +101,6 @@ export function Step( props ) {
           />
         </div>
       </div>
-    </Fragment>
+    </React.Fragment>
   )
 }

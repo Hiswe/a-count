@@ -1,23 +1,23 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import   React              from 'react'
+import { connect          } from 'react-redux'
+import { Link             } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
-import { Helmet } from 'react-helmet'
+import { Helmet           } from 'react-helmet'
 
-import ConnectDataFetcher from '../connect-data-fetcher.js'
-import * as account from '../ducks/account.js'
-import * as quotations from '../ducks/quotations.js'
-import * as invoices from '../ducks/invoices.js'
-import { NavSecondary                } from '../components/nav/secondary.jsx'
-import { ButtonNew                   } from '../components/nav/secondary-buttons.jsx'
-import { Main         , Content      } from '../components/layout/main.jsx'
-import { Amount       , FormatNumber } from '../components/ui/format.jsx'
-import { PieChart     , PieChartDefs } from '../components/ui/pie-chart.jsx'
-import { ActiveInvoices } from  '../components/invoices/list.jsx'
+import      ConnectDataFetcher from '../connect-data-fetcher.js'
+import * as account            from '../ducks/account.js'
+import * as quotations         from '../ducks/quotations.js'
+import * as invoices           from '../ducks/invoices.js'
+import { NavSecondary                } from '../nav/secondary.jsx'
+import { ButtonNew                   } from '../nav/secondary-buttons.jsx'
+import { Main         , Content      } from '../layout/main.jsx'
+import { Amount       , FormatNumber } from '../ui/format.jsx'
+import { PieChart     , PieChartDefs } from '../ui/pie-chart.jsx'
+import { ActiveInvoices } from  '../invoices/list.jsx'
 import {
   ActiveQuotations,
   QuotationsReadyToInvoice,
-} from '../components/quotations/list.jsx'
+} from '../quotations/list.jsx'
 
 function Home( props ) {
   const {
@@ -28,7 +28,7 @@ function Home( props ) {
   const titleProps = { id: `page.home` }
 
   return (
-    <Fragment>
+    <React.Fragment>
       {/* https://github.com/nfl/react-helmet/issues/268#issuecomment-368148249 */}
       <FormattedMessage {...titleProps} >
         {title => <Helmet><title>{title}</title></Helmet>}
@@ -71,7 +71,7 @@ function Home( props ) {
           <ActiveInvoices title="page.invoices" />
         </Content>
       </Main>
-    </Fragment>
+    </React.Fragment>
   )
 }
 

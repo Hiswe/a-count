@@ -1,14 +1,12 @@
-import React from 'react'
+import   React                from 'react'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect            } from 'react-redux'
 
+import      Notification  from './item.jsx'
+import * as notifications from '../ducks/notifications'
 import './list.scss'
-import Notification from './item.jsx'
-
 const BASE_CLASS = `notifications`
 const NOTIFICATION_LIFETIME = 5000
-
-import * as notifications from '../../ducks/notifications'
 
 function Notifications( props ) {
   const { notifications, hasNotifications } = props

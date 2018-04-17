@@ -1,15 +1,14 @@
-import React, { Component } from 'react'
-import crio from 'crio'
-import shortid from 'shortid'
+import   React                from 'react'
+import   crio                 from 'crio'
+import   shortid              from 'shortid'
+import   serialize            from 'form-serialize'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import serialize from 'form-serialize'
+import { connect            } from 'react-redux'
 
-import * as invoices from '../../ducks/invoices'
-import { Form } from '../ui/form.jsx'
-
-import Spinner         from '../ui/spinner.jsx'
-import InvoiceFormPres from './form.pres.jsx'
+import * as invoices          from '../ducks/invoices'
+import {    Form            } from '../ui/form.jsx'
+import {    Spinner         } from '../ui/spinner.jsx'
+import      InvoiceFormPres   from './form.pres.jsx'
 
 export const FORM_ID = `invoice-form`
 
@@ -20,7 +19,7 @@ function isAmountFieldName( inputName ) {
   return /^payments\[\d+\]\[amount\]/.test( inputName )
 }
 
-class InvoiceForm extends Component {
+class InvoiceForm extends React.Component {
 
   constructor( props ) {
     super( props )

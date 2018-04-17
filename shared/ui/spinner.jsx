@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react'
+import   React              from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import './spinner.scss'
 const BASE_CLASS = `spinner`
 const DELAY      = 1000
 
-export default class Spinner extends PureComponent {
+export class Spinner extends React.PureComponent {
 
   constructor( props ) {
     super( props )
@@ -40,3 +40,5 @@ export default class Spinner extends PureComponent {
     )
   }
 }
+
+export default Spinner

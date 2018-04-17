@@ -1,6 +1,6 @@
-import React from 'react'
+import   React              from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
+import { connect          } from 'react-redux'
 
 import { Date, Markdown } from '../ui/format.jsx'
 

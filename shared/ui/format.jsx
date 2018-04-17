@@ -1,7 +1,7 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import   React                            from 'react'
+import { connect         }                from 'react-redux'
 import { FormattedNumber, FormattedDate } from 'react-intl'
-import marked from 'marked'
+import   marked                           from 'marked'
 
 import './format.scss'
 const BASE_CLASS = `format`

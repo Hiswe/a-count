@@ -3,7 +3,7 @@ import { Link               } from 'react-router-dom'
 import { connect            } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import * as invoices             from '../../ducks/invoices'
+import * as invoices             from '../ducks/invoices'
 import * as TableUtils           from '../utils/tables'
 import { Table, EmptyLine, Row } from '../ui/table.jsx'
 import { Amount, Date }          from '../ui/format.jsx'

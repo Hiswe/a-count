@@ -1,4 +1,4 @@
-import React, {  Fragment } from 'react'
+import   React              from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Main, Meta, Content, ContentActions } from '../layout/main.jsx'

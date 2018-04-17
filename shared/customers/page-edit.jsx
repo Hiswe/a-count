@@ -1,49 +1,49 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { Helmet } from 'react-helmet'
 
-import      ConnectDataFetcher from '../../connect-data-fetcher.js'
-import * as customers          from '../../ducks/customers'
-import * as quotations         from '../../ducks/quotations'
-import * as invoices           from '../../ducks/invoices'
+import      ConnectDataFetcher from '../connect-data-fetcher.js'
+import * as customers          from '../ducks/customers'
+import * as quotations         from '../ducks/quotations'
+import * as invoices           from '../ducks/invoices'
 import {
   PaperSheet,
   Between,
   Party,
   PartyUser,
-} from '../../components/layout/paper-sheet.jsx'
-import      NavSecondary       from '../../components/nav/secondary.jsx'
+} from '../layout/paper-sheet.jsx'
+import      NavSecondary       from '../nav/secondary.jsx'
 import {
   ButtonNew,
   ButtonList,
   ButtonSubmit,
-} from '../../components/nav/secondary-buttons.jsx'
+} from '../nav/secondary-buttons.jsx'
 import {
   Tabs,
   TabList,
   TabListHeader,
   Tab,
   TabPanel,
-} from '../../components/ui/tabs.jsx'
+} from '../ui/tabs.jsx'
 import {
   PresByKey,
   KeyLabel,
   KeyValue
-} from '../../components/ui/key-presentation.jsx'
+} from '../ui/key-presentation.jsx'
 import {
   Amount,
   FormatNumber,
-} from '../../components/ui/format.jsx'
-import { Progress } from '../../components/ui/progress.jsx'
+} from '../ui/format.jsx'
+import { Progress } from '../ui/progress.jsx'
+import { CustomerQuotations } from '../quotations/list.jsx'
+import { CustomerInvoices   } from '../invoices/list.jsx'
 import CustomerForm, {
   FORM_ID,
   FormContext,
-} from '../../components/customers/form.jsx'
-import CustomerFormPres from '../../components/customers/form.pres.jsx'
-import { CustomerQuotations } from '../../components/quotations/list.jsx'
-import { CustomerInvoices   } from '../../components/invoices/list.jsx'
+} from './form.jsx'
+import CustomerFormPres from './form.pres.jsx'
 
 const TYPE = `customers`
 
@@ -53,7 +53,7 @@ function EditCustomer( props ) {
   const   titleProps   = { id :`page.customers.edit`, values: {name} }
 
   return (
-    <Fragment>
+    <React.Fragment>
       <FormattedMessage {...titleProps} >
         {title => <Helmet><title>{title}</title></Helmet>}
       </FormattedMessage>
@@ -127,7 +127,7 @@ function EditCustomer( props ) {
           <TabPanel>
             <FormContext.Consumer>
               { context => (
-                <Fragment>
+                <React.Fragment>
                   <CustomerFormPres {...context} />
                   <PaperSheet part="top">
                     <Between>
@@ -135,13 +135,13 @@ function EditCustomer( props ) {
                       <Party title="to" people={context.formData} />
                     </Between>
                   </PaperSheet>
-                </Fragment>
+                </React.Fragment>
               )}
             </FormContext.Consumer>
           </TabPanel>
         </Tabs>
       </CustomerForm>
-    </Fragment>
+    </React.Fragment>
   )
 }
 

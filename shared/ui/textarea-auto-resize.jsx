@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 
 import './textarea-auto-resize.scss'
 const BASE_CLASS = `textarea`
 
-export default class TextareaAutoResize extends PureComponent {
+export default class TextareaAutoResize extends React.PureComponent {
 
   constructor( props ) {
     super( props )
