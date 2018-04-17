@@ -57,6 +57,11 @@ export function Table( props ) {
   return (
     <div className={ COMP_CLASS }>
       <table cellSpacing="0">
+        { props.title && (
+        <caption className={`${BASE_CLASS}__title`}>
+          <FormattedMessage id={ props.title } />
+        </caption>
+      )}
         <Thead columns={ columns } />
         <tbody>
           { props.children }

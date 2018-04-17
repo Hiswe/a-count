@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react'
+import   React                from 'react'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { FormattedMessage } from 'react-intl'
-import { Helmet } from 'react-helmet'
+import { connect            } from 'react-redux'
+import { Link               } from 'react-router-dom'
+import { FormattedMessage   } from 'react-intl'
+import { Helmet             } from 'react-helmet'
 
 import ConnectDataFetcher from '../../connect-data-fetcher.js'
-import * as quotations from '../../ducks/quotations'
+import * as quotations    from '../../ducks/quotations'
 import { Main, Content  } from '../../components/layout/main.jsx'
 import { NavSecondary   } from '../../components/nav/secondary.jsx'
 import { ButtonNew      } from '../../components/nav/secondary-buttons.jsx'
@@ -18,11 +18,10 @@ import {
 const TYPE = `quotations`
 
 function Quotations( props ) {
-  const { readyToInvoice } = props
   const titleProps = { id: `page.quotations` }
 
   return (
-    <Fragment>
+    <React.Fragment>
       <FormattedMessage {...titleProps} >
         {title => <Helmet><title>{title}</title></Helmet>}
       </FormattedMessage>
@@ -34,24 +33,15 @@ function Quotations( props ) {
       <Main>
         <Content>
           <ActiveQuotations />
-          { readyToInvoice.length > 0 && (
-          <Fragment>
-            <h3>
-              <FormattedMessage id="quotation.ready-to-invoice" />
-            </h3>
-            <QuotationsReadyToInvoice />
-          </Fragment>
-          )}
+          <QuotationsReadyToInvoice />
         </Content>
       </Main>
-    </Fragment>
+    </React.Fragment>
   )
 }
 
 function state2prop( state ) {
-  return {
-    readyToInvoice: state.quotations.get(`readyToInvoice`),
-  }
+  return {}
 }
 
 export default connect( state2prop )( ConnectDataFetcher({

@@ -42,15 +42,15 @@ import CustomerForm, {
   FormContext,
 } from '../../components/customers/form.jsx'
 import CustomerFormPres from '../../components/customers/form.pres.jsx'
-import { CustomerQuotations }   from '../../components/quotations/list.jsx'
-import InvoicesList     from '../../components/invoices/list.jsx'
+import { CustomerQuotations } from '../../components/quotations/list.jsx'
+import { CustomerInvoices   } from '../../components/invoices/list.jsx'
 
 const TYPE = `customers`
 
 function EditCustomer( props ) {
-  const { customer, quotations, invoices } = props
-  const name = customer.get(`name`)
-  const titleProps  = { id:`page.customers.edit`, values: {name} }
+  const { customer   } =   props
+  const   name         =   customer.get(`name`)
+  const   titleProps   = { id :`page.customers.edit`, values: {name} }
 
   return (
     <Fragment>
@@ -109,7 +109,7 @@ function EditCustomer( props ) {
           </TabPanel>
           {/* INVOICES */}
           <TabPanel>
-            <InvoicesList showCustomer={ false } invoices={ invoices } />
+            <CustomerInvoices />
           </TabPanel>
           {/* CUSTOMER FORM */}
           <TabPanel>
@@ -137,8 +137,6 @@ function state2prop( state ) {
   return {
     isSaving   : state.customers  .get( `isSaving` ),
     customer   : state.customers  .get( `current`  ),
-    quotations : state.quotations .get( `active`   ),
-    invoices   : state.invoices   .get( `list`     ),
   }
 }
 

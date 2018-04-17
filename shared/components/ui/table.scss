@@ -8,6 +8,13 @@
   --table-header-border-color: var(--c-primary);
   --table-header-bg-color: var(--c-primary-darker);
 
+  &__title {
+    text-align: left;
+    font-size: 1.25rem;
+    padding: 0 0 .5em;
+    text-transform: uppercase;
+  }
+
   table {
     border-collapse: collapse;
     border-radius: var(--s-border-radius);

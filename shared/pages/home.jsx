@@ -8,12 +8,12 @@ import ConnectDataFetcher from '../connect-data-fetcher.js'
 import * as account from '../ducks/account.js'
 import * as quotations from '../ducks/quotations.js'
 import * as invoices from '../ducks/invoices.js'
-import NavSecondary from '../components/nav/secondary.jsx'
-import { ButtonNew } from '../components/nav/secondary-buttons.jsx'
-import { Main, Content } from '../components/layout/main.jsx'
-import InvoicesList from '../components/invoices/list.jsx'
-import { Amount, FormatNumber } from '../components/ui/format.jsx'
-import { PieChart, PieChartDefs } from '../components/ui/pie-chart.jsx'
+import { NavSecondary                } from '../components/nav/secondary.jsx'
+import { ButtonNew                   } from '../components/nav/secondary-buttons.jsx'
+import { Main         , Content      } from '../components/layout/main.jsx'
+import { Amount       , FormatNumber } from '../components/ui/format.jsx'
+import { PieChart     , PieChartDefs } from '../components/ui/pie-chart.jsx'
+import { ActiveInvoices } from  '../components/invoices/list.jsx'
 import {
   ActiveQuotations,
   QuotationsReadyToInvoice,
@@ -66,22 +66,9 @@ function Home( props ) {
               <Amount value={ statistics.quotationsTotal + statistics.invoicesTotal } />
             </PieChart>
           </div>
-          <h3>
-            <FormattedMessage id="page.quotations" />
-          </h3>
-          <ActiveQuotations />
-          { quotationsReadyToInvoice.length > 0 && (
-          <Fragment>
-            <h3>
-              <FormattedMessage id="quotation.ready-to-invoice" />
-            </h3>
-            <QuotationsReadyToInvoice />
-          </Fragment>
-          )}
-          <h3>
-            <FormattedMessage id="page.invoices" />
-          </h3>
-          <InvoicesList invoices={ invoices } />
+          <ActiveQuotations title="page.quotations" />
+          <QuotationsReadyToInvoice />
+          <ActiveInvoices title="page.invoices" />
         </Content>
       </Main>
     </Fragment>
@@ -90,9 +77,7 @@ function Home( props ) {
 
 function state2props( state ) {
   return {
-    statistics              : state.account.get( `statistics` ),
-    quotationsReadyToInvoice: state.quotations.get( `readyToInvoice` ),
-    invoices                : state.invoices.get( `list` ),
+    statistics : state.account .get( `statistics` ),
   }
 }
 

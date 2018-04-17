@@ -1,10 +1,11 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router-dom'
 
 import * as quotations from '../../ducks/quotations.js'
+import * as TableUtils from '../utils/tables'
 import { Table , EmptyLine } from '../ui/table.jsx'
 import { Amount, Date      } from '../ui/format.jsx'
 import { Button            } from '../ui/buttons.jsx'
@@ -82,10 +83,10 @@ const filterColumn = key => column => column.label !== key
 function filterColumns({ hideInvoice, hideCustomer }) {
   let columns = defaultColumns
   if ( hideCustomer ) {
-    columns = columns.filter( filterColumn(`table.header.customer`) )
+    columns = columns.filter( TableUtils.filterColumn(`customer`) )
   }
   if ( hideInvoice ) {
-    columns = columns.filter( filterColumn(`table.header.invoice`) )
+    columns = columns.filter( TableUtils.filterColumn(`invoice`) )
   }
   return columns
 }
@@ -93,21 +94,22 @@ function filterColumns({ hideInvoice, hideCustomer }) {
 function QuotationsList( props ) {
   const {
     quotations,
-    meta,
     handlePagination,
+    hideOnEmpty  = false,
     hideInvoice  = false,
     hideCustomer = false,
+    ...others
   } = props
-  const hasQuotations  = Array.isArray( quotations ) && quotations.length > 0
+  const hasQuotations  = TableUtils.hasRows( quotations )
+  if ( hideOnEmpty && hasQuotations ) return null
   const columns        = filterColumns({ hideInvoice, hideCustomer })
   const columnCount    = columns.length
-
   return (
     <Table
       presentation
       columns={ columns }
-      meta={ meta }
       handlePagination={ handlePagination }
+      { ...others }
     >
     {
       !hasQuotations ? ( <EmptyLine colSpan={ columnCount } /> )
@@ -139,11 +141,13 @@ export const QuotationsReadyToInvoice = connect(
   state => ({
     quotations:   state.quotations.get(`readyToInvoice`),
     meta:         state.quotations.get(`meta.readyToInvoice`),
+    title:        `quotation.ready-to-invoice`,
+    hideOnEmpty:  true,
   }),
   dispatch => ( bindActionCreators({
     handlePagination: quotations.getReadyToInvoice
   }, dispatch ))
-)( QuotationsList )
+)(  QuotationsList )
 
 export const CustomerQuotations = connect(
   state => ({
