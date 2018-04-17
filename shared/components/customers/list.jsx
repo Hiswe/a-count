@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 
 import * as customers  from '../../ducks/customers'
 import * as TableUtils from '../utils/tables'
-import { Table, EmptyLine } from '../ui/table.jsx'
+import { Table, EmptyLine, Row } from '../ui/table.jsx'
 import { FormatNumber, Amount } from '../ui/format.jsx'
 import { Progress } from '../ui/progress.jsx'
 
@@ -14,7 +14,7 @@ function CustomerRow( props ) {
   const { customer } = props
   const url      = `/customers/${customer.id}`
   return (
-    <tr>
+    <Row>
       <td>
         <Link to={ url }>{ customer.name }</Link>
       </td>
@@ -37,17 +37,17 @@ function CustomerRow( props ) {
           max={ customer.get(`invoicesTotal`) }
         />
       </td>
-    </tr>
+    </Row>
   )
 }
 
 const defaultColumns = [
-  { label: `table.header.name`             ,                         },
-  { label: `table.header.quotations`       ,                         },
-  { label: `table.header.cumulative-amount`, style:{ width: `18em`}, },
-  { label: `table.header.invoices`         ,                         },
-  { label: `table.header.cumulative-amount`, style:{ width: `18em`}  },
-  { label: `table.amount.paid`             ,                         },
+  { label: `table.header.name`              , sort: `name`,           },
+  { label: `table.header.quotations`        ,                         },
+  { label: `table.header.cumulative-amount` , style:{ width: `18em`}, },
+  { label: `table.header.invoices`          ,                         },
+  { label: `table.header.cumulative-amount` , style:{ width: `18em`}  },
+  { label: `table.amount.paid`              ,                         },
 ]
 
 function CustomerList( props ) {

@@ -47,9 +47,10 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export const getAll = (params, cookie) => async dispatch => {
+export const getAll = (params = {}, cookie) => async dispatch => {
   const options = {
     url: `${NAME}`,
+    ...params,
   }
   return await fetchDispatch({
     dispatch,

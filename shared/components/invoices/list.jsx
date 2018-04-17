@@ -51,12 +51,12 @@ function InvoiceRow( props ) {
 }
 
 const defaultColumns = [
-  {label: `table.header.id`},
-  {label: `table.header.name`},
-  {label: `table.header.customer`},
-  {label: `table.header.quotation`},
-  {label: `table.amount`},
-  {label: `table.amount.paid`},
+  {label: `table.header.id`        , sort: `index`           },
+  {label: `table.header.name`      , sort: `name`            },
+  {label: `table.header.customer`  , sort: `customer.name`   },
+  {label: `table.header.quotation` , sort: `quotation.index` },
+  {label: `table.amount`           , sort: `total`           },
+  {label: `table.amount.paid`      , sort: `totalPaid`       },
 ]
 
 function InvoiceList( props ) {

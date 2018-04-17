@@ -112,10 +112,10 @@ export const getReadyToInvoice = (params = {}, cookie) => async dispatch => {
 }
 
 export const getAllForCustomer = (params = {}, cookie) => async dispatch => {
-  const { id, ...others } = params
+  const { id, ...rest } = params
   const options = {
     url: `/customers/${ id }/${NAME}`,
-    ...others
+    ...rest,
   }
   await fetchDispatch({
     dispatch,
