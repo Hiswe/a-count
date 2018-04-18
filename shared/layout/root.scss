@@ -60,7 +60,7 @@
   --s-quarter-gutter: calc( var(--s-gutter) / 4 );
 
   --s-max-width:    $max-width;
-  --s-border-radius: 0px;
+  --s-border-radius: var(--s-quarter-gutter);
 
   // NAV CONFIG
   --nav-main-width:       230px;

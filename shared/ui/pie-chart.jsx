@@ -104,6 +104,7 @@ export class PieChart extends React.PureComponent {
         <figure className={`${BASE_CLASS}__pie-wrapper`}>
           <svg viewBox="-1 -1 2 2" className={`${BASE_CLASS}__pie`}>
             <g clipPath="url(#pie-clip-all)">
+              <circle cx="0" cy="0" r="1" className={`${BASE_CLASS}__pie-bg`} />
               { this.createSlices() }
             </g>
           </svg>

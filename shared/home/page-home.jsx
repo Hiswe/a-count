@@ -11,13 +11,12 @@ import * as invoices           from '../ducks/invoices.js'
 import { NavSecondary                } from '../nav/secondary.jsx'
 import { ButtonNew                   } from '../nav/secondary-buttons.jsx'
 import { Main         , Content      } from '../layout/main.jsx'
-import { Amount       , FormatNumber } from '../ui/format.jsx'
-import { PieChart     , PieChartDefs } from '../ui/pie-chart.jsx'
 import { ActiveInvoices } from  '../invoices/list.jsx'
 import {
   ActiveQuotations,
   QuotationsReadyToInvoice,
 } from '../quotations/list.jsx'
+import { HomeCharts } from './charts.jsx'
 
 function Home( props ) {
   const {
@@ -40,32 +39,7 @@ function Home( props ) {
       </NavSecondary>
       <Main>
         <Content>
-          <div style={{display: `grid`, gridGap: `2rem`, gridTemplateColumns: `1fr 1fr`}}>
-            <PieChartDefs />
-            <PieChart
-              title="_.count"
-              slices={[
-                {label: `_.quotations` , value: statistics.quotationsCount },
-                {label: `_.invoices`   , value: statistics.invoicesCount   },
-              ]}
-            >
-              <FormatNumber
-                wrapperProps={{style: {fontSize: `3rem`}}}
-                value={statistics.quotationsCount + statistics.invoicesCount }
-              />
-            </PieChart>
-            <PieChart
-              title="_.amount"
-              type="currency"
-              slices={[
-                {label: `_.quotations`    , value: statistics.quotationsTotal   },
-                {label: `_.invoices.left` , value: statistics.invoicesTotalLeft },
-                {label: `_.invoices.paid` , value: statistics.invoicesTotalPaid },
-              ]}
-            >
-              <Amount value={ statistics.quotationsTotal + statistics.invoicesTotal } />
-            </PieChart>
-          </div>
+          <HomeCharts statistics={ statistics } />
           <ActiveQuotations title="page.quotations" />
           <QuotationsReadyToInvoice />
           <ActiveInvoices title="page.invoices" />

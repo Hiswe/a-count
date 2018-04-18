@@ -21,12 +21,10 @@
     background: var(--button-bg-color-hover);
     color: var(--button-text-color-hover);
   }
-
   &[disabled] {
     opacity: .75;
     pointer-events: none;
   }
-
   &--secondary,
   &--danger {
     --button-bg-color: white;
@@ -36,12 +34,10 @@
     --button-bg-border-hover: var(--button-bg-color-hover);
     --button-text-color-hover: var(--button-text-color);
   }
-
   &--danger {
     --button-text-color: var(--c-alert-darker);
     --button-bg-color-hover: var(--c-alert-lightest);
   }
-
   &--link {
     border: 0;
     padding: 0;
@@ -51,7 +47,6 @@
     --button-bg-border-hover: transparent;
     --button-text-color-hover: var(--c-text);
   }
-
   &--icon {
     width: var(--button-icon-size);
     height: var(--button-icon-size);
@@ -69,12 +64,10 @@
       --button-bg-color: transparent;
       --button-text-color-hover: var(--c-text);
     }
-
     &-danger {
       --button-text-color: var(--c-danger-darker);
       --button-bg-color-hover: var(--c-danger-lightest);
     }
-
     &-link {
       --button-bg-color: white;
       --button-text-color: var(--c-accent);
@@ -84,7 +77,6 @@
         --button-text-color: var(--c-accent-lightest);
       }
     }
-
     .svg-icon {
       position: absolute;
       top: 50%;
