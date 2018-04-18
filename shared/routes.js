@@ -11,6 +11,8 @@ import Settings from './account/page-settings'
 
 import Home from './home/page-home'
 
+import Archives from './archive/page-archived'
+
 import QuotationsList    from './quotations/page-list'
 import QuotationsNew     from './quotations/page-new'
 import QuotationsEdit    from './quotations/page-edit'
@@ -48,6 +50,10 @@ const routes = [{
     path: `/`,
     exact: true,
     component: authenticationRequired( Home ),
+  }, {
+    path: `/archives`,
+    exact: true,
+    component: authenticationRequired( Archives ),
   }, {
     path: `/account/settings`,
     exact: true,

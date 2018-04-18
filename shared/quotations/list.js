@@ -131,6 +131,17 @@ export const ActiveQuotations = connect(
   }, dispatch ))
 )( QuotationsList )
 
+export const ArchivedQuotations = connect(
+  state => ({
+    quotations:   state.quotations.get(`archived`),
+    meta:         state.quotations.get(`meta.archived`),
+    hideInvoice:  true,
+  }),
+  dispatch => ( bindActionCreators({
+    handlePageSort: quotations.getArchived
+  }, dispatch ))
+)( QuotationsList )
+
 export const QuotationsReadyToInvoice = connect(
   state => ({
     quotations:   state.quotations.get(`readyToInvoice`),

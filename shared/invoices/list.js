@@ -106,6 +106,16 @@ export const ActiveInvoices = connect(
   }, dispatch ))
 )( InvoiceList )
 
+export const ArchivedInvoices = connect(
+  state => ({
+    invoices: state.invoices.get(`archived`     ),
+    meta    : state.invoices.get(`meta.archived`),
+  }),
+  dispatch => ( bindActionCreators({
+    handlePageSort: invoices.getArchived,
+  }, dispatch ))
+)( InvoiceList )
+
 export const CustomerInvoices = connect(
   state => ({
     invoices     : state.invoices.get(`active` )    ,

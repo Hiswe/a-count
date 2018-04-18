@@ -6,6 +6,7 @@ import fetchDispatch from './utils/fetch-dispatch'
 
 const NAME = `quotations`
 export const GET_ACTIVE           = createActionNames( NAME, `get`  , `active`           )
+export const GET_ARCHIVED         = createActionNames( NAME, `get`  , `archived`         )
 export const GET_READY_INVOICE    = createActionNames( NAME, `get`  , `ready-to-invoice` )
 export const GET_ALL_FOR_CUSTOMER = createActionNames( NAME, `get`  , `all-for-customer` )
 export const GET_ONE              = createActionNames( NAME, `get`  , `one`              )
@@ -15,12 +16,14 @@ export const CREATE_INVOICE       = createActionNames( NAME, `post` , `convert` 
 
 const initialState = crio({
   isSaving: false,
-  active:   [],
   meta:     {
-    active:         {},
+    active        : {},
+    archived      : {},
     readyToInvoice: {},
   },
-  readyToInvoice:   [],
+  active        : [],
+  archived      : [],
+  readyToInvoice: [],
   current:    {
     isLoading: true,
   },
@@ -35,6 +38,10 @@ export default function reducer(state = initialState, action) {
     case GET_ALL_FOR_CUSTOMER.SUCCESS:
       state = state.set( `active`, payload.rows )
       return  state.set( `meta.active`, payload.meta )
+
+    case GET_ARCHIVED.SUCCESS:
+      state = state.set( `archived`, payload.rows )
+      return  state.set( `meta.archived`, payload.meta )
 
     case GET_READY_INVOICE.SUCCESS:
       state = state.set( `readyToInvoice`, payload.rows )
@@ -95,6 +102,18 @@ export const getActive = (params = {}, cookie) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:   GET_ACTIVE,
+    fetch:    { options, cookie },
+  })
+}
+
+export const getArchived = (params = {}, cookie) => async dispatch => {
+  const options = {
+    url: `${NAME}/archived`,
+    ...params,
+  }
+  await fetchDispatch({
+    dispatch,
+    actions:   GET_ARCHIVED,
     fetch:    { options, cookie },
   })
 }

@@ -7,6 +7,7 @@ import { CONVERT } from './quotations'
 
 const NAME = `invoices`
 export const GET_ALL              = createActionNames( NAME, `get`  , `all`              )
+export const GET_ARCHIVED         = createActionNames( NAME, `get`  , `archived`         )
 export const GET_ALL_FOR_CUSTOMER = createActionNames( NAME, `get`  , `all-for-customer` )
 export const GET_ONE              = createActionNames( NAME, `get`  , `one`              )
 export const SAVE_ONE             = createActionNames( NAME, `post` , `one`              )
@@ -14,10 +15,12 @@ export const ARCHIVE              = createActionNames( NAME, `post` , `archive` 
 
 const initialState = crio({
   isSaving: false,
-  active  : []   ,
   meta: {
-    active: {},
+    active  : {},
+    archived: {},
   },
+  active   : [],
+  archived : [],
   current:  {
     isLoading: true,
   },
@@ -32,6 +35,10 @@ export default function reducer(state = initialState, action) {
     case GET_ALL_FOR_CUSTOMER.SUCCESS:
       state = state.set( `active`, payload.rows )
       return  state.set( `meta.active`, payload.meta )
+
+    case GET_ARCHIVED.SUCCESS:
+      state = state.set( `archived`, payload.rows )
+      return  state.set( `meta.archived`, payload.meta )
 
     case GET_ONE.LOADING:
       return state.set( `current`, {
@@ -72,6 +79,18 @@ export const getAll = (params = {}, cookie) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:   GET_ALL,
+    fetch:    { options, cookie },
+  })
+}
+
+export const getArchived = (params = {}, cookie) => async dispatch => {
+  const options = {
+    url: `${NAME}/archived`,
+    ...params,
+  }
+  await fetchDispatch({
+    dispatch,
+    actions:   GET_ARCHIVED,
     fetch:    { options, cookie },
   })
 }
