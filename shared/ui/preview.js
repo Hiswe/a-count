@@ -17,6 +17,8 @@ import { ProductTable, ProductLineDisplay } from './table-product'
 export function Preview( props ) {
   const { document, type } = props
 
+  if ( !document ) return null
+
   return (
     <PaperSheet preview>
       <Reference type={ type } product={ document } />

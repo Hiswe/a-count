@@ -12,24 +12,23 @@ import { ArchiveInvoice } from './buttons'
 
 function InvoiceRow( props ) {
   const { invoice, hideCustomer, hideArchive } = props
-  const url = `/invoices/${invoice.id}`
+  const isArchived = invoice.get(`archivedAt`)
+  const invoiceUrl = `/invoices/${invoice.id}${ isArchived ? `/preview` : `` }`
   return (
     <Row>
       <Cell>
-        <Link to={ url }>{ invoice.get( `reference` ) }</Link>
+        <Link to={ invoiceUrl }>{ invoice.get( `reference` ) }</Link>
       </Cell>
       <Cell>
-        <Link to={ url }>{ invoice.get( `name` ) }</Link>
+        <Link to={ invoiceUrl }>{ invoice.get( `name` ) }</Link>
       </Cell>
-      {
-        !hideCustomer && (
-          <Cell>
-            <Link to={`/customers/${invoice.customerId}`}>
-              {invoice.get( `customer.name` )}
-            </Link>
-          </Cell>
-        )
-      }
+      {!hideCustomer && (
+        <Cell>
+          <Link to={`/customers/${invoice.customerId}`}>
+            {invoice.get( `customer.name` )}
+          </Link>
+        </Cell>
+      )}
       <Cell>
         <Link to={`/quotations/${invoice.get('quotation.id')}/preview`}>
           {invoice.get(`quotation.reference`)}

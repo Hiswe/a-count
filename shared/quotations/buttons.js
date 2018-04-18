@@ -14,14 +14,18 @@ function ButtonShowInvoice( props ) {
     isSaving,
     withMessage,
     dispatch,
-    ...rest } = props
+    ...rest
+  } = props
   if ( !quotation ) return null
 
   const invoiceId = quotation.get(`invoiceId`)
   if ( !invoiceId ) return null
+  console.log({pouic: quotation.get(`invoice`)} )
+  const isInvoiceArchived = quotation.get(`invoice.archivedAt`)
+
   return (
     <Button secondary
-      to={`/invoices/${ invoiceId }` }
+      to={`/invoices/${ invoiceId }${isInvoiceArchived ? `/preview` : `` }` }
       disabled={ isSaving }
       {...rest}
     >

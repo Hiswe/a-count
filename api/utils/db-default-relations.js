@@ -50,7 +50,7 @@ const quotationsParams = {
     {
       model:      Invoice,
       required:   false,
-      attributes: [`id`, `index`],
+      attributes: [`id`, `index`, `archivedAt`],
       include: [
         {
           model: InvoiceConfig,
@@ -78,7 +78,7 @@ const quotationParams = {
     {
       model:      Invoice,
       required:   false,
-      attributes: [`id`, `index`],
+      attributes: [`id`, `index`, `archivedAt`],
       include: [
         {
           model: InvoiceConfig,

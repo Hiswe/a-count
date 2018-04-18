@@ -13,16 +13,19 @@ import { CreateInvoice, ShowInvoice, ArchiveQuotation } from './buttons'
 
 function QuotationRow( props ) {
   const { quotation, hideCustomer, hideInvoice, hideArchive } = props
-  const id = quotation.get( `id` )
+  const id           = quotation.get( `id` )
+  const isArchived   = quotation.get( `archivedAt` )
+  const quotationUrl = `/quotations/${id}${ isArchived  ? `/preview`: `` }`
+
   return (
     <Row>
       <Cell>
-        <Link to={`/quotations/${id}`}>
+        <Link to={ quotationUrl }>
           { quotation.get(`reference`) }
         </Link>
       </Cell>
       <Cell>
-        <Link to={`/quotations/${id}`}>
+        <Link to={ quotationUrl }>
           {quotation.get(`name`)}
         </Link>
       </Cell>
@@ -67,7 +70,7 @@ const defaultColumns = [
   {label: `table.header.sent`      , sort: `sendAt`        , type: `date`     },
   {label: `table.header.validated` , sort: `validatedAd`   , type: `date`     },
   {label: `table.header.signed`    , sort: `signedAt`      , type: `date`     },
-  {label: `table.header.invoice`   , sort: false           , type: `id`       },
+  {label: `table.header.invoice`   , sort: `invoice.index` , type: `id`       },
   {label: `table.amount`           , sort: `total`         , type: `amount`   },
   {label: false                    , sort: false           , type: `action`   },
 ]
