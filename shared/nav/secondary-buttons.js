@@ -40,7 +40,10 @@ export function ButtonPrint( props ) {
 }
 
 export function ButtonEdit( props ) {
-  const { type, id, ...rest } = props
+  const { type, document, ...rest } = props
+  const isArchived  = document.get( `archivedAt` )
+  if ( isArchived ) return null
+  const id          = document.get( `id` )
   return (
     <BtnIcon
       to={`/${type}/${ id }`}

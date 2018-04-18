@@ -9,7 +9,12 @@ import {    Button    , BtnIcon } from '../ui/buttons'
 //----- SHOW INVOICE
 
 function ButtonShowInvoice( props ) {
-  const { quotation, withMessage, isSaving, ...rest } = props
+  const {
+    quotation,
+    isSaving,
+    withMessage,
+    dispatch,
+    ...rest } = props
   if ( !quotation ) return null
 
   const invoiceId = quotation.get(`invoiceId`)

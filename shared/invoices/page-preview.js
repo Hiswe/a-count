@@ -37,7 +37,7 @@ function PreviewInvoicePage( props ) {
       >
         <ButtonEdit
           type={TYPE}
-          id={id}
+          document={ invoice }
           label="_.edit"
         />
         <ButtonPrint />

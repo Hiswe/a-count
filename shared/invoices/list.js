@@ -31,7 +31,7 @@ function InvoiceRow( props ) {
         )
       }
       <Cell>
-        <Link to={`/quotations/${invoice.get('quotation.id')}`}>
+        <Link to={`/quotations/${invoice.get('quotation.id')}/preview`}>
           {invoice.get(`quotation.reference`)}
         </Link>
       </Cell>

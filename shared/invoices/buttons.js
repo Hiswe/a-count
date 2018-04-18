@@ -13,7 +13,7 @@ function ButtonShowQuotation( props ) {
   if ( !quotationId ) return null
   return (
     <Button secondary
-      to={`/quotations/${ quotationId }` }
+      to={`/quotations/${ quotationId }/preview` }
       disabled={ isSaving }
     >
       <FormattedMessage id="invoices.button.quotation" />

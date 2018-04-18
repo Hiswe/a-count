@@ -40,7 +40,7 @@ function PreviewQuotationPage( props ) {
       >
         <ButtonEdit
           type={ TYPE }
-          id={id}
+          document={ quotation }
           label="_.edit"
         />
         <ButtonPrint />
