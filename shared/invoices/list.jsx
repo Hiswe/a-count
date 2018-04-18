@@ -7,7 +7,8 @@ import * as invoices             from '../ducks/invoices'
 import * as TableUtils           from '../utils/tables'
 import { Table, EmptyLine, Row, Cell } from '../ui/table.jsx'
 import { Amount, Date }          from '../ui/format.jsx'
-import { Progress }              from '../ui/progress.jsx'
+import { Progress       } from '../ui/progress.jsx'
+import { ArchiveInvoice } from './buttons.jsx'
 
 function InvoiceRow( props ) {
   const { invoice, hideCustomer } = props
@@ -46,6 +47,9 @@ function InvoiceRow( props ) {
           max={ invoice.get(`total`) }
         />
       </Cell>
+      <Cell>
+        <ArchiveInvoice icon linkAlike invoice={ invoice } />
+      </Cell>
     </Row>
   )
 }
@@ -57,6 +61,7 @@ const defaultColumns = [
   {label: `table.header.quotation` , sort: `quotation.index` , type: `id`       },
   {label: `table.amount`           , sort: `total`           , type: `amount`   },
   {label: `table.amount.paid`      , sort: `totalPaid`       , type: `progress` },
+  {label: false                    , sort: false             , type: `action`   },
 ]
 
 function InvoiceList( props ) {
