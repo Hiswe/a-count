@@ -45,8 +45,7 @@ function EditQuotation( props ) {
           quotation={ quotation }
         />
         <ButtonArchiveQuotation
-          icon
-          danger
+          icon danger
           quotation={ quotation }
           form={ FORM_ID }
           label="quotation.button.archive"

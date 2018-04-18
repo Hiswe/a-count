@@ -65,6 +65,7 @@ export default {
   'invoices.button.save'       : `Update Invoice`,
   'invoices.button.quotation'  : `Show quotation`,
   'invoices.button.preview'    : `preview invoice`,
+  'invoices.button.archive'    : `archive`,
   'invoices.event'             : `event`,
   'invoices.event.#'           : `#`,
   'invoices.event.description' : `description`,

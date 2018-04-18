@@ -13,13 +13,14 @@ import {
   ButtonSubmit,
 } from '../nav/secondary-buttons.jsx'
 import InvoiceForm        , { FORM_ID } from './form.jsx'
-import ButtonShowQuotation              from './button-show-quotation.jsx'
+import { ShowQuotation, ArchiveInvoice } from './buttons.jsx'
 
 const TYPE = `invoices`
 
 function EditInvoice( props ) {
-  const { reference } = props
-  const { id } = props.match.params
+  const { id        } = props.match.params
+  const { invoice   } = props
+  const   reference   = invoice.get( `reference` )
   const titleProps  = { id:`page.invoices.edit`, values: {reference} }
 
   return (
@@ -35,7 +36,13 @@ function EditInvoice( props ) {
           isSaving={ props.isSaving }
           label="_.save"
         />
-        <ButtonShowQuotation />
+        <ArchiveInvoice
+          icon danger
+          form={ FORM_ID }
+          invoice={ invoice }
+          label="invoices.button.archive"
+        />
+        <ShowQuotation />
         <ButtonPreview
           type={ TYPE }
           id={ id }
@@ -53,8 +60,8 @@ function EditInvoice( props ) {
 
 function state2prop( state ) {
   return {
-    reference:  state.invoices.get( `current.reference` ),
-    isSaving:   state.invoices.get( `isSaving` ),
+    invoice : state.invoices.get( `current`  ),
+    isSaving: state.invoices.get( `isSaving` ),
   }
 }
 

@@ -68,8 +68,8 @@ export default function reducer(state = initialState, action) {
     }
 
     case ARCHIVE.SUCCESS: {
-      const { id }      = meta
-      const removeId    = quot => quot.id !== id
+      const { id }         = meta
+      const removeId       = quotation => quotation.id !== id
       const active         = state.get( `active` ).filter( removeId )
       const readyToInvoice = state.get( `readyToInvoice` ).filter( removeId )
       const updated        = state.set( `active`, active )

@@ -40,6 +40,7 @@ export default {
   'customer.button.update'     : `Mettre à jour`    ,
   'customer.button.new'        : `nouveau client`   ,
   'customer.button.list'       : `list des clients` ,
+  'invoices.button.archive'    : `archiver`,
   'customer.tab.configuration' : `Édition l'entête` ,
   'customer.total.quotation'   : `total devis`      ,
   'customer.total.invoice'     : `total factures`   ,

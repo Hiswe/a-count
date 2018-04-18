@@ -10,6 +10,7 @@ export const GET_ALL              = createActionNames( NAME, `get`  , `all`     
 export const GET_ALL_FOR_CUSTOMER = createActionNames( NAME, `get`  , `all-for-customer` )
 export const GET_ONE              = createActionNames( NAME, `get`  , `one`              )
 export const SAVE_ONE             = createActionNames( NAME, `post` , `one`              )
+export const ARCHIVE              = createActionNames( NAME, `post` , `archive`          )
 
 const initialState = crio({
   isSaving: false,
@@ -23,7 +24,7 @@ const initialState = crio({
 })
 
 export default function reducer(state = initialState, action) {
-  const { type, payload } = action
+  const { type, payload, meta } = action
 
   switch ( type ) {
 
@@ -38,8 +39,18 @@ export default function reducer(state = initialState, action) {
         reference: `loading…`,
         products: [],
       })
+
     case GET_ONE.SUCCESS:
       return state.set( `current`, payload )
+
+    case ARCHIVE.SUCCESS: {
+      const { id }      = meta
+      const removeId    = invoice => invoice.id !== id
+      const active      = state.get( `active` ).filter( removeId )
+      const updated     = state.set( `active`, active )
+        .set( `current`, payload )
+      return updated
+    }
 
     case SAVE_ONE.LOADING:
       return state.set( `isSaving`, true )
@@ -100,6 +111,20 @@ export const saveOne = (params, cookie) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:  SAVE_ONE,
+    fetch:    { options, cookie },
+  })
+}
+
+export const archiveOne = (params, cookie) => async dispatch => {
+  const { id } = params
+  const options = {
+    url: `${ NAME }/${ id }/archive`,
+    body: {},
+  }
+  await fetchDispatch({
+    dispatch,
+    meta:     { id },
+    actions:  ARCHIVE,
     fetch:    { options, cookie },
   })
 }
