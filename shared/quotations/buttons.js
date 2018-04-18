@@ -20,7 +20,6 @@ function ButtonShowInvoice( props ) {
 
   const invoiceId = quotation.get(`invoiceId`)
   if ( !invoiceId ) return null
-  console.log({pouic: quotation.get(`invoice`)} )
   const isInvoiceArchived = quotation.get(`invoice.archivedAt`)
 
   return (
