@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 
 import * as invoices             from '../ducks/invoices'
 import * as TableUtils           from '../utils/tables'
-import { Table, EmptyLine, Row } from '../ui/table.jsx'
+import { Table, EmptyLine, Row, Cell } from '../ui/table.jsx'
 import { Amount, Date }          from '../ui/format.jsx'
 import { Progress }              from '../ui/progress.jsx'
 
@@ -14,49 +14,49 @@ function InvoiceRow( props ) {
   const url = `/invoices/${invoice.id}`
   return (
     <Row>
-      <td>
+      <Cell>
         <Link to={ url }>{ invoice.get( `reference` ) }</Link>
-      </td>
-      <td>
+      </Cell>
+      <Cell>
         <Link to={ url }>{ invoice.get( `name` ) }</Link>
-      </td>
+      </Cell>
       {
         !hideCustomer && (
-          <td>
+          <Cell>
             <Link to={`/customers/${invoice.customerId}`}>
               {invoice.get( `customer.name` )}
             </Link>
-          </td>
+          </Cell>
         )
       }
-      <td>
+      <Cell>
         <Link to={`/quotations/${invoice.get('quotation.id')}`}>
           {invoice.get(`quotation.reference`)}
         </Link>
-      </td>
-      <td className="is-number">
+      </Cell>
+      <Cell className="is-number">
         <Amount
           value={invoice.get(`total`)}
         />
-      </td>
-      <td className="is-progress">
+      </Cell>
+      <Cell className="is-progress">
         <Progress
           tableLayout
           value={ invoice.get(`totalPaid`) }
           max={ invoice.get(`total`) }
         />
-      </td>
+      </Cell>
     </Row>
   )
 }
 
 const defaultColumns = [
-  {label: `table.header.id`        , sort: `index`           },
-  {label: `table.header.name`      , sort: `name`            },
-  {label: `table.header.customer`  , sort: `customer.name`   },
-  {label: `table.header.quotation` , sort: `quotation.index` },
-  {label: `table.amount`           , sort: `total`           },
-  {label: `table.amount.paid`      , sort: `totalPaid`       },
+  {label: `table.header.id`        , sort: `index`           , type: `id`       },
+  {label: `table.header.name`      , sort: `name`            , type: `text`     },
+  {label: `table.header.customer`  , sort: `customer.name`   , type: `customer` },
+  {label: `table.header.quotation` , sort: `quotation.index` , type: `id`       },
+  {label: `table.amount`           , sort: `total`           , type: `amount`   },
+  {label: `table.amount.paid`      , sort: `totalPaid`       , type: `progress` },
 ]
 
 function InvoiceList( props ) {

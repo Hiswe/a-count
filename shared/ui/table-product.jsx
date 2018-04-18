@@ -2,7 +2,7 @@ import   React              from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import * as compute from '../utils/compute-total.js'
-import { Table, Row } from './table.jsx'
+import { Table, Row, Cell } from './table.jsx'
 import { Amount, Markdown, FormatNumber } from './format.jsx'
 import TextareaAutoResize from './textarea-auto-resize.jsx'
 
@@ -17,7 +17,7 @@ export function ProductLineEditable( props ) {
 
   return (
     <Row>
-      <td>
+      <Cell>
         <input
           type="hidden"
           name={`${fieldPath}[_id]`}
@@ -27,8 +27,8 @@ export function ProductLineEditable( props ) {
           name={`${fieldPath}[description]`}
           defaultValue={ product.get(`description`) }
         />
-      </td>
-      <td className="is-number">
+      </Cell>
+      <Cell>
         <input
           type="number"
           min="0"
@@ -36,8 +36,8 @@ export function ProductLineEditable( props ) {
           name={ `${fieldPath}[quantity]` }
           defaultValue={ product.get(`quantity`) }
         />
-      </td>
-      <td className="is-number">
+      </Cell>
+      <Cell>
         <input
           type="number"
           min="0"
@@ -45,19 +45,19 @@ export function ProductLineEditable( props ) {
           name={ `${fieldPath}[price]` }
           defaultValue={ product.get(`price`) }
         />
-      </td>
-      <td className="is-total is-number">
+      </Cell>
+      <Cell>
         <Amount value={ total } />
-      </td>
-      <td className="is-action">
+      </Cell>
+      <Cell>
         { props.children }
-      </td>
+      </Cell>
     </Row>
   )
 }
 
 export function ProductLineDisplay( props ) {
-    const { fieldPath, product } = props
+  const { fieldPath, product } = props
   const total = compute.productTotal( product )
   return (
     <Row>
@@ -84,7 +84,7 @@ function TotalFooter( props ) {
     <tfoot className={ BASE_CLASS }>
       <tr className={`${BASE_CLASS}__line`}>
         <td colSpan="3">
-          <p><FormattedMessage id="table.amount-ht"/></p>
+          <FormattedMessage id="table.amount-ht"/>
         </td>
         <td>
           <Amount value={ totals.net } />
@@ -93,7 +93,7 @@ function TotalFooter( props ) {
       </tr>
       <tr className={`${BASE_CLASS}__line`}>
         <td colSpan="3">
-          <p><FormattedMessage id="table.amount-taxes"/></p>
+          <FormattedMessage id="table.amount-taxes"/>
         </td>
         <td>
           <Amount value={ totals.tax } />
@@ -102,7 +102,7 @@ function TotalFooter( props ) {
       </tr>
       <tr className={`${BASE_CLASS}__line`}>
         <td colSpan="3">
-          <p><FormattedMessage id="table.amount"/></p>
+          <FormattedMessage id="table.amount"/>
         </td>
         <td>
           <Amount value={ totals.all } />
@@ -116,12 +116,12 @@ function TotalFooter( props ) {
 export function ProductTable( props ) {
   const { readOnly } = props
   const columns = [
-    {label: `table.header.description`},
-    {label: `table.header.quantity`},
-    {label: `table.header.unit-price`},
-    {label: `table.amount`},
+    {label: `table.header.description`, type:`input` },
+    {label: `table.header.quantity`   , type:`input` },
+    {label: `table.header.unit-price` , type:`input` },
+    {label: `table.amount`            , type:`number`},
   ]
-  if ( !readOnly ) columns.push({label: false, className: `is-action`})
+  if ( !readOnly ) columns.push({label: false, type: `action`})
   const COMP_CLASS = [`table--product`]
   if ( readOnly ) COMP_CLASS.push( `table--print` )
   return (

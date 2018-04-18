@@ -22,9 +22,9 @@ export function AmountPres( props ) {
   others.style = `currency`
   const safeValue = parseValue( value )
   return (
-    <p className={`${BASE_CLASS} ${BASE_CLASS}--currency`}>
+    <span className={`${BASE_CLASS} ${BASE_CLASS}--currency`}>
       { safeValue === null ? `–` : <FormattedNumber value={ value } currency={ currency } {...others}  /> }
-    </p>
+    </span>
   )
 }
 
@@ -40,9 +40,9 @@ export function FormatNumber( props ) {
   const { value, wrapperProps = {}, ...others} = props
   const safeValue = parseValue( value )
   return (
-    <p className={`${BASE_CLASS} ${BASE_CLASS}--number`} {...wrapperProps}>
+    <span className={`${BASE_CLASS} ${BASE_CLASS}--number`} {...wrapperProps}>
       { safeValue === null ? `–` : <FormattedNumber value={ value } {...others}  /> }
-    </p>
+    </span>
   )
 }
 

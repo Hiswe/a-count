@@ -13,9 +13,9 @@ function Th( props ) {
     isSorted,
     dir,
   }  = props
-  const { label, sort, ...rest } = column
+  const { label, sort, type, ...rest } = column
   return (
-    <th {...rest} onClick={ onClick }>
+    <th {...rest} onClick={ onClick } className={`${BASE_CLASS}_col ${BASE_CLASS}_col--is-${type}`}>
       { isSorted && <Icon svgId={ dir === `ASC` ? `arrow-upward` : `arrow-downward` } /> }
       { label && <FormattedMessage id={label.trim()} /> }
     </th>
@@ -34,8 +34,8 @@ export class TableThead extends React.PureComponent {
   static computeSortQuery( currentSorting, sort ) {
     const isSameSort = currentSorting.sort === sort
     if ( !isSameSort ) return { sort, dir: `ASC` }
-    const isAscDir  = currentSorting.dir === `ASC`
-    if ( isAscDir ) return { sort, dir: `DESC` }
+    const isAscDir   = currentSorting.dir === `ASC`
+    if ( isAscDir )    return { sort, dir: `DESC` }
     return {}
   }
 
@@ -76,4 +76,3 @@ export class TableThead extends React.PureComponent {
 }
 
 export const Thead = withRouter( TableThead )
-

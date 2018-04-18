@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 
 import * as customers  from '../ducks/customers'
 import * as TableUtils from '../utils/tables'
-import { Table, EmptyLine, Row } from '../ui/table.jsx'
+import { Table, EmptyLine, Row, Cell } from '../ui/table.jsx'
 import { FormatNumber, Amount } from '../ui/format.jsx'
 import { Progress } from '../ui/progress.jsx'
 
@@ -15,39 +15,39 @@ function CustomerRow( props ) {
   const url      = `/customers/${customer.id}`
   return (
     <Row>
-      <td>
+      <Cell>
         <Link to={ url }>{ customer.name }</Link>
-      </td>
-      <td className="is-number">
+      </Cell>
+      <Cell >
         <FormatNumber value={customer.quotationsCount} />
-      </td>
-      <td className="is-number">
+      </Cell>
+      <Cell>
         <Amount value={customer.quotationsTotal} />
-      </td>
-      <td className="is-number">
+      </Cell>
+      <Cell>
         <FormatNumber value={customer.invoicesCount} />
-      </td>
-      <td className="is-number">
+      </Cell>
+      <Cell>
         <Amount value={customer.get(`invoicesTotal`)} />
-      </td>
-      <td className="is-progress">
+      </Cell>
+      <Cell>
         <Progress
           tableLayout
           value={ customer.get(`invoicesTotalPaid`) }
           max={ customer.get(`invoicesTotal`) }
         />
-      </td>
+      </Cell>
     </Row>
   )
 }
 
 const defaultColumns = [
-  { label: `table.header.name`              , sort: `name`,           },
-  { label: `table.header.quotations`        ,                         },
-  { label: `table.header.cumulative-amount` , style:{ width: `18em`}, },
-  { label: `table.header.invoices`          ,                         },
-  { label: `table.header.cumulative-amount` , style:{ width: `18em`}  },
-  { label: `table.amount.paid`              ,                         },
+  { label: `table.header.name`              , sort: `name`      },
+  { label: `table.header.quotations`        , type: `number`    },
+  { label: `table.header.cumulative-amount` , type: `amount`    },
+  { label: `table.header.invoices`          , type: `number`    },
+  { label: `table.header.cumulative-amount` , type: `amount`    },
+  { label: `table.amount.paid`              , type: `progress`  },
 ]
 
 function CustomerList( props ) {

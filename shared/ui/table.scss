@@ -60,21 +60,36 @@
       box-shadow: inset var(--table-header-bg-color) 0 0 0 100px;
     }
 
-    + th {
-      border-left: 1px solid var(--table-header-border-color);
-    }
+    // + th {
+    //   border-left: 1px solid var(--table-header-border-color);
+    // }
   }
 
   tr {
     vertical-align: top;
   }
 
-  &__head_row {
-    border: 1px solid var(--table-header-bg-color);
-    border-bottom: 0;
+  &__head {
+    &_row {
+      border: 1px solid var(--table-header-bg-color);
+      border-bottom: 0;
 
-    .svg-icon {
-      vertical-align: text-bottom;
+      .svg-icon {
+        vertical-align: text-bottom;
+      }
+    }
+    &_col {
+      text-align: left;
+
+      &--is-id,
+      &--is-date,
+      &--is-progress {
+        text-align: center;
+      }
+      &--is-number,
+      &--is-amount {
+        text-align: right;
+      }
     }
   }
 
@@ -83,13 +98,46 @@
       border: solid var(--table-border-color);
       border-width: 0 1px 1px;
 
-      #{$presentation} &:nth-child(even) {
+      &:hover {
         background: var(--c-primary-white);
       }
     }
-    td + td {
-      border-left: 1px solid var(--table-border-color);
+
+    &_col {
+      padding: 0.5em 0.75em;
+
+      &--is-id,
+      &--is-action {
+        width: 1%;
+        white-space: nowrap;
+      }
+      &--is-input,
+      &--is-action {
+        padding: 0;
+      }
+      &--is-number,
+      &--is-amount {
+        text-align: right;
+      }
+      &--is-customer {
+        white-space: nowrap;
+        width: 15%;
+      }
+      &--is-amount {
+        width: 10em;
+      }
+      &--is-progress {
+        position: relative;
+        width: 7em;
+      }
+      &--is-date {
+        width: 7em;
+        text-align: center;
+      }
     }
+    // td + td {
+    //   border-left: 1px solid var(--table-border-color);
+    // }
   }
 
   tfoot {
@@ -113,46 +161,10 @@
     }
   }
 
-  td {
-    &.is-number {
-      text-align: right;
-    }
-
-    &.is-progress {
-      position: relative;
-      width: 125px;
-    }
-
-    > a,
-    > p {
-      display: inline-block;
-      margin: 0;
-      padding: 0.5em 0.75em;
-    }
-  }
-
-  .is-padded {
-    padding: 0.5em 0.75em;
-  }
-
-  .is-number {
-    text-align: right;
-  }
-
-  .is-progress {
-    position: relative;
-    width: 125px;
-  }
-
-  .amount {
-    margin: 0;
-  }
-
   textarea {
     resize: none;
   }
 
-  .total,
   input,
   textarea {
     padding: 0.5em 0.75em;

@@ -9,18 +9,42 @@ import { Thead } from './table.header.jsx'
 import './table.scss'
 const BASE_CLASS = `table`
 
+// ensure that we have a type for the columns
 export function normalizeColumns( columns ) {
-  if (typeof columns === `string`) {
-    return columns.split(`,`).map( c => ({label: c.trim()}))
-  }
-  return columns
+  return columns.map( col => {
+    if ( col.type == null ) col.type = `text`
+    return col
+  })
+}
+
+// Create a context for passing col types all down
+const TableContext = React.createContext( [] )
+
+export function Cell( props ) {
+  const COMP_CLASS = `${BASE_CLASS}__body_col`
+  return (
+    <td className={`${COMP_CLASS} ${COMP_CLASS}--is-${ props.type }`}>
+      { props.children }
+    </td>
+  )
 }
 
 export function Row( props ) {
+  let colCount = -1
   return (
-    <tr className={`${BASE_CLASS}__body_row`}>
-      { props.children }
-    </tr>
+    <TableContext.Consumer>
+      { columns => (
+        <tr className={`${BASE_CLASS}__body_row`}>
+          { React.Children.map( props.children, (child, index) => {
+            if ( child === null) return null
+            colCount += 1
+            return React.cloneElement( child, {
+              type: child.props.type || columns[ colCount ].type
+            })
+          })}
+        </tr>
+      )}
+    </TableContext.Consumer>
   )
 }
 
@@ -47,21 +71,23 @@ export function Table( props ) {
   )
   return (
     <div className={ COMP_CLASS }>
-      <table cellSpacing="0" className={`${BASE_CLASS}__content`}>
-        { props.title && (
-        <caption className={`${BASE_CLASS}__title`}>
-          <FormattedMessage id={ props.title } />
-        </caption>
-      )}
-        <Thead
-          columns={ columns }
-          handlePageSort={ handlePageSort }
-        />
-        <tbody className={`${BASE_CLASS}__body`}>
-          { props.children }
-        </tbody>
-        { hasFooter && props.footer }
-      </table>
+      <TableContext.Provider value={ columns }>
+        <table cellSpacing="0" className={`${BASE_CLASS}__content`}>
+          { props.title && (
+            <caption className={`${BASE_CLASS}__title`}>
+              <FormattedMessage id={ props.title } />
+            </caption>
+          )}
+          <Thead
+            columns={ columns }
+            handlePageSort={ handlePageSort }
+          />
+          <tbody className={`${BASE_CLASS}__body`}>
+            { props.children }
+          </tbody>
+          { hasFooter && props.footer }
+        </table>
+      </TableContext.Provider>
       { hasMeta && (
         <Pagination
           meta={ props.meta }

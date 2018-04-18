@@ -6,7 +6,7 @@ import { Link               } from 'react-router-dom'
 
 import * as quotations from '../ducks/quotations.js'
 import * as TableUtils from '../utils/tables'
-import { Table  , EmptyLine, Row } from '../ui/table.jsx'
+import { Table  , EmptyLine, Row, Cell } from '../ui/table.jsx'
 import { Amount, Date            } from '../ui/format.jsx'
 import { Button                  } from '../ui/buttons.jsx'
 import ButtonArchiveQuotation from './button-archive-quotation.jsx'
@@ -18,64 +18,58 @@ function QuotationRow( props ) {
   const id = quotation.get( `id` )
   return (
     <Row>
-      <td>
+      <Cell>
         <Link to={`/quotations/${id}`}>
           { quotation.get(`reference`) }
         </Link>
-      </td>
-      <td>
+      </Cell>
+      <Cell>
         <Link to={`/quotations/${id}`}>
           {quotation.get(`name`)}
         </Link>
-      </td>
+      </Cell>
       {!hideCustomer && (
-        <td>
+        <Cell>
           <Link to={`/customers/${quotation.get(`customerId`)}`}>
             {quotation.get(`customer.name`)}
           </Link>
-        </td>
+        </Cell>
       )}
-      <td>
-        <p>
-          <Date value={quotation.get(`sendAt`)} />
-        </p>
-      </td>
-      <td>
-        <p>
-          <Date value={quotation.get(`validatedAt`)} />
-        </p>
-      </td>
-      <td>
-        <p>
-          <Date value={quotation.get(`signedAt`)} />
-        </p>
-      </td>
+      <Cell>
+        <Date value={quotation.get(`sendAt`)} />
+      </Cell>
+      <Cell>
+        <Date value={quotation.get(`validatedAt`)} />
+      </Cell>
+      <Cell>
+        <Date value={quotation.get(`signedAt`)} />
+      </Cell>
       {!hideInvoice && (
-        <td className="is-padded">
+        <Cell className="is-padded">
           <ButtonShowInvoice  quotation={ quotation } />
           <ButtonCreateInvoice linkAlike quotation={ quotation } />
-        </td>
+        </Cell>
       )}
-      <td className="is-number">
+      <Cell className="is-number">
         <Amount value={quotation.get(`total`) } />
-      </td>
-      <td className="is-action">
+      </Cell>
+      <Cell className="is-action">
         <ButtonArchiveQuotation icon quotation={ quotation } />
-      </td>
+      </Cell>
     </Row>
   )
 }
 
 const defaultColumns = [
-  {label: `table.header.id`        , sort: `index`        },
-  {label: `table.header.name`      , sort: `name`         },
-  {label: `table.header.customer`  , sort: `customer.name`},
-  {label: `table.header.sent`      , sort: `sendAt`       },
-  {label: `table.header.validated` , sort: `validatedAd`  },
-  {label: `table.header.signed`    , sort: `signedAt`     },
-  {label: `table.header.invoice`                          },
-  {label: `table.amount`           , sort: `total`        },
-  {label: false                                           },
+  {label: `table.header.id`        , sort: `index`         , type: `id`       },
+  {label: `table.header.name`      , sort: `name`          , type: `text`     },
+  {label: `table.header.customer`  , sort: `customer.name` , type: `customer` },
+  {label: `table.header.sent`      , sort: `sendAt`        , type: `date`     },
+  {label: `table.header.validated` , sort: `validatedAd`   , type: `date`     },
+  {label: `table.header.signed`    , sort: `signedAt`      , type: `date`     },
+  {label: `table.header.invoice`   , sort: false           , type: `id`       },
+  {label: `table.amount`           , sort: `total`         , type: `amount`   },
+  {label: false                    , sort: false           , type: `action`   },
 ]
 
 const filterColumn = key => column => column.label !== key
