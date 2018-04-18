@@ -21,9 +21,13 @@ export function normalizeColumns( columns ) {
 const TableContext = React.createContext( [] )
 
 export function Cell( props ) {
-  const COMP_CLASS = `${BASE_CLASS}__body_col`
+  const { type, ...rest } = props
+  const COMP_CLASS = classNames(
+    `${BASE_CLASS}__body_col`,
+    type.split(` `).map(t => `${BASE_CLASS}__body_col--is-${ t }`)
+  )
   return (
-    <td className={`${COMP_CLASS} ${COMP_CLASS}--is-${ props.type }`}>
+    <td className={ COMP_CLASS } {...rest}>
       { props.children }
     </td>
   )

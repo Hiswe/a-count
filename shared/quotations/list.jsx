@@ -45,16 +45,16 @@ function QuotationRow( props ) {
         <Date value={quotation.get(`signedAt`)} />
       </Cell>
       {!hideInvoice && (
-        <Cell className="is-padded">
+        <Cell>
           <ButtonShowInvoice  quotation={ quotation } />
           <ButtonCreateInvoice linkAlike quotation={ quotation } />
         </Cell>
       )}
-      <Cell className="is-number">
+      <Cell>
         <Amount value={quotation.get(`total`) } />
       </Cell>
-      <Cell className="is-action">
-        <ButtonArchiveQuotation icon quotation={ quotation } />
+      <Cell>
+        <ButtonArchiveQuotation icon linkAlike quotation={ quotation } />
       </Cell>
     </Row>
   )

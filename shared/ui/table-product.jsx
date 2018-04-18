@@ -61,18 +61,18 @@ export function ProductLineDisplay( props ) {
   const total = compute.productTotal( product )
   return (
     <Row>
-      <td className="is-padded">
+      <Cell type="text">
         <Markdown text={ product.description } />
-      </td>
-      <td className="is-number">
+      </Cell>
+      <Cell type="number">
         <FormatNumber value={ product.quantity } minimumFractionDigits={2} />
-      </td>
-      <td className="is-number">
+      </Cell>
+      <Cell type="number">
         <FormatNumber value={ product.price } minimumFractionDigits={2} />
-      </td>
-      <td className="is-total is-number">
+      </Cell>
+      <Cell>
         <Amount value={ total } />
-      </td>
+      </Cell>
     </Row>
   )
 }
@@ -82,33 +82,33 @@ function TotalFooter( props ) {
   const totals = compute.totals( products, tax )
   return (
     <tfoot className={ BASE_CLASS }>
-      <tr className={`${BASE_CLASS}__line`}>
-        <td colSpan="3">
+      <Row className={`${BASE_CLASS}__line`}>
+        <Cell colSpan="3" type="number">
           <FormattedMessage id="table.amount-ht"/>
-        </td>
-        <td>
+        </Cell>
+        <Cell type="amount">
           <Amount value={ totals.net } />
-        </td>
-        { !readOnly && <td className="is-action"></td> }
-      </tr>
-      <tr className={`${BASE_CLASS}__line`}>
-        <td colSpan="3">
+        </Cell>
+        { !readOnly && <Cell /> }
+      </Row>
+      <Row className={`${BASE_CLASS}__line`}>
+        <Cell colSpan="3" type="number">
           <FormattedMessage id="table.amount-taxes"/>
-        </td>
-        <td>
+        </Cell>
+        <Cell type="amount">
           <Amount value={ totals.tax } />
-        </td>
-        { !readOnly && <td className="is-action"></td> }
-      </tr>
-      <tr className={`${BASE_CLASS}__line`}>
-        <td colSpan="3">
+        </Cell>
+        { !readOnly && <Cell /> }
+      </Row>
+      <Row className={`${BASE_CLASS}__line`}>
+        <Cell colSpan="3" type="number">
           <FormattedMessage id="table.amount"/>
-        </td>
-        <td>
+        </Cell>
+        <Cell type="amount">
           <Amount value={ totals.all } />
-        </td>
-        { !readOnly && <td className="is-action"></td> }
-      </tr>
+        </Cell>
+        { !readOnly && <Cell /> }
+      </Row>
     </tfoot>
   )
 }
@@ -117,9 +117,9 @@ export function ProductTable( props ) {
   const { readOnly } = props
   const columns = [
     {label: `table.header.description`, type:`input` },
-    {label: `table.header.quantity`   , type:`input` },
-    {label: `table.header.unit-price` , type:`input` },
-    {label: `table.amount`            , type:`number`},
+    {label: `table.header.quantity`   , type:`input number` },
+    {label: `table.header.unit-price` , type:`input number` },
+    {label: `table.amount`            , type:`amount`},
   ]
   if ( !readOnly ) columns.push({label: false, type: `action`})
   const COMP_CLASS = [`table--product`]

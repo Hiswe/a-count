@@ -1,4 +1,5 @@
 import   React              from 'react'
+import   classNames         from 'classnames'
 import { FormattedMessage } from 'react-intl'
 import { withRouter       } from 'react-router-dom'
 
@@ -14,8 +15,14 @@ function Th( props ) {
     dir,
   }  = props
   const { label, sort, type, ...rest } = column
+
+  const COMP_CLASS = classNames(
+    `${BASE_CLASS}_col`,
+    type.split(` `).map(t => `${BASE_CLASS}_col--is-${ t }`),
+  )
+
   return (
-    <th {...rest} onClick={ onClick } className={`${BASE_CLASS}_col ${BASE_CLASS}_col--is-${type}`}>
+    <th {...rest} onClick={ onClick } className={ COMP_CLASS }>
       { isSorted && <Icon svgId={ dir === `ASC` ? `arrow-upward` : `arrow-downward` } /> }
       { label && <FormattedMessage id={label.trim()} /> }
     </th>

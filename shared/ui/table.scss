@@ -8,21 +8,7 @@
   --table-border-color: var(--c-primary-lighter);
   --table-header-border-color: var(--c-primary);
   --table-header-bg-color: var(--c-primary-darker);
-
-  &--print {
-    --table-border-color: var(--c-text-lighter);
-    --table-header-border-color: var(--c-text);
-    --table-header-bg-color: var(--c-text-darker);
-
-    tfoot {
-      background: none;
-      border: 0;
-
-      p {
-        padding-bottom: 0;
-      }
-    }
-  }
+  --table-footer-bg-color: var(--c-primary-lightest);
 
   &__title {
     text-align: left;
@@ -59,10 +45,6 @@
       // box-shadow act as a background for print
       box-shadow: inset var(--table-header-bg-color) 0 0 0 100px;
     }
-
-    // + th {
-    //   border-left: 1px solid var(--table-header-border-color);
-    // }
   }
 
   tr {
@@ -80,6 +62,7 @@
     }
     &_col {
       text-align: left;
+      white-space: nowrap;
 
       &--is-id,
       &--is-date,
@@ -98,9 +81,9 @@
       border: solid var(--table-border-color);
       border-width: 0 1px 1px;
 
-      &:hover {
-        background: var(--c-primary-white);
-      }
+      // &:hover {
+      //   background: var(--c-primary-white);
+      // }
     }
 
     &_col {
@@ -123,6 +106,9 @@
         white-space: nowrap;
         width: 15%;
       }
+      &--is-number {
+        width: 5em;
+      }
       &--is-amount {
         width: 10em;
       }
@@ -135,16 +121,35 @@
         text-align: center;
       }
     }
-    // td + td {
-    //   border-left: 1px solid var(--table-border-color);
-    // }
+    td + td {
+      border-left: 1px solid var(--table-border-color);
+    }
   }
 
   tfoot {
-    background-color: var(--c-primary-lightest);
+    background-color: var(--table-footer-bg-color);
     text-align: right;
     font-weight: bold;
     border: 1px solid var(--table-border-color);
+
+    tr {
+      border: 0;
+    }
+  }
+
+  &--print {
+    --table-border-color: var(--c-text-lighter);
+    --table-header-border-color: var(--c-text);
+    --table-header-bg-color: var(--c-text-darker);
+
+    tfoot {
+      --table-footer-bg-color: none;
+      border: 0;
+
+      td {
+        padding-bottom: 0;
+      }
+    }
   }
 
   .is-action {

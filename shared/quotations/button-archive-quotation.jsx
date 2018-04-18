@@ -15,7 +15,6 @@ function ButtonArchiveQuotation( props ) {
   if ( !isAvailable ) return null
 
   const btnProps = {
-    danger: true,
     onClick: event => {
       event.preventDefault()
       archiveOne({id})

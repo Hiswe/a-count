@@ -34,12 +34,12 @@ function InvoiceRow( props ) {
           {invoice.get(`quotation.reference`)}
         </Link>
       </Cell>
-      <Cell className="is-number">
+      <Cell>
         <Amount
           value={invoice.get(`total`)}
         />
       </Cell>
-      <Cell className="is-progress">
+      <Cell>
         <Progress
           tableLayout
           value={ invoice.get(`totalPaid`) }
