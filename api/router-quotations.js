@@ -77,6 +77,18 @@ router
 
   ctx.body = formatList({list, dbQuery})
 })
+.get( `/archived`, async (ctx, next) => {
+  const { userId, dbQuery }  = ctx.state
+  const queryParams = addRelations.quotations({
+    where: {
+      userId,
+      archivedAt : { $not : null },
+    },
+    ...dbQuery,
+  })
+  const list = await Quotation.findAndCount( queryParams )
+  ctx.body = formatList({list, dbQuery})
+})
 
 //----- NEW
 

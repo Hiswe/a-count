@@ -29,7 +29,7 @@ const find  = {
   invoiceFor: who => (
     squel.expr()
     .and( quote(`invoice.${ who }Id = ${ who }.id`) )
-    .and( quote(`invoice.archivedAt IS NULL`) )
+    // .and( quote(`invoice.archivedAt IS NULL`) )
   )
 }
 

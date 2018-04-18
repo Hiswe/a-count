@@ -27,7 +27,7 @@ const MESSAGES = Object.freeze({
 })
 
 router
-.get(`/`, async (ctx, next) => {
+.get( `/`, async (ctx, next) => {
   const { userId, dbQuery }  = ctx.state
   const queryParams = addRelations.invoice({
     where: {
@@ -38,6 +38,18 @@ router
   })
   const list = await Invoice.findAndCount( queryParams )
 
+  ctx.body = formatList({list, dbQuery})
+})
+.get( `/archived`, async (ctx, next) => {
+  const { userId, dbQuery }  = ctx.state
+  const queryParams = addRelations.invoice({
+    where: {
+      userId,
+      archivedAt : { $not : null },
+    },
+    ...dbQuery,
+  })
+  const list = await Invoice.findAndCount( queryParams )
   ctx.body = formatList({list, dbQuery})
 })
 
