@@ -73,6 +73,21 @@ router
   ctx.assert(customer, 404, `Customer not found`)
   ctx.body        = customer
 })
+.post(`/:id`, async (ctx, next) => {
+  const { userId }  = ctx.state
+  const { id }    = ctx.params
+  const { body }  = ctx.request
+  const instance  = await Customer.findOne({
+    where: { id, userId }
+  })
+  // TODO: check if the user doesn't already have a customer with the same name
+  ctx.assert(instance, 404, `Customer not found`)
+  const updated    = await instance.update( body )
+  ctx.body        = updated
+})
+
+//----- RELATED QUOTATIONS/INVOICES
+
 .get(`/:id/quotations`, async (ctx, next) => {
   const { userId, dbQuery } = ctx.state
   const { id } = ctx.params
@@ -112,6 +127,7 @@ router
     where: {
       userId,
       customerId: id,
+      archivedAt: { $eq: null },
     },
     attributes: [
       `id`,
@@ -142,16 +158,4 @@ router
   }
   const list = await Invoice.findAndCount( queryParams )
   ctx.body   = formatList({list, dbQuery})
-})
-.post(`/:id`, async (ctx, next) => {
-  const { userId }  = ctx.state
-  const { id }    = ctx.params
-  const { body }  = ctx.request
-  const instance  = await Customer.findOne({
-    where: { id, userId }
-  })
-  // TODO: check if the user doesn't already have a customer with the same name
-  ctx.assert(instance, 404, `Customer not found`)
-  const updated    = await instance.update( body )
-  ctx.body        = updated
 })

@@ -64,10 +64,6 @@ const quotationsParams = {
 const quotationParams = {
   include: [
     {
-      model: User,
-      attributes: [`currency`],
-    },
-    {
       model: ProductConfig,
       attributes: {exclude: [`id`, `userId`]},
     },
@@ -77,7 +73,7 @@ const quotationParams = {
     },
     {
       model: Customer,
-      attributes: [`id`, `name`, `address`]
+      attributes: [`id`, `name`],
     },
     {
       model:      Invoice,
@@ -96,16 +92,12 @@ const quotationParams = {
 const invoiceParams = {
   include: [
     {
-      model: User,
-      attributes: [`currency`],
-    },
-    {
       model: InvoiceConfig,
       attributes: { exclude: [`id`, `userId`] },
     },
     {
       model: Customer,
-      attributes: [`id`, `name`, `address`],
+      attributes: [`id`, `name`],
     },
     {
       model:      Quotation,

@@ -30,7 +30,10 @@ router
 .get(`/`, async (ctx, next) => {
   const { userId, dbQuery }  = ctx.state
   const queryParams = addRelations.invoice({
-    where: { userId },
+    where: {
+      userId,
+      archivedAt : { $eq : null },
+    },
     ...dbQuery,
   })
   const list = await Invoice.findAndCount( queryParams )
@@ -78,4 +81,20 @@ router
 
   ctx.assert( instance, 500,  MESSAGES.DEFAULT )
   ctx.body = instance
+})
+.post(`/:id/archive`, async (ctx, next) => {
+  const { userId }  = ctx.state
+  const { id }      = ctx.params
+  const invoice     = await Invoice.findOne({ where: {
+    id,
+    userId,
+    archivedAt : { $eq : null },
+  }})
+
+  ctx.assert( invoice , 404, MESSAGES.NOT_FOUND )
+  await invoice.update({ archivedAt: new Date() })
+  const query       = addRelations.invoice({ where: { id, userId }})
+  const updatedInvoice = await Invoice.findOne( query )
+
+  ctx.body = updatedInvoice
 })

@@ -8,15 +8,15 @@ const   Router    = require( 'koa-router'   )
 const   jwt       = require( 'koa-jwt'      )
 const   chalk     = require( 'chalk'        )
 
-const config           = require( './config'                )
-const redis            = require( './redis'                 )
-const jwtStore         = require( './jwt-store'             )
+const config           = require( './config'                     )
+const redis            = require( './redis'                      )
+const jwtStore         = require( './jwt-store'                  )
 const addRelations     = require( './utils/db-default-relations' )
-const User             = require( './db/model-user'         )
-const routerAccount    = require( './router-account'        )
-const routerCustomers  = require( './router-customers'      )
-const routerQuotations = require( './router-quotations'     )
-const routerInvoices   = require( './router-invoices'       )
+const User             = require( './db/model-user'              )
+const routerAccount    = require( './router-account'             )
+const routerCustomers  = require( './router-customers'           )
+const routerQuotations = require( './router-quotations'          )
+const routerInvoices   = require( './router-invoices'            )
 
 const apiRouter = new Router({
   prefix: `/v1`,
