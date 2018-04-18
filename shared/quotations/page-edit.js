@@ -15,9 +15,7 @@ import {
 } from '../nav/secondary-buttons'
 import   QuotationForm            from './form'
 import { FORM_ID                } from './form.pres'
-import   ButtonCreateInvoice      from './button-create-invoice'
-import   ButtonShowInvoice        from './button-show-invoice'
-import   ButtonArchiveQuotation   from './button-archive-quotation'
+import { CreateInvoice, ShowInvoice, ArchiveQuotation } from './buttons'
 
 const TYPE = `quotations`
 
@@ -40,17 +38,17 @@ function EditQuotation( props ) {
           isSaving = { props.isSaving }
           label="_.save"
         />
-        <ButtonShowInvoice
+        <ShowInvoice
           withMessage
           quotation={ quotation }
         />
-        <ButtonArchiveQuotation
+        <ArchiveQuotation
           icon danger
           quotation={ quotation }
           form={ FORM_ID }
           label="quotation.button.archive"
         />
-        <ButtonCreateInvoice
+        <CreateInvoice
           quotation={ quotation }
           form={ FORM_ID }
         />

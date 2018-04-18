@@ -11,7 +11,7 @@ import { Progress       } from '../ui/progress'
 import { ArchiveInvoice } from './buttons'
 
 function InvoiceRow( props ) {
-  const { invoice, hideCustomer } = props
+  const { invoice, hideCustomer, hideArchive } = props
   const url = `/invoices/${invoice.id}`
   return (
     <Row>
@@ -47,9 +47,11 @@ function InvoiceRow( props ) {
           max={ invoice.get(`total`) }
         />
       </Cell>
-      <Cell>
-        <ArchiveInvoice icon linkAlike invoice={ invoice } />
-      </Cell>
+      {!hideArchive && (
+        <Cell>
+          <ArchiveInvoice icon linkAlike invoice={ invoice } />
+        </Cell>
+      )}
     </Row>
   )
 }
@@ -64,17 +66,28 @@ const defaultColumns = [
   {label: false                    , sort: false             , type: `action`   },
 ]
 
+function filterColumns({  hideCustomer, hideArchive }) {
+  let columns = defaultColumns
+  if ( hideCustomer ) {
+    columns = columns.filter( TableUtils.filterColumn(`customer`) )
+  }
+  if ( hideArchive ) {
+    columns = columns.filter( col => col.label !== false )
+  }
+  return columns
+}
+
 function InvoiceList( props ) {
   const {
     invoices,
     hideOnEmpty  = false,
     hideCustomer = false,
+    hideArchive  = false,
     ...others
   } = props
   const hasInvoices = TableUtils.hasRows( invoices )
   if ( hideOnEmpty && !hasInvoices ) return null
-  const columns     = hideCustomer ? defaultColumns.filter(TableUtils.filterColumn(`customer`))
-    : defaultColumns
+  const columns     = filterColumns( props )
   const columnCount = columns.length
   return (
     <Table
@@ -89,6 +102,7 @@ function InvoiceList( props ) {
             key={ invoice.id }
             invoice={ invoice }
             hideCustomer={ hideCustomer }
+            hideArchive={ hideArchive }
           />
         ))
       }
@@ -108,8 +122,9 @@ export const ActiveInvoices = connect(
 
 export const ArchivedInvoices = connect(
   state => ({
-    invoices: state.invoices.get(`archived`     ),
-    meta    : state.invoices.get(`meta.archived`),
+    invoices    : state.invoices.get(`archived` ),
+    meta        : state.invoices.get(`meta.archived`),
+    hideArchive : true,
   }),
   dispatch => ( bindActionCreators({
     handlePageSort: invoices.getArchived,

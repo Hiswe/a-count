@@ -9,9 +9,7 @@ import { Input, Textarea, Select } from '../ui/field'
 import { Stepper } from '../ui/stepper'
 import Icon from '../ui/svg-icons'
 import { ProductTable, ProductLineEditable } from '../ui/table-product'
-import ButtonCreateInvoice from './button-create-invoice'
-import ButtonShowInvoice from './button-show-invoice'
-import ButtonArchiveQuotation from './button-archive-quotation'
+import { CreateInvoice, ShowInvoice, ArchiveQuotation } from './buttons'
 
 import './form.pres.scss'
 export const BASE_CLASS = `quotation-form`
@@ -107,9 +105,9 @@ export default function QuotationFormPres( props ) {
             <Button type="submit">
               <FormattedMessage id={ submitI18nId } />
             </Button>
-            <ButtonCreateInvoice quotation={ formData } />
-            <ButtonShowInvoice quotation={ formData } withMessage />
-            <ButtonArchiveQuotation danger quotation={ formData } />
+            <CreateInvoice quotation={ formData } />
+            <ShowInvoice quotation={ formData } withMessage />
+            <ArchiveQuotation danger quotation={ formData } />
           </FormActions>
         </Content>
       </Main>

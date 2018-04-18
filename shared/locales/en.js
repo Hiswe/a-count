@@ -104,7 +104,7 @@ export default {
   'page.register'           : `register`                     ,
   'page.forgot'             : `forgotten password`           ,
   'page.error'              : `something went wrong`         ,
-  'page.archived'           : `Archives`                     ,
+  'page.archived'           : `archives`                     ,
 
   'paper-sheet.reference.quotation'   : `Quotation`                           ,
   'paper-sheet.reference.invoice'     : `Invoice`                             ,

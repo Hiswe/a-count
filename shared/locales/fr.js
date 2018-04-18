@@ -105,7 +105,7 @@ export default {
   'page.register'           : `enregistrement`                     ,
   'page.forgot'             : `mot de passe oublié`                ,
   'page.error'              : `Une erreur est survenue`            ,
-  'page.archived'           : `Archives`                           ,
+  'page.archived'           : `archives`                           ,
 
   'paper-sheet.reference.quotation'   : `Devis`                                      ,
   'paper-sheet.reference.invoice'     : `Facture`                                    ,
