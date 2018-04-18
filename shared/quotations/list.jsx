@@ -6,7 +6,7 @@ import { Link               } from 'react-router-dom'
 
 import * as quotations from '../ducks/quotations.js'
 import * as TableUtils from '../utils/tables'
-import { Table  , EmptyLine, Row, Cell } from '../ui/table.jsx'
+import { Table, EmptyLine, Row, Cell } from '../ui/table.jsx'
 import { Amount, Date            } from '../ui/format.jsx'
 import { Button                  } from '../ui/buttons.jsx'
 import ButtonArchiveQuotation from './button-archive-quotation.jsx'

@@ -7,12 +7,12 @@ import { DatePicker } from '../ui/date-picker.jsx'
 import { Amount }     from '../ui/format.jsx'
 
 const eventsColumns = [
-  {label: `invoices.event.#`          , type: `id`     },
-  {label: `invoices.event`            , type: `text`   },
-  {label: `invoices.event.description`, type: `input`  },
-  {label: `invoices.event.date`       , type: `input`  },
-  {label: `invoices.event.amount`     , type: `input`  },
-  {label: false                       , type: `action` },
+  {label: `invoices.event.#`          , type: `id`           },
+  {label: `invoices.event`            , type: `text`         },
+  {label: `invoices.event.description`, type: `input`        },
+  {label: `invoices.event.date`       , type: `input date`   },
+  {label: `invoices.event.amount`     , type: `input amount` },
+  {label: false                       , type: `action`       },
 ]
 
 function InvoiceEventsFooter( props ) {
@@ -20,30 +20,30 @@ function InvoiceEventsFooter( props ) {
 
   return (
     <tfoot>
-      <tr>
-        <td colSpan="4">
+      <Row>
+        <Cell colSpan="4">
           <FormattedMessage id="table.amount.paid" />
-        </td>
-        <td>
+        </Cell>
+        <Cell type="amount">
           <Amount
             value={ formData.get(`totalPaid`) }
             currency={ currency }
           />
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td colSpan="4">
+        </Cell>
+        <Cell />
+      </Row>
+      <Row>
+        <Cell colSpan="4">
           <FormattedMessage id="table.amount.left-to-pay" />
-        </td>
-        <td>
+        </Cell>
+        <Cell type="amount">
           <Amount
             value={ formData.get(`totalLeft`) }
             currency={ currency }
           />
-        </td>
-        <td></td>
-      </tr>
+        </Cell>
+        <Cell />
+      </Row>
     </tfoot>
   )
 }
@@ -58,7 +58,7 @@ export default function InvoiceEvents( props ) {
       footer={ <InvoiceEventsFooter {...props} /> }
     >
       <Row>
-        <Cell></Cell>
+        <Cell />
         <Cell>
           <FormattedMessage id="invoices.event.sent" />
         </Cell>
@@ -75,7 +75,7 @@ export default function InvoiceEvents( props ) {
       </Row>
       {payments.map((payment, index) => (
         <Row key={payment.get(`_id`)} >
-          <Cell className="is-number">
+          <Cell>
             <input
               type="hidden"
               name={`${payment._fieldPath}[_id]`}
@@ -109,7 +109,7 @@ export default function InvoiceEvents( props ) {
               defaultValue={ payment.get(`amount`) }
             />
           </Cell>
-          <Cell className="is-action">
+          <Cell>
             {(index < payments.length - 1 )&& <BtnIcon
               linkAlike
               onClick={ e => handle.removePayment(index, payment._fieldPath) }
