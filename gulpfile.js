@@ -5,7 +5,7 @@ const $           = require( `gulp-load-plugins` )()
 
 const ICON_SVG_SRC   = `server/public/icons`
 const ICON_SVG_DEST  = `server/public`
-const ICON_CSS_DEST  = `shared/components/ui`
+const ICON_CSS_DEST  = `shared/ui`
 const PAPER_SVG_SRC  = `server/public/paper-part`
 const PAPER_SVG_DEST = `server/public`
 const ICON_DEMO_DEST = `.tmp`
