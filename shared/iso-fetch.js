@@ -5,7 +5,7 @@ import urlJoin     from 'url-join'
 import Cookies     from 'js-cookie'
 import queryString from 'query-string'
 
-import config from './isomorphic-config.js'
+import config from './isomorphic-config'
 
 // Thin wrapper around the fetch API
 // • We return both the response & the JSON

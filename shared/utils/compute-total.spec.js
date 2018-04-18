@@ -6,7 +6,7 @@ import {
   enforceNumber,
   productTotal,
   totals,
-} from './compute-total.js'
+} from './compute-total'
 
 test( `enforce number`, t => {
   t.is( enforceNumber(25), 25, `numbers are kept` )

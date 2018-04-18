@@ -8,7 +8,7 @@ import {
   Stepper,
   CHECKED_CLASS,
   RADIO_CLASS,
-} from './stepper.jsx'
+} from './stepper'
 
 Enzyme.configure({ adapter: new Adapter() })
 const { shallow, mount } = Enzyme

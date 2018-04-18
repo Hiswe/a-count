@@ -2,7 +2,7 @@ import test from 'ava'
 import crio from 'crio'
 import shortid from 'shortid'
 
-import recompute from './recompute-quotation-products.js'
+import recompute from './recompute-quotation-products'
 
 const defaultProduct = crio({foo: `bar`})
 

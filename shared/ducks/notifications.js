@@ -1,21 +1,21 @@
 import crio from 'crio'
 import shortid from 'shortid'
 
-import createActionNames from './utils/create-action-names.js'
+import createActionNames from './utils/create-action-names'
 
 import {
   GET_ONE        as QUOTATION_GET_ONE       ,
   SAVE_ONE       as QUOTATION_SAVE_ONE      ,
   CREATE_INVOICE as QUOTATION_CREATE_INVOICE,
-} from './quotations.js'
+} from './quotations'
 import {
   GET_ONE  as INVOICE_GET_ONE,
   SAVE_ONE as INVOICE_SAVE_ONE,
-} from './invoices.js'
+} from './invoices'
 import {
   GET_ONE  as CUSTOMER_GET_ONE,
   SAVE_ONE as CUSTOMER_SAVE_ONE,
-} from './customers.js'
+} from './customers'
 import {
   AUTH     as ACCOUNT_AUTH,
   LOGIN    as ACCOUNT_LOGIN,
@@ -24,7 +24,7 @@ import {
   LOGOUT   as ACCOUNT_LOGOUT,
   REGISTER as ACCOUNT_REGISTER,
   UPDATE   as ACCOUNT_UPDATE,
-} from './account.js'
+} from './account'
 
 const NAME = `notifications`
 export const REMOVE     = `@concompte/${NAME}/remove`

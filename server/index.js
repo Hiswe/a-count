@@ -10,10 +10,10 @@ import logger from 'koa-logger'
 import json from 'koa-json'
 import Router from 'koa-router'
 
-import config from './config.js'
-import log from './log.js'
-import apiBackupRoutes from './routing-api-backup.js'
-import reactRoutes from './routing-koa-react.jsx'
+import config          from './config'
+import log             from './log'
+import apiBackupRoutes from './routing-api-backup'
+import reactRoutes     from './routing-koa-react'
 import * as render from './render'
 
 //////

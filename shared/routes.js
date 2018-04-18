@@ -1,30 +1,30 @@
-import authenticationRequired from './authentication-required.jsx'
-import authenticationForbidden from './authentication-forbidden.jsx'
+import authenticationRequired from './authentication-required'
+import authenticationForbidden from './authentication-forbidden'
 
-import Root from './layout/root.jsx'
+import Root from './layout/root'
 
-import Login    from './account/page-login.jsx'
-import Register from './account/page-register.jsx'
-import Forgot   from './account/page-forgot.jsx'
-import Reset    from './account/page-reset.jsx'
-import Settings from './account/page-settings.jsx'
+import Login    from './account/page-login'
+import Register from './account/page-register'
+import Forgot   from './account/page-forgot'
+import Reset    from './account/page-reset'
+import Settings from './account/page-settings'
 
-import Home from './home/page-home.jsx'
+import Home from './home/page-home'
 
-import QuotationsList    from './quotations/page-list.jsx'
-import QuotationsNew     from './quotations/page-new.jsx'
-import QuotationsEdit    from './quotations/page-edit.jsx'
-import QuotationsPreview from './quotations/page-preview.jsx'
+import QuotationsList    from './quotations/page-list'
+import QuotationsNew     from './quotations/page-new'
+import QuotationsEdit    from './quotations/page-edit'
+import QuotationsPreview from './quotations/page-preview'
 
-import InvoicesList    from './invoices/page-list.jsx'
-import InvoicesEdit    from './invoices/page-edit.jsx'
-import InvoicesPreview from './invoices/page-preview.jsx'
+import InvoicesList    from './invoices/page-list'
+import InvoicesEdit    from './invoices/page-edit'
+import InvoicesPreview from './invoices/page-preview'
 
-import CustomersList from './customers/page-list.jsx'
-import CustomerNew   from './customers/page-new.jsx'
-import CustomerEdit  from './customers/page-edit.jsx'
+import CustomersList from './customers/page-list'
+import CustomerNew   from './customers/page-new'
+import CustomerEdit  from './customers/page-edit'
 
-import NotFound from './page-not-found.jsx'
+import NotFound from './page-not-found'
 
 const routes = [{
   component: Root,

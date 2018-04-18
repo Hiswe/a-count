@@ -35,8 +35,8 @@ const server = {
       entryOnly: false
     }),
     new webpack.NormalModuleReplacementPlugin(
-      /isomorphic-config\.js/,
-      path.join(__dirname, './shared/config-server.js')
+      /isomorphic-config/,
+      path.join(__dirname, './shared/config-server')
     ),
   ],
   //
@@ -50,7 +50,7 @@ const server = {
   devtool:    `inline-source-map`,
   module: {
     rules: [{
-      test: /\.jsx?$/,
+      test: /\.js$/,
       include: [
         path.resolve( __dirname, `server` ),
         path.resolve( __dirname, `shared` ),
@@ -72,7 +72,7 @@ const server = {
 const client = {
   target: `web`,
   mode:   env,
-  entry:  `./client/index.jsx`,
+  entry:  `./client/index.js`,
   output: {
     filename: `concompte.js`,
     path:     path.resolve( __dirname, `server/public` )
@@ -84,8 +84,8 @@ const client = {
       },
     }),
     new webpack.NormalModuleReplacementPlugin(
-      /isomorphic-config\.js/,
-      path.join(__dirname, './shared/config-browser.js')
+      /isomorphic-config/,
+      path.join(__dirname, './shared/config-browser')
     ),
     new ExtractTextPlugin( `concompte.css` )
   ],
@@ -105,7 +105,7 @@ const client = {
   },
   module: {
     rules: [{
-      test:     /\.jsx?$/,
+      test:     /\.js$/,
       include: [
         path.resolve( __dirname, `client` ),
         path.resolve( __dirname, `shared` ),

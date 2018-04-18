@@ -2,7 +2,7 @@ import shortid from 'shortid'
 import merge from 'lodash.merge'
 import crio from 'crio'
 
-import filterArrayWithObject from './filter-array-with-object.js'
+import filterArrayWithObject from './filter-array-with-object'
 
 // prepare products to be consumed by quotation form
 // • remove duplicated default products

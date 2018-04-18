@@ -1,7 +1,7 @@
 import crio from 'crio'
 
-import createActionNames from './utils/create-action-names.js'
-import fetchDispatch from './utils/fetch-dispatch.js'
+import createActionNames from './utils/create-action-names'
+import fetchDispatch from './utils/fetch-dispatch'
 
 const NAME = `account`
 

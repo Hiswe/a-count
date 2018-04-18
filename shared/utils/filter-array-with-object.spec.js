@@ -1,7 +1,7 @@
 import test from 'ava'
 import crio from 'crio'
 
-import filter from './filter-array-with-object.js'
+import filter from './filter-array-with-object'
 
 test( `no default object & no array`, t => {
   const result = filter({})
