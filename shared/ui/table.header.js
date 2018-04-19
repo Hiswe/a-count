@@ -34,19 +34,21 @@ function Th( props ) {
 }
 
 export function Thead( props ) {
-  const { columns, handleSort, sort, dir } = props
+  const { columns, hideColumns, handleSort, sort, dir } = props
 
   return (
     <thead className={ BASE_CLASS }>
       <tr className={`${BASE_CLASS}_row`}>
-        { columns.map( (c, i) => (
-          <Th
-            key={ i }
-            column={ c }
-            isSorted={ c.sort && sort === c.sort }
-            dir={ dir }
-            onClick={ !c.sort ? null : event => handleSort(event, c.sort ) }
-          />)) }
+      { columns.map( (column, index) => {
+        if ( hideColumns.includes(column.id) ) return null
+        return ( <Th
+          key={ index }
+          column={ column }
+          isSorted={ column.sort && sort === column.sort }
+          dir={ dir }
+          onClick={ !column.sort ? null : event => handleSort(event, column.sort ) }
+        />)
+      })}
       </tr>
     </thead>
   )

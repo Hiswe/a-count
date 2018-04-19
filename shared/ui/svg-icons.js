@@ -19,7 +19,7 @@ export function Icon( props ) {
   )
 }
 
-Icon.PropTypes = {
+Icon.propTypes = {
   svgId: PropTypes.string.isRequired,
 }
 

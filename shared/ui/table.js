@@ -11,7 +11,20 @@ import './table.scss'
 const BASE_CLASS = `table`
 
 // Create a context for passing col types all down
-const TableContext = React.createContext( [] )
+// • we may have a wrapper around a row (like quotationRow)
+//   this will make it hard to pass down those properties with a React.Children.map
+const TableContext = React.createContext({
+  columns:     [],
+  hideColumns: [],
+})
+
+export function TableFooter( props ) {
+  return (
+    <tfoot className={`${BASE_CLASS}__footer`}>
+      { props.children }
+    </tfoot>
+  )
+}
 
 export function Cell( props ) {
   const { type, ...rest } = props
@@ -27,22 +40,21 @@ export function Cell( props ) {
 }
 
 export function Row( props ) {
-  let colCount = -1
   return (
     <TableContext.Consumer>
-      { columns => (
-        <tr className={`${BASE_CLASS}__body_row`}>
-          { React.Children.map( props.children, child => {
-            // ignore non rendered <th>
-            if ( child === null ) return null
-            // columns informations has been filtered already
-            colCount += 1
-            return React.cloneElement( child, {
-              type: child.props.type || columns[ colCount ].type
-            })
-          })}
-        </tr>
-      )}
+    { ({columns, hideColumns}) => (
+      <tr className={`${BASE_CLASS}__body_row`}>
+        { React.Children.map( props.children, (cell, index) => {
+          const column = columns[ index ]
+          // filter hidden columns
+          if ( hideColumns.includes(column.id) ) return null
+          // pass the right types to cell
+          return React.cloneElement( cell, {
+            type: cell.props.type || columns[ index ].type
+          })
+        })}
+      </tr>
+    )}
     </TableContext.Consumer>
   )
 }
@@ -151,7 +163,10 @@ export class PaginatedTable extends React.PureComponent {
       presentation ? `${BASE_CLASS}--presentation` : false,
     )
     return (
-      <TableContext.Provider value={ this.columns }>
+      <TableContext.Provider value={{
+        columns    : this.columns,
+        hideColumns: this.props.hideColumns,
+      }}>
         <div className={ COMP_CLASS }>
           <table cellSpacing="0" className={`${BASE_CLASS}__content`}>
             { props.title && (
@@ -161,6 +176,7 @@ export class PaginatedTable extends React.PureComponent {
             )}
             <Thead
               columns={ this.columns }
+              hideColumns={ this.props.hideColumns }
               handleSort={ this.handleSort }
               sort={ state.sort }
               dir={ state.dir }
@@ -184,11 +200,16 @@ export class PaginatedTable extends React.PureComponent {
   }
 }
 
-PaginatedTable.PropTypes = {
+PaginatedTable.defaultProps = {
+  hideColumns: [],
+}
+
+PaginatedTable.propTypes = {
   columns        : PropTypes.arrayOf( PropTypes.object ).isRequired,
-  meta           : PropTypes.object,
-  handlePageSort : PropTypes.func,
-  footer         : PropTypes.element,
+  hideColumns    : PropTypes.arrayOf( PropTypes.string )           ,
+  meta           : PropTypes.object                                ,
+  handlePageSort : PropTypes.func                                  ,
+  footer         : PropTypes.element                               ,
 }
 
 // we need to have access to the router

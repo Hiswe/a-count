@@ -11,9 +11,9 @@ import { Progress       } from '../ui/progress'
 import { ArchiveInvoice } from './buttons'
 
 function InvoiceRow( props ) {
-  const { invoice, hideCustomer, hideArchive } = props
-  const isArchived = invoice.get(`archivedAt`)
-  const invoiceUrl = `/invoices/${invoice.id}${ isArchived ? `/preview` : `` }`
+  const { invoice } = props
+  const isArchived  = invoice.get(`archivedAt`)
+  const invoiceUrl  = `/invoices/${invoice.id}${ isArchived ? `/preview` : `` }`
   return (
     <Row>
       <Cell>
@@ -22,13 +22,11 @@ function InvoiceRow( props ) {
       <Cell>
         <Link to={ invoiceUrl }>{ invoice.get( `name` ) }</Link>
       </Cell>
-      {!hideCustomer && (
-        <Cell>
-          <Link to={`/customers/${invoice.customerId}`}>
-            {invoice.get( `customer.name` )}
-          </Link>
-        </Cell>
-      )}
+      <Cell>
+        <Link to={`/customers/${invoice.customerId}`}>
+          {invoice.get( `customer.name` )}
+        </Link>
+      </Cell>
       <Cell>
         <Link to={`/quotations/${invoice.get('quotation.id')}/preview`}>
           {invoice.get(`quotation.reference`)}
@@ -46,11 +44,9 @@ function InvoiceRow( props ) {
           max={ invoice.get(`total`) }
         />
       </Cell>
-      {!hideArchive && (
-        <Cell>
-          <ArchiveInvoice icon linkAlike invoice={ invoice } />
-        </Cell>
-      )}
+      <Cell>
+        <ArchiveInvoice icon linkAlike invoice={ invoice } />
+      </Cell>
     </Row>
   )
 }
@@ -62,36 +58,22 @@ const defaultColumns = [
   {id: `quotation`, label: `table.header.quotation` , sort: `quotation.index` , type: `id`       },
   {id: `amount`   , label: `table.amount`           , sort: `total`           , type: `amount`   },
   {id: `paid`     , label: `table.amount.paid`      , sort: `totalPaid`       , type: `progress` },
-  {id: `action`   , label: false                    , sort: false             , type: `action`   },
+  {id: `archive`  , label: false                    , sort: false             , type: `action`   },
 ]
-
-function filterColumns({  hideCustomer, hideArchive }) {
-  let columns = defaultColumns
-  if ( hideCustomer ) {
-    columns = columns.filter( TableUtils.filterColumn(`customer`) )
-  }
-  if ( hideArchive ) {
-    columns = columns.filter( col => col.label !== false )
-  }
-  return columns
-}
 
 function InvoiceList( props ) {
   const {
     invoices,
     hideOnEmpty  = false,
-    hideCustomer = false,
-    hideArchive  = false,
     ...others
   } = props
   const hasInvoices = TableUtils.hasRows( invoices )
   if ( hideOnEmpty && !hasInvoices ) return null
-  const columns     = filterColumns( props )
-  const columnCount = columns.length
+  const columnCount = defaultColumns.length
   return (
     <Table
       presentation
-      columns={ columns }
+      columns={ defaultColumns }
       { ...others }
     >
       {
@@ -100,8 +82,6 @@ function InvoiceList( props ) {
           <InvoiceRow
             key={ invoice.id }
             invoice={ invoice }
-            hideCustomer={ hideCustomer }
-            hideArchive={ hideArchive }
           />
         ))
       }
@@ -123,7 +103,7 @@ export const ArchivedInvoices = connect(
   state => ({
     invoices    : state.invoices.get(`archived` ),
     meta        : state.invoices.get(`meta.archived`),
-    hideArchive : true,
+    hideColumns : [`archive`],
   }),
   dispatch => ( bindActionCreators({
     handlePageSort: invoices.getArchived,
@@ -134,7 +114,7 @@ export const CustomerInvoices = connect(
   state => ({
     invoices     : state.invoices.get(`active` )    ,
     meta         : state.invoices.get(`meta.active`),
-    hideCustomer : true                             ,
+    hideColumns  : [`customer`],
   }),
   dispatch => ( bindActionCreators({
     handlePageSort: invoices.getAllForCustomer,
