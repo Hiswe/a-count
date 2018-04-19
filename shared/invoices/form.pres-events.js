@@ -1,7 +1,7 @@
 import   React              from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Table, Row, Cell } from '../ui/table'
+import { Table, Row, Cell, TableFooter, RowFooter } from '../ui/table'
 import { BtnIcon }    from '../ui/buttons'
 import { DatePicker } from '../ui/date-picker'
 import { Amount }     from '../ui/format'
@@ -19,8 +19,8 @@ function InvoiceEventsFooter( props ) {
   const { formData } = props
 
   return (
-    <tfoot>
-      <Row>
+    <TableFooter>
+      <RowFooter>
         <Cell colSpan="4">
           <FormattedMessage id="table.amount.paid" />
         </Cell>
@@ -28,8 +28,8 @@ function InvoiceEventsFooter( props ) {
           <Amount value={ formData.get(`totalPaid`) } />
         </Cell>
         <Cell />
-      </Row>
-      <Row>
+      </RowFooter>
+      <RowFooter>
         <Cell colSpan="4">
           <FormattedMessage id="table.amount.left-to-pay" />
         </Cell>
@@ -37,8 +37,8 @@ function InvoiceEventsFooter( props ) {
           <Amount value={ formData.get(`totalLeft`) } />
         </Cell>
         <Cell />
-      </Row>
-    </tfoot>
+      </RowFooter>
+    </TableFooter>
   )
 }
 

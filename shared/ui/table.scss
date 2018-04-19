@@ -86,53 +86,55 @@
       // }
     }
 
-    &_col {
-      padding: 0.5em 0.75em;
 
-      &--is-id,
-      &--is-action {
-        width: 1%;
-        white-space: nowrap;
-      }
-      &--is-input,
-      &--is-action {
-        padding: 0;
-      }
-      &--is-number,
-      &--is-amount {
-        text-align: right;
-      }
-      &--is-customer {
-        white-space: nowrap;
-        width: 15%;
-      }
-      &--is-number {
-        width: 5em;
-      }
-      &--is-amount {
-        width: 10em;
-      }
-      &--is-progress {
-        position: relative;
-        width: 7em;
-      }
-      &--is-date {
-        width: 7.5em;
-        text-align: center;
-      }
-    }
     td + td {
       border-left: 1px solid var(--table-border-color);
     }
   }
 
-  tfoot {
+  &__cell {
+    padding: 0.5em 0.75em;
+
+    &--is-id,
+    &--is-action {
+      width: 1%;
+      white-space: nowrap;
+    }
+    &--is-input,
+    &--is-action {
+      padding: 0;
+    }
+    &--is-number,
+    &--is-amount {
+      text-align: right;
+    }
+    &--is-customer {
+      white-space: nowrap;
+      width: 15%;
+    }
+    &--is-number {
+      width: 5em;
+    }
+    &--is-amount {
+      width: 10em;
+    }
+    &--is-progress {
+      position: relative;
+      width: 7em;
+    }
+    &--is-date {
+      width: 7.5em;
+      text-align: center;
+    }
+  }
+
+  &__footer {
     background-color: var(--table-footer-bg-color);
+    border: 1px solid var(--table-border-color);
     text-align: right;
     font-weight: bold;
-    border: 1px solid var(--table-border-color);
 
-    tr {
+    &_row {
       border: 0;
     }
   }
@@ -149,20 +151,6 @@
       td {
         padding-bottom: 0;
       }
-    }
-  }
-
-  .is-action {
-    text-align: center;
-    width: 50px;
-
-    .button--icon {
-      display: block;
-      margin: 0 auto;
-    }
-
-    @media print {
-      display: none;
     }
   }
 

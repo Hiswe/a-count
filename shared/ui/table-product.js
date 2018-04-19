@@ -2,11 +2,9 @@ import   React              from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import * as compute from '../utils/compute-total'
-import { Table, Row, Cell } from './table'
+import { Table, Row, Cell, TableFooter, RowFooter } from './table'
 import { Amount, Markdown, FormatNumber } from './format'
 import TextareaAutoResize from './textarea-auto-resize'
-
-const BASE_CLASS = `product-total`
 
 // only use defaultValue
 // • handleChange is handled globally at the form level
@@ -81,8 +79,8 @@ function TotalFooter( props ) {
   const { products, tax, readOnly } = props
   const totals = compute.totals( products, tax )
   return (
-    <tfoot className={ BASE_CLASS }>
-      <Row className={`${BASE_CLASS}__line`}>
+    <TableFooter>
+      <RowFooter>
         <Cell colSpan="3" type="number">
           <FormattedMessage id="table.amount-ht"/>
         </Cell>
@@ -90,8 +88,8 @@ function TotalFooter( props ) {
           <Amount value={ totals.net } />
         </Cell>
         { !readOnly && <Cell /> }
-      </Row>
-      <Row className={`${BASE_CLASS}__line`}>
+      </RowFooter>
+      <RowFooter>
         <Cell colSpan="3" type="number">
           <FormattedMessage id="table.amount-taxes"/>
         </Cell>
@@ -99,8 +97,8 @@ function TotalFooter( props ) {
           <Amount value={ totals.tax } />
         </Cell>
         { !readOnly && <Cell /> }
-      </Row>
-      <Row className={`${BASE_CLASS}__line`}>
+      </RowFooter>
+      <RowFooter>
         <Cell colSpan="3" type="number">
           <FormattedMessage id="table.amount"/>
         </Cell>
@@ -108,8 +106,8 @@ function TotalFooter( props ) {
           <Amount value={ totals.all } />
         </Cell>
         { !readOnly && <Cell /> }
-      </Row>
-    </tfoot>
+      </RowFooter>
+    </TableFooter>
   )
 }
 

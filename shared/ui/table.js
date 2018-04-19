@@ -26,11 +26,19 @@ export function TableFooter( props ) {
   )
 }
 
+export function RowFooter( props ) {
+  return (
+    <tr className={`${BASE_CLASS}__footer_row`}>
+      { props.children }
+    </tr>
+  )
+}
+
 export function Cell( props ) {
   const { type, ...rest } = props
   const COMP_CLASS = classNames(
-    `${BASE_CLASS}__body_col`,
-    type.split(` `).map(t => `${BASE_CLASS}__body_col--is-${ t }`)
+    `${BASE_CLASS}__cell`,
+    type.split(` `).map(t => `${BASE_CLASS}__cell--is-${ t }`)
   )
   return (
     <td className={ COMP_CLASS } {...rest}>
@@ -163,39 +171,38 @@ export class PaginatedTable extends React.PureComponent {
       presentation ? `${BASE_CLASS}--presentation` : false,
     )
     return (
-      <TableContext.Provider value={{
-        columns    : this.columns,
-        hideColumns: this.props.hideColumns,
-      }}>
-        <div className={ COMP_CLASS }>
-          <table cellSpacing="0" className={`${BASE_CLASS}__content`}>
-            { props.title && (
-              <caption className={`${BASE_CLASS}__title`}>
-                <FormattedMessage id={ props.title } />
-              </caption>
-            )}
-            <Thead
-              columns={ this.columns }
-              hideColumns={ this.props.hideColumns }
-              handleSort={ this.handleSort }
-              sort={ state.sort }
-              dir={ state.dir }
-            />
-              <tbody className={`${BASE_CLASS}__body`}>
-                { props.children }
-              </tbody>
-
-            { hasFooter && props.footer }
-          </table>
-          { hasMeta && (
-            <Pagination
-              meta={ props.meta }
-              handlePrev={ this.handlePrev }
-              handleNext={ this.handleNext }
-            />
+      <div className={ COMP_CLASS }>
+        <table cellSpacing="0" className={`${BASE_CLASS}__content`}>
+          { props.title && (
+            <caption className={`${BASE_CLASS}__title`}>
+              <FormattedMessage id={ props.title } />
+            </caption>
           )}
-        </div>
-      </TableContext.Provider>
+          <Thead
+            columns={ this.columns }
+            hideColumns={ this.props.hideColumns }
+            handleSort={ this.handleSort }
+            sort={ state.sort }
+            dir={ state.dir }
+          />
+          <TableContext.Provider value={{
+            columns    : this.columns,
+            hideColumns: this.props.hideColumns,
+          }}>
+            <tbody className={`${BASE_CLASS}__body`}>
+              { props.children }
+            </tbody>
+          </TableContext.Provider>
+          { hasFooter && props.footer }
+        </table>
+        { hasMeta && (
+          <Pagination
+            meta={ props.meta }
+            handlePrev={ this.handlePrev }
+            handleNext={ this.handleNext }
+          />
+        )}
+      </div>
     )
   }
 }
