@@ -116,12 +116,12 @@ function TotalFooter( props ) {
 export function ProductTable( props ) {
   const { readOnly } = props
   const columns = [
-    {label: `table.header.description`, type:`input` },
-    {label: `table.header.quantity`   , type:`input number` },
-    {label: `table.header.unit-price` , type:`input number` },
-    {label: `table.amount`            , type:`amount`},
+    {id: `description`, label: `table.header.description` , type:`input`        },
+    {id: `quantity`   , label: `table.header.quantity`    , type:`input number` },
+    {id: `price`      , label: `table.header.unit-price`  , type:`input number` },
+    {id: `amount`     , label: `table.amount`             , type:`amount`       },
   ]
-  if ( !readOnly ) columns.push({label: false, type: `action`})
+  if ( !readOnly ) columns.push({id: `action`, label: false, type: `action`})
   const COMP_CLASS = [`table--product`]
   if ( readOnly ) COMP_CLASS.push( `table--print` )
   return (

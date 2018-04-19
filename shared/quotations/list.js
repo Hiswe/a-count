@@ -64,15 +64,15 @@ function QuotationRow( props ) {
 }
 
 const defaultColumns = [
-  {label: `table.header.id`        , sort: `index`         , type: `id`       },
-  {label: `table.header.name`      , sort: `name`          , type: `text`     },
-  {label: `table.header.customer`  , sort: `customer.name` , type: `customer` },
-  {label: `table.header.sent`      , sort: `sendAt`        , type: `date`     },
-  {label: `table.header.validated` , sort: `validatedAd`   , type: `date`     },
-  {label: `table.header.signed`    , sort: `signedAt`      , type: `date`     },
-  {label: `table.header.invoice`   , sort: `invoice.index` , type: `id`       },
-  {label: `table.amount`           , sort: `total`         , type: `amount`   },
-  {label: false                    , sort: false           , type: `action`   },
+  {id: `id`       , label: `table.header.id`        , sort: `index`         , type: `id`       },
+  {id: `name`     , label: `table.header.name`      , sort: `name`          , type: `text`     },
+  {id: `customer` , label: `table.header.customer`  , sort: `customer.name` , type: `customer` },
+  {id: `sent`     , label: `table.header.sent`      , sort: `sendAt`        , type: `date`     },
+  {id: `validated`, label: `table.header.validated` , sort: `validatedAd`   , type: `date`     },
+  {id: `signed`   , label: `table.header.signed`    , sort: `signedAt`      , type: `date`     },
+  {id: `invoice`  , label: `table.header.invoice`   , sort: `invoice.index` , type: `id`       },
+  {id: `amount`   , label: `table.amount`           , sort: `total`         , type: `amount`   },
+  {id: `action`   , label: false                    , sort: false           , type: `action`   },
 ]
 
 const filterColumn = key => column => column.label !== key

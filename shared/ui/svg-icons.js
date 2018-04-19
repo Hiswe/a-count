@@ -1,5 +1,6 @@
 import React      from 'react'
 import classNames from 'classnames'
+import PropTypes  from 'prop-types'
 
 import './svg-icons.scss'
 const BASE_CLASS = `svg-icon`
@@ -16,6 +17,10 @@ export function Icon( props ) {
       <use xlinkHref={`#icon-${ svgId }`}></use>
     </svg>
   )
+}
+
+Icon.PropTypes = {
+  svgId: PropTypes.string.isRequired,
 }
 
 export default Icon

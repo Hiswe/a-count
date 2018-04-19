@@ -7,16 +7,16 @@ import { DatePicker } from '../ui/date-picker'
 import { Amount }     from '../ui/format'
 
 const eventsColumns = [
-  {label: `invoices.event.#`          , type: `id`           },
-  {label: `invoices.event`            , type: `text`         },
-  {label: `invoices.event.description`, type: `input`        },
-  {label: `invoices.event.date`       , type: `input date`   },
-  {label: `invoices.event.amount`     , type: `input amount` },
-  {label: false                       , type: `action`       },
+  {id: `id`         , label: `invoices.event.#`          , type: `id`           },
+  {id: `event`      , label: `invoices.event`            , type: `text`         },
+  {id: `description`, label: `invoices.event.description`, type: `input`        },
+  {id: `date`       , label: `invoices.event.date`       , type: `input date`   },
+  {id: `amount`     , label: `invoices.event.amount`     , type: `input amount` },
+  {id: `action`     , label: false                       , type: `action`       },
 ]
 
 function InvoiceEventsFooter( props ) {
-  const { formData, currency } = props
+  const { formData } = props
 
   return (
     <tfoot>
@@ -25,10 +25,7 @@ function InvoiceEventsFooter( props ) {
           <FormattedMessage id="table.amount.paid" />
         </Cell>
         <Cell type="amount">
-          <Amount
-            value={ formData.get(`totalPaid`) }
-            currency={ currency }
-          />
+          <Amount value={ formData.get(`totalPaid`) } />
         </Cell>
         <Cell />
       </Row>
@@ -37,10 +34,7 @@ function InvoiceEventsFooter( props ) {
           <FormattedMessage id="table.amount.left-to-pay" />
         </Cell>
         <Cell type="amount">
-          <Amount
-            value={ formData.get(`totalLeft`) }
-            currency={ currency }
-          />
+          <Amount value={ formData.get(`totalLeft`) } />
         </Cell>
         <Cell />
       </Row>

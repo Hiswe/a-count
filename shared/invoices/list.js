@@ -56,13 +56,13 @@ function InvoiceRow( props ) {
 }
 
 const defaultColumns = [
-  {label: `table.header.id`        , sort: `index`           , type: `id`       },
-  {label: `table.header.name`      , sort: `name`            , type: `text`     },
-  {label: `table.header.customer`  , sort: `customer.name`   , type: `customer` },
-  {label: `table.header.quotation` , sort: `quotation.index` , type: `id`       },
-  {label: `table.amount`           , sort: `total`           , type: `amount`   },
-  {label: `table.amount.paid`      , sort: `totalPaid`       , type: `progress` },
-  {label: false                    , sort: false             , type: `action`   },
+  {id: `id`       , label: `table.header.id`        , sort: `index`           , type: `id`       },
+  {id: `name`     , label: `table.header.name`      , sort: `name`            , type: `text`     },
+  {id: `customer` , label: `table.header.customer`  , sort: `customer.name`   , type: `customer` },
+  {id: `quotation`, label: `table.header.quotation` , sort: `quotation.index` , type: `id`       },
+  {id: `amount`   , label: `table.amount`           , sort: `total`           , type: `amount`   },
+  {id: `paid`     , label: `table.amount.paid`      , sort: `totalPaid`       , type: `progress` },
+  {id: `action`   , label: false                    , sort: false             , type: `action`   },
 ]
 
 function filterColumns({  hideCustomer, hideArchive }) {

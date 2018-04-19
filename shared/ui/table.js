@@ -1,5 +1,6 @@
 import   React              from 'react'
 import   classNames         from 'classnames'
+import   PropTypes          from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Link, withRouter } from 'react-router-dom'
 
@@ -8,14 +9,6 @@ import { Thead } from './table.header'
 
 import './table.scss'
 const BASE_CLASS = `table`
-
-// ensure that we have a type for the columns
-export function normalizeColumns( columns ) {
-  return columns.map( col => {
-    if ( col.type == null ) col.type = `text`
-    return col
-  })
-}
 
 // Create a context for passing col types all down
 const TableContext = React.createContext( [] )
@@ -71,6 +64,14 @@ export function computeSortQuery( currentSorting, sort ) {
   const isAscDir   = currentSorting.dir === `ASC`
   if ( isAscDir )    return { sort, dir: `DESC` }
   return {}
+}
+
+// ensure that we have a type for the columns
+export function normalizeColumns( columns ) {
+  return columns.map( col => {
+    if ( col.type == null ) col.type = `text`
+    return col
+  })
 }
 
 export class PaginatedTable extends React.PureComponent {
@@ -181,6 +182,13 @@ export class PaginatedTable extends React.PureComponent {
       </TableContext.Provider>
     )
   }
+}
+
+PaginatedTable.PropTypes = {
+  columns        : PropTypes.arrayOf( PropTypes.object ).isRequired,
+  meta           : PropTypes.object,
+  handlePageSort : PropTypes.func,
+  footer         : PropTypes.element,
 }
 
 // we need to have access to the router

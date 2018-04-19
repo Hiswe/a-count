@@ -42,12 +42,12 @@ function CustomerRow( props ) {
 }
 
 const defaultColumns = [
-  { label: `table.header.name`              , sort: `name`      },
-  { label: `table.header.quotations`        , type: `number`    },
-  { label: `table.header.cumulative-amount` , type: `amount`    },
-  { label: `table.header.invoices`          , type: `number`    },
-  { label: `table.header.cumulative-amount` , type: `amount`    },
-  { label: `table.amount.paid`              , type: `progress`  },
+  { id: `name`            , label: `table.header.name`              , sort: `name`     },
+  { id: `quotations`      , label: `table.header.quotations`        , type: `number`   },
+  { id: `quotations-total`, label: `table.header.cumulative-amount` , type: `amount`   },
+  { id: `invoices`        , label: `table.header.invoices`          , type: `number`   },
+  { id: `invoices-total`  , label: `table.header.cumulative-amount` , type: `amount`   },
+  { id: `invoices-paid`   , label: `table.amount.paid`              , type: `progress` },
 ]
 
 function CustomerList( props ) {
