@@ -16,9 +16,11 @@ function Th( props ) {
   }  = props
   const { label, sort, type, ...rest } = column
 
+  const safeType = type ? type : `text`
+
   const COMP_CLASS = classNames(
     `${BASE_CLASS}_col`,
-    type.split(` `).map(t => `${BASE_CLASS}_col--is-${ t }`),
+    safeType.split(` `).map(t => `${BASE_CLASS}_col--is-${ t }`),
   )
 
   return (

@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 
 import * as invoices             from '../ducks/invoices'
 import * as TableUtils           from '../utils/tables'
-import { Table, EmptyLine, Row, Cell } from '../ui-table'
+import { Table, Row, Cell } from '../ui-table'
 import { Amount, Date }          from '../ui/format'
 import { Progress       } from '../ui/progress'
 import { ArchiveInvoice } from './buttons'
@@ -51,7 +51,7 @@ function InvoiceRow( props ) {
   )
 }
 
-const defaultColumns = [
+const invoiceColumns = [
   {id: `id`       , label: `table.header.id`        , sort: `index`           , type: `id`       },
   {id: `name`     , label: `table.header.name`      , sort: `name`            , type: `text`     },
   {id: `customer` , label: `table.header.customer`  , sort: `customer.name`   , type: `customer` },
@@ -63,28 +63,21 @@ const defaultColumns = [
 
 function InvoiceList( props ) {
   const {
-    invoices,
-    hideOnEmpty  = false,
+    invoices = [],
     ...others
   } = props
-  const hasInvoices = TableUtils.hasRows( invoices )
-  if ( hideOnEmpty && !hasInvoices ) return null
-  const columnCount = defaultColumns.length
   return (
     <Table
       presentation
-      columns={ defaultColumns }
+      columns={ invoiceColumns }
       { ...others }
     >
-      {
-        !hasInvoices ? ( <EmptyLine colSpan={ columnCount } /> )
-        : invoices.map( (invoice, i) => (
-          <InvoiceRow
-            key={ invoice.id }
-            invoice={ invoice }
-          />
-        ))
-      }
+    { invoices.map( invoice => (
+      <InvoiceRow
+        key={ invoice.id }
+        invoice={ invoice }
+      />
+    ))}
     </Table>
   )
 }

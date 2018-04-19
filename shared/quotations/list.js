@@ -5,8 +5,7 @@ import { FormattedMessage   } from 'react-intl'
 import { Link               } from 'react-router-dom'
 
 import * as quotations from '../ducks/quotations'
-import * as TableUtils from '../utils/tables'
-import { Table, EmptyLine, Row, Cell } from '../ui-table'
+import { Table, Row, Cell } from '../ui-table'
 import { Amount, Date            } from '../ui/format'
 import { Button                  } from '../ui/buttons'
 import { CreateInvoice, ShowInvoice, ArchiveQuotation } from './buttons'
@@ -57,7 +56,7 @@ function QuotationRow( props ) {
   )
 }
 
-const defaultColumns = [
+const quotationColumns = [
   {id: `id`       , label: `table.header.id`        , sort: `index`         , type: `id`       },
   {id: `name`     , label: `table.header.name`      , sort: `name`          , type: `text`     },
   {id: `customer` , label: `table.header.customer`  , sort: `customer.name` , type: `customer` },
@@ -71,30 +70,21 @@ const defaultColumns = [
 
 function QuotationsList( props ) {
   const {
-    quotations,
-    handlePageSort,
-    hideOnEmpty  = false,
-    ...others
+    quotations = [],
+    ...rest
   } = props
-  const hasQuotations  = TableUtils.hasRows( quotations )
-  if ( hideOnEmpty && !hasQuotations ) return null
-  const columnCount    = defaultColumns.length
   return (
     <Table
       presentation
-      columns={ defaultColumns }
-      handlePageSort={ handlePageSort }
-      { ...others }
+      columns={ quotationColumns }
+      { ...rest }
     >
-    {
-      !hasQuotations ? ( <EmptyLine colSpan={ columnCount } /> )
-      : quotations.map( (q, i) => (
+    { quotations.map( quotation => (
         <QuotationRow
-          key={ q.id }
-          quotation={ q }
+          key={ quotation.id }
+          quotation={ quotation }
         />
-      ))
-    }
+    ))}
     </Table>
   )
 }

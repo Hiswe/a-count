@@ -72,13 +72,14 @@ export function Row( props ) {
 }
 
 export function EmptyLine( props ) {
-  const message = `none (yet)`
+  const { columns, hideColumns } = props
+  const colSpan = columns.filter( column => !hideColumns.includes(column.id) ).length
   return (
-    <Row>
-      <td colSpan={props.colSpan} style={{textAlign: `center`}}>
-        <p>{ message }</p>
-      </td>
-    </Row>
+    <tr className={`${BASE_CLASS}__body_row`}>
+      <Cell colSpan={ colSpan } type="empty" >
+        <FormattedMessage id="table.empty" />
+      </Cell>
+    </tr>
   )
 }
 
@@ -90,14 +91,6 @@ export function computeSortQuery( currentSorting, sort ) {
   return {}
 }
 
-// ensure that we have a type for the columns
-export function normalizeColumns( columns ) {
-  return columns.map( col => {
-    if ( col.type == null ) col.type = `text`
-    return col
-  })
-}
-
 export class PaginatedTable extends React.PureComponent {
 
   constructor( props ) {
@@ -107,7 +100,6 @@ export class PaginatedTable extends React.PureComponent {
       sort   : undefined,
       dir    : undefined,
     }
-    this.columns    = normalizeColumns( props.columns )
     this.handleSort = this.handleSort.bind( this )
     this.handlePrev = this.handlePrev.bind( this )
     this.handleNext = this.handleNext.bind( this )
@@ -165,8 +157,10 @@ export class PaginatedTable extends React.PureComponent {
     const {
       className,
       presentation,
-      handlePageSort
+      handlePageSort,
+      hideOnEmpty,
     } = props
+    const hasRows   = React.Children.count( props.children ) > 0
     const hasFooter = props.footer != null
     const hasMeta   = props.meta   != null
     const COMP_CLASS = classNames(
@@ -174,6 +168,9 @@ export class PaginatedTable extends React.PureComponent {
       className,
       presentation ? `${BASE_CLASS}--presentation` : false,
     )
+
+    if ( hideOnEmpty && !hasRows ) return null
+
     return (
       <div className={ COMP_CLASS }>
         <table cellSpacing="0" className={`${BASE_CLASS}__content`}>
@@ -183,18 +180,23 @@ export class PaginatedTable extends React.PureComponent {
             </caption>
           )}
           <Thead
-            columns={ this.columns }
-            hideColumns={ this.props.hideColumns }
+            columns={ props.columns }
+            hideColumns={ props.hideColumns }
             handleSort={ this.handleSort }
             sort={ state.sort }
             dir={ state.dir }
           />
           <TableContext.Provider value={{
-            columns    : this.columns,
-            hideColumns: this.props.hideColumns,
+            columns    : props.columns,
+            hideColumns: props.hideColumns,
           }}>
             <tbody className={`${BASE_CLASS}__body`}>
-              { props.children }
+            { hasRows ? props.children : (
+              <EmptyLine
+                columns={ props.columns }
+                hideColumns={ props.hideColumns}
+              />
+            )}
             </tbody>
           </TableContext.Provider>
           { hasFooter && props.footer }
@@ -218,6 +220,7 @@ PaginatedTable.defaultProps = {
 PaginatedTable.propTypes = {
   columns        : PropTypes.arrayOf( PropTypes.object ).isRequired,
   hideColumns    : PropTypes.arrayOf( PropTypes.string )           ,
+  hideOnEmpty    : PropTypes.bool                                  ,
   meta           : PropTypes.object                                ,
   handlePageSort : PropTypes.func                                  ,
   footer         : PropTypes.element                               ,

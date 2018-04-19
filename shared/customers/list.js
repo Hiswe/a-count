@@ -5,8 +5,7 @@ import { bindActionCreators } from 'redux'
 
 
 import * as customers  from '../ducks/customers'
-import * as TableUtils from '../utils/tables'
-import { Table, EmptyLine, Row, Cell } from '../ui-table'
+import { Table, Row, Cell } from '../ui-table'
 import { FormatNumber, Amount } from '../ui/format'
 import { Progress } from '../ui/progress'
 
@@ -41,7 +40,7 @@ function CustomerRow( props ) {
   )
 }
 
-const defaultColumns = [
+const customerColumns = [
   { id: `name`            , label: `table.header.name`              , sort: `name`     },
   { id: `quotations`      , label: `table.header.quotations`        , type: `number`   },
   { id: `quotations-total`, label: `table.header.cumulative-amount` , type: `amount`   },
@@ -52,27 +51,19 @@ const defaultColumns = [
 
 function CustomerList( props ) {
   const {
-    customers,
-    hideOnEmpty  = false,
-    ...others
+    customers = [],
+    ...rest
   } = props
-  const hasCustomer = TableUtils.hasRows( customers )
-  if ( hideOnEmpty && !hasCustomer ) return null
-  const columns     = defaultColumns
-  const columnCount = columns.length
 
   return (
     <Table
       presentation
-      columns={ columns }
-      { ...others }
+      columns={ customerColumns }
+      { ...rest }
     >
-      {
-        !hasCustomer ? ( <EmptyLine colSpan={ columnCount } /> )
-        : props.customers.map( (customer, i) => (
-          <CustomerRow key={customer.id} customer={customer} />
-        ))
-      }
+    { customers.map( customer => (
+        <CustomerRow key={customer.id} customer={customer} />
+    ))}
     </Table>
   )
 }

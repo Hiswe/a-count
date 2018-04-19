@@ -120,7 +120,7 @@ app.use( router.routes() )
 const server = app.listen( config.PORT, endInit )
 
 function endInit() {
-  log( `API is listening on port`, server.address().port )
+  log( `API is listening on port`, server.address().port, `on mode`, config.NODE_ENV )
 }
 
 module.exports = app

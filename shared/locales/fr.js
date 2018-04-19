@@ -157,6 +157,7 @@ export default {
   'table.amount'                      : `total`                       ,
   'table.amount.paid'                 : `payé`                        ,
   'table.amount.left-to-pay'          : `reste`                       ,
+  'table.empty'                       : `vide (pour l'instant)`       ,
   'table.pagination'                  : `{start} – {end} sur {total}` ,
   'table.rows-per-page'               : `lignes par page :`           ,
 }

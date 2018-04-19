@@ -3,7 +3,7 @@ import React from 'react'
 import './textarea-auto-resize.scss'
 const BASE_CLASS = `textarea`
 
-export default class TextareaAutoResize extends React.PureComponent {
+export class TextareaAutoResize extends React.PureComponent {
 
   constructor( props ) {
     super( props )
@@ -62,3 +62,5 @@ export default class TextareaAutoResize extends React.PureComponent {
     )
   }
 }
+
+export default TextareaAutoResize

@@ -95,6 +95,9 @@
   &__cell {
     padding: 0.5em 0.75em;
 
+    &--is-empty {
+      text-align: center;
+    }
     &--is-id,
     &--is-action {
       width: 1%;

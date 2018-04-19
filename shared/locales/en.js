@@ -156,6 +156,7 @@ export default {
   'table.amount'                      : `amount`                     ,
   'table.amount.paid'                 : `paid`                       ,
   'table.amount.left-to-pay'          : `left`                       ,
+  'table.empty'                       : `none (yet)`                 ,
   'table.pagination'                  : `{start} – {end} of {total}` ,
   'table.rows-per-page'               : `rows per page:`             ,
 }
