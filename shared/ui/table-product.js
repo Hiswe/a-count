@@ -1,4 +1,5 @@
 import   React              from 'react'
+import   classNames         from 'classnames'
 import { FormattedMessage } from 'react-intl'
 
 import * as compute from '../utils/compute-total'
@@ -114,18 +115,21 @@ function TotalFooter( props ) {
 export function ProductTable( props ) {
   const { readOnly } = props
   const columns = [
-    {id: `description`, label: `table.header.description` , type:`input`        },
-    {id: `quantity`   , label: `table.header.quantity`    , type:`input number` },
-    {id: `price`      , label: `table.header.unit-price`  , type:`input number` },
-    {id: `amount`     , label: `table.amount`             , type:`amount`       },
+    {id: `description` , label: `table.header.description` , type: `input`        },
+    {id: `quantity`    , label: `table.header.quantity`    , type: `input number` },
+    {id: `price`       , label: `table.header.unit-price`  , type: `input number` },
+    {id: `amount`      , label: `table.amount`             , type: `amount`       },
+    {id: `action`      , label: false                      , type: `action`       }
   ]
-  if ( !readOnly ) columns.push({id: `action`, label: false, type: `action`})
-  const COMP_CLASS = [`table--product`]
-  if ( readOnly ) COMP_CLASS.push( `table--print` )
+  const hideColumns = readOnly ? [`action`] : []
+  const COMP_CLASS  = classNames( `table--product`, {
+    [`table--print`]: readOnly,
+  })
   return (
     <Table
       columns={ columns }
-      className={ COMP_CLASS.join(` `) }
+      hideColumns={ hideColumns }
+      className={ COMP_CLASS }
       footer={ <TotalFooter {...props} /> }
     >
       { props.children }

@@ -36,15 +36,19 @@ export function RowFooter( props ) {
 
 export function Cell( props ) {
   const { type, ...rest } = props
-  const COMP_CLASS = classNames(
+  const currentType = type ? type : `text`
+  const COMP_CLASS  = classNames(
     `${BASE_CLASS}__cell`,
-    type.split(` `).map(t => `${BASE_CLASS}__cell--is-${ t }`)
+    currentType.split(` `).map(t => `${BASE_CLASS}__cell--is-${ t }`)
   )
   return (
     <td className={ COMP_CLASS } {...rest}>
       { props.children }
     </td>
   )
+}
+Cell.propTypes = {
+  type: PropTypes.string,
 }
 
 export function Row( props ) {
