@@ -16,8 +16,8 @@ import { ProductTable, ProductLineDisplay } from '../ui-table/products'
 
 export function Preview( props ) {
   const { document, type } = props
-
-  if ( !document ) return null
+  const products = document.get(`products`)
+  if ( !document || !products ) return null
 
   return (
     <PaperSheet preview>
@@ -32,7 +32,7 @@ export function Preview( props ) {
         products={ document.get(`products`) }
         tax={ document.get(`tax`) }
       >
-        {document.get(`products`).map( (product, index) =>  (
+        {products.map( (product, index) =>  (
           <ProductLineDisplay
             key={ index }
             product={ product }
