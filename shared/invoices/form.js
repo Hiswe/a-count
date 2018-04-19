@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { connect            } from 'react-redux'
 
 import * as invoices          from '../ducks/invoices'
+import * as redirection       from '../utils/check-redirection'
 import {    Form            } from '../ui/form'
 import {    Spinner         } from '../ui/spinner'
 import      InvoiceFormPres   from './form.pres'
@@ -34,11 +35,21 @@ class InvoiceForm extends React.Component {
   }
 
   static getDerivedStateFromProps( nextProps, prevState ) {
-    const   current = prevState.formData
-    const   next    = nextProps.invoice
-    const { isSaving } = nextProps
+    const   next                = nextProps.invoice
+    const   current             = prevState.formData
+    const { history, staticContext, isSaving } = nextProps
     if ( isSaving ) return null
     if ( current === next ) return null
+
+    // redirects
+    const redirect = redirection.invoice({
+      next,
+      current,
+      history,
+      staticContext,
+    })
+    if ( redirect ) return null
+
     return { formData: InvoiceForm.updatePayments( next ) }
   }
 

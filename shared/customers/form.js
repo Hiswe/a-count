@@ -4,10 +4,10 @@ import { connect            } from 'react-redux'
 import { Link               } from 'react-router-dom'
 import   serialize            from 'form-serialize'
 
-import * as customers       from '../ducks/customers'
-import {    isNewCustomer } from '../utils/check-redirection'
-import      Spinner         from '../ui/spinner'
-import {    Form          } from '../ui/form'
+import * as customers     from '../ducks/customers'
+import * as redirection   from '../utils/check-redirection'
+import      Spinner       from '../ui/spinner'
+import {    Form        } from '../ui/form'
 
 export const FORM_ID = `customer-form`
 
@@ -24,13 +24,21 @@ class CustomerForm extends React.Component {
     this.handleFormChange = this.handleFormChange.bind(this)
   }
   static getDerivedStateFromProps( nextProps, prevState ) {
-    const   current             = prevState.formData
     const   next                = nextProps.customer
-    const { isSaving, history } = nextProps
+    const   current             = prevState.formData
+    const { isSaving, history, staticContext } = nextProps
     if ( isSaving ) return null
     if ( current === next ) return null
-    // redirect if new customer
-    if ( isNewCustomer(current, next) ) history.push( `/customers/${next.id}` )
+
+    // redirects
+    const redirect = redirection.customer({
+      next,
+      current,
+      history,
+      staticContext,
+    })
+    if ( redirect ) return null
+
     return { formData: next }
   }
 

@@ -4,9 +4,9 @@ import { connect            } from 'react-redux'
 import   serialize            from 'form-serialize'
 import   crio                 from 'crio'
 
-import * as quotations from '../ducks/quotations'
-import * as customers  from '../ducks/customers'
-import { isNewQuotation, isNewInvoice } from '../utils/check-redirection'
+import * as quotations  from '../ducks/quotations'
+import * as customers   from '../ducks/customers'
+import * as redirection from '../utils/check-redirection'
 import recomputeQuotationProducts from '../utils/recompute-quotation-products'
 import {Spinner          } from '../ui/spinner'
 import  QuotationFormPres  from './form.pres'
@@ -41,14 +41,21 @@ class QuotationForm extends React.Component {
   }
 
   static getDerivedStateFromProps( nextProps, prevState ) {
-    const   current                        = prevState.formData
     const   next                           = nextProps.current
-    const { history, customers, isSaving } = nextProps
+    const   current                        = prevState.formData
+    const { history, staticContext, customers, isSaving } = nextProps
     if ( isSaving ) return null
     if ( current === next ) return null
+
     // redirects
-    if ( isNewQuotation(current, next) ) history.push( `/quotations/${next.id}` )
-    if ( isNewInvoice(current, next) )  history.push( `/invoices/${next.invoiceId}` )
+    const redirect = redirection.quotation({
+      next,
+      current,
+      history,
+      staticContext,
+    })
+    if ( redirect ) return null
+
     return {
       formData: QuotationForm.recomputeFormData( next ),
       customer: QuotationForm.getCustomerData( next, customers ),
