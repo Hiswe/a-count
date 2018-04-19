@@ -1,6 +1,6 @@
-import chalk from 'chalk'
+import chalk  from 'chalk'
 import Router from 'koa-router'
-import React from 'react'
+import React  from 'react'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom'
 import { renderRoutes, matchRoutes } from 'react-router-config'
@@ -30,11 +30,10 @@ const reduxActionLogger = ({ getState }) => {
   }
 }
 
-const store = createStore(reducer, {}, applyMiddleware(thunk, reduxActionLogger))
-
 router.get( '*', async (ctx, next) => {
   const { url, header } = ctx
   // wait for every component to fetch his data
+  const store       = createStore(reducer, {}, applyMiddleware(thunk, reduxActionLogger))
   const branch      = matchRoutes(routes, url)
   const initFetches = branch
     .filter( ({route}) => route.component.fetchData instanceof Function )
