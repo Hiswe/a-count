@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 
 import * as customers  from '../ducks/customers'
 import * as TableUtils from '../utils/tables'
-import { Table, EmptyLine, Row, Cell } from '../ui/table'
+import { Table, EmptyLine, Row, Cell } from '../ui-table'
 import { FormatNumber, Amount } from '../ui/format'
 import { Progress } from '../ui/progress'
 

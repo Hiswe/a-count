@@ -3,9 +3,9 @@ import   classNames         from 'classnames'
 import { FormattedMessage } from 'react-intl'
 
 import * as compute from '../utils/compute-total'
-import { Table, Row, Cell, TableFooter, RowFooter } from './table'
-import { Amount, Markdown, FormatNumber } from './format'
-import TextareaAutoResize from './textarea-auto-resize'
+import { Amount, Markdown, FormatNumber } from '../ui/format'
+import TextareaAutoResize from '../ui/textarea-auto-resize'
+import { Table, Row, Cell, TableFooter, RowFooter } from './index'
 
 // only use defaultValue
 // • handleChange is handled globally at the form level

@@ -8,7 +8,7 @@ import { Button, BtnIcon     } from '../ui/buttons'
 import { Input, Textarea, Select } from '../ui/field'
 import { Stepper } from '../ui/stepper'
 import Icon from '../ui/svg-icons'
-import { ProductTable, ProductLineEditable } from '../ui/table-product'
+import { ProductTable, ProductLineEditable } from '../ui-table/products'
 import { CreateInvoice, ShowInvoice, ArchiveQuotation } from './buttons'
 
 import './form.pres.scss'

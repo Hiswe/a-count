@@ -12,7 +12,7 @@ import {
   Mentions,
 } from '../layout/paper-sheet'
 import { Alert } from './alerts'
-import { ProductTable, ProductLineDisplay } from './table-product'
+import { ProductTable, ProductLineDisplay } from '../ui-table/products'
 
 export function Preview( props ) {
   const { document, type } = props

@@ -10,7 +10,7 @@ import { Button } from '../ui/buttons'
 import { FormActions } from '../ui/form'
 import { Tabs, TabList, TabListHeader, Tab, TabPanel } from '../ui/tabs'
 import { Input, Textarea, Select } from '../ui/field'
-import { ProductTable, ProductLineDisplay } from '../ui/table-product'
+import { ProductTable, ProductLineDisplay } from '../ui-table/products'
 
 import './settings.pres.scss'
 export const BASE_CLASS = `setting-form`

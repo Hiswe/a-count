@@ -2,9 +2,8 @@ import   React              from 'react'
 import   classNames         from 'classnames'
 import { FormattedMessage } from 'react-intl'
 
-import { Icon } from './svg-icons'
+import { Icon } from '../ui/svg-icons'
 
-import './table.pagination.scss'
 const BASE_CLASS   = `table__pagination`
 const ACTION_CLASS = `${BASE_CLASS}_action`
 

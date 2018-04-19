@@ -1,4 +1,4 @@
-@import '../config';
+@import '../config-media-queries';
 
 .table {
   $root: &;
@@ -136,6 +136,29 @@
 
     &_row {
       border: 0;
+    }
+  }
+
+  &__pagination {
+    padding: 1em 0;
+    display: flex;
+    justify-content: flex-end;
+
+    > * {
+      margin-left: var(--s-gutter);
+    }
+
+    &_rows-per-page {
+      padding-left: .35em;
+    }
+
+    &_action {
+      display: inline-block;
+
+      &--disabled {
+        pointer-events: none;
+        opacity: .25;
+      }
     }
   }
 

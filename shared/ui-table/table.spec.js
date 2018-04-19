@@ -3,14 +3,13 @@ import React   from 'react'
 import Enzyme  from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
-import { TableThead } from './table.header'
+import { computeSortQuery } from './index'
 
 // Enzyme config
 Enzyme.configure({ adapter: new Adapter() })
 const { shallow, mount } = Enzyme
 
-const COMPUTE_TITLE        = `static computeSortQuery –`
-const { computeSortQuery } = TableThead
+const COMPUTE_TITLE        = `util computeSortQuery –`
 
 test(`${ COMPUTE_TITLE } set a new order DESC if previous wasn't same`, t => {
   const query = computeSortQuery( {}, `name` )

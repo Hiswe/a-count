@@ -3,7 +3,7 @@ import   classNames         from 'classnames'
 import { FormattedMessage } from 'react-intl'
 import { withRouter       } from 'react-router-dom'
 
-import { Icon } from './svg-icons'
+import { Icon } from '../ui/svg-icons'
 
 const BASE_CLASS = `table__head`
 

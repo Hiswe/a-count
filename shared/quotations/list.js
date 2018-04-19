@@ -6,7 +6,7 @@ import { Link               } from 'react-router-dom'
 
 import * as quotations from '../ducks/quotations'
 import * as TableUtils from '../utils/tables'
-import { Table, EmptyLine, Row, Cell } from '../ui/table'
+import { Table, EmptyLine, Row, Cell } from '../ui-table'
 import { Amount, Date            } from '../ui/format'
 import { Button                  } from '../ui/buttons'
 import { CreateInvoice, ShowInvoice, ArchiveQuotation } from './buttons'

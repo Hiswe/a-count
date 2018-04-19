@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 
 import * as invoices             from '../ducks/invoices'
 import * as TableUtils           from '../utils/tables'
-import { Table, EmptyLine, Row, Cell } from '../ui/table'
+import { Table, EmptyLine, Row, Cell } from '../ui-table'
 import { Amount, Date }          from '../ui/format'
 import { Progress       } from '../ui/progress'
 import { ArchiveInvoice } from './buttons'

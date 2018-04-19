@@ -4,8 +4,8 @@ import   PropTypes          from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Link, withRouter } from 'react-router-dom'
 
-import { Pagination } from './table.pagination'
-import { Thead } from './table.header'
+import { Pagination } from './pagination'
+import { Thead      } from './header'
 
 import './table.scss'
 const BASE_CLASS = `table`
