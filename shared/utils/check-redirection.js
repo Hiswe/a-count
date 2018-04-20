@@ -32,7 +32,7 @@ const newQuotation = {
 }
 const archivedQuotation = {
   test: isArchived,
-  to  : next => `/quotations/${ next.id }/preview`,
+  to  : next => `/archives/quotations/${ next.id }`,
 }
 const newInvoice = {
   test: isNewInvoice,
@@ -40,7 +40,7 @@ const newInvoice = {
 }
 const archivedInvoice = {
   test: isArchived,
-  to  : next => `/invoices/${ next.id }/preview`
+  to  : next => `/archives/invoices/${ next.id }`
 }
 
 const checkRedirections = datas => (hasRedirect, redirection) => {

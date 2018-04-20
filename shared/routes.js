@@ -11,7 +11,9 @@ import Settings from './account/page-settings'
 
 import Home from './home/page-home'
 
-import Archives from './archive/page-archived'
+import ArchiveList from './archive/page-list'
+import ArchiveQuotation from './archive/page-quotation'
+import ArchiveInvoice from './archive/page-invoice'
 
 import QuotationsList    from './quotations/page-list'
 import QuotationsNew     from './quotations/page-new'
@@ -53,7 +55,15 @@ const routes = [{
   }, {
     path: `/archives`,
     exact: true,
-    component: authenticationRequired( Archives ),
+    component: authenticationRequired( ArchiveList ),
+  }, {
+    path: `/archives/quotations/:id`,
+    exact: true,
+    component: authenticationRequired( ArchiveQuotation ),
+  }, {
+    path: `/archives/invoices/:id`,
+    exact: true,
+    component: authenticationRequired( ArchiveInvoice ),
   }, {
     path: `/account/settings`,
     exact: true,

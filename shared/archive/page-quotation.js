@@ -6,21 +6,26 @@ import { Helmet           } from 'react-helmet'
 
 import      ConnectDataFetcher from '../connect-data-fetcher'
 import * as quotations         from '../ducks/quotations'
-import * as invoices           from '../ducks/invoices'
 
 import { NavSecondary           } from '../nav/secondary'
 import { ButtonNew              } from '../nav/secondary-buttons'
 import { Main         , Content } from '../layout/main'
-import { ArchivedQuotations     } from '../quotations/list'
-import { ArchivedInvoices       } from '../invoices/list'
+import { Preview                } from '../ui/preview'
 
-function Archived( props ) {
+function ShowArchivedQuotation( props ) {
+  const { document } = props
   const titleProps = { id: `page.archived` }
+
   return (
     <React.Fragment>
       {/* https://github.com/nfl/react-helmet/issues/268#issuecomment-368148249 */}
       <FormattedMessage {...titleProps} >
-        {title => <Helmet><title>{title}</title></Helmet>}
+        {title => (
+          <Helmet>
+            <title>{title}</title>
+            <body className="light-background" />
+          </Helmet>
+        )}
       </FormattedMessage>
       <NavSecondary
         title={ <FormattedMessage {...titleProps} /> }
@@ -29,19 +34,22 @@ function Archived( props ) {
       </NavSecondary>
       <Main>
         <Content>
-          <ArchivedQuotations title="page.quotations" />
-          <ArchivedInvoices   title="page.invoices"   />
+          <Preview type="quotation" document={ document } />
         </Content>
       </Main>
     </React.Fragment>
   )
+
 }
 
+
 export default connect(
+  state => ({
+    document: state.quotations.get(`current`),
+  })
 )( ConnectDataFetcher({
-  Component: Archived,
+  Component: ShowArchivedQuotation,
   actionCreators: [
-    quotations.listArchived,
-    invoices.listArchived,
+    quotations.getOne,
   ],
 }) )

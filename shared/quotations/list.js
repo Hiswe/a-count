@@ -14,7 +14,7 @@ function QuotationRow( props ) {
   const { quotation } = props
   const id            = quotation.get( `id` )
   const isArchived    = quotation.get( `archivedAt` )
-  const quotationUrl  = `/quotations/${id}${ isArchived  ? `/preview`: `` }`
+  const quotationUrl  = `${ isArchived  ? `/archives`: `` }/quotations/${id}`
 
   return (
     <Row>

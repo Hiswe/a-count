@@ -12,7 +12,7 @@ import { ArchiveInvoice }   from './buttons'
 function InvoiceRow( props ) {
   const { invoice } = props
   const isArchived  = invoice.get(`archivedAt`)
-  const invoiceUrl  = `/invoices/${invoice.id}${ isArchived ? `/preview` : `` }`
+  const invoiceUrl  = `${ isArchived ? `/archives` : `` }/invoices/${invoice.id}`
   return (
     <Row>
       <Cell>

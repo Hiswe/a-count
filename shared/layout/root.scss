@@ -95,6 +95,7 @@ body {
   background: var(--c-background);
   color: var(--c-black);
   line-height: 1.4em;
+  transition: background-color .5s;
 }
 
 a {
@@ -117,6 +118,11 @@ fieldset {
 #react-main-mount {
   min-height: 100vh;
   margin-left: var(--nav-main-width);
+}
+
+body.light-background {
+  --c-background: var(--c-primary-white);
+  --nav-secondary-bg: var(--c-background);
 }
 
 body.dark-background {

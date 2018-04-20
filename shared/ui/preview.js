@@ -1,5 +1,6 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import   React                  from 'react'
+import   PropTypes              from 'prop-types'
+import { connect              } from 'react-redux'
 import { FormattedHTMLMessage } from 'react-intl'
 
 import {
@@ -42,6 +43,11 @@ export function Preview( props ) {
       <Mentions content={ document.get(`${type}Config.mentions`) } />
     </PaperSheet>
   )
+}
+
+Preview.PropTypes = {
+  document: PropTypes.object.isRequired,
+  type    : PropTypes.oneOf([`quotation`, `invoice`]),
 }
 
 export function PrintingNotice( props ) {
