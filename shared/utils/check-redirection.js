@@ -2,7 +2,7 @@ import isNil from 'lodash.isnil'
 
 // control if coming from a no ID model instance…
 // …we update to an instance with ID
-const checkKeyChange = key => (next, current) => {
+const checkKeyChange = key => ({next, current}) => {
   const isLoading = current.isLoading || next.isLoading
   if ( isLoading ) return false
   const currentKey = current[ key ]
@@ -20,7 +20,16 @@ const checkKeyChange = key => (next, current) => {
 const isNewQuotation = checkKeyChange( `id` )
 const isNewCustomer  = checkKeyChange( `id` )
 const isNewInvoice   = checkKeyChange( `invoiceId` )
-const isArchived     = (current, next) => !isNil( next.archivedAt )
+const isArchived     = ({next, current}) => {
+  // console.log({
+  //   isLoading: isLoading({next, current}),
+  //   current : current.id,
+  //   next    : next.id,
+  //   archived: !isNil( next.archivedAt ),
+  //   same_id : current.id === next.id,
+  // })
+  return !isNil( next.archivedAt )
+}
 
 const newCustomer = {
   test: isNewCustomer,
@@ -28,7 +37,7 @@ const newCustomer = {
 }
 const newQuotation = {
   test: isNewQuotation,
-  to  : next => `/invoices/${ next.invoiceId }`,
+  to  : next => `/quotations/${ next.id }`,
 }
 const archivedQuotation = {
   test: isArchived,
@@ -39,14 +48,14 @@ const newInvoice = {
   to  : next => `/invoices/${ next.invoiceId }`
 }
 const archivedInvoice = {
-  test: isNewInvoice,
+  test: isArchived,
   to  : next => `/invoices/${ next.id }/preview`
 }
 
 const checkRedirections = datas => (hasRedirect, redirection) => {
   const { next, current, history, staticContext } = datas
   if ( hasRedirect ) return hasRedirect
-  if ( !redirection.test(next, current) ) return false
+  if ( !redirection.test({next, current}) ) return false
   const redirectUrl = redirection.to( next )
   // update static context for the server
   if ( staticContext ) {

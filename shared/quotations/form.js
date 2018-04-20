@@ -22,8 +22,8 @@ class QuotationForm extends React.Component {
   constructor( props ) {
     super( props )
     this.state = {
-      formData: this.constructor.recomputeFormData( props.current ),
-      customer: this.constructor.getCustomerData  ( props.current ),
+      formData: crio({}),
+      customer: crio({}),
     }
 
     // don't use any automated bind
