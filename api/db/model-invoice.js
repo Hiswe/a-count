@@ -68,13 +68,11 @@ const Invoice = sequelize.define( `invoice`, {
   sendAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    get:          dbGetterSetter.getNormalizedDate( `sendAt` ),
     set:          dbGetterSetter.setNormalizedDate( `sendAt` ),
   },
   archivedAt: {
     type:         Sequelize.DATE,
     allowNull:    true,
-    get:          dbGetterSetter.getNormalizedDate( `archivedAt` ),
     set:          dbGetterSetter.setNormalizedDate( `archivedAt` ),
   },
 })

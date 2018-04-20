@@ -16,12 +16,6 @@ const setTrimmedString = key => function( val ) {
   this.setDataValue( key, val.trim() )
 }
 
-const getNormalizedDate = key => function() {
-  const date = this.getDataValue( key )
-  if (!date) return ``
-  return date
-}
-
 function normalizeDate( val ) {
   const date = moment( val, `DD-MM-YYYY` )
   return date.isValid() ? date.toDate() : null
@@ -36,6 +30,5 @@ module.exports = {
   setNormalizedString,
   setTrimmedString,
   normalizeDate,
-  getNormalizedDate,
   setNormalizedDate,
 }
