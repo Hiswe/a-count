@@ -47,7 +47,7 @@ export default function InvoiceFormPres( props ) {
             <EventsEditable.Payment
               key={ payment._id }
               payment={ payment }
-              count={ index + 1 }
+              index={ index }
               notLast={ index < payments.length - 1 }
               handle={  handle }
             />

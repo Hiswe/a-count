@@ -29,7 +29,7 @@ function InvoiceEventSentEditable( props ) {
 export { InvoiceEventSentEditable as Sent }
 
 function InvoiceEventPaymentEditable( props ) {
-  const { payment, handle, count, notLast } = props
+  const { payment, handle, index, notLast } = props
   return (
     <Table.Row key={payment.get(`_id`)} >
       <Table.Cell>
@@ -38,7 +38,7 @@ function InvoiceEventPaymentEditable( props ) {
           name={`${payment._fieldPath}[_id]`}
           value={ payment.get(`_id`) }
         />
-        { count }
+        { index + 1 }
       </Table.Cell>
       <Table.Cell>
         <FormattedMessage id="invoices.event.payment" />
