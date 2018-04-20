@@ -50,7 +50,7 @@ function state2prop( state ) {
 export default connect( state2prop )( ConnectDataFetcher({
   Component: Quotations,
   actionCreators: [
-    quotations.getActive,
-    quotations.getReadyToInvoice,
+    quotations.listActive,
+    quotations.listReadyToInvoice,
   ],
 }) )

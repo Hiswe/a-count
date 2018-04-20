@@ -41,7 +41,7 @@ export default connect(
 )( ConnectDataFetcher({
   Component: Archived,
   actionCreators: [
-    quotations.getArchived,
-    invoices.getArchived,
+    quotations.listArchived,
+    invoices.listArchived,
   ],
 }) )

@@ -58,9 +58,9 @@ function state2props( state ) {
 export default connect( state2props )( ConnectDataFetcher({
   Component: Home,
   actionCreators: [
-    quotations.getActive,
-    quotations.getReadyToInvoice,
-    invoices.getAll,
+    quotations.listActive,
+    quotations.listReadyToInvoice,
+    invoices.listActive,
     account.statistics,
   ],
 }) )

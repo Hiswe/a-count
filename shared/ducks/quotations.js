@@ -98,7 +98,7 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export const getActive = (params = {}, cookie) => async dispatch => {
+export const listActive = (params = {}, cookie) => async dispatch => {
   const options = {
     url: `${NAME}`,
     ...params,
@@ -110,7 +110,7 @@ export const getActive = (params = {}, cookie) => async dispatch => {
   })
 }
 
-export const getArchived = (params = {}, cookie) => async dispatch => {
+export const listArchived = (params = {}, cookie) => async dispatch => {
   const options = {
     url: `${NAME}/archived`,
     ...params,
@@ -122,7 +122,7 @@ export const getArchived = (params = {}, cookie) => async dispatch => {
   })
 }
 
-export const getReadyToInvoice = (params = {}, cookie) => async dispatch => {
+export const listReadyToInvoice = (params = {}, cookie) => async dispatch => {
   const options = {
     url: `${NAME}/ready-to-invoice`,
     ...params,
@@ -134,7 +134,7 @@ export const getReadyToInvoice = (params = {}, cookie) => async dispatch => {
   })
 }
 
-export const getAllForCustomer = (params = {}, cookie) => async dispatch => {
+export const listForCustomer = (params = {}, cookie) => async dispatch => {
   const { id, ...rest } = params
   const options = {
     url: `/customers/${ id }/${NAME}`,

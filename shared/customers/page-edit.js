@@ -156,7 +156,7 @@ export default connect( state2prop )( ConnectDataFetcher({
   Component: EditCustomer,
   actionCreators: [
     customers.getOne,
-    quotations.getAllForCustomer,
-    invoices.getAllForCustomer,
+    quotations.listForCustomer,
+    invoices.listForCustomer,
   ],
 }) )

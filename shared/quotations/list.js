@@ -96,7 +96,7 @@ export const ActiveQuotations = connect(
     hideColumns : [`invoice`],
   }),
   dispatch => ( bindActionCreators({
-    handlePageSort: quotations.getActive
+    handlePageSort: quotations.listActive
   }, dispatch ))
 )( QuotationsList )
 
@@ -107,7 +107,7 @@ export const ArchivedQuotations = connect(
     hideColumns : [`archive`],
   }),
   dispatch => ( bindActionCreators({
-    handlePageSort: quotations.getArchived
+    handlePageSort: quotations.listArchived
   }, dispatch ))
 )( QuotationsList )
 
@@ -120,7 +120,7 @@ export const QuotationsReadyToInvoice = connect(
     hideOnEmpty:  true,
   }),
   dispatch => ( bindActionCreators({
-    handlePageSort: quotations.getReadyToInvoice
+    handlePageSort: quotations.listReadyToInvoice
   }, dispatch ))
 )(  QuotationsList )
 
@@ -131,7 +131,7 @@ export const CustomerQuotations = connect(
     hideColumns : [`customer`],
   }),
   dispatch => ( bindActionCreators({
-    handlePageSort: quotations.getAllForCustomer
+    handlePageSort: quotations.listForCustomer
   }, dispatch ))
 )( QuotationsList )
 

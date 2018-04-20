@@ -98,7 +98,7 @@ export const ArchivedInvoices = connect(
     hideColumns : [`archive`],
   }),
   dispatch => ( bindActionCreators({
-    handlePageSort: invoices.getArchived,
+    handlePageSort: invoices.listArchived,
   }, dispatch ))
 )( InvoiceList )
 
@@ -109,6 +109,6 @@ export const CustomerInvoices = connect(
     hideColumns  : [`customer`],
   }),
   dispatch => ( bindActionCreators({
-    handlePageSort: invoices.getAllForCustomer,
+    handlePageSort: invoices.listForCustomer,
   }, dispatch ))
 )( InvoiceList )
