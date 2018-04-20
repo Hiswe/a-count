@@ -91,7 +91,7 @@ export function Step( props ) {
       />
       <div className={`${ BASE_CLASS }__step`} >
         <label className={`${ BASE_CLASS }__button`} htmlFor={id}>
-          { step.label && <FormattedMessage id={`stepper.${step.label}`} /> }
+          { step.label && <FormattedMessage id={ step.label } /> }
         </label>
         <div className={`${ BASE_CLASS }__content`}>
           <DatePicker

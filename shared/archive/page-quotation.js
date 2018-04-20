@@ -7,13 +7,15 @@ import { Helmet           } from 'react-helmet'
 import      ConnectDataFetcher from '../connect-data-fetcher'
 import * as quotations         from '../ducks/quotations'
 
-import { NavSecondary           } from '../nav/secondary'
-import { ButtonNew              } from '../nav/secondary-buttons'
-import { Main         , Content } from '../layout/main'
-import { Preview                } from '../ui/preview'
+import {    NavSecondary } from '../nav/secondary'
+import * as NavButtons     from '../nav/secondary-buttons'
+import * as LayoutMain     from '../layout/main'
+import {    Preview      } from '../ui/preview'
+import * as KeyPres        from '../ui/key-presentation'
+import * as Format         from '../ui/format'
 
 function ShowArchivedQuotation( props ) {
-  const { document } = props
+  const { quotation } = props
   const titleProps = { id: `page.archived` }
 
   return (
@@ -27,25 +29,59 @@ function ShowArchivedQuotation( props ) {
           </Helmet>
         )}
       </FormattedMessage>
+
       <NavSecondary
         title={ <FormattedMessage {...titleProps} /> }
       >
-        <ButtonNew type="quotations" message="quotation.button.new" />
+        <NavButtons.New type="quotations" message="quotation.button.new" />
+        <NavButtons.Print />
       </NavSecondary>
-      <Main>
-        <Content>
-          <Preview type="quotation" document={ document } />
-        </Content>
-      </Main>
+
+      <LayoutMain.Wrapper>
+
+        <LayoutMain.Meta>
+          <KeyPres.Wrapper>
+            <KeyPres.Label id="stepper.customer" />
+            <KeyPres.Value>
+              <Link to={`/customers/${quotation.get(`customerId`)}`}>
+                { quotation.get( `customer.name` ) }
+              </Link>
+            </KeyPres.Value>
+            <KeyPres.Label id="stepper.sent" />
+            <KeyPres.Value>
+              <Format.Day value={quotation.get(`sendAt`)} />
+            </KeyPres.Value>
+            <KeyPres.Label id="stepper.validated" />
+              <Format.Day />
+            <KeyPres.Value>
+              <Format.Day value={quotation.get(`validatedAt`)} />
+            </KeyPres.Value>
+            <KeyPres.Label id="stepper.signed" />
+              <Format.Day />
+            <KeyPres.Value>
+              <Format.Day value={quotation.get(`signedAt`)} />
+            </KeyPres.Value>
+            <KeyPres.Label id="stepper.total" />
+              <Format.Day />
+            <KeyPres.Value>
+              <Format.Amount value={quotation.get(`total`)} />
+            </KeyPres.Value>
+          </KeyPres.Wrapper>
+        </LayoutMain.Meta>
+
+        <LayoutMain.Content>
+          <Preview type="quotation" document={ quotation } />
+        </LayoutMain.Content>
+
+      </LayoutMain.Wrapper>
     </React.Fragment>
   )
-
 }
 
 
 export default connect(
   state => ({
-    document: state.quotations.get(`current`),
+    quotation: state.quotations.get(`current`),
   })
 )( ConnectDataFetcher({
   Component: ShowArchivedQuotation,

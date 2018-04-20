@@ -2,7 +2,7 @@ import   React              from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect          } from 'react-redux'
 
-import { Date, Markdown } from '../ui/format'
+import { Day, Markdown } from '../ui/format'
 
 import './paper-sheet.scss'
 const BASE_CLASS = `paper-sheet`
@@ -31,7 +31,7 @@ export function Reference( props ) {
       <h4 className={`${REF_CLASS}-id`}>Ref. { reference }</h4>
       <p className={`${REF_CLASS}-date`}>
         <FormattedMessage id={`paper-sheet.reference.date`} />
-        <Date value={ updatedAt } />
+        <Day value={ updatedAt } />
       </p>
     </header>
   )

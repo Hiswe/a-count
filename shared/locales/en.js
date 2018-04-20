@@ -130,9 +130,11 @@ export default {
 
   'spinner.loading'  : `loading…` ,
 
-  'stepper.send'     : `send at:`,
-  'stepper.validated': `validated at:`,
-  'stepper.signed'   : `signed at:`,
+  'stepper.sent'      : `sent at:`      ,
+  'stepper.validated' : `validated at:` ,
+  'stepper.signed'    : `signed at:`    ,
+  'stepper.customer'  : `customer:`     ,
+  'stepper.total'     : `total:`        ,
 
   'table.header.id'                   : `#`                          ,
   'table.header.name'                 : `name`                       ,

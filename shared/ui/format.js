@@ -1,4 +1,5 @@
 import   React                            from 'react'
+import   PropTypes                        from 'prop-types'
 import { connect         }                from 'react-redux'
 import { FormattedNumber, FormattedDate } from 'react-intl'
 import   marked                           from 'marked'
@@ -28,13 +29,15 @@ export function AmountPres( props ) {
   )
 }
 
-function currency2prop( state ) {
-  return {
+export const Amount = connect(
+  state => ({
     currency: state.account.get( `user.currency` ),
-  }
-}
+  })
+)( AmountPres )
 
-export const Amount = connect( currency2prop )( AmountPres )
+Amount.propTypes = {
+  value: PropTypes.number,
+}
 
 export function FormatNumber( props ) {
   const { value, wrapperProps = {}, ...others} = props
@@ -62,9 +65,12 @@ export function Percent( props ) {
   )
 }
 
-export function Date( props ) {
+export function Day( props ) {
   if ( !props.value ) return null
   return <FormattedDate value={ props.value } />
+}
+Day.propTypes = {
+  value: PropTypes.string
 }
 
 export function Markdown( props ) {
@@ -75,3 +81,4 @@ export function Markdown( props ) {
     <div className="markdown" dangerouslySetInnerHTML={{__html}} />
   )
 }
+

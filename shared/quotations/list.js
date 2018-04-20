@@ -6,7 +6,7 @@ import { Link               } from 'react-router-dom'
 
 import * as quotations from '../ducks/quotations'
 import { Table, Row, Cell } from '../ui-table'
-import { Amount, Date            } from '../ui/format'
+import { Amount, Day            } from '../ui/format'
 import { Button                  } from '../ui/buttons'
 import { CreateInvoice, ShowInvoice, ArchiveQuotation } from './buttons'
 
@@ -34,13 +34,13 @@ function QuotationRow( props ) {
         </Link>
       </Cell>
       <Cell>
-        <Date value={quotation.get(`sendAt`)} />
+        <Day value={quotation.get(`sendAt`)} />
       </Cell>
       <Cell>
-        <Date value={quotation.get(`validatedAt`)} />
+        <Day value={quotation.get(`validatedAt`)} />
       </Cell>
       <Cell>
-        <Date value={quotation.get(`signedAt`)} />
+        <Day value={quotation.get(`signedAt`)} />
       </Cell>
       <Cell>
         <ShowInvoice linkAlike quotation={ quotation } />

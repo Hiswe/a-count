@@ -131,9 +131,11 @@ export default {
 
   'spinner.loading'  : `chargement…`,
 
-  'stepper.send'     : `envoyé le :`,
-  'stepper.validated': `validé le :`,
-  'stepper.signed'   : `signé le :`,
+  'stepper.sent'      : `envoyé le :` ,
+  'stepper.validated' : `validé le :` ,
+  'stepper.signed'    : `signé le :`  ,
+  'stepper.customer'  : `client :`    ,
+  'stepper.total'     : `total :`     ,
 
   'table.header.id'                   : `#`                           ,
   'table.header.name'                 : `nom`                         ,

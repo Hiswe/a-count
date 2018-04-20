@@ -1,19 +1,22 @@
-import React from 'react'
+import React     from 'react'
+import className from 'classnames'
 
 import './main.scss'
 const BASE_CLASS = `main`
 
 export function Main( props ) {
-  const { withMeta   } =   props
-  const   COMP_CLASS   = [ BASE_CLASS ]
-  if ( withMeta ) COMP_CLASS.push( `${BASE_CLASS}--has-meta` )
-
+  const { withMeta, children   } =   props
+  const   COMP_CLASS   = className({
+    [ BASE_CLASS ]: true,
+    [`${BASE_CLASS}--has-meta`]: React.Children.count( children ) > 1
+  })
   return (
-    <main role="main" className={ COMP_CLASS.join(` `) }>
+    <main role="main" className={ COMP_CLASS }>
       { props.children }
     </main>
   )
 }
+export { Main as Wrapper }
 
 export function Meta( props ) {
   return (

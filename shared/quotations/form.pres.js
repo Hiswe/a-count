@@ -36,7 +36,7 @@ export default function QuotationFormPres( props ) {
       onChange={ handle.formChange }
       onSubmit={ handle.submit }
     >
-      <Main withMeta>
+      <Main>
         <Meta>
           <div className={ `${BASE_CLASS}__meta` }>
             { !isNew && <input type="hidden" defaultValue={ formData.id } name="id" /> }

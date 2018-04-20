@@ -45,7 +45,7 @@ export function Preview( props ) {
   )
 }
 
-Preview.PropTypes = {
+Preview.propTypes = {
   document: PropTypes.object.isRequired,
   type    : PropTypes.oneOf([`quotation`, `invoice`]),
 }

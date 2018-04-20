@@ -12,9 +12,9 @@ import {Spinner          } from '../ui/spinner'
 import  QuotationFormPres  from './form.pres'
 
 const STEPS = crio([
-  { key: `sendAt`,       label: `send` },
-  { key: `validatedAt`,  label: `validated` },
-  { key: `signedAt`,     label: `signed` },
+  { key: `sendAt`     , label: `stepper.sent`      },
+  { key: `validatedAt`, label: `stepper.validated` },
+  { key: `signedAt`   , label: `stepper.signed`    },
 ])
 
 class QuotationForm extends React.Component {

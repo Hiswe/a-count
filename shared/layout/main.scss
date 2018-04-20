@@ -1,4 +1,4 @@
-@import '../config';
+@import '../config-media-queries';
 
 .main {
   $root: &;
@@ -39,6 +39,10 @@
       background: var(--knockout-meta-bg);
       grid-row: meta-row-start / meta-row-end;
       grid-column: meta-col-start / meta-col-end;
+
+      @media #{$mq-print} {
+        display: none;
+      }
     }
   }
 
@@ -50,6 +54,9 @@
   &__meta {
     grid-area: meta;
     padding: var(--s-gutter) 0;
+    @media #{$mq-print} {
+      display: none;
+    }
   }
   &__content {
     grid-area: content;

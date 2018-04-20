@@ -1,4 +1,5 @@
 import   React              from 'react'
+import   PropTypes          from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 
 import './key-presentation.scss'
@@ -11,6 +12,7 @@ export function PresByKey( props ) {
     </dl>
   )
 }
+export { PresByKey as Wrapper }
 
 export function KeyLabel( props ) {
   return (
@@ -19,6 +21,10 @@ export function KeyLabel( props ) {
     </dt>
   )
 }
+KeyLabel.propTypes = {
+  id: PropTypes.string.isRequired,
+}
+export { KeyLabel as Label }
 
 export function KeyValue( props ) {
   return (
@@ -27,3 +33,4 @@ export function KeyValue( props ) {
     </dd>
   )
 }
+export { KeyValue as Value }

@@ -38,6 +38,7 @@ export function ButtonPrint( props ) {
     />
   )
 }
+export { ButtonPrint as Print }
 
 export function ButtonEdit( props ) {
   const { type, document, ...rest } = props
@@ -69,6 +70,7 @@ export function ButtonNew( props ) {
     </Button>
   )
 }
+export { ButtonNew as New }
 
 export function ButtonSubmit( props ) {
   const { isSaving, formId, ...rest } = props
