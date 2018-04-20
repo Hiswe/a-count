@@ -7,7 +7,6 @@ import { Progress } from '../ui/progress'
 
 export function CustomerHeader( props ) {
   const { customer } = props
-  console.log( customer )
 
   return (
     <KeyPres.Wrapper>

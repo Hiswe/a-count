@@ -7,14 +7,16 @@ import {    Button        } from '../ui/buttons'
 import {    Progress      } from '../ui/progress'
 import {    Preview       } from '../ui/preview'
 import * as Tabs            from '../ui/tabs'
-import {    InvoiceHeader } from './header'
-import   InvoiceEvents         from './form.pres-events'
 import { ShowQuotation, ArchiveInvoice } from './buttons'
+import {    InvoiceHeader  } from './header'
+import {    InvoiceEvents  } from './events'
+import * as EventsEditable   from './events-editable'
 
 export const BASE_CLASS    = `invoice-form`
 
 export default function InvoiceFormPres( props ) {
   const { invoice, handle } = props
+  const payments = invoice.get( `payments` )
 
   return (
     <Tabs.Wrapper>
@@ -36,10 +38,21 @@ export default function InvoiceFormPres( props ) {
           max={   invoice.get(`total`) }
           value={ invoice.get(`totalPaid`) }
         />
-        <InvoiceEvents
-          invoice={ invoice }
-          handle={ handle  }
-        />
+        <InvoiceEvents invoice={ invoice }>
+          <EventsEditable.Sent
+            invoice={ invoice }
+            handle={ handle }
+          />
+          { payments.map((payment, index) => (
+            <EventsEditable.Payment
+              key={ index }
+              payment={ payment }
+              count={ index + 1 }
+              notLast={ index < payments.length - 1 }
+              handle={  handle }
+            />
+          ))}
+        </InvoiceEvents>
         <FormActions>
           <Button type="submit">
             <FormattedMessage id="invoices.button.save" />
