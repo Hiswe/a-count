@@ -18,8 +18,8 @@ import { ShowQuotation, ArchiveInvoice } from './buttons'
 const TYPE = `invoices`
 
 function EditInvoice( props ) {
-  const { id        } = props.match.params
-  const { invoice   } = props
+  const { id               } = props.match.params
+  const { invoice, ...rest } = props
   const   reference   = invoice.get( `reference` )
   const titleProps  = { id:`page.invoices.edit`, values: {reference} }
 
@@ -53,7 +53,7 @@ function EditInvoice( props ) {
           label="invoices.button.list"
         />
       </NavSecondary>
-      <InvoiceForm />
+      <InvoiceForm {...rest} />
     </React.Fragment>
   )
 }

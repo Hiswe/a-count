@@ -20,7 +20,7 @@ import { CreateInvoice, ShowInvoice, ArchiveQuotation } from './buttons'
 const TYPE = `quotations`
 
 function EditQuotation( props ) {
-  const { quotation, ...others } = props
+  const { quotation, ...rest } = props
   const { id }      = props.match.params
   const reference   = quotation.get(`reference`)
   const titleProps  = { id:`page.quotations.edit`, values: {reference} }
@@ -68,7 +68,7 @@ function EditQuotation( props ) {
           label="quotation.button.new"
         />
       </NavSecondary>
-      <QuotationForm {...others} />
+      <QuotationForm {...rest} />
     </React.Fragment>
   )
 }

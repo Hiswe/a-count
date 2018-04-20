@@ -49,7 +49,7 @@ class QuotationForm extends React.Component {
     if ( current === next ) return null
 
     // redirects
-    const redirect = redirection.quotation({
+    redirection.quotation({
       next,
       current,
       history,

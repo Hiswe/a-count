@@ -42,13 +42,12 @@ class InvoiceForm extends React.Component {
     if ( current === next ) return null
 
     // redirects
-    const redirect = redirection.invoice({
+    redirection.invoice({
       next,
       current,
       history,
       staticContext,
     })
-    if ( redirect ) return null
 
     return { formData: InvoiceForm.updatePayments( next ) }
   }
