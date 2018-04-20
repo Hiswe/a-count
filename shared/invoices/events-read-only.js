@@ -1,10 +1,8 @@
 import   React              from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import * as Table        from '../ui-table'
+import * as Table  from '../ui-table'
 import * as Format from '../ui/format'
-import {    DatePicker } from '../ui/date-picker'
-import {    BtnIcon    } from '../ui/buttons'
 
 function InvoiceEventSentRead( props ) {
   const { invoice, handle } = props

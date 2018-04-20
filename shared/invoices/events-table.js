@@ -18,7 +18,6 @@ const eventsColumns = [
 function InvoiceEventsFooter( props ) {
   const { invoice, hideColumns } = props
 
-
   return (
     <TableFooter>
       <RowFooter>

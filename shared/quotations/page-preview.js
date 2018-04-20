@@ -31,7 +31,7 @@ function PreviewQuotationPage( props ) {
         {title => (
           <Helmet>
             <title>{title}</title>
-            <body className="dark-background" />
+            <html className="dark-background" />
           </Helmet>
         )}
       </FormattedMessage>

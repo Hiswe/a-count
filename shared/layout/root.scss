@@ -120,12 +120,12 @@ fieldset {
   margin-left: var(--nav-main-width);
 }
 
-body.light-background {
+html.light-background {
   --c-background: var(--c-primary-white);
   --nav-secondary-bg: var(--c-background);
 }
 
-body.dark-background {
+html.dark-background {
   --c-background: var(--c-primary);
   --nav-secondary-bg: var(--c-primary);
   --nav-secondary-color: white;

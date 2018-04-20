@@ -24,7 +24,7 @@ function ShowArchivedQuotation( props ) {
         {title => (
           <Helmet>
             <title>{title}</title>
-            <body className="light-background" />
+            <html className="light-background" />
           </Helmet>
         )}
       </FormattedMessage>
