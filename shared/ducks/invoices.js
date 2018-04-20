@@ -13,6 +13,12 @@ export const GET_ONE           = createActionNames( NAME, `get`  , `one`        
 export const SAVE_ONE          = createActionNames( NAME, `post` , `one`               )
 export const ARCHIVE           = createActionNames( NAME, `post` , `archive`           )
 
+export const EMPTY = crio({
+  isLoading: true,
+  reference: `loading…`,
+  products: [],
+})
+
 const initialState = crio({
   isSaving: false,
   meta: {
@@ -21,9 +27,7 @@ const initialState = crio({
   },
   active   : [],
   archived : [],
-  current:  {
-    isLoading: true,
-  },
+  current:  EMPTY,
 })
 
 export default function reducer(state = initialState, action) {
@@ -40,12 +44,11 @@ export default function reducer(state = initialState, action) {
       state = state.set( `archived`, payload.rows )
       return  state.set( `meta.archived`, payload.meta )
 
+    case LIST_ACTIVE.LOADING:
+    case LIST_ARCHIVED.LOADING:
+    case LIST_FOR_CUSTOMER.LOADING:
     case GET_ONE.LOADING:
-      return state.set( `current`, {
-        isLoading: true,
-        reference: `loading…`,
-        products: [],
-      })
+      return state.set( `current`, EMPTY )
 
     case GET_ONE.SUCCESS:
       return state.set( `current`, payload )

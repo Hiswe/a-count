@@ -93,7 +93,7 @@ export const ActiveQuotations = connect(
   state => ({
     quotations  : state.quotations.get(`active`),
     meta        : state.quotations.get(`meta.active`),
-    hideColumns : [`invoice`],
+    hideColumns : [`signed`, `invoice`],
   }),
   dispatch => ( bindActionCreators({
     handlePageSort: quotations.listActive
