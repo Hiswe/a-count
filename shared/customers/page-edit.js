@@ -5,33 +5,17 @@ import { FormattedMessage } from 'react-intl'
 import { Helmet } from 'react-helmet'
 
 import      ConnectDataFetcher from '../connect-data-fetcher'
-import * as customers          from '../ducks/customers'
-import * as quotations         from '../ducks/quotations'
-import * as invoices           from '../ducks/invoices'
-import {
-  PaperSheet,
-  Between,
-  Party,
-  PartyUser,
-} from '../layout/paper-sheet'
-import      NavSecondary       from '../nav/secondary'
+import * as customers    from '../ducks/customers'
+import * as quotations   from '../ducks/quotations'
+import * as invoices     from '../ducks/invoices'
+import * as Paper        from '../layout/paper-sheet'
+import      NavSecondary from '../nav/secondary'
 import {
   ButtonNew,
   ButtonList,
   ButtonSubmit,
 } from '../nav/secondary-buttons'
-import {
-  Tabs,
-  TabList,
-  TabListHeader,
-  Tab,
-  TabPanel,
-} from '../ui/tabs'
-import {
-  PresByKey,
-  KeyLabel,
-  KeyValue
-} from '../ui/key-presentation'
+import * as Tabs from '../ui/tabs'
 import {
   Amount,
   FormatNumber,
@@ -43,7 +27,8 @@ import CustomerForm, {
   FORM_ID,
   FormContext,
 } from './form'
-import CustomerFormPres from './form.pres'
+import   CustomerFormPres   from './form.pres'
+import { CustomerHeader   } from './header'
 
 const TYPE = `customers`
 
@@ -78,68 +63,50 @@ function EditCustomer( props ) {
       </NavSecondary>
 
       <CustomerForm {...props} >
-        <Tabs>
+        <Tabs.Wrapper>
 
-          <TabList>
-            <TabListHeader>
-              <PresByKey>
-                <KeyLabel id="customer.total.quotation" />
-                <KeyValue>
-                  <Amount value={ customer.get(`quotationsTotal`) } />
-                </KeyValue>
-                <KeyLabel id="customer.total.invoice" />
-                <KeyValue>
-                  <Amount value={ customer.get(`invoicesTotal`) } />
-                </KeyValue>
-                <KeyLabel id="customer.total.to-be-paid" />
-                <KeyValue>
-                  <Amount value={ customer.get(`invoicesLeft`) } />
-                </KeyValue>
-                <KeyLabel id="customer.total.progress" />
-                <KeyValue>
-                  <Progress
-                    value={ customer.get(`invoicesPaid`) }
-                    max={ customer.get(`invoicesTotal`) }
-                  />
-                </KeyValue>
-              </PresByKey>
-
-            </TabListHeader>
-            <Tab>
+          <Tabs.List>
+            <Tabs.Header>
+              <CustomerHeader customer={ customer } />
+            </Tabs.Header>
+            <Tabs.Tab>
               <FormattedMessage id="_.quotations" />
-            </Tab>
-            <Tab>
+            </Tabs.Tab>
+            <Tabs.Tab>
               <FormattedMessage id="_.invoices" />
-            </Tab>
-            <Tab>
+            </Tabs.Tab>
+            <Tabs.Tab>
               <FormattedMessage id="customer.tab.configuration" />
-            </Tab>
-          </TabList>
+            </Tabs.Tab>
+          </Tabs.List>
           {/* QUOTATIONS */}
-          <TabPanel>
+          <Tabs.Panel>
             <CustomerQuotations />
-          </TabPanel>
+          </Tabs.Panel>
           {/* INVOICES */}
-          <TabPanel>
+          <Tabs.Panel>
             <CustomerInvoices />
-          </TabPanel>
+          </Tabs.Panel>
           {/* CUSTOMER FORM */}
-          <TabPanel>
+          <Tabs.Panel>
             <FormContext.Consumer>
               { context => (
                 <React.Fragment>
                   <CustomerFormPres {...context} />
-                  <PaperSheet part="top">
-                    <Between>
-                      <PartyUser />
-                      <Party title="to" people={context.formData} />
-                    </Between>
-                  </PaperSheet>
+                  <Paper.Sheet part="top">
+                    <Paper.Between>
+                      <Paper.User />
+                      <Paper.Party
+                        title="to"
+                        people={ context.formData }
+                      />
+                    </Paper.Between>
+                  </Paper.Sheet>
                 </React.Fragment>
               )}
             </FormContext.Consumer>
-          </TabPanel>
-        </Tabs>
+          </Tabs.Panel>
+        </Tabs.Wrapper>
       </CustomerForm>
     </React.Fragment>
   )

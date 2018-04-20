@@ -18,6 +18,7 @@ export function PaperSheet( props ) {
     </div>
   )
 }
+export { PaperSheet as Sheet }
 
 export function Reference( props ) {
   const { type, product } = props
@@ -88,6 +89,7 @@ export function Subject( props ) {
     </div>
   )
 }
+export { PartyUser as User }
 
 export function Mentions( props ) {
   const { content } = props

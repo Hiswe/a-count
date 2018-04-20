@@ -5,10 +5,10 @@ import {
 } from 'react-intl'
 
 import { PaperSheet, Party, Reference, Mentions } from '../layout/paper-sheet'
-import { Alert } from '../ui/alerts'
-import { Button } from '../ui/buttons'
-import { FormActions } from '../ui/form'
-import { Tabs, TabList, TabListHeader, Tab, TabPanel } from '../ui/tabs'
+import {    Alert       } from '../ui/alerts'
+import {    Button      } from '../ui/buttons'
+import {    FormActions } from '../ui/form'
+import * as Tabs          from '../ui/tabs'
 import { Input, Textarea, Select } from '../ui/field'
 import { ProductTable, ProductLineDisplay } from '../ui-table/products'
 
@@ -64,24 +64,24 @@ export default function SettingFormPres( props ) {
   ]
 
   return (
-    <Tabs>
-      <TabList>
-        <Tab>
+    <Tabs.Wrapper>
+      <Tabs.List>
+        <Tabs.Tab>
           <FormattedMessage id="configuration.tab.from" />
-        </Tab>
-        <Tab>
+        </Tabs.Tab>
+        <Tabs.Tab>
           <FormattedMessage id="configuration.tab.default-product" />
-        </Tab>
-        <Tab>
+        </Tabs.Tab>
+        <Tabs.Tab>
           <FormattedMessage id="configuration.tab.mentions" />
-        </Tab>
-        <Tab>
+        </Tabs.Tab>
+        <Tabs.Tab>
           <FormattedMessage id="configuration.tab.reference" />
-        </Tab>
-      </TabList>
+        </Tabs.Tab>
+      </Tabs.List>
 
       {/* USER */}
-      <TabPanel>
+      <Tabs.Panel>
         <div className={`${BASE_CLASS}__user`}>
           <Select
             name="lang"
@@ -111,10 +111,10 @@ export default function SettingFormPres( props ) {
             />
           </div>
         </div>
-      </TabPanel>
+      </Tabs.Panel>
 
       {/* PRODUCT */}
-      <TabPanel>
+      <Tabs.Panel>
         <div className={`${BASE_CLASS}__product`}>
           <div className={`${BASE_CLASS}__product-form`}>
             <Textarea
@@ -152,10 +152,10 @@ export default function SettingFormPres( props ) {
             </ProductTable>
           </PaperSheet>
         </div>
-      </TabPanel>
+      </Tabs.Panel>
 
       {/* MENTIONS */}
-      <TabPanel>
+      <Tabs.Panel>
         <div className={`${BASE_CLASS}__mentions`}>
           <Textarea
             name="quotationConfig[mentions]"
@@ -174,10 +174,10 @@ export default function SettingFormPres( props ) {
             <Mentions content={ invoiceConfig.mentions }/>
           </PaperSheet>
         </div>
-      </TabPanel>
+      </Tabs.Panel>
 
       {/* REFERENCES */}
-      <TabPanel>
+      <Tabs.Panel>
         <Alert danger>
           <FormattedHTMLMessage id="configuration.reference.warning" />
         </Alert>
@@ -233,7 +233,7 @@ export default function SettingFormPres( props ) {
             </dd>
           </dl>
         </div>
-      </TabPanel>
+      </Tabs.Panel>
 
       {/* ACTIONS */}
       <FormActions>
@@ -241,6 +241,6 @@ export default function SettingFormPres( props ) {
           <FormattedMessage id="configuration.button.save" />
         </Button>
       </FormActions>
-    </Tabs>
+    </Tabs.Wrapper>
   )
 }
