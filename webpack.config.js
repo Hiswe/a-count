@@ -35,8 +35,8 @@ const server = {
       entryOnly: false
     }),
     new webpack.NormalModuleReplacementPlugin(
-      /isomorphic-config/,
-      path.join(__dirname, './shared/config-server')
+      /isomorphic-config$/,
+      path.join(__dirname, `./shared/isomorphic-config-server`)
     ),
   ],
   //
@@ -84,8 +84,8 @@ const client = {
       },
     }),
     new webpack.NormalModuleReplacementPlugin(
-      /isomorphic-config/,
-      path.join(__dirname, './shared/config-browser')
+      /isomorphic-config$/,
+      path.join(__dirname, `./shared/isomorphic-config-browser`)
     ),
     new ExtractTextPlugin( `concompte.css` )
   ],
