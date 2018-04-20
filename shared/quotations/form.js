@@ -21,8 +21,9 @@ class QuotationForm extends React.Component {
 
   constructor( props ) {
     super( props )
+
     this.state = {
-      formData: crio({}),
+      formData: quotations.LOADING,
       customer: crio({}),
     }
 
@@ -54,7 +55,6 @@ class QuotationForm extends React.Component {
       history,
       staticContext,
     })
-    if ( redirect ) return null
 
     return {
       formData: QuotationForm.recomputeFormData( next ),
@@ -81,7 +81,7 @@ class QuotationForm extends React.Component {
   //   …in case a user just type something on the blank one
   static recomputeProducts( formData ) {
     const defaultProduct      = formData.get( `productConfig` )
-    const products            = formData.get( `products`       )
+    const products            = formData.get( `products`      )
     const recomputedProducts  = recomputeQuotationProducts({
       defaultProduct,
       products,
@@ -113,10 +113,10 @@ class QuotationForm extends React.Component {
   }
   handleCreateInvoice( event ) {
     event.preventDefault()
-      this.props.createInvoice({
-        id: this.props.current.get(`id`),
-      })
-    }
+    this.props.createInvoice({
+      id: this.props.current.get(`id`),
+    })
+  }
   handleFormChange( event ) {
     const { target } = event
     const { name, value } = target

@@ -59,7 +59,7 @@
     &-bg {
       stroke-width: var(--pie-donut-size);
       stroke: var(--c-primary-lightest);
-      fill: none;
+      fill: white;
     }
   }
   &__pie-caption {
@@ -89,7 +89,6 @@
         background: var(--slice-color);
         margin: 0 auto;
       }
-
       &:first-child {
         margin-right: auto;
       }
@@ -116,6 +115,7 @@
   &__value {
     margin: 0;
     font-weight: bold;
+
     &::before {
       content: '% ';
       opacity: 0;

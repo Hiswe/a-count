@@ -20,16 +20,7 @@ const checkKeyChange = key => ({next, current}) => {
 const isNewQuotation = checkKeyChange( `id` )
 const isNewCustomer  = checkKeyChange( `id` )
 const isNewInvoice   = checkKeyChange( `invoiceId` )
-const isArchived     = ({next, current}) => {
-  // console.log({
-  //   isLoading: isLoading({next, current}),
-  //   current : current.id,
-  //   next    : next.id,
-  //   archived: !isNil( next.archivedAt ),
-  //   same_id : current.id === next.id,
-  // })
-  return !isNil( next.archivedAt )
-}
+const isArchived     = ({next, current}) => !isNil( next.archivedAt )
 
 const newCustomer = {
   test: isNewCustomer,
