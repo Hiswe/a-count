@@ -14,7 +14,7 @@ const userParams = {
   where: {
     isDeactivated:  { $not: true },
   },
-  attributes: [`id`, `email`, `name`, `lang`, `currency`],
+  attributes: [`id`, `email`, `name`, `address`, `lang`, `currency`],
   include: [
     {
       model: QuotationConfig,

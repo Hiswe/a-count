@@ -56,11 +56,11 @@ export default function SettingFormPres( props ) {
   const fakeProduct = {
     description: `a *product* example`,
     quantity: 2,
-    price: quotationConfig.price,
+    price: productConfig.price,
   }
   const fakeProducts = [
     fakeProduct,
-    quotationConfig
+    productConfig,
   ]
 
   return (
