@@ -2,48 +2,42 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 
-import { FormActions } from '../ui/form'
-import { Button      } from '../ui/buttons'
-import { Progress    } from '../ui/progress'
-import { Preview     } from '../ui/preview'
-import {
-  Tab,
-  Tabs,
-  TabList,
-  TabListHeader,
-  TabPanel,
-} from '../ui/tabs'
-import   InvoiceFormHeader     from './form.pres-header'
+import {    FormActions   } from '../ui/form'
+import {    Button        } from '../ui/buttons'
+import {    Progress      } from '../ui/progress'
+import {    Preview       } from '../ui/preview'
+import * as Tabs            from '../ui/tabs'
+import {    InvoiceHeader } from './header'
 import   InvoiceEvents         from './form.pres-events'
 import { ShowQuotation, ArchiveInvoice } from './buttons'
 
 export const BASE_CLASS    = `invoice-form`
 
 export default function InvoiceFormPres( props ) {
-  const { formData, handle } = props
+  const { invoice, handle } = props
 
   return (
-    <Tabs>
-      <TabList>
-        <TabListHeader>
-          <InvoiceFormHeader formData={ formData } />
-        </TabListHeader>
-        <Tab>
+    <Tabs.Wrapper>
+      <Tabs.List>
+        <Tabs.Header>
+          <InvoiceHeader invoice={ invoice } />
+        </Tabs.Header>
+        <Tabs.Tab>
           <FormattedMessage id="invoices.tab.payments" />
-        </Tab>
-        <Tab>
+        </Tabs.Tab>
+        <Tabs.Tab>
           <FormattedMessage id="invoices.tab.preview" />
-        </Tab>
-      </TabList>
+        </Tabs.Tab>
+      </Tabs.List>
 
       {/* PAYMENTS */}
-      <TabPanel>
+      <Tabs.Panel>
         <Progress
-          max={   formData.get(`total`) }
-          value={ formData.get(`totalPaid`) }
+          max={   invoice.get(`total`) }
+          value={ invoice.get(`totalPaid`) }
         />
         <InvoiceEvents
-          formData={ formData }
+          invoice={ invoice }
           handle={ handle  }
         />
         <FormActions>
@@ -51,14 +45,14 @@ export default function InvoiceFormPres( props ) {
             <FormattedMessage id="invoices.button.save" />
           </Button>
           <ShowQuotation />
-          <ArchiveInvoice danger invoice={ formData } />
+          <ArchiveInvoice danger invoice={ invoice } />
         </FormActions>
-      </TabPanel>
+      </Tabs.Panel>
 
       {/* PREVIEW */}
-      <TabPanel>
-        <Preview type="invoice" document={ formData } />
-      </TabPanel>
-    </Tabs>
+      <Tabs.Panel>
+        <Preview type="invoice" document={ invoice } />
+      </Tabs.Panel>
+    </Tabs.Wrapper>
   )
 }

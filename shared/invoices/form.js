@@ -129,7 +129,7 @@ class InvoiceForm extends React.Component {
     if ( isLoading ) return <Spinner />
 
     const renderProps = {
-      formData,
+      invoice: formData,
       handle: {
         dayChange     : this.handleDayChange,
         removePayment : this.handleRemovePayment,

@@ -7,13 +7,15 @@ import { Helmet           } from 'react-helmet'
 import      ConnectDataFetcher from '../connect-data-fetcher'
 import * as invoices           from '../ducks/invoices'
 
-import { NavSecondary           } from '../nav/secondary'
-import { ButtonNew              } from '../nav/secondary-buttons'
-import { Main         , Content } from '../layout/main'
-import { Preview                } from '../ui/preview'
+import {    NavSecondary  } from '../nav/secondary'
+import * as NavButtons      from '../nav/secondary-buttons'
+import * as Main            from '../layout/main'
+import * as KeyPres         from '../ui/key-presentation'
+import {    Preview       } from '../ui/preview'
+import {    InvoiceHeader } from '../invoices/header'
 
 function ShowArchivedInvoice( props ) {
-  const { document } = props
+  const { invoice } = props
   const titleProps = { id: `page.archived` }
 
   return (
@@ -30,21 +32,24 @@ function ShowArchivedInvoice( props ) {
       <NavSecondary
         title={ <FormattedMessage {...titleProps} /> }
       >
-        <ButtonNew type="quotations" message="quotation.button.new" />
+        <NavButtons.New type="quotations" message="quotation.button.new" />
+        <NavButtons.Print />
       </NavSecondary>
-      <Main>
-        <Content>
-          <Preview type="invoice" document={document} />
-        </Content>
-      </Main>
+      <Main.Wrapper>
+        <Main.Meta>
+          <InvoiceHeader invoice={ invoice } />
+        </Main.Meta>
+        <Main.Content>
+          <Preview type="invoice" document={invoice} />
+        </Main.Content>
+      </Main.Wrapper>
     </React.Fragment>
   )
-
 }
 
 export default connect(
   state => ({
-    document: state.invoices.get(`current`),
+    invoice: state.invoices.get(`current`),
   })
 )( ConnectDataFetcher({
   Component: ShowArchivedInvoice,

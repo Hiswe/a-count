@@ -74,6 +74,15 @@ export default {
   'invoices.event.amount'      : `amount`,
   'invoices.event.sent'        : `sent`,
 
+  'key-pres.customer'           : `customer`             ,
+  'key-pres.sent'               : `sent at`              ,
+  'key-pres.validated'          : `validated at`         ,
+  'key-pres.signed'             : `signed at`            ,
+  'key-pres.total'              : `total`                ,
+  'key-pres.associated.quote'   : `associated quotation` ,
+  'key-pres.associated.invoice' : `associated invoice`   ,
+  'key-pres.left-to-pay'        : `left to pay`          ,
+
   'notifications.user.welcome'                     : `Welcome {name}`,
   'notifications.user.mail-sent'                   : `An email has been sent to {email}`,
   'notifications.quotation.saved'                  : `The quotation has been saved`,

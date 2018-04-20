@@ -3,7 +3,8 @@
   text-align: center;
   display: grid;
   grid-template-rows: auto auto;
-  padding-bottom: var(--s-gutter);
+  margin: 0;
+  padding-bottom: var(--s-half-gutter);
 
   &__label {
     grid-row: 1 / span 1;

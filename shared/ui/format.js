@@ -66,7 +66,7 @@ export function Percent( props ) {
 }
 
 export function Day( props ) {
-  if ( !props.value ) return null
+  if ( !props.value ) return <span>–</span>
   return <FormattedDate value={ props.value } />
 }
 Day.propTypes = {

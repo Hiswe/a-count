@@ -10,6 +10,7 @@ export function Tabs( props ) {
     </div>
   )
 }
+export { Tabs as Wrapper }
 
 export class TabList extends React.PureComponent {
 
@@ -71,6 +72,7 @@ export class TabList extends React.PureComponent {
     )
   }
 }
+export { TabList as List }
 
 export function TabListHeader( props ) {
   return (
@@ -79,6 +81,7 @@ export function TabListHeader( props ) {
     </div>
   )
 }
+export { TabListHeader as Header }
 
 export function Tab( props ) {
   return (
@@ -95,3 +98,4 @@ export function TabPanel( props ) {
     </section>
   )
 }
+export { TabPanel as Panel }

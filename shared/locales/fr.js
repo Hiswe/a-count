@@ -75,6 +75,15 @@ export default {
   'invoices.event.amount'      : `montant`,
   'invoices.event.sent'        : `envoyé`,
 
+  'key-pres.customer'          : `client`          ,
+  'key-pres.sent'              : `envoyé le`       ,
+  'key-pres.validated'         : `validé le`       ,
+  'key-pres.signed'            : `signé le`        ,
+  'key-pres.total'             : `total`           ,
+  'key-pres.associated.quote'  : `devis associé`   ,
+  'key-pres.associated.invoice': `facture associée`,
+  'key-pres.left-to-pay'       : `reste à payer`   ,
+
   'notifications.user.welcome'                     : `Bienvenue {name}`,
   'notifications.user.mail-sent'                   : `Un email a été envoyé à {email}`,
   'notifications.quotation.saved'                  : `Le devis a été sauvegardé`,

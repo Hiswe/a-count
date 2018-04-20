@@ -16,7 +16,7 @@ const eventsColumns = [
 ]
 
 function InvoiceEventsFooter( props ) {
-  const { formData } = props
+  const { invoice } = props
 
   return (
     <TableFooter>
@@ -25,7 +25,7 @@ function InvoiceEventsFooter( props ) {
           <FormattedMessage id="table.amount.paid" />
         </Cell>
         <Cell type="amount">
-          <Amount value={ formData.get(`totalPaid`) } />
+          <Amount value={ invoice.get(`totalPaid`) } />
         </Cell>
         <Cell />
       </RowFooter>
@@ -34,7 +34,7 @@ function InvoiceEventsFooter( props ) {
           <FormattedMessage id="table.amount.left-to-pay" />
         </Cell>
         <Cell type="amount">
-          <Amount value={ formData.get(`totalLeft`) } />
+          <Amount value={ invoice.get(`totalLeft`) } />
         </Cell>
         <Cell />
       </RowFooter>
@@ -43,8 +43,8 @@ function InvoiceEventsFooter( props ) {
 }
 
 export default function InvoiceEvents( props ) {
-  const { formData, handle } = props
-  const payments = formData.get(`payments`)
+  const { invoice, handle } = props
+  const payments = invoice.get(`payments`)
 
   return (
     <Table
@@ -60,7 +60,7 @@ export default function InvoiceEvents( props ) {
         <Cell>
           <DatePicker
             name="sendAt"
-            value={ formData.get(`sendAt`) }
+            value={ invoice.get(`sendAt`) }
             handleDayChange={ handle.dayChange }
           />
         </Cell>

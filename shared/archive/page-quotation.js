@@ -6,7 +6,6 @@ import { Helmet           } from 'react-helmet'
 
 import      ConnectDataFetcher from '../connect-data-fetcher'
 import * as quotations         from '../ducks/quotations'
-
 import {    NavSecondary } from '../nav/secondary'
 import * as NavButtons     from '../nav/secondary-buttons'
 import * as LayoutMain     from '../layout/main'
@@ -41,28 +40,35 @@ function ShowArchivedQuotation( props ) {
 
         <LayoutMain.Meta>
           <KeyPres.Wrapper>
-            <KeyPres.Label id="stepper.customer" />
+            <KeyPres.Label id="key-pres.customer" />
             <KeyPres.Value>
               <Link to={`/customers/${quotation.get(`customerId`)}`}>
                 { quotation.get( `customer.name` ) }
               </Link>
             </KeyPres.Value>
-            <KeyPres.Label id="stepper.sent" />
+            {quotation.get(`invoiceId`) && (
+              <React.Fragment>
+                <KeyPres.Label id="key-pres.associated.invoice" />
+                <KeyPres.Value>
+                  <Link to={`/invoices/${quotation.get(`invoiceId`)}`}>
+                    { quotation.get( `invoice.reference` ) }
+                  </Link>
+                </KeyPres.Value>
+              </React.Fragment>
+            )}
+            <KeyPres.Label id="key-pres.sent" />
             <KeyPres.Value>
               <Format.Day value={quotation.get(`sendAt`)} />
             </KeyPres.Value>
-            <KeyPres.Label id="stepper.validated" />
-              <Format.Day />
+            <KeyPres.Label id="key-pres.validated" />
             <KeyPres.Value>
               <Format.Day value={quotation.get(`validatedAt`)} />
             </KeyPres.Value>
-            <KeyPres.Label id="stepper.signed" />
-              <Format.Day />
+            <KeyPres.Label id="key-pres.signed" />
             <KeyPres.Value>
               <Format.Day value={quotation.get(`signedAt`)} />
             </KeyPres.Value>
-            <KeyPres.Label id="stepper.total" />
-              <Format.Day />
+            <KeyPres.Label id="key-pres.total" />
             <KeyPres.Value>
               <Format.Amount value={quotation.get(`total`)} />
             </KeyPres.Value>
