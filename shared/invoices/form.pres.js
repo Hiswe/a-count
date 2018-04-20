@@ -9,7 +9,7 @@ import {    Preview       } from '../ui/preview'
 import * as Tabs            from '../ui/tabs'
 import { ShowQuotation, ArchiveInvoice } from './buttons'
 import {    InvoiceHeader  } from './header'
-import {    InvoiceEvents  } from './events'
+import {    InvoiceEvents  } from './events-table'
 import * as EventsEditable   from './events-editable'
 
 export const BASE_CLASS    = `invoice-form`
@@ -45,7 +45,7 @@ export default function InvoiceFormPres( props ) {
           />
           { payments.map((payment, index) => (
             <EventsEditable.Payment
-              key={ index }
+              key={ payment._id }
               payment={ payment }
               count={ index + 1 }
               notLast={ index < payments.length - 1 }

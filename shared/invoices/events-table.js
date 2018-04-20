@@ -16,7 +16,8 @@ const eventsColumns = [
 ]
 
 function InvoiceEventsFooter( props ) {
-  const { invoice } = props
+  const { invoice, hideColumns } = props
+
 
   return (
     <TableFooter>
@@ -27,7 +28,7 @@ function InvoiceEventsFooter( props ) {
         <Cell type="amount">
           <Amount value={ invoice.get(`totalPaid`) } />
         </Cell>
-        <Cell />
+        { !hideColumns && <Cell /> }
       </RowFooter>
       <RowFooter>
         <Cell colSpan="4">
@@ -36,21 +37,21 @@ function InvoiceEventsFooter( props ) {
         <Cell type="amount">
           <Amount value={ invoice.get(`totalLeft`) } />
         </Cell>
-        <Cell />
+        { !hideColumns && <Cell /> }
       </RowFooter>
     </TableFooter>
   )
 }
 
 export function InvoiceEvents( props ) {
-  const { invoice } = props
+  const { children, ...rest } = props
   return (
     <Table
       columns={ eventsColumns }
-      footer={ <InvoiceEventsFooter invoice={ invoice } /> }
+      footer={ <InvoiceEventsFooter {...rest} /> }
+      {...rest}
     >
-      { props.children }
+      { children }
     </Table>
   )
 }
-
