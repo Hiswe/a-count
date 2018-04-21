@@ -14,7 +14,7 @@ import      InvoiceFormPres   from './form.pres'
 
 export const FORM_ID = `invoice-form`
 
-export function updatePayments( formData ) {
+function updatePayments( formData ) {
   const payments        = formData.get( `payments` )
   if ( !crio.isArray(payments) ) return formData
   const updatedPayments = payments
@@ -31,12 +31,12 @@ export function updatePayments( formData ) {
     }))
   return formData.set( `payments`, updatedPayments )
 }
-export function removeLine({ index, formData }) {
+function removeLine({ index, formData }) {
   const payments = formData.get( `payments` )
   if ( !crio.isArray(payments) ) return formData
   return formData.set( `payments`, payments.splice( index, 1 ))
 }
-export function recomputeTotals( formData ) {
+function recomputeTotals( formData ) {
   const payments = formData.get( `payments` )
   if ( !crio.isArray(payments) ) return formData
   const total = formData.get( `total` )
@@ -47,7 +47,7 @@ export function recomputeTotals( formData ) {
     .set(`totalPaid`, paid )
     .set(`totalLeft`, left )
 }
-export function updatePaymentsFieldPath( formData ) {
+function updatePaymentsFieldPath( formData ) {
   const payments = formData.get( `payments` )
   if ( !crio.isArray(payments) ) return formData
   const updated   = payments.map( (payment, index) => {

@@ -24,13 +24,13 @@ export default {
   'account.reset.notice'   : `Please set your new password`,
   'account.reset.button'   : `Reset`,
 
-  'configuration.tab.from'           : `from`,
-  'configuration.tab.default-product': `Default product`,
-  'configuration.tab.mentions'       : `Footer mentions`,
-  'configuration.tab.reference'      : `Reference`,
-  'configuration.mentions.quotations': `For the quotations`,
-  'configuration.mentions.invoices'  : `For the invoices`,
-  'configuration.button.save'        : `Update`,
+  'configuration.tab.from'            : `from`              ,
+  'configuration.tab.default-product' : `Default product`   ,
+  'configuration.tab.mentions'        : `Footer mentions`   ,
+  'configuration.tab.reference'       : `Reference`         ,
+  'configuration.mentions.quotations' : `For the quotations`,
+  'configuration.mentions.invoices'   : `For the invoices`  ,
+  'configuration.button.save'         : `Update`            ,
   'configuration.reference.warning'  : `
     Changing <strong>the starting number</strong> will renumber all references of the type concerned.
     <br />
@@ -125,6 +125,8 @@ export default {
   'paper-sheet.party.no-name.to'      : `customer without name`               ,
   'paper-sheet.party.no-address.to'   : `customer without address`            ,
   'paper-sheet.subject'               : `Subject:`                            ,
+
+  'product.place-holder': `type to create a new line`,
 
   'quotation.create'           : `create`                    ,
   'quotation.ready-to-invoice' : `quote ready for invoicing` ,

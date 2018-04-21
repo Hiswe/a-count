@@ -25,6 +25,7 @@ export function ProductLineEditable( props ) {
         <TextareaAutoResize
           name={`${fieldPath}[description]`}
           defaultValue={ product.get(`description`) }
+          placeholder="product.place-holder"
         />
       </Cell>
       <Cell>

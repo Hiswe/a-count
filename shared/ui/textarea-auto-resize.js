@@ -1,4 +1,7 @@
-import React from 'react'
+import      React      from 'react'
+import      classNames from 'classnames'
+import      PropTypes  from 'prop-types'
+import * as Intl       from 'react-intl'
 
 import './textarea-auto-resize.scss'
 const BASE_CLASS = `textarea`
@@ -20,6 +23,10 @@ export class TextareaAutoResize extends React.PureComponent {
   }
 
   //----- EVENTS
+
+  static propTypes = {
+    placeHolder: PropTypes.string,
+  }
 
   handleChange( e ) {
     const { props } = this
@@ -45,20 +52,27 @@ export class TextareaAutoResize extends React.PureComponent {
   }
 
   render() {
-    const { className, onChange, ...others } = this.props
+    const { className, placeholder , onChange, ...rest } = this.props
     const { autoResize } = this.state
-    const _className = [
-      BASE_CLASS,
-      className,
-    ]
-    if ( autoResize ) _className.push(`${BASE_CLASS}--is-auto-resize` )
+    const COMP_CLASS     = classNames(className, {
+      [ BASE_CLASS ]: true,
+      [ `${BASE_CLASS}--is-auto-resize` ]: autoResize,
+    })
+    const showPlaceholder = (autoResize && placeholder)
     return (
-      <textarea
-        className={ _className.join(` `) }
-        onChange={ this.handleChange }
-        ref={ this.el }
-        {...others}
-      />
+      <div className={ COMP_CLASS }>
+        <textarea
+          className={`${BASE_CLASS}__field`}
+          onChange={ this.handleChange }
+          ref={ this.el }
+          {...rest}
+        />
+        {showPlaceholder && (
+          <p className={`${BASE_CLASS}__placeholder`}>
+            <Intl.FormattedMessage id={placeholder} />
+          </p>
+        )}
+      </div>
     )
   }
 }
