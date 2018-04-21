@@ -137,20 +137,13 @@ export default function SettingFormPres( props ) {
             />
           </div>
           <PaperSheet part="center">
-            <ProductTable readOnly
-              products={ fakeProducts }
-              tax={ quotationConfig.tax }
-              currency={ formData.currency }
-            >
-              <ProductLineDisplay
-                product={ fakeProduct }
-                currency={ formData.currency }
-              />
-              <ProductLineDisplay
-                product={ productConfig }
-                currency={ formData.currency }
-              />
-            </ProductTable>
+            <ProductTable
+              readOnly
+              document={{
+                products: fakeProducts,
+                tax: quotationConfig.tax
+              }}
+            />
           </PaperSheet>
         </div>
       </Tabs.Panel>

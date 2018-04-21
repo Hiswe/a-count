@@ -9,8 +9,8 @@ import * as quotations  from '../ducks/quotations'
 import * as customers   from '../ducks/customers'
 import * as redirection from '../utils/check-redirection'
 import recomputeQuotationProducts from '../utils/recompute-quotation-products'
-import {Spinner          } from '../ui/spinner'
-import  QuotationFormPres  from './form.pres'
+import { Spinner           } from '../ui/spinner'
+import   QuotationFormPres   from './form.pres'
 
 const STEPS = crio([
   { key: `sendAt`     , label: `stepper.sent`      },

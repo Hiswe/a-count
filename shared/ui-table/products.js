@@ -1,22 +1,24 @@
 import   React              from 'react'
 import   classNames         from 'classnames'
 import { FormattedMessage } from 'react-intl'
+import   PropTypes          from 'prop-types'
+import   crio               from 'crio'
 
-import * as compute from '../utils/compute-total'
-import { Amount, Markdown, FormatNumber } from '../ui/format'
-import TextareaAutoResize from '../ui/textarea-auto-resize'
-import { Table, Row, Cell, TableFooter, RowFooter } from './index'
+import * as compute              from '../utils/compute-total'
+import * as Format               from '../ui/format'
+import {    TextareaAutoResize } from '../ui/textarea-auto-resize'
+import {    BtnIcon            } from '../ui/buttons'
+import * as Table                from './index'
 
 // only use defaultValue
 // • handleChange is handled globally at the form level
-
 export function ProductLineEditable( props ) {
-  const { fieldPath, product } = props
-  const total = compute.productTotal( product )
-
+  const { product, isLast, index, handleRemove } = props
+  const fieldPath = `products[${ index }]`
+  const total     = compute.productTotal( product )
   return (
-    <Row>
-      <Cell>
+    <Table.Row>
+      <Table.Cell>
         <input
           type="hidden"
           name={`${fieldPath}[_id]`}
@@ -27,8 +29,8 @@ export function ProductLineEditable( props ) {
           defaultValue={ product.get(`description`) }
           placeholder="product.place-holder"
         />
-      </Cell>
-      <Cell>
+      </Table.Cell>
+      <Table.Cell>
         <input
           type="number"
           min="0"
@@ -36,8 +38,8 @@ export function ProductLineEditable( props ) {
           name={ `${fieldPath}[quantity]` }
           defaultValue={ product.get(`quantity`) }
         />
-      </Cell>
-      <Cell>
+      </Table.Cell>
+      <Table.Cell>
         <input
           type="number"
           min="0"
@@ -45,95 +47,141 @@ export function ProductLineEditable( props ) {
           name={ `${fieldPath}[price]` }
           defaultValue={ product.get(`price`) }
         />
-      </Cell>
-      <Cell>
-        <Amount value={ total } />
-      </Cell>
-      <Cell>
-        { props.children }
-      </Cell>
-    </Row>
+      </Table.Cell>
+      <Table.Cell>
+        <Format.Amount value={ total } />
+      </Table.Cell>
+      <Table.Cell>
+        { !isLast && (
+          <BtnIcon
+            linkAlike
+            onClick={ e => handleRemove(index, fieldPath) }
+            type="button"
+            svgId="delete"
+          />
+        )}
+      </Table.Cell>
+    </Table.Row>
   )
+}
+ProductLineEditable.propTypes = {
+  index       : PropTypes.number.isRequired,
+  product     : PropTypes.object.isRequired,
+  isLast      : PropTypes.bool.isRequired,
+  handleRemove: PropTypes.func.isRequired,
 }
 
 export function ProductLineDisplay( props ) {
   const { fieldPath, product } = props
   const total = compute.productTotal( product )
   return (
-    <Row>
-      <Cell type="text">
-        <Markdown text={ product.description } />
-      </Cell>
-      <Cell type="number">
-        <FormatNumber value={ product.quantity } minimumFractionDigits={2} />
-      </Cell>
-      <Cell type="number">
-        <FormatNumber value={ product.price } minimumFractionDigits={2} />
-      </Cell>
-      <Cell>
-        <Amount value={ total } />
-      </Cell>
-    </Row>
+    <Table.Row>
+      <Table.Cell type="text">
+        <Format.Markdown text={ product.description } />
+      </Table.Cell>
+      <Table.Cell type="number">
+        <Format.Num value={ product.quantity } minimumFractionDigits={2} />
+      </Table.Cell>
+      <Table.Cell type="number">
+        <Format.Num value={ product.price } minimumFractionDigits={2} />
+      </Table.Cell>
+      <Table.Cell>
+        <Format.Amount value={ total } />
+      </Table.Cell>
+    </Table.Row>
   )
+}
+ProductLineDisplay.propTypes = {
+  product: PropTypes.object.isRequired,
 }
 
-function TotalFooter( props ) {
-  const { products, tax, readOnly } = props
-  const totals = compute.totals( products, tax )
+function ProductTotalFooter( props ) {
+  const { readOnly, document } = props
+  // const { products, tax, readOnly } = props
+  const totals = {}
   return (
-    <TableFooter>
-      <RowFooter>
-        <Cell colSpan="3" type="number">
+    <Table.Footer>
+      <Table.RowFooter>
+        <Table.Cell colSpan="3" type="number">
           <FormattedMessage id="table.amount-ht"/>
-        </Cell>
-        <Cell type="amount">
-          <Amount value={ totals.net } />
-        </Cell>
-        { !readOnly && <Cell /> }
-      </RowFooter>
-      <RowFooter>
-        <Cell colSpan="3" type="number">
+        </Table.Cell>
+        <Table.Cell type="amount">
+          <Format.Amount value={ document.totalNet } />
+        </Table.Cell>
+        { !readOnly && <Table.Cell /> }
+      </Table.RowFooter>
+      <Table.RowFooter>
+        <Table.Cell colSpan="3" type="number">
           <FormattedMessage id="table.amount-taxes"/>
-        </Cell>
-        <Cell type="amount">
-          <Amount value={ totals.tax } />
-        </Cell>
-        { !readOnly && <Cell /> }
-      </RowFooter>
-      <RowFooter>
-        <Cell colSpan="3" type="number">
+        </Table.Cell>
+        <Table.Cell type="amount">
+          <Format.Amount value={ document.totalTax } />
+        </Table.Cell>
+        { !readOnly && <Table.Cell /> }
+      </Table.RowFooter>
+      <Table.RowFooter>
+        <Table.Cell colSpan="3" type="number">
           <FormattedMessage id="table.amount"/>
-        </Cell>
-        <Cell type="amount">
-          <Amount value={ totals.all } />
-        </Cell>
-        { !readOnly && <Cell /> }
-      </RowFooter>
-    </TableFooter>
+        </Table.Cell>
+        <Table.Cell type="amount">
+          <Format.Amount value={ document.total } />
+        </Table.Cell>
+        { !readOnly && <Table.Cell /> }
+      </Table.RowFooter>
+    </Table.Footer>
   )
 }
+ProductTotalFooter.propTypes = {
+  document    : PropTypes.object,
+  readOnly    : PropTypes.bool,
+}
+
+const ProductsColumns = [
+  {id: `description` , label: `table.header.description` , type: `input`        },
+  {id: `quantity`    , label: `table.header.quantity`    , type: `input number` },
+  {id: `price`       , label: `table.header.unit-price`  , type: `input number` },
+  {id: `amount`      , label: `table.amount`             , type: `amount`       },
+  {id: `action`      , label: false                      , type: `action`       }
+]
 
 export function ProductTable( props ) {
-  const { readOnly } = props
-  const columns = [
-    {id: `description` , label: `table.header.description` , type: `input`        },
-    {id: `quantity`    , label: `table.header.quantity`    , type: `input number` },
-    {id: `price`       , label: `table.header.unit-price`  , type: `input number` },
-    {id: `amount`      , label: `table.amount`             , type: `amount`       },
-    {id: `action`      , label: false                      , type: `action`       }
-  ]
-  const hideColumns = readOnly ? [`action`] : []
-  const COMP_CLASS  = classNames( `table--product`, {
+  const {
+    readOnly,
+    document,
+    handleRemove,
+  } = props
+  const products     = document.get(`products`)
+  if ( !crio.isArray(products) ) return null
+  const hideColumns  = readOnly ? [`action`] : []
+  const COMP_CLASS   = classNames( `table--product`, {
     [`table--print`]: readOnly,
   })
+  const ProductLine     = readOnly ? ProductLineDisplay : ProductLineEditable
+  const productsLength  = products.length
   return (
-    <Table
-      columns={ columns }
+    <Table.Wrapper
+      columns={ ProductsColumns }
       hideColumns={ hideColumns }
       className={ COMP_CLASS }
-      footer={ <TotalFooter {...props} /> }
+      footer={ <ProductTotalFooter {...props} /> }
     >
-      { props.children }
-    </Table>
+    { products.map( (product, index) => {
+      return <ProductLine
+        key={ product._id }
+        index={ index }
+        product={ product }
+        isLast={ index === productsLength - 1 }
+        handleRemove={ handleRemove }
+      />
+    })}
+    </Table.Wrapper>
   )
+}
+ProductTable.defaultProps = {
+  readOnly: false,
+}
+ProductTable.propTypes = {
+  document    : PropTypes.object,
+  readOnly    : PropTypes.bool,
+  // handleRemove: PropTypes.function,
 }

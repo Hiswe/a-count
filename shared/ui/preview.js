@@ -13,7 +13,7 @@ import {
   Mentions,
 } from '../layout/paper-sheet'
 import { Alert } from './alerts'
-import { ProductTable, ProductLineDisplay } from '../ui-table/products'
+import { ProductTable } from '../ui-table/products'
 
 export function Preview( props ) {
   const { document, type } = props
@@ -30,16 +30,8 @@ export function Preview( props ) {
       <Subject value={ document.get(`name`)} />
       <ProductTable
         readOnly
-        products={ document.get(`products`) }
-        tax={ document.get(`tax`) }
-      >
-        {products.map( (product, index) =>  (
-          <ProductLineDisplay
-            key={ index }
-            product={ product }
-          />
-        ))}
-      </ProductTable>
+        document={ document }
+      />
       <Mentions content={ document.get(`${type}Config.mentions`) } />
     </PaperSheet>
   )

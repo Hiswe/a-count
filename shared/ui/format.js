@@ -48,6 +48,7 @@ export function FormatNumber( props ) {
     </span>
   )
 }
+export { FormatNumber as Num }
 
 export function Percent( props ) {
   const { value, className, ...others} = props

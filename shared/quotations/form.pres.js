@@ -8,7 +8,7 @@ import { Button, BtnIcon     } from '../ui/buttons'
 import { Input, Textarea, Select } from '../ui/field'
 import { Stepper } from '../ui/stepper'
 import Icon from '../ui/svg-icons'
-import { ProductTable, ProductLineEditable } from '../ui-table/products'
+import { ProductTable } from '../ui-table/products'
 import { CreateInvoice, ShowInvoice, ArchiveQuotation } from './buttons'
 
 import './form.pres.scss'
@@ -74,31 +74,9 @@ export default function QuotationFormPres( props ) {
               value={ formData.name }
             />
             <ProductTable
-              products={ products }
-              tax={ formData.tax }
-            >
-              { hasProducts && products.map( (product, index) => {
-                const isLast = index === productsLength - 1
-                const fieldPath = `products[${ index }]`
-                return (
-                  <ProductLineEditable
-                    key={ product._id }
-                    fieldPath={ fieldPath }
-                    product={ product }
-                    isLast={ isLast }
-                  >
-                    { !isLast && (
-                      <BtnIcon
-                        linkAlike
-                        onClick={ e => handle.productRemove(index, fieldPath) }
-                        type="button"
-                        svgId="delete"
-                      />
-                    ) }
-                  </ProductLineEditable>
-                )
-              }) }
-            </ProductTable>
+              document={ formData }
+              handleRemove={ handle.productRemove }
+            />
             <Mentions content={ formData.quotationConfig.mentions }/>
           </PaperSheet>
           <FormActions>

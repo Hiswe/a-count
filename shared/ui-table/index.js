@@ -25,6 +25,7 @@ export function TableFooter( props ) {
     </tfoot>
   )
 }
+export { TableFooter as Footer }
 
 export function RowFooter( props ) {
   return (
@@ -92,6 +93,19 @@ export function computeSortQuery( currentSorting, sort ) {
 }
 
 export class PaginatedTable extends React.PureComponent {
+
+  static defaultProps = {
+    hideColumns: [],
+  }
+
+  static propTypes = {
+    columns        : PropTypes.arrayOf( PropTypes.object ).isRequired,
+    hideColumns    : PropTypes.arrayOf( PropTypes.string ),
+    hideOnEmpty    : PropTypes.bool,
+    meta           : PropTypes.object,
+    handlePageSort : PropTypes.func,
+    footer         : PropTypes.element,
+  }
 
   constructor( props ) {
     super( props )
@@ -213,21 +227,9 @@ export class PaginatedTable extends React.PureComponent {
   }
 }
 
-PaginatedTable.defaultProps = {
-  hideColumns: [],
-}
-
-PaginatedTable.propTypes = {
-  columns        : PropTypes.arrayOf( PropTypes.object ).isRequired,
-  hideColumns    : PropTypes.arrayOf( PropTypes.string )           ,
-  hideOnEmpty    : PropTypes.bool                                  ,
-  meta           : PropTypes.object                                ,
-  handlePageSort : PropTypes.func                                  ,
-  footer         : PropTypes.element                               ,
-}
-
 // we need to have access to the router
 // • the redux actions may need to access to route params
 export const Table = withRouter( PaginatedTable )
+export { Table as Wrapper }
 
 export default Table
