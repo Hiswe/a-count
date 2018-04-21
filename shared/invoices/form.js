@@ -1,4 +1,5 @@
 import   React                from 'react'
+import   flow                 from 'lodash.flow'
 import   crio                 from 'crio'
 import   shortid              from 'shortid'
 import   serialize            from 'form-serialize'
@@ -13,11 +14,46 @@ import      InvoiceFormPres   from './form.pres'
 
 export const FORM_ID = `invoice-form`
 
-function isPaymentFieldName( inputName ) {
-  return /^payments\[\d+\]/.test( inputName )
+export function updatePayments( formData ) {
+  const payments        = formData.get( `payments` )
+  if ( !crio.isArray(payments) ) return formData
+  const updatedPayments = payments
+    .filter( payment => payment.message || payment.date || payment.amount )
+    .map( payment => {
+      if (!payment._id) return payment.set( `_id`, shortid() )
+      return payment
+    } )
+    .push(crio({
+      _id:      shortid(),
+      message:  ``,
+      date:     ``,
+      amount:   0,
+    }))
+  return formData.set( `payments`, updatedPayments )
 }
-function isAmountFieldName( inputName ) {
-  return /^payments\[\d+\]\[amount\]/.test( inputName )
+export function removeLine({ index, formData }) {
+  const payments = formData.get( `payments` )
+  if ( !crio.isArray(payments) ) return formData
+  return formData.set( `payments`, payments.splice( index, 1 ))
+}
+export function recomputeTotals( formData ) {
+  const payments = formData.get( `payments` )
+  if ( !crio.isArray(payments) ) return formData
+  const total = formData.get( `total` )
+  const paid  = payments
+    .reduce( (acc, payment) => parseFloat(payment.amount, 10) + acc, 0)
+  const left  = total - paid
+  return formData
+    .set(`totalPaid`, paid )
+    .set(`totalLeft`, left )
+}
+export function updatePaymentsFieldPath( formData ) {
+  const payments = formData.get( `payments` )
+  if ( !crio.isArray(payments) ) return formData
+  const updated   = payments.map( (payment, index) => {
+    return payment.set(`_fieldPath`, `payments[${index}]`)
+  })
+  return formData.set( `payments`, updated )
 }
 
 class InvoiceForm extends React.Component {
@@ -33,7 +69,6 @@ class InvoiceForm extends React.Component {
     this.handleDayChange     = this.handleDayChange.bind( this )
     this.handleRemovePayment = this.handleRemovePayment.bind( this )
   }
-
   static getDerivedStateFromProps( nextProps, prevState ) {
     const   next                = nextProps.invoice
     const   current             = prevState.formData
@@ -54,35 +89,20 @@ class InvoiceForm extends React.Component {
 
   //----- UTILS
 
-  static updatePayments( formData ) {
-    const payments        = formData.get( `payments` )
-    if ( !crio.isArray(payments) ) return crio([])
-    const updatedPayments = payments
-      .filter( payment => payment.date || payment.amount )
-      .map( payment => {
-        if (!payment._id) return payment.set( `_id`, shortid() )
-        return payment
-      } )
-      .push(crio({
-        _id:    shortid(),
-        date:   ``,
-        amount: 0,
-      }))
-      .map( (payment, index) => {
-        return payment.set(`_fieldPath`, `payments[${index}]`)
-      })
-    return formData.set( `payments`, updatedPayments )
+  static isPaymentFieldName( inputName ) {
+    return /^payments\[\d+\]/.test( inputName )
   }
 
-  static recomputeTotals( formData ) {
-    const total   = formData.get( `total` )
-    const paid    = formData.get( `payments` )
-      .reduce( (acc, payment) => parseFloat(payment.amount, 10) + acc, 0)
-    const left    = total - paid
-    return formData
-      .set(`totalPaid`, paid )
-      .set(`totalLeft`, left )
-  }
+  static updatePayments = flow(
+    updatePayments,
+    updatePaymentsFieldPath,
+    recomputeTotals,
+  )
+  static removeLine = flow(
+    removeLine,
+    updatePaymentsFieldPath,
+    recomputeTotals,
+  )
 
   //----- EVENTS
 
@@ -96,28 +116,19 @@ class InvoiceForm extends React.Component {
     const { name, value } = target
     this.setState( prevState => {
       let updated           = prevState.formData.set( name, value )
-      const isPaymentChange = isPaymentFieldName( name )
+      const isPaymentChange = InvoiceForm.isPaymentFieldName( name )
       if ( isPaymentChange ) updated = InvoiceForm.updatePayments( updated )
-      console.log( name, isAmountFieldName( name ) )
-      const isAmountChange  = isAmountFieldName( name )
-      if ( isPaymentChange ) updated = InvoiceForm.recomputeTotals( updated )
       return { formData: updated }
     })
   }
   handleDayChange( target ) {
     return this.handleFormChange({target})
   }
-  handleRemovePayment( index, prefix ) {
-    const { formData } = this.state
-    const line         = formData.get( prefix )
-    if ( !line ) return
-
+  handleRemovePayment( index ) {
     this.setState( prevState => {
-      const payments = prevState.formData
-        .get( `payments` )
-        .splice( index, 1 )
-      const updated = prevState.formData.set( `payments`, payments )
-      return { formData: InvoiceForm.recomputeTotals( updated ) }
+      const { formData } = prevState
+      const updated      = InvoiceForm.removeLine( {formData, index} )
+      return { formData: updated }
     })
   }
 
