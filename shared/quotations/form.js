@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect            } from 'react-redux'
 import   serialize            from 'form-serialize'
 import   crio                 from 'crio'
+import   flow                 from 'lodash.flow'
 
 import * as quotations  from '../ducks/quotations'
 import * as customers   from '../ducks/customers'
@@ -16,6 +17,31 @@ const STEPS = crio([
   { key: `validatedAt`, label: `stepper.validated` },
   { key: `signedAt`   , label: `stepper.signed`    },
 ])
+
+function recomputeSteps( formData ) {
+  const steps = STEPS.map( s => {
+    const value = formData.get( s.key )
+    return {
+      value,
+      key:   s.key,
+      label: s.label,
+    }
+  })
+  return formData.set( `steps`, steps )
+}
+
+// • de-dupe defaultProduct lines
+// • add an empty line a the end…
+//   …in case a user just type something on the blank one
+function recomputeProducts( formData ) {
+  const defaultProduct      = formData.get( `productConfig` )
+  const products            = formData.get( `products`      )
+  const recomputedProducts  = recomputeQuotationProducts({
+    defaultProduct,
+    products,
+  })
+  return formData.set( `products`, recomputedProducts )
+}
 
 class QuotationForm extends React.Component {
 
@@ -64,36 +90,14 @@ class QuotationForm extends React.Component {
 
   //----- UTILS
 
-  static recomputeSteps( formData ) {
-    const steps = STEPS.map( s => {
-      const value = formData.get( s.key )
-      return {
-        key: s.key,
-        label: s.label,
-        value,
-      }
-    })
-    return formData.set( `steps`, steps )
-  }
+  static recomputeSteps    = recomputeSteps
 
-  // • de-dupe defaultProduct lines
-  // • add an empty line a the end…
-  //   …in case a user just type something on the blank one
-  static recomputeProducts( formData ) {
-    const defaultProduct      = formData.get( `productConfig` )
-    const products            = formData.get( `products`      )
-    const recomputedProducts  = recomputeQuotationProducts({
-      defaultProduct,
-      products,
-    })
-    const updated = formData.set( `products`, recomputedProducts )
-    return updated
-  }
+  static recomputeProducts = recomputeProducts
 
-  static recomputeFormData( formData ) {
-    const withSteps = this.recomputeSteps( formData )
-    return this.recomputeProducts( withSteps )
-  }
+  static recomputeFormData = flow(
+    recomputeSteps,
+    recomputeProducts,
+  )
 
   static getCustomerData( formData, customers ) {
     if ( !Array.isArray(customers) ) return {}
@@ -128,21 +132,21 @@ class QuotationForm extends React.Component {
       // update customer state if we choose a new one
       if ( name === `customerId` ) return {
         formData: updated,
-        customer: this.constructor.getCustomerData( updated, props.customers )
+        customer: QuotationForm.getCustomerData( updated, props.customers )
       }
 
       // Recompute products only if needed
       const isProductChange = /^products\[\d+\]/.test( name )
       const isTaxChange = name === `tax`
       if ( !isProductChange && !isTaxChange ) return { formData: updated }
-      return { formData: this.constructor.recomputeProducts( updated ) }
+      return { formData: QuotationForm.recomputeProducts( updated ) }
     })
   }
   handleDayChange( target ) {
     const { name, value } = target
     this.setState( prevState => {
       const updated   = prevState.formData.set( name, value )
-      const withSteps = this.constructor.recomputeSteps( updated )
+      const withSteps = QuotationForm.recomputeSteps( updated )
       return { formData: withSteps }
     })
   }
@@ -155,7 +159,7 @@ class QuotationForm extends React.Component {
       const products = prevState.formData.get( `products` )
       const updatedProducts = products.splice( index, 1 )
       const updated = prevState.formData.set( `products`, updatedProducts )
-      return { formData: this.constructor.recomputeProducts( updated ) }
+      return { formData: QuotationForm.recomputeProducts( updated ) }
     })
   }
 

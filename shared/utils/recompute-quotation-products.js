@@ -1,6 +1,6 @@
 import shortid from 'shortid'
-import merge from 'lodash.merge'
-import crio from 'crio'
+import merge   from 'lodash.merge'
+import crio    from 'crio'
 
 import filterArrayWithObject from './filter-array-with-object'
 
