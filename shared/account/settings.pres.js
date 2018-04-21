@@ -54,7 +54,7 @@ export default function SettingFormPres( props ) {
     },
   }
   const fakeProduct = {
-    description: `a *product* example`,
+    description: `a __product__ example`,
     quantity: 2,
     price: productConfig.price,
   }
@@ -117,16 +117,17 @@ export default function SettingFormPres( props ) {
       <Tabs.Panel>
         <div className={`${BASE_CLASS}__product`}>
           <div className={`${BASE_CLASS}__product-form`}>
-            <Textarea
-              name="productConfig[description]"
-              label="field.description"
-              value={ productConfig.description }
-            />
             <Input
               name="productConfig[quantity]"
               label="field.quantity"
               type="number"
               value={ productConfig.quantity }
+            />
+            <Input
+              name="productConfig[price]"
+              label="field.default-price"
+              type="number"
+              value={ productConfig.price }
             />
             <Input
               name="quotationConfig[tax]"

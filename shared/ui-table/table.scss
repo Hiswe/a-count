@@ -107,6 +107,9 @@
     &--is-action {
       padding: 0;
     }
+    &--is-action .button {
+      display: block;
+    }
     &--is-number,
     &--is-amount {
       text-align: right;
@@ -128,10 +131,6 @@
     &--is-date {
       width: 7.5em;
       text-align: center;
-    }
-
-    &--is-action .button {
-      display: block;
     }
   }
 
