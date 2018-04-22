@@ -5,6 +5,7 @@
   $control: '#{$root}__control';
   $dark-bg: '#{$root}--dark-background';
   $select: '#{$root}--is-select';
+  $checkbox: '#{$root}--is-checkbox';
   $empty: '#{$root}--is-empty';
   $not-empty: '#{$root}--is-not-empty';
   $type-number: '#{$root}--type-number';
@@ -18,6 +19,11 @@
   }
   &--type-number {
     text-align: right;
+  }
+  &--is-checkbox {
+    .icon-check-box {
+      color: var(--c-accent);
+    }
   }
   &__control,
   &__label {
@@ -42,6 +48,16 @@
     &:focus {
       --field-label-color: var(--c-accent);
       box-shadow: 0 1px 0 0 var(--field-label-color);
+    }
+    #{ $checkbox } & {
+      border: 0 !important;
+      clip: rect(0 0 0 0) !important;
+      height: 1px !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      padding: 0 !important;
+      position: absolute !important;
+      width: 1px !important;
     }
     #{ $select } & {
       appearance: none;

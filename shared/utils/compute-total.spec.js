@@ -29,32 +29,32 @@ const productTotalTitle = `product total`
 const price = 350
 
 test( `${productTotalTitle} – regular use case`, t => {
-  t.is( productTotal({quantity: 0, price }), 0,   `quantity: 0` )
-  t.is( productTotal({quantity: 0.5, price }), 175,   `quantity: 0.5` )
-  t.is( productTotal({quantity: 1, price }), 350, `quantity: 1` )
-  t.is( productTotal({quantity: 1.3333, price }), 466.75,   `quantity: 1.3333` )
+  t.is( productTotal({checked: true, quantity: 0, price }), 0,   `quantity: 0` )
+  t.is( productTotal({checked: true, quantity: 0.5, price }), 175,   `quantity: 0.5` )
+  t.is( productTotal({checked: true, quantity: 1, price }), 350, `quantity: 1` )
+  t.is( productTotal({checked: true, quantity: 1.3333, price }), 466.75,   `quantity: 1.3333` )
 })
 
 test( `${productTotalTitle} – string input`, t => {
-  t.is( productTotal({quantity: `1`, price}), price, `stringed quantity` )
-  t.is( productTotal({quantity: 1, price: `350`}), price, `stringed price` )
-  t.is( productTotal({quantity: `1`, price: `350`}), price, `both stringed` )
-  t.is( productTotal({quantity: `foo`, price}), 0, `invalid string number` )
-  t.is( productTotal({quantity: 1, price: `foo`}), 0, `invalid string price` )
-  t.is( productTotal({quantity: true, price: `foo`}), 0, `both invalid` )
+  t.is( productTotal({checked: true, quantity: `1`, price}), price, `stringed quantity` )
+  t.is( productTotal({checked: true, quantity: 1, price: `350`}), price, `stringed price` )
+  t.is( productTotal({checked: true, quantity: `1`, price: `350`}), price, `both stringed` )
+  t.is( productTotal({checked: true, quantity: `foo`, price}), 0, `invalid string number` )
+  t.is( productTotal({checked: true, quantity: 1, price: `foo`}), 0, `invalid string price` )
+  t.is( productTotal({checked: true, quantity: true, price: `foo`}), 0, `both invalid` )
 })
 
 test( `${productTotalTitle} – should work with crio object`, t => {
-  t.is( productTotal(crio({quantity: 1, price})), price, `crio with number` )
-  t.is( productTotal(crio({quantity: `1`, price: `350`})), price, `crio with string` )
+  t.is( productTotal(crio({checked: true, quantity: 1, price})), price, `crio with number` )
+  t.is( productTotal(crio({checked: true, quantity: `1`, price: `350`})), price, `crio with string` )
 })
 
 const totalsTitle = `totals`
 
 test( `${totalsTitle} – regular use case`, t => {
   const products = crio([
-    { quantity: .5, price },
-    { quantity: 2 , price },
+    { checked: true, quantity: .5, price },
+    { checked: true, quantity: 2 , price },
   ])
   const tax      = 5.5
   const result   = totals({ products, tax })
@@ -65,8 +65,8 @@ test( `${totalsTitle} – regular use case`, t => {
 
 test( `${totalsTitle} – should handle crio objects`, t => {
   const products = crio([
-    { quantity: .5, price },
-    { quantity: 2 , price },
+    { checked: true, quantity: .5, price },
+    { checked: true, quantity: 2 , price },
   ])
   const tax      = 5.5
   const result   = totals({ products, tax })
@@ -75,10 +75,25 @@ test( `${totalsTitle} – should handle crio objects`, t => {
   t.is( result.total   , 923.25, `right total amount` )
 })
 
+test( `${totalsTitle} – handle non checked products`, t => {
+  const products = crio([
+    { checked: true,   quantity: 1 , price },
+    { checked: `true`, quantity: 1 , price },
+    { checked: false,  quantity: 1 , price },
+    { checked: ``,     quantity: 1 , price },
+    {                  quantity: 1 , price },
+  ])
+  const tax      = 0
+  const result   = totals({ products, tax })
+  t.is( result.totalNet , 700 , `right net amount`   )
+  t.is( result.totalTax , 0   , `right tax amount`   )
+  t.is( result.total    , 700 , `right total amount` )
+})
+
 test( `${totalsTitle} – handle stringed tax`, t => {
   const products = crio([
-    { quantity: .5, price },
-    { quantity: 2 , price },
+    { checked: true, quantity: .5, price },
+    { checked: true, quantity: 2 , price },
   ])
   const tax      = `5.5`
   const result   = totals({ products, tax })
@@ -89,8 +104,8 @@ test( `${totalsTitle} – handle stringed tax`, t => {
 
 test( `${totalsTitle} – handle wrong tax`, t => {
   const products = crio([
-    { quantity: .5 , price },
-    { quantity: 2  , price },
+    { checked: true, quantity: .5 , price },
+    { checked: true, quantity: 2  , price },
   ])
   const tax      = `foo`
   const result   = totals({ products, tax })
@@ -100,7 +115,10 @@ test( `${totalsTitle} – handle wrong tax`, t => {
 })
 
 test( `${totalsTitle} – handle stringed products`, t => {
-  const products = crio([{quantity: `.5`, price}, {quantity: 2, price: `${price}`}])
+  const products = crio([
+    {checked: true, quantity: `.5`, price            },
+    {checked: true, quantity: 2   , price: `${price}`}
+  ])
   const tax      = 5.5
   const result   = totals({ products, tax })
   t.is( result.totalNet, 875   , `right net amount`   )
@@ -110,9 +128,9 @@ test( `${totalsTitle} – handle stringed products`, t => {
 
 test( `${totalsTitle} – handle wrong stringed products`, t => {
   const products = crio([
-    { quantity: `foo`, price        },
-    { quantity: 2    , price: `bar` },
-    { quantity: 1    , price        },
+    { checked: true, quantity: `foo`, price        },
+    { checked: true, quantity: 2    , price: `bar` },
+    { checked: true, quantity: 1    , price        },
   ])
   const tax = 5.5
   const result = totals({ products, tax })

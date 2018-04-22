@@ -32,7 +32,6 @@ const languages = [
 
 export default function SettingFormPres( props ) {
   const { formData  } = props
-
   const {
     quotationConfig,
     invoiceConfig,

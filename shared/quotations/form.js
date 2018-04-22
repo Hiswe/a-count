@@ -157,7 +157,8 @@ class QuotationForm extends React.Component {
   }
   handleFormChange( event ) {
     const { target } = event
-    const { name, value } = target
+    const { name, checked, type } = target
+    const value = type === `checkbox` ? checked : target.value
 
     this.setState( (prevState, props) => {
       const type = typeof prevState.formData.get( name)
@@ -229,8 +230,8 @@ function state2prop( state ) {
   const { current } = state.quotations
   const isNew = current.id == null
   return {
-    isSaving:   state.quotations.get(`isSaving`),
     isNew,
+    isSaving:   state.quotations.get(`isSaving`),
     current:    state.quotations.get(`current`),
     customers:  state.customers.get(`active`),
   }

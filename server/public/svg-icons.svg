@@ -3,6 +3,8 @@
 <symbol id="icon-arrow-downward" viewBox="0 0 24 24"> <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"/> </symbol>
 <symbol id="icon-arrow-upward" viewBox="0 0 24 24"> <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/> </symbol>
 <symbol id="icon-block" viewBox="0 0 24 24"> <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z"/> </symbol>
+<symbol id="icon-check-box" viewBox="0 0 24 24"> <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/> </symbol>
+<symbol id="icon-check-box-outline-blank" viewBox="0 0 24 24"> <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/> </symbol>
 <symbol id="icon-chevron-left" viewBox="0 0 24 24"> <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/> </symbol>
 <symbol id="icon-chevron-right" viewBox="0 0 24 24"> <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/> </symbol>
 <symbol id="icon-delete" viewBox="0 0 24 24"> <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/> </symbol>

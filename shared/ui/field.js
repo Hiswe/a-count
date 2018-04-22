@@ -3,7 +3,8 @@ import   crio               from 'crio'
 import   React              from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import TextareaAutoResize from '../ui/textarea-auto-resize'
+import { Icon            } from './svg-icons'
+import { TextareaAutoResize } from './textarea-auto-resize'
 
 import './field.scss'
 const BASE_CLASS = `field`
@@ -213,3 +214,21 @@ export const Select = fieldWrapper( {
   },
   fieldType: `select`,
 })
+
+export function CheckBox( props ) {
+  const { name, defaultChecked } = props
+  const iconName = defaultChecked ? `check-box` : `check-box-outline-blank`
+  return (
+    <label className={`${BASE_CLASS} ${BASE_CLASS}--is-checkbox`}>
+      <input
+        className={`${BASE_CLASS}__control`}
+        type="checkbox"
+        key={`${name}-${defaultChecked}`}
+        name={ name }
+        defaultValue="true"
+        defaultChecked={ defaultChecked }
+      />
+      <Icon svgId={ iconName } />
+    </label>
+  )
+}

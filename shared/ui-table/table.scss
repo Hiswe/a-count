@@ -95,6 +95,28 @@
   &__cell {
     padding: 0.5em 0.75em;
 
+    &--is-checkbox {
+      width: 2.5rem;
+      padding: 0;
+      position: relative;
+
+      .field--is-checkbox {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+      .svg-icon {
+        position: absolute;
+        top: .5em;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+    }
+
     &--is-empty {
       text-align: center;
     }

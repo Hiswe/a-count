@@ -11,6 +11,7 @@ export function enforceNumber( number ) {
 }
 
 export function productTotal( product ) {
+  if ( !product.checked ) return 0
   // don't mutate product
   const cleanedProduct = {}
   ;[`quantity`, `price`].forEach( key => {
