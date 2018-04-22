@@ -52,59 +52,71 @@ test( `${productTotalTitle} – should work with crio object`, t => {
 const totalsTitle = `totals`
 
 test( `${totalsTitle} – regular use case`, t => {
-  const products = [{quantity: .5, price}, {quantity: 2, price}]
-  const taxRate = 5.5
-  const result = totals( products, taxRate )
-  t.is( result.net, 875, `right net amount` )
-  t.is( result.tax, 48.25, `right tax amount` )
-  t.is( result.all, 923.25, `right total amount` )
+  const products = crio([
+    { quantity: .5, price },
+    { quantity: 2 , price },
+  ])
+  const tax      = 5.5
+  const result   = totals({ products, tax })
+  t.is( result.totalNet, 875   , `right net amount`   )
+  t.is( result.totalTax, 48.25 , `right tax amount`   )
+  t.is( result.total   , 923.25, `right total amount` )
 })
 
 test( `${totalsTitle} – should handle crio objects`, t => {
-  const products = crio([{quantity: .5, price}, {quantity: 2, price}])
-  const taxRate = 5.5
-  const result = totals( products, taxRate )
-  t.is( result.net, 875, `right net amount` )
-  t.is( result.tax, 48.25, `right tax amount` )
-  t.is( result.all, 923.25, `right total amount` )
+  const products = crio([
+    { quantity: .5, price },
+    { quantity: 2 , price },
+  ])
+  const tax      = 5.5
+  const result   = totals({ products, tax })
+  t.is( result.totalNet, 875   , `right net amount`   )
+  t.is( result.totalTax, 48.25 , `right tax amount`   )
+  t.is( result.total   , 923.25, `right total amount` )
 })
 
 test( `${totalsTitle} – handle stringed tax`, t => {
-  const products = [{quantity: .5, price}, {quantity: 2, price}]
-  const taxRate = `5.5`
-  const result = totals( products, taxRate )
-  t.is( result.net, 875, `right net amount` )
-  t.is( result.tax, 48.25, `right tax amount` )
-  t.is( result.all, 923.25, `right total amount` )
+  const products = crio([
+    { quantity: .5, price },
+    { quantity: 2 , price },
+  ])
+  const tax      = `5.5`
+  const result   = totals({ products, tax })
+  t.is( result.totalNet, 875   , `right net amount`   )
+  t.is( result.totalTax, 48.25 , `right tax amount`   )
+  t.is( result.total   , 923.25, `right total amount` )
 })
 
 test( `${totalsTitle} – handle wrong tax`, t => {
-  const products = [{quantity: .5, price}, {quantity: 2, price}]
-  const taxRate = `foo`
-  const result = totals( products, taxRate )
-  t.is( result.net, 875, `right net amount` )
-  t.is( result.tax, 0, `tax fallback to 0` )
-  t.is( result.all, 875, `right total amount` )
+  const products = crio([
+    { quantity: .5 , price },
+    { quantity: 2  , price },
+  ])
+  const tax      = `foo`
+  const result   = totals({ products, tax })
+  t.is( result.totalNet, 875, `right net amount`   )
+  t.is( result.totalTax, 0  , `tax fallback to 0`  )
+  t.is( result.total   , 875, `right total amount` )
 })
 
 test( `${totalsTitle} – handle stringed products`, t => {
-  const products = [{quantity: `.5`, price}, {quantity: 2, price: `${price}`}]
-  const taxRate = 5.5
-  const result = totals( products, taxRate )
-  t.is( result.net, 875, `right net amount` )
-  t.is( result.tax, 48.25, `right tax amount` )
-  t.is( result.all, 923.25, `right total amount` )
+  const products = crio([{quantity: `.5`, price}, {quantity: 2, price: `${price}`}])
+  const tax      = 5.5
+  const result   = totals({ products, tax })
+  t.is( result.totalNet, 875   , `right net amount`   )
+  t.is( result.totalTax, 48.25 , `right tax amount`   )
+  t.is( result.total   , 923.25, `right total amount` )
 })
 
 test( `${totalsTitle} – handle wrong stringed products`, t => {
-  const products = [
-    {quantity: `foo`, price},
-    {quantity: 2, price: `bar`},
-    {quantity: 1, price},
-  ]
-  const taxRate = 5.5
-  const result = totals( products, taxRate )
-  t.is( result.net, 350, `right net amount` )
-  t.is( result.tax, 19.25, `right tax amount` )
-  t.is( result.all, 369.25, `right total amount` )
+  const products = crio([
+    { quantity: `foo`, price        },
+    { quantity: 2    , price: `bar` },
+    { quantity: 1    , price        },
+  ])
+  const tax = 5.5
+  const result = totals({ products, tax })
+  t.is( result.totalNet, 350   , `right net amount`   )
+  t.is( result.totalTax, 19.25 , `right tax amount`   )
+  t.is( result.total   , 369.25, `right total amount` )
 })

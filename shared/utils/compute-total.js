@@ -1,3 +1,5 @@
+import crio from 'crio'
+
 export function roundToNearestQuarter( number ) {
   const rounded = Math.round( number * 4 ) / 4
   return parseFloat( rounded.toFixed(2), 10 )
@@ -20,6 +22,7 @@ export function productTotal( product ) {
 
 export function totals( document ) {
   const { products, tax = 0 } = document
+  if ( !crio.isArray(products) ) return document
   const taxRate  = enforceNumber( tax )
   const totalNet = products
     .reduce( (acc, product) => acc + productTotal( product ), 0 )
