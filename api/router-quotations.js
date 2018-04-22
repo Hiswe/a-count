@@ -235,11 +235,15 @@ router
 
   ctx.assert( customer  , 412, MESSAGES.NO_CUSTOMER )
   const updateInvoiceConfig = await invoiceConfig.increment( `creationCount`, {by: 1} )
+  // keep only checked products
+  const filteredProducts    = quotation
+    .get( `products` )
+    .filter( product => product.checked )
 
   const invoice   = await Invoice.create({
     name           : quotation.get( `name` ),
     tax            : quotation.get( `tax` ),
-    products       : quotation.get( `products` ),
+    products       : filteredProducts,
     totalNet       : quotation.get( `totalNet` ),
     totalTax       : quotation.get( `totalTax` ),
     total          : quotation.get( `total` ),
