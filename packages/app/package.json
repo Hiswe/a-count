@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "ava --verbose",
-    "build": "npm run build:icons && build:app",
+    "build": "yarn run build:icons && yarn run build:app",
     "build:icons": "gulp icons",
     "build:app": "webpack --config webpack.config.js",
     "watch": "webpack --config webpack.config.js --watch --display minimal",
@@ -29,6 +29,7 @@
     ]
   },
   "dependencies": {
+    "chalk": "^2.4.0",
     "classnames": "^2.2.5",
     "crio": "^5.0.1",
     "form-serialize": "^0.7.2",
@@ -36,9 +37,23 @@
     "intl-locales-supported": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
     "js-cookie": "^2.2.0",
+    "koa": "^2.5.0",
+    "koa-body": "^2.5.0",
+    "koa-compress": "^3.0.0",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^4.0.2",
+    "lodash.flow": "^3.5.0",
+    "lodash.isnil": "^4.0.0",
+    "lodash.merge": "^4.6.1",
+    "lodash.round": "^4.0.4",
     "marked": "^0.3.19",
+    "moment": "^2.22.1",
+    "nodemon": "^1.17.3",
     "prop-types": "^15.6.1",
     "query-string": "^6.0.0",
+    "rc": "^1.2.6",
     "react": "^16.3.2",
     "react-day-picker": "^7.1.6",
     "react-dom": "^16.3.2",
@@ -50,7 +65,9 @@
     "react-router-dom": "^4.2.2",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
-    "serialize-javascript": "^1.5.0"
+    "serialize-javascript": "^1.5.0",
+    "shortid": "^2.2.8",
+    "url-join": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.44",
@@ -78,6 +95,8 @@
     "gulp-svg-symbols": "^3.1.0",
     "jsdom": "^11.8.0",
     "node-sass": "4.7.2",
+    "nodemon": "^1.17.3",
+    "parallelshell": "^3.0.2",
     "postcss-loader": "^2.1.4",
     "react-test-renderer": "^16.3.2",
     "redux-devtools-extension": "^2.13.2",
@@ -85,6 +104,7 @@
     "style-loader": "^0.21.0",
     "webpack": "^4.6.0",
     "webpack-cli": "^2.0.15",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-node-externals": "^1.7.2",
+    "yargs": "^11.0.0"
   }
 }
