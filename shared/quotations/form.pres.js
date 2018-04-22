@@ -15,7 +15,7 @@ import './form.pres.scss'
 export const BASE_CLASS = `quotation-form`
 export const FORM_ID    = BASE_CLASS
 
-export default function QuotationFormPres( props ) {
+export function QuotationFormPres( props ) {
   const {
     isSaving,
     customers,

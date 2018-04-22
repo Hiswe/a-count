@@ -4,13 +4,15 @@ import { connect            } from 'react-redux'
 import   serialize            from 'form-serialize'
 import   crio                 from 'crio'
 import   flow                 from 'lodash.flow'
+import   shortid              from 'shortid'
 
-import * as quotations  from '../ducks/quotations'
-import * as customers   from '../ducks/customers'
-import * as redirection from '../utils/check-redirection'
-import recomputeQuotationProducts from '../utils/recompute-quotation-products'
-import { Spinner           } from '../ui/spinner'
-import   QuotationFormPres   from './form.pres'
+import * as quotations              from '../ducks/quotations'
+import * as customers               from '../ducks/customers'
+import * as compute                 from '../utils/compute-total'
+import * as redirection             from '../utils/check-redirection'
+import {    filterArrayWithObject } from '../utils/filter-array-with-object'
+import {    Spinner               } from '../ui/spinner'
+import {    QuotationFormPres     } from './form.pres'
 
 const STEPS = crio([
   { key: `sendAt`     , label: `stepper.sent`      },
@@ -31,16 +33,43 @@ function recomputeSteps( formData ) {
 }
 
 // • de-dupe defaultProduct lines
+// • check _id for React
+function removeDefaultProducts( formData ) {
+  const defaultProduct  = formData.get( `productConfig` )
+  const products        = formData.get( `products`      )
+  if ( !crio.isArray(products) ) return formData
+  const cleanedProducts = filterArrayWithObject({
+    defaultObject:  defaultProduct,
+    array:          products,
+  })
+  return formData.set( `products`, cleanedProducts )
+}
+
+function recomputeTotals( formData ) {
+  const products        = formData.get( `products`      )
+  if ( !crio.isArray(products) ) return formData
+  const totals = compute.totals( formData )
+  return formData.merge( null, totals )
+}
+
 // • add an empty line a the end…
 //   …in case a user just type something on the blank one
-function recomputeProducts( formData ) {
-  const defaultProduct      = formData.get( `productConfig` )
-  const products            = formData.get( `products`      )
-  const recomputedProducts  = recomputeQuotationProducts({
-    defaultProduct,
-    products,
+function addEmptyLine( formData ) {
+  const defaultProduct = formData.get( `productConfig` )
+  const products       = formData.get( `products`      )
+  if ( !crio.isArray(products) ) return formData
+  return formData.set( `products`, products.push(defaultProduct) )
+}
+
+
+function ensureProductId( formData ) {
+  const products = formData.get( `products` )
+  if ( !crio.isArray(products) ) return formData
+  const withId   = products.map( product => {
+    if ( !product.get(`_id`) ) return product.set( `_id`, shortid() )
+    return product
   })
-  return formData.set( `products`, recomputedProducts )
+  return formData.set( `products`, withId )
 }
 
 class QuotationForm extends React.Component {
@@ -92,11 +121,16 @@ class QuotationForm extends React.Component {
 
   static recomputeSteps    = recomputeSteps
 
-  static recomputeProducts = recomputeProducts
+  static recomputeProducts = flow(
+    removeDefaultProducts,
+    recomputeTotals,
+    addEmptyLine,
+    ensureProductId,
+  )
 
   static recomputeFormData = flow(
-    recomputeSteps,
-    recomputeProducts,
+    QuotationForm.recomputeSteps,
+    QuotationForm.recomputeProducts,
   )
 
   static getCustomerData( formData, customers ) {
@@ -134,10 +168,9 @@ class QuotationForm extends React.Component {
         formData: updated,
         customer: QuotationForm.getCustomerData( updated, props.customers )
       }
-
       // Recompute products only if needed
       const isProductChange = /^products\[\d+\]/.test( name )
-      const isTaxChange = name === `tax`
+      const isTaxChange     = name === `tax`
       if ( !isProductChange && !isTaxChange ) return { formData: updated }
       return { formData: QuotationForm.recomputeProducts( updated ) }
     })

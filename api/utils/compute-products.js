@@ -13,14 +13,14 @@ const productTotal = product => {
 }
 
 const totals = ( products = [], taxRate = 0 ) => {
-  const net = products
+  const totalNet = products
     .reduce( (acc, product) => acc + productTotal( product ), 0 )
-  const tax = roundToNearestQuarter( net * taxRate / 100 )
-  const all = net + tax
+  const totalTax = roundToNearestQuarter( totalNet * taxRate / 100 )
+  const total = totalNet + totalTax
   return {
-    totalNet: net,
-    totalTax: tax,
-    total:    all,
+    totalNet,
+    totalTax,
+    total,
   }
 }
 

@@ -18,15 +18,16 @@ export function productTotal( product ) {
   return roundToNearestQuarter( quantity * price )
 }
 
-export function totals( products, taxRate = 0 ) {
-  taxRate = enforceNumber( taxRate )
-  const net = products
+export function totals( document ) {
+  const { products, tax = 0 } = document
+  const taxRate  = enforceNumber( tax )
+  const totalNet = products
     .reduce( (acc, product) => acc + productTotal( product ), 0 )
-  const tax = roundToNearestQuarter( net * taxRate / 100 )
-  const all = net + tax
+  const totalTax = roundToNearestQuarter( totalNet * taxRate / 100 )
+  const total    = totalNet + totalTax
   return {
-    net,
-    tax,
-    all,
+    totalNet,
+    totalTax,
+    total,
   }
 }
