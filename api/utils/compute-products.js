@@ -9,6 +9,7 @@ const roundToNearestQuarter = number => {
 }
 
 const productTotal = product => {
+  if ( !product.checked ) return 0
   return roundToNearestQuarter( product.quantity * product.price )
 }
 

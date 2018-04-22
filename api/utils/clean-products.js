@@ -16,6 +16,10 @@ function cleanProducts( params ) {
   const filtered = filterArray({
     array         : products ,
     defaultObject : defaultProduct,
+  }).map( product => {
+    // handle checkbox result
+    product.checked = product.checked === `true`
+    return product
   })
 
   return {

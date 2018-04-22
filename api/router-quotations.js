@@ -272,7 +272,7 @@ router
 
   ctx.assert( quotation , 404, MESSAGES.NOT_FOUND )
   await quotation.update({ archivedAt: new Date() })
-  const query       = addRelations.quotation({ where: { id, userId }})
+  const query            = addRelations.quotation({ where: { id, userId }})
   const updatedQuotation = await Quotation.findOne( query )
 
   ctx.assert( updatedQuotation , 404, MESSAGES.NOT_FOUND )
