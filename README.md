@@ -34,7 +34,7 @@ In a functional point of view:
 In a tech point view, should support:
 
 - should work without JS activated on the client
-- clear separation of the app & the API
+- clear separation of the app & the API (mono-repository)
 - authentication
 - i18n
 
@@ -49,11 +49,15 @@ As an exercice
 ## Prerequisite
 
 - [node js](https://nodejs.org/en/) >= 8.10.0
+- [yarn](https://yarnpkg.com/en/docs/install) >= 1.6.0
+  - on a mac `brew install yarn --without-node`
+- [lerna](https://lernajs.io/#getting-started) >= 2.10.2
+  - `npm install --global lerna`
 - [PostgreSQL](https://www.postgresql.org/) >=9.6 
   - create a clean __concompte__ database
   - [postgresapp](http://postgresapp.com/) on a mac
   - [postico](https://eggerapps.at/postico/) to visualize
-- [Redis](https://redis.io/) 
+- [Redis](https://redis.io/) >= 3.2.0
   - on a mac `brew install redis` → `redis-server` to start
 - SMTP server
   - like [mailcatcher](https://mailcatcher.me/)
@@ -84,13 +88,13 @@ As an exercice
 ### First and always step 
 
 ```
-npm install
+lerna bootstrap
 ```
 
 ### Dev server
 
 ```
-npm run dev
+yarn run dev
 ```
 
 add some debug (with [node debuglog](https://nodejs.org/dist/latest-v8.x/docs/api/util.html#util_util_debuglog_section)): 
