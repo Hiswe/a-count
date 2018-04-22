@@ -82,6 +82,7 @@ ProductLineEditable.propTypes = {
 
 export function ProductLineDisplay( props ) {
   const { product } = props
+  if ( !product.checked ) return null
   const total = compute.productTotal( product )
   return (
     <Table.Row>

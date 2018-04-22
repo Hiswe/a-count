@@ -54,12 +54,14 @@ export default function SettingFormPres( props ) {
 
   let fakeDocument = crio({
     products: [{
+      checked: true,
       description: `a __product__ example`,
       quantity: 2,
       price: productConfig.price,
-    },
-      productConfig,
-    ],
+    },{
+      checked: true,
+      ...productConfig
+    }],
     tax: quotationConfig.tax,
 
   })
