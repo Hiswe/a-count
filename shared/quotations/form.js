@@ -58,7 +58,8 @@ function addEmptyLine( formData ) {
   const defaultProduct = formData.get( `productConfig` )
   const products       = formData.get( `products`      )
   if ( !crio.isArray(products) ) return formData
-  return formData.set( `products`, products.push(defaultProduct) )
+  const emptyProduct   = defaultProduct.set( `checked`, true )
+  return formData.set( `products`, products.push( emptyProduct ))
 }
 
 
