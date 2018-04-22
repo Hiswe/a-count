@@ -1,0 +1,10 @@
+{
+  "script": "dist/server.js",
+  "ext":    "js",
+  "watch":  [ "dist/server.js" ],
+  "ignore": [ "shared/**/*" ],
+  "env": {
+    "NODE_ENV": "development",
+    "NODE_DEBUG": "server"
+  }
+}

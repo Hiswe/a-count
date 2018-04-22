@@ -1,0 +1,29 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "node server/index.js",
+    "serve:dev": "NODE_DEBUG=api,api:db,api:mailing node-dev server/index.js --no-deps --no-notify",
+    "serve:nodemon": "nodemon server/index.js --config nodemon.json",
+    "dev": "npm run serve:dev"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/cors": "^2.2.1",
+    "bcryptjs": "^2.4.3",
+    "formattor": "^0.0.2",
+    "jsonwebtoken": "^8.2.1",
+    "koa-jwt": "^3.3.1",
+    "ms": "^2.1.1",
+    "nodemailer": "^4.6.4",
+    "nodemailer-wellknown": "^0.2.3",
+    "pg": "^7.4.1",
+    "rand-token": "^0.4.0",
+    "redis": "^2.8.0",
+    "sequelize": "^4.37.6",
+    "squel": "^5.12.1"
+  }
+}

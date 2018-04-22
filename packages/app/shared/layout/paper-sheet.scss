@@ -1,0 +1,219 @@
+@import '../config';
+
+.paper-sheet {
+  $root: &;
+  $party: '#{$root}__party';
+  $party-empty-name: '#{$party}-name--empty';
+  $party-empty-address: '#{$party}-address--empty';
+  // css custom properties doesn't seems to work with background size
+  $shred-size: 20px;
+  background: white;
+  padding: var(--s-gutter);
+  border-radius: var(--sheet-border-radius);
+  position: relative;
+  border: 1px solid var(--sheet-border-color);
+
+  @media #{$mq-print} {
+    border: none;
+  }
+
+  // paper-sheet shadow
+  &::before,
+  &::after {
+    z-index: -1;
+    position: absolute;
+    content: '';
+    bottom: 10px;
+    left: 10px;
+    width: 50%;
+    top: 80%;
+    max-width:400px;
+    background: var(--sheet-shadow-color);
+    box-shadow: 0 15px 10px var(--sheet-shadow-color);
+    border-radius: var(--sheet-border-radius);
+    transform: rotate(-3deg);
+
+    @media #{$mq-print} {
+      display: none;
+    }
+  }
+  &::after {
+    transform: rotate(3deg);
+    right: 10px;
+    left: auto;
+  }
+
+  &__reference {
+    text-align: right;
+    margin-top: 0;
+
+    &-type,
+    &-id,
+    &-date {
+      margin: 0;
+      text-transform: capitalize;
+    }
+    &-type {
+      font-size:  var(--sheet-big-font-size);
+    }
+    &-id {
+      font-weight: normal;
+      font-size:  var(--sheet-big-font-size);
+      padding-top: .5em;
+    }
+    &-date {
+      font-size: 1rem;
+      padding-top: .5em;
+      font-weight: 400;
+    }
+  }
+
+  &__between {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: var(--s-gutter);
+    margin-top: calc( var(--s-gutter) * 1.25 );
+    margin-bottom: calc( var(--s-gutter) * 2 );
+  }
+
+  &__party {
+
+    & + & {
+      text-align: right;
+    }
+
+    &-title {
+      margin: 0 0 .25em;
+      font-style: italic;
+
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+    &-name {
+      margin: 0 0 var(--s-quarter-gutter);
+      font-size: var(--sheet-big-font-size);
+      text-transform: capitalize;
+      font-weight: 700;
+
+      &--empty {
+        margin: 0;
+        color: var(--c-text-lighter);
+        font-style: italic;
+        font-size: 1rem;
+        text-transform: initial;
+
+        @media #{$mq-print} {
+          display: none;
+        }
+      }
+    }
+    // facing blocks description
+    &-address{
+      &--empty {
+        color: var(--c-text-lighter);
+        font-style: italic;
+
+        @media #{$mq-print} {
+          display: none;
+        }
+      }
+      > * {
+        margin: 0;
+      }
+    }
+  }
+
+  &__subject {
+    display: flex;
+    padding-bottom: var(--s-half-gutter);
+
+    &-title {
+      font-weight: bold;
+      padding-right: .25em;
+    }
+  }
+
+  &__mentions {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: var(--s-gutter);
+    padding-top: var(--s-gutter);
+
+    &::after {
+      content: '';
+      border: 2px solid var(--c-text-lighter);
+      height: calc( var(--s-gutter) * 4 );
+      align-self: end;
+    }
+  }
+
+  &__signature {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: var(--s-gutter);
+    padding-top: var(--s-gutter);
+
+    &::after {
+      content: '';
+      border: 2px solid var(--c-text-lighter);
+    }
+
+    p {
+      font-weight: bold;
+    }
+    p,
+    ul {
+      margin: 0;
+    }
+  }
+
+  &--part-top,
+  &--part-top-left,
+  &--part-top-right,
+  &--part-center,
+  &--part-bottom {
+    border-radius: 0;
+    background: none;
+    border-image-slice: 9 fill;
+    border-image-width: 12px;
+    border-image-outset: 0;
+    border-image-repeat: round round;
+    border-image-source: url('/paper-part-top-left.svg');
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+  &--part-top {
+    border-image-source: url('/paper-part-top.svg');
+  }
+  &--part-top-right {
+    border-image-source: url('/paper-part-top-right.svg');
+  }
+  &--part-center {
+    border-image-source: url('/paper-part-middle.svg');
+  }
+  &--part-bottom {
+    border-image-source: url('/paper-part-bottom.svg');
+  }
+
+  &--preview-mode {
+    width: 210mm;
+    min-height: 296mm;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+
+    #{ $root }__between {
+      margin-bottom: 0;
+    }
+    #{ $root }__subject {
+      margin-top: auto;
+    }
+    .table--product {
+      margin-bottom: auto;
+    }
+  }
+}

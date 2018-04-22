@@ -1,0 +1,72 @@
+@function text-outline($color) {
+  $result: ();
+  $index: -1px 0 1px;
+  @each $x in $index {
+    @each $y in $index {
+      $result: append($result, unquote('#{$x} #{$y} 0 #{$color}'));
+    }
+  }
+  @return zip( $result );
+}
+
+.progress {
+  $root: &;
+  --progress-bg: var(--c-primary-white);
+  --progress-bar-bg: var(--c-accent);
+  --progress-border-radius: var(--s-gutter);
+  --progress-bar-height: var(--s-gutter);
+  --progress-shadow:
+    0 1px 0 0 white,
+    0 -1px 0 0 var(--c-primary-lightest);
+  position: relative;
+  margin-bottom: var(--s-gutter);
+  height: var(--s-gutter);
+  background: var(--progress-bg);
+  border-radius: var(--progress-border-radius);
+  box-shadow: var(--progress-shadow);
+
+  &__label {
+    position: absolute;
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-shadow: text-outline(var(--progress-bg));
+    padding: 0;
+    z-index: 2;
+
+    #{$root}--table-layout & {
+      text-shadow: text-outline(white);
+    }
+
+    .format {
+      margin: 0;
+    }
+  }
+  &__bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    color: var(--progress-bg);
+    display: block;
+    background: var(--progress-bar-bg);
+    border-radius: var(--progress-border-radius);
+    margin: 0;
+    transition: width .25s;
+  }
+
+  &--table-layout {
+    --progress-border-radius: 0;
+    --progress-bg: transparent;
+    --progress-shadow: none;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: auto;
+  }
+}

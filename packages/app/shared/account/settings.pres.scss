@@ -1,0 +1,68 @@
+.setting-form {
+  $root: &;
+
+  &__sub-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+  &__user {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: var(--s-big-gutter);
+
+    .paper-sheet,
+    .profile-form__user-form {
+      grid-row-start: 2;
+    }
+
+    .field--address {
+      margin-bottom: 0;
+    }
+    .paper-sheet__party {
+      margin: 0;
+    }
+  }
+  &__product {
+    &-form {
+      display: grid;
+      max-width: 400px;
+      margin: 0 auto;
+      grid-template-columns: 5rem 1fr 5rem;
+      grid-gap: var(--s-gutter);
+    }
+  }
+  &__references {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: var(--s-gutter);
+
+    &-content {
+      margin: 0;
+      padding: var(--s-half-gutter) 0 0;
+    }
+
+    &-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: var(--s-gutter);
+    }
+  }
+  &__mentions {
+    .table {
+      border-top: none;
+    }
+    thead {
+      visibility: hidden;
+      height: 0;
+      overflow: hidden;
+    }
+    th {
+      height: 0;
+      overflow: hidden;
+      padding: 0;
+    }
+    .paper-sheet + .field {
+      margin-top: var(--s-two-gutter);
+    }
+  }
+}

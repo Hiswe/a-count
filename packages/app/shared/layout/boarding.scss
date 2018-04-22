@@ -1,0 +1,30 @@
+.boarding {
+  background: var(--c-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-gutter);
+  min-height: 100vh;
+
+  &__card {
+    background: white;
+    min-width: 500px;
+    border: 0;
+    border-radius: var(--s-border-radius);
+    padding: var(--s-gutter) 0;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  &__title,
+  &__content {
+    padding: var(--s-gutter) var(--s-big-gutter);
+  }
+  &__title {
+    margin: 0;
+    font-weight: 300;
+    text-transform: uppercase;
+  }
+}

@@ -1,0 +1,10 @@
+.markdown {
+  > * {
+    margin: 0;
+    white-space: pre-wrap;
+  }
+  ul,
+  li {
+    white-space: normal;
+  }
+}
