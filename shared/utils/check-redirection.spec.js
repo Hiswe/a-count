@@ -8,17 +8,33 @@ const nullId  = {invoiceId: null}
 import { isNewQuotation, isNewInvoice } from './check-redirection'
 
 test( `no id → id`, t => {
-  t.true( isNewQuotation(empty, withId), `should redirect when new id` )
+  const states = {
+    current: empty,
+    next:    withId,
+  }
+  t.true( isNewQuotation(states), `should redirect when new id` )
 })
 
 test( `id → same id`, t => {
-  t.false( isNewQuotation(withId, withId), `should not redirect on same id` )
+  const states = {
+    current: withId,
+    next:    withId,
+  }
+  t.false( isNewQuotation(states), `should not redirect on same id` )
 })
 
 test( `id → different id`, t => {
-  t.true( isNewQuotation(withId, {id: `other`}), `should redirect on different id` )
+  const states = {
+    current: empty,
+    next:    {id: `other`},
+  }
+  t.true( isNewQuotation(states), `should redirect on different id` )
 })
 
 test( `id → null id`, t => {
-  t.false( isNewInvoice(empty, nullId), `should not redirect on a null id` )
+  const states = {
+    current: empty,
+    next:    nullId,
+  }
+  t.false( isNewInvoice(states), `should not redirect on a null id` )
 })

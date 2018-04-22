@@ -17,10 +17,10 @@ const checkKeyChange = key => ({next, current}) => {
   return isNewCreation ? true : isDifferentId
 }
 
-const isNewQuotation = checkKeyChange( `id` )
-const isNewCustomer  = checkKeyChange( `id` )
-const isNewInvoice   = checkKeyChange( `invoiceId` )
-const isArchived     = ({next, current}) => !isNil( next.archivedAt )
+export const isNewQuotation = checkKeyChange( `id` )
+export const isNewCustomer  = checkKeyChange( `id` )
+export const isNewInvoice   = checkKeyChange( `invoiceId` )
+export const isArchived     = ({next, current}) => !isNil( next.archivedAt )
 
 const newCustomer = {
   test: isNewCustomer,
