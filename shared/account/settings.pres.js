@@ -1,16 +1,15 @@
-import React from 'react'
-import {
-  FormattedMessage,
-  FormattedHTMLMessage
-} from 'react-intl'
+import      React from 'react'
+import      crio  from 'crio'
+import * as Intl  from 'react-intl'
 
-import { PaperSheet, Party, Reference, Mentions } from '../layout/paper-sheet'
-import {    Alert       } from '../ui/alerts'
-import {    Button      } from '../ui/buttons'
-import {    FormActions } from '../ui/form'
-import * as Tabs          from '../ui/tabs'
-import { Input, Textarea, Select } from '../ui/field'
-import { ProductTable, ProductLineDisplay } from '../ui-table/products'
+import * as compute        from '../utils/compute-total'
+import * as Paper          from '../layout/paper-sheet'
+import * as Tabs           from '../ui/tabs'
+import * as Field          from '../ui/field'
+import {    Alert        } from '../ui/alerts'
+import {    Button       } from '../ui/buttons'
+import {    FormActions  } from '../ui/form'
+import {    ProductTable } from '../ui-table/products'
 
 import './settings.pres.scss'
 export const BASE_CLASS = `setting-form`
@@ -53,58 +52,62 @@ export default function SettingFormPres( props ) {
       reference: `${invoiceConfig.prefix}${invoiceConfig.startAt}`,
     },
   }
-  const fakeProduct = {
-    description: `a __product__ example`,
-    quantity: 2,
-    price: productConfig.price,
-  }
-  const fakeProducts = [
-    fakeProduct,
-    productConfig,
-  ]
+
+  let fakeDocument = crio({
+    products: [{
+      description: `a __product__ example`,
+      quantity: 2,
+      price: productConfig.price,
+    },
+      productConfig,
+    ],
+    tax: quotationConfig.tax,
+
+  })
+  fakeDocument = fakeDocument.merge( null, compute.totals(fakeDocument) )
 
   return (
     <Tabs.Wrapper>
       <Tabs.List>
         <Tabs.Tab>
-          <FormattedMessage id="configuration.tab.from" />
+          <Intl.FormattedMessage id="configuration.tab.from" />
         </Tabs.Tab>
         <Tabs.Tab>
-          <FormattedMessage id="configuration.tab.default-product" />
+          <Intl.FormattedMessage id="configuration.tab.default-product" />
         </Tabs.Tab>
         <Tabs.Tab>
-          <FormattedMessage id="configuration.tab.mentions" />
+          <Intl.FormattedMessage id="configuration.tab.mentions" />
         </Tabs.Tab>
         <Tabs.Tab>
-          <FormattedMessage id="configuration.tab.reference" />
+          <Intl.FormattedMessage id="configuration.tab.reference" />
         </Tabs.Tab>
       </Tabs.List>
 
       {/* USER */}
       <Tabs.Panel>
         <div className={`${BASE_CLASS}__user`}>
-          <Select
+          <Field.Select
             name="lang"
             label="field.language"
             value={ formData.lang }
             options={ languages }
           />
-          <Select
+          <Field.Select
             name="currency"
             label="field.currency"
             value={ formData.currency }
             options={ currencies }
           />
-          <PaperSheet part="top-left">
-            <Party title="from" people={formData} />
-          </PaperSheet>
+          <Paper.Sheet part="top-left">
+            <Paper.Party title="from" people={formData} />
+          </Paper.Sheet>
           <div className={`${BASE_CLASS}__user-form`}>
-            <Input
+            <Field.Input
               name="name"
               label="field.name"
               value={ formData.name }
             />
-            <Textarea
+            <Field.Textarea
               name="address"
               label="field.address"
               value={ formData.address }
@@ -117,77 +120,72 @@ export default function SettingFormPres( props ) {
       <Tabs.Panel>
         <div className={`${BASE_CLASS}__product`}>
           <div className={`${BASE_CLASS}__product-form`}>
-            <Input
+            <Field.Input
               name="productConfig[quantity]"
               label="field.quantity"
               type="number"
               value={ productConfig.quantity }
             />
-            <Input
+            <Field.Input
               name="productConfig[price]"
               label="field.default-price"
               type="number"
               value={ productConfig.price }
             />
-            <Input
+            <Field.Input
               name="quotationConfig[tax]"
               label="field.tax"
               type="number"
               value={ quotationConfig.tax }
             />
           </div>
-          <PaperSheet part="center">
-            <ProductTable
-              readOnly
-              document={{
-                products: fakeProducts,
-                tax: quotationConfig.tax
-              }}
-            />
-          </PaperSheet>
+          <ProductTable
+            readOnly
+            document={ fakeDocument }
+          />
         </div>
       </Tabs.Panel>
 
       {/* MENTIONS */}
       <Tabs.Panel>
         <div className={`${BASE_CLASS}__mentions`}>
-          <Textarea
+          <Field.Textarea
             name="quotationConfig[mentions]"
             label="configuration.mentions.quotations"
             value={ quotationConfig.mentions }
           />
-          <PaperSheet part="bottom">
-            <Mentions content={ quotationConfig.mentions }/>
-          </PaperSheet>
-          <Textarea
+          <Paper.Sheet part="bottom">
+            <Paper.Mentions content={ quotationConfig.mentions }/>
+          </Paper.Sheet>
+          <Field.Textarea
             name="invoiceConfig[mentions]"
             label="configuration.mentions.invoices"
             value={ invoiceConfig.mentions }
           />
-          <PaperSheet part="bottom">
-            <Mentions content={ invoiceConfig.mentions }/>
-          </PaperSheet>
+          <Paper.Sheet part="bottom">
+            <Paper.Mentions content={ invoiceConfig.mentions }/>
+          </Paper.Sheet>
         </div>
       </Tabs.Panel>
 
       {/* REFERENCES */}
       <Tabs.Panel>
         <Alert danger>
-          <FormattedHTMLMessage id="configuration.reference.warning" />
+          <Intl.FormattedHTMLMessage id="configuration.reference.warning" />
         </Alert>
         <div className={`${BASE_CLASS}__references`}>
           <dl className={`${BASE_CLASS}__references-section`}>
             <dt className={`${BASE_CLASS}__sub-title`}>
-              <FormattedMessage id="page.quotations" />
+              <Intl.FormattedMessage id="page.quotations" />
             </dt>
             <dd className={`${BASE_CLASS}__references-content`}>
               <div className={`${BASE_CLASS}__references-form`}>
-                <Input
+                <Field.Input
                   name="quotationConfig[prefix]"
                   label="field.prefix"
                   value={ quotationConfig.prefix }
                 />
-                <Input
+                <Field.Input
                   name="quotationConfig[startAt]"
                   label="field.start-at"
                   value={ quotationConfig.startAt }
@@ -196,23 +194,23 @@ export default function SettingFormPres( props ) {
                   step="1"
                 />
               </div>
-              <PaperSheet part="top-right">
-                <Reference {...fakeQuotationReference} />
-              </PaperSheet>
+              <Paper.Sheet part="top-right">
+                <Paper.Reference {...fakeQuotationReference} />
+              </Paper.Sheet>
             </dd>
           </dl>
           <dl className={`${BASE_CLASS}__references-section`}>
             <dt className={`${BASE_CLASS}__sub-title`}>
-              <FormattedMessage id="page.invoices" />
+              <Intl.FormattedMessage id="page.invoices" />
             </dt>
             <dd className={`${BASE_CLASS}__references-content`}>
               <div className={`${BASE_CLASS}__references-form`}>
-                <Input
+                <Field.Input
                   name="invoiceConfig[prefix]"
                   label="field.prefix"
                   value={ invoiceConfig.prefix }
                 />
-                <Input
+                <Field.Input
                   name="invoiceConfig[startAt]"
                   label="field.start-at"
                   value={ invoiceConfig.startAt }
@@ -221,9 +219,9 @@ export default function SettingFormPres( props ) {
                   step="1"
                 />
               </div>
-              <PaperSheet part="top-right">
-                <Reference {...fakeInvoiceReference} />
-              </PaperSheet>
+              <Paper.Sheet part="top-right">
+                <Paper.Reference {...fakeInvoiceReference} />
+              </Paper.Sheet>
             </dd>
           </dl>
         </div>
@@ -232,7 +230,7 @@ export default function SettingFormPres( props ) {
       {/* ACTIONS */}
       <FormActions>
         <Button type="submit">
-          <FormattedMessage id="configuration.button.save" />
+          <Intl.FormattedMessage id="configuration.button.save" />
         </Button>
       </FormActions>
     </Tabs.Wrapper>
