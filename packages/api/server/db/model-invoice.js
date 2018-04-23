@@ -64,6 +64,11 @@ const Invoice = sequelize.define( `invoice`, {
     type:         Sequelize.FLOAT,
     default:      -1,
   },
+  mentions: {
+    type:         Sequelize.TEXT,
+    allowNull:    true,
+    set:          dbGetterSetter.setTrimmedString( `mentions` ),
+  },
   // STATUS
   sendAt: {
     type:         Sequelize.DATE,

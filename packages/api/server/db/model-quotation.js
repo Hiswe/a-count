@@ -92,6 +92,11 @@ const Quotation = sequelize.define( `quotation`, {
     allowNull:    true,
     set:          dbGetterSetter.setNormalizedDate( `archivedAt` ),
   },
+  mentions: {
+    type:         Sequelize.TEXT,
+    allowNull:    true,
+    set:          dbGetterSetter.setTrimmedString( `mentions` ),
+  },
   _hasInvoice: {
     type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`invoiceId`]),
     get: function() {
