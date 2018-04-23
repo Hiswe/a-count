@@ -20,8 +20,8 @@ process.on('uncaughtException', error => {
 const server = {
   entry:  path.join( __dirname, `./server/index.js` ),
   output: {
-    filename: `server.js`,
-    path:     path.resolve( __dirname, `dist` ),
+    filename: `application-server.js`,
+    path:     path.resolve( __dirname, `./` ),
   },
   // this will prevent bundling node native modules
   target: `node`,
@@ -76,10 +76,10 @@ const server = {
 const client = {
   target: `web`,
   mode:   env,
-  entry:  `./client/index.js`,
+  entry:  path.join( __dirname, `./client/index.js`),
   output: {
-    filename: `concompte.js`,
-    path:     path.resolve( __dirname, `server/public` )
+    filename: `application-client.js`,
+    path:     path.resolve( __dirname, `./server/public` )
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -91,7 +91,7 @@ const client = {
       /isomorphic-config$/,
       path.join(__dirname, `./shared/isomorphic-config-browser`)
     ),
-    new ExtractTextPlugin( `concompte.css` )
+    new ExtractTextPlugin( `application-client.css` )
   ],
   devtool:    `inline-source-map`,
   // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693

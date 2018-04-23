@@ -2,12 +2,12 @@
 
 const rc = require( 'rc' )
 
-const config = rc( `concompte-api`, {
+const config = rc( `a-count-api`, {
   VERSION:  `1.0.0`,
-  NAME:     `concompte API`,
+  NAME:     `a-count API`,
   db: {
     forceSync:  false,
-    uri:        `postgres://localhost:5432/concompte`,
+    uri:        `postgres://localhost:5432/a-count`,
   },
   redis: {
     port: 6379,
@@ -19,7 +19,7 @@ const config = rc( `concompte-api`, {
       port: 1025,
     },
     options: {
-      from: `Concompte <account@concompte.name>`,
+      from: `A-Count <api@a-count.name>`,
     }
   },
   delay: false,
@@ -36,6 +36,7 @@ const config = rc( `concompte-api`, {
   jwt: {
     secret: `49e3bd8b1935f3d17ce23146eb602fdb321e5b4f41eb7dd7f898e61426970086`,
     expiresIn: `1 days`,
+    cookieName: `a-count_api`,
   },
 })
 

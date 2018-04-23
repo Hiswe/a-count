@@ -15,6 +15,7 @@
     resize: vertical;
     width: 100%;
     border: 0;
+    background: none;
 
     &:empty ~ #{$root}__placeholder {
       opacity: .65;

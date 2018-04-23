@@ -1,6 +1,8 @@
 import crio from 'crio'
 
-const APP_PREFIX = `@concompte`
+import config from '../isomorphic-config'
+
+const APP_PREFIX = `@${config.APP_NAME}`
 
 const prefixes = crio({
   loading:  `loading`,

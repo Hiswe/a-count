@@ -1,6 +1,7 @@
-import crio from 'crio'
+import crio    from 'crio'
 import shortid from 'shortid'
 
+import config from '../isomorphic-config'
 import createActionNames from './utils/create-action-names'
 
 import {
@@ -27,7 +28,7 @@ import {
 } from './account'
 
 const NAME = `notifications`
-export const REMOVE     = `@concompte/${NAME}/remove`
+export const REMOVE     = `@${config.APP_NAME}/${NAME}/remove`
 export const ALL_POST   = createActionNames( `[_a-zA-Z0-9]+`, `post`, `[_a-zA-Z0-9]+` )
 const postSuccessRegexp = new RegExp( `^${ ALL_POST.SUCCESS }$` )
 const postErrorRegexp   = new RegExp( `^${ ALL_POST.ERROR }$` )

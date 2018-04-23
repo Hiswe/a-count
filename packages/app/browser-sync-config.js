@@ -5,7 +5,7 @@ module.exports = {
   ghostMode:    false,
   reloadDelay:  1000,
   files:      [
-    `server/public/concompte.css`,
-    `server/public/concompte*.js`,
+    `server/public/application-client.css`,
+    `server/public/application-client*.js`,
   ],
 }

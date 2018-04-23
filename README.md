@@ -1,4 +1,4 @@
-# concompte
+# a-count
 
 Personal project for building an universal application.  
 Based on [codemancer code](https://crypt.codemancers.com/posts/2017-06-03-reactjs-server-side-rendering-with-router-v4-and-redux/)
@@ -54,7 +54,7 @@ As an exercice
 - [lerna](https://lernajs.io/#getting-started) >= 2.10.2
   - `npm install --global lerna`
 - [PostgreSQL](https://www.postgresql.org/) >=9.6 
-  - create a clean __concompte__ database
+  - create a clean __a-count__ database
   - [postgresapp](http://postgresapp.com/) on a mac
   - [postico](https://eggerapps.at/postico/) to visualize
 - [Redis](https://redis.io/) >= 3.2.0

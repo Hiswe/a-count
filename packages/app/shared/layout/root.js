@@ -51,10 +51,10 @@ class Root extends React.PureComponent {
               ]}
             >
               <html lang={ lang } />
-              <link rel="stylesheet" href="/concompte.css" />
+              <link rel="stylesheet" href={`/application-client.css`} />
               <link rel="icon" href="/favicon.png" type="image/png" />
             </Helmet>
-            <h1 className="main-logo">Concompte</h1>
+            <h1 className="main-logo">{ config.APP_NAME }</h1>
             <NavMain />
             <ErrorBoundary>
               {/* child routes won't render without this */}

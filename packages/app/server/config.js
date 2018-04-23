@@ -1,11 +1,11 @@
 
 import rc from 'rc'
 
-const config      = rc( `concompte`, {
+const config      = rc( `a-count`, {
   API_URL:          `http://localhost:4040/v1`,
-  API_COOKIE_NAME:  `concompte_api`,
+  API_COOKIE_NAME:  `a-count_api`,
   HOST_URL:         `http://localhost:3000`,
-  APP_NAME:         `Concompte`,
+  APP_NAME:         `a-count`,
 })
 
 config.PORT       = config.PORT || process.env.PORT || 3000

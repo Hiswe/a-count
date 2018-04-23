@@ -1,9 +1,9 @@
 {
-  "name": "concompte",
+  "name": "a-count",
   "version": "0.0.0",
   "private": true,
   "main": "index.js",
-  "repository": "https://github.com/Hiswe/concompte.git",
+  "repository": "https://github.com/Hiswe/a-count.git",
   "author": "Hiswe <hiswehalya@gmail.com>",
   "license": "MIT",
   "scripts": {

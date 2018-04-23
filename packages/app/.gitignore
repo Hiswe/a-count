@@ -1,5 +1,4 @@
-/server/public/*.js
-/server/public/*.css
-/server/public/*.map
-/dist
 /.tmp
+application-server.js
+*application-client.js
+application-client.css

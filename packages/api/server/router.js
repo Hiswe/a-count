@@ -42,7 +42,7 @@ apiRouter.use( routerAccount.public.routes() )
 apiRouter.use( jwt({
   secret: config.jwt.secret,
   key:    `jwtData`,
-  cookie: `concompte_api`,
+  cookie: config.jwt.cookieName,
 }) )
 
 // confront them to DB

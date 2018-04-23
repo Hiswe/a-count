@@ -43,8 +43,8 @@ export function reactApp({ store, content, helmet}) {
       window.__CONFIG__ = ${ CLIENT_CONFIG }
       window.__INITIAL_STATE__ = ${ INITIAL_STATE }
     </script>
-    <script src="/vendor.concompte.js"></script>
-    <script src="/concompte.js"></script>
+    <script src="/vendor.application-client.js"></script>
+    <script src="/application-client.js"></script>
   </body>
 </html>`
 }
