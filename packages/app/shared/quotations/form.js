@@ -10,6 +10,7 @@ import * as quotations              from '../ducks/quotations'
 import * as customers               from '../ducks/customers'
 import * as compute                 from '../utils/compute-total'
 import * as redirection             from '../utils/check-redirection'
+import {    getInputValue         } from '../utils/get-input-value'
 import {    filterArrayWithObject } from '../utils/filter-array-with-object'
 import {    Spinner               } from '../ui/spinner'
 import {    QuotationFormPres     } from './form.pres'
@@ -158,12 +159,9 @@ class QuotationForm extends React.Component {
     })
   }
   handleFormChange( event ) {
-    const { target } = event
-    const { name, checked, type } = target
-    const value = type === `checkbox` ? checked : target.value
+    const { name, value } = getInputValue( event.target )
 
     this.setState( (prevState, props) => {
-      const type = typeof prevState.formData.get( name)
       const updated = prevState.formData.set( name, value )
 
       // update customer state if we choose a new one

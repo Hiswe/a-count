@@ -8,6 +8,7 @@ import { connect            } from 'react-redux'
 
 import * as invoices          from '../ducks/invoices'
 import * as redirection       from '../utils/check-redirection'
+import {    getInputValue   } from '../utils/get-input-value'
 import {    Form            } from '../ui/form'
 import {    Spinner         } from '../ui/spinner'
 import      InvoiceFormPres   from './form.pres'
@@ -112,8 +113,8 @@ class InvoiceForm extends React.Component {
     this.props.save({ body })
   }
   handleFormChange( event ) {
-    const { target } = event
-    const { name, value } = target
+    const { name, value } = getInputValue( event.target )
+
     this.setState( prevState => {
       let updated           = prevState.formData.set( name, value )
       const isPaymentChange = InvoiceForm.isPaymentFieldName( name )

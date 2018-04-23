@@ -5,6 +5,7 @@ import { Link               } from 'react-router-dom'
 import   serialize            from 'form-serialize'
 
 import * as account           from '../ducks/account'
+import {    getInputValue   } from '../utils/get-input-value'
 import {    Form            } from '../ui/form'
 import      SettingFormPres   from './settings.pres'
 
@@ -39,8 +40,7 @@ class SettingForm extends React.Component {
     this.props.updateSettings({ body })
   }
   handleFormChange( event ) {
-    const { target } = event
-    const { name, value } = target
+    const { name, value } = getInputValue( event.target )
 
     this.setState( prevState => {
       const updated = prevState.formData.set( name, value )
