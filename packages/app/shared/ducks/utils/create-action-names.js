@@ -1,6 +1,6 @@
 import crio from 'crio'
 
-import config from '../isomorphic-config'
+import config from '../../isomorphic-config'
 
 const APP_PREFIX = `@${config.APP_NAME}`
 

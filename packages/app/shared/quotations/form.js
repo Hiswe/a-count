@@ -20,7 +20,7 @@ const STEPS = crio([
   { key: `signedAt`   , label: `stepper.signed`    },
 ])
 
-function recomputeSteps( formData ) {
+export function recomputeSteps( formData ) {
   const steps = STEPS.map( s => {
     const value = formData.get( s.key )
     return {
@@ -34,7 +34,7 @@ function recomputeSteps( formData ) {
 
 // • de-dupe defaultProduct lines
 // • check _id for React
-function removeDefaultProducts( formData ) {
+export function removeDefaultProducts( formData ) {
   const defaultProduct  = formData.get( `productConfig` )
   const products        = formData.get( `products`      )
   if ( !crio.isArray(products) )        return formData
@@ -46,7 +46,7 @@ function removeDefaultProducts( formData ) {
   return formData.set( `products`, cleanedProducts )
 }
 
-function recomputeTotals( formData ) {
+export function recomputeTotals( formData ) {
   const products        = formData.get( `products`      )
   if ( !crio.isArray(products) ) return formData
   const totals = compute.totals( formData )
@@ -55,7 +55,7 @@ function recomputeTotals( formData ) {
 
 // • add an empty line a the end…
 //   …in case a user just type something on the blank one
-function addEmptyLine( formData ) {
+export function addEmptyLine( formData ) {
   const defaultProduct = formData.get( `productConfig` )
   const products       = formData.get( `products`      )
   if ( !crio.isArray(products) ) return formData
@@ -64,8 +64,7 @@ function addEmptyLine( formData ) {
   return formData.set( `products`, products.push( emptyProduct ))
 }
 
-
-function ensureProductId( formData ) {
+export function ensureProductId( formData ) {
   const products = formData.get( `products` )
   if ( !crio.isArray(products) ) return formData
   const withId   = products.map( product => {
