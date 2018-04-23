@@ -37,7 +37,8 @@ function recomputeSteps( formData ) {
 function removeDefaultProducts( formData ) {
   const defaultProduct  = formData.get( `productConfig` )
   const products        = formData.get( `products`      )
-  if ( !crio.isArray(products) ) return formData
+  if ( !crio.isArray(products) )        return formData
+  if ( !crio.isObject(defaultProduct) ) return formData
   const cleanedProducts = filterArrayWithObject({
     defaultObject:  defaultProduct,
     array:          products,
@@ -58,6 +59,7 @@ function addEmptyLine( formData ) {
   const defaultProduct = formData.get( `productConfig` )
   const products       = formData.get( `products`      )
   if ( !crio.isArray(products) ) return formData
+  if ( !crio.isObject(defaultProduct) ) return formData
   const emptyProduct   = defaultProduct.set( `checked`, true )
   return formData.set( `products`, products.push( emptyProduct ))
 }
