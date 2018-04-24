@@ -26,6 +26,15 @@ const MESSAGES = Object.freeze({
 })
 
 router
+/**
+ * @api {get} /invoices list of active invoices
+ * @apiVersion 1.0.0
+ * @apiName GetActive
+ * @apiGroup Invoices
+ *
+ * @apiSuccess {Object} meta pagination & ordering datas
+ * @apiSuccess {Object[]} rows list of invoices
+ */
 .get( `/`, async (ctx, next) => {
   const { userId, dbQuery }  = ctx.state
   const queryParams = addRelations.invoice({
@@ -39,6 +48,15 @@ router
 
   ctx.body = formatList({list, dbQuery})
 })
+/**
+ * @api {get} /invoices/archived list of archived invoices
+ * @apiVersion 1.0.0
+ * @apiName GetArchived
+ * @apiGroup Invoices
+ *
+ * @apiSuccess {Object} meta pagination & ordering datas
+ * @apiSuccess {Object[]} rows list of invoices
+ */
 .get( `/archived`, async (ctx, next) => {
   const { userId, dbQuery }  = ctx.state
   const queryParams = addRelations.invoice({
@@ -53,7 +71,17 @@ router
 })
 
 //----- EDIT
-
+/**
+ * @api {get} /invoices/:id get an invoice
+ * @apiVersion 1.0.0
+ * @apiName GetOne
+ * @apiGroup Invoices
+ *
+ * @apiParam {String} id Invoice unique ID.
+ *
+ * @apiSuccess {Object} meta pagination & ordering datas
+ * @apiSuccess {Object[]} rows list of invoices
+ */
 .get( `/:id`, async (ctx, next) => {
   const { userId }  = ctx.state
   const { id }      = ctx.params

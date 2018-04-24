@@ -7,7 +7,8 @@
     "serve": "node server/index.js",
     "serve:dev": "NODE_DEBUG=api,api:db,api:mailing node-dev server/index.js --no-deps --no-notify",
     "serve:nodemon": "nodemon server/index.js --config nodemon.json",
-    "dev": "npm run serve:dev"
+    "dev": "yarn run serve:dev",
+    "api-doc": "yarn run apidoc -i server"
   },
   "author": "",
   "license": "ISC",
@@ -41,6 +42,7 @@
     "url-join": "^4.0.0"
   },
   "devDependencies": {
+    "apidoc": "^0.17.6",
     "node-dev": "^3.1.3",
     "nodemon": "^1.17.3"
   }

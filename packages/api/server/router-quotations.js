@@ -37,6 +37,16 @@ const MESSAGES = Object.freeze({
 //////
 
 router
+/**
+ * @api {get} /quotations list of active quotations
+ * @apiVersion 1.0.0
+ * @apiName GetActive
+ * @apiDescription list of active quotations not yet ready to generate an invoice
+ * @apiGroup Quotations
+ *
+ * @apiSuccess {Object} meta pagination & ordering datas
+ * @apiSuccess {Object[]} rows list of Quotations
+ */
 .get(`/`, async (ctx, next) => {
   const { userId, dbQuery } = ctx.state
   // get all not ready to have invoice
@@ -58,6 +68,16 @@ router
 
   ctx.body = formatList({list, dbQuery})
 })
+/**
+ * @api {get} /quotations/ready-to-invoice quotations ready to invoice
+ * @apiVersion 1.0.0
+ * @apiName GetActive
+ * @apiDescription list of active quotations ready to generate an invoice
+ * @apiGroup Quotations
+ *
+ * @apiSuccess {Object} meta pagination & ordering datas
+ * @apiSuccess {Object[]} rows list of Quotations
+ */
 .get(`/ready-to-invoice`, async (ctx, next) => {
   const { userId, dbQuery } = ctx.state
   const params      = addRelations.quotations({
