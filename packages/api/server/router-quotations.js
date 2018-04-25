@@ -40,6 +40,7 @@ router
 /**
  * @api {get} /quotations list of active quotations
  * @apiVersion 1.0.0
+ * @apiPermission user
  * @apiName GetActive
  * @apiDescription list of active quotations not yet ready to generate an invoice
  * @apiGroup Quotations
@@ -71,6 +72,7 @@ router
 /**
  * @api {get} /quotations/ready-to-invoice quotations ready to invoice
  * @apiVersion 1.0.0
+ * * @apiPermission user
  * @apiName GetActive
  * @apiDescription list of active quotations ready to generate an invoice
  * @apiGroup Quotations
@@ -96,6 +98,18 @@ router
 
   ctx.body = formatList({list, dbQuery})
 })
+/**
+ * @api {get} /quotations/archived list of archived quotations
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName GetArchived
+ * @apiDescription list of archived quotations
+ * Either by being manually archived or by having an associated invoice
+ * @apiGroup Quotations
+ *
+ * @apiSuccess {Object} meta pagination & ordering datas
+ * @apiSuccess {Object[]} rows list of Quotations
+ */
 .get( `/archived`, async (ctx, next) => {
   const { userId, dbQuery }  = ctx.state
   const queryParams = addRelations.quotations({
@@ -110,7 +124,28 @@ router
 })
 
 //----- NEW
-
+/**
+ * @api {get} /quotations/new new quotation template
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName GetNew
+ * @apiDescription a quotation template
+ * @apiGroup Quotations
+ *
+ * @apiSuccess {string} id
+ * @apiSuccess {string} reference the future reference the quotation will have
+ * @apiSuccess {number} tax the tax rate
+ * @apiSuccess {array} products an empty list of products
+ * will be filled by the same schema as in product config
+ * @apiSuccess {object} quotationConfig  the user default quotation config
+ * @apiSuccess {number} quotationConfig.creationCount the user number of quotations
+ * @apiSuccess {string} quotationConfig.prefix the user default quotation reference prefix
+ * @apiSuccess {number} quotationConfig.tax the user default tax rate
+ * @apiSuccess {string} quotationConfig.mentions the user default quotation mentions
+ * @apiSuccess {object} productConfig the user default product configuration
+ * @apiSuccess {number} productConfig.quantity the user default products quantity
+ * @apiSuccess {number} productConfig.price the user default products price
+ */
 .get(`/new`, async (ctx, next) => {
   const { user } = ctx.state
   const body = merge({
@@ -124,6 +159,17 @@ router
   delete instance.id
   ctx.body = instance
 })
+/**
+ * @api {post} /quotations/new create a quotation
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName PostNew
+ * @apiDescription Create a quotation
+ * @apiGroup Quotations
+ *
+ * @apiParam (Request body) {object} quotation the new quotation form values
+ * @apiSuccess {object} body the new quotation result
+ */
 .post(`/new`,  async (ctx, next) => {
   const { userId }  = ctx.state
   const { body }    = ctx.request
@@ -176,6 +222,18 @@ router
 
 //----- EDIT
 
+/**
+ * @api {get} /quotations/:id get a quotation
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName GetOne
+ * @apiDescription Get a quotation
+ * @apiGroup Quotations
+ *
+ * @apiParam {string} id the quotation id
+ * @apiParam (Request body) {object} quotation the quotation form values
+ * @apiSuccess {object} body the quotation
+ */
 .get(`/:id`, async (ctx, next) => {
   const { userId }  = ctx.state
   const { id }      = ctx.params
@@ -187,6 +245,17 @@ router
   ctx.assert( instance, 404, MESSAGES.NOT_FOUND )
   ctx.body = instance
 })
+/**
+ * @api {post} /quotations/:id update a quotation
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName PostOne
+ * @apiDescription Update a quotation
+ * @apiGroup Quotations
+ *
+ * @apiParam {string} id the quotation id
+ * @apiSuccess {object} body the quotation
+ */
 .post(`/:id`, async (ctx, next) => {
   const { userId }  = ctx.state
   const { id }      = ctx.params
@@ -231,6 +300,17 @@ router
   ctx.assert( quotationWithProducts, 500, MESSAGES.DEFAULT )
   ctx.body = quotationWithProducts
 })
+/**
+ * @api {post} /quotations/:id/create-invoice create an invoice
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName CreateInvoice
+ * @apiDescription Create an invoice with all the checked products of the quotation
+ * @apiGroup Quotations
+ *
+ * @apiParam {string} id the quotation id
+ * @apiSuccess {object} body the quotation
+ */
 .post(`/:id/create-invoice`, async (ctx, next) => {
   const { userId }      = ctx.state
   const { id }          = ctx.params
@@ -284,6 +364,17 @@ router
   const updatedQuotation = await Quotation.findOne( quotationQuery )
   ctx.body = updatedQuotation
 })
+/**
+ * @api {post} /quotations/:id/archive archive an invoice
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName ArchiveQuotation
+ * @apiDescription Archive a quotation
+ * @apiGroup Quotations
+ *
+ * @apiParam {string} id the quotation id
+ * @apiSuccess {object} body the quotation
+ */
 .post(`/:id/archive`, async (ctx, next) => {
   const { userId }  = ctx.state
   const { id }      = ctx.params
