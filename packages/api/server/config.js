@@ -34,9 +34,9 @@ const config = rc( `a-count-api`, {
   //   https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback
   //   https://github.com/zeit/ms
   jwt: {
-    secret: `49e3bd8b1935f3d17ce23146eb602fdb321e5b4f41eb7dd7f898e61426970086`,
-    expiresIn: `1 days`,
-    cookieName: `a-count_api`,
+    secret     : `49e3bd8b1935f3d17ce23146eb602fdb321e5b4f41eb7dd7f898e61426970086`,
+    expiresIn  : `1 days` ,
+    cookieName : `a-count_api` ,
   },
 })
 

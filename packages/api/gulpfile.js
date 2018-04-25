@@ -1,6 +1,5 @@
 'use strict'
 
-const path = require('path')
 const gulp = require( `gulp` )
 const $    = require( `gulp-load-plugins` )()
 
@@ -8,7 +7,7 @@ const apiDoc = done => {
   $.apidoc({
     src   : `server/`,
     dest  : `doc/`,
-    config: path.join( __dirname, `/apidoc.json`),
+    config: `./`,
   }, done)
 }
 

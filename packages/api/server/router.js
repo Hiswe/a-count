@@ -24,6 +24,15 @@ module.exports = apiRouter
 
 // 412: Precondition Failed
 
+/**
+ * @apiDefine user User access only
+ * should send the `access_token` either in the `HEAD Authorization`
+ *
+ * Bearer eyJhbGc...TJVA95OrMr
+ *
+ * or in a cookie named `a-count_api`
+ */
+
 //----- PUBLIC ROUTES
 
 apiRouter

@@ -38,10 +38,10 @@ const MESSAGES = Object.freeze({
 
 router
 /**
- * @api {get} /quotations list of active quotations
+ * @api {get} /quotations list active quotations
  * @apiVersion 1.0.0
  * @apiPermission user
- * @apiName GetActive
+ * @apiName GetActiveQuotations
  * @apiDescription list of active quotations not yet ready to generate an invoice
  * @apiGroup Quotations
  *
@@ -70,10 +70,10 @@ router
   ctx.body = formatList({list, dbQuery})
 })
 /**
- * @api {get} /quotations/ready-to-invoice quotations ready to invoice
+ * @api {get} /quotations/ready-to-invoice list quotations ready to invoice
  * @apiVersion 1.0.0
  * * @apiPermission user
- * @apiName GetActive
+ * @apiName GetReadyQuotations
  * @apiDescription list of active quotations ready to generate an invoice
  * @apiGroup Quotations
  *
@@ -99,10 +99,10 @@ router
   ctx.body = formatList({list, dbQuery})
 })
 /**
- * @api {get} /quotations/archived list of archived quotations
+ * @api {get} /quotations/archived list archived quotations
  * @apiVersion 1.0.0
  * @apiPermission user
- * @apiName GetArchived
+ * @apiName GetArchivedQuotations
  * @apiDescription list of archived quotations
  * Either by being manually archived or by having an associated invoice
  * @apiGroup Quotations
@@ -125,10 +125,10 @@ router
 
 //----- NEW
 /**
- * @api {get} /quotations/new new quotation template
+ * @api {get} /quotations/new get a quotation template
  * @apiVersion 1.0.0
  * @apiPermission user
- * @apiName GetNew
+ * @apiName GetNewQuotation
  * @apiDescription a quotation template
  * @apiGroup Quotations
  *
@@ -163,7 +163,7 @@ router
  * @api {post} /quotations/new create a quotation
  * @apiVersion 1.0.0
  * @apiPermission user
- * @apiName PostNew
+ * @apiName PostNewQuotation
  * @apiDescription Create a quotation
  * @apiGroup Quotations
  *
@@ -226,7 +226,7 @@ router
  * @api {get} /quotations/:id get a quotation
  * @apiVersion 1.0.0
  * @apiPermission user
- * @apiName GetOne
+ * @apiName GetOneQuotation
  * @apiDescription Get a quotation
  * @apiGroup Quotations
  *
@@ -249,7 +249,7 @@ router
  * @api {post} /quotations/:id update a quotation
  * @apiVersion 1.0.0
  * @apiPermission user
- * @apiName PostOne
+ * @apiName PostOneQuotation
  * @apiDescription Update a quotation
  * @apiGroup Quotations
  *
@@ -365,7 +365,7 @@ router
   ctx.body = updatedQuotation
 })
 /**
- * @api {post} /quotations/:id/archive archive an invoice
+ * @api {post} /quotations/:id/archive archive a quotation
  * @apiVersion 1.0.0
  * @apiPermission user
  * @apiName ArchiveQuotation

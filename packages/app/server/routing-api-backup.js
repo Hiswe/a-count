@@ -1,5 +1,5 @@
 import Router from 'koa-router'
-import isNil from 'lodash.isnil'
+import isNil  from 'lodash.isnil'
 
 import config from './config'
 import * as isoFetch from '../shared/iso-fetch'
