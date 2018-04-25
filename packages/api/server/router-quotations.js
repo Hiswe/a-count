@@ -36,6 +36,47 @@ const MESSAGES = Object.freeze({
 // ROUTES
 //////
 
+/**
+ * @apiDefine quotation
+ * @apiSuccess {string} id the quotation id
+ * @apiSuccess {string} reference the quotation reference
+ * @apiSuccess {number} count the quotation number
+ * @apiSuccess {string} name object of the quotation
+ * @apiSuccess {mentions} the quotation own mentions
+ * @apiSuccess {number} tax the tax rate
+ * @apiSuccess {number} totalNet total before taxes
+ * @apiSuccess {number} totalTax taxes total
+ * @apiSuccess {number} total all of the above
+ * @apiSuccess {date} sendAt when the quotation was sent to the customer
+ * @apiSuccess {date} validatedAt when the customer validated the quotation
+ * @apiSuccess {date} signedAt when the customer signed the quotation
+ * @apiSuccess {date} archivedAt when the quotation was archived
+ * @apiSuccess {string} userId the current user id
+ * @apiSuccess {string} customerId the quotation's customer
+ * @apiSuccess {string} productConfigId the user product configuration id
+ * @apiSuccess {string} quotationConfigId the user quotation configuration id
+ * @apiSuccess {string} invoiceId invoice associated id
+ * either by being manually archived or by having an invoice
+ * @apiSuccess {array} products list of products
+ * @apiSuccess {string} products._id optional id
+ * @apiSuccess {boolean} products.checked if the product count in the total
+ * @apiSuccess {string} products.description description of a product
+ * @apiSuccess {number} products.quantity product quantity
+ * @apiSuccess {number} products.price unit price
+ * will be filled by the same schema as in product config
+ * @apiSuccess {object} quotationConfig  the user default quotation config
+ * @apiSuccess {number} quotationConfig.creationCount the user number of quotations
+ * @apiSuccess {string} quotationConfig.prefix the user default quotation reference prefix
+ * @apiSuccess {number} quotationConfig.tax the user default tax rate
+ * @apiSuccess {string} quotationConfig.mentions the user default quotation mentions
+ * @apiSuccess {object} productConfig the user default product configuration
+ * @apiSuccess {number} productConfig.quantity the user default products quantity
+ * @apiSuccess {number} productConfig.price the user default products price
+ * @apiSuccess {object} customer the customer
+ * @apiSuccess {string} customer.id the customer id
+ * @apiSuccess {string} customer.name the customer name
+ */
+
 router
 /**
  * @api {get} /quotations list active quotations
@@ -132,19 +173,7 @@ router
  * @apiDescription a quotation template
  * @apiGroup Quotations
  *
- * @apiSuccess {string} id
- * @apiSuccess {string} reference the future reference the quotation will have
- * @apiSuccess {number} tax the tax rate
- * @apiSuccess {array} products an empty list of products
- * will be filled by the same schema as in product config
- * @apiSuccess {object} quotationConfig  the user default quotation config
- * @apiSuccess {number} quotationConfig.creationCount the user number of quotations
- * @apiSuccess {string} quotationConfig.prefix the user default quotation reference prefix
- * @apiSuccess {number} quotationConfig.tax the user default tax rate
- * @apiSuccess {string} quotationConfig.mentions the user default quotation mentions
- * @apiSuccess {object} productConfig the user default product configuration
- * @apiSuccess {number} productConfig.quantity the user default products quantity
- * @apiSuccess {number} productConfig.price the user default products price
+ * @apiUse quotation
  */
 .get(`/new`, async (ctx, next) => {
   const { user } = ctx.state
@@ -168,7 +197,7 @@ router
  * @apiGroup Quotations
  *
  * @apiParam (Request body) {object} quotation the new quotation form values
- * @apiSuccess {object} body the new quotation result
+ * @apiUse quotation
  */
 .post(`/new`,  async (ctx, next) => {
   const { userId }  = ctx.state
@@ -232,7 +261,7 @@ router
  *
  * @apiParam {string} id the quotation id
  * @apiParam (Request body) {object} quotation the quotation form values
- * @apiSuccess {object} body the quotation
+ * @apiUse quotation
  */
 .get(`/:id`, async (ctx, next) => {
   const { userId }  = ctx.state
@@ -254,7 +283,7 @@ router
  * @apiGroup Quotations
  *
  * @apiParam {string} id the quotation id
- * @apiSuccess {object} body the quotation
+ * @apiUse quotation
  */
 .post(`/:id`, async (ctx, next) => {
   const { userId }  = ctx.state
@@ -309,7 +338,7 @@ router
  * @apiGroup Quotations
  *
  * @apiParam {string} id the quotation id
- * @apiSuccess {object} body the quotation
+ * @apiUse quotation
  */
 .post(`/:id/create-invoice`, async (ctx, next) => {
   const { userId }      = ctx.state
@@ -373,7 +402,7 @@ router
  * @apiGroup Quotations
  *
  * @apiParam {string} id the quotation id
- * @apiSuccess {object} body the quotation
+ * @apiUse quotation
  */
 .post(`/:id/archive`, async (ctx, next) => {
   const { userId }  = ctx.state
