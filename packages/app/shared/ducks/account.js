@@ -5,14 +5,15 @@ import fetchDispatch from './utils/fetch-dispatch'
 
 const NAME = `account`
 
-export const AUTH       = createActionNames( NAME, `get` , `auth`       )
-export const STATISTICS = createActionNames( NAME, `get` , `statistics` )
-export const LOGIN      = createActionNames( NAME, `post`, `login`      )
-export const FORGOT     = createActionNames( NAME, `post`, `forgot`     )
-export const RESET      = createActionNames( NAME, `post`, `reset`      )
-export const LOGOUT     = createActionNames( NAME, `get` , `logout`     )
-export const REGISTER   = createActionNames( NAME, `post`, `register`   )
-export const UPDATE     = createActionNames( NAME, `post`, `one`        )
+export const AUTH         = createActionNames( NAME, `get`  , `auth`         )
+export const STATISTICS   = createActionNames( NAME, `get`  , `statistics`   )
+export const LOGIN        = createActionNames( NAME, `post` , `login`        )
+export const FORGOT       = createActionNames( NAME, `post` , `forgot`       )
+export const SET_PASSWORD = createActionNames( NAME, `post` , `set-password` )
+export const RESET        = createActionNames( NAME, `post` , `reset`        )
+export const LOGOUT       = createActionNames( NAME, `get`  , `logout`       )
+export const REGISTER     = createActionNames( NAME, `post` , `register`     )
+export const UPDATE       = createActionNames( NAME, `post` , `one`          )
 
 const initialState = crio({
   isSaving        : false,
@@ -32,7 +33,7 @@ export default function reducer( state = initialState, action ) {
 
     case AUTH.SUCCESS:
     case LOGIN.SUCCESS:
-    case REGISTER.SUCCESS:
+    case SET_PASSWORD.SUCCESS:
     case RESET.SUCCESS:
       state = state.set( `isAuthenticated`, true )
       return state.set( `user`, payload.user )
@@ -129,6 +130,19 @@ export const forgot = (params, cookie) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:  FORGOT,
+    fetch:    { options, cookie },
+  })
+}
+
+export const setPassword = (params, cookie) => async dispatch => {
+  const { body } = params
+  const options = {
+    url: `/${ NAME }/set-password`,
+    body,
+  }
+  await fetchDispatch({
+    dispatch,
+    actions:  SET_PASSWORD,
     fetch:    { options, cookie },
   })
 }

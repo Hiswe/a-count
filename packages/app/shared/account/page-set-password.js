@@ -1,12 +1,11 @@
-import   urlJoin              from 'url-join'
 import   React                from 'react'
 import   serialize            from 'form-serialize'
 import { bindActionCreators } from 'redux'
 import { connect            } from 'react-redux'
+import   queryString          from 'query-string'
 import { FormattedMessage   } from 'react-intl'
 import { Helmet             } from 'react-helmet'
 
-import      config               from '../isomorphic-config'
 import      ConnectDataFetcher   from '../connect-data-fetcher'
 import * as account              from '../ducks/account'
 import      LayoutBoarding       from '../layout/boarding'
@@ -14,24 +13,26 @@ import      Form                 from '../ui/form'
 import {    Button             } from '../ui/buttons'
 import {    Input              } from '../ui/field'
 
-const MAIL_REDIRECT_URL = urlJoin( config.HOST_URL, `/account/reset` )
-
-class Forgot extends React.PureComponent {
+class SetPassword extends React.PureComponent {
 
   constructor( props ) {
     super( props )
+
     this.handleSubmit = this.handleSubmit.bind( this )
+    this.state = {
+      token: queryString.parse( props.location.search ).token
+    }
   }
 
   handleSubmit( event ) {
     event.preventDefault()
     const body = serialize( event.target, { hash: true } )
-    this.props.forgot({ body })
+    this.props.setPassword({ body })
   }
 
   render() {
-    const { props } = this
-    const titleProps  = { id:`account.forgot.title` }
+    const { props, state } = this
+    const titleProps  = { id:`account.set-password.title` }
 
     return (
       <React.Fragment>
@@ -41,19 +42,23 @@ class Forgot extends React.PureComponent {
         <LayoutBoarding
           title={ <FormattedMessage {...titleProps} /> }
         >
-          <Form id="forgot" action="/account/forgot" onSubmit={ this.handleSubmit } >
+          <Form
+            id="new-password"
+            action="/account/reset"
+            onSubmit={ this.handleSubmit }
+          >
             <p>
-              <FormattedMessage id="account.forgot.notice"/>
+              <FormattedMessage id="account.reset.notice" />
             </p>
-            <input type="hidden" name="redirectUrl" value={ MAIL_REDIRECT_URL } />
+            <input type="hidden" name="token" defaultValue={state.token} />
             <Input
-              name="email"
-              label="field.email"
-              type="email"
+              name="password"
+              type="password"
+              label="field.password"
               defaultValue=""
             />
             <Button type="submit">
-              <FormattedMessage id="account.forgot.button" />
+              <FormattedMessage id="account.set-password.button" />
             </Button>
           </Form>
         </LayoutBoarding>
@@ -62,14 +67,15 @@ class Forgot extends React.PureComponent {
   }
 }
 
+
 function dispatch2prop( dispatch ) {
   return bindActionCreators({
-    forgot: account.forgot,
+    setPassword: account.setPassword,
   }, dispatch)
 }
 
 export default connect( null, dispatch2prop )( ConnectDataFetcher({
-  Component: Forgot,
+  Component: SetPassword,
   actionCreators: [
   ],
 }) )

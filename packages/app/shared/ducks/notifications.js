@@ -66,13 +66,13 @@ export default function reducer( state = initialState, action ) {
       return state.splice( index, 1 )
     }
     //----- USER
-    case ACCOUNT_REGISTER.SUCCESS:
     case ACCOUNT_LOGIN.SUCCESS:
     case ACCOUNT_RESET.SUCCESS: {
       const { user } = payload
       const name = user.name || user.email
       return notifySuccess( state, `notifications.user.welcome`, { name } )
     }
+    case ACCOUNT_REGISTER.SUCCESS:
     case ACCOUNT_FORGOT.SUCCESS: {
       const { email } = payload
       return notifySuccess( state, `notifications.user.mail-sent`, { email } )

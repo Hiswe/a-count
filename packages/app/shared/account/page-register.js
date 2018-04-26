@@ -1,3 +1,4 @@
+import   urlJoin              from 'url-join'
 import   React                from 'react'
 import   serialize            from 'form-serialize'
 import { bindActionCreators } from 'redux'
@@ -5,12 +6,15 @@ import { connect            } from 'react-redux'
 import { FormattedMessage   } from 'react-intl'
 import { Helmet             } from 'react-helmet'
 
+import      config               from '../isomorphic-config'
 import      ConnectDataFetcher   from '../connect-data-fetcher'
 import * as account              from '../ducks/account'
 import      LayoutBoarding       from '../layout/boarding'
 import      Form                 from '../ui/form'
 import {    Button             } from '../ui/buttons'
 import {    Input              } from '../ui/field'
+
+const MAIL_REDIRECT_URL = urlJoin( config.HOST_URL, `/account/set-password` )
 
 class Register extends React.PureComponent {
 
@@ -38,16 +42,14 @@ class Register extends React.PureComponent {
           title={ <FormattedMessage {...titleProps} /> }
         >
           <Form action="/account/register" onSubmit={ this.handleSubmit } >
+            <p>
+              <FormattedMessage id="account.register.notice" />
+            </p>
+            <input type="hidden" name="redirectUrl" value={ MAIL_REDIRECT_URL } />
             <Input
               name="email"
               label="field.email"
               type="email"
-              defaultValue=""
-            />
-            <Input
-              name="password"
-              type="password"
-              label="field.password"
               defaultValue=""
             />
             <Button type="submit">

@@ -3,17 +3,18 @@ import authenticationForbidden from './authentication-forbidden'
 
 import Root from './layout/root'
 
-import Login    from './account/page-login'
-import Register from './account/page-register'
-import Forgot   from './account/page-forgot'
-import Reset    from './account/page-reset'
-import Settings from './account/page-settings'
+import Login       from './account/page-login'
+import Register    from './account/page-register'
+import SetPassword from './account/page-set-password'
+import Forgot      from './account/page-forgot'
+import Reset       from './account/page-reset'
+import Settings    from './account/page-settings'
 
 import Home from './home/page-home'
 
-import ArchiveList from './archive/page-list'
+import ArchiveList      from './archive/page-list'
 import ArchiveQuotation from './archive/page-quotation'
-import ArchiveInvoice from './archive/page-invoice'
+import ArchiveInvoice   from './archive/page-invoice'
 
 import QuotationsList    from './quotations/page-list'
 import QuotationsNew     from './quotations/page-new'
@@ -40,6 +41,10 @@ const routes = [{
     path: `/account/register`,
     exact: true,
     component: authenticationForbidden( Register ),
+  }, {
+    path: `/account/set-password`,
+    exact: true,
+    component: authenticationForbidden( SetPassword ),
   }, {
     path: `/account/forgot`,
     exact: true,

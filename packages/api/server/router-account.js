@@ -70,21 +70,22 @@ async function connectUser( ctx, user ) {
  * @apiVersion 1.0.0
  * @apiName Register
  * @apiDescription register an account
- * @apiGroup Public
+ * @apiGroup Account
  *
  * @apiParam (Request body) {string} email email
- * @apiParam (Request body) {password} password password
+ * @apiParam (Request body) {string} redirectUrl the url of the password form
  *
- * @apiSuccess {object} user the user
- * @apiSuccess {string} access_token the access token
+ * @apiSuccess {string} email the user email
+ * @apiSuccess {boolean} new always `true`
  */
 publicRouter
 .post( `/register`, async (ctx, next) => {
   const { body }  = ctx.request
-  const data = merge( body, {
+  const { email } = body
+  const data = merge( { email }, {
     quotationConfig: {},
-    invoiceConfig: {},
-    productConfig: {},
+    invoiceConfig  : {},
+    productConfig  : {},
   })
   const user = await User.create( data, {
     include: [
@@ -93,17 +94,22 @@ publicRouter
       ProductConfig,
     ]
   })
-  await connectUser( ctx, user )
+
+  await user.resetPassword( body.redirectUrl )
+  ctx.body = {
+    email:  user.email,
+    new:    true,
+  }
 })
 /**
  * @api {post} /account/login login
  * @apiVersion 1.0.0
  * @apiName login
  * @apiDescription login to an account
- * @apiGroup Public
+ * @apiGroup Account
  *
  * @apiParam (Request body) {string} email email
- * @apiParam (Request body) {password} password password
+ * @apiParam (Request body) {string} password password
  *
  * @apiSuccess {object} user the user
  * @apiSuccess {string} access_token the access token
@@ -128,7 +134,7 @@ publicRouter
  * @apiVersion 1.0.0
  * @apiName forgot
  * @apiDescription sent an email to reset the password
- * @apiGroup Public
+ * @apiGroup Account
  *
  * @apiParam (Request body) {string} email the email which will receive the reset link
  * @apiParam (Request body) {string} redirectUrl the url of the reset form.
@@ -155,11 +161,38 @@ publicRouter
   }
 })
 /**
+ * @api {post} /account/set-password set password
+ * @apiVersion 1.0.0
+ * @apiName set password
+ * @apiDescription set a new password
+ * @apiGroup Account
+ *
+ * @apiParam (Request body) {string} token the token contained in the reset link
+ * @apiParam (Request body) {string} password the new password
+ *
+ * @apiSuccess {object} user the user
+ * @apiSuccess {string} access_token the access token
+ */
+.post( `/set-password`, async (ctx, next) => {
+  const { body }  = ctx.request
+  const user = await User.findOne({
+    where: {
+      isDeactivated:  { $not: true },
+      token:          body.token,
+      tokenExpire:    { $gt: Date.now() },
+    }
+  })
+  ctx.assert( user, 404, `link expired` )
+
+  const updatedUser = await user.setPassword( body.password )
+  await connectUser( ctx, updatedUser )
+})
+/**
  * @api {post} /account/reset reset
  * @apiVersion 1.0.0
  * @apiName reset
  * @apiDescription set a new password
- * @apiGroup Public
+ * @apiGroup Account
  *
  * @apiParam (Request body) {string} token the token contained in the reset link
  * @apiParam (Request body) {string} password the new password
