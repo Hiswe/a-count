@@ -131,7 +131,9 @@ publicRouter
  * @apiGroup Public
  *
  * @apiParam (Request body) {string} email the email which will receive the reset link
- * @apiParam (Request body) {string} redirectUrl the url of the reset form
+ * @apiParam (Request body) {string} redirectUrl the url of the reset form.
+ * <br> A query parameter named `token` with its value will be added to the redirect Url.
+ * <br> This should be passed in the from body when posting to /account/reset
  *
  * @apiSuccess {string} email the user email
  * @apiSuccess {boolean} reset always true

@@ -15,6 +15,28 @@ const prefix = `customers`
 const router = new Router({prefix: `/${prefix}`})
 module.exports = router
 
+/**
+ * @apiDefine customer
+ * @apiSuccess {string} id the customer id
+ * @apiSuccess {string} name the customer name
+ * @apiSuccess {string} address the customer address
+ * @apiSuccess {number} quotationsCount the count of the customer's active quotations
+ * @apiSuccess {number} quotationsTotal the amount of money of the customer's active quotations
+ * @apiSuccess {number} invoicesCount the count of the customer's active invoices
+ * @apiSuccess {number} invoicesTotal the amount of money of the customer's active invoices
+ * @apiSuccess {number} invoicesTotalPaid the amount of money of the customer has paid
+ * @apiSuccess {number} invoicesTotalLeft the amount of money of the customer has to pay
+ */
+
+/**
+ * @api {get} /customers list of customers
+ * @apiVersion 1.0.0
+ * @apiName GetActiveCustomers
+ * @apiGroup Customers
+ *
+ * @apiUse meta
+ * @apiSuccess {Object[]} rows list of customers
+ */
 router
 .get(`/`, async (ctx, next) => {
   const { userId, dbQuery }  = ctx.state
@@ -38,11 +60,29 @@ router
 
 //----- NEW
 
+/**
+ * @api {get} /customers/new get a customer template
+ * @apiVersion 1.0.0
+ * @apiName GetNewCustomer
+ * @apiGroup Customers
+ *
+ * @apiSuccess {boolean} isDeactivated false
+ */
 .get(`/new`, async (ctx, next) => {
   const modelTemplate = new Customer().toJSON()
   delete modelTemplate.id
   ctx.body = modelTemplate
 })
+/**
+ * @api {post} /customers/new create a customer
+ * @apiVersion 1.0.0
+ * @apiName PostNewCustomer
+ * @apiGroup Customers
+ *
+ * @apiParam (Request body) {object} body the new customer form values
+ *
+ * @apiUse customer
+ */
 .post(`/new`,  async (ctx, next) => {
   const { body }  = ctx.request
   // TODO: check if the user doesn't already have a customer with the same name
@@ -52,7 +92,16 @@ router
 })
 
 //----- EDIT
-
+/**
+ * @api {get} /customers/:id get a customer
+ * @apiVersion 1.0.0
+ * @apiName GetCustomer
+ * @apiGroup Customers
+ *
+ * @apiParam {string} id the customer's id
+ *
+ * @apiUse customer
+ */
 .get(`/:id`, async (ctx, next) => {
   const { userId } = ctx.state
   const { id }     = ctx.params
@@ -73,6 +122,17 @@ router
   ctx.assert(customer, 404, `Customer not found`)
   ctx.body        = customer
 })
+/**
+ * @api {post} /customers/:id update a customer
+ * @apiVersion 1.0.0
+ * @apiName UpdateCustomer
+ * @apiGroup Customers
+ *
+ * @apiParam {string} id the customer's id
+ * @apiParam (Request body) {object} body the updated customer form values
+ *
+ * @apiUse customer
+ */
 .post(`/:id`, async (ctx, next) => {
   const { userId }  = ctx.state
   const { id }    = ctx.params
@@ -88,6 +148,17 @@ router
 
 //----- RELATED QUOTATIONS/INVOICES
 
+/**
+ * @api {get} /customers/:id/quotations list customer quotations
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName GetCustomerQuotations
+ * @apiDescription list of active user's quotations not yet ready to generate an invoice
+ * @apiGroup Customers
+ *
+ * @apiUse meta
+ * @apiSuccess {Object[]} rows list of Quotations
+ */
 .get(`/:id/quotations`, async (ctx, next) => {
   const { userId, dbQuery } = ctx.state
   const { id } = ctx.params
@@ -120,6 +191,17 @@ router
   const list  = await Quotation.findAndCount( query )
   ctx.body    = formatList({list, dbQuery})
 })
+/**
+ * @api {get} /customers/:id/invoices list customer invoices
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName GetCustomerInvoices
+ * @apiDescription list of active user's invoices not yet ready to generate an invoice
+ * @apiGroup Customers
+ *
+ * @apiUse meta
+ * @apiSuccess {Object[]} rows list of invoices
+ */
 .get(`/:id/invoices`, async (ctx, next) => {
   const { userId, dbQuery }  = ctx.state
   const { id }      = ctx.params

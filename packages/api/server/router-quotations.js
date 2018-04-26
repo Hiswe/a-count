@@ -191,7 +191,8 @@ router
  * @apiDescription Create a quotation
  * @apiGroup Quotations
  *
- * @apiParam (Request body) {object} quotation the new quotation form values
+ * @apiParam (Request body) {object} body the new quotation form values
+ *
  * @apiUse quotation
  */
 .post(`/new`,  async (ctx, next) => {
