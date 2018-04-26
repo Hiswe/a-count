@@ -1,7 +1,7 @@
 {
-  "script": "dist/server.js",
+  "script": "application-server.js",
   "ext":    "js",
-  "watch":  [ "dist/server.js" ],
+  "watch":  [ "application-server.js" ],
   "ignore": [ "shared/**/*" ],
   "env": {
     "NODE_ENV": "development",
