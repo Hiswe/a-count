@@ -37,7 +37,7 @@ const MESSAGES = Object.freeze({
  * @apiSuccess {string} id the quotation id
  * @apiSuccess {string} reference the quotation reference
  * @apiSuccess {number} count the quotation number
- * @apiSuccess {string} name object of the quotation
+ * @apiSuccess {string} name name of the quotation
  * @apiSuccess {string} mentions the quotation own mentions
  * @apiSuccess {number} tax the tax rate
  * @apiSuccess {array} products list of products
@@ -53,12 +53,12 @@ const MESSAGES = Object.freeze({
  * @apiSuccess {date} validatedAt when the customer validated the quotation
  * @apiSuccess {date} signedAt when the customer signed the quotation
  * @apiSuccess {date} archivedAt when the quotation was archived
+ * either by being manually archived or by having an invoice
  * @apiSuccess {string} userId the current user id
  * @apiSuccess {string} customerId the quotation's customer
  * @apiSuccess {string} productConfigId the user product configuration id
  * @apiSuccess {string} quotationConfigId the user quotation configuration id
  * @apiSuccess {string} invoiceId invoice associated id;
- * either by being manually archived or by having an invoice
  * @apiSuccess {object} quotationConfig  the user default quotation config
  * @apiSuccess {number} quotationConfig.creationCount the user number of quotations
  * @apiSuccess {string} quotationConfig.prefix the user default quotation reference prefix
@@ -81,7 +81,7 @@ router
  * @apiDescription list of active quotations not yet ready to generate an invoice
  * @apiGroup Quotations
  *
- * @apiSuccess {Object} meta pagination & ordering datas
+ * @apiUse meta
  * @apiSuccess {Object[]} rows list of Quotations
  */
 .get(`/`, async (ctx, next) => {
@@ -113,7 +113,7 @@ router
  * @apiDescription list of active quotations ready to generate an invoice
  * @apiGroup Quotations
  *
- * @apiSuccess {Object} meta pagination & ordering datas
+ * @apiUse meta
  * @apiSuccess {Object[]} rows list of Quotations
  */
 .get(`/ready-to-invoice`, async (ctx, next) => {
@@ -143,7 +143,7 @@ router
  * Either by being manually archived or by having an associated invoice
  * @apiGroup Quotations
  *
- * @apiSuccess {Object} meta pagination & ordering datas
+ * @apiUse meta
  * @apiSuccess {Object[]} rows list of Quotations
  */
 .get( `/archived`, async (ctx, next) => {
@@ -278,6 +278,8 @@ router
  * @apiGroup Quotations
  *
  * @apiParam {string} id the quotation id
+ * @apiParam (Request body) {object} body the quotation form values
+ *
  * @apiUse quotation
  */
 .post(`/:id`, async (ctx, next) => {

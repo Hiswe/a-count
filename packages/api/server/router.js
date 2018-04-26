@@ -31,6 +31,20 @@ module.exports = apiRouter
  * or in a cookie named `a-count_api`
  */
 
+/**
+ * @apiDefine meta
+ * @apiSuccess {object} meta meta informations about the list
+ * @apiSuccess {number} meta.start starting row
+ * @apiSuccess {number} meta.end ending row
+ * @apiSuccess {number} meta.total total of rows
+ * @apiSuccess {number} meta.limit rows per page
+ * @apiSuccess {number} meta.pages total of pages
+ * @apiSuccess {number} meta.offset page offset
+ * @apiSuccess {number} meta.currentPage the current page number
+ * @apiSuccess {boolean} meta.previousPage if there's a previous page
+ * @apiSuccess {boolean} meta.nextPage if there's a next page
+ */
+
 //----- PUBLIC ROUTES
 
 /**
