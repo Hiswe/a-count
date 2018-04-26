@@ -18,7 +18,7 @@ const prefix        = `account`
 const publicRouter  = new Router({prefix: `/${prefix}`})
 const privateRouter = new Router({prefix: `/${prefix}`})
 module.exports = {
-  public: publicRouter,
+  public : publicRouter ,
   private: privateRouter,
 }
 //----- UTILS
@@ -39,10 +39,45 @@ async function connectUser( ctx, user ) {
   ctx.body = result
 }
 
+/**
+ * @apiDefine userInformation
+ * @apiSuccess {string} id the user id
+ * @apiSuccess {string} email the user email
+ * @apiSuccess {string} name the user name
+ * @apiSuccess {string} address the user address
+ * @apiSuccess {string} lang the user language, either `en` or `fr`
+ * @apiSuccess {string} currency the user currency, either `USD` or `EUR`
+ * @apiSuccess {object} quotationConfig the user quotations' configuration
+ * @apiSuccess {number} quotationConfig.creationCount the user number of quotations
+ * @apiSuccess {string} quotationConfig.prefix the user default quotation reference prefix
+ * @apiSuccess {number} quotationConfig.tax the user default tax rate
+ * @apiSuccess {string} quotationConfig.mentions the user default quotation mentions
+ * @apiSuccess {object} invoiceConfig the user invoices' configuration
+ * @apiSuccess {number} invoiceConfig.creationCount the user number of invoices
+ * @apiSuccess {string} invoiceConfig.prefix the user default invoice reference prefix
+ * @apiSuccess {string} invoiceConfig.mentions the user default invoices mentions
+ * @apiSuccess {object} productConfig the user product's configuration
+ * @apiSuccess {number} productConfig.quantity the user default products quantity
+ * @apiSuccess {number} productConfig.price the user default products price
+ */
+
 //////
 // PUBLIC
 //////
 
+/**
+ * @api {post} /account/register register
+ * @apiVersion 1.0.0
+ * @apiName Register
+ * @apiDescription register an account
+ * @apiGroup Public
+ *
+ * @apiParam (Request body) {string} email email
+ * @apiParam (Request body) {password} password password
+ *
+ * @apiSuccess {object} user the user
+ * @apiSuccess {string} access_token the access token
+ */
 publicRouter
 .post( `/register`, async (ctx, next) => {
   const { body }  = ctx.request
@@ -60,6 +95,19 @@ publicRouter
   })
   await connectUser( ctx, user )
 })
+/**
+ * @api {post} /account/login login
+ * @apiVersion 1.0.0
+ * @apiName login
+ * @apiDescription login to an account
+ * @apiGroup Public
+ *
+ * @apiParam (Request body) {string} email email
+ * @apiParam (Request body) {password} password password
+ *
+ * @apiSuccess {object} user the user
+ * @apiSuccess {string} access_token the access token
+ */
 .post( `/login`, async (ctx, next) => {
   const { body }  = ctx.request
   const user      = await User.findOne({
@@ -75,6 +123,19 @@ publicRouter
 
   await connectUser( ctx, user )
 })
+/**
+ * @api {post} /account/forgot forgot
+ * @apiVersion 1.0.0
+ * @apiName forgot
+ * @apiDescription sent an email to reset the password
+ * @apiGroup Public
+ *
+ * @apiParam (Request body) {string} email the email which will receive the reset link
+ * @apiParam (Request body) {string} redirectUrl the url of the reset form
+ *
+ * @apiSuccess {string} email the user email
+ * @apiSuccess {boolean} reset always true
+ */
 .post( `/forgot`, async (ctx, next) => {
   const { body }  = ctx.request
   const user = await User.findOne({
@@ -91,6 +152,19 @@ publicRouter
     reset: true,
   }
 })
+/**
+ * @api {post} /account/reset reset
+ * @apiVersion 1.0.0
+ * @apiName reset
+ * @apiDescription set a new password
+ * @apiGroup Public
+ *
+ * @apiParam (Request body) {string} token the token contained in the reset link
+ * @apiParam (Request body) {string} password the new password
+ *
+ * @apiSuccess {object} user the user
+ * @apiSuccess {string} access_token the access token
+ */
 .post( `/reset`, async (ctx, next) => {
   const { body }  = ctx.request
   const user = await User.findOne({
@@ -111,11 +185,32 @@ publicRouter
 // PRIVATE
 //////
 
+/**
+ * @api {get} /account/auth user informations
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName GetAuth
+ * @apiDescription The user informations
+ * @apiGroup Account
+ *
+ * @apiUse userInformation
+ */
 privateRouter
 .get( `/auth`, async (ctx, next) => {
   ctx.assert( ctx.state && ctx.state.user, 401, `Not connected` )
   ctx.body = { user: ctx.state.user }
 })
+/**
+ * @api {get} /account/logout logout
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName Logout
+ * @apiDescription remove the access_token
+ * @apiGroup Account
+ *
+ * @apiSuccess {string} message always `bye bye`
+ * @apiSuccess {boolean} access_token always an empty string
+ */
 .get( `/logout`, async (ctx, next) => {
   const { jwtData } = ctx.state
   await jwtStore.remove( jwtData )
@@ -127,6 +222,21 @@ privateRouter
     access_token: ``,
   }
 })
+/**
+ * @api {get} /account/statistics statistics
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName Statistics
+ * @apiDescription get an overview about the account
+ * @apiGroup Account
+ *
+ * @apiSuccess {number} quotationsCount Total active quotations count
+ * @apiSuccess {number} quotationsTotal Total active quotations sums involved
+ * @apiSuccess {number} invoicesCount Total active invoice count
+ * @apiSuccess {number} invoicesTotal  Total active invoices sums involved
+ * @apiSuccess {number} invoicesTotalPaid Total active paid invoices sums involved
+ * @apiSuccess {number} invoicesTotalLeft Total active left invoices sums involved
+ */
 .get( `/statistics`, async (ctx, next) => {
   const { userId }  = ctx.state
   const user        = await User.findOne({
@@ -140,6 +250,18 @@ privateRouter
   })
   ctx.body = user
 })
+/**
+ * @api {post} /account/settings settings
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName Settings
+ * @apiDescription update user informations
+ * @apiGroup Account
+ *
+ * @apiParam (Request body) {object} user the user form values
+ *
+ * @apiUse userInformation
+ */
 .post( `/settings`, async (ctx, next) => {
   const { id }      = ctx.state && ctx.state.user
   const { body }    = ctx.request

@@ -22,8 +22,6 @@ const apiRouter = new Router({
 })
 module.exports = apiRouter
 
-// 412: Precondition Failed
-
 /**
  * @apiDefine user User access only
  * should send the `access_token` either in the `HEAD Authorization`
@@ -35,6 +33,16 @@ module.exports = apiRouter
 
 //----- PUBLIC ROUTES
 
+/**
+ * @api {get} / root
+ * @apiVersion 1.0.0
+ * @apiName GetVersion
+ * @apiDescription get some datas
+ * @apiGroup Public
+ *
+ * @apiSuccess {string} name the name of the API
+ * @apiSuccess {version} version the version of the API
+ */
 apiRouter
 .get( `/`, (ctx, next) => {
   ctx.body = {

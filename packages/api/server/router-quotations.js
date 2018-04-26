@@ -32,18 +32,20 @@ const MESSAGES = Object.freeze({
   NO_CUSTOMER               : `quotation.error.customer-not-found`        ,
 })
 
-//////
-// ROUTES
-//////
-
 /**
  * @apiDefine quotation
  * @apiSuccess {string} id the quotation id
  * @apiSuccess {string} reference the quotation reference
  * @apiSuccess {number} count the quotation number
  * @apiSuccess {string} name object of the quotation
- * @apiSuccess {mentions} the quotation own mentions
+ * @apiSuccess {string} mentions the quotation own mentions
  * @apiSuccess {number} tax the tax rate
+ * @apiSuccess {array} products list of products
+ * @apiSuccess {string} products._id optional id
+ * @apiSuccess {boolean} products.checked if the product count in the total
+ * @apiSuccess {string} products.description description of a product
+ * @apiSuccess {number} products.quantity product quantity
+ * @apiSuccess {number} products.price unit price
  * @apiSuccess {number} totalNet total before taxes
  * @apiSuccess {number} totalTax taxes total
  * @apiSuccess {number} total all of the above
@@ -55,15 +57,8 @@ const MESSAGES = Object.freeze({
  * @apiSuccess {string} customerId the quotation's customer
  * @apiSuccess {string} productConfigId the user product configuration id
  * @apiSuccess {string} quotationConfigId the user quotation configuration id
- * @apiSuccess {string} invoiceId invoice associated id
+ * @apiSuccess {string} invoiceId invoice associated id;
  * either by being manually archived or by having an invoice
- * @apiSuccess {array} products list of products
- * @apiSuccess {string} products._id optional id
- * @apiSuccess {boolean} products.checked if the product count in the total
- * @apiSuccess {string} products.description description of a product
- * @apiSuccess {number} products.quantity product quantity
- * @apiSuccess {number} products.price unit price
- * will be filled by the same schema as in product config
  * @apiSuccess {object} quotationConfig  the user default quotation config
  * @apiSuccess {number} quotationConfig.creationCount the user number of quotations
  * @apiSuccess {string} quotationConfig.prefix the user default quotation reference prefix
