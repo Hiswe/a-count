@@ -12,6 +12,8 @@ const InvoiceConfig   = require( '../db/model-invoice-config'   )
 
 const userParams = {
   where: {
+    // make sure we don't require a user without an ID
+    id:             false,
     isDeactivated:  { $not: true },
   },
   attributes: [`id`, `email`, `name`, `address`, `lang`, `currency`],
