@@ -83,7 +83,7 @@ apiRouter.use( async function isAuthorizedRoute(ctx, next) {
   ctx.assert( userId, 401, `Not connected – token invalid` )
 
   const userQuery = addRelations.user({
-    id: userId,
+    where: { id: userId },
   })
   const user = await User.findOne( userQuery )
 
