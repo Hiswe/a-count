@@ -152,21 +152,24 @@ const client = {
         use: [{
           loader: `css-loader`,
           options: {
-            sourceMap: true,
-            url: false,
+            sourceMap: isDev,
+            url:       false,
+            minimize:  isProd,
           },
         }, {
           loader: `postcss-loader`,
           options: {
             ident: 'postcss',
-            sourceMap: true,
+            sourceMap: isDev,
             plugins: loader => [
               require( `autoprefixer` )(),
             ]
           }
         }, {
           loader: `sass-loader`,
-          options: { sourceMap: true },
+          options: {
+            sourceMap: isDev,
+          },
         }]
       }),
     }],
