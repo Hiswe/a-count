@@ -1,23 +1,24 @@
-@mixin slice-colors() {
+// can't use nth-of child as a slice with 100% will be rendered as a circle
+@mixin slice-colors($start : 1) {
   // 1 children
-  &:nth-of-type(1):nth-last-of-type(1) {
+  &:nth-child(#{$start}):nth-last-child(1) {
     --slice-color: var(--slice-1-bg);
   }
   // 2 children
-  &:nth-of-type(1):nth-last-of-type(2) {
+  &:nth-child(#{$start}):nth-last-child(2) {
     --slice-color: var(--slide-strong);
   }
-  &:nth-of-type(2):nth-last-of-type(1) {
+  &:nth-child(#{$start + 1}):nth-last-child(1) {
     --slice-color: var(--slice-accent);
   }
   // 3 children
-  &:nth-of-type(1):nth-last-of-type(3) {
+  &:nth-child(#{$start}):nth-last-child(3) {
     --slice-color: var(--slide-fade);
   }
-  &:nth-of-type(2):nth-last-of-type(2) {
+  &:nth-child(#{$start + 1}):nth-last-child(2) {
     --slice-color: var(--slide-strong);
   }
-  &:nth-of-type(3):nth-last-of-type(1) {
+  &:nth-child(#{$start + 2}):nth-last-child(1) {
     --slice-color: var(--slice-accent);
   }
 }
@@ -97,8 +98,9 @@
       }
     }
   }
-  path {
-    @include slice-colors();
+  &__slice {
+    // start at 2 because of the background circle
+    @include slice-colors(2);
     stroke-width: var(--pie-donut-size);
     fill: none;
     transition: stroke-width .25s;

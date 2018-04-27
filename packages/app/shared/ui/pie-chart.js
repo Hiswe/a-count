@@ -30,23 +30,24 @@ export class PieChart extends React.PureComponent {
     super( props )
 
     this.state = {
-      total : 0 ,
+      total : null,
       slices: [],
     }
   }
 
   static getDerivedStateFromProps( nextProps, prevState ) {
-    const slices  = nextProps.slices.filter( slice => {
-      return Number.isFinite( slice.value )
+    const slices  = nextProps.slices.map( slice => {
+      slice.value = Number.isFinite( slice.value ) ? slice.value : 0
+      return slice
     })
     const total   = slices.reduce( computeTotal, 0 )
-    if ( total === prevState.total ) return null
 
     return {
       total,
       slices:  slices.map( slice => ({
         ...slice,
-        percent: round(slice.value / total, 4),
+        // don't divide by 0 :D
+        percent: total ? round(slice.value / total, 4) : 0,
       })),
     }
   }
@@ -62,6 +63,9 @@ export class PieChart extends React.PureComponent {
     let cumulativePercent = 0
     return slices
     .map( (slice, index) => {
+      if ( slice.percent === 1 ) {
+        return <circle key="index" className={`${BASE_CLASS}__slice`} cx="0" cy="0" r="1" />
+      }
       const [ startX, startY ] = PieChart.getCoordinates( cumulativePercent )
       // each slice starts where the last slice ended, so keep a cumulative percent
       cumulativePercent = cumulativePercent + slice.percent
@@ -74,7 +78,7 @@ export class PieChart extends React.PureComponent {
         // in case we want to make a filled pie-chart
         // `L 0 0`,
       ].join(` `)
-      return <path key={ index } d={ pathData } />
+      return <path className={`${BASE_CLASS}__slice`} key={ index } d={ pathData } />
     })
   }
 
