@@ -4,8 +4,9 @@ const path    = require( `path`    )
 const chalk   = require( `chalk`   )
 const webpack = require( `webpack` )
 const args    = require( `yargs`   ).argv
-const nodeExternals     = require( `webpack-node-externals`      )
-const ExtractTextPlugin = require( `extract-text-webpack-plugin` )
+const nodeExternals        = require( `webpack-node-externals`      )
+const ExtractTextPlugin    = require( `extract-text-webpack-plugin` )
+const BundleAnalyzerPlugin = require( `webpack-bundle-analyzer` ).BundleAnalyzerPlugin
 
 const isProd  = ( args.env && args.env.production )
 const isDev   = !isProd
@@ -87,6 +88,16 @@ const client = {
     path:          path.resolve( __dirname, `./server/public` ),
   },
   plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode:   `static`,
+      openAnalyzer:   false,
+      defaultSizes:   `stat`,
+      reportFilename: `webpack-report.html`,
+    }),
+    new webpack.ContextReplacementPlugin(
+      /moment[\/\\]locale$/,
+      /fr\.js/,
+    ),
     new webpack.DefinePlugin({
       "process.env": {
         BROWSER: JSON.stringify( true )
@@ -96,7 +107,7 @@ const client = {
       /isomorphic-config$/,
       path.join(__dirname, `./shared/isomorphic-config-browser`)
     ),
-    new ExtractTextPlugin( `application-client.css` )
+    new ExtractTextPlugin( `application-client.css` ),
   ],
   devtool:  isDev ? `inline-source-map` : false,
   // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
