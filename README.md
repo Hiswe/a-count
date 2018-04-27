@@ -51,7 +51,7 @@ As an exercice
 - [node js](https://nodejs.org/en/) >= 8.10.0
 - [yarn](https://yarnpkg.com/en/docs/install) >= 1.6.0
   - on a mac `brew install yarn --without-node`
-- [lerna](https://lernajs.io/#getting-started) >= 2.10.2
+- [lerna](https://lernajs.io/#getting-started) >= 2.11.0
   - `npm install --global lerna`
 - [PostgreSQL](https://www.postgresql.org/) >=9.6 
   - create a clean __a-count__ database
