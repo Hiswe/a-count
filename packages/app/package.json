@@ -9,7 +9,7 @@
     "build:icons": "gulp icons",
     "build:app": "webpack --config webpack.config.js",
     "watch": "webpack --config webpack.config.js --watch --display minimal",
-    "serve": "node application-server.js",
+    "serve": "NODE_ENV=production node application-server.js",
     "serve:dev": "nodemon application-server.js --config nodemon.json",
     "serve:watch": "parallelshell \"npm run serve:dev\"  \"npm run watch\"",
     "browsersync": "browser-sync start --config browser-sync-config.js",

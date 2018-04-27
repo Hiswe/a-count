@@ -72,7 +72,12 @@ app.use( router.routes() )
 //----- LAUNCH THE MAGIC
 
 const server = app.listen(config.PORT, function endInit() {
-  log( `Server is listening on port`, server.address().port )
+  console.log(
+    `APP Server is listening on port`,
+    chalk.cyan(server.address().port),
+    `on mode`,
+    chalk.cyan(config.NODE_ENV)
+  )
 })
 
 //////

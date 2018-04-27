@@ -120,7 +120,12 @@ app.use( router.routes() )
 const server = app.listen( config.PORT, endInit )
 
 function endInit() {
-  log( `API is listening on port`, server.address().port, `on mode`, config.NODE_ENV )
+  console.log(
+    `API is listening on port`,
+    chalk.cyan(server.address().port),
+    `on mode`,
+    chalk.cyan(config.NODE_ENV)
+  )
 }
 
 module.exports = app
