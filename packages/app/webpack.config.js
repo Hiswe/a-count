@@ -47,9 +47,13 @@ const server = {
       /isomorphic-config$/,
       path.join(__dirname, `./shared/isomorphic-config-server`)
     ),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify( env ),
+    }),
+    new webpack.NoEmitOnErrorsPlugin(),
   ],
-  //
-  mode:   env,
+  // define mode as `none` because we don't want minifying in production
+  mode:   `none`,
   // prevent bundling node_modules on server
   // • just ignore them :)
   // • https://www.npmjs.com/package/webpack-node-externals#quick-usage
