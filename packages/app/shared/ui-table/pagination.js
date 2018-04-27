@@ -9,7 +9,6 @@ const ACTION_CLASS = `${BASE_CLASS}_action`
 
 export function Pagination( props ) {
   const { meta, handlePrev, handleNext } = props
-  if ( !meta.total ) return null
   const PREV_CLASS = classNames(
     ACTION_CLASS,
     `${ACTION_CLASS}--prev`,
