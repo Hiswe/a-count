@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "ava --verbose",
-    "build": "yarn run build:icons && yarn run build:app",
+    "build": "yarn run build:icons && yarn run build:app --env.production",
     "build:icons": "gulp icons",
     "build:app": "webpack --config webpack.config.js",
     "watch": "webpack --config webpack.config.js --watch --display minimal",

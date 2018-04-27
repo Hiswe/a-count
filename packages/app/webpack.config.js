@@ -1,13 +1,17 @@
 `use strict`
 
 const path    = require( `path`    )
+const chalk   = require( `chalk`   )
 const webpack = require( `webpack` )
 const args    = require( `yargs`   ).argv
 const nodeExternals     = require( `webpack-node-externals`      )
 const ExtractTextPlugin = require( `extract-text-webpack-plugin` )
 
-const isDev = args.prod !== true
-const env = isDev ? `development` : `production`
+const isProd  = ( args.env && args.env.production )
+const isDev   = !isProd
+const env     = isProd ? `production` : `development`
+
+console.log( `build with environment`, chalk.magenta(env) )
 
 process.on('uncaughtException', error => {
   console.error( error.stack )
@@ -78,8 +82,9 @@ const client = {
   mode:   env,
   entry:  path.join( __dirname, `./client/index.js`),
   output: {
-    filename: `application-client.js`,
-    path:     path.resolve( __dirname, `./server/public` )
+    filename:      `application-client.js`,
+    chunkFilename: `[name].application-client.js`,
+    path:          path.resolve( __dirname, `./server/public` ),
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -93,16 +98,16 @@ const client = {
     ),
     new ExtractTextPlugin( `application-client.css` )
   ],
-  devtool:    `inline-source-map`,
+  devtool:  isDev ? `inline-source-map` : false,
   // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
   optimization: {
     splitChunks: {
       cacheGroups: {
         vendor: {
-          chunks: `initial`,
-          test: path.resolve(__dirname, `node_modules`),
-          name: `vendor`,
-          enforce: true,
+          chunks:   `all`,
+          test:     path.resolve(__dirname, `node_modules`),
+          name:     `vendor`,
+          enforce:  true,
         }
       }
     }
