@@ -1,7 +1,6 @@
-
 import rc from 'rc'
 
-const config      = rc( `a-count:app`, {
+const config      = rc( `acountApp`, {
   API_URL:          `http://localhost:4040/v1`,
   API_COOKIE_NAME:  `a-count_api`,
   HOST_URL:         `http://localhost:3000`,

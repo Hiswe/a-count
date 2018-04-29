@@ -1,6 +1,5 @@
 module.exports = {
-  proxy       : `https://localhost:3443`,
-  https       : true,
+  proxy       : `http://localhost:3000`,
   open        : false,
   port        : 7000,
   ghostMode   : false,

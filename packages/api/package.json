@@ -6,7 +6,8 @@
   "scripts": {
     "build": "yarn run build:api-doc",
     "build:api-doc": "yarn run gulp api-doc",
-    "dev": "parallelshell \"yarn run proxy\" \"yarn run serve:dev\"",
+    "dev": "yarn run serve:dev",
+    "dev:https": "parallelshell \"yarn run proxy\" \"yarn run serve:dev\"",
     "proxy": "node dev-proxy.js",
     "serve": "NODE_ENV=production node server/index.js",
     "serve:dev": "NODE_DEBUG=api,api:db,api:mailing node-dev server/index.js --no-deps --no-notify",

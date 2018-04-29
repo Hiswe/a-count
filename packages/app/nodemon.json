@@ -5,7 +5,6 @@
   "ignore": [ "shared/**/*" ],
   "env": {
     "NODE_ENV":             "development",
-    "NODE_DEBUG":           "server",
-    "a-count:app_API_URL":  "https://localhost:4443/v1"
+    "NODE_DEBUG":           "server"
   }
 }
