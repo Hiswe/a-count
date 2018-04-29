@@ -9,8 +9,6 @@ export function Form( props ) {
   if ( isSaving ) FORM_CLASS.push( `${BASE_CLASS}--is-saving` )
   if ( className ) FORM_CLASS.push( className )
 
-  throw new Error(`test error`)
-
   return (
     <form
       id={ id }

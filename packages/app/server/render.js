@@ -1,7 +1,7 @@
-import fs from 'fs'
-import path from 'path'
-import serializeJS from 'serialize-javascript'
-import IntlPolyfill from 'intl'
+import fs                      from 'fs'
+import path                    from 'path'
+import serializeJS             from 'serialize-javascript'
+import IntlPolyfill            from 'intl'
 import areIntlLocalesSupported from 'intl-locales-supported'
 
 import config from './config.js'
@@ -50,9 +50,11 @@ export function reactApp({ store, content, helmet}) {
 }
 
 function renderStackTrace( stacktrace ) {
-  if (!stacktrace) return ``
+  if ( !stacktrace )   return ``
+  if ( config.isProd ) return ``
   stacktrace = Array.isArray( stacktrace ) ? stacktrace.join(`\n`) : stacktrace
-  return `<pre>${stacktrace}</pre>`
+  return `<hr />
+  <pre>${stacktrace}</pre>`
 }
 
 export function errorPage({reason, stacktrace}) {
@@ -65,7 +67,6 @@ return `<!DOCTYPE html>
     <main role="main">
       <h1>[SERVER] error</h1>
       <h2>${ reason }</h2>
-      <hr />
       ${ renderStackTrace(stacktrace) }
     </main>
   </body>
