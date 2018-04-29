@@ -104,7 +104,10 @@ const client = {
     ),
     new webpack.DefinePlugin({
       "process.env": {
-        BROWSER: JSON.stringify( true )
+        BROWSER:  JSON.stringify( true ),
+        NODE_ENV: JSON.stringify( env ),
+        IS_DEV:   JSON.stringify( isDev ),
+        IS_PROD:  JSON.stringify( isProd ),
       },
     }),
     new webpack.NormalModuleReplacementPlugin(
