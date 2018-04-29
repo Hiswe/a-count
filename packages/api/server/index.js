@@ -66,6 +66,10 @@ app.use( cors({
   credentials: true,
 }) )
 
+//----- HTTPS REDIRECT
+
+if ( config.enforceHttps ) app.use( enforceHttps(config.enforceHttps) )
+
 //----- ERRORS
 
 // TODO: send validations errors

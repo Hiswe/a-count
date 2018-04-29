@@ -38,6 +38,10 @@ app.use( logger() )
 // ROUTING
 //////
 
+//----- HTTPS REDIRECT
+
+if ( config.enforceHttps ) app.use( enforceHttps(config.enforceHttps) )
+
 //----- ERROR HANDLING
 
 app.use( async (ctx, next) => {

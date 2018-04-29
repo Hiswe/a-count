@@ -12,8 +12,7 @@ const log     = debuglog( `api:mailing` )
 
 //----- MAILING CONNECTION
 
-const { transport } = config.email
-const { service }   = transport
+const { transport, service } = config.email
 const usedTransport = service ? wellknown( service ) : transport
 const transporter = nodemailer.createTransport( usedTransport )
 

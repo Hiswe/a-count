@@ -38,6 +38,9 @@ const config = rc( `acountApi`, {
     expiresIn  : `1 days` ,
     cookieName : `a-count_api` ,
   },
+  // enforceHttps will be passed to
+  // • https://www.npmjs.com/package/koa-sslify
+  enforceHttps : false,
 })
 
 config.PORT       = config.PORT || process.env.PORT || 4040

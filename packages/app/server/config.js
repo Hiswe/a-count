@@ -5,6 +5,9 @@ const config      = rc( `acountApp`, {
   API_COOKIE_NAME:  `a-count_api`,
   HOST_URL:         `http://localhost:3000`,
   APP_NAME:         `a-count`,
+  // enforceHttps will be passed to
+  // • https://www.npmjs.com/package/koa-sslify
+  enforceHttps:     false,
 })
 
 config.PORT       = config.PORT || process.env.PORT || 3000
