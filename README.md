@@ -13,11 +13,11 @@ Based on [codemancer code](https://crypt.codemancers.com/posts/2017-06-03-reactj
   - [Build tools](#build-tools)
 - [Build the app on your computer](#build-the-app-on-your-computer)
   - [First and always step](#first-and-always-step)
-  - [Dev server](#dev-server)
+  - [Production server](#production-server)
+  - [Development server](#development-server)
 - [Documentation](#documentation)
   - [Universal Application](#universal-application)
   - [optimize performances](#optimize-performances)
-    - [components](#components)
     - [components architecture](#components-architecture)
   - [test](#test)
 
@@ -91,7 +91,13 @@ As an exercice
 lerna bootstrap
 ```
 
-### Dev server
+### Production server
+
+```
+yarn start
+```
+
+### Development server
 
 ```
 yarn run dev
@@ -125,14 +131,10 @@ available:
 
 - https://reactjsnews.com/how-to-make-your-react-apps-10x-faster
 
-#### components
-
-- https://github.com/nfl/react-helmet
 
 #### components architecture
 
 - https://hackernoon.com/structuring-projects-and-naming-components-in-react-1261b6e18d76
-
 
 ### test
 
