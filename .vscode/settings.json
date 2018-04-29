@@ -43,6 +43,7 @@
     "promisify",
     "randtoken",
     "squel",
+    "sslify",
     "timestamps",
     "xlink",
     "xmlns"

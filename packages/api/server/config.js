@@ -2,7 +2,7 @@
 
 const rc = require( 'rc' )
 
-const config = rc( `a-count-api`, {
+const config = rc( `a-count:api`, {
   VERSION:  `1.0.0`,
   NAME:     `a-count API`,
   db: {

@@ -4,7 +4,8 @@
   "watch":  [ "application-server.js" ],
   "ignore": [ "shared/**/*" ],
   "env": {
-    "NODE_ENV": "development",
-    "NODE_DEBUG": "server"
+    "NODE_ENV":             "development",
+    "NODE_DEBUG":           "server",
+    "a-count:app_API_URL":  "https://localhost:4443/v1"
   }
 }

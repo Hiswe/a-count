@@ -4,16 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "ava --verbose",
+    "browsersync": "browser-sync start --config browser-sync-config.js",
     "build": "yarn run build:icons && yarn run build:app --env.production",
     "build:icons": "gulp icons",
     "build:app": "webpack --config webpack.config.js",
-    "watch": "webpack --config webpack.config.js --watch --display minimal",
+    "dev": "parallelshell \"yarn run proxy\" \"yarn run serve:watch\" \"yarn run browsersync\"",
+    "proxy": "node dev-proxy.js",
     "serve": "NODE_ENV=production node application-server.js",
     "serve:dev": "nodemon application-server.js --config nodemon.json",
-    "serve:watch": "parallelshell \"npm run serve:dev\"  \"npm run watch\"",
-    "browsersync": "browser-sync start --config browser-sync-config.js",
-    "dev": "parallelshell \"npm run serve:watch\" \"npm run browsersync\""
+    "serve:watch": "parallelshell \"yarn run serve:dev\"  \"yarn run watch\"",
+    "test": "ava --verbose",
+    "watch": "webpack --config webpack.config.js --watch --display minimal"
   },
   "author": "",
   "license": "ISC",
