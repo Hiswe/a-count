@@ -57,6 +57,7 @@ shell.echo( `…api files…` )
 shell.cp( `-r`, `${APP_PATH}/server/.`, path.join(copydirPath, `/server`) )
 shell.cp( `${APP_PATH}/package.json`, copydirPath )
 shell.cp( `${APP_PATH}/yarn.lock`, copydirPath )
+shell.cp( `${APP_PATH}/Procfile`, copydirPath )
 shell.echo( `…copy end` )
 
 ////////
@@ -91,28 +92,8 @@ if ( ghPagePush.code !== 0 ) {
   shell.echo( `Error: Git push failed` )
   shell.echo( ghPagePush.stderr )
   teardown( 1 )
-} else {
-  shell.echo( `…push done!` )
 }
-
-//----- TAGGING THE VERSION
-
-// if ( bc.skipBump ) {
-//   shell.echo( `Skipping pushing tag` )
-//   teardown()
-// }
-
-// shell.echo( `tagging version…` )
-// shell.exec( `git tag v${version}`, {silent: true} )
-// const tagPush = shell.exec( `git push --tags`, {silent: true} )
-// if ( tagPush.code !== 0 ) {
-//   shell.echo( `Error: Git tag push failed` )
-//   shell.echo( tagPush.stderr )
-//   teardown()
-//   shell.exit( 1 )
-// } else {
-//   shell.echo( `…tag push done!` )
-// }
+shell.echo( `…push done!` )
 
 // TEARDOWN
 teardown()

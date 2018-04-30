@@ -1,6 +1,6 @@
 {
   "name": "a-count",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "main": "index.js",
   "repository": "https://github.com/Hiswe/a-count.git",
@@ -10,6 +10,8 @@
     "start": "lerna run build && lerna run --parallel serve",
     "build": "lerna run build",
     "dev": "lerna run --parallel dev",
+    "release": "lerna publish --skip-npm --force-publish=* && yarn run release:no-bump",
+    "release:no-bump": "lerna run build --scope=web-app && parallelshell \"node bin/release-api.js\" \"node bin/release-webapp.js\"",
     "toc": "doctoc README.md --github"
   },
   "engines": {
@@ -19,7 +21,7 @@
   "devDependencies": {
     "doctoc": "^1.3.1",
     "lerna": "^2.11.0",
-    "shelljs": "^0.8.1",
-    "yargs": "^11.0.0"
+    "parallelshell": "^3.0.2",
+    "shelljs": "^0.8.1"
   }
 }

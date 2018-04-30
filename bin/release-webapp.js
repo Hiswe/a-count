@@ -58,6 +58,7 @@ shell.mkdir( `-p`, path.join(copydirPath, `/server/public`) )
 shell.cp( `-r`, `${APP_PATH}/server/public/.`, path.join(copydirPath, `/server/public`) )
 shell.cp( `${APP_PATH}/application-server.js`, copydirPath )
 shell.cp( `${APP_PATH}/package.json`, copydirPath )
+shell.cp( `${APP_PATH}/Procfile`, copydirPath )
 shell.cp( `${APP_PATH}/yarn.lock`, copydirPath )
 shell.echo( `…copy end` )
 
@@ -77,7 +78,7 @@ const gitCheckout = shell.exec( `git checkout --orphan ${tmpBranchName} `, {sile
 if (gitCheckout.code !== 0) {
   shell.echo( `Unable to checkout` )
   shell.echo(gitCheckout.stderr)
-  teardown(1)
+  teardown( 1 )
 }
 
 //----- ADDING THE FILES
@@ -92,29 +93,9 @@ const ghPagePush = shell.exec( `git push origin ${tmpBranchName}:${BRANCH} --for
 if ( ghPagePush.code !== 0 ) {
   shell.echo( `Error: Git push failed` )
   shell.echo( ghPagePush.stderr )
-  teardown(1)
-} else {
-  shell.echo( `…push done!` )
+  teardown( 1 )
 }
-
-//----- TAGGING THE VERSION
-
-// if ( bc.skipBump ) {
-//   shell.echo( `Skipping pushing tag` )
-//   teardown()
-// }
-
-// shell.echo( `tagging version…` )
-// shell.exec( `git tag v${version}`, {silent: true} )
-// const tagPush = shell.exec( `git push --tags`, {silent: true} )
-// if ( tagPush.code !== 0 ) {
-//   shell.echo( `Error: Git tag push failed` )
-//   shell.echo( tagPush.stderr )
-//   teardown()
-//   shell.exit( 1 )
-// } else {
-//   shell.echo( `…tag push done!` )
-// }
+shell.echo( `…push done!` )
 
 // TEARDOWN
 teardown()
