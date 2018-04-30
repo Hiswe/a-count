@@ -5,8 +5,8 @@ const path  = require( `path` )
 const fs    = require( `fs` )
 
 const { version } = require( `../packages/api/package.json` )
-const BRANCH      = `release-api`
-const APP_PATH    = `./packages/api`
+const BRANCH      = `release-webapp`
+const APP_PATH    = `./packages/web-app`
 
 shell.echo( `beginning API release` )
 
@@ -28,7 +28,7 @@ if (branchName !== `master`) {
 ////////
 
 const originalDir = shell.pwd()
-const copydir     = shell.exec(`mktemp -d /tmp/acount-api.XXX`, {silent: true})
+const copydir     = shell.exec(`mktemp -d /tmp/acount-webapp.XXX`, {silent: true})
 // stdout come with a linebreak. Remove it for better path joining
 const copydirPath = copydir.stdout.replace(`\n`, ``)
 
@@ -53,8 +53,10 @@ shell.cp( `-r`, `./.git/.`, path.join(copydirPath, `/.git`) )
 
 //----- DIST FILES
 
-shell.echo( `…api files…` )
-shell.cp( `-r`, `${APP_PATH}/server/.`, path.join(copydirPath, `/server`) )
+shell.echo( `…web-app files…` )
+shell.mkdir( `-p`, path.join(copydirPath, `/server/public`) )
+shell.cp( `-r`, `${APP_PATH}/server/public/.`, path.join(copydirPath, `/server/public`) )
+shell.cp( `${APP_PATH}/application-server.js`, copydirPath )
 shell.cp( `${APP_PATH}/package.json`, copydirPath )
 shell.cp( `${APP_PATH}/yarn.lock`, copydirPath )
 shell.echo( `…copy end` )
@@ -74,8 +76,8 @@ shell.echo( `checking out “${tmpBranchName}” branch` )
 const gitCheckout = shell.exec( `git checkout --orphan ${tmpBranchName} `, {silent: true})
 if (gitCheckout.code !== 0) {
   shell.echo( `Unable to checkout` )
-  shell.echo( gitCheckout.stderr )
-  teardown( 1 )
+  shell.echo(gitCheckout.stderr)
+  teardown(1)
 }
 
 //----- ADDING THE FILES
@@ -90,7 +92,7 @@ const ghPagePush = shell.exec( `git push origin ${tmpBranchName}:${BRANCH} --for
 if ( ghPagePush.code !== 0 ) {
   shell.echo( `Error: Git push failed` )
   shell.echo( ghPagePush.stderr )
-  teardown( 1 )
+  teardown(1)
 } else {
   shell.echo( `…push done!` )
 }
