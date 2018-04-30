@@ -1,0 +1,65 @@
+{
+  "VERSION":  "1.0.0",
+  "NAME":     "a-count API",
+  // postgre configuration passed to `sequelize` module
+  // • http://docs.sequelizejs.com/
+  // • forceSync is always disabled in production
+  "db": {
+    "forceSync":  false,
+    "uri":        "postgres://localhost:5432/a-count",
+  },
+  // redis configuration is passed to `redis` module
+  // • https://www.npmjs.com/package/redis#options-object-properties
+  "redis": {
+    "port": 6379,
+    "host": "127.0.0.1",
+  },
+  // email configuration
+  // • used for user creation/reset password
+  // • transport will be passed to `nodemailer` module
+  //   https://nodemailer.com
+  // • OR if provider is passed, configuration will be parsed by `nodemailer-wellknown`
+  //   https://github.com/nodemailer/nodemailer-wellknown
+  "email": {
+    "transport": {
+      "host": "localhost",
+      "port": 1025,
+    },
+    // OR use a provider
+    // "provider": {
+    //   "provider": "GandiMail",
+    //   "auth": {
+    //     "user": "####",
+    //     "pass": "####",
+    //   }
+    // },
+    // `from` is what will appear in the `from` filed in the email
+    "options": {
+      "from": "A-Count <api@a-count.name>",
+    }
+  },
+  // Simulate response delay in development mode only
+  // • all values in milliseconds
+  // • base: fix wait amount
+  // • variation: + random variation
+  "delay": false,
+  // delay: {
+  //   base     : 1000,
+  //   variation: 500,
+  // },
+  // JSON Web Token configuration
+  "jwt": {
+    // To generate a new secret:
+  //   • node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"
+    "secret"     : "49e3bd8b1935f3d17ce23146eb602fdb321e5b4f41eb7dd7f898e61426970086",
+    // expiresIn configuration is parsed by `ms` module
+    // • https://github.com/zeit/ms
+    "expiresIn"  : "1 days" ,
+    // will check also a cookie with name for auth
+    // • still check for HTTP headers
+    "cookieName" : "a-count_api",
+  },
+  // enforceHttps will be passed to
+  // • https://www.npmjs.com/package/koa-sslify
+  "enforceHttps" : false,
+}
