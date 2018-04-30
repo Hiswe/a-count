@@ -100,7 +100,6 @@
     "jsdom": "^11.10.0",
     "node-sass": "4.7.2",
     "nodemon": "^1.17.3",
-    "parallelshell": "^3.0.2",
     "postcss-loader": "^2.1.4",
     "react-test-renderer": "^16.3.2",
     "redbird": "^0.7.0",
