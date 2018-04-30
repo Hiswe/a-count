@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "8.10.0"
+  },
   "scripts": {
     "build": "yarn run build:api-doc",
     "build:api-doc": "yarn run gulp api-doc",

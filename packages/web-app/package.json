@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "8.10.0"
+  },
   "scripts": {
     "browsersync": "browser-sync start --config browser-sync-config.js",
     "build": "yarn run build:icons && yarn run build:app --env.production",
