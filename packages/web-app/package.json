@@ -86,7 +86,7 @@
     "ava": "1.0.0-beta.3",
     "babel-loader": "8.0.0-beta.2",
     "babel-plugin-transform-require-ignore": "^0.1.1",
-    "browser-sync": "^2.24.0",
+    "browser-sync": "^2.24.1",
     "css-loader": "^0.28.11",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
