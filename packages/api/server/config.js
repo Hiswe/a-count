@@ -2,9 +2,10 @@
 
 const rc = require( 'rc' )
 
+const pkg = require( '../package.json' )
+
 const config = rc( `acountApi`, {
-  VERSION:  `1.0.0`,
-  NAME:     `a-count API`,
+  NAME:         `a-count API`,
   db: {
     forceSync:  false,
     url:        `postgres://localhost:5432/a-count`,
@@ -40,6 +41,8 @@ const config = rc( `acountApi`, {
   },
   enforceHttps : false,
 })
+
+config.VERSION    = pkg.version
 
 config.PORT       = config.PORT || process.env.PORT || 4040
 
