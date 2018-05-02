@@ -55,6 +55,7 @@ shell.cp( `-r`, `./.git/.`, path.join(copydirPath, `/.git`) )
 
 shell.echo( `…api files…` )
 shell.cp( `-r`, `${APP_PATH}/server/.`, path.join(copydirPath, `/server`) )
+shell.cp( `${APP_PATH}/app.json`, copydirPath )
 shell.cp( `${APP_PATH}/package.json`, copydirPath )
 shell.cp( `${APP_PATH}/yarn.lock`, copydirPath )
 shell.cp( `${APP_PATH}/Procfile`, copydirPath )
