@@ -18,8 +18,8 @@
     "serve:nodemon": "nodemon server/index.js --config nodemon.json",
     "watch": "yarn run gulp watch"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Hiswe <hiswehalya@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "@koa/cors": "^2.2.1",
     "bcryptjs": "^2.4.3",

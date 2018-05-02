@@ -21,8 +21,8 @@
     "test": "ava --verbose",
     "watch": "webpack --config webpack.config.js --watch --display minimal"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Hiswe <hiswehalya@gmail.com>",
+  "license": "MIT",
   "ava": {
     "files": [
       "shared/**/*.spec.js"
