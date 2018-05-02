@@ -17,7 +17,7 @@
     "serve": "NODE_ENV=production node application-server.js",
     "serve:dev": "nodemon application-server.js --config nodemon.json",
     "serve:watch": "parallelshell \"yarn run serve:dev\"  \"yarn run watch\"",
-    "start": "yarn run build && yarn run serve",
+    "start": "node application-server.js",
     "test": "ava --verbose",
     "watch": "webpack --config webpack.config.js --watch --display minimal"
   },

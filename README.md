@@ -94,7 +94,7 @@ lerna bootstrap
 ### Production server
 
 ```
-yarn start
+yarn build && yarn start
 ```
 
 ### Development server
