@@ -57,7 +57,6 @@
     "lodash.round": "^4.0.4",
     "marked": "^0.3.19",
     "moment": "^2.22.1",
-    "nodemon": "^1.17.3",
     "prop-types": "^15.6.1",
     "query-string": "^6.0.0",
     "rc": "^1.2.7",
