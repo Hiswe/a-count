@@ -13,13 +13,16 @@ const log     = debuglog( `api:mailing` )
 //----- MAILING CONNECTION
 
 const { transport, service } = config.email
-const usedTransport = service ? wellknown( service ) : transport
+const usedTransport = service ? service : transport
 const transporter = nodemailer.createTransport( usedTransport )
 
 transporter
   .verify()
   .then(() => { log(chalk.green(`transport creation – SUCCESS`)) })
-  .catch( err => { log( chalk.ref(`transport creation – ERROR`) ) })
+  .catch( err => {
+    log( chalk.red(`transport creation – ERROR`) )
+    log( config )
+  })
 
 //----- SEND METHOD
 
