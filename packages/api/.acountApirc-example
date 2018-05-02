@@ -6,13 +6,12 @@
   // • forceSync is always disabled in production
   "db": {
     "forceSync":  false,
-    "uri":        "postgres://localhost:5432/a-count",
+    "url":        "postgres://localhost:5432/a-count",
   },
   // redis configuration is passed to `redis` module
   // • https://www.npmjs.com/package/redis#options-object-properties
   "redis": {
-    "port": 6379,
-    "host": "127.0.0.1",
+    "url": "redis://localhost:6379"
   },
   // email configuration
   // • used for user creation/reset password

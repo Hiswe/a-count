@@ -23,7 +23,7 @@ Object
   operatorsAliases[ `$${key}` ] = value
 })
 
-const sequelize = new Sequelize( config.db.uri, {
+const sequelize = new Sequelize( config.db.url, {
   logging: query => log( formattor(query, {method: 'sql'}) ),
   // remove sequelize deprecation warnings
   // https://github.com/sequelize/sequelize/issues/8417#issuecomment-341617577

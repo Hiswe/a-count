@@ -7,17 +7,23 @@ const config = rc( `acountApi`, {
   NAME:     `a-count API`,
   db: {
     forceSync:  false,
-    uri:        `postgres://localhost:5432/a-count`,
+    url:        `postgres://localhost:5432/a-count`,
   },
-  redis: {
-    port: 6379,
-    host: `127.0.0.1`,
+  redis:        {
+    url:        `redis://localhost:6379`,
   },
   email: {
     transport: {
       host: `localhost`,
       port: 1025,
     },
+    // "provider": {
+    //   "provider": "GandiMail",
+    //   "auth": {
+    //     "user": "####",
+    //     "pass": "####",
+    //   }
+    // },
     options: {
       from: `A-Count <api@a-count.name>`,
     }

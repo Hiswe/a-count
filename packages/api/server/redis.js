@@ -9,7 +9,7 @@ const config = require( './config' )
 const log = debuglog( `api:redis` )
 log( chalk.green(`init logging`) )
 
-const client = redis.createClient( config.redis.port, config.redis.host )
+const client = redis.createClient( config.redis )
 
 client.on( `ready`, () => log(`ready`) )
 client.on( `connect`, () => log(`connect`) )
