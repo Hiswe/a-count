@@ -21,7 +21,10 @@ transporter
   .then(() => { log(chalk.green(`transport creation – SUCCESS`)) })
   .catch( err => {
     log( chalk.red(`transport creation – ERROR`) )
-    log( config )
+    log( `original config` )
+    log( config.email )
+    log( `used transport` )
+    log( usedTransport )
   })
 
 //----- SEND METHOD
