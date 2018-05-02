@@ -10,8 +10,8 @@
     "start": "lerna run build && lerna run --parallel serve",
     "build": "lerna run build",
     "dev": "lerna run --parallel dev",
-    "release": "lerna publish --skip-npm --force-publish=* && yarn run release:no-bump",
-    "release:no-bump": "lerna run build --scope=web-app && parallelshell \"node bin/release-api.js\" \"node bin/release-webapp.js\"",
+    "release": "lerna publish --skip-npm --force-publish=* && yarn run release:git",
+    "release:git": "lerna run build --scope=web-app && parallelshell \"node bin/release-api.js\" \"node bin/release-webapp.js\"",
     "toc": "doctoc README.md --github"
   },
   "engines": {
