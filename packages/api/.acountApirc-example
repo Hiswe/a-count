@@ -23,9 +23,9 @@
       "host": "localhost",
       "port": 1025,
     },
-    // OR use a provider
+    // OR use a service provider
     // "provider": {
-    //   "provider": "GandiMail",
+    //   "service": "GandiMail",
     //   "auth": {
     //     "user": "####",
     //     "pass": "####",
