@@ -7,7 +7,7 @@
   "keywords": [
   ],
   "env": {
-    "acountApi_email__provider__provider": "SendGrid",
+    "acountApi_email__provider__service": "SendGrid",
     "acountApi_jwt__expiresIn": "4 weeks",
     "acountApi_jwt__secret": {
       "description": "JSON Web Token secret",
@@ -21,7 +21,7 @@
     },
     {
       "plan": "sendgrid:starter",
-      "as": "acountApi_email__provider__provider__auth"
+      "as": "acountApi_email__provider__auth"
     },
     {
       "plan": "heroku-redis:hobby-dev",

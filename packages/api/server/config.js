@@ -19,7 +19,7 @@ const config = rc( `acountApi`, {
       port: 1025,
     },
     // "provider": {
-    //   "provider": "GandiMail",
+    //   "service": "GandiMail",
     //   "auth": {
     //     "user": "####",
     //     "pass": "####",
