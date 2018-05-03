@@ -10,6 +10,7 @@ const   json           = require( 'koa-json'     )
 const   Router         = require( 'koa-router'   )
 const   cors           = require( '@koa/cors'    )
 const   enforceHttps   = require( 'koa-sslify'   )
+const   helmet         = require( 'koa-helmet'   )
 
 require( './db' )
 const redis          = require( './redis'            )
@@ -23,10 +24,9 @@ const log            = require( './utils/log'        )
 
 const app = new Koa()
 
+app.use( helmet() )
 app.use( bodyParser() )
 app.use( compress() )
-
-// format json https://github.com/koajs/json
 app.use( json() )
 
 //----- LOGGING

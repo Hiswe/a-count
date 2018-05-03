@@ -10,6 +10,7 @@ import   logger         from 'koa-logger'
 import   json           from 'koa-json'
 import   Router         from 'koa-router'
 import   enforceHttps   from 'koa-sslify'
+import   helmet         from 'koa-helmet'
 
 import config          from './config'
 import log             from './log'
@@ -23,15 +24,11 @@ import * as render     from './render'
 
 const app = new Koa()
 
+app.use( helmet() )
 app.use( bodyParser() )
 app.use( compress() )
 app.use( serveStatic(path.join(__dirname, `./public`)) )
-
-// format json https://github.com/koajs/json
 app.use( json() )
-
-//----- LOGGING
-
 app.use( logger() )
 
 //////
