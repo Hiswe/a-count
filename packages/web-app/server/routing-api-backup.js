@@ -20,8 +20,9 @@ const proxyRequest = async (ctx, next) => {
     url,
     body,
   }
-  const method = ctx.request.method.toLowerCase()
-  const { response, payload } = await isoFetch[ method ]( fetchOptions, header.cookie )
+  const method  = ctx.request.method.toLowerCase()
+  const jwt     = ctx.cookies.get( config.COOKIE_NAME )
+  const { response, payload } = await isoFetch[ method ]( fetchOptions, jwt )
   if (!response.ok) {
     throw({
       status:     response.status,
