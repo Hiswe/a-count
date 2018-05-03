@@ -3,7 +3,11 @@
 const { debuglog } = require( 'util'  )
 const   chalk      = require( 'chalk' )
 
-const log = debuglog( `api` )
-log( chalk.green(`init logging`) )
+const api   = debuglog( `api` )
+api( chalk.green(`init logging`) )
+const auth  = debuglog( `api:auth` )
 
-module.exports = log
+module.exports = {
+  api,
+  auth,
+}

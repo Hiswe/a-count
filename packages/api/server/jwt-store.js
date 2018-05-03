@@ -4,11 +4,14 @@ const bcrypt       = require( 'bcryptjs'     )
 const randtoken    = require( 'rand-token'   )
 const jsonwebtoken = require( 'jsonwebtoken' )
 const ms           = require( 'ms'           )
+const { debuglog } = require( 'util'  )
 
 const log       = require( './utils/log' )
 const jwtConfig = require( './config' ).jwt
 const redis     = require( './redis'  )
 const expiresInMilliseconds = ms( jwtConfig.expiresIn )
+
+log.auth(`expires`, jwtConfig.expiresIn, expiresInMilliseconds )
 
 const PREFIX = `JWT`
 
@@ -48,9 +51,11 @@ function getSearchByUserId( userId ) {
 // create a JWT
 // • store it in redis
 async function add( user ) {
-  const jwt     = createJWT( user )
-  const userId  = user.id
-  await redis.set( getFullJwtKey( jwt.data ) , userId, `PX`, expiresInMilliseconds )
+  const jwt      = createJWT( user )
+  const userId   = user.id
+  const redisKey = getFullJwtKey( jwt.data )
+  log.auth( `add user – `, redisKey )
+  await redis.set( redisKey, userId, `PX`, expiresInMilliseconds )
   return jwt.accessToken
 }
 

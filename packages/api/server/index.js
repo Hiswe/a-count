@@ -50,14 +50,14 @@ const time = start => {
 app.use( async (ctx, next) => {
   const { method, path, search } = ctx.request
   const start = Date.now()
-  const logPath = chalk.grey(`api: ${path}${search}`)
+  const logPath   = chalk.grey(`api: ${path}${search}`)
   const logMethod = method.toUpperCase()
-  log( chalk.grey(`  ==>`), logMethod, logPath  )
+  log.api( chalk.grey(`  ==>`), logMethod, logPath  )
   await next()
   const { status } = ctx.response
   const s = status / 100 | 0
   const color = colorCodes.hasOwnProperty(s) ? colorCodes[s] : 0
-  log( chalk.grey(`  <==`), logMethod, logPath, chalk[color](status), time(start) )
+  log.api( chalk.grey(`  <==`), logMethod, logPath, chalk[color](status), time(start) )
 })
 
 //----- CORS
@@ -108,9 +108,9 @@ function waitFor( time ) {
 async function delay( ctx, next ) {
   const variation = Math.floor( Math.random() * Math.floor(config.delay.variation) )
   const time = Math.max( 0, config.delay.base + variation - config.delay.variation / 2 )
-  log( `waiting start` )
+  log.api( `waiting start` )
   await waitFor( time )
-  log( `waiting end: ${ (time / 1000).toFixed( 2 ) }s`  )
+  log.api( `waiting end: ${ (time / 1000).toFixed( 2 ) }s`  )
   await next()
 }
 
