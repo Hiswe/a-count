@@ -59,7 +59,7 @@
     "marked": "^0.3.19",
     "moment": "^2.22.1",
     "prop-types": "^15.6.1",
-    "query-string": "^6.0.0",
+    "query-string": "^6.1.0",
     "rc": "^1.2.7",
     "react": "^16.3.2",
     "react-day-picker": "^7.1.6",
@@ -90,7 +90,7 @@
     "ava": "1.0.0-beta.3",
     "babel-loader": "8.0.0-beta.2",
     "babel-plugin-transform-require-ignore": "^0.1.1",
-    "browser-sync": "^2.24.1",
+    "browser-sync": "^2.24.2",
     "css-loader": "^0.28.11",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
@@ -113,7 +113,7 @@
     "style-loader": "^0.21.0",
     "webpack": "^4.6.0",
     "webpack-bundle-analyzer": "^2.11.1",
-    "webpack-cli": "^2.0.15",
+    "webpack-cli": "^2.1.2",
     "webpack-node-externals": "^1.7.2",
     "yargs": "^11.0.0"
   }
