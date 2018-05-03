@@ -53,9 +53,6 @@
     // expiresIn configuration is parsed by `ms` module
     // • https://github.com/zeit/ms
     "expiresIn"  : "1 days" ,
-    // will check also a cookie with name for auth
-    // • still check for HTTP headers
-    "cookieName" : "a-count_api",
   },
   // enforceHttps will be passed to
   // • https://www.npmjs.com/package/koa-sslify

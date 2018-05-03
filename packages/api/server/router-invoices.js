@@ -69,6 +69,7 @@ router
 /**
  * @api {get} /invoices list active invoices
  * @apiVersion 1.0.0
+ * @apiPermission user
  * @apiName GetActiveInvoices
  * @apiGroup Invoices
  *
@@ -91,6 +92,7 @@ router
 /**
  * @api {get} /invoices/archived list archived invoices
  * @apiVersion 1.0.0
+ * @apiPermission user
  * @apiName GetArchivedInvoices
  * @apiGroup Invoices
  *
@@ -114,6 +116,7 @@ router
 /**
  * @api {get} /invoices/:id get an invoice
  * @apiVersion 1.0.0
+ * @apiPermission user
  * @apiName GetInvoice
  * @apiGroup Invoices
  *
@@ -135,6 +138,7 @@ router
 /**
  * @api {post} /invoices/:id update an invoice
  * @apiVersion 1.0.0
+ * @apiPermission user
  * @apiName UpdateInvoice
  * @apiGroup Invoices
  *
@@ -174,6 +178,7 @@ router
 /**
  * @api {post} /invoices/:id/archive archive an invoice
  * @apiVersion 1.0.0
+ * @apiPermission user
  * @apiName ArchiveInvoice
  * @apiGroup Invoices
  *

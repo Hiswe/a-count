@@ -29,7 +29,6 @@ module.exports = apiRouter
  *
  * Bearer eyJhbGc...TJVA95OrMr
  *
- * or in a cookie named `a-count_api`
  */
 
 /**
@@ -74,7 +73,6 @@ apiRouter.use( routerAccount.public.routes() )
 apiRouter.use( jwt({
   secret: config.jwt.secret,
   key:    `jwtData`,
-  cookie: config.jwt.cookieName,
 }) )
 
 // confront them to DB

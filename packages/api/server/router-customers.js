@@ -31,6 +31,7 @@ module.exports = router
 /**
  * @api {get} /customers list of customers
  * @apiVersion 1.0.0
+ * @apiPermission user
  * @apiName GetActiveCustomers
  * @apiGroup Customers
  *
@@ -63,6 +64,7 @@ router
 /**
  * @api {get} /customers/new get a customer template
  * @apiVersion 1.0.0
+ * @apiPermission user
  * @apiName GetNewCustomer
  * @apiGroup Customers
  *
@@ -76,6 +78,7 @@ router
 /**
  * @api {post} /customers/new create a customer
  * @apiVersion 1.0.0
+ * @apiPermission user
  * @apiName PostNewCustomer
  * @apiGroup Customers
  *
@@ -95,6 +98,7 @@ router
 /**
  * @api {get} /customers/:id get a customer
  * @apiVersion 1.0.0
+ * @apiPermission user
  * @apiName GetCustomer
  * @apiGroup Customers
  *
@@ -125,6 +129,7 @@ router
 /**
  * @api {post} /customers/:id update a customer
  * @apiVersion 1.0.0
+ * @apiPermission user
  * @apiName UpdateCustomer
  * @apiGroup Customers
  *
