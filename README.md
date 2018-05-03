@@ -1,6 +1,7 @@
 # a-count
 
 Personal project for building an universal application.  
+Demo: [https://a-count.herokuapp.com/](https://a-count.herokuapp.com/)  
 Based on [codemancer code](https://crypt.codemancers.com/posts/2017-06-03-reactjs-server-side-rendering-with-router-v4-and-redux/)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -15,11 +16,7 @@ Based on [codemancer code](https://crypt.codemancers.com/posts/2017-06-03-reactj
   - [First and always step](#first-and-always-step)
   - [Production server](#production-server)
   - [Development server](#development-server)
-- [Documentation](#documentation)
-  - [Universal Application](#universal-application)
-  - [optimize performances](#optimize-performances)
-    - [components architecture](#components-architecture)
-  - [test](#test)
+    - [running the server and the app in 2 different terminals](#running-the-server-and-the-app-in-2-different-terminals)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -68,8 +65,11 @@ As an exercice
 ### Stack
 
 - *views* – [React 16.3](https://reactjs.org/)
-- *router* – [React router 4](https://reacttraining.com/react-router/) & [react-router-config 1](https://www.npmjs.com/package/react-router-config) for the universal support
-- *application state* – [redux 3](https://redux.js.org/) in conjonction with:
+- *router* 
+  - [React router 4](https://reacttraining.com/react-router/) 
+  - [react-router-config 1](https://www.npmjs.com/package/react-router-config) for the universal support
+- *application state* 
+  - [redux 4](https://redux.js.org/)
   - [redux thunk](https://www.npmjs.com/package/redux-thunk) for a better handling of asynchronous actions
   - [react redux](https://github.com/reactjs/react-redux) for a better integration with React
 - *server* – [Koa 2](http://koajs.com/) for having a cleaner use of `async/await` in comparison to [express.js](https://expressjs.com/)
@@ -81,7 +81,7 @@ As an exercice
 
 - [Babel 7](http://babeljs.io/) – still in beta but already working great
 - [Webpack 4](https://webpack.js.org/) 
-- [Ava 1](https://github.com/avajs/ava) – still in beta also –__-' waiting for Babel 7 to get out of beta for getting out ^_^
+- [Ava 1](https://github.com/avajs/ava) – still in beta also –__–' waiting for Babel 7 to get out of beta for getting out ^_^
 
 ## Build the app on your computer
 
@@ -118,24 +118,16 @@ available:
 - api:mailing
 - server
 
-## Documentation
+#### running the server and the app in 2 different terminals
 
-### Universal Application
+For the API:
 
-- https://medium.com/front-end-developers/handcrafting-an-isomorphic-redux-application-with-love-40ada4468af4
-- https://www.npmjs.com/package/react-isomorphic-render
-- https://reactjsnews.com/isomorphic-react-in-real-life
-- https://github.com/tomatau/breko-hub
+```
+cd packages/api && yarn run dev
+```
 
-### optimize performances
+For the web-app:
 
-- https://reactjsnews.com/how-to-make-your-react-apps-10x-faster
-
-
-#### components architecture
-
-- https://hackernoon.com/structuring-projects-and-naming-components-in-react-1261b6e18d76
-
-### test
-
-- https://semaphoreci.com/community/tutorials/testing-react-components-with-ava
+```
+cd packages/web-app && yarn run dev
+```
