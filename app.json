@@ -1,0 +1,14 @@
+{
+  "name": "A-Count web-app",
+  "description": "Simple acounting web application",
+  "repository": "https://github.com/Hiswe/a-count",
+  "image": "heroku/nodejs",
+  "stack": "heroku-16",
+  "keywords": [
+  ],
+  "env": {},
+  "addons": [
+  ],
+  "buildpacks": [
+  ]
+}
