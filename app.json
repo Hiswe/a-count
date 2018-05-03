@@ -1,0 +1,39 @@
+{
+  "name": "A-Count API",
+  "description": "Simple acounting API",
+  "repository": "https://github.com/Hiswe/a-count",
+  "image": "heroku/nodejs",
+  "stack": "heroku-16",
+  "keywords": [
+  ],
+  "env": {
+    "acountApi_email__provider__service": "SendGrid",
+    "acountApi_jwt__expiresIn": "4 weeks",
+    "acountApi_jwt__secret": {
+      "description": "JSON Web Token secret",
+      "generator": "secret"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql:hobby-dev",
+      "as": "acountApi_db__url"
+    },
+    {
+      "plan": "sendgrid:starter",
+      "as": "acountApi_email__provider__auth"
+    },
+    {
+      "plan": "heroku-redis:hobby-dev",
+      "as": "acountApi_redis__url"
+    },
+    {
+      "plan": "logentries:le_tryit"
+    },
+    {
+      "plan": "librato:development"
+    }
+  ],
+  "buildpacks": [
+  ]
+}
