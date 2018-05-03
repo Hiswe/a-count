@@ -36,7 +36,7 @@ const proxyRequest = async (ctx, next) => {
   const accessToken = payload.access_token
   // copy authorization header even if it's an empty string
   if ( !isNil( accessToken ) ) {
-    ctx.cookies.set( config.API_COOKIE_NAME, accessToken )
+    ctx.cookies.set( config.COOKIE_NAME, accessToken )
     delete payload.access_token
   }
 

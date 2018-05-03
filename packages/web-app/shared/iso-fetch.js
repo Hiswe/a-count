@@ -29,12 +29,17 @@ function create( method ) {
     fetchOptions.headers[`Content-Type`] = `application/json`
   }
 
-  return async function( options, cookie ) {
+  return async function( options, jwt = false ) {
     const { url, body, query } = options
     // set body on post
     if ( method === `post` ) fetchOptions.body = JSON.stringify( body )
-    // force cookie if server side
-    if ( cookie ) fetchOptions.headers.Cookie = cookie
+    // set the right authorization header
+    // • if jwt is present it will because the server read from the cookie
+    //   and passed it here
+    if ( !jwt && process.env.BROWSER ) {
+      jwt = Cookies.get( config.COOKIE_NAME )
+    }
+    fetchOptions.headers.Authorization = `Bearer ${ jwt }`
     // Build fetch url
     // • we need to append the query string as the fetch API doesn't handle other ways
     let fetchUrl = urlJoin( config.API_URL, url )
@@ -55,7 +60,7 @@ function create( method ) {
       if ( process.env.BROWSER ) {
         const accessToken = payload.access_token
         if ( !isNil( accessToken ) ) {
-          Cookies.set( config.API_COOKIE_NAME, accessToken )
+          Cookies.set( config.COOKIE_NAME, accessToken )
           delete payload.access_token
         }
       }

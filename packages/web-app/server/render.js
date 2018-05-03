@@ -20,7 +20,7 @@ if ( !areIntlLocalesSupported([`en`, `fr`]) ) {
 //   https://www.npmjs.com/package/serialize-javascript#overview
 const CLIENT_CONFIG  = serializeJS( {
   API_URL:          config.API_URL,
-  API_COOKIE_NAME:  config.API_COOKIE_NAME,
+  COOKIE_NAME:      config.COOKIE_NAME,
   HOST_URL:         config.HOST_URL,
   APP_NAME:         config.APP_NAME,
 }, { isJSON: true } )

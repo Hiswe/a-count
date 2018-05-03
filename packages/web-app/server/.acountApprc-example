@@ -1,10 +1,11 @@
 {
   // full api endpoint URI
   "API_URL":          "http://localhost:4040/v1",
-  // the cookie where the auth JWT will be saved and send to the API
-  // • should be the same name as the API
-  // • or pass the JWT in HTTP header
-  "API_COOKIE_NAME":  "a-count_api",
+  // The cookie:
+  // • contains the JWT
+  // • will be pass in HTTP Authorization header
+  //   “Authorization Bearer eyJ...7GM”
+  "COOKIE_NAME":  "a-count_webapp",
   // need a full host URL
   // • this will be needed by the API to send the confirm email/reset password
   "HOST_URL":         "http://localhost:3000",

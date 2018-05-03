@@ -9,6 +9,7 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { Helmet } from 'react-helmet'
 
+import config from './config.js'
 import log from './log.js'
 import * as render from './render'
 import routes from '../shared/routes.js'
@@ -31,19 +32,22 @@ const reduxActionLogger = ({ getState }) => {
 }
 
 router.get( '*', async (ctx, next) => {
-  const { url, header } = ctx
+  const { url } = ctx
+  const jwt     = ctx.cookies.get( config.COOKIE_NAME )
   // wait for every component to fetch his data
   const store       = createStore(reducer, {}, applyMiddleware(thunk, reduxActionLogger))
   const branch      = matchRoutes(routes, url)
   const initFetches = branch
     .filter( ({route}) => route.component.fetchData instanceof Function )
     .map( ({route, match}) => {
-      // Pass here the cookies
+      // Pass here the JWT
       // fetch will need it to maintain authentication
       return route.component.fetchData({
+        jwt,
         dispatch: store.dispatch,
         params  : match.params,
-        cookie  : header.cookie,
+        // TODO: should pass the query string also
+        // query:
       })
     } )
   await Promise.all( initFetches )

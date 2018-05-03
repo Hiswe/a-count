@@ -26,10 +26,10 @@ export default function connectDataFetchers({Component, actionCreators}) {
 
     // Don't pass the full store
     // • passing only dispatch will make server & client iso in what they get
-    static fetchData( {dispatch, params = {}, query = {}, cookie } ) {
+    static fetchData( {dispatch, params = {}, query = {}, jwt } ) {
       return Promise.all(
         actionCreators.map( actionCreator => {
-          return dispatch( actionCreator(params, cookie) )
+          return dispatch( actionCreator(params, jwt) )
         })
       )
     }
