@@ -74,7 +74,7 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export const listActive = (params = {}, cookie) => async dispatch => {
+export const listActive = (params = {}, jwt) => async dispatch => {
   const options = {
     url: `${NAME}`,
     ...params,
@@ -82,11 +82,11 @@ export const listActive = (params = {}, cookie) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:   LIST_ACTIVE,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
 
-export const listArchived = (params = {}, cookie) => async dispatch => {
+export const listArchived = (params = {}, jwt) => async dispatch => {
   const options = {
     url: `${NAME}/archived`,
     ...params,
@@ -94,11 +94,11 @@ export const listArchived = (params = {}, cookie) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:   LIST_ARCHIVED,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
 
-export const listForCustomer = (params = {}, cookie) => async dispatch => {
+export const listForCustomer = (params = {}, jwt) => async dispatch => {
   const { id, ...rest } = params
   const options = {
     url: `/customers/${ id }/${NAME}`,
@@ -107,11 +107,11 @@ export const listForCustomer = (params = {}, cookie) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:   LIST_FOR_CUSTOMER,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
 
-export const getOne = (params, cookie) => async dispatch => {
+export const getOne = (params, jwt) => async dispatch => {
   const { id }  = params
   const options = {
     url: `${ NAME }/${ id }`,
@@ -119,11 +119,11 @@ export const getOne = (params, cookie) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions: GET_ONE,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
 
-export const saveOne = (params, cookie) => async dispatch => {
+export const saveOne = (params, jwt) => async dispatch => {
   const { body }  = params
   const { id }    = body
   const options   = {
@@ -133,11 +133,11 @@ export const saveOne = (params, cookie) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:  SAVE_ONE,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
 
-export const archiveOne = (params, cookie) => async dispatch => {
+export const archiveOne = (params, jwt) => async dispatch => {
   const { id } = params
   const options = {
     url: `${ NAME }/${ id }/archive`,
@@ -147,6 +147,6 @@ export const archiveOne = (params, cookie) => async dispatch => {
     dispatch,
     meta:     { id },
     actions:  ARCHIVE,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }

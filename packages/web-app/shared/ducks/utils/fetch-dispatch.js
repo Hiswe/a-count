@@ -1,12 +1,12 @@
-import crio from 'crio'
+import crio  from 'crio'
 import merge from 'lodash.merge'
 
 import * as isoFetch from '../../iso-fetch'
 
 export default async function fetchDispatch( params ) {
   const { dispatch, fetch, actions, meta = {} } = params
-  const { options, cookie } = fetch
-  const { method = `get` } = actions
+  const { options, jwt }    = fetch
+  const { method = `get` }  = actions
   dispatch({
     type:   actions.LOADING,
     payload: {
@@ -14,7 +14,7 @@ export default async function fetchDispatch( params ) {
     },
   })
   try {
-    const { payload } = await isoFetch[ method ]( options, cookie )
+    const { payload } = await isoFetch[ method ]( options, jwt )
     dispatch({
       type:     actions.DONE,
       meta,

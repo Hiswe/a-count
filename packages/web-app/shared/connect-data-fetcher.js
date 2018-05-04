@@ -51,6 +51,9 @@ export default function connectDataFetchers({Component, actionCreators}) {
 
     _fetchDataOnClient() {
       const { params } = this.props.match
+      // call the static method to avoid duplicating code
+      // • don't need to pass the JWT:
+      //   it will be handled by is-fetch on the client side
       DataFetchersWrapper.fetchData({
         dispatch: this.props.dispatch,
         params,

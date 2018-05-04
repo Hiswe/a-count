@@ -62,29 +62,29 @@ export default function reducer( state = initialState, action ) {
 // ACTION CREATORS
 //////
 
-export const auth = (params, cookie) => async dispatch => {
+export const auth = (params, jwt) => async dispatch => {
   const options = {
     url: `/${ NAME }/auth`,
   }
   await fetchDispatch({
     dispatch,
     actions:  AUTH,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
 
-export const statistics = (params, cookie) => async dispatch => {
+export const statistics = (params, jwt) => async dispatch => {
   const options = {
     url: `/${ NAME }/statistics`,
   }
   await fetchDispatch({
     dispatch,
     actions:  STATISTICS,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
 
-export const login = (params, cookie) => async dispatch => {
+export const login = (params, jwt) => async dispatch => {
   const { body } = params
   const options = {
     url: `/${ NAME }/login`,
@@ -93,22 +93,22 @@ export const login = (params, cookie) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:  LOGIN,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
 
-export const logout = (params, cookie) => async dispatch => {
+export const logout = (params, jwt) => async dispatch => {
   const options = {
     url: `/${ NAME }/logout`,
   }
   await fetchDispatch({
     dispatch,
     actions:  LOGOUT,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
 
-export const register = (params, cookie) => async dispatch => {
+export const register = (params, jwt) => async dispatch => {
   const { body } = params
   const options = {
     url: `/${ NAME }/register`,
@@ -117,11 +117,11 @@ export const register = (params, cookie) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:  REGISTER,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
 
-export const forgot = (params, cookie) => async dispatch => {
+export const forgot = (params, jwt) => async dispatch => {
   const { body } = params
   const options = {
     url: `/${ NAME }/forgot`,
@@ -130,11 +130,11 @@ export const forgot = (params, cookie) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:  FORGOT,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
 
-export const setPassword = (params, cookie) => async dispatch => {
+export const setPassword = (params, jwt) => async dispatch => {
   const { body } = params
   const options = {
     url: `/${ NAME }/set-password`,
@@ -143,11 +143,11 @@ export const setPassword = (params, cookie) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:  SET_PASSWORD,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
 
-export const reset = (params, cookie) => async dispatch => {
+export const reset = (params, jwt) => async dispatch => {
   const { body } = params
   const options = {
     url: `/${ NAME }/reset`,
@@ -156,11 +156,11 @@ export const reset = (params, cookie) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:  RESET,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
 
-export const updateSettings = (params, cookie) => async dispatch => {
+export const updateSettings = (params, jwt) => async dispatch => {
   const { body } = params
   const options = {
     url: `${NAME}/settings`,
@@ -169,6 +169,6 @@ export const updateSettings = (params, cookie) => async dispatch => {
   await fetchDispatch({
     dispatch,
     actions:  UPDATE,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }

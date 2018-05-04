@@ -47,7 +47,7 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export const getAll = (params = {}, cookie) => async dispatch => {
+export const getAll = (params = {}, jwt) => async dispatch => {
   const options = {
     url: `${NAME}`,
     ...params,
@@ -55,11 +55,11 @@ export const getAll = (params = {}, cookie) => async dispatch => {
   return await fetchDispatch({
     dispatch,
     actions:  GET_ALL,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
 
-export const getOne = (params, cookie) => async dispatch => {
+export const getOne = (params, jwt) => async dispatch => {
   let { id } = params
   id = id ? id : `new`
   const options = {
@@ -68,11 +68,11 @@ export const getOne = (params, cookie) => async dispatch => {
   return await fetchDispatch({
     dispatch,
     actions:  GET_ONE,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
 
-export const saveOne = (params, cookie) => async dispatch => {
+export const saveOne = (params, jwt) => async dispatch => {
   const { body } = params
   const { id } = body
   const isNew = isNil( id )
@@ -85,6 +85,6 @@ export const saveOne = (params, cookie) => async dispatch => {
     dispatch,
     meta:     { isNew },
     actions:  SAVE_ONE,
-    fetch:    { options, cookie },
+    fetch:    { options, jwt },
   })
 }
