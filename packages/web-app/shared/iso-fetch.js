@@ -58,9 +58,10 @@ function create( method ) {
       // copy access token to a cookie
       // • we will need this cookie for universal render
       if ( process.env.BROWSER ) {
-        const accessToken = payload.access_token
-        if ( !isNil( accessToken ) ) {
-          Cookies.set( config.COOKIE_NAME, accessToken )
+        const { access_token } = payload
+        if ( !isNil( access_token ) ) {
+          Cookies.remove( config.COOKIE_NAME )
+          Cookies.set( config.COOKIE_NAME, access_token )
           delete payload.access_token
         }
       }
