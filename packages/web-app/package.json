@@ -100,6 +100,7 @@
     "gulp-if": "^2.0.2",
     "gulp-load-plugins": "^1.5.0",
     "gulp-rename": "^1.2.2",
+    "gulp-sloc2": "^1.0.1",
     "gulp-svg-symbols": "^3.1.0",
     "jsdom": "^11.10.0",
     "node-sass": "4.7.2",

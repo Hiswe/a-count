@@ -10,6 +10,27 @@ const PAPER_SVG_SRC  = `server/public/paper-part`
 const PAPER_SVG_DEST = `server/public`
 const ICON_DEMO_DEST = `.tmp`
 
+const frontLoc = () => {
+  return gulp
+  .src( `client/*.js` )
+  .pipe( $.sloc2() )
+}
+
+const serverLoc = () => {
+  return gulp
+  .src( `server/*.js` )
+  .pipe( $.sloc2() )
+}
+
+const sharedLoc = () => {
+  return gulp
+  .src([
+    `shared/**/*.js`,
+    `!shared/**/*.spec.js`,
+  ])
+  .pipe( $.sloc2() )
+}
+
 const icons = () => {
   return gulp
   .src( `${ ICON_SVG_SRC }/*.svg` )
@@ -96,5 +117,8 @@ icons.description = `bundle SVG shred paper backgrounds`
 
 gulp.task( `paper-parts`, paperParts )
 gulp.task( `icons`, icons )
+gulp.task( `front-loc`, frontLoc )
+gulp.task( `server-loc`, serverLoc )
+gulp.task( `shared-loc`, sharedLoc )
 
 gulp.task( `svg`, gulp.parallel(icons, paperParts) )
