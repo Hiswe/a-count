@@ -120,5 +120,6 @@ gulp.task( `icons`, icons )
 gulp.task( `front-loc`, frontLoc )
 gulp.task( `server-loc`, serverLoc )
 gulp.task( `shared-loc`, sharedLoc )
+gulp.task( `loc`, gulp.series(frontLoc, serverLoc, sharedLoc) )
 
 gulp.task( `svg`, gulp.parallel(icons, paperParts) )
