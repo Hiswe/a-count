@@ -41,6 +41,8 @@
     "minmax",
     "presentational",
     "promisify",
+    "proxied",
+    "proxying",
     "randtoken",
     "squel",
     "sslify",
