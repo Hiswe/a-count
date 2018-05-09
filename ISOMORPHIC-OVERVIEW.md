@@ -90,7 +90,7 @@ As for the version 1.1.0:
 | 36 loc | 279 loc | 6476 loc            |
 | 1%     | 4%      | 95%                 |
 
-<img alt="lines of code repartition pie chart" src="assets/loc-chart.svg?raw=true" width="320" />
+<img alt="lines of code repartition pie chart" src="assets/loc-chart.svg" width="320" />
 
 I don't expect this repartition to change much with futur versions.  
 It should be: 
@@ -119,4 +119,4 @@ Here is a little bit of explanation:
   - when running on the client it can read the browser's cookie
   - when running on the server the cookie content will be provided by the server
 
-<img alt="lines of code repartition pie chart" src="assets/flow.svg?raw=true" width="1024" />
+<img alt="lines of code repartition pie chart" src="assets/flow.svg" width="1024" />
