@@ -15,7 +15,7 @@
     "toc": "doctoc README.md DOCUMENTATION.md ISOMORPHIC-OVERVIEW.md --github"
   },
   "engines": {
-    "node": "8.10.0"
+    "node": "8.11.1"
   },
   "dependencies": {},
   "devDependencies": {
