@@ -18,39 +18,46 @@ I will try to focus on how different piece of code put together will solve build
   - [Tech](#tech)
 - [Code mutualization](#code-mutualization)
 - [building the applications](#building-the-applications)
-  - [solving building issues](#solving-building-issues)
-    - [server](#server)
-    - [client](#client)
+  - [server](#server)
+  - [client](#client)
+  - [sharing the configuration](#sharing-the-configuration)
+    - [server](#server-1)
+    - [client](#client-1)
+    - [during test](#during-test)
+    - [configuration summary](#configuration-summary)
 - [Application flow between server/client](#application-flow-between-serverclient)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## About the API
+## about the API
 
 The web-application will interact with an API (`packages/api`) which will not be detailed here.
 The only thing we need to know about the API is that:
 
-- It's a REST like API (use only GET & POST)
+- It's a REST like API (uses only GET & POST)
 - Communicate with JSON
 - Authenticate with a JSON Web Token (JWT) 
 
 this document will __only focus__ on the `packages/web-app` folder
 
-## Prerequisite
+## prerequisite
 
 You should have some notions with:
 
-- React 
+- [React](https://reactjs.org/) 
   - what is a [Component](https://reactjs.org/docs/components-and-props.html)
   - what is a [High-Order Component (HoC)](https://reactjs.org/docs/components-and-props.html)
-- Redux 
+- [Redux](https://redux.js.org/) 
   - what is a [store](https://redux.js.org/basics/store)
   - what is an [action](https://redux.js.org/basics/actions)
   - what is a [reducer](https://redux.js.org/basics/reducers)
+- Some javascript tooling:
+  - [Webpack](https://webpack.js.org/) for bundling our application
+  - [BabelJs](http://babeljs.io/) for converting [React jsx](https://reactjs.org/docs/introducing-jsx.html) code to plain javascript
 
-## Supported features & Tech
+## supported features & Tech
 
-### Reasons & Features
+### reasons & Features
 
 I make this universal application to learn more about React.
 
@@ -70,7 +77,7 @@ In order to make it the most *real life* example this web-app will:
   - I will use `browser cookie` to store the JWT.  
     It's the only way to store informations on the browser without relying on Javascript.
 
-### Tech
+### tech
 
 __React library__, among others, is a great way to __ensure__ that __our applications is perfectly in sync with our__  application __state__.
 So we can rely on it to __always render the proper thing__ depending on the route/user actions/API queries.  
@@ -88,7 +95,7 @@ Here are all the main modules used:
   - [react redux](https://github.com/reactjs/react-redux) for a better integration with React
 - *server* – [Koa 2](http://koajs.com/)
 
-## Code mutualization
+## code mutualization
 
 As for the version 1.1.0:  
 
@@ -119,34 +126,68 @@ Using React with [JSX](https://reactjs.org/docs/introducing-jsx.html) make the c
 - I didn't want any `@babel/register` in my server code, because it might have performance cost so:
   __build also the server code with webpack__
 
+### server
 
-### solving building issues
-
-#### server
-
-- don't want to bundle the `node_modules`
+- don't want to bundle the `node_modules`: they are already accessible in nodeJS environment 
   → done with [webpack-node-externals](https://www.npmjs.com/package/webpack-node-externals)
 - want to always have access of source-map
   → done with the the [webpack banner-plugin](https://webpack.js.org/plugins/banner-plugin/) and the [source-map-support](https://www.npmjs.com/package/source-map-support) module
 - ignore `.scss` requires
   → done with [babel-plugin-transform-require-ignore](https://www.npmjs.com/package/babel-plugin-transform-require-ignore)
   __lesson learn: use babel to transform your code before bundling it with webpack__ 
-- have a dynamic configuration (will explain it more for the client)
-  → done with 
-  (normal-module-replacement-plugin)[https://webpack.js.org/plugins/normal-module-replacement-plugin/]
 
-#### client
+### client
 
 - want to bundle the `node_modules` in a separate file
   → done with [webpack split-chunks-plugin](https://webpack.js.org/plugins/split-chunks-plugin/)
 - want to bundle `.scss` in a `.css` separate file
   → done with [webpack extract-text-webpack-plugin](https://www.npmjs.com/package/extract-text-webpack-plugin)
   working in my case but should migrate to [webpack mini-css-extract-plugin](https://www.npmjs.com/package/mini-css-extract-plugin) (here is [why](https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/749#issuecomment-374549467))
-- have a dynamic configuration: 
-  we should be able to access some server configuration without being hard-coded inside the bundle
-  just replace the configuration module with a simple `export default window.__CONFIG__`
-  → done with 
-  (normal-module-replacement-plugin)[https://webpack.js.org/plugins/normal-module-replacement-plugin/]
+
+
+### sharing the configuration
+
+I use to manage my server configuration with [rc](https://www.npmjs.com/package/rc).  
+I wanted to keep it that way but an isomorphic configuration [comes with some challenge](http://blog.koorchik.com/isomorphic-react/#Isomorphic_configuration).
+
+To keep it versatile, I wanted to pass my configuration down to the client like this:
+
+```
+rc → server → client
+```
+
+Unlike Viktor Turskyi's solution, I replaced the config import with specific serve/client files.
+__This prevents mixing ES modules with Node's CommonJS modules syntax__
+
+→ done with 
+(normal-module-replacement-plugin)[https://webpack.js.org/plugins/normal-module-replacement-plugin/]
+
+#### server
+
+```js
+export { default } from '../server/config'
+```
+
+#### client
+
+```js
+export default window.__CONFIG__
+```
+
+where `window.__CONFIG__` is passed by the server
+
+#### during test
+
+[AVA](https://github.com/avajs/ava) is used for testing.  
+By default it uses babel to convert JSX. So I tried to keep it that way so → no Webpack.
+This will make it easier to require a single component and test it.
+
+So I just use the use my configuration entry point as the test configuration: no need to replace it with webpack!  
+I use the same babel configuration than the server, to prevent including the SCSS 😀
+
+#### configuration summary
+
+<img alt="lines of code repartition pie chart" src="assets/configuration.svg" width="680" />
 
 ## Application flow between server/client
 
