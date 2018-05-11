@@ -11,12 +11,12 @@ I will try to focus on how different piece of code put together will solve build
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [About the API](#about-the-api)
-- [Prerequisite](#prerequisite)
-- [Supported features & Tech](#supported-features--tech)
-  - [Reasons & Features](#reasons--features)
-  - [Tech](#tech)
-- [Code mutualization](#code-mutualization)
+- [about the API](#about-the-api)
+- [prerequisite](#prerequisite)
+- [supported features & Tech](#supported-features--tech)
+  - [reasons & Features](#reasons--features)
+  - [tech](#tech)
+- [code mutualization](#code-mutualization)
 - [building the applications](#building-the-applications)
   - [server](#server)
   - [client](#client)
@@ -25,7 +25,13 @@ I will try to focus on how different piece of code put together will solve build
     - [client](#client-1)
     - [during test](#during-test)
     - [configuration summary](#configuration-summary)
-- [Application flow between server/client](#application-flow-between-serverclient)
+- [server rendering](#server-rendering)
+- [routing with React-Router & Redux](#routing-with-react-router--redux)
+  - [what is React-router](#what-is-react-router)
+  - [interfacing with a server](#interfacing-with-a-server)
+    - [Getting our Redux Actions from React components](#getting-our-redux-actions-from-react-components)
+    - [server flow summary](#server-flow-summary)
+- [application flow summary](#application-flow-summary)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -39,6 +45,10 @@ The only thing we need to know about the API is that:
 - Authenticate with a JSON Web Token (JWT) 
 
 this document will __only focus__ on the `packages/web-app` folder
+
+__Why no GraphQL?__
+
+[GraphQL](http://graphql.org/) seems a nice tech, but I simply didn't have time to dig into it.
 
 ## prerequisite
 
@@ -62,7 +72,8 @@ You should have some notions with:
 I make this universal application to learn more about React.
 
 - I wanted to know how things work, so I didn't use any frameworks like [next.js](https://github.com/zeit/next.js/) or [create-react-app](https://github.com/facebook/create-react-app) that will build things for me that I don't truly understand.
-- I also wanted to make an exhaustive application: not a TODO example
+- I also wanted to make an exhaustive application: not a TODO app example.
+  There are plenty of those already, It's good to begin with but whenever you want to build something more, you're most of the time facing a wall…
 
 In order to make it the most *real life* example this web-app will:
 
@@ -76,6 +87,7 @@ In order to make it the most *real life* example this web-app will:
     Those can be handled in a second time.
   - I will use `browser cookie` to store the JWT.  
     It's the only way to store informations on the browser without relying on Javascript.
+    Sadly a browser without JS & cookie is doomed 😔
 
 ### tech
 
@@ -93,7 +105,7 @@ Here are all the main modules used:
   - [redux 4](https://redux.js.org/)
   - [redux thunk](https://www.npmjs.com/package/redux-thunk) for a better handling of asynchronous actions
   - [react redux](https://github.com/reactjs/react-redux) for a better integration with React
-- *server* – [Koa 2](http://koajs.com/)
+- *server* – [Koa 2](http://koajs.com/) (see [this post](https://hiswe.github.io/2018/07-from-express-to-koa/) about why I chose Koa)
 
 ## code mutualization
 
@@ -123,8 +135,9 @@ Using React with [JSX](https://reactjs.org/docs/introducing-jsx.html) make the c
   - import our `scss` files directly in the components. 
     That really __helps me separate__ concerns about __what a Component__ should __do and how is it displayed__
     and __I really liked to have the styles living next to my markup__
-- I didn't want any `@babel/register` in my server code, because it might have performance cost so:
+- I didn't want any `@babel/register` in my server code because it might have performance cost so:
   __build also the server code with webpack__
+  And that will also allow me to replace some files when needed
 
 ### server
 
@@ -189,7 +202,70 @@ I use the same babel configuration than the server, to prevent including the SCS
 
 <img alt="lines of code repartition pie chart" src="assets/configuration.svg" width="680" />
 
-## Application flow between server/client
+## server rendering
+
+In order to be able to __support a no-JS environment__, and to make our __first display quicker__ we will make the first render on the server.
+
+For this we need:
+
+1. make sure the route exists
+2. grab the right components to render (using the [React methods for server rendering](https://reactjs.org/docs/react-dom-server.html))
+3. make sure that the components have the right datas to begin with.
+4. pass everything to the client
+5. after that the client will initialize and run as a [single page application](https://en.wikipedia.org/wiki/Single-page_application)
+
+## routing with React-Router & Redux
+
+### what is React-router
+
+[React-router](https://reacttraining.com/react-router/) is, I think, the most common routing solution for React.
+They have recently updated their library to the version 4, so a lot of tutorials found online were mostly outdated by using the previous versions 😶
+
+There is a huge [shift of philosophy](https://reacttraining.com/react-router/core/guides/philosophy) between the previous versions and this one named as *dynamic routing* which is apart from what we used to do.
+
+### interfacing with a server
+
+To interface nicely with our Koa application we need something that:
+
+1. is more traditional & plays well with a server routing
+2. can be easily shared between the server/client
+3. easily readable on the server
+
+For that they have made a package named [react-router-config](https://www.npmjs.com/package/react-router-config). Still in beta but working as expected for me.
+
+This mainly do 3 things: 
+
+- a way to define a route configuration 
+- a method to __retrieve a component if it matches a provided route__
+- give a way for the router to give back informations to the server (like not found & redirection)
+
+#### getting Redux Actions from components
+
+Like seen before, with react-router-config __it's easy to get which components to render.__
+
+But we need a way to tell our server which datas those components needs.  
+We will rely on Redux to be sure to have a coherent state.
+
+What we __need is redux actions__ that we __dispatch to__ our __store__ and redux will do his job. 
+
+But because it's an universal application:
+
+- we will need those actions on the server
+- when on the client, if there is a *route change* we will need also those actions
+- we must take care that those actions won't be called twice:
+  - on time on the server
+  - another time when the client hydrate the React application
+
+the solution came again from [Viktor Turskyi's post](http://blog.koorchik.com/isomorphic-react/#Data_fetching) about data fetching.
+
+We need to make a HoC to take care of this
+
+
+#### server flow summary
+
+<img alt="the server flow" src="assets/server-rendering.svg" width="1024" />
+
+## application flow summary
 
 This is how the app behave from the __first render__ made by the __server__ to the __subsequent client handling__
 
