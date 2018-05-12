@@ -8,11 +8,11 @@ import * as account from './ducks/account'
 // • the static “fetchData” is mainly dedicated to the server
 //   but we alias it for the client side with _fetchDataOnClient :)
 // • BUT we don't want those data to be fetch another time on client side initialization
-//   hence the IS_FIRST_MOUNT_AFTER_LOAD
+//   hence the SKIP_FIRST_COMPONENTDIDMOUNT
 // • coming from:
 //   https://reactjsnews.com/isomorphic-react-in-real-life#data-fetching
 
-let IS_FIRST_MOUNT_AFTER_LOAD = true
+let SKIP_FIRST_COMPONENTDIDMOUNT = true
 
 export default function connectDataFetchers({Component, actionCreators}) {
 
@@ -45,8 +45,8 @@ export default function connectDataFetchers({Component, actionCreators}) {
     }
 
     componentDidMount() {
-      if ( !IS_FIRST_MOUNT_AFTER_LOAD ) return this._fetchDataOnClient()
-      IS_FIRST_MOUNT_AFTER_LOAD = false
+      if ( !SKIP_FIRST_COMPONENTDIDMOUNT ) return this._fetchDataOnClient()
+      SKIP_FIRST_COMPONENTDIDMOUNT = false
     }
 
     _fetchDataOnClient() {

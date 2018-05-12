@@ -25,13 +25,13 @@ I will try to focus on how different piece of code put together will solve build
     - [client](#client-1)
     - [during test](#during-test)
     - [configuration summary](#configuration-summary)
-- [server rendering](#server-rendering)
+- [about server rendering](#about-server-rendering)
+- [application flow summary](#application-flow-summary)
 - [routing with React-Router & Redux](#routing-with-react-router--redux)
   - [what is React-router](#what-is-react-router)
   - [interfacing with a server](#interfacing-with-a-server)
-    - [Getting our Redux Actions from React components](#getting-our-redux-actions-from-react-components)
+    - [get Redux Actions from components](#get-redux-actions-from-components)
     - [server flow summary](#server-flow-summary)
-- [application flow summary](#application-flow-summary)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -128,13 +128,19 @@ It should be:
 
 Using React with [JSX](https://reactjs.org/docs/introducing-jsx.html) make the code easier to write and to maintain so:
 
-- we will need a building step to convert JSX to regular JS
-- I used the most popular solution right now: [Webpack 4](https://webpack.js.org/)/[Babel 7](http://babeljs.io/)
-- since we have a build step, we can also:
+- a building step is required to convert JSX to regular JS
+- the most popular solution right now is the couple [Webpack](https://webpack.js.org/)/[Babel](http://babeljs.io/)
+  - Webpack is a the version 4 since a while
+    It promises to be simpler, but I found myself still digging a lot to make it work as expected
+    [ParcelJs](https://parceljs.org/) seems very promising but is in my opinion to young. I'll wait a little bit for more documentation & tutorials 
+  - as the latest version of Ava use babel 7, I picked it for my build process also.
+    At this time (may 2018) it's in `beta 46` 😳 and working perfectly
+    I can't thank enough all the people contributing to this project and I really hope that the final release will come soon
+- since we have a build step, why not
   - use [ES2015 modules](https://ponyfoo.com/articles/es6-modules-in-depth)
   - import our `scss` files directly in the components. 
-    That really __helps me separate__ concerns about __what a Component__ should __do and how is it displayed__
-    and __I really liked to have the styles living next to my markup__
+    That really __helps separate concerns about what a Component should do and how is it displayed__
+    Also it will ma it easy to __keep the styles next to the markup__
 - I didn't want any `@babel/register` in my server code because it might have performance cost so:
   __build also the server code with webpack__
   And that will also allow me to replace some files when needed
@@ -169,7 +175,7 @@ To keep it versatile, I wanted to pass my configuration down to the client like 
 rc → server → client
 ```
 
-Unlike Viktor Turskyi's solution, I replaced the config import with specific serve/client files.
+Unlike Viktor Turskyi's solution, I replaced the config import with specific server/client files.
 __This prevents mixing ES modules with Node's CommonJS modules syntax__
 
 → done with 
@@ -202,68 +208,17 @@ I use the same babel configuration than the server, to prevent including the SCS
 
 <img alt="lines of code repartition pie chart" src="assets/configuration.svg" width="680" />
 
-## server rendering
+## about server rendering
 
 In order to be able to __support a no-JS environment__, and to make our __first display quicker__ we will make the first render on the server.
 
 For this we need:
 
-1. make sure the route exists
-2. grab the right components to render (using the [React methods for server rendering](https://reactjs.org/docs/react-dom-server.html))
-3. make sure that the components have the right datas to begin with.
-4. pass everything to the client
-5. after that the client will initialize and run as a [single page application](https://en.wikipedia.org/wiki/Single-page_application)
-
-## routing with React-Router & Redux
-
-### what is React-router
-
-[React-router](https://reacttraining.com/react-router/) is, I think, the most common routing solution for React.
-They have recently updated their library to the version 4, so a lot of tutorials found online were mostly outdated by using the previous versions 😶
-
-There is a huge [shift of philosophy](https://reacttraining.com/react-router/core/guides/philosophy) between the previous versions and this one named as *dynamic routing* which is apart from what we used to do.
-
-### interfacing with a server
-
-To interface nicely with our Koa application we need something that:
-
-1. is more traditional & plays well with a server routing
-2. can be easily shared between the server/client
-3. easily readable on the server
-
-For that they have made a package named [react-router-config](https://www.npmjs.com/package/react-router-config). Still in beta but working as expected for me.
-
-This mainly do 3 things: 
-
-- a way to define a route configuration 
-- a method to __retrieve a component if it matches a provided route__
-- give a way for the router to give back informations to the server (like not found & redirection)
-
-#### getting Redux Actions from components
-
-Like seen before, with react-router-config __it's easy to get which components to render.__
-
-But we need a way to tell our server which datas those components needs.  
-We will rely on Redux to be sure to have a coherent state.
-
-What we __need is redux actions__ that we __dispatch to__ our __store__ and redux will do his job. 
-
-But because it's an universal application:
-
-- we will need those actions on the server
-- when on the client, if there is a *route change* we will need also those actions
-- we must take care that those actions won't be called twice:
-  - on time on the server
-  - another time when the client hydrate the React application
-
-the solution came again from [Viktor Turskyi's post](http://blog.koorchik.com/isomorphic-react/#Data_fetching) about data fetching.
-
-We need to make a HoC to take care of this
-
-
-#### server flow summary
-
-<img alt="the server flow" src="assets/server-rendering.svg" width="1024" />
+1. grab the right components to render (using the [React methods for server rendering](https://reactjs.org/docs/react-dom-server.html))
+    a non exiting route means rendering the 404 component
+2. make sure that the components have the right datas to begin with.
+3. pass everything to the client
+4. after that the client will initialize and run as a [single page application](https://en.wikipedia.org/wiki/Single-page_application)
 
 ## application flow summary
 
@@ -282,8 +237,71 @@ Here is a little bit of explanation:
   - I uses the [duck convention](https://github.com/erikras/ducks-modular-redux) to organize the code
   - We will define in some `redux actions` the API calls
 - __ISO-FETCH__ is a small wrapper around [isomorphic-fetch](https://www.npmjs.com/package/isomorphic-fetch)
-  - it will handle any Fetch request to the API
-  - when running on the client it can read the browser's cookie
-  - when running on the server the cookie content will be provided by the server
-
+  It will handle any Fetch request to the API
+  Keep in mind that:
+  - on the __server__: the cookie content will be provided by the server
+  - on the __client__: it can read the browser's cookie content by itself
+  
 <img alt="lines of code repartition pie chart" src="assets/flow.svg" width="1024" />
+
+## routing with React-Router & Redux
+
+### what is React-router
+
+[React-router](https://reacttraining.com/react-router/) is, I think, the most common routing solution for React.
+They have recently updated their library to the version 4, so a lot of tutorials found online were outdated by using the previous versions 😶
+
+There is a huge [shift of philosophy](https://reacttraining.com/react-router/core/guides/philosophy) between the previous versions and this one.
+They call it *dynamic routing* and it's very different from the classical way.
+
+### interfacing with a server
+
+To interface nicely with our Koa server we need something that:
+
+1. is more traditional & plays well with a server routing
+2. can be easily shared between the server/client
+
+For that they have made a package named [react-router-config](https://www.npmjs.com/package/react-router-config). 
+It's still in beta but is working as expected for me.
+
+react router config mainly does 3 things: 
+
+- a way to define a route configuration 
+- a method to __retrieve the component that match the route__
+- give a way for the router to give back informations to the server (like not found & redirection)
+
+#### get Redux Actions from components
+
+Like seen before, with react-router-config __it's easy to get which components to render.__
+
+But we need a way to tell our server which datas those components needs.  
+We will rely on Redux to maintain a coherent state.
+
+What we __need is redux actions__ that we __dispatch to our store__ and redux will do his job. 
+
+But because it's an universal application:
+
+- on the __server__ we will need the __actions to be called before instantiating our components__ 
+    → this is solved by using a [static method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static) on our components
+- on the __client__ we will need the __actions to be called in [componentDidMount()](https://reactjs.org/docs/react-component.html#componentdidmount)__
+- on __first rendering__ we must __prevent the client to call the componentDidMount() actions__
+    Calling them twice won't have a lot of side effects but making the same set of requests is inefficient…
+
+the solution came again from [Viktor Turskyi's post](http://blog.koorchik.com/isomorphic-react/#Data_fetching) about data fetching.
+
+We need to make a [HoC](https://reactjs.org/docs/higher-order-components.html) to take care of this.
+
+It will:
+
+1. take in input a `component` and an array of redux actions (`actionsCreators`)
+2. always add the authentication action
+3. return the `component` in the `render()` passing in any `props`
+4. for the __server__: expose a static method named `fetchData` which will `dispatch` any `actions` of the `actionsCreators` array
+5. for the __client__: call `fetchData` in `componentDidMount`
+6. prevent the first call of `componentDidMount` (with a module variable named `SKIP_FIRST_COMPONENTDIDMOUNT`)
+
+<img alt="connect data fetcher flow" src="assets/connect-data-fetcher.svg" width="700" />
+
+#### server flow summary
+
+<img alt="the server flow" src="assets/server-rendering.svg" width="700" />
