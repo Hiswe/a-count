@@ -4,8 +4,8 @@ import { FormattedMessage } from 'react-intl'
 import { Helmet           } from 'react-helmet'
 
 import      ConnectDataFetcher from '../connect-data-fetcher'
-import * as quotations         from '../ducks/quotations'
-import * as customers          from '../ducks/customers'
+import * as quotations         from '../redux-ducks/quotations'
+import * as customers          from '../redux-ducks/customers'
 import      NavSecondary       from '../nav/secondary'
 import {
   ButtonNew,

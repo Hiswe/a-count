@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect            } from 'react-redux'
 
 import      Notification  from './item'
-import * as notifications from '../ducks/notifications'
+import * as notifications from '../redux-ducks/notifications'
 import './list.scss'
 const BASE_CLASS = `notifications`
 const NOTIFICATION_LIFETIME = 5000

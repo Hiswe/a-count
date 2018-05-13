@@ -4,7 +4,7 @@ import { bindActionCreators }                       from 'redux'
 import { connect            }                       from 'react-redux'
 import { FormattedMessage  , FormattedHTMLMessage } from 'react-intl'
 
-import * as account from '../ducks/account'
+import * as account from '../redux-ducks/account'
 
 import './main.scss'
 const BASE_CLASS = `nav-main`

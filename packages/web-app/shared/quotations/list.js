@@ -4,7 +4,7 @@ import { connect            } from 'react-redux'
 import { FormattedMessage   } from 'react-intl'
 import { Link               } from 'react-router-dom'
 
-import * as quotations from '../ducks/quotations'
+import * as quotations from '../redux-ducks/quotations'
 import { Table, Row, Cell } from '../ui-table'
 import { Amount, Day            } from '../ui/format'
 import { Button                  } from '../ui/buttons'

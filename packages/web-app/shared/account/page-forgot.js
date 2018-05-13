@@ -8,7 +8,7 @@ import { Helmet             } from 'react-helmet'
 
 import      config               from '../isomorphic-config'
 import      ConnectDataFetcher   from '../connect-data-fetcher'
-import * as account              from '../ducks/account'
+import * as account              from '../redux-ducks/account'
 import      LayoutBoarding       from '../layout/boarding'
 import      Form                 from '../ui/form'
 import {    Button             } from '../ui/buttons'

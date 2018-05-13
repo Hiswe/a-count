@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect            } from 'react-redux'
 import { FormattedMessage   } from 'react-intl'
 
-import * as invoices       from '../ducks/invoices'
+import * as invoices       from '../redux-ducks/invoices'
 import { Button, BtnIcon } from '../ui/buttons'
 
 //----- SHOW QUOTATION

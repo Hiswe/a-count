@@ -4,7 +4,7 @@ import { connect            } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 
-import * as customers  from '../ducks/customers'
+import * as customers  from '../redux-ducks/customers'
 import { Table, Row, Cell } from '../ui-table'
 import { FormatNumber, Amount } from '../ui/format'
 import { Progress } from '../ui/progress'

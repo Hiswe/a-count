@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Helmet           } from 'react-helmet'
 
 import      ConnectDataFetcher from '../connect-data-fetcher'
-import * as quotations         from '../ducks/quotations'
+import * as quotations         from '../redux-ducks/quotations'
 import {    NavSecondary } from '../nav/secondary'
 import * as NavButtons     from '../nav/secondary-buttons'
 import * as LayoutMain     from '../layout/main'

@@ -4,7 +4,7 @@ import { connect            } from 'react-redux'
 import { Link               } from 'react-router-dom'
 import   serialize            from 'form-serialize'
 
-import * as customers     from '../ducks/customers'
+import * as customers     from '../redux-ducks/customers'
 import * as redirection   from '../utils/check-redirection'
 import      Spinner       from '../ui/spinner'
 import {    Form        } from '../ui/form'

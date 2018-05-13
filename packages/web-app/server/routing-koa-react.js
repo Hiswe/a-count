@@ -13,7 +13,7 @@ import config from './config.js'
 import log from './log.js'
 import * as render from './render'
 import routes from '../shared/routes.js'
-import reducer from '../shared/ducks/combined-reducers.js'
+import reducer from '../shared/redux-ducks/combined-reducers.js'
 
 const router         = new Router()
 

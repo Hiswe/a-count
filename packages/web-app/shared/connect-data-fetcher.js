@@ -1,6 +1,6 @@
 import React from 'react'
 
-import * as account from './ducks/account'
+import * as account from './redux-ducks/account'
 
 // Connect data fetcher
 // • we need to collect data for the components to render properly

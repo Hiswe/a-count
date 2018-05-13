@@ -6,7 +6,7 @@ import   serialize            from 'form-serialize'
 import { bindActionCreators } from 'redux'
 import { connect            } from 'react-redux'
 
-import * as invoices          from '../ducks/invoices'
+import * as invoices          from '../redux-ducks/invoices'
 import * as redirection       from '../utils/check-redirection'
 import {    getInputValue   } from '../utils/get-input-value'
 import {    Form            } from '../ui/form'

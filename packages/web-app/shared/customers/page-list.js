@@ -6,7 +6,7 @@ import { FormattedMessage   } from 'react-intl'
 import { Helmet             } from 'react-helmet'
 
 import      ConnectDataFetcher            from '../connect-data-fetcher'
-import * as customers                     from '../ducks/customers'
+import * as customers                     from '../redux-ducks/customers'
 import {    Main              , Content } from '../layout/main'
 import      NavSecondary                  from '../nav/secondary'
 import {    ButtonNew          }          from '../nav/secondary-buttons'

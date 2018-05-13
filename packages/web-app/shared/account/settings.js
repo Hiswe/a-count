@@ -4,7 +4,7 @@ import { connect            } from 'react-redux'
 import { Link               } from 'react-router-dom'
 import   serialize            from 'form-serialize'
 
-import * as account           from '../ducks/account'
+import * as account           from '../redux-ducks/account'
 import {    getInputValue   } from '../utils/get-input-value'
 import {    Form            } from '../ui/form'
 import      SettingFormPres   from './settings.pres'

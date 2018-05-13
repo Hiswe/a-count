@@ -12,7 +12,7 @@ import en from 'react-intl/locale-data/en'
 import fr from 'react-intl/locale-data/fr'
 
 import routes from '../shared/routes'
-import reducers from '../shared/ducks/combined-reducers'
+import reducers from '../shared/redux-ducks/combined-reducers'
 
 // I18N
 addLocaleData( [...en, ...fr] )
