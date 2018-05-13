@@ -52,15 +52,15 @@ router.get( '*', async (ctx, next) => {
     } )
   await Promise.all( initFetches )
 
-  // staticContext is mutable & provided only on server-side rendering
+  // serverContext is mutable & provided only on server-side rendering
   // • Because it's mutable, it will change during the React's server rendering process
   // • So that's a good way to pass data from react-router-config to the server
-  const staticContext = {}
+  const serverContext = {}
 
   // Finally render!
   const content = renderToString(
     <Provider store={store}>
-      <StaticRouter location={url} context={staticContext}>
+      <StaticRouter location={url} context={serverContext}>
         {/* renderRoutes will render the right components */}
         { renderRoutes(routes) }
       </StaticRouter>
@@ -71,10 +71,10 @@ router.get( '*', async (ctx, next) => {
   const helmet = Helmet.renderStatic()
 
   // reflect status from react-router to koa
-  if ( staticContext.status === 302 ) {
+  if ( serverContext.status === 302 ) {
     ctx.status = 302
     log( `redirect` )
-    return ctx.redirect( staticContext.url )
+    return ctx.redirect( serverContext.url )
   }
   if ( staticContext.status === 404 ) {
     ctx.status = 404

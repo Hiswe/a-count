@@ -73,7 +73,7 @@ class InvoiceForm extends React.Component {
   static getDerivedStateFromProps( nextProps, prevState ) {
     const   next                = nextProps.invoice
     const   current             = prevState.formData
-    const { history, staticContext, isSaving } = nextProps
+    const { history, serverContext, isSaving } = nextProps
     if ( isSaving ) return null
     if ( current === next ) return null
 
@@ -82,7 +82,7 @@ class InvoiceForm extends React.Component {
       next,
       current,
       history,
-      staticContext,
+      serverContext,
     })
 
     return { formData: InvoiceForm.updatePayments( next ) }

@@ -11,13 +11,13 @@ const PRIVATE_ROOT = `/`
 export function authenticationForbidden( Component ) {
 
   function AuthForbidden( props ) {
-    const { staticContext } = props
+    const { serverContext } = props
 
     if ( !props.isAuthenticated ) return <Component {...props}/>
 
-    if ( staticContext ) {
-      staticContext.status = 302
-      staticContext.url = PRIVATE_ROOT
+    if ( serverContext ) {
+      serverContext.status = 302
+      serverContext.url = PRIVATE_ROOT
     }
     return <Redirect to={ PRIVATE_ROOT } />
   }

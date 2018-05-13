@@ -102,7 +102,7 @@ class QuotationForm extends React.Component {
   static getDerivedStateFromProps( nextProps, prevState ) {
     const   next                           = nextProps.current
     const   current                        = prevState.formData
-    const { history, staticContext, customers, isSaving } = nextProps
+    const { history, serverContext, customers, isSaving } = nextProps
     if ( isSaving ) return null
     if ( current === next ) return null
 
@@ -111,7 +111,7 @@ class QuotationForm extends React.Component {
       next,
       current,
       history,
-      staticContext,
+      serverContext,
     })
 
     return {

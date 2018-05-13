@@ -26,7 +26,7 @@ class CustomerForm extends React.Component {
   static getDerivedStateFromProps( nextProps, prevState ) {
     const   next                = nextProps.customer
     const   current             = prevState.formData
-    const { isSaving, history, staticContext } = nextProps
+    const { isSaving, history, serverContext } = nextProps
     if ( isSaving ) return null
     if ( current === next ) return null
 
@@ -35,7 +35,7 @@ class CustomerForm extends React.Component {
       next,
       current,
       history,
-      staticContext,
+      serverContext,
     })
     if ( redirect ) return null
 

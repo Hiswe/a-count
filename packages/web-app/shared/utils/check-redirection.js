@@ -44,14 +44,14 @@ const archivedInvoice = {
 }
 
 const checkRedirections = datas => (hasRedirect, redirection) => {
-  const { next, current, history, staticContext } = datas
+  const { next, current, history, serverContext } = datas
   if ( hasRedirect ) return hasRedirect
   if ( !redirection.test({next, current}) ) return false
   const redirectUrl = redirection.to( next )
   // update static context for the server
-  if ( staticContext ) {
-    staticContext.status  = 302
-    staticContext.url     = redirectUrl
+  if ( serverContext ) {
+    serverContext.status  = 302
+    serverContext.url     = redirectUrl
   }
   return history.push( redirectUrl )
 }

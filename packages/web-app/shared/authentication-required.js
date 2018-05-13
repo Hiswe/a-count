@@ -12,13 +12,13 @@ export function authenticationRequired( Component ) {
   // TODO: shouldn't redirect if already on login page…
 
   function AuthRequired( props ) {
-    const { staticContext } = props
+    const { serverContext } = props
 
     if ( props.isAuthenticated ) return <Component {...props}/>
 
-    if ( staticContext ) {
-      staticContext.status = 302
-      staticContext.url = PUBLIC_ROOT
+    if ( serverContext ) {
+      serverContext.status = 302
+      serverContext.url = PUBLIC_ROOT
     }
     return <Redirect to={ PUBLIC_ROOT } />
   }

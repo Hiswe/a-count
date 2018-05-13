@@ -5,12 +5,12 @@ import { Helmet         } from 'react-helmet'
 import   LayoutBoarding   from './layout/boarding'
 
 const NotFound = () => (
-  // we need a route to have access to staticContext
-  <Route render={({ staticContext }) => {
-    // staticContext is server only
+  // we need a route to have access to serverContext
+  <Route render={({ serverContext }) => {
+    // serverContext is server only
     // put some infos here so the server can know things
-    if ( staticContext ) {
-      staticContext.status = 404
+    if ( serverContext ) {
+      serverContext.status = 404
     }
     return (
       <LayoutBoarding title="404">
