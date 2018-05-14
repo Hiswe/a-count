@@ -7,6 +7,10 @@ The web-app was greatly influenced by this [Viktor Turskyi's post](http://blog.k
 Unlike this article, I won't produce here any code example.
 I will try to focus on how different piece of code put together will solve building an universal applications problems.
 
+It's my first take on this kind of application, so I'm sure there are many flaws & rooms for improvement.  
+But hey, we need a start in order to advance 🏃‍♀️
+
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -25,15 +29,17 @@ I will try to focus on how different piece of code put together will solve build
     - [client](#client-1)
     - [during test](#during-test)
     - [configuration summary](#configuration-summary)
-- [about server rendering](#about-server-rendering)
+- [purpose of server rendering](#purpose-of-server-rendering)
 - [application flow summary](#application-flow-summary)
 - [routing with React-Router & Redux](#routing-with-react-router--redux)
   - [what is React-router](#what-is-react-router)
-  - [interfacing with a server](#interfacing-with-a-server)
+  - [interfacing with the server](#interfacing-with-the-server)
   - [get Redux Actions from components](#get-redux-actions-from-components)
+  - [limitations](#limitations)
   - [server flow summary](#server-flow-summary)
 - [authentication](#authentication)
-  - [Athentication HoC ordering](#athentication-hoc-ordering)
+  - [authentication HoC flow](#authentication-hoc-flow)
+- [i18N with React-Intel](#i18n-with-react-intel)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -63,6 +69,7 @@ You should have some notions with:
   - what is a [store](https://redux.js.org/basics/store)
   - what is an [action](https://redux.js.org/basics/actions)
   - what is a [reducer](https://redux.js.org/basics/reducers)
+  - how to use [react-redux](https://redux.js.org/basics/usage-with-react) to connect our React components to the store
 - Some javascript tooling:
   - [Webpack](https://webpack.js.org/) for bundling our application
   - [BabelJs](http://babeljs.io/) for converting [React jsx](https://reactjs.org/docs/introducing-jsx.html) code to plain javascript
@@ -314,6 +321,12 @@ It will:
 
 <img alt="connect data fetcher flow" src="assets/connect-data-fetcher.svg" width="700" />
 
+### limitations
+
+The main issue with that way of doing so is that we __need to call all the actions needed for all the children components in the top `page component`__  
+
+It will be nicer if we declared all those actions on the concerned components and find a way to hoist & aggregate them to the page component.
+
 ### server flow summary
 
 <img alt="the server flow" src="assets/server-rendering.svg" width="700" />
@@ -345,3 +358,28 @@ They follow the same pattern:
 ### authentication HoC flow
 
 <img alt="the authentication hoc ordering" src="assets/hoc-authentication.svg" width="700" />
+
+## i18N with React-Intel
+
+[React-Intel](https://github.com/yahoo/react-intl/wiki) fits my needs: 
+  - formating numbers 
+  - formating dates
+  - providing translations
+
+The documentation is quite good and the implementation straightforward.
+
+We just need to:
+
+- wrap our application with the `<IntlProvider />` component
+- define our locals files
+- follow the guide to [server rendering](https://github.com/yahoo/react-intl/wiki#locale-data-in-nodejs)
+
+What we can improve:
+
+This simple take is __suitable for a small application__ but may be __hard to maintain on a larger scale__.
+
+- load our `locales files` async
+  - right now every locales are bundled
+- have a way to extract our keys from the application
+  - a very interesting post was written by [Vlad Goran](https://blog.idagio.com/localisation-or-how-i-learned-to-stop-worrying-and-love-babel-plugin-react-intl-8eeb51d80d77) about extracting with [babel-plugin-react-intl](https://github.com/yahoo/babel-plugin-react-intl) but [it doesn't seem to work with babel-7](https://github.com/yahoo/babel-plugin-react-intl/issues/122)
+    
