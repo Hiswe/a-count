@@ -1,7 +1,7 @@
 import crio  from 'crio'
 import merge from 'lodash.merge'
 
-import * as isoFetch from '../../iso-fetch'
+import * as isomorphicFetch from '../../isomorphic-fetch'
 
 export default async function dispatchFetchActions( params ) {
   const { dispatch, fetch, actions, meta = {} } = params
@@ -14,7 +14,7 @@ export default async function dispatchFetchActions( params ) {
     },
   })
   try {
-    const { payload } = await isoFetch[ method ]( options, jwt )
+    const { payload } = await isomorphicFetch[ method ]( options, jwt )
     dispatch({
       type:     actions.DONE,
       meta,

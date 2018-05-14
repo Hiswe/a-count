@@ -2,7 +2,7 @@ import Router from 'koa-router'
 import isNil  from 'lodash.isnil'
 
 import config from './config'
-import * as isoFetch from '../shared/iso-fetch'
+import * as isomorphicFetch from '../shared/isomorphic-fetch'
 
 const router  = new Router()
 
@@ -22,7 +22,7 @@ const proxyRequest = async (ctx, next) => {
   }
   const method  = ctx.request.method.toLowerCase()
   const jwt     = ctx.cookies.get( config.COOKIE_NAME )
-  const { response, payload } = await isoFetch[ method ]( fetchOptions, jwt )
+  const { response, payload } = await isomorphicFetch[ method ]( fetchOptions, jwt )
   if (!response.ok) {
     throw({
       status:     response.status,
