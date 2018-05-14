@@ -319,7 +319,7 @@ It will:
 5. for the __client__: call `fetchData` in `componentDidMount`
 6. prevent the first call of `componentDidMount` (with a module variable named `SKIP_FIRST_COMPONENTDIDMOUNT`)
 
-<img alt="connect data fetcher flow" src="assets/connect-data-fetcher.svg" width="700" />
+<img alt="route fetch actions flow" src="assets/route-fetch-actions.svg" width="700" />
 
 ### limitations
 
