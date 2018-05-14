@@ -2,7 +2,7 @@ import crio from 'crio'
 import isNil from 'lodash.isnil'
 
 import createActionNames from './utils/create-action-names'
-import fetchDispatch from './utils/fetch-dispatch'
+import dispatchFetchActions from './utils/dispatch-fetch-actions'
 
 const NAME = `quotations`
 export const LIST_ACTIVE            = createActionNames( NAME, `get`  , `list-active`           )
@@ -103,7 +103,7 @@ export const listActive = (params = {}, jwt) => async dispatch => {
     url: `${NAME}`,
     ...params,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:   LIST_ACTIVE,
     fetch:    { options, jwt },
@@ -115,7 +115,7 @@ export const listArchived = (params = {}, jwt) => async dispatch => {
     url: `${NAME}/archived`,
     ...params,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:   LIST_ARCHIVED,
     fetch:    { options, jwt },
@@ -127,7 +127,7 @@ export const listReadyToInvoice = (params = {}, jwt) => async dispatch => {
     url: `${NAME}/ready-to-invoice`,
     ...params,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:   LIST_GET_READY_INVOICE,
     fetch:    { options, jwt },
@@ -140,7 +140,7 @@ export const listForCustomer = (params = {}, jwt) => async dispatch => {
     url: `/customers/${ id }/${NAME}`,
     ...rest,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:   LIST_FOR_CUSTOMER,
     fetch:    { options, jwt },
@@ -153,7 +153,7 @@ export const getOne = (params, jwt) => async dispatch => {
   const options = {
     url: `${NAME}/${id}`,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions: GET_ONE,
     fetch:    { options, jwt },
@@ -169,7 +169,7 @@ export const saveOne = (params, jwt) => async dispatch => {
     url: `${ NAME }/${ urlId }`,
     body,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     meta:     { isNew },
     actions:  SAVE_ONE,
@@ -183,7 +183,7 @@ export const archiveOne = (params, jwt) => async dispatch => {
     url: `${ NAME }/${ id }/archive`,
     body: {},
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     meta:     { id },
     actions:  ARCHIVE_QUOTE,
@@ -197,7 +197,7 @@ export const createInvoice = (params, jwt) => async dispatch => {
     url: `${ NAME }/${ id }/create-invoice`,
     body: {},
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     meta:     { id },
     actions:  CREATE_INVOICE,

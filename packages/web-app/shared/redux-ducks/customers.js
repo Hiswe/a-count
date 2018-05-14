@@ -2,7 +2,7 @@ import crio from 'crio'
 import isNil from 'lodash.isnil'
 
 import createActionNames from './utils/create-action-names'
-import fetchDispatch from './utils/fetch-dispatch'
+import dispatchFetchActions from './utils/dispatch-fetch-actions'
 
 const NAME = `customers`
 export const GET_ALL  = createActionNames( NAME, `get`, `all`)
@@ -52,7 +52,7 @@ export const getAll = (params = {}, jwt) => async dispatch => {
     url: `${NAME}`,
     ...params,
   }
-  return await fetchDispatch({
+  return await dispatchFetchActions({
     dispatch,
     actions:  GET_ALL,
     fetch:    { options, jwt },
@@ -65,7 +65,7 @@ export const getOne = (params, jwt) => async dispatch => {
   const options = {
     url: `${NAME}/${id}`,
   }
-  return await fetchDispatch({
+  return await dispatchFetchActions({
     dispatch,
     actions:  GET_ONE,
     fetch:    { options, jwt },
@@ -81,7 +81,7 @@ export const saveOne = (params, jwt) => async dispatch => {
     url: `${ NAME }/${ urlId }`,
     body,
   }
-  return await fetchDispatch({
+  return await dispatchFetchActions({
     dispatch,
     meta:     { isNew },
     actions:  SAVE_ONE,

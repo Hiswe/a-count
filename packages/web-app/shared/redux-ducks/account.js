@@ -1,7 +1,7 @@
 import crio from 'crio'
 
 import createActionNames from './utils/create-action-names'
-import fetchDispatch from './utils/fetch-dispatch'
+import dispatchFetchActions from './utils/dispatch-fetch-actions'
 
 const NAME = `account`
 
@@ -66,7 +66,7 @@ export const auth = (params, jwt) => async dispatch => {
   const options = {
     url: `/${ NAME }/auth`,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:  AUTH,
     fetch:    { options, jwt },
@@ -77,7 +77,7 @@ export const statistics = (params, jwt) => async dispatch => {
   const options = {
     url: `/${ NAME }/statistics`,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:  STATISTICS,
     fetch:    { options, jwt },
@@ -90,7 +90,7 @@ export const login = (params, jwt) => async dispatch => {
     url: `/${ NAME }/login`,
     body,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:  LOGIN,
     fetch:    { options, jwt },
@@ -101,7 +101,7 @@ export const logout = (params, jwt) => async dispatch => {
   const options = {
     url: `/${ NAME }/logout`,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:  LOGOUT,
     fetch:    { options, jwt },
@@ -114,7 +114,7 @@ export const register = (params, jwt) => async dispatch => {
     url: `/${ NAME }/register`,
     body,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:  REGISTER,
     fetch:    { options, jwt },
@@ -127,7 +127,7 @@ export const forgot = (params, jwt) => async dispatch => {
     url: `/${ NAME }/forgot`,
     body,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:  FORGOT,
     fetch:    { options, jwt },
@@ -140,7 +140,7 @@ export const setPassword = (params, jwt) => async dispatch => {
     url: `/${ NAME }/set-password`,
     body,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:  SET_PASSWORD,
     fetch:    { options, jwt },
@@ -153,7 +153,7 @@ export const reset = (params, jwt) => async dispatch => {
     url: `/${ NAME }/reset`,
     body,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:  RESET,
     fetch:    { options, jwt },
@@ -166,7 +166,7 @@ export const updateSettings = (params, jwt) => async dispatch => {
     url: `${NAME}/settings`,
     body,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:  UPDATE,
     fetch:    { options, jwt },

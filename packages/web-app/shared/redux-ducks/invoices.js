@@ -2,7 +2,7 @@ import crio from 'crio'
 import isNil from 'lodash.isnil'
 
 import createActionNames from './utils/create-action-names'
-import fetchDispatch from './utils/fetch-dispatch'
+import dispatchFetchActions from './utils/dispatch-fetch-actions'
 import { CONVERT } from './quotations'
 
 const NAME = `invoices`
@@ -79,7 +79,7 @@ export const listActive = (params = {}, jwt) => async dispatch => {
     url: `${NAME}`,
     ...params,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:   LIST_ACTIVE,
     fetch:    { options, jwt },
@@ -91,7 +91,7 @@ export const listArchived = (params = {}, jwt) => async dispatch => {
     url: `${NAME}/archived`,
     ...params,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:   LIST_ARCHIVED,
     fetch:    { options, jwt },
@@ -104,7 +104,7 @@ export const listForCustomer = (params = {}, jwt) => async dispatch => {
     url: `/customers/${ id }/${NAME}`,
     ...rest,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:   LIST_FOR_CUSTOMER,
     fetch:    { options, jwt },
@@ -116,7 +116,7 @@ export const getOne = (params, jwt) => async dispatch => {
   const options = {
     url: `${ NAME }/${ id }`,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions: GET_ONE,
     fetch:    { options, jwt },
@@ -130,7 +130,7 @@ export const saveOne = (params, jwt) => async dispatch => {
     url: `${ NAME }/${ id }`,
     body,
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     actions:  SAVE_ONE,
     fetch:    { options, jwt },
@@ -143,7 +143,7 @@ export const archiveOne = (params, jwt) => async dispatch => {
     url: `${ NAME }/${ id }/archive`,
     body: {},
   }
-  await fetchDispatch({
+  await dispatchFetchActions({
     dispatch,
     meta:     { id },
     actions:  ARCHIVE,

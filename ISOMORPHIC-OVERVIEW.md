@@ -383,3 +383,6 @@ This simple take is __suitable for a small application__ but may be __hard to ma
 - have a way to extract our keys from the application
   - a very interesting post was written by [Vlad Goran](https://blog.idagio.com/localisation-or-how-i-learned-to-stop-worrying-and-love-babel-plugin-react-intl-8eeb51d80d77) about extracting with [babel-plugin-react-intl](https://github.com/yahoo/babel-plugin-react-intl) but [it doesn't seem to work with babel-7](https://github.com/yahoo/babel-plugin-react-intl/issues/122)
     
+## The full chain of components
+
+
