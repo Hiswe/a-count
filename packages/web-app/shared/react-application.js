@@ -4,15 +4,15 @@ import { IntlProvider } from 'react-intl'
 import { connect      } from 'react-redux'
 import { Helmet       } from 'react-helmet'
 
-import      config        from '../isomorphic-config'
-import * as locales       from '../locales'
-import      ErrorBoundary from '../error-boundary'
-import      NavMain       from '../nav/main'
-import      Notifications from '../notifications/list'
+import      config        from './isomorphic-config'
+import * as locales       from './locales'
+import      ErrorBoundary from './error-boundary'
+import      NavMain       from './nav/main'
+import      Notifications from './notifications/list'
 
-import './root.scss'
+import './react-application.scss'
 
-class Root extends React.PureComponent {
+class ReactApplication extends React.PureComponent {
 
   constructor( props ) {
     super( props )
@@ -74,5 +74,5 @@ function state2props( state ) {
   return { lang }
 }
 
-export default connect( state2props )( Root )
+export default connect( state2props )( ReactApplication )
 

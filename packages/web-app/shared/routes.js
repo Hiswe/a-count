@@ -1,7 +1,7 @@
 import authenticationRequired from './authentication-required'
 import authenticationForbidden from './authentication-forbidden'
 
-import Root from './layout/root'
+import App from './react-application'
 
 import Login       from './account/page-login'
 import Register    from './account/page-register'
@@ -32,7 +32,7 @@ import CustomerEdit  from './customers/page-edit'
 import NotFound from './page-not-found'
 
 const routes = [{
-  component: Root,
+  component: App,
   routes: [{
     path: `/account/login`,
     exact: true,
