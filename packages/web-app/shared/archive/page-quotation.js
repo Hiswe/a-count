@@ -4,7 +4,7 @@ import { Link             } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { Helmet           } from 'react-helmet'
 
-import      ConnectDataFetcher from '../connect-data-fetcher'
+import      routeFetchActions  from '../route-fetch-actions'
 import * as quotations         from '../redux-ducks/quotations'
 import {    NavSecondary } from '../nav/secondary'
 import * as NavButtons     from '../nav/secondary-buttons'
@@ -89,7 +89,7 @@ export default connect(
   state => ({
     quotation: state.quotations.get(`current`),
   })
-)( ConnectDataFetcher({
+)( routeFetchActions({
   Component: ShowArchivedQuotation,
   actionCreators: [
     quotations.getOne,

@@ -2,7 +2,7 @@ import React from 'react'
 
 import * as account from './redux-ducks/account'
 
-// Connect data fetcher
+// ROUTE FETCH ACTIONS
 // • we need to collect data for the components to render properly
 //   …both on the server and the client side
 // • the static “fetchData” is mainly dedicated to the server
@@ -14,7 +14,7 @@ import * as account from './redux-ducks/account'
 
 let SKIP_FIRST_COMPONENTDIDMOUNT = true
 
-export default function connectDataFetchers({Component, actionCreators}) {
+export default function routeFetchActions({Component, actionCreators}) {
 
   // be sure we have an array to begin with
   actionCreators = Array.isArray( actionCreators ) ? actionCreators
@@ -22,7 +22,8 @@ export default function connectDataFetchers({Component, actionCreators}) {
   // always query the authentication
   actionCreators.unshift( account.auth )
 
-  return class DataFetchersWrapper extends React.Component {
+  // TODO: check if we can make it a PureComponent
+  return class routeFetchActions  extends React.Component {
 
     // Don't pass the full store
     // • passing only dispatch will make server & client iso in what they get
@@ -54,7 +55,7 @@ export default function connectDataFetchers({Component, actionCreators}) {
       // call the static method to avoid duplicating code
       // • don't need to pass the JWT:
       //   it will be handled by isomorphic-fetch on the client side
-      DataFetchersWrapper.fetchData({
+      RouteFetchActions.fetchData({
         dispatch: this.props.dispatch,
         params,
       })

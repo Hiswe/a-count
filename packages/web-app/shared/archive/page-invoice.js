@@ -4,7 +4,7 @@ import { Link             } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { Helmet           } from 'react-helmet'
 
-import      ConnectDataFetcher from '../connect-data-fetcher'
+import      routeFetchActions  from '../route-fetch-actions'
 import * as invoices           from '../redux-ducks/invoices'
 
 import {    NavSecondary  } from '../nav/secondary'
@@ -88,7 +88,7 @@ export default connect(
   state => ({
     invoice: state.invoices.get(`current`),
   })
-)( ConnectDataFetcher({
+)( routeFetchActions({
   Component: ShowArchivedInvoice,
   actionCreators: [
     invoices.getOne,

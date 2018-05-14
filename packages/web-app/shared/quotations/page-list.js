@@ -5,7 +5,7 @@ import { Link               } from 'react-router-dom'
 import { FormattedMessage   } from 'react-intl'
 import { Helmet             } from 'react-helmet'
 
-import ConnectDataFetcher from '../connect-data-fetcher'
+import routeFetchActions  from '../route-fetch-actions'
 import * as quotations    from '../redux-ducks/quotations'
 import { Main, Content  } from '../layout/main'
 import { NavSecondary   } from '../nav/secondary'
@@ -47,7 +47,7 @@ function state2prop( state ) {
   return {}
 }
 
-export default connect( state2prop )( ConnectDataFetcher({
+export default connect( state2prop )( routeFetchActions({
   Component: Quotations,
   actionCreators: [
     quotations.listActive,

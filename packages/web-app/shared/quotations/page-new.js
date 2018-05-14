@@ -4,7 +4,7 @@ import { connect            } from 'react-redux'
 import { FormattedMessage   } from 'react-intl'
 import { Helmet             } from 'react-helmet'
 
-import      ConnectDataFetcher from '../connect-data-fetcher'
+import      routeFetchActions  from '../route-fetch-actions'
 import * as quotations         from '../redux-ducks/quotations'
 import * as customers          from '../redux-ducks/customers'
 import      NavSecondary       from '../nav/secondary'
@@ -48,7 +48,7 @@ function state2prop( state ) {
   return { isSaving }
 }
 
-export default connect( state2prop )( ConnectDataFetcher({
+export default connect( state2prop )( routeFetchActions({
   Component: NewQuotation,
   actionCreators: [
     customers.getAll,

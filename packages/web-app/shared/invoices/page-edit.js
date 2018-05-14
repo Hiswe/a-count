@@ -4,7 +4,7 @@ import { connect            } from 'react-redux'
 import { FormattedMessage   } from 'react-intl'
 import { Helmet             } from 'react-helmet'
 
-import      ConnectDataFetcher from '../connect-data-fetcher'
+import      routeFetchActions  from '../route-fetch-actions'
 import * as invoices           from '../redux-ducks/invoices'
 import      NavSecondary       from '../nav/secondary'
 import {
@@ -65,7 +65,7 @@ function state2prop( state ) {
   }
 }
 
-export default connect( state2prop )( ConnectDataFetcher({
+export default connect( state2prop )( routeFetchActions({
   Component: EditInvoice,
   actionCreators: [
     invoices.getOne,
