@@ -30,8 +30,10 @@ I will try to focus on how different piece of code put together will solve build
 - [routing with React-Router & Redux](#routing-with-react-router--redux)
   - [what is React-router](#what-is-react-router)
   - [interfacing with a server](#interfacing-with-a-server)
-    - [get Redux Actions from components](#get-redux-actions-from-components)
-    - [server flow summary](#server-flow-summary)
+  - [get Redux Actions from components](#get-redux-actions-from-components)
+  - [server flow summary](#server-flow-summary)
+- [authentication](#authentication)
+  - [Athentication HoC ordering](#athentication-hoc-ordering)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -73,18 +75,18 @@ I make this universal application to learn more about React.
 
 - I wanted to know how things work, so I didn't use any frameworks like [next.js](https://github.com/zeit/next.js/) or [create-react-app](https://github.com/facebook/create-react-app) that will build things for me that I don't truly understand.
 - I also wanted to make an exhaustive application: not a TODO app example.
-  There are plenty of those already, It's good to begin with but whenever you want to build something more, you're most of the time facing a wall…
+  There are plenty of those already, It's good to begin with but whenever you want to build something more complex, you'll have a hard time to stitch the piece togeter.
 
 In order to make it the most *real life* example this web-app will:
 
-- mutualise all the code we can
-- support authentication
-- support Internationalization (i18n)
-- be testable (even if there isn't as much tests that I wanted 😨)
-- should work even without JS in the browser
+- __mutualise all the code__ we can
+- support __authentication__
+- support __Internationalization__ (i18n)
+- be __testable__ (even if there isn't as much tests that I wanted 😨)
+- should __work without JS__ in the browser
   - I believe in progressive enhancement 
-  - while developing, this allowed me to make API POST request without taking care about the redux actions.  
-    Those can be handled in a second time.
+  - while developing, this allow to make API POST request without taking care about the redux actions.  
+    Those can be created in a second time.
   - I will use `browser cookie` to store the JWT.  
     It's the only way to store informations on the browser without relying on Javascript.
     Sadly a browser without JS & cookie is doomed 😔
@@ -97,15 +99,17 @@ Thus, we will omit this part from this document (*i.e.* considering that changin
 
 Here are all the main modules used: 
 
-- *views* – [React 16.3](https://reactjs.org/)
-- *router* 
+- __views__ 
+  - [React 16.3](https://reactjs.org/)
+- __routing__ 
   - [React router 4](https://reacttraining.com/react-router/) 
   - [react-router-config 1](https://www.npmjs.com/package/react-router-config) for the universal support
-- *application state* 
+- __application state__ 
   - [redux 4](https://redux.js.org/)
   - [redux thunk](https://www.npmjs.com/package/redux-thunk) for a better handling of asynchronous actions
   - [react redux](https://github.com/reactjs/react-redux) for a better integration with React
-- *server* – [Koa 2](http://koajs.com/) (see [this post](https://hiswe.github.io/2018/07-from-express-to-koa/) about why I chose Koa)
+- __server__ 
+  - [Koa 2](http://koajs.com/) (see [this post](https://hiswe.github.io/2018/07-from-express-to-koa/) about why I chose Koa)
 
 ## code mutualization
 
@@ -130,9 +134,8 @@ Using React with [JSX](https://reactjs.org/docs/introducing-jsx.html) make the c
 
 - a building step is required to convert JSX to regular JS
 - the most popular solution right now is the couple [Webpack](https://webpack.js.org/)/[Babel](http://babeljs.io/)
-  - Webpack is a the version 4 since a while
-    It promises to be simpler, but I found myself still digging a lot to make it work as expected
-    [ParcelJs](https://parceljs.org/) seems very promising but is in my opinion to young. I'll wait a little bit for more documentation & tutorials 
+  - Webpack in version 4 since a while
+    It promises to be simpler, but you will still find yourself to add some plugins at one point or another
   - as the latest version of Ava use babel 7, I picked it for my build process also.
     At this time (may 2018) it's in `beta 46` 😳 and working perfectly
     I can't thank enough all the people contributing to this project and I really hope that the final release will come soon
@@ -144,6 +147,11 @@ Using React with [JSX](https://reactjs.org/docs/introducing-jsx.html) make the c
 - I didn't want any `@babel/register` in my server code because it might have performance cost so:
   __build also the server code with webpack__
   And that will also allow me to replace some files when needed
+
+
+On a side node [ParcelJs](https://parceljs.org/) seems very promising.  
+As I see it, it's still too young (version 1 released on december 2017). 
+I'll wait a little bit for more documentation & tutorials , and surely try it on another side projet
 
 ### server
 
@@ -208,9 +216,12 @@ I use the same babel configuration than the server, to prevent including the SCS
 
 <img alt="lines of code repartition pie chart" src="assets/configuration.svg" width="680" />
 
-## about server rendering
+## purpose of server rendering
 
-In order to be able to __support a no-JS environment__, and to make our __first display quicker__ we will make the first render on the server.
+Server rendering seems a good idea for 2 main reason:
+
+- make our __first display quicker__ 
+- __support no-JS environment__
 
 For this we need:
 
@@ -230,9 +241,10 @@ Here is a little bit of explanation:
   - <img alt="the cookie symbol" src="assets/cookie-symbol.svg" width="16" /> represents a cookie either read from a server request, or from the browser
   - <img alt="the JWT symbol" src="assets/jwt-symbol.svg" width="16" /> represents a JWT which will be used for authentication between our web-application and the API
   - arrows between them represent reading/writing from/into the cookie
-- __REACT-ROUTER__ will mutualise all our pages routes in GET
-  - when __no JS__ we support GET/POST routes that aren't meant to display a page will be manually proxied to the API 
-    this is done in the `server/routing-api-backup.js`
+- __REACT-ROUTER__ will mutualise all our pages routes
+  - on the __server__: direct call to the API (either in GET or POST) will be manually proxied
+  - this for supporting __no-JS__ environment
+  - this is done in the `server/routing-api-backup.js`
 - __REDUX__ will maintain our app state
   - I uses the [duck convention](https://github.com/erikras/ducks-modular-redux) to organize the code
   - We will define in some `redux actions` the API calls
@@ -249,28 +261,28 @@ Here is a little bit of explanation:
 ### what is React-router
 
 [React-router](https://reacttraining.com/react-router/) is, I think, the most common routing solution for React.
-They have recently updated their library to the version 4, so a lot of tutorials found online were outdated by using the previous versions 😶
+They have recently updated their library to the version 4.
 
 There is a huge [shift of philosophy](https://reacttraining.com/react-router/core/guides/philosophy) between the previous versions and this one.
-They call it *dynamic routing* and it's very different from the classical way.
+They call it *dynamic routing* and it's very different from the classical way.  
 
-### interfacing with a server
+### interfacing with the server
 
-To interface nicely with our Koa server we need something that:
+To interface nicely with our Koa server, we need something that:
 
 1. is more traditional & plays well with a server routing
 2. can be easily shared between the server/client
 
 For that they have made a package named [react-router-config](https://www.npmjs.com/package/react-router-config). 
-It's still in beta but is working as expected for me.
+It's still in beta but is already working as expected.
 
-react router config mainly does 3 things: 
+React Router Config mainly does 3 things: 
 
-- a way to define a route configuration 
+- a way to define a __routing configuration__
 - a method to __retrieve the component that match the route__
-- give a way for the router to give back informations to the server (like not found & redirection)
+- give a way for the router to __give back informations to the server__ (like not found & redirection) so we can serve the pages with right HTTP code.
 
-#### get Redux Actions from components
+### get Redux Actions from components
 
 Like seen before, with react-router-config __it's easy to get which components to render.__
 
@@ -287,14 +299,14 @@ But because it's an universal application:
 - on __first rendering__ we must __prevent the client to call the componentDidMount() actions__
     Calling them twice won't have a lot of side effects but making the same set of requests is inefficient…
 
-the solution came again from [Viktor Turskyi's post](http://blog.koorchik.com/isomorphic-react/#Data_fetching) about data fetching.
+The solution came again from [Viktor Turskyi's post](http://blog.koorchik.com/isomorphic-react/#Data_fetching) about data fetching.
 
 We need to make a [HoC](https://reactjs.org/docs/higher-order-components.html) to take care of this.
 
 It will:
 
 1. take in input a `component` and an array of redux actions (`actionsCreators`)
-2. always add the authentication action
+2. always add the authentication action (needed for the app to ensure the right display)
 3. return the `component` in the `render()` passing in any `props`
 4. for the __server__: expose a static method named `fetchData` which will `dispatch` any `actions` of the `actionsCreators` array
 5. for the __client__: call `fetchData` in `componentDidMount`
@@ -302,6 +314,34 @@ It will:
 
 <img alt="connect data fetcher flow" src="assets/connect-data-fetcher.svg" width="700" />
 
-#### server flow summary
+### server flow summary
 
 <img alt="the server flow" src="assets/server-rendering.svg" width="700" />
+
+## authentication
+
+This one is quite easy.  
+Authentication is handled by 2 [HoC](https://reactjs.org/docs/components-and-props.html)
+
+1. __public route__ will redirect to private home if connected  
+    `authentication-forbidden.js`
+2. __private route__ will redirect to login page if not connected 
+    `authentication-required.js`
+
+They follow the same pattern:
+
+1. need to be __connected to the redux store__ to check authentication 
+    → done with [react-redux](https://redux.js.org/basics/usage-with-react#presentational-and-container-components)
+2. need to be __connected to the react router__ to access the redirection
+    → done with [react-router-config](https://www.npmjs.com/package/react-router-config)
+    On the __server__ we also a procide a `serverContext` object
+    (on the documentation they call it [staticContext](https://reacttraining.com/react-router/web/guides/server-rendering) but I find it more obvious with the name that I use)
+3. will check `redux store` authentication
+    - redirect if needed
+      update `serverContext` if rendered on server side
+      __this will be used to have the right HTTP status code when serving the application__
+    - render component if everything's fine
+
+### authentication HoC flow
+
+<img alt="the authentication hoc ordering" src="assets/hoc-authentication.svg" width="700" />

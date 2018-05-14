@@ -25,6 +25,8 @@ export function authenticationRequired( Component ) {
 
   // Hoist “Component.fetchData”
   // • needed by the the server to fetch the right data
+  // • TODO: should use hoist-non-react-statics
+      https://github.com/mridgway/hoist-non-react-statics
   if ( Component.fetchData ) {
     AuthRequired.fetchData = Component.fetchData
   }
