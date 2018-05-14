@@ -22,8 +22,9 @@ __Melbourne, FL 32904__
 AUSTRALIA`
 }
 const currencies = [
-  {value: `USD`, label: `USD`},
-  {value: `EUR`, label: `EUR`},
+  {value: `USD`, label: `US Dollars`},
+  {value: `EUR`, label: `Euros`},
+  {value: `THB`, label: `Thai Bahts`},
 ]
 const languages = [
   {value: `fr`, label: `français`},

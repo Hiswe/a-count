@@ -52,11 +52,11 @@ const User = sequelize.define( `user`, {
     },
   },
   currency: {
-    type:         Sequelize.STRING,
+    type:         Sequelize.CHAR(3),
     defaultValue: `USD`,
-    set:          dbGetterSetter.setTrimmedString(`currency`),
+    set:          dbGetterSetter.setTrimmedString( `currency` ),
     validate: {
-      isIn: [[`USD`, `EUR`]],
+      isIn: [[`USD`, `EUR`, `THB`]],
     },
   },
   // SESSION
