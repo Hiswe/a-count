@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "8.10.0"
+    "node": "8.11.1"
   },
   "scripts": {
     "build": "yarn run build:api-doc",
