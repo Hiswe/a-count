@@ -140,7 +140,8 @@ It should be:
 ## files structure
 
 I tried to avoid nesting folders too deeply.  
-I used [lerna](https://lernajs.io/) to have a clear separation between our API & the web-app
+I used [lerna](https://lernajs.io/) to have a clear separation between our API & the web-app,
+I may move to [yarn workspaces](https://yarnpkg.com/blog/2017/08/02/introducing-workspaces/) when it will leave its experimental status
 
 Here are the main choices:
 
