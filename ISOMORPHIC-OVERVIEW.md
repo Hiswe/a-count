@@ -319,11 +319,26 @@ It will:
 5. for the __client__: call `fetchData` in `componentDidMount`
 6. prevent the first call of `componentDidMount` (with a module variable named `SKIP_FIRST_COMPONENTDIDMOUNT`)
 
-<img alt="route fetch actions flow" src="assets/route-fetch-actions.svg" width="700" />
+<img alt="route fetch actions flow" src="assets/page-fetch-actions.svg" width="700" />
+
+### adding React-Helmet
+
+We still need to provide `<head>` and `<script>` tags.
+In order to do so, and to keep most of the code on the shared folder, just use [React-Helmet](#)
+
+it will handle for us: 
+
+- the `<html>` tag
+- the `<title>` tag
+- any `<meta>` and `<stylesheet>`
+
+I didn't put any `<script>` for a reason that I can't remember 😶
+
+Since almost any HTML is handled by React, on the server we don't need to write a lot of things, thus we can use Javascript template strings instead of any template engine
 
 ### limitations
 
-The main issue with that way of doing so is that we __need to call all the actions needed for all the children components in the top `page component`__  
+The main issue of doing so is that we __need to call all the actions needed for all the children components in the top `page component`__  
 
 It will be nicer if we declared all those actions on the concerned components and find a way to hoist & aggregate them to the page component.
 
@@ -370,6 +385,7 @@ The documentation is quite good and the implementation straightforward.
 
 We just need to:
 
+- keep our current locale in the `Redux-Store` so we can change our locale dynamically
 - wrap our application with the `<IntlProvider />` component
 - define our locals files
 - follow the guide to [server rendering](https://github.com/yahoo/react-intl/wiki#locale-data-in-nodejs)
