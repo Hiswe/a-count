@@ -3,7 +3,7 @@ import { connect          } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { Helmet           } from 'react-helmet'
 
-import      routeFetchActions  from '../route-fetch-actions'
+import      pageFetchActions   from '../page-fetch-actions'
 import * as customers          from '../redux-ducks/customers'
 import {
   PaperSheet,
@@ -79,7 +79,7 @@ function state2prop( state ) {
   }
 }
 
-export default connect( state2prop )( routeFetchActions({
+export default connect( state2prop )( pageFetchActions({
   Component: NewCustomer,
   actionCreators: [
     customers.getOne

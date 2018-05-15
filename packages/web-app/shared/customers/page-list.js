@@ -5,7 +5,7 @@ import { Link               } from 'react-router-dom'
 import { FormattedMessage   } from 'react-intl'
 import { Helmet             } from 'react-helmet'
 
-import      routeFetchActions             from '../route-fetch-actions'
+import      pageFetchActions              from '../page-fetch-actions'
 import * as customers                     from '../redux-ducks/customers'
 import {    Main              , Content } from '../layout/main'
 import      NavSecondary                  from '../nav/secondary'
@@ -36,7 +36,7 @@ function Customers( props ) {
   )
 }
 
-export default connect()( routeFetchActions({
+export default connect()( pageFetchActions({
   Component: Customers,
   actionCreators: [
     customers.getAll,

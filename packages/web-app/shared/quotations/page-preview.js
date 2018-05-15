@@ -4,7 +4,7 @@ import { injectIntl       } from 'react-intl'
 import { FormattedMessage } from 'react-intl'
 import { Helmet           } from 'react-helmet'
 
-import      routeFetchActions             from '../route-fetch-actions'
+import      pageFetchActions              from '../page-fetch-actions'
 import * as quotations                    from '../redux-ducks/quotations'
 import {    Main              , Content } from '../layout/main'
 import      NavSecondary                  from '../nav/secondary'
@@ -71,7 +71,7 @@ function state2prop( state ) {
   }
 }
 
-export default connect( state2prop )( routeFetchActions({
+export default connect( state2prop )( pageFetchActions({
   Component: PreviewQuotationPage,
   actionCreators: [
     quotations.getOne,

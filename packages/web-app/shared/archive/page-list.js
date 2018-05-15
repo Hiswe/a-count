@@ -4,7 +4,7 @@ import { Link             } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { Helmet           } from 'react-helmet'
 
-import      routeFetchActions  from '../route-fetch-actions'
+import      pageFetchActions   from '../page-fetch-actions'
 import * as quotations         from '../redux-ducks/quotations'
 import * as invoices           from '../redux-ducks/invoices'
 
@@ -38,7 +38,7 @@ function ArchivedList( props ) {
 }
 
 export default connect(
-)( routeFetchActions({
+)( pageFetchActions({
   Component: ArchivedList,
   actionCreators: [
     quotations.listArchived,

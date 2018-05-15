@@ -10,6 +10,7 @@ import config from './config.js'
 // • node only has `en` locales
 // • polyfill the other languages
 //   https://formatjs.io/guides/runtime-environments/#polyfill-node
+// TODO: move it to routing-koa-react
 if ( !areIntlLocalesSupported([`en`, `fr`]) ) {
   Intl.NumberFormat   = IntlPolyfill.NumberFormat
   Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat
@@ -27,6 +28,7 @@ const CLIENT_CONFIG  = serializeJS( {
 const SVG_ICONS_PATH = path.join(__dirname, './public/svg-icons.svg')
 const SVG_ICONS      = fs.readFileSync( SVG_ICONS_PATH, `utf8`)
 
+// TODO: try to put script tags in React-Helmet also
 export function reactApp({ store, content, helmet}) {
   const INITIAL_STATE = serializeJS( store.getState(), { isJSON: true } )
   return `<!DOCTYPE html>

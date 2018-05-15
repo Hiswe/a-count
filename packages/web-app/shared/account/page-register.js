@@ -7,7 +7,7 @@ import { FormattedMessage   } from 'react-intl'
 import { Helmet             } from 'react-helmet'
 
 import      config               from '../isomorphic-config'
-import      routeFetchActions    from '../route-fetch-actions'
+import      pageFetchActions     from '../page-fetch-actions'
 import * as account              from '../redux-ducks/account'
 import      LayoutBoarding       from '../layout/boarding'
 import      Form                 from '../ui/form'
@@ -68,7 +68,7 @@ function dispatch2prop( dispatch ) {
   }, dispatch)
 }
 
-export default connect(null, dispatch2prop)( routeFetchActions({
+export default connect(null, dispatch2prop)( pageFetchActions({
   Component: Register,
   actionCreators: [
   ],

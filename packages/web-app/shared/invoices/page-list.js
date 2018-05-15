@@ -5,7 +5,7 @@ import { Link               } from 'react-router-dom'
 import { FormattedMessage   } from 'react-intl'
 import { Helmet             } from 'react-helmet'
 
-import      routeFetchActions  from '../route-fetch-actions'
+import      pageFetchActions   from '../page-fetch-actions'
 import * as quotations         from '../redux-ducks/quotations'
 import * as invoices           from '../redux-ducks/invoices'
 import { Main, Content            } from '../layout/main'
@@ -39,7 +39,7 @@ function state2props( state ) {
   return {}
 }
 
-export default connect( state2props )( routeFetchActions({
+export default connect( state2props )( pageFetchActions({
   Component: Invoices,
   actionCreators: [
     invoices.listActive,
