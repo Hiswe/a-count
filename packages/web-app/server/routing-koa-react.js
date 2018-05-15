@@ -76,7 +76,7 @@ router.get( '*', async (ctx, next) => {
     log( `redirect` )
     return ctx.redirect( serverContext.url )
   }
-  if ( staticContext.status === 404 ) {
+  if ( serverContext.status === 404 ) {
     ctx.status = 404
   }
 
