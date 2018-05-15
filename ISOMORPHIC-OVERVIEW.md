@@ -78,7 +78,7 @@ You should have some notions with:
 
 ## supported features & Tech
 
-### reasons & Features
+### reasons & features
 
 I make this universal application to learn more about React.
 
@@ -97,12 +97,12 @@ In order to make it the most *real life* example this web-app will:
   - while developing, this allow to make API POST request without taking care about the redux actions.  
     Those can be created in a second time.
   - I will use `browser cookie` to store the JWT.  
-    It's the only way to store informations on the browser without relying on Javascript.
+    It's the only way to store informations on the browser without relying on Javascript.  
     Sadly a browser without JS & cookie is doomed 😔
 
 ### tech
 
-__React library__, among others, is a great way to __ensure__ that __our applications is perfectly in sync with our__  application __state__.
+__React library__, among others, is a great way to __ensure__ that __our applications is perfectly in sync with our__  application __state__.  
 So we can rely on it to __always render the proper thing__ depending on the route/user actions/API queries.  
 Thus, we will omit this part from this document (*i.e.* considering that changing the route/state will always render the right HTML)
 
@@ -134,13 +134,13 @@ As for the version 1.1.0:
 I don't expect this repartition to change much with futur versions.  
 It should be: 
 
-- more & more code in shared code
+- more & more code into the shared folder
 - some small additions in server code (mainly for proxying POST fallback)
 
 ## files structure
 
 I tried to avoid nesting folders too deeply.  
-I used [lerna](https://lernajs.io/) to have a clear separation between our API & the web-app,
+I used [lerna](https://lernajs.io/) to have a clear separation between our API & the web-app.  
 I may move to [yarn workspaces](https://yarnpkg.com/blog/2017/08/02/introducing-workspaces/) when it will leave its experimental status
 
 Here are the main choices:
