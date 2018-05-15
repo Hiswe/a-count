@@ -5,28 +5,28 @@
 ///////
 
 :root {
-  --c-primary-h: $c-primary-h;
-  --c-primary-s: $c-primary-s;
-  --c-primary-l: $c-primary-l;
-  --c-accent-h:  $c-accent-h;
-  --c-accent-s:  $c-accent-s;
-  --c-accent-l:  $c-accent-l;
-  --c-warning-h: $c-warning-h;
-  --c-warning-s: $c-warning-s;
-  --c-warning-l: $c-warning-l;
-  --c-danger-h:  $c-danger-h;
-  --c-danger-s:  $c-danger-s;
-  --c-danger-l:  $c-danger-l;
-  --c-text-h:    $c-text-h;
-  --c-text-s:    $c-text-s;
-  --c-text-l:    $c-text-l;
+  --c-primary-h: #{$c-primary-h};
+  --c-primary-s: #{$c-primary-s};
+  --c-primary-l: #{$c-primary-l};
+  --c-accent-h:  #{$c-accent-h};
+  --c-accent-s:  #{$c-accent-s};
+  --c-accent-l:  #{$c-accent-l};
+  --c-warning-h: #{$c-warning-h};
+  --c-warning-s: #{$c-warning-s};
+  --c-warning-l: #{$c-warning-l};
+  --c-danger-h:  #{$c-danger-h};
+  --c-danger-s:  #{$c-danger-s};
+  --c-danger-l:  #{$c-danger-l};
+  --c-text-h:    #{$c-text-h};
+  --c-text-s:    #{$c-text-s};
+  --c-text-l:    #{$c-text-l};
 
   // Keep `hsl` in Uppercase
   // github.com/sass/node-sass/issues/2251#issuecomment-365861645
   --c-primary-darkest:  HSL(var(--c-primary-h), var(--c-primary-s), 10%);
   --c-primary-darker:   HSL(var(--c-primary-h), var(--c-primary-s), 20%);
   --c-primary:          HSL(var(--c-primary-h), var(--c-primary-s), var(--c-primary-l));
-  --c-primary-lighter:  HSL(var(--c-primary-h), var(--c-primary-s), $c-primary-lighter-l);
+  --c-primary-lighter:  HSL(var(--c-primary-h), var(--c-primary-s), #{$c-primary-lighter-l});
   --c-primary-lightest: HSL(var(--c-primary-h), var(--c-primary-s), 90%);
   --c-primary-white:    HSL(var(--c-primary-h), var(--c-primary-s), 97%);
 
@@ -59,7 +59,7 @@
   --s-half-gutter:    calc( var(--s-gutter) / 2 );
   --s-quarter-gutter: calc( var(--s-gutter) / 4 );
 
-  --s-max-width:    $max-width;
+  --s-max-width:    #{$max-width};
   --s-border-radius: var(--s-quarter-gutter);
 
   // NAV CONFIG
