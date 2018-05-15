@@ -40,6 +40,8 @@ But hey, we need a start in order to advance 🏃‍♀️
 - [authentication](#authentication)
   - [authentication HoC flow](#authentication-hoc-flow)
 - [i18N with React-Intel](#i18n-with-react-intel)
+- [adding React-Helmet](#adding-react-helmet)
+- [The full chain of components](#the-full-chain-of-components)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -135,6 +137,27 @@ It should be:
 - more & more code in shared code
 - some small additions in server code (mainly for proxying POST fallback)
 
+## files structure
+
+I tried to avoid nesting folders too deeply.  
+I used [lerna](https://lernajs.io/) to have a clear separation between our API & the web-app
+
+Here are the main choices:
+
+- __client__: a single file to initialize the Redux-store, the router and hydrate our React application
+- __server__
+  - `root`: initializing our Koa app & the routing 
+  - `public`: all our compiled JS/CSS + some assets
+- __shared__
+  - `root`
+    - isomorphic files
+    - main HoC (will come to them later)
+  - `redux-ducks`: all our Redux related code using the [ducks convention](https://github.com/erikras/ducks-modular-redux)
+      This helps keeping all our related code in one file
+  - `[…components]`: organized by domain
+      The `ui` are mostly presentational components  
+      I could have used more external components
+
 ## building the applications
 
 Using React with [JSX](https://reactjs.org/docs/introducing-jsx.html) make the code easier to write and to maintain so:
@@ -154,7 +177,6 @@ Using React with [JSX](https://reactjs.org/docs/introducing-jsx.html) make the c
 - I didn't want any `@babel/register` in my server code because it might have performance cost so:
   __build also the server code with webpack__
   And that will also allow me to replace some files when needed
-
 
 On a side node [ParcelJs](https://parceljs.org/) seems very promising.  
 As I see it, it's still too young (version 1 released on december 2017). 
@@ -321,21 +343,6 @@ It will:
 
 <img alt="route fetch actions flow" src="assets/page-fetch-actions.svg" width="700" />
 
-### adding React-Helmet
-
-We still need to provide `<head>` and `<script>` tags.
-In order to do so, and to keep most of the code on the shared folder, just use [React-Helmet](#)
-
-it will handle for us: 
-
-- the `<html>` tag
-- the `<title>` tag
-- any `<meta>` and `<stylesheet>`
-
-I didn't put any `<script>` for a reason that I can't remember 😶
-
-Since almost any HTML is handled by React, on the server we don't need to write a lot of things, thus we can use Javascript template strings instead of any template engine
-
 ### limitations
 
 The main issue of doing so is that we __need to call all the actions needed for all the children components in the top `page component`__  
@@ -398,7 +405,25 @@ This simple take is __suitable for a small application__ but may be __hard to ma
   - right now every locales are bundled
 - have a way to extract our keys from the application
   - a very interesting post was written by [Vlad Goran](https://blog.idagio.com/localisation-or-how-i-learned-to-stop-worrying-and-love-babel-plugin-react-intl-8eeb51d80d77) about extracting with [babel-plugin-react-intl](https://github.com/yahoo/babel-plugin-react-intl) but [it doesn't seem to work with babel-7](https://github.com/yahoo/babel-plugin-react-intl/issues/122)
+
+## adding React-Helmet
+
+We still need to provide `<head>` and `<script>` tags.
+In order to do so, and to keep most of the code on the shared folder, just use [React-Helmet](https://www.npmjs.com/package/react-helmet)
+
+It will handle for us: 
+
+- the `<html>` tag
+- the `<title>` tag
+- any `<meta>` and `<stylesheet>`
+
+I didn't put any `<script>` for a reason that I can't remember 😶
+
+Since almost any HTML is handled by React, on the server we don't need to write a lot of things, thus we can use Javascript template strings instead of any template engine
     
 ## The full chain of components
 
+So from top to bottom this how our components fits together.
+The main thing is that our __HoC won't change over time__ so we just have to write our application without worrying about server/client, auth, i18n anymore!
 
+<img alt="how components chains to each other" src="assets/components-chaining.svg" width="850" />
