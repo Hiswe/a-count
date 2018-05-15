@@ -144,7 +144,7 @@ Using React with [JSX](https://reactjs.org/docs/introducing-jsx.html) make the c
   - Webpack in version 4 since a while
     It promises to be simpler, but you will still find yourself to add some plugins at one point or another
   - as the latest version of Ava use babel 7, I picked it for my build process also.
-    At this time (may 2018) it's in `beta 46` 😳 and working perfectly
+    At this time (may 2018) it's in `beta 47` 😳 and working perfectly
     I can't thank enough all the people contributing to this project and I really hope that the final release will come soon
 - since we have a build step, why not
   - use [ES2015 modules](https://ponyfoo.com/articles/es6-modules-in-depth)
