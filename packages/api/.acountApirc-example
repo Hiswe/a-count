@@ -7,7 +7,7 @@
   // • forceSync is always disabled in production
   "db": {
     "forceSync":  false,
-    "url":        "postgres://localhost:5432/a-count",
+    "url":        "postgres://localhost:5432/a-count"
   },
   // redis configuration is passed to `redis` module
   // • https://www.npmjs.com/package/redis#options-object-properties
@@ -23,7 +23,7 @@
   "email": {
     "transport": {
       "host": "localhost",
-      "port": 1025,
+      "port": 1025
     },
     // OR use a service provider
     // "provider": {
@@ -35,7 +35,7 @@
     // },
     // `from` is what will appear in the `from` field in the email
     "options": {
-      "from": "A-Count <api@a-count.name>",
+      "from": "A-Count <api@a-count.name>"
     }
   },
   // Simulate response delay in development mode only
@@ -54,9 +54,9 @@
     "secret"     : "49e3bd8b1935f3d17ce23146eb602fdb321e5b4f41eb7dd7f898e61426970086",
     // expiresIn configuration is parsed by `ms` module
     // • https://github.com/zeit/ms
-    "expiresIn"  : "1 days" ,
+    "expiresIn"  : "1 days"
   },
   // enforceHttps will be passed to
   // • https://www.npmjs.com/package/koa-sslify
-  "enforceHttps" : false,
+  "enforceHttps" : false
 }

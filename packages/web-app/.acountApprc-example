@@ -1,8 +1,8 @@
 {
   // Webapp port
-  "PORT":             3000,
+  "PORT":         3000,
   // full api endpoint URI
-  "API_URL":          "http://localhost:4040/v1",
+  "API_URL":      "http://localhost:4040/v1",
   // The cookie:
   // • contains the JWT
   // • will be pass in HTTP Authorization header
@@ -10,9 +10,9 @@
   "COOKIE_NAME":  "a-count_webapp",
   // need a full host URL
   // • this will be needed by the API to send the confirm email/reset password
-  "HOST_URL":         "http://localhost:3000",
-  "APP_NAME":         "a-count",
+  "HOST_URL":     "http://localhost:3000",
+  "APP_NAME":     "a-count",
   // enforceHttps will be passed to
   // • https://www.npmjs.com/package/koa-sslify
-  "enforceHttps":     false,
+  "enforceHttps": false
 }
