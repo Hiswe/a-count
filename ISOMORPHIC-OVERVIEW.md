@@ -145,7 +145,8 @@ I may move to [yarn workspaces](https://yarnpkg.com/blog/2017/08/02/introducing-
 
 Here are the main choices:
 
-- __client__: a single file to initialize the Redux-store, the router and hydrate our React application
+- __client__:
+  - `root`: a single file to initialize the Redux-store, the router and hydrate our React application
 - __server__
   - `root`: initializing our Koa app & the routing 
   - `public`: all our compiled JS/CSS + some assets
@@ -154,7 +155,7 @@ Here are the main choices:
     - isomorphic files
     - main HoC (will come to them later)
   - `redux-ducks`: all our Redux related code using the [ducks convention](https://github.com/erikras/ducks-modular-redux)
-      This helps keeping all our related code in one file
+      This helps keeping all our Redux related code in one file
   - `[…components]`: organized by domain
       The `ui` are mostly presentational components  
       I could have used more external components
@@ -166,7 +167,7 @@ Using React with [JSX](https://reactjs.org/docs/introducing-jsx.html) make the c
 - a building step is required to convert JSX to regular JS
 - the most popular solution right now is the couple [Webpack](https://webpack.js.org/)/[Babel](http://babeljs.io/)
   - Webpack in version 4 since a while
-    It promises to be simpler, but you will still find yourself to add some plugins at one point or another
+    It promises to be simpler, but you will still find yourself to add some plugins/loaders at one point or another
   - as the latest version of Ava use babel 7, I picked it for my build process also.
     At this time (may 2018) it's in `beta 47` 😳 and working perfectly
     I can't thank enough all the people contributing to this project and I really hope that the final release will come soon
