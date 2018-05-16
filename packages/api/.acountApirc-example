@@ -1,5 +1,7 @@
 {
   "NAME":     "a-count API",
+  // API port
+  "PORT":     4040,
   // postgre configuration passed to `sequelize` module
   // • http://docs.sequelizejs.com/
   // • forceSync is always disabled in production

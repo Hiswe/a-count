@@ -1,4 +1,6 @@
 {
+  // Webapp port
+  "PORT":             3000,
   // full api endpoint URI
   "API_URL":          "http://localhost:4040/v1",
   // The cookie:
