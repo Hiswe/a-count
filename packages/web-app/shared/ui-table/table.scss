@@ -167,6 +167,21 @@
     }
   }
 
+  &__head,
+  &__footer {
+    // PRINT remove duplicated header/footer on chrome
+    @media #{$mq-print} {
+      display: table-row-group;
+    }
+  }
+
+  &__body_row {
+    @media #{$mq-print} {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+  }
+
   &__pagination {
     padding: 1em 0;
     display: flex;

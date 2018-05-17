@@ -137,6 +137,10 @@ html.dark-background {
   --sheet-border-radius: 0;
   --sheet-border-color: white;
   --nav-secondary-shadow: rgba(0, 0, 0, 0.5);
+
+  @media #{$mq-print} {
+    --c-background: white;
+  }
 }
 
 ///////
@@ -147,7 +151,7 @@ html.dark-background {
 
 @page {
   size: A4;
-  margin: 0;
+  margin: 10mm;
 }
 @media #{$mq-print} {
 

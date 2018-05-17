@@ -203,11 +203,16 @@
     width: 210mm;
     min-height: 296mm;
     margin: 0 auto;
-    display: flex;
+    // display: flex;
+    // display: block;
     flex-direction: column;
 
+    @media #{$mq-print} {
+      padding: 0;
+    }
+
     #{ $root }__between {
-      margin-bottom: 0;
+      margin-bottom: var(--s-gutter);
     }
     #{ $root }__subject {
       margin-top: auto;
