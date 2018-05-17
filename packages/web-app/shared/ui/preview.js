@@ -3,15 +3,7 @@ import   PropTypes              from 'prop-types'
 import { connect              } from 'react-redux'
 import { FormattedHTMLMessage } from 'react-intl'
 
-import {
-  PaperSheet,
-  Party,
-  PartyUser,
-  Reference,
-  Between,
-  Subject,
-  Mentions,
-} from '../layout/paper-sheet'
+import * as Paper from '../layout/paper-sheet'
 import { Alert } from './alerts'
 import { ProductTable } from '../ui-table/products'
 
@@ -21,19 +13,19 @@ export function Preview( props ) {
   if ( !document || !products ) return null
 
   return (
-    <PaperSheet preview>
-      <Reference type={ type } product={ document } />
-      <Between>
-        <PartyUser />
-        <Party title="to" people={ document.get(`customer`) } />
-      </Between>
-      <Subject value={ document.get(`name`)} />
+    <Paper.Sheet preview>
+      <Paper.Reference type={ type } product={ document } />
+      <Paper.Between>
+        <Paper.PartyUser />
+        <Paper.Party title="to" people={ document.get(`customer`) } />
+      </Paper.Between>
+      <Paper.Subject value={ document.get(`name`)} />
       <ProductTable
         readOnly
         document={ document }
       />
-      <Mentions content={ document.get(`${type}Config.mentions`) } />
-    </PaperSheet>
+      <Paper.Mentions content={ document.get(`${type}Config.mentions`) } />
+    </Paper.Sheet>
   )
 }
 

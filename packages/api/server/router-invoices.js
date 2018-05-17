@@ -60,6 +60,7 @@ const MESSAGES = Object.freeze({
  * @apiSuccess {object} customer the customer
  * @apiSuccess {string} customer.id the customer id
  * @apiSuccess {string} customer.name the customer name
+ * @apiSuccess {string} customer.address the customer address
  * @apiSuccess {object} quotation the associated quotation
  * @apiSuccess {object} quotation.id the quotation id
  * @apiSuccess {object} quotation.reference the quotation reference

@@ -47,7 +47,7 @@ const quotationsParams = {
     },
     {
       model: Customer,
-      attributes: [`id`, `name`]
+      attributes: [`id`, `name`],
     },
     {
       model:      Invoice,
@@ -75,7 +75,7 @@ const quotationParams = {
     },
     {
       model: Customer,
-      attributes: [`id`, `name`],
+      attributes: [`id`, `name`, `address`],
     },
     {
       model:      Invoice,
@@ -99,7 +99,7 @@ const invoiceParams = {
     },
     {
       model: Customer,
-      attributes: [`id`, `name`],
+      attributes: [`id`, `name`, `address`],
     },
     {
       model:      Quotation,
