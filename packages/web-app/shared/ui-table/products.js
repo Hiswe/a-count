@@ -94,7 +94,7 @@ export function ProductLineDisplay( props ) {
         <Format.Num value={ product.quantity } minimumFractionDigits={2} />
       </Table.Cell>
       <Table.Cell type="number">
-        <Format.Num value={ product.price } minimumFractionDigits={2} />
+        <Format.Amount value={ product.price } />
       </Table.Cell>
       <Table.Cell type="amount">
         <Format.Amount value={ total } />
@@ -109,28 +109,34 @@ ProductLineDisplay.propTypes = {
 
 function ProductTotalFooter( props ) {
   const { readOnly, document } = props
+  // don't show multiple totals if no taxes
+  const hasTax = document.totalTax > 0
   // in readOnly mode we remove toggle/remove buttons
   const colSpan = readOnly ? 3 : 4
   return (
     <Table.Footer>
-      <Table.RowFooter>
-        <Table.Cell colSpan={ colSpan } type="number">
-          <FormattedMessage id="table.amount-ht"/>
-        </Table.Cell>
-        <Table.Cell type="amount">
-          <Format.Amount value={ document.totalNet } />
-        </Table.Cell>
-        { !readOnly && <Table.Cell /> }
-      </Table.RowFooter>
-      <Table.RowFooter>
-        <Table.Cell colSpan={ colSpan } type="number">
-          <FormattedMessage id="table.amount-taxes"/>
-        </Table.Cell>
-        <Table.Cell type="amount">
-          <Format.Amount value={ document.totalTax } />
-        </Table.Cell>
-        { !readOnly && <Table.Cell /> }
-      </Table.RowFooter>
+      { hasTax && (
+        <React.Fragment>
+          <Table.RowFooter>
+            <Table.Cell colSpan={ colSpan } type="number">
+              <FormattedMessage id="table.amount-ht"/>
+            </Table.Cell>
+            <Table.Cell type="amount">
+              <Format.Amount value={ document.totalNet } />
+            </Table.Cell>
+            { !readOnly && <Table.Cell /> }
+          </Table.RowFooter>
+          <Table.RowFooter>
+            <Table.Cell colSpan={ colSpan } type="number">
+              <FormattedMessage id="table.amount-taxes"/>
+            </Table.Cell>
+            <Table.Cell type="amount">
+              <Format.Amount value={ document.totalTax } />
+            </Table.Cell>
+            { !readOnly && <Table.Cell /> }
+          </Table.RowFooter>
+        </React.Fragment>
+      )}
       <Table.RowFooter>
         <Table.Cell colSpan={ colSpan } type="number">
           <FormattedMessage id="table.amount"/>
