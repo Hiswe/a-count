@@ -146,6 +146,11 @@
       height: calc( var(--s-gutter) * 4 );
       align-self: end;
     }
+
+    @media #{$mq-print} {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
   }
 
   &__signature {
