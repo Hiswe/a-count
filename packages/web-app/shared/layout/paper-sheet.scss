@@ -203,9 +203,16 @@
     width: 210mm;
     min-height: 296mm;
     margin: 0 auto;
-    // display: flex;
-    // display: block;
+    display: flex;
     flex-direction: column;
+
+    // this is done only for print purpose
+    // • Chrome doesn't handle well `break-inside` with `flexbox`
+    // • But we need flexbox to have a nice presentation if there is a single page
+    // • thus no-flex when overflowing
+    &-no-flex {
+      display: block;
+    }
 
     @media #{$mq-print} {
       padding: 0;

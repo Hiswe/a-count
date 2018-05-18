@@ -6,6 +6,7 @@
 
 - [Universal Application](#universal-application)
 - [optimize performances](#optimize-performances)
+- [print](#print)
 - [components architecture](#components-architecture)
 - [test](#test)
 
@@ -22,6 +23,9 @@
 
 - https://reactjsnews.com/how-to-make-your-react-apps-10x-faster
 
+## print
+
+- https://www.smashingmagazine.com/2018/05/print-stylesheets-in-2018/
 
 ## components architecture
 

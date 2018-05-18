@@ -1,23 +1,56 @@
-import   React              from 'react'
-import { FormattedMessage } from 'react-intl'
-import { connect          } from 'react-redux'
+import   React                 from 'react'
+import { FormattedMessage    } from 'react-intl'
+import { connect             } from 'react-redux'
+import   ReactResizeDetector   from 'react-resize-detector'
+import   className             from 'classnames'
 
 import { Day, Markdown } from '../ui/format'
 
 import './paper-sheet.scss'
 const BASE_CLASS = `paper-sheet`
 
-export function PaperSheet( props ) {
-  const { part, preview } = props
-  const className = [ BASE_CLASS ]
-  if ( part ) className.push(`${BASE_CLASS}--part-${part}` )
-  if ( preview ) className.push(`${BASE_CLASS}--preview-mode` )
-  return (
-    <div className={className.join(` `)}>
-      { props.children }
-    </div>
-  )
+class PaperSheet extends React.PureComponent {
+
+  constructor( props ) {
+    super( props )
+    this.state = {
+      hasOverflow: false,
+    }
+    this.onResize = this.onResize.bind(this)
+  }
+
+  // this is done only for print purpose
+  // • Chrome doesn't handle well `break-inside` with `flexbox`
+  // • But we need flexbox to have a nice presentation if there is a single page
+  // • thus the size check: 1120px is ± 297mm
+  onResize(width, height) {
+    this.setState( prevState => ({
+      hasOverflow: height > 1120,
+    }))
+  }
+
+  render() {
+    const { props, state } = this
+    const { part, preview } = props
+    const COMP_CLASS = className( BASE_CLASS, {
+      [`${BASE_CLASS}--part-${part}`]: part,
+      [`${BASE_CLASS}--preview-mode`]: preview,
+      [`${BASE_CLASS}--preview-mode-no-flex`]: state.hasOverflow,
+    })
+    return (
+      <div className={`${BASE_CLASS}-size-wrapper`}>
+        <div className={ COMP_CLASS }>
+          { props.children }
+        </div>
+        {preview && (
+          <ReactResizeDetector handleHeight onResize={this.onResize} />
+        )}
+      </div>
+    )
+  }
 }
+
+export { PaperSheet }
 export { PaperSheet as Sheet }
 
 export function Reference( props ) {
