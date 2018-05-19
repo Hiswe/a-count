@@ -1,36 +1,41 @@
 # Isomorphic application with React/Redux
 
-So I wanted to build an isomorphic/universal web-application.  
+So I wanted to build an isomorphic/universal web-application…
+
 This will be a long document about the *how* and the *why*.
 The web-app was greatly influenced by this [Viktor Turskyi's post](http://blog.koorchik.com/isomorphic-react/).
 
-Unlike this article, I won't produce here any code example.
-I will try to focus on how different piece of code put together will solve building an universal applications problems.
+Unlike most articles, I won't produce here any code example.
+I will try to focus on __how different piece of code put together will solve building an universal applications__ problems.
 
 It's my first take on this kind of application, so I'm sure there are many flaws & rooms for improvement.  
-But hey, we need a start in order to advance 🏃‍♀️
+But hey! we need a start in order to advance 🏃‍♀️
 
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [about the API](#about-the-api)
 - [prerequisite](#prerequisite)
+- [purpose of server rendering](#purpose-of-server-rendering)
+- [the API](#the-api)
 - [supported features & Tech](#supported-features--tech)
-  - [reasons & features](#reasons--features)
-  - [tech](#tech)
-- [code mutualization](#code-mutualization)
-- [files structure](#files-structure)
+  - [not using *create-react-app* or *next.js*](#not-using-create-react-app-or-nextjs)
+  - [features](#features)
+  - [tech stack](#tech-stack)
+- [files](#files)
+  - [structure](#structure)
+  - [mutualization](#mutualization)
 - [building the applications](#building-the-applications)
   - [server](#server)
   - [client](#client)
-  - [sharing the configuration](#sharing-the-configuration)
-    - [server](#server-1)
-    - [client](#client-1)
-    - [during test](#during-test)
-    - [configuration summary](#configuration-summary)
-- [purpose of server rendering](#purpose-of-server-rendering)
+  - [build summary](#build-summary)
+  - [parcel JS side-note](#parcel-js-side-note)
+- [sharing the configuration](#sharing-the-configuration)
+  - [server](#server-1)
+  - [client](#client-1)
+  - [during test](#during-test)
+  - [configuration summary](#configuration-summary)
 - [application flow summary](#application-flow-summary)
 - [routing with React-Router & Redux](#routing-with-react-router--redux)
   - [what is React-router](#what-is-react-router)
@@ -38,28 +43,15 @@ But hey, we need a start in order to advance 🏃‍♀️
   - [get Redux Actions from components](#get-redux-actions-from-components)
   - [limitations](#limitations)
   - [server flow summary](#server-flow-summary)
+- [isomorphic-fetch](#isomorphic-fetch)
+  - [fetch summary](#fetch-summary)
 - [authentication](#authentication)
   - [authentication HoC flow](#authentication-hoc-flow)
-- [i18N with React-Intel](#i18n-with-react-intel)
+- [I18N with React-Intel](#i18n-with-react-intel)
 - [adding React-Helmet](#adding-react-helmet)
 - [The full chain of components](#the-full-chain-of-components)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-## about the API
-
-The web-application will interact with an API (`packages/api`) which will not be detailed here.
-The only thing we need to know about the API is that:
-
-- It's a REST like API (uses only GET & POST)
-- Communicate with JSON
-- Authenticate with a JSON Web Token (JWT) 
-
-this document will __only focus__ on the `packages/web-app` folder
-
-__Why no GraphQL?__
-
-[GraphQL](http://graphql.org/) seems a nice tech, but I simply didn't have time to dig into it.
 
 ## prerequisite
 
@@ -77,15 +69,47 @@ You should have some notions with:
   - [Webpack](https://webpack.js.org/) for bundling our application
   - [BabelJs](http://babeljs.io/) for converting [React jsx](https://reactjs.org/docs/introducing-jsx.html) code to plain javascript
 
+## purpose of server rendering
+
+Server rendering seems a good idea for 2 main reason:
+
+- make our __first display quicker__ 
+- __support no-JS environment__
+
+For this we need:
+
+1. grab the right components to render (using the [React methods for server rendering](https://reactjs.org/docs/react-dom-server.html))
+    a non exiting route means rendering the 404 component
+2. make sure that the components have the right datas to begin with.
+3. pass everything to the client
+4. after that the client will initialize and run as a [single page application](https://en.wikipedia.org/wiki/Single-page_application)
+
+## the API
+
+The web-application will interact with an API (`packages/api`) which will not be detailed here.
+The only thing we need to know about the API is that:
+
+- It's a REST like API (uses only GET & POST)
+- Communicate with JSON
+- Authenticate with a JSON Web Token (JWT) 
+
+this document will __only focus__ on the `packages/web-app` folder
+
+__Why no GraphQL?__
+
+[GraphQL](http://graphql.org/) seems a nice tech, but I simply didn't have time to dig into it.
+
 ## supported features & Tech
 
-### reasons & features
+### not using *create-react-app* or *next.js*
 
 I make this universal application to learn more about React.
 
 - I wanted to know how things work, so I didn't use any frameworks like [next.js](https://github.com/zeit/next.js/) or [create-react-app](https://github.com/facebook/create-react-app) that will build things for me that I don't truly understand.
 - I also wanted to make an exhaustive application: not a TODO app example.
-  There are plenty of those already, It's good to begin with but whenever you want to build something more complex, you'll have a hard time to stitch the piece togeter.
+  There are plenty of those already, It's good to begin with but whenever you want to build something more complex, you'll have a hard time to stitch the piece together.
+
+### features
 
 In order to make it the most *real life* example this web-app will:
 
@@ -101,7 +125,7 @@ In order to make it the most *real life* example this web-app will:
     It's the only way to store informations on the browser without relying on Javascript.  
     Sadly a browser without JS & cookie is doomed 😔
 
-### tech
+### tech stack
 
 __React library__, among others, is a great way to __ensure__ that __our applications is perfectly in sync with our__  application __state__.  
 So we can rely on it to __always render the proper thing__ depending on the route/user actions/API queries.  
@@ -121,24 +145,9 @@ Here are all the main modules used:
 - __server__ 
   - [Koa 2](http://koajs.com/) (see [this post](https://hiswe.github.io/2018/07-from-express-to-koa/) about why I chose Koa)
 
-## code mutualization
+## files
 
-As for the version 1.1.0:  
-
-| front  | server  | shared front/client |
-|   ---: |    ---: |                ---: |
-| 36 loc | 279 loc | 6476 loc            |
-| 1%     | 4%      | 95%                 |
-
-<img alt="lines of code repartition pie chart" src="assets/loc-chart.svg" width="320" />
-
-I don't expect this repartition to change much with futur versions.  
-It should be: 
-
-- more & more code into the shared folder
-- some small additions in server code (mainly for proxying POST fallback)
-
-## files structure
+### structure
 
 I tried to avoid nesting folders too deeply.  
 I used [lerna](https://lernajs.io/) to have a clear separation between our API & the web-app.  
@@ -161,12 +170,29 @@ Here are the main choices:
       The `ui` are mostly presentational components  
       I could have used more external components
 
+### mutualization
+
+As for the version 1.1.0:  
+
+| front  | server  | shared front/client |
+|   ---: |    ---: |                ---: |
+| 36 loc | 279 loc | 6476 loc            |
+| 1%     | 4%      | 95%                 |
+
+<img alt="lines of code repartition pie chart" src="assets/loc-chart.svg" width="320" />
+
+I don't expect this repartition to change much with futur versions.  
+It should be: 
+
+- more & more code into the shared folder
+- some small additions in server code (mainly for proxying POST fallback)
+
 ## building the applications
 
 Using React with [JSX](https://reactjs.org/docs/introducing-jsx.html) make the code easier to write and to maintain so:
 
-- a building step is required to convert JSX to regular JS
-- the most popular solution right now is the couple [Webpack](https://webpack.js.org/)/[Babel](http://babeljs.io/)
+- a building step is __required to convert JSX to regular JS__
+- the most __popular solution__ right now is the couple [Webpack](https://webpack.js.org/)/[Babel](http://babeljs.io/)
   - Webpack in version 4 since a while
     It promises to be simpler, but you will still find yourself to add some plugins/loaders at one point or another
   - as the latest version of Ava use babel 7, I picked it for my build process also.
@@ -174,16 +200,14 @@ Using React with [JSX](https://reactjs.org/docs/introducing-jsx.html) make the c
     I can't thank enough all the people contributing to this project and I really hope that the final release will come soon
 - since we have a build step, why not
   - use [ES2015 modules](https://ponyfoo.com/articles/es6-modules-in-depth)
-  - import our `scss` files directly in the components. 
-    That really __helps separate concerns about what a Component should do and how is it displayed__
-    Also it will ma it easy to __keep the styles next to the markup__
-- I didn't want any `@babel/register` in my server code because it might have performance cost so:
+  - __import our `scss` files directly in the components.__ 
+    This is __totally optional__ and could have been done in a classical way (like compiling a SCSS folder to a CSS file)
+    But I found that it really __helps to isolate concerns about what your Component is about__
+    Also it will ma it easy to __keep the styles next to the markup__ (no more back & forth from component folder to a scss folder)
+- I __don't use `@babel/register` in my server code__ because it might have performance cost so:
   __build also the server code with webpack__
   And that will also allow me to replace some files when needed
-
-On a side node [ParcelJs](https://parceljs.org/) seems very promising.  
-As I see it, it's still too young (version 1 released on december 2017). 
-I'll wait a little bit for more documentation & tutorials , and surely try it on another side projet
+  __But will use it for tests__
 
 ### server
 
@@ -193,7 +217,6 @@ I'll wait a little bit for more documentation & tutorials , and surely try it on
   → done with the the [webpack banner-plugin](https://webpack.js.org/plugins/banner-plugin/) and the [source-map-support](https://www.npmjs.com/package/source-map-support) module
 - ignore `.scss` requires
   → done with [babel-plugin-transform-require-ignore](https://www.npmjs.com/package/babel-plugin-transform-require-ignore)
-  __lesson learn: use babel to transform your code before bundling it with webpack__ 
 
 ### client
 
@@ -203,8 +226,17 @@ I'll wait a little bit for more documentation & tutorials , and surely try it on
   → done with [webpack extract-text-webpack-plugin](https://www.npmjs.com/package/extract-text-webpack-plugin)
   working in my case but should migrate to [webpack mini-css-extract-plugin](https://www.npmjs.com/package/mini-css-extract-plugin) (here is [why](https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/749#issuecomment-374549467))
 
+### build summary
 
-### sharing the configuration
+<img alt="building flow" src="assets/build.svg" width="680" />
+
+### parcel JS side-note
+
+On a side node [ParcelJs](https://parceljs.org/) seems very promising.  
+As I see it, it's still too young (version 1 released on december 2017). 
+I'll wait a little bit for more documentation & tutorials , and surely try it on another side projet
+
+## sharing the configuration
 
 I use to manage my server configuration with [rc](https://www.npmjs.com/package/rc).  
 I wanted to keep it that way but an isomorphic configuration [comes with some challenge](http://blog.koorchik.com/isomorphic-react/#Isomorphic_configuration).
@@ -218,16 +250,15 @@ rc → server → client
 Unlike Viktor Turskyi's solution, I replaced the config import with specific server/client files.
 __This prevents mixing ES modules with Node's CommonJS modules syntax__
 
-→ done with 
-(normal-module-replacement-plugin)[https://webpack.js.org/plugins/normal-module-replacement-plugin/]
+→ done with Webpack's [normal-module-replacement-plugin](https://webpack.js.org/plugins/normal-module-replacement-plugin/)
 
-#### server
+### server
 
 ```js
 export { default } from '../server/config'
 ```
 
-#### client
+### client
 
 ```js
 export default window.__CONFIG__
@@ -235,7 +266,7 @@ export default window.__CONFIG__
 
 where `window.__CONFIG__` is passed by the server
 
-#### during test
+### during test
 
 [AVA](https://github.com/avajs/ava) is used for testing.  
 By default it uses babel to convert JSX. So I tried to keep it that way so → no Webpack.
@@ -244,24 +275,9 @@ This will make it easier to require a single component and test it.
 So I just use the use my configuration entry point as the test configuration: no need to replace it with webpack!  
 I use the same babel configuration than the server, to prevent including the SCSS 😀
 
-#### configuration summary
+### configuration summary
 
 <img alt="lines of code repartition pie chart" src="assets/configuration.svg" width="680" />
-
-## purpose of server rendering
-
-Server rendering seems a good idea for 2 main reason:
-
-- make our __first display quicker__ 
-- __support no-JS environment__
-
-For this we need:
-
-1. grab the right components to render (using the [React methods for server rendering](https://reactjs.org/docs/react-dom-server.html))
-    a non exiting route means rendering the 404 component
-2. make sure that the components have the right datas to begin with.
-3. pass everything to the client
-4. after that the client will initialize and run as a [single page application](https://en.wikipedia.org/wiki/Single-page_application)
 
 ## application flow summary
 
@@ -325,7 +341,7 @@ What we __need is redux actions__ that we __dispatch to our store__ and redux wi
 
 But because it's an universal application:
 
-- on the __server__ we will need the __actions to be called before instantiating our components__ 
+- on the __server__ we will need the __actions to be called *before* instantiating our components__ 
     → this is solved by using a [static method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static) on our components
 - on the __client__ we will need the __actions to be called in [componentDidMount()](https://reactjs.org/docs/react-component.html#componentdidmount)__
 - on __first rendering__ we must __prevent the client to call the componentDidMount() actions__
@@ -356,6 +372,21 @@ It will be nicer if we declared all those actions on the concerned components an
 
 <img alt="the server flow" src="assets/server-rendering.svg" width="700" />
 
+## isomorphic-fetch
+
+One of the problem was to be able to send the JWT on any request.
+
+- on the __client__ we have __access to the browser cookies at any time__
+  → no problems here
+- on the __server__ we have __access to the browser cookies only in Koa context__
+  - `isomorphic-fetch` won't be able to grab them on its own
+  - __we need to make possible to feed the JWT__ to `isomorphic-fetch`
+  - we have to keep in mind that `isomorphic-fetch` can be called in `redux-actions` so we need to pass the __JWT in redux-actions__ also
+
+### fetch summary
+
+<img alt="the isomorphic-fetch flow" src="assets/isomorphic-fetch.svg" width="450" />
+
 ## authentication
 
 This one is quite easy.  
@@ -384,10 +415,10 @@ They follow the same pattern:
 
 <img alt="the authentication hoc ordering" src="assets/hoc-authentication.svg" width="700" />
 
-## i18N with React-Intel
+## I18N with React-Intel
 
 [React-Intel](https://github.com/yahoo/react-intl/wiki) fits my needs: 
-  - formating numbers 
+  - formating numbers & prices
   - formating dates
   - providing translations
 
