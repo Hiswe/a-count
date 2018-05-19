@@ -277,7 +277,7 @@ I use the same babel configuration than the server, to prevent including the SCS
 
 ### configuration summary
 
-<img alt="lines of code repartition pie chart" src="assets/configuration.svg" width="680" />
+<img alt="configuration flow" src="assets/configuration.svg" width="680" />
 
 ## application flow summary
 
@@ -302,7 +302,7 @@ Here is a little bit of explanation:
   - on the __server__: the cookie content will be provided by the server
   - on the __client__: it can read the browser's cookie content by itself
   
-<img alt="lines of code repartition pie chart" src="assets/flow.svg" width="1024" />
+<img alt="the whole application flow" src="assets/flow.svg" width="1024" />
 
 ## routing with React-Router & Redux
 
