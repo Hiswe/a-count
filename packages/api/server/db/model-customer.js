@@ -17,7 +17,7 @@ const Customer = sequelize.define( `customer`, {
     validate: {
       notEmpty: true,
     },
-    set:          dbGetterSetter.setNormalizedString( `name` ),
+    set:          dbGetterSetter.setTrimmedString( `name` ),
   },
   address: {
     type:         Sequelize.TEXT,
