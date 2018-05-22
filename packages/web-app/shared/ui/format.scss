@@ -7,4 +7,12 @@
   li {
     white-space: normal;
   }
+
+  a {
+    color: var(--c-accent);
+  }
+
+  p + p {
+    margin-top: 1em;
+  }
 }

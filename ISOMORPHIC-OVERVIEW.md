@@ -455,7 +455,7 @@ I didn't put any `<script>` for a reason that I can't remember 😶
 
 Since almost any HTML is handled by React, on the server we don't need to write a lot of things, thus we can use Javascript template strings instead of any template engine
     
-## The full chain of components
+## the full chain of components
 
 So from top to bottom this how our components fits together.
 The main thing is that our __HoC won't change over time__ so we just have to write our application without worrying about server/client, auth, i18n anymore!
