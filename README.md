@@ -45,7 +45,7 @@ As an exercice
 
 ## Prerequisite
 
-- [node js](https://nodejs.org/en/) >= 8.10.0
+- [node js](https://nodejs.org/en/) >= 8.11.2
 - [yarn](https://yarnpkg.com/en/docs/install) >= 1.6.0
   - on a mac `brew install yarn --without-node`
 - [lerna](https://lernajs.io/#getting-started) >= 2.11.0

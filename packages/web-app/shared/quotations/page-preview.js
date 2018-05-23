@@ -4,10 +4,11 @@ import { injectIntl       } from 'react-intl'
 import { FormattedMessage } from 'react-intl'
 import { Helmet           } from 'react-helmet'
 
-import      pageFetchActions              from '../page-fetch-actions'
-import * as quotations                    from '../redux-ducks/quotations'
-import {    Main              , Content } from '../layout/main'
-import      NavSecondary                  from '../nav/secondary'
+import      pageFetchActions             from '../page-fetch-actions'
+import * as quotations                   from '../redux-ducks/quotations'
+import {    Main             , Content } from '../layout/main'
+import      NavSecondary                 from '../nav/secondary'
+import {    getPreviewTitle  }           from '../utils/get-preview-title'
 import {
   ButtonNew,
   ButtonList,
@@ -23,20 +24,16 @@ function PreviewQuotationPage( props ) {
   const { id } = props.match.params
   const { quotation } = props
   const reference     = quotation.get(`reference`)
-  const titleProps    = { id:`page.quotations.preview`, values: {reference} }
+  const navTitle      = { id:`page.quotations.preview`, values: {reference} }
 
   return (
     <React.Fragment>
-      <FormattedMessage {...titleProps} >
-        {title => (
-          <Helmet>
-            <title>{title}</title>
-            <html className="dark-background" />
-          </Helmet>
-        )}
-      </FormattedMessage>
+      <Helmet>
+        <title>{getPreviewTitle(quotation)}</title>
+        <html className="dark-background" />
+      </Helmet>
       <NavSecondary
-        title={ <FormattedMessage {...titleProps} /> }
+        title={ <FormattedMessage {...navTitle} /> }
       >
         <ButtonEdit
           type={ TYPE }

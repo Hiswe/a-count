@@ -11,8 +11,8 @@ import config from './isomorphic-config'
 // • We return both the response & the JSON
 //   The response can be used server-side for accessing the Header (for example)
 //   Useful if we need to access the cookies
-// • Cookie param is used server side:
-//   We dont' have access to them there ^^
+// • jwt param is used server side:
+//   We dont' have access to cookies there ^^
 //   https://github.com/matthew-andrews/isomorphic-fetch/issues/83
 
 const defaultOptions = {
@@ -34,8 +34,8 @@ function create( method ) {
     // set body on post
     if ( method === `post` ) fetchOptions.body = JSON.stringify( body )
     // set the right authorization header
-    // • if jwt is present it will because the server read from the cookie
-    //   and passed it here
+    // • if jwt is present it will be because
+    //   the server read it from the cookie and passed it here
     if ( !jwt && process.env.BROWSER ) {
       jwt = Cookies.get( config.COOKIE_NAME )
     }

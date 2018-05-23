@@ -34,7 +34,6 @@ class ReactApplication extends React.PureComponent {
           {/* <React.StrictMode> */}
             <Helmet
               defaultTitle={ config.APP_NAME }
-              titleTemplate={`${config.APP_NAME} – %s`}
               meta={[
                 {
                   'http-equiv': `Content-Language`,
