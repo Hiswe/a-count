@@ -70,6 +70,7 @@ export default {
   'invoices.button.quotation'  : `Show quotation`,
   'invoices.button.preview'    : `preview invoice`,
   'invoices.button.archive'    : `archive`,
+  'invoices.button.list'       : `invoices list`,
   'invoices.event'             : `event`,
   'invoices.event.#'           : `#`,
   'invoices.event.description' : `description`,

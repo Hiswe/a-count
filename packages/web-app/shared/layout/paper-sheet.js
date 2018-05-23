@@ -129,7 +129,7 @@ export function Subject( props ) {
 export { PartyUser as User }
 
 export function Mentions( props ) {
-  const { content } = props
+  const { content }    = props
   const MENTIONS_CLASS = `${BASE_CLASS}__mentions`
   return (
     <div className={`${MENTIONS_CLASS}`}>

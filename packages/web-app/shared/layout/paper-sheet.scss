@@ -14,6 +14,7 @@
   border: 1px solid var(--sheet-border-color);
 
   @media #{$mq-print} {
+    background: none;
     border: none;
   }
 
