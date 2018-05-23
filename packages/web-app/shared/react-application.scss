@@ -148,10 +148,12 @@ html.dark-background {
 ///////
 
 // http://www.smashingmagazine.com/2015/01/designing-for-print-with-css/
+// https://www.smashingmagazine.com/2018/05/print-stylesheets-in-2018/
 
 @page {
   size: A4;
-  margin: 10mm;
+  // margin bottom is 0 to keep space for generated pagination
+  margin: 10mm 10mm 0 10mm;
 }
 @media #{$mq-print} {
 

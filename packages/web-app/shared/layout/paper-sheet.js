@@ -8,6 +8,18 @@ import { Day, Markdown } from '../ui/format'
 
 import './paper-sheet.scss'
 const BASE_CLASS = `paper-sheet`
+const A4_SIZE    = 1119
+
+function Pagination( props ) {
+  const { pages } = props
+  return (
+    <div className="print-pagination">
+      {Array.from({length: pages}).map( (v, page) => {
+        return <div className="print-pagination__page" key={page}>page {page + 1}/{pages}</div>
+      })}
+    </div>
+  )
+}
 
 class PaperSheet extends React.PureComponent {
 
@@ -15,6 +27,7 @@ class PaperSheet extends React.PureComponent {
     super( props )
     this.state = {
       hasOverflow: false,
+      pages: 1,
     }
     this.onResize = this.onResize.bind(this)
   }
@@ -22,15 +35,17 @@ class PaperSheet extends React.PureComponent {
   // this is done only for print purpose
   // • Chrome doesn't handle well `break-inside` with `flexbox`
   // • But we need flexbox to have a nice presentation if there is a single page
-  // • thus the size check: 1120px is ± 297mm
+  // • thus the size check: 1119px is ± 297mm
+
   onResize(width, height) {
     this.setState( prevState => ({
-      hasOverflow: height > 1120,
+      hasOverflow: height > A4_SIZE,
+      pages:       Math.ceil( height / A4_SIZE ),
     }))
   }
 
   render() {
-    const { props, state } = this
+    const { props, state }  = this
     const { part, preview } = props
     const COMP_CLASS = className( BASE_CLASS, {
       [`${BASE_CLASS}--part-${part}`]: part,
@@ -43,7 +58,10 @@ class PaperSheet extends React.PureComponent {
           { props.children }
         </div>
         {preview && (
-          <ReactResizeDetector handleHeight onResize={this.onResize} />
+          <>
+            <ReactResizeDetector handleHeight onResize={this.onResize} />
+            <Pagination pages={state.pages} />
+          </>
         )}
       </div>
     )

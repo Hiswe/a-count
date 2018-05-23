@@ -234,3 +234,25 @@
     }
   }
 }
+
+.print-pagination {
+  display: none;
+
+  @media #{$mq-print} {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+
+    &__page {
+      height: 297mm;
+      padding-top: 297mm;
+      text-align: right;
+      // need that transform to align nicely the pagination
+      transform: translateY(1em);
+    }
+  }
+}
