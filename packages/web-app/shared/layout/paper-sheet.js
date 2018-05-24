@@ -28,7 +28,7 @@ class PaperSheet extends React.PureComponent {
     this.state = {
       pages: 0,
     }
-    this.onResize = this.onResize.bind(this)
+    this.onResize = this.onResize.bind( this )
   }
 
   // this is done only for print purpose
@@ -36,8 +36,6 @@ class PaperSheet extends React.PureComponent {
   // • But we need flexbox to have a nice presentation if there is a single page
   // • thus the size check
   onResize(width, height) {
-    // don't check page count if already checked
-    if ( this.state.page > 0 ) return
     const pages       = Math.ceil( height / A4_SIZE )
     this.setState( prevState => ({
       pages,
@@ -50,8 +48,8 @@ class PaperSheet extends React.PureComponent {
     const COMP_CLASS = className( BASE_CLASS, {
       [`${BASE_CLASS}--part-${part}`]: part,
       [`${BASE_CLASS}--preview-mode`]: preview,
-      [`${BASE_CLASS}--preview-mode-single-page`]: state.pages === 1,
-      [`${BASE_CLASS}--preview-mode-multiple-pages`]: state.pages > 1,
+      [`${BASE_CLASS}--preview-mode-single-page`]:    preview && state.pages === 1,
+      [`${BASE_CLASS}--preview-mode-multiple-pages`]: preview && state.pages > 1,
     })
     return (
       <div className={`${BASE_CLASS}-size-wrapper`}>
