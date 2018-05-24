@@ -72,19 +72,19 @@ export { PaperSheet as Sheet }
 
 export function Reference( props ) {
   const { type, product } = props
-  const { sendAt, reference } = product
-  const REF_CLASS = `${BASE_CLASS}__reference`
+  const date              = product.sendAt || product.createdAt
+  const REF_CLASS         = `${BASE_CLASS}__reference`
   return (
     <header className={REF_CLASS}>
       <h3 className={`${REF_CLASS}-type`}>
         <FormattedMessage id={`paper-sheet.reference.${ type }`} />
       </h3>
-      <h4 className={`${REF_CLASS}-id`}>Ref. { reference }</h4>
+      <h4 className={`${REF_CLASS}-id`}>Ref. { product.reference }</h4>
       <p className={`${REF_CLASS}-date`}>
-      {sendAt && (
+      {date && (
         <>
           <FormattedMessage id={`paper-sheet.reference.date`} />
-          <Day value={ sendAt } />
+          <Day value={ date } />
         </>
       )}
       </p>
