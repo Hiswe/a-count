@@ -8,7 +8,7 @@ import { Day, Markdown } from '../ui/format'
 
 import './paper-sheet.scss'
 const BASE_CLASS = `paper-sheet`
-const A4_SIZE    = 1119
+const A4_SIZE    = 1119 // ± px size of 297mm
 
 function Pagination( props ) {
   const { pages } = props
@@ -26,8 +26,7 @@ class PaperSheet extends React.PureComponent {
   constructor( props ) {
     super( props )
     this.state = {
-      hasOverflow: false,
-      pages: 1,
+      pages: 0,
     }
     this.onResize = this.onResize.bind(this)
   }
@@ -35,12 +34,13 @@ class PaperSheet extends React.PureComponent {
   // this is done only for print purpose
   // • Chrome doesn't handle well `break-inside` with `flexbox`
   // • But we need flexbox to have a nice presentation if there is a single page
-  // • thus the size check: 1119px is ± 297mm
-
+  // • thus the size check
   onResize(width, height) {
+    // don't check page count if already checked
+    if ( this.state.page > 0 ) return
+    const pages       = Math.ceil( height / A4_SIZE )
     this.setState( prevState => ({
-      hasOverflow: height > A4_SIZE,
-      pages:       Math.ceil( height / A4_SIZE ),
+      pages,
     }))
   }
 
@@ -50,7 +50,8 @@ class PaperSheet extends React.PureComponent {
     const COMP_CLASS = className( BASE_CLASS, {
       [`${BASE_CLASS}--part-${part}`]: part,
       [`${BASE_CLASS}--preview-mode`]: preview,
-      [`${BASE_CLASS}--preview-mode-no-flex`]: state.hasOverflow,
+      [`${BASE_CLASS}--preview-mode-single-page`]: state.pages === 1,
+      [`${BASE_CLASS}--preview-mode-multiple-pages`]: state.pages > 1,
     })
     return (
       <div className={`${BASE_CLASS}-size-wrapper`}>
