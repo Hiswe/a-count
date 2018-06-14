@@ -1,10 +1,10 @@
-# Documentation
+# universal-application-tutorials
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Universal Application](#universal-application)
+- [universal Application](#universal-application)
 - [optimize performances](#optimize-performances)
 - [print](#print)
 - [components architecture](#components-architecture)
@@ -12,7 +12,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Universal Application
+## universal Application
 
 - https://medium.com/front-end-developers/handcrafting-an-isomorphic-redux-application-with-love-40ada4468af4
 - https://www.npmjs.com/package/react-isomorphic-render
