@@ -48,7 +48,7 @@ Here are some of the things I wanted to experiment with:
 - authentication
 - i18n
 
-### as an React exercice
+### as a React exercice
 
 - could integrate with some browser API (IntersectionObserver)
 - could use some pre-build react components
