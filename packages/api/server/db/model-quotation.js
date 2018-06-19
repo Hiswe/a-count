@@ -1,58 +1,58 @@
 'use strict'
 
-const Sequelize = require( 'sequelize'    )
-const isNil     = require( 'lodash.isnil' )
-const merge     = require( 'lodash.merge' )
+const Sequelize = require('sequelize')
+const isNil = require('lodash.isnil')
+const merge = require('lodash.merge')
 
-const config                = require( '../config'                         )
-const dbLog                 = require( '../utils/log-db'                   )
-const compute               = require( '../utils/compute-products'         )
-const dbGetterSetter        = require( '../utils/db-getter-setter'         )
-const filterDefaultProducts = require( `../utils/filter-array-with-object` )
-const sequelize             = require( './connection'                      )
+const config = require('../config')
+const dbLog = require('../utils/log-db')
+const compute = require('../utils/compute-products')
+const dbGetterSetter = require('../utils/db-getter-setter')
+const filterDefaultProducts = require(`../utils/filter-array-with-object`)
+const sequelize = require('./connection')
 
-const Quotation = sequelize.define( `quotation`, {
+const Quotation = sequelize.define(`quotation`, {
   id: {
-    type:         Sequelize.UUID,
+    type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
-    primaryKey:   true,
+    primaryKey: true,
   },
   reference: {
     type: new Sequelize.VIRTUAL(Sequelize.STRING, [`quotationConfig`, `index`]),
-    get:  function() {
-      const config = this.get( `quotationConfig` )
-      if ( !config ) return `–`
+    get: function() {
+      const config = this.get(`quotationConfig`)
+      if (!config) return `–`
       const { prefix, startAt, creationCount } = config
-      const index = this.getDataValue( `index` ) || creationCount + 1
-      return `${ prefix }${ index + startAt }`
-    }
+      const index = this.getDataValue(`index`) || creationCount + 1
+      return `${prefix}${index + startAt}`
+    },
   },
   name: {
-    type:         Sequelize.STRING,
-    set:          dbGetterSetter.setNormalizedString(`name`),
+    type: Sequelize.STRING,
+    set: dbGetterSetter.setTrimmedString(`name`),
   },
   tax: {
-    type:         Sequelize.FLOAT,
-    allowNull:    true,
-    get:          function() {
-      const tax = parseFloat( this.getDataValue( `tax` ), 10 )
-      if ( Number.isFinite(tax) ) return tax
-      const quotationConfig   = this.get( `quotationConfig` )
-      if ( !quotationConfig ) return -1
+    type: Sequelize.FLOAT,
+    allowNull: true,
+    get: function() {
+      const tax = parseFloat(this.getDataValue(`tax`), 10)
+      if (Number.isFinite(tax)) return tax
+      const quotationConfig = this.get(`quotationConfig`)
+      if (!quotationConfig) return -1
       return quotationConfig.tax
     },
-    set:          function( tax ) {
-      if ( isNil(tax) || tax === `` ) return this.setDataValue( `tax`, null )
-      this.setDataValue( `tax`, tax )
+    set: function(tax) {
+      if (isNil(tax) || tax === ``) return this.setDataValue(`tax`, null)
+      this.setDataValue(`tax`, tax)
     },
   },
   index: {
-    type:         Sequelize.BIGINT,
-    allowNull:    false,
+    type: Sequelize.BIGINT,
+    allowNull: false,
   },
   products: {
-    type:         Sequelize.ARRAY( Sequelize.JSON ),
-    allowNull:    false,
+    type: Sequelize.ARRAY(Sequelize.JSON),
+    allowNull: false,
     defaultValue: [],
   },
   // TOTALS
@@ -60,69 +60,75 @@ const Quotation = sequelize.define( `quotation`, {
   // • this will allow us to make some queries upon them
   //   like SUM :)
   totalNet: {
-    type:         Sequelize.FLOAT,
-    default:      -1,
+    type: Sequelize.FLOAT,
+    default: -1,
   },
   totalTax: {
-    type:         Sequelize.FLOAT,
-    default:      -1,
+    type: Sequelize.FLOAT,
+    default: -1,
   },
   total: {
-    type:         Sequelize.FLOAT,
-    default:      -1,
+    type: Sequelize.FLOAT,
+    default: -1,
   },
   // STATUS
   sendAt: {
-    type:         Sequelize.DATE,
-    allowNull:    true,
-    set:          dbGetterSetter.setNormalizedDate( `sendAt` ),
+    type: Sequelize.DATE,
+    allowNull: true,
+    set: dbGetterSetter.setNormalizedDate(`sendAt`),
   },
   validatedAt: {
-    type:         Sequelize.DATE,
-    allowNull:    true,
-    set:          dbGetterSetter.setNormalizedDate( `validatedAt` ),
+    type: Sequelize.DATE,
+    allowNull: true,
+    set: dbGetterSetter.setNormalizedDate(`validatedAt`),
   },
   signedAt: {
-    type:         Sequelize.DATE,
-    allowNull:    true,
-    set:          dbGetterSetter.setNormalizedDate( `signedAt` ),
+    type: Sequelize.DATE,
+    allowNull: true,
+    set: dbGetterSetter.setNormalizedDate(`signedAt`),
   },
   archivedAt: {
-    type:         Sequelize.DATE,
-    allowNull:    true,
-    set:          dbGetterSetter.setNormalizedDate( `archivedAt` ),
+    type: Sequelize.DATE,
+    allowNull: true,
+    set: dbGetterSetter.setNormalizedDate(`archivedAt`),
   },
   mentions: {
-    type:         Sequelize.TEXT,
-    allowNull:    true,
-    set:          dbGetterSetter.setTrimmedString( `mentions` ),
+    type: Sequelize.TEXT,
+    allowNull: true,
+    set: dbGetterSetter.setTrimmedString(`mentions`),
   },
   _hasInvoice: {
     type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`invoiceId`]),
     get: function() {
-      const invoice     = this.getDataValue( `invoiceId` )
+      const invoice = this.getDataValue(`invoiceId`)
       return invoice != null
     },
   },
   _canBeArchived: {
     type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`invoiceId`, `archivedAt`]),
     get: function() {
-      const createdAt  = this.getDataValue( `createdAt` )
-      const invoice    = this.getDataValue( `invoiceId` )
-      const archivedAt = this.getDataValue( `archivedAt` )
+      const createdAt = this.getDataValue(`createdAt`)
+      const invoice = this.getDataValue(`invoiceId`)
+      const archivedAt = this.getDataValue(`archivedAt`)
       return createdAt && !invoice && !archivedAt
-    }
+    },
   },
   _canCreateInvoice: {
-    type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [`sendAt`, `validatedAt`, `signedAt`, `invoice`, `products`]),
+    type: new Sequelize.VIRTUAL(Sequelize.BOOLEAN, [
+      `sendAt`,
+      `validatedAt`,
+      `signedAt`,
+      `invoice`,
+      `products`,
+    ]),
     get: function() {
-      const dateMissing = [ `sendAt`, `validatedAt`,  `signedAt` ]
-        .map( infoName => this.getDataValue( infoName) )
-        .some( info => info === null )
-      if ( dateMissing ) return false
-      const archivedAt  = this.getDataValue( `archivedAt` )
-      const totalNet    = this.getDataValue( `totalNet` )
-      const hasInvoice  = this.get( `_hasInvoice` )
+      const dateMissing = [`sendAt`, `validatedAt`, `signedAt`]
+        .map(infoName => this.getDataValue(infoName))
+        .some(info => info === null)
+      if (dateMissing) return false
+      const archivedAt = this.getDataValue(`archivedAt`)
+      const totalNet = this.getDataValue(`totalNet`)
+      const hasInvoice = this.get(`_hasInvoice`)
       return !hasInvoice && !archivedAt && totalNet > 0
     },
   },

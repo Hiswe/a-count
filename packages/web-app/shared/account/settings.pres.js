@@ -1,43 +1,39 @@
-import      React from 'react'
-import      crio  from 'crio'
-import * as Intl  from 'react-intl'
+import React from 'react'
+import crio from 'crio'
+import * as Intl from 'react-intl'
 
-import * as compute        from '../utils/compute-total'
-import * as Paper          from '../layout/paper-sheet'
-import * as Tabs           from '../ui/tabs'
-import * as Field          from '../ui/field'
-import {    Alert        } from '../ui/alerts'
-import {    Button       } from '../ui/buttons'
-import {    FormActions  } from '../ui/form'
-import {    ProductTable } from '../ui-table/products'
+import * as compute from '../utils/compute-total'
+import * as Paper from '../layout/paper-sheet'
+import * as Tabs from '../ui/tabs'
+import * as Field from '../ui/field'
+import { Alert } from '../ui/alerts'
+import { Button } from '../ui/buttons'
+import { FormActions } from '../ui/form'
+import { ProductTable } from '../ui-table/products'
 
 import './settings.pres.scss'
 export const BASE_CLASS = `setting-form`
-export const FORM_ID    = BASE_CLASS
+export const FORM_ID = BASE_CLASS
 
 const customerExample = {
   name: `Customer name`,
   address: `123 6th St.
 __Melbourne, FL 32904__
-AUSTRALIA`
+AUSTRALIA`,
 }
 const currencies = [
-  {value: `USD`, label: `US Dollars`},
-  {value: `EUR`, label: `Euros`},
-  {value: `THB`, label: `Thai Bahts`},
+  { value: `USD`, label: `US Dollars` },
+  { value: `EUR`, label: `Euros` },
+  { value: `THB`, label: `Thai Bahts` },
 ]
 const languages = [
-  {value: `fr`, label: `français`},
-  {value: `en`, label: `english`},
+  { value: `fr`, label: `français` },
+  { value: `en`, label: `english` },
 ]
 
-export default function SettingFormPres( props ) {
-  const { formData  } = props
-  const {
-    quotationConfig,
-    invoiceConfig,
-    productConfig,
-  } = formData
+export default function SettingFormPres(props) {
+  const { formData } = props
+  const { quotationConfig, invoiceConfig, productConfig } = formData
   const fakeQuotationReference = {
     type: `quotation`,
     product: {
@@ -54,19 +50,23 @@ export default function SettingFormPres( props ) {
   }
 
   let fakeDocument = crio({
-    products: [{
-      checked: true,
-      description: `a __product__ example`,
-      quantity: 2,
-      price: productConfig.price,
-    },{
-      checked: true,
-      ...productConfig
-    }],
+    products: [
+      {
+        _id: `fake-product-1`,
+        checked: true,
+        description: `a __product__ example`,
+        quantity: 2,
+        price: productConfig.price,
+      },
+      {
+        _id: `fake-product-2`,
+        checked: true,
+        ...productConfig,
+      },
+    ],
     tax: quotationConfig.tax,
-
   })
-  fakeDocument = fakeDocument.merge( null, compute.totals(fakeDocument) )
+  fakeDocument = fakeDocument.merge(null, compute.totals(fakeDocument))
 
   return (
     <Tabs.Wrapper>
@@ -91,28 +91,24 @@ export default function SettingFormPres( props ) {
           <Field.Select
             name="lang"
             label="field.language"
-            value={ formData.lang }
-            options={ languages }
+            value={formData.lang}
+            options={languages}
           />
           <Field.Select
             name="currency"
             label="field.currency"
-            value={ formData.currency }
-            options={ currencies }
+            value={formData.currency}
+            options={currencies}
           />
           <Paper.Sheet part="top-left">
             <Paper.Party title="from" people={formData} />
           </Paper.Sheet>
           <div className={`${BASE_CLASS}__user-form`}>
-            <Field.Input
-              name="name"
-              label="field.name"
-              value={ formData.name }
-            />
+            <Field.Input name="name" label="field.name" value={formData.name} />
             <Field.Textarea
               name="address"
               label="field.address"
-              value={ formData.address }
+              value={formData.address}
             />
           </div>
         </div>
@@ -126,25 +122,22 @@ export default function SettingFormPres( props ) {
               name="productConfig[quantity]"
               label="field.quantity"
               type="number"
-              value={ productConfig.quantity }
+              value={productConfig.quantity}
             />
             <Field.Input
               name="productConfig[price]"
               label="field.default-price"
               type="number"
-              value={ productConfig.price }
+              value={productConfig.price}
             />
             <Field.Input
               name="quotationConfig[tax]"
               label="field.tax"
               type="number"
-              value={ quotationConfig.tax }
+              value={quotationConfig.tax}
             />
           </div>
-          <ProductTable
-            readOnly
-            document={ fakeDocument }
-          />
+          <ProductTable readOnly document={fakeDocument} />
         </div>
       </Tabs.Panel>
 
@@ -154,18 +147,18 @@ export default function SettingFormPres( props ) {
           <Field.Textarea
             name="quotationConfig[mentions]"
             label="configuration.mentions.quotations"
-            value={ quotationConfig.mentions }
+            value={quotationConfig.mentions}
           />
           <Paper.Sheet part="bottom">
-            <Paper.Mentions content={ quotationConfig.mentions }/>
+            <Paper.Mentions content={quotationConfig.mentions} />
           </Paper.Sheet>
           <Field.Textarea
             name="invoiceConfig[mentions]"
             label="configuration.mentions.invoices"
-            value={ invoiceConfig.mentions }
+            value={invoiceConfig.mentions}
           />
           <Paper.Sheet part="bottom">
-            <Paper.Mentions content={ invoiceConfig.mentions }/>
+            <Paper.Mentions content={invoiceConfig.mentions} />
           </Paper.Sheet>
         </div>
       </Tabs.Panel>
@@ -185,12 +178,12 @@ export default function SettingFormPres( props ) {
                 <Field.Input
                   name="quotationConfig[prefix]"
                   label="field.prefix"
-                  value={ quotationConfig.prefix }
+                  value={quotationConfig.prefix}
                 />
                 <Field.Input
                   name="quotationConfig[startAt]"
                   label="field.start-at"
-                  value={ quotationConfig.startAt }
+                  value={quotationConfig.startAt}
                   type="number"
                   min="0"
                   step="1"
@@ -210,12 +203,12 @@ export default function SettingFormPres( props ) {
                 <Field.Input
                   name="invoiceConfig[prefix]"
                   label="field.prefix"
-                  value={ invoiceConfig.prefix }
+                  value={invoiceConfig.prefix}
                 />
                 <Field.Input
                   name="invoiceConfig[startAt]"
                   label="field.start-at"
-                  value={ invoiceConfig.startAt }
+                  value={invoiceConfig.startAt}
                   type="number"
                   min="0"
                   step="1"

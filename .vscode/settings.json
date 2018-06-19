@@ -65,5 +65,7 @@
     "**/dist/**",
     "**/public/**"
   ],
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "javascript.showUnused": false,
+  "typescript.showUnused": false
 }
