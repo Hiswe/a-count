@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import ReactResizeDetector from 'react-resize-detector'
-import className from 'classnames'
+import classNames from 'classnames'
 
 import { Day, Markdown } from '../ui/format'
 
@@ -48,7 +48,7 @@ class PaperSheet extends React.PureComponent {
   render() {
     const { props, state } = this
     const { part, preview } = props
-    const COMP_CLASS = className(BASE_CLASS, props.className, {
+    const COMP_CLASS = classNames(BASE_CLASS, props.className, {
       [`${BASE_CLASS}--part-${part}`]: part,
       [`${BASE_CLASS}--preview-mode`]: preview,
       [`${BASE_CLASS}--preview-mode-single-page`]: preview && state.pages === 1,
@@ -146,9 +146,13 @@ export { PartyUser as User }
 
 export function Mentions(props) {
   const { content } = props
-  const MENTIONS_CLASS = `${BASE_CLASS}__mentions`
+  const COMP_CLASS = classNames(
+    `${BASE_CLASS}__mentions`,
+    `${BASE_CLASS}__mentions--${props.type}`
+  )
+
   return (
-    <div className={`${MENTIONS_CLASS}`}>
+    <div className={`${COMP_CLASS}`}>
       <Markdown text={content} />
     </div>
   )

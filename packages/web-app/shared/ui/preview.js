@@ -22,7 +22,10 @@ export function Preview(props) {
       </Paper.Between>
       <Paper.Subject value={document.get(`name`)} />
       <ProductTable readOnly document={document} />
-      <Paper.Mentions content={document.get(`${type}Config.mentions`)} />
+      <Paper.Mentions
+        type={type}
+        content={document.get(`${type}Config.mentions`)}
+      />
     </Paper.Sheet>
   )
 }
