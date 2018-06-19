@@ -1,40 +1,38 @@
-import   React                  from 'react'
-import   PropTypes              from 'prop-types'
-import { connect              } from 'react-redux'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { FormattedHTMLMessage } from 'react-intl'
 
 import * as Paper from '../layout/paper-sheet'
 import { Alert } from './alerts'
 import { ProductTable } from '../ui-table/products'
 
-export function Preview( props ) {
-  const { document, type } = props
+export const BASE_CLASS = Paper.BASE_CLASS
+
+export function Preview(props) {
+  const { document, type, className } = props
   const products = document.get(`products`)
-  if ( !document || !products ) return null
+  if (!document || !products) return null
 
   return (
-    <Paper.Sheet preview>
-      <Paper.Reference type={ type } product={ document } />
+    <Paper.Sheet preview className={className}>
+      <Paper.Reference type={type} product={document} />
       <Paper.Between>
         <Paper.PartyUser />
-        <Paper.Party title="to" people={ document.get(`customer`) } />
+        <Paper.Party title="to" people={document.get(`customer`)} />
       </Paper.Between>
-      <Paper.Subject value={ document.get(`name`)} />
-      <ProductTable
-        readOnly
-        document={ document }
-      />
-      <Paper.Mentions content={ document.get(`${type}Config.mentions`) } />
+      <Paper.Subject value={document.get(`name`)} />
+      <ProductTable readOnly document={document} />
+      <Paper.Mentions content={document.get(`${type}Config.mentions`)} />
     </Paper.Sheet>
   )
 }
 
 Preview.propTypes = {
   document: PropTypes.object.isRequired,
-  type    : PropTypes.oneOf([`quotation`, `invoice`]),
+  type: PropTypes.oneOf([`quotation`, `invoice`]),
 }
 
-export function PrintingNotice( props ) {
+export function PrintingNotice() {
   return (
     <Alert warning className="printing-notice">
       <FormattedHTMLMessage id="_.print-notice" />

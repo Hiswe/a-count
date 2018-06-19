@@ -64,5 +64,6 @@
     "typings",
     "**/dist/**",
     "**/public/**"
-  ]
+  ],
+  "editor.formatOnSave": true
 }
