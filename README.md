@@ -12,7 +12,7 @@ simple accounting universal application
 - [website](#website)
 - [developers](#developers)
   - [domain supported](#domain-supported)
-  - [as an React exercice](#as-an-react-exercice)
+  - [as a React exercice](#as-a-react-exercice)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
