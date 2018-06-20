@@ -59,7 +59,7 @@
     "lodash.round": "^4.0.4",
     "marked": "^0.4.0",
     "moment": "^2.22.2",
-    "prop-types": "^15.6.1",
+    "prop-types": "^15.6.2",
     "query-string": "^6.1.0",
     "rc": "^1.2.8",
     "react": "^16.4.1",
