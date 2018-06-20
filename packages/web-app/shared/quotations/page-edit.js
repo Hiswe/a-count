@@ -1,89 +1,73 @@
-import   React              from 'react'
-import { connect          } from 'react-redux'
+import React from 'react'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import { Helmet           } from 'react-helmet'
+import { Helmet } from 'react-helmet'
 
-import      pageFetchActions   from '../page-fetch-actions'
-import * as quotations         from '../redux-ducks/quotations'
-import * as customers          from '../redux-ducks/customers'
-import      NavSecondary       from '../nav/secondary'
+import pageFetchActions from '../page-fetch-actions'
+import * as quotations from '../redux-ducks/quotations'
+import * as customers from '../redux-ducks/customers'
+import NavSecondary from '../nav/secondary'
 import {
   ButtonNew,
   ButtonList,
   ButtonPreview,
   ButtonSubmit,
 } from '../nav/secondary-buttons'
-import   QuotationForm            from './form'
-import { FORM_ID                } from './form.pres'
+import QuotationForm from './form'
+import { FORM_ID } from './form.pres'
 import { CreateInvoice, ShowInvoice, ArchiveQuotation } from './buttons'
 
 const TYPE = `quotations`
 
-function EditQuotation( props ) {
+function EditQuotation(props) {
   const { quotation, ...rest } = props
-  const { id }      = props.match.params
-  const reference   = quotation.get(`reference`)
-  const titleProps  = { id:`page.quotations.edit`, values: {reference} }
+  const { id } = props.match.params
+  const reference = quotation.get(`reference`)
+  const titleProps = { id: `page.quotations.edit`, values: { reference } }
 
   return (
     <React.Fragment>
-      <FormattedMessage {...titleProps} >
-        {title => <Helmet><title>{title}</title></Helmet>}
+      <FormattedMessage {...titleProps}>
+        {title => (
+          <Helmet>
+            <title>{title}</title>
+          </Helmet>
+        )}
       </FormattedMessage>
-      <NavSecondary
-        title={ <FormattedMessage {...titleProps} /> }
-      >
+      <NavSecondary title={<FormattedMessage {...titleProps} />}>
         <ButtonSubmit
-          formId   = { FORM_ID }
-          isSaving = { props.isSaving }
+          formId={FORM_ID}
+          isSaving={props.isSaving}
           label="_.save"
         />
-        <ShowInvoice
-          withMessage
-          quotation={ quotation }
-        />
+        <ShowInvoice withMessage quotation={quotation} />
         <ArchiveQuotation
-          icon danger
-          quotation={ quotation }
-          form={ FORM_ID }
+          icon
+          danger
+          quotation={quotation}
+          form={FORM_ID}
           label="quotation.button.archive"
         />
-        <CreateInvoice
-          quotation={ quotation }
-          form={ FORM_ID }
-        />
-        <ButtonPreview
-          type={ TYPE }
-          id={ id }
-          label="quotation.button.preview"
-        />
-        <ButtonList
-          type={ TYPE }
-          label="quotation.button.list"
-        />
-        <ButtonNew
-          type={ TYPE }
-          secondary
-          icon
-          label="quotation.button.new"
-        />
+        <CreateInvoice quotation={quotation} form={FORM_ID} />
+        <ButtonPreview type={TYPE} id={id} label="quotation.button.preview" />
+        <ButtonList type={TYPE} label="quotation.button.list" />
+        <ButtonNew type={TYPE} secondary icon label="quotation.button.new" />
       </NavSecondary>
       <QuotationForm {...rest} />
     </React.Fragment>
   )
 }
 
-function state2prop( state ) {
+function state2prop(state) {
   return {
-    quotation: state.quotations.get( `current` ),
-    isSaving : state.quotations.get( `isSaving` ),
+    quotation: state.quotations.get(`current`),
+    isSaving: state.quotations.get(`isSaving`),
   }
 }
 
-export default connect( state2prop )( pageFetchActions({
-  Component: EditQuotation,
-  actionCreators: [
-    quotations.getOne,
-    customers.getAll,
-  ],
-}) )
+export default connect(state2prop)(
+  pageFetchActions({
+    Component: EditQuotation,
+    actionCreators: [quotations.getOne, customers.getAll],
+  })
+)

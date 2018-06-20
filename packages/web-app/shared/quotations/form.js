@@ -80,6 +80,7 @@ class QuotationForm extends React.Component {
     super(props)
 
     this.state = {
+      quotation: quotations.LOADING,
       formData: quotations.LOADING,
       customer: crio({}),
     }
@@ -98,26 +99,27 @@ class QuotationForm extends React.Component {
     this.handleProductRemove = this.handleProductRemove.bind(this)
   }
 
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   const next = nextProps.current
-  //   const current = prevState.formData
-  //   const { history, serverContext, customers, isSaving } = nextProps
-  //   if (isSaving) return null
-  //   if (current === next) return null
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const next = nextProps.current
+    const current = prevState.formData
+    const { history, serverContext, customers, isSaving } = nextProps
+    if (isSaving) return null
+    if (current === next) return null
+    if (next.updatedAt === current.updatedAt) return null
 
-  //   // redirects
-  //   redirection.quotation({
-  //     next,
-  //     current,
-  //     history,
-  //     serverContext,
-  //   })
+    // redirects
+    redirection.quotation({
+      next,
+      current,
+      history,
+      serverContext,
+    })
 
-  //   return {
-  //     formData: QuotationForm.recomputeFormData(next),
-  //     customer: QuotationForm.getCustomerData(next, customers),
-  //   }
-  // }
+    return {
+      formData: QuotationForm.recomputeFormData(next),
+      customer: QuotationForm.getCustomerData(next, customers),
+    }
+  }
 
   //----- UTILS
 
