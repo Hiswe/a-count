@@ -11,4 +11,8 @@
       grid-column: 1 / span 2;
     }
   }
+
+  .field--mentions {
+    margin-top: var(--s-two-gutter);
+  }
 }

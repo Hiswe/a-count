@@ -6,6 +6,7 @@ import { Button } from '../ui/buttons'
 import { Progress } from '../ui/progress'
 import * as Document from '../ui/preview'
 import * as Tabs from '../ui/tabs'
+import * as Field from '../ui/field'
 import { ShowQuotation, ArchiveInvoice } from './buttons'
 import { InvoiceHeader } from './header'
 import { InvoiceEvents } from './events-table'
@@ -16,6 +17,8 @@ export const BASE_CLASS = `invoice-form`
 export default function InvoiceFormPres(props) {
   const { invoice, handle } = props
   const payments = invoice.get(`payments`)
+  const mentions =
+    invoice.get(`mentions`) || invoice.get(`invoiceConfig.mentions`)
 
   return (
     <Tabs.Wrapper>
@@ -46,6 +49,13 @@ export default function InvoiceFormPres(props) {
             />
           ))}
         </InvoiceEvents>
+        <div style={{ marginTop: `var(--s-two-gutter)` }}>
+          <Field.Textarea
+            name="mentions"
+            label="field.mentions"
+            value={mentions}
+          />
+        </div>
         <FormActions>
           <Button type="submit">
             <FormattedMessage id="invoices.button.save" />

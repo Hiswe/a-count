@@ -12,6 +12,8 @@ export function Preview(props) {
   const { document, type, className } = props
   const products = document.get(`products`)
   if (!document || !products) return null
+  const mentions =
+    document.get(`mentions`) || document.get(`${type}Config.mentions`)
 
   return (
     <Paper.Sheet preview className={className}>
@@ -22,10 +24,7 @@ export function Preview(props) {
       </Paper.Between>
       <Paper.Subject value={document.get(`name`)} />
       <ProductTable readOnly document={document} />
-      <Paper.Mentions
-        type={type}
-        content={document.get(`${type}Config.mentions`)}
-      />
+      <Paper.Mentions type={type} content={mentions} />
     </Paper.Sheet>
   )
 }

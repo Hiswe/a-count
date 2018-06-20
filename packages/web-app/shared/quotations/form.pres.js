@@ -63,7 +63,11 @@ export function QuotationFormPres(props) {
               document={formData}
               handleRemove={handle.productRemove}
             />
-            <Paper.Mentions content={formData.quotationConfig.mentions} />
+            <Textarea
+              name="mentions"
+              label="field.mentions"
+              value={formData.mentions || formData.quotationConfig.mentions}
+            />
           </Paper.Sheet>
           <FormActions>
             <Button type="submit">
