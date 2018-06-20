@@ -135,10 +135,12 @@ export function Subject(props) {
   const COMP_CLASS = `${BASE_CLASS}__subject`
   return (
     <div className={COMP_CLASS}>
-      <span className={`${COMP_CLASS}-title`}>
+      <div className={`${COMP_CLASS}-title`}>
         <FormattedMessage id="paper-sheet.subject" />
-      </span>
-      <span className={`${COMP_CLASS}-content`}>{props.value}</span>
+      </div>
+      <div className={`${COMP_CLASS}-content`}>
+        <Markdown text={props.value} />
+      </div>
     </div>
   )
 }

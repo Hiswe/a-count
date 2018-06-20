@@ -1,10 +1,10 @@
-import   React              from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Main, Meta, Content, ContentActions } from '../layout/main'
-import { PaperSheet, Between, PartyUser, Party, Reference, Mentions } from '../layout/paper-sheet'
-import { Form  , FormActions } from '../ui/form'
-import { Button, BtnIcon     } from '../ui/buttons'
+import * as Paper from '../layout/paper-sheet'
+import { Form, FormActions } from '../ui/form'
+import { Button, BtnIcon } from '../ui/buttons'
 import { Input, Textarea, Select } from '../ui/field'
 import { Stepper } from '../ui/stepper'
 import Icon from '../ui/svg-icons'
@@ -13,43 +13,38 @@ import { CreateInvoice, ShowInvoice, ArchiveQuotation } from './buttons'
 
 import './form.pres.scss'
 export const BASE_CLASS = `quotation-form`
-export const FORM_ID    = BASE_CLASS
+export const FORM_ID = BASE_CLASS
 
-export function QuotationFormPres( props ) {
-  const {
-    isSaving,
-    customers,
-    formData,
-    customer,
-    isNew,
-    handle,
-  } = props
-  const { products }    = formData
-  const hasProducts     = Array.isArray( products )
-  const productsLength  = hasProducts ? products.length : 0
-  const submitI18nId =  `quotation.button.${isNew ? 'create' : 'update'}`
+export function QuotationFormPres(props) {
+  const { isSaving, customers, formData, customer, isNew, handle } = props
+  const { products } = formData
+  const hasProducts = Array.isArray(products)
+  const productsLength = hasProducts ? products.length : 0
+  const submitI18nId = `quotation.button.${isNew ? 'create' : 'update'}`
 
   return (
     <Form
-      id={ FORM_ID }
-      isSaving={ isSaving }
-      onChange={ handle.formChange }
-      onSubmit={ handle.submit }
+      id={FORM_ID}
+      isSaving={isSaving}
+      onChange={handle.formChange}
+      onSubmit={handle.submit}
     >
       <Main>
         <Meta>
-          <div className={ `${BASE_CLASS}__meta` }>
-            { !isNew && <input type="hidden" defaultValue={ formData.id } name="id" /> }
+          <div className={`${BASE_CLASS}__meta`}>
+            {!isNew && (
+              <input type="hidden" defaultValue={formData.id} name="id" />
+            )}
             <Stepper
-              steps={ formData.steps }
-              handleDayChange={ handle.dayChange }
+              steps={formData.steps}
+              handleDayChange={handle.dayChange}
             />
             <Select
               label="field.customer"
               name="customerId"
-              value={ formData.get(`customerId`) }
-              options={ customers }
-              optionsKeys={{ value: `id`, label: `name`}}
+              value={formData.get(`customerId`)}
+              options={customers}
+              optionsKeys={{ value: `id`, label: `name` }}
             />
             <Input
               name="tax"
@@ -57,35 +52,26 @@ export function QuotationFormPres( props ) {
               type="number"
               min="0"
               step="0.5"
-              value={ formData.get(`tax`) }
+              value={formData.get(`tax`)}
             />
           </div>
         </Meta>
         <Content>
-          <PaperSheet>
-            <Reference type="quotation" product={ formData } />
-            <Between>
-              <PartyUser />
-              <Party title="to" people={ customer } />
-            </Between>
-            <Input
-              name="name"
-              label="field.subject"
-              value={ formData.name }
-            />
+          <Paper.Sheet>
+            <Input name="name" label="field.subject" value={formData.name} />
             <ProductTable
-              document={ formData }
-              handleRemove={ handle.productRemove }
+              document={formData}
+              handleRemove={handle.productRemove}
             />
-            <Mentions content={ formData.quotationConfig.mentions }/>
-          </PaperSheet>
+            <Paper.Mentions content={formData.quotationConfig.mentions} />
+          </Paper.Sheet>
           <FormActions>
             <Button type="submit">
-              <FormattedMessage id={ submitI18nId } />
+              <FormattedMessage id={submitI18nId} />
             </Button>
-            <CreateInvoice quotation={ formData } />
-            <ShowInvoice quotation={ formData } withMessage />
-            <ArchiveQuotation danger quotation={ formData } />
+            <CreateInvoice quotation={formData} />
+            <ShowInvoice quotation={formData} withMessage />
+            <ArchiveQuotation danger quotation={formData} />
           </FormActions>
         </Content>
       </Main>
