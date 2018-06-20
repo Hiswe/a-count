@@ -13,7 +13,7 @@
   &__title {
     text-align: left;
     font-size: 1.25rem;
-    padding: 0 0 .5em;
+    padding: 0 0 0.5em;
     text-transform: uppercase;
   }
 
@@ -86,7 +86,6 @@
       // }
     }
 
-
     td + td {
       border-left: 1px solid var(--table-border-color);
     }
@@ -111,7 +110,7 @@
       }
       .svg-icon {
         position: absolute;
-        top: .5em;
+        top: 0.5em;
         left: 50%;
         transform: translate(-50%, 0);
       }
@@ -144,7 +143,7 @@
       width: 5em;
     }
     &--is-amount {
-      width: 10em;
+      width: 7em;
     }
     &--is-progress {
       position: relative;
@@ -192,7 +191,7 @@
     }
 
     &_rows-per-page {
-      padding-left: .35em;
+      padding-left: 0.35em;
     }
 
     &_action {
@@ -200,7 +199,7 @@
 
       &--disabled {
         pointer-events: none;
-        opacity: .25;
+        opacity: 0.25;
       }
     }
   }

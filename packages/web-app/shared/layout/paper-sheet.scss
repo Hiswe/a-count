@@ -11,6 +11,36 @@
   border-radius: var(--sheet-border-radius);
   position: relative;
 
+  background: white;
+  border: 1px solid var(--sheet-border-color);
+
+  // paper-sheet shadow
+  &::before,
+  &::after {
+    z-index: -1;
+    position: absolute;
+    content: '';
+    display: block;
+    bottom: 10px;
+    left: 10px;
+    width: 50%;
+    top: 80%;
+    max-width: 400px;
+    background: var(--sheet-shadow-color);
+    box-shadow: 0 15px 10px var(--sheet-shadow-color);
+    border-radius: var(--sheet-border-radius);
+    transform: rotate(-3deg);
+
+    @media #{$mq-print} {
+      display: none;
+    }
+  }
+  &::after {
+    transform: rotate(3deg);
+    right: 10px;
+    left: auto;
+  }
+
   @media #{$mq-print} {
     background: none;
     border: none;
@@ -174,7 +204,7 @@
     background-image: linear-gradient(
       to bottom,
       white calc(297mm - 1px),
-      var(--c-primary-lightest) calc(297mm - 2px)
+      red calc(297mm - 2px)
     );
     background-repeat: repeat-y;
 
@@ -238,7 +268,6 @@
   }
 
   // here for overriding preview mode
-  &,
   &--page-invoice-preview {
     background: white;
     border: 1px solid var(--sheet-border-color);
