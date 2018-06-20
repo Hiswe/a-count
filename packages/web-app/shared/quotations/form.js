@@ -15,6 +15,10 @@ import { filterArrayWithObject } from '../utils/filter-array-with-object'
 import { Spinner } from '../ui/spinner'
 import { QuotationFormPres } from './form.pres'
 
+////////
+// UTILS
+////////
+
 const STEPS = crio([
   { key: `sendAt`, label: `stepper.sent` },
   { key: `validatedAt`, label: `stepper.validated` },
@@ -75,14 +79,39 @@ export function ensureProductId(formData) {
   return formData.set(`products`, withId)
 }
 
+export const recomputeProducts = flow(
+  removeDefaultProducts,
+  recomputeTotals,
+  addEmptyLine,
+  ensureProductId
+)
+
+export const recomputeFormData = flow(
+  recomputeSteps,
+  recomputeProducts
+)
+
+export function getCustomerData(formData, customers) {
+  if (!Array.isArray(customers)) return {}
+  const { customerId } = formData
+  // if no customer is selected, just take the first one in the list
+  if (!customerId) return customers[0]
+  const customer = customers.find(c => c.id === customerId)
+  return customer || {}
+}
+
+////////
+// COMPONENT
+////////
+
 class QuotationForm extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      quotation: quotations.LOADING,
-      formData: quotations.LOADING,
-      customer: crio({}),
+      initial: recomputeFormData(props.current),
+      formData: recomputeFormData(props.current),
+      customer: getCustomerData(props.current, props.customers),
     }
 
     // don't use any automated bind
@@ -116,34 +145,9 @@ class QuotationForm extends React.Component {
     })
 
     return {
-      formData: QuotationForm.recomputeFormData(next),
-      customer: QuotationForm.getCustomerData(next, customers),
+      formData: recomputeFormData(next),
+      customer: getCustomerData(next, customers),
     }
-  }
-
-  //----- UTILS
-
-  static recomputeSteps = recomputeSteps
-
-  static recomputeProducts = flow(
-    removeDefaultProducts,
-    recomputeTotals,
-    addEmptyLine,
-    ensureProductId
-  )
-
-  static recomputeFormData = flow(
-    QuotationForm.recomputeSteps,
-    QuotationForm.recomputeProducts
-  )
-
-  static getCustomerData(formData, customers) {
-    if (!Array.isArray(customers)) return {}
-    const { customerId } = formData
-    // if no customer is selected, just take the first one in the list
-    if (!customerId) return customers[0]
-    const customer = customers.find(c => c.id === customerId)
-    return customer || {}
   }
 
   //----- EVENTS
@@ -169,21 +173,20 @@ class QuotationForm extends React.Component {
       if (name === `customerId`)
         return {
           formData: updated,
-          customer: QuotationForm.getCustomerData(updated, props.customers),
+          customer: getCustomerData(updated, props.customers),
         }
       // Recompute products only if needed
       const isProductChange = /^products\[\d+\]/.test(name)
       const isTaxChange = name === `tax`
       if (!isProductChange && !isTaxChange) return { formData: updated }
-      console.log(QuotationForm.recomputeProducts(updated))
-      return { formData: QuotationForm.recomputeProducts(updated) }
+      return { formData: recomputeProducts(updated) }
     })
   }
   handleDayChange(target) {
     const { name, value } = target
     this.setState(prevState => {
       const updated = prevState.formData.set(name, value)
-      const withSteps = QuotationForm.recomputeSteps(updated)
+      const withSteps = recomputeSteps(updated)
       return { formData: withSteps }
     })
   }
@@ -196,7 +199,7 @@ class QuotationForm extends React.Component {
       const products = prevState.formData.get(`products`)
       const updatedProducts = products.splice(index, 1)
       const updated = prevState.formData.set(`products`, updatedProducts)
-      return { formData: QuotationForm.recomputeProducts(updated) }
+      return { formData: recomputeProducts(updated) }
     })
   }
 
