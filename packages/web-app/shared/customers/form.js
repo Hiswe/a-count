@@ -17,29 +17,30 @@ class CustomerForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      formData: this.props.customer,
+      formData: props.customer,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleFormChange = this.handleFormChange.bind(this)
   }
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const next = nextProps.customer
-    const current = prevState.formData
-    const { isSaving, history, serverContext } = nextProps
+  static getDerivedStateFromProps(props, state) {
+    const next = props.customer
+    const current = state.formData
+    const { isSaving, history, serverContext } = props
     if (isSaving) return null
     if (current === next) return null
+    if (next.id !== current.id) {
+      // redirects
+      const redirect = redirection.customer({
+        next,
+        current,
+        history,
+        serverContext,
+      })
+      if (redirect) return null
+      return { formData: next }
+    }
     if (next.updatedAt === current.updatedAt) return null
-
-    // redirects
-    const redirect = redirection.customer({
-      next,
-      current,
-      history,
-      serverContext,
-    })
-    if (redirect) return null
-
-    return { formData: next }
+    return null
   }
 
   //----- EVENTS
