@@ -11,10 +11,6 @@ import { getInputValue } from '../utils/get-input-value'
 import { Spinner } from '../ui/spinner'
 import { QuotationFormPres } from './form.pres'
 
-////////
-// COMPONENT
-////////
-
 class QuotationForm extends React.Component {
   constructor(props) {
     super(props)
@@ -34,28 +30,6 @@ class QuotationForm extends React.Component {
     this.handleDayChange = this.handleDayChange.bind(this)
     this.handleProductRemove = this.handleProductRemove.bind(this)
   }
-
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   const next = nextProps.current
-  //   const current = prevState.formData
-  //   const { history, serverContext, customers, isSaving } = nextProps
-  //   if (isSaving) return null
-  //   if (current === next) return null
-  //   if (next.updatedAt === current.updatedAt) return null
-
-  //   // redirects
-  //   redirection.quotation({
-  //     next,
-  //     current,
-  //     history,
-  //     serverContext,
-  //   })
-
-  //   return {
-  //     formData: recomputeFormData(next),
-  //     customer: getCustomerData(next, customers),
-  //   }
-  // }
 
   //----- EVENTS
 
@@ -133,11 +107,9 @@ function state2prop(state) {
 function dispatch2prop(dispatch) {
   return bindActionCreators(
     {
-      // getOne: quotations.getOne,
       saveOne: quotations.saveOne,
       updateDraft: formDraft.updateQuotationDraft,
       createInvoice: quotations.createInvoice,
-      // getAllCustomers: customers.getAll,
     },
     dispatch,
   )

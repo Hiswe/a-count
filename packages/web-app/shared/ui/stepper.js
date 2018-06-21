@@ -1,29 +1,29 @@
-import   React              from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import classNames from 'classnames'
 
 import { DatePicker } from '../ui/date-picker'
 
 import './stepper.scss'
-const BASE_CLASS           = `stepper`
+const BASE_CLASS = `stepper`
 export const CHECKED_CLASS = `${BASE_CLASS}--is-all-checked`
-export const RADIO_CLASS   = `${BASE_CLASS}__input`
-const CHECKBOX_NAME        = `stepper-display-form`
+export const RADIO_CLASS = `${BASE_CLASS}__input`
+const CHECKBOX_NAME = `stepper-display-form`
 
 export class Stepper extends React.Component {
-
-  constructor( props ) {
-    super( props )
-    this.handleChange = this.handleChange.bind( this )
+  constructor(props) {
+    super(props)
+    this.handleChange = this.handleChange.bind(this)
     this.state = {
-      currentStep:  0,
+      currentStep: 0,
       isAllChecked: false,
     }
   }
 
-  static getDerivedStateFromProps( nextProps, prevState ) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     const { steps } = nextProps
-    if ( !Array.isArray(steps) ) return prevState
-    const currentStep  = Stepper.getSelectedIndex( steps )
+    if (!Array.isArray(steps)) return prevState
+    const currentStep = Stepper.getSelectedIndex(steps)
     const isAllChecked = currentStep === steps.length
     return {
       currentStep,
@@ -31,76 +31,77 @@ export class Stepper extends React.Component {
     }
   }
 
-  static getSelectedIndex( steps ) {
+  static getSelectedIndex(steps) {
     let index = 0
-    const hasOneMissingStep = steps.some( (step, i) => {
+    const hasOneMissingStep = steps.some((step, i) => {
       const hasNoValue = step.value == null || step.value === ``
-      if ( hasNoValue ) index = i
+      if (hasNoValue) index = i
       return hasNoValue
     })
     return hasOneMissingStep ? index : steps.length
   }
 
-  handleChange( event, index ) {
+  handleChange(event, index) {
     // we don't want the event to leak to main form
     event.stopPropagation()
     // we still want to be able to show everything manually
-    this.setState( prevState => {
+    this.setState(prevState => {
       return {
-        currentStep:  index,
+        currentStep: index,
         isAllChecked: false,
       }
     })
   }
 
-  render( ) {
-    const { steps, ...otherProps}       = this.props
+  render() {
+    const { steps, ...otherProps } = this.props
     const { currentStep, isAllChecked } = this.state
-    const COMP_CLASS                    = [ BASE_CLASS ]
-    if ( isAllChecked ) COMP_CLASS.push( CHECKED_CLASS )
+    const COMP_CLASS = classNames(BASE_CLASS, {
+      [CHECKED_CLASS]: isAllChecked,
+    })
     return (
-      <div className={ COMP_CLASS.join(` `) }>
-        {
+      <div className={COMP_CLASS}>
+        {Array.isArray(steps) &&
           steps.map((step, index) => (
             <Step
-              key={ step.key }
-              checked={ index === currentStep }
-              index={ index }
-              step={ step }
-              handleChange={ event => this.handleChange( event, index ) }
-              { ...otherProps }
+              key={step.key}
+              checked={index === currentStep}
+              index={index}
+              step={step}
+              handleChange={event => this.handleChange(event, index)}
+              {...otherProps}
             />
-          ))
-        }
+          ))}
       </div>
     )
   }
 }
 
-export function Step( props ) {
+export function Step(props) {
   const { step, checked, index, handleDayChange } = props
-  const id  = `${ step.key }-${ index }`
+  const id = `${step.key}-${index}`
   return (
-    <React.Fragment>
-      <input id={ id }
-        name={ CHECKBOX_NAME }
-        className={`${ RADIO_CLASS }`}
+    <>
+      <input
+        id={id}
+        name={CHECKBOX_NAME}
+        className={`${RADIO_CLASS}`}
         type="radio"
-        checked={ checked }
-        onChange={ props.handleChange }
+        checked={checked}
+        onChange={props.handleChange}
       />
-      <div className={`${ BASE_CLASS }__step`} >
-        <label className={`${ BASE_CLASS }__button`} htmlFor={id}>
-          { step.label && <FormattedMessage id={ step.label } /> }
+      <div className={`${BASE_CLASS}__step`}>
+        <label className={`${BASE_CLASS}__button`} htmlFor={id}>
+          {step.label && <FormattedMessage id={step.label} />}
         </label>
-        <div className={`${ BASE_CLASS }__content`}>
+        <div className={`${BASE_CLASS}__content`}>
           <DatePicker
-            value={ step.value }
-            name={ step.key }
-            handleDayChange={ e => handleDayChange(e) }
+            value={step.value}
+            name={step.key}
+            handleDayChange={e => handleDayChange(e)}
           />
         </div>
       </div>
-    </React.Fragment>
+    </>
   )
 }

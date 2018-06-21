@@ -1,71 +1,60 @@
 import isNil from 'lodash.isnil'
+import flow from 'lodash.flow'
 
-// control if coming from a no ID model instance…
-// …we update to an instance with ID
-const checkKeyChange = key => ({next, current}) => {
-  const isLoading = current.isLoading || next.isLoading
-  if ( isLoading ) return false
-  const currentKey = current[ key ]
-  const nextKey    = next[ key ]
-  const hasCurrent = !isNil( currentKey )
-  const hasNext    = !isNil( nextKey )
+const checkEmptyKeyFilled = key => ({ state, payload }) => {
+  const isLoading = state.isLoading || payload.isLoading
+  if (isLoading) return false
+  const currentKey = state[key]
+  const nextKey = payload[key]
+  const hasCurrent = !isNil(currentKey)
+  const hasNext = !isNil(nextKey)
   // want to change route if:
   // • the previous doesn't have an ID (creation)
   // • the next one has (successful creation!)
-  const isNewCreation = !hasCurrent && hasNext
+  const isNew = !hasCurrent && hasNext
   const isDifferentId = hasCurrent && hasNext && currentKey !== nextKey
-  return isNewCreation ? true : isDifferentId
+  return isNew ? true : isDifferentId
 }
 
-export const isNewQuotation = checkKeyChange( `id` )
-export const isNewCustomer  = checkKeyChange( `id` )
-export const isNewInvoice   = checkKeyChange( `invoiceId` )
-export const isArchived     = ({next, current}) => !isNil( next.archivedAt )
+const checkArchivedKey = ({ state, payload }) => !isNil(payload.archivedAt)
 
 const newCustomer = {
-  test: isNewCustomer,
-  to  : next => `/customers/${ next.id }`,
+  check: checkEmptyKeyFilled(`id`),
+  url: ({ state, payload }) => `/customers/${payload.id}`,
 }
 const newQuotation = {
-  test: isNewQuotation,
-  to  : next => `/quotations/${ next.id }`,
-}
-const archivedQuotation = {
-  test: isArchived,
-  to  : next => `/archives/quotations/${ next.id }`,
+  check: checkEmptyKeyFilled(`id`),
+  url: ({ state, payload }) => `/quotations/${payload.id}`,
 }
 const newInvoice = {
-  test: isNewInvoice,
-  to  : next => `/invoices/${ next.invoiceId }`
+  check: checkEmptyKeyFilled(`invoiceId`),
+  url: ({ state, payload }) => `/invoices/${payload.invoiceId}`,
+}
+const archivedQuotation = {
+  check: checkArchivedKey,
+  url: ({ state, payload }) => `/archives/quotations/${payload.id}`,
 }
 const archivedInvoice = {
-  test: isArchived,
-  to  : next => `/archives/invoices/${ next.id }`
+  check: checkArchivedKey,
+  url: ({ state, payload }) => `/archives/invoices/${payload.id}`,
 }
 
-const checkRedirections = datas => (hasRedirect, redirection) => {
-  const { next, current, history, serverContext } = datas
-  if ( hasRedirect ) return hasRedirect
-  if ( !redirection.test({next, current}) ) return false
-  const redirectUrl = redirection.to( next )
-  // update static context for the server
-  if ( serverContext ) {
-    serverContext.status  = 302
-    serverContext.url     = redirectUrl
-  }
-  return history.push( redirectUrl )
+const getRedirection = ({ state, payload }) => (hasRedirect, redirect) => {
+  if (hasRedirect) return hasRedirect
+  if (!redirect.check({ state, payload })) return false
+  return redirect.url({ state, payload })
 }
 
-export const quotation = datas => [
-  newQuotation,
-  newInvoice,
-  archivedQuotation,
-].reduce( checkRedirections(datas), false )
+export const checkQuotation = ({ state, payload }) => {
+  return [newQuotation, newInvoice, archivedQuotation].reduce(
+    getRedirection({ state, payload }),
+    false,
+  )
+}
+export const checkInvoice = ({ state, payload }) => {
+  return [archivedInvoice].reduce(getRedirection({ state, payload }), false)
+}
 
-export const invoice   = datas => [
-  archivedInvoice,
-].reduce( checkRedirections(datas), false )
-
-export const customer  = datas => [
-  newCustomer,
-].reduce( checkRedirections(datas), false )
+export const checkCustomer = ({ state, payload }) => {
+  return [newCustomer].reduce(getRedirection({ state, payload }), false)
+}

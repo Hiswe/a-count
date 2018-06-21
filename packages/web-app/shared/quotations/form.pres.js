@@ -70,7 +70,10 @@ export function QuotationFormPres(props) {
             <Field.Textarea
               name="mentions"
               label="field.mentions"
-              value={formDraft.mentions || formDraft.quotationConfig.mentions}
+              value={
+                formDraft.get(`mentions`) ||
+                formDraft.get(`quotationConfig.mentions`)
+              }
             />
           </Paper.Sheet>
           <FormActions>

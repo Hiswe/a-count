@@ -9,12 +9,27 @@ import * as locales from './locales'
 import ErrorBoundary from './error-boundary'
 import NavMain from './nav/main'
 import Notifications from './notifications/list'
+import * as formDraft from './redux-ducks/form-draft'
 
 import './react-application.scss'
 
 class ReactApplication extends React.PureComponent {
   constructor(props) {
     super(props)
+    this.state = {}
+  }
+
+  // dirty check of redirection
+  static getDerivedStateFromProps(props, state) {
+    if (!props.redirection) return null
+    const { history, serverContext } = props
+    // update static context for the server
+    if (serverContext) {
+      serverContext.status = 302
+      serverContext.url = props.redirection
+    }
+    history.push(props.redirection)
+    return null
   }
 
   render() {
@@ -68,8 +83,19 @@ class ReactApplication extends React.PureComponent {
 }
 
 function state2props(state) {
-  const lang = state.account.get(`user.lang`) || `en`
-  return { lang }
+  return {
+    lang: state.account.get(`user.lang`) || `en`,
+    redirection: state.formDraft.get(`_redirection`) || false,
+  }
+}
+
+function dispatch2prop(dispatch) {
+  return bindActionCreators(
+    {
+      cleanRedirection: formDraft.cleanRedirection,
+    },
+    dispatch,
+  )
 }
 
 export default connect(state2props)(ReactApplication)

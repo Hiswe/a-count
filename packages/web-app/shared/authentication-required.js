@@ -7,37 +7,36 @@ import { Redirect } from 'react-router-dom'
 
 const PUBLIC_ROOT = `/account/login`
 
-export function authenticationRequired( Component ) {
-
+export function authenticationRequired(Component) {
   // TODO: shouldn't redirect if already on login page…
 
-  function AuthRequired( props ) {
+  function AuthRequired(props) {
     const { serverContext } = props
 
-    if ( props.isAuthenticated ) return <Component {...props}/>
+    if (props.isAuthenticated) return <Component {...props} />
 
-    if ( serverContext ) {
+    if (serverContext) {
       serverContext.status = 302
       serverContext.url = PUBLIC_ROOT
     }
-    return <Redirect to={ PUBLIC_ROOT } />
+    return <Redirect to={PUBLIC_ROOT} />
   }
 
   // Hoist “Component.fetchData”
   // • needed by the the server to fetch the right data
   // • TODO: should use hoist-non-react-statics
-      https://github.com/mridgway/hoist-non-react-statics
-  if ( Component.fetchData ) {
+  //github.com/mridgway/hoist-non-react-statics
+  https: if (Component.fetchData) {
     AuthRequired.fetchData = Component.fetchData
   }
 
-  function state2prop( state ) {
+  function state2prop(state) {
     return {
-      isAuthenticated:  state.account.get( `isAuthenticated` ),
+      isAuthenticated: state.account.get(`isAuthenticated`),
     }
   }
 
-  return connect( state2prop )( AuthRequired )
+  return connect(state2prop)(AuthRequired)
 }
 
 export default authenticationRequired
