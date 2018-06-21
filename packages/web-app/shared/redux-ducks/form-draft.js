@@ -1,9 +1,7 @@
 import crio from 'crio'
 import shortid from 'shortid'
 
-import config from '../isomorphic-config'
 import { createSyncActionName } from './utils/create-action-names'
-
 import {
   GET_ONE as QUOTATION_GET_ONE,
   SAVE_ONE as QUOTATION_SAVE_ONE,
@@ -17,6 +15,7 @@ import {
   SAVE_ONE as CUSTOMER_SAVE_ONE,
 } from './customers'
 import { GET_ONE as ACCOUNT_GET, UPDATE as ACCOUNT_UPDATE } from './account'
+import * as quotationsUtils from './form-draft-compute-quotation'
 
 const NAME = `draft-form`
 const LOADING = crio({
@@ -25,6 +24,11 @@ const LOADING = crio({
 })
 
 export const UPDATE_DRAFT = createSyncActionName(NAME, `update`, `draft`)
+export const UPDATE_QUOTATION_DRAFT = createSyncActionName(
+  NAME,
+  `update`,
+  `quotation-draft`
+)
 
 const initialState = crio({})
 
@@ -36,11 +40,10 @@ export default function reducer(state = initialState, action) {
     case INVOICE_GET_ONE.LOADING:
     case CUSTOMER_GET_ONE.LOADING:
     case ACCOUNT_GET.LOADING: {
-      state = LOADING.set(`draftId`, shortid())
+      state = LOADING.set(`_draftId`, shortid())
       return state
     }
 
-    case QUOTATION_GET_ONE.SUCCESS:
     case INVOICE_GET_ONE.SUCCESS:
     case CUSTOMER_GET_ONE.SUCCESS: {
       state = crio(payload)
@@ -50,6 +53,17 @@ export default function reducer(state = initialState, action) {
     case ACCOUNT_UPDATE.SUCCESS:
     case ACCOUNT_GET.SUCCESS: {
       state = crio(payload.user)
+      return state
+    }
+
+    case QUOTATION_GET_ONE.SUCCESS:
+    case UPDATE_QUOTATION_DRAFT: {
+      console.log(`—————— QUOTATION_GET_ONE.SUCCESS`)
+      console.log(payload)
+      console.log(`—————— QUOTATION_GET_ONE.SUCCESS ——————`)
+      console.log(`       QUOTATION_GET_ONE.SUCCESS ——————`)
+      console.log(quotationsUtils.recomputeFormData(crio(payload)))
+      state = quotationsUtils.recomputeFormData(crio(payload))
       return state
     }
 
@@ -66,6 +80,13 @@ export default function reducer(state = initialState, action) {
 export const updateDraft = formData => async dispatch => {
   dispatch({
     type: UPDATE_DRAFT,
+    payload: formData,
+  })
+}
+
+export const updateQuotationDraft = formData => async dispatch => {
+  dispatch({
+    type: UPDATE_QUOTATION_DRAFT,
     payload: formData,
   })
 }
