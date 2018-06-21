@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { Helmet } from 'react-helmet'
 
+import * as account from '../redux-ducks/account'
 import pageFetchActions from '../page-fetch-actions'
 import NavSecondary from '../nav/secondary'
 import { ButtonSubmit } from '../nav/secondary-buttons'
@@ -42,6 +43,6 @@ function state2prop(state) {
 export default connect(state2prop)(
   pageFetchActions({
     Component: EditProfile,
-    actionCreators: [],
+    actionCreators: [account.get],
   })
 )

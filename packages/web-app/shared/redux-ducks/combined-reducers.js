@@ -5,6 +5,7 @@ import quotations from './quotations'
 import invoices from './invoices'
 import notifications from './notifications'
 import account, { LOGOUT, AUTH } from './account'
+import formDraft from './form-draft'
 
 const appReducer = combineReducers({
   customers,
@@ -12,6 +13,7 @@ const appReducer = combineReducers({
   invoices,
   notifications,
   account,
+  formDraft,
 })
 
 // make a global reducer

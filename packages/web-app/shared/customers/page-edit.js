@@ -79,7 +79,7 @@ function EditCustomer(props) {
                   <Paper.Sheet part="top">
                     <Paper.Between>
                       <Paper.User />
-                      <Paper.Party title="to" people={context.formData} />
+                      <Paper.Party title="to" people={context.formDraft} />
                     </Paper.Between>
                   </Paper.Sheet>
                 </>

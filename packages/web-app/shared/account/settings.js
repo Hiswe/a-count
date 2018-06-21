@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import serialize from 'form-serialize'
 
 import * as account from '../redux-ducks/account'
+import * as formDraft from '../redux-ducks/form-draft'
 import { getInputValue } from '../utils/get-input-value'
 import { Form } from '../ui/form'
 import SettingFormPres from './settings.pres'
@@ -13,9 +14,7 @@ export const FORM_ID = `setting-form`
 class SettingForm extends React.PureComponent {
   constructor(props) {
     super(props)
-    this.state = {
-      formData: this.props.user,
-    }
+
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleFormChange = this.handleFormChange.bind(this)
   }
@@ -28,17 +27,17 @@ class SettingForm extends React.PureComponent {
     this.props.updateSettings({ body })
   }
   handleFormChange(event) {
+    const { props } = this
     const { name, value } = getInputValue(event.target)
-    this.setState(prevState => {
-      return { formData: prevState.formData.set(name, value) }
-    })
+    props.updateDraft(props.formDraft.set(name, value))
   }
 
   //----- RENDER
 
   render() {
-    const { state, props } = this
-    const { formData } = state
+    const { props } = this
+    const { formDraft } = props
+    if (!formDraft.get(`id`)) return null
     return (
       <Form
         id={`${FORM_ID}`}
@@ -47,23 +46,23 @@ class SettingForm extends React.PureComponent {
         onChange={this.handleFormChange}
         onSubmit={this.handleSubmit}
       >
-        <input type="hidden" name="id" value={formData.get(`id`)} />
+        <input type="hidden" name="id" value={formDraft.get(`id`)} />
         <input
           type="hidden"
           name="quotationConfig[id]"
-          value={formData.get(`quotationConfig.id`)}
+          value={formDraft.get(`quotationConfig.id`)}
         />
         <input
           type="hidden"
           name="invoiceConfig[id]"
-          value={formData.get(`invoiceConfig.id`)}
+          value={formDraft.get(`invoiceConfig.id`)}
         />
         <input
           type="hidden"
           name="productConfig[id]"
-          value={formData.get(`productConfig.id`)}
+          value={formDraft.get(`productConfig.id`)}
         />
-        <SettingFormPres formData={formData} />
+        <SettingFormPres formDraft={formDraft} />
       </Form>
     )
   }
@@ -71,6 +70,7 @@ class SettingForm extends React.PureComponent {
 
 function state2props(state) {
   return {
+    formDraft: state.formDraft,
     user: state.account.get(`user`),
     isSaving: state.account.get(`isSaving`),
   }
@@ -80,6 +80,7 @@ function dispatch2props(dispatch) {
   return bindActionCreators(
     {
       updateSettings: account.updateSettings,
+      updateDraft: formDraft.updateDraft,
     },
     dispatch
   )

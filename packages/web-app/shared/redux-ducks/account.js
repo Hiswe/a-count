@@ -5,53 +5,53 @@ import dispatchFetchActions from './utils/dispatch-fetch-actions'
 
 const NAME = `account`
 
-export const AUTH         = createActionNames( NAME, `get`  , `auth`         )
-export const STATISTICS   = createActionNames( NAME, `get`  , `statistics`   )
-export const LOGIN        = createActionNames( NAME, `post` , `login`        )
-export const FORGOT       = createActionNames( NAME, `post` , `forgot`       )
-export const SET_PASSWORD = createActionNames( NAME, `post` , `set-password` )
-export const RESET        = createActionNames( NAME, `post` , `reset`        )
-export const LOGOUT       = createActionNames( NAME, `get`  , `logout`       )
-export const REGISTER     = createActionNames( NAME, `post` , `register`     )
-export const UPDATE       = createActionNames( NAME, `post` , `one`          )
+export const AUTH = createActionNames(NAME, `get`, `auth`)
+export const GET_ONE = createActionNames(NAME, `get`, `one`)
+export const STATISTICS = createActionNames(NAME, `get`, `statistics`)
+export const LOGIN = createActionNames(NAME, `post`, `login`)
+export const FORGOT = createActionNames(NAME, `post`, `forgot`)
+export const SET_PASSWORD = createActionNames(NAME, `post`, `set-password`)
+export const RESET = createActionNames(NAME, `post`, `reset`)
+export const LOGOUT = createActionNames(NAME, `get`, `logout`)
+export const REGISTER = createActionNames(NAME, `post`, `register`)
+export const UPDATE = createActionNames(NAME, `post`, `one`)
 
 const initialState = crio({
-  isSaving        : false,
-  isAuthenticated : false,
-  user            : {}   ,
-  statistics      : {}   ,
+  isSaving: false,
+  isAuthenticated: false,
+  user: {},
+  statistics: {},
 })
 
 //////
 // REDUCER
 //////
 
-export default function reducer( state = initialState, action ) {
+export default function reducer(state = initialState, action) {
   const { type, payload } = action
 
-  switch ( type ) {
-
+  switch (type) {
     case AUTH.SUCCESS:
     case LOGIN.SUCCESS:
     case SET_PASSWORD.SUCCESS:
     case RESET.SUCCESS:
-      state = state.set( `isAuthenticated`, true )
-      return state.set( `user`, payload.user )
+      state = state.set(`isAuthenticated`, true)
+      return state.set(`user`, payload.user)
 
     case AUTH.ERROR:
     case LOGOUT.SUCCESS:
-      state = state.set( `isAuthenticated`, false )
-      return state.set( `user`, {} )
+      state = state.set(`isAuthenticated`, false)
+      return state.set(`user`, {})
 
     case STATISTICS.SUCCESS:
-      return state.set( `statistics`, payload )
+      return state.set(`statistics`, payload)
 
     case UPDATE.LOADING:
-      return state.set( `isSaving`, true )
+      return state.set(`isSaving`, true)
     case UPDATE.DONE:
-      return state.set( `isSaving`, false )
+      return state.set(`isSaving`, false)
     case UPDATE.SUCCESS:
-      return state.set( `user`, payload.user )
+      return state.set(`user`, payload.user)
 
     default:
       return state
@@ -64,99 +64,110 @@ export default function reducer( state = initialState, action ) {
 
 export const auth = (params, jwt) => async dispatch => {
   const options = {
-    url: `/${ NAME }/auth`,
+    url: `/${NAME}/auth`,
   }
   await dispatchFetchActions({
     dispatch,
-    actions:  AUTH,
-    fetch:    { options, jwt },
+    actions: AUTH,
+    fetch: { options, jwt },
+  })
+}
+
+export const get = (params, jwt) => async dispatch => {
+  const options = {
+    url: `/${NAME}/auth`,
+  }
+  await dispatchFetchActions({
+    dispatch,
+    actions: GET_ONE,
+    fetch: { options, jwt },
   })
 }
 
 export const statistics = (params, jwt) => async dispatch => {
   const options = {
-    url: `/${ NAME }/statistics`,
+    url: `/${NAME}/statistics`,
   }
   await dispatchFetchActions({
     dispatch,
-    actions:  STATISTICS,
-    fetch:    { options, jwt },
+    actions: STATISTICS,
+    fetch: { options, jwt },
   })
 }
 
 export const login = (params, jwt) => async dispatch => {
   const { body } = params
   const options = {
-    url: `/${ NAME }/login`,
+    url: `/${NAME}/login`,
     body,
   }
   await dispatchFetchActions({
     dispatch,
-    actions:  LOGIN,
-    fetch:    { options, jwt },
+    actions: LOGIN,
+    fetch: { options, jwt },
   })
 }
 
 export const logout = (params, jwt) => async dispatch => {
   const options = {
-    url: `/${ NAME }/logout`,
+    url: `/${NAME}/logout`,
   }
   await dispatchFetchActions({
     dispatch,
-    actions:  LOGOUT,
-    fetch:    { options, jwt },
+    actions: LOGOUT,
+    fetch: { options, jwt },
   })
 }
 
 export const register = (params, jwt) => async dispatch => {
   const { body } = params
   const options = {
-    url: `/${ NAME }/register`,
+    url: `/${NAME}/register`,
     body,
   }
   await dispatchFetchActions({
     dispatch,
-    actions:  REGISTER,
-    fetch:    { options, jwt },
+    actions: REGISTER,
+    fetch: { options, jwt },
   })
 }
 
 export const forgot = (params, jwt) => async dispatch => {
   const { body } = params
   const options = {
-    url: `/${ NAME }/forgot`,
+    url: `/${NAME}/forgot`,
     body,
   }
   await dispatchFetchActions({
     dispatch,
-    actions:  FORGOT,
-    fetch:    { options, jwt },
+    actions: FORGOT,
+    fetch: { options, jwt },
   })
 }
 
 export const setPassword = (params, jwt) => async dispatch => {
   const { body } = params
   const options = {
-    url: `/${ NAME }/set-password`,
+    url: `/${NAME}/set-password`,
     body,
   }
   await dispatchFetchActions({
     dispatch,
-    actions:  SET_PASSWORD,
-    fetch:    { options, jwt },
+    actions: SET_PASSWORD,
+    fetch: { options, jwt },
   })
 }
 
 export const reset = (params, jwt) => async dispatch => {
   const { body } = params
   const options = {
-    url: `/${ NAME }/reset`,
+    url: `/${NAME}/reset`,
     body,
   }
   await dispatchFetchActions({
     dispatch,
-    actions:  RESET,
-    fetch:    { options, jwt },
+    actions: RESET,
+    fetch: { options, jwt },
   })
 }
 
@@ -168,7 +179,7 @@ export const updateSettings = (params, jwt) => async dispatch => {
   }
   await dispatchFetchActions({
     dispatch,
-    actions:  UPDATE,
-    fetch:    { options, jwt },
+    actions: UPDATE,
+    fetch: { options, jwt },
   })
 }

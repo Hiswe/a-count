@@ -3,13 +3,15 @@ import React from 'react'
 import { Input, Textarea } from '../ui/field'
 
 export default function CustomerFormPres(props) {
-  const { formData } = props
-  console.log(formData)
-
+  const { formDraft } = props
   return (
     <div className="customer-fields">
-      <Input name="name" label="field.name" value={formData.name} />
-      <Textarea name="address" label="field.address" value={formData.address} />
+      <Input name="name" label="field.name" value={formDraft.name} />
+      <Textarea
+        name="address"
+        label="field.address"
+        value={formDraft.address}
+      />
     </div>
   )
 }

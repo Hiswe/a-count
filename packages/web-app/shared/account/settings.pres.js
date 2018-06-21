@@ -32,8 +32,8 @@ const languages = [
 ]
 
 export default function SettingFormPres(props) {
-  const { formData } = props
-  const { quotationConfig, invoiceConfig, productConfig } = formData
+  const { formDraft } = props
+  const { quotationConfig, invoiceConfig, productConfig } = formDraft
   const fakeQuotationReference = {
     type: `quotation`,
     product: {
@@ -91,24 +91,28 @@ export default function SettingFormPres(props) {
           <Field.Select
             name="lang"
             label="field.language"
-            value={formData.lang}
+            value={formDraft.lang}
             options={languages}
           />
           <Field.Select
             name="currency"
             label="field.currency"
-            value={formData.currency}
+            value={formDraft.currency}
             options={currencies}
           />
           <Paper.Sheet part="top-left">
-            <Paper.Party title="from" people={formData} />
+            <Paper.Party title="from" people={formDraft} />
           </Paper.Sheet>
           <div className={`${BASE_CLASS}__user-form`}>
-            <Field.Input name="name" label="field.name" value={formData.name} />
+            <Field.Input
+              name="name"
+              label="field.name"
+              value={formDraft.name}
+            />
             <Field.Textarea
               name="address"
               label="field.address"
-              value={formData.address}
+              value={formDraft.address}
             />
           </div>
         </div>
