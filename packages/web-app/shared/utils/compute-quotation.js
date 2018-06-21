@@ -2,8 +2,8 @@ import crio from 'crio'
 import flow from 'lodash.flow'
 import shortid from 'shortid'
 
-import * as compute from '../utils/compute-total'
-import { filterArrayWithObject } from '../utils/filter-array-with-object'
+import * as compute from './compute-total'
+import { filterArrayWithObject } from './filter-array-with-object'
 
 const STEPS = crio([
   { key: `sendAt`, label: `stepper.sent` },
@@ -11,7 +11,7 @@ const STEPS = crio([
   { key: `signedAt`, label: `stepper.signed` },
 ])
 
-export function recomputeSteps(quotation) {
+export function steps(quotation) {
   const steps = STEPS.map(s => {
     const value = quotation.get(s.key)
     return {
@@ -65,14 +65,14 @@ export function ensureProductId(quotation) {
   return quotation.set(`products`, withId)
 }
 
-export const recomputeProducts = flow(
+export const products = flow(
   removeDefaultProducts,
   recomputeTotals,
   addEmptyLine,
   ensureProductId,
 )
 
-export const recomputeFormData = flow(
-  recomputeSteps,
-  recomputeProducts,
+export const all = flow(
+  steps,
+  products,
 )

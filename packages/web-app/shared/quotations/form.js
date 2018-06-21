@@ -133,11 +133,11 @@ function state2prop(state) {
 function dispatch2prop(dispatch) {
   return bindActionCreators(
     {
-      getOne: quotations.getOne,
+      // getOne: quotations.getOne,
       saveOne: quotations.saveOne,
       updateDraft: formDraft.updateQuotationDraft,
       createInvoice: quotations.createInvoice,
-      getAllCustomers: customers.getAll,
+      // getAllCustomers: customers.getAll,
     },
     dispatch,
   )

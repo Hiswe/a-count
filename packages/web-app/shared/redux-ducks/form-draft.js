@@ -15,7 +15,7 @@ import {
   SAVE_ONE as CUSTOMER_SAVE_ONE,
 } from './customers'
 import { GET_ONE as ACCOUNT_GET, UPDATE as ACCOUNT_UPDATE } from './account'
-import * as quotationsUtils from './form-draft-compute-quotation'
+import * as computeQuotation from '../utils/compute-quotation'
 
 const NAME = `draft-form`
 const LOADING = crio({
@@ -27,7 +27,7 @@ export const UPDATE_DRAFT = createSyncActionName(NAME, `update`, `draft`)
 export const UPDATE_QUOTATION_DRAFT = createSyncActionName(
   NAME,
   `update`,
-  `quotation-draft`
+  `quotation-draft`,
 )
 
 const initialState = crio({})
@@ -46,7 +46,7 @@ export default function reducer(state = initialState, action) {
 
     case INVOICE_GET_ONE.SUCCESS:
     case CUSTOMER_GET_ONE.SUCCESS: {
-      state = crio(payload)
+      state = state.merge(null, crio(payload))
       return state
     }
 
@@ -58,12 +58,7 @@ export default function reducer(state = initialState, action) {
 
     case QUOTATION_GET_ONE.SUCCESS:
     case UPDATE_QUOTATION_DRAFT: {
-      console.log(`—————— QUOTATION_GET_ONE.SUCCESS`)
-      console.log(payload)
-      console.log(`—————— QUOTATION_GET_ONE.SUCCESS ——————`)
-      console.log(`       QUOTATION_GET_ONE.SUCCESS ——————`)
-      console.log(quotationsUtils.recomputeFormData(crio(payload)))
-      state = quotationsUtils.recomputeFormData(crio(payload))
+      state = state.merge(null, computeQuotation.all(crio(payload)))
       return state
     }
 
