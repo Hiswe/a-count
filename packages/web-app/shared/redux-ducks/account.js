@@ -14,7 +14,7 @@ export const SET_PASSWORD = createActionNames(NAME, `post`, `set-password`)
 export const RESET = createActionNames(NAME, `post`, `reset`)
 export const LOGOUT = createActionNames(NAME, `get`, `logout`)
 export const REGISTER = createActionNames(NAME, `post`, `register`)
-export const UPDATE = createActionNames(NAME, `post`, `one`)
+export const SAVE_ONE = createActionNames(NAME, `post`, `one`)
 
 const initialState = crio({
   isSaving: false,
@@ -46,11 +46,11 @@ export default function reducer(state = initialState, action) {
     case STATISTICS.SUCCESS:
       return state.set(`statistics`, payload)
 
-    case UPDATE.LOADING:
+    case SAVE_ONE.LOADING:
       return state.set(`isSaving`, true)
-    case UPDATE.DONE:
+    case SAVE_ONE.DONE:
       return state.set(`isSaving`, false)
-    case UPDATE.SUCCESS:
+    case SAVE_ONE.SUCCESS:
       return state.set(`user`, payload.user)
 
     default:
@@ -73,7 +73,7 @@ export const auth = (params, jwt) => async dispatch => {
   })
 }
 
-export const get = (params, jwt) => async dispatch => {
+export const getOne = (params, jwt) => async dispatch => {
   const options = {
     url: `/${NAME}/auth`,
   }
@@ -179,7 +179,7 @@ export const updateSettings = (params, jwt) => async dispatch => {
   }
   await dispatchFetchActions({
     dispatch,
-    actions: UPDATE,
+    actions: SAVE_ONE,
     fetch: { options, jwt },
   })
 }

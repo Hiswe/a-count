@@ -26,7 +26,7 @@ function EditQuotation(props) {
   const titleProps = { id: `page.quotations.edit`, values: { reference } }
 
   return (
-    <React.Fragment>
+    <>
       <FormattedMessage {...titleProps}>
         {title => (
           <Helmet>
@@ -54,7 +54,7 @@ function EditQuotation(props) {
         <ButtonNew type={TYPE} secondary icon label="quotation.button.new" />
       </NavSecondary>
       <QuotationForm {...rest} />
-    </React.Fragment>
+    </>
   )
 }
 
@@ -69,5 +69,5 @@ export default connect(state2prop)(
   pageFetchActions({
     Component: EditQuotation,
     actionCreators: [quotations.getOne, customers.getAll],
-  })
+  }),
 )

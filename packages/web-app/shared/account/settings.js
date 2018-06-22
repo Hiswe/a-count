@@ -7,6 +7,7 @@ import * as account from '../redux-ducks/account'
 import * as formDraft from '../redux-ducks/form-draft'
 import { getInputValue } from '../utils/get-input-value'
 import { Form } from '../ui/form'
+import { Spinner } from '../ui/spinner'
 import SettingFormPres from './settings.pres'
 
 export const FORM_ID = `setting-form`
@@ -37,7 +38,9 @@ class SettingForm extends React.PureComponent {
   render() {
     const { props } = this
     const { formDraft } = props
-    if (!formDraft.get(`id`)) return null
+    if (formDraft.isLoading) return <Spinner />
+    if (props.userId !== formDraft.get(`id`)) return <Spinner />
+
     return (
       <Form
         id={`${FORM_ID}`}
@@ -70,8 +73,8 @@ class SettingForm extends React.PureComponent {
 
 function state2props(state) {
   return {
+    userId: state.account.get(`user.id`),
     formDraft: state.formDraft,
-    user: state.account.get(`user`),
     isSaving: state.account.get(`isSaving`),
   }
 }
@@ -82,11 +85,11 @@ function dispatch2props(dispatch) {
       updateSettings: account.updateSettings,
       updateDraft: formDraft.updateDraft,
     },
-    dispatch
+    dispatch,
   )
 }
 
 export default connect(
   state2props,
-  dispatch2props
+  dispatch2props,
 )(SettingForm)

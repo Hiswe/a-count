@@ -72,6 +72,7 @@ class QuotationForm extends React.Component {
     const { formDraft, isSaving } = props
     const { isLoading } = formDraft
     if (isLoading) return <Spinner />
+    if (props.match.params.id !== formDraft.get(`id`)) return <Spinner />
 
     const renderProps = {
       user: props.user,

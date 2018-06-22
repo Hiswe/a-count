@@ -51,6 +51,7 @@ class InvoiceForm extends React.PureComponent {
     const { isSaving, isLoading, formDraft } = props
 
     if (isLoading) return <Spinner />
+    if (props.match.params.id !== formDraft.get(`id`)) return <Spinner />
 
     const renderProps = {
       invoice: formDraft,

@@ -8,7 +8,7 @@ import * as redirection from '../utils/check-redirection'
 import * as QUOTATION from './quotations'
 import * as INVOICE from './invoices'
 import * as CUSTOMER from './customers'
-import { GET_ONE as ACCOUNT_GET, UPDATE as ACCOUNT_UPDATE } from './account'
+import * as ACCOUNT from './account'
 
 const NAME = `draft-form`
 const LOADING = crio({
@@ -17,6 +17,7 @@ const LOADING = crio({
 })
 
 export const UPDATE_DRAFT = createSyncActionName(NAME, `update`, `draft`)
+export const CLEAN_DRAFT = createSyncActionName(NAME, `clean`, `draft`)
 export const CLEAN_REDIRECTION = createSyncActionName(NAME, `clean`, `redirect`)
 export const UPDATE_QUOTATION_DRAFT = createSyncActionName(
   NAME,
@@ -29,7 +30,7 @@ export const UPDATE_INVOICE_DRAFT = createSyncActionName(
   `invoice-draft`,
 )
 
-const initialState = crio({})
+const initialState = LOADING.set(`_draftId`, shortid())
 
 // prettier-ignore
 const REDIRECTION_TEST = {
@@ -38,6 +39,18 @@ const REDIRECTION_TEST = {
   [QUOTATION.SAVE_ONE.SUCCESS]: redirection.checkQuotation,
   [INVOICE.GET_ONE.SUCCESS]:    redirection.checkInvoice,
   [INVOICE.SAVE_ONE.SUCCESS]:   redirection.checkInvoice,
+}
+
+// prettier-ignore
+const DRAFT_TYPES = {
+  [CUSTOMER.GET_ONE.SUCCESS]:   `customer`,
+  [CUSTOMER.SAVE_ONE.SUCCESS]:  `customer`,
+  [QUOTATION.GET_ONE.SUCCESS]:  `quotation`,
+  [QUOTATION.SAVE_ONE.SUCCESS]: `quotation`,
+  [INVOICE.GET_ONE.SUCCESS]:    `invoice`,
+  [INVOICE.SAVE_ONE.SUCCESS]:   `invoice`,
+  [ACCOUNT.GET_ONE.SUCCESS]:    `account`,
+  [ACCOUNT.SAVE_ONE.SUCCESS]:   `account`,
 }
 
 function getRedirectionStatus({ type, state, payload }) {
@@ -49,16 +62,27 @@ export default function reducer(state = initialState, action) {
   const { type, payload, meta } = action
 
   switch (type) {
+    case CLEAN_DRAFT: {
+      const newState = LOADING.set(`_draftId`, shortid())
+      return newState
+    }
+
     case CLEAN_REDIRECTION: {
       const newState = state.set(`_redirection`, false)
       return newState
     }
 
-    case QUOTATION.GET_ONE.LOADING:
-    case INVOICE.GET_ONE.LOADING:
+    case ACCOUNT.GET_ONE.LOADING:
     case CUSTOMER.GET_ONE.LOADING:
-    case ACCOUNT_GET.LOADING: {
-      const newState = LOADING.set(`_draftId`, shortid())
+    case QUOTATION.GET_ONE.LOADING:
+    case INVOICE.GET_ONE.LOADING: {
+      const newState = LOADING.set(`_draftId`, shortid()).set(`_type`)
+      return newState
+    }
+
+    case ACCOUNT.GET_ONE.SUCCESS:
+    case ACCOUNT.SAVE_ONE.SUCCESS: {
+      const newState = crio(payload.user).set(`_draftId`, state.get(`_draftId`))
       return newState
     }
 
@@ -71,12 +95,6 @@ export default function reducer(state = initialState, action) {
     }
     case UPDATE_DRAFT: {
       const newState = crio(payload).set(`_draftId`, state.get(`_draftId`))
-      return newState
-    }
-
-    case ACCOUNT_UPDATE.SUCCESS:
-    case ACCOUNT_GET.SUCCESS: {
-      const newState = crio(payload.user).set(`_draftId`, state.get(`_draftId`))
       return newState
     }
 
@@ -113,6 +131,12 @@ export default function reducer(state = initialState, action) {
     default:
       return state
   }
+}
+
+export const cleanDraft = formData => async dispatch => {
+  dispatch({
+    type: CLEAN_DRAFT,
+  })
 }
 
 export const cleanRedirection = formData => async dispatch => {

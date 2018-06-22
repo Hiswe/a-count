@@ -14,7 +14,7 @@ function EditProfile(props) {
   const titleProps = { id: `page.settings` }
 
   return (
-    <React.Fragment>
+    <>
       <FormattedMessage {...titleProps}>
         {title => (
           <Helmet>
@@ -30,7 +30,7 @@ function EditProfile(props) {
         />
       </NavSecondary>
       <SettingForm {...props} />
-    </React.Fragment>
+    </>
   )
 }
 
@@ -43,6 +43,6 @@ function state2prop(state) {
 export default connect(state2prop)(
   pageFetchActions({
     Component: EditProfile,
-    actionCreators: [account.get],
-  })
+    actionCreators: [account.getOne],
+  }),
 )

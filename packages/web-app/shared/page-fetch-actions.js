@@ -14,39 +14,38 @@ import * as account from './redux-ducks/account'
 
 let SKIP_FIRST_COMPONENTDIDMOUNT = true
 
-export default function pageFetchActions({Component, actionCreators}) {
-
+export default function pageFetchActions({ Component, actionCreators }) {
   // be sure we have an array to begin with
-  actionCreators = Array.isArray( actionCreators ) ? actionCreators
-    : [ actionCreators ]
+  actionCreators = Array.isArray(actionCreators)
+    ? actionCreators
+    : [actionCreators]
   // always query the authentication
-  actionCreators.unshift( account.auth )
+  actionCreators.unshift(account.auth)
 
-  // TODO: check if we can make it a PureComponent
-  return class pageFetchActions   extends React.Component {
-
+  return class pageFetchActions extends React.PureComponent {
     // Don't pass the full store
     // • passing only dispatch will make server & client iso in what they get
-    static fetchData( {dispatch, params = {}, query = {}, jwt } ) {
+    static fetchData({ dispatch, params = {}, query = {}, jwt }) {
       return Promise.all(
-        actionCreators.map( actionCreator => {
-          return dispatch( actionCreator(params, jwt) )
-        })
+        actionCreators.map(actionCreator => {
+          return dispatch(actionCreator(params, jwt))
+        }),
       )
     }
 
-    componentDidUpdate( prevProps ) {
+    componentDidUpdate(prevProps) {
       const { location } = this.props
       const { location: prevLocation } = prevProps
 
-      const isUrlChanged = (location.pathname !== prevLocation.pathname)
-                        || (location.search !== prevLocation.search)
+      const isUrlChanged =
+        location.pathname !== prevLocation.pathname ||
+        location.search !== prevLocation.search
 
-      if ( isUrlChanged ) this._fetchDataOnClient()
+      if (isUrlChanged) this._fetchDataOnClient()
     }
 
     componentDidMount() {
-      if ( !SKIP_FIRST_COMPONENTDIDMOUNT ) return this._fetchDataOnClient()
+      if (!SKIP_FIRST_COMPONENTDIDMOUNT) return this._fetchDataOnClient()
       SKIP_FIRST_COMPONENTDIDMOUNT = false
     }
 

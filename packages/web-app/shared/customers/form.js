@@ -42,6 +42,8 @@ class CustomerForm extends React.Component {
     const { props } = this
     const { isSaving, formDraft } = props
     if (formDraft.isLoading) return <Spinner />
+    if (props.match.params.id !== formDraft.get(`id`)) return <Spinner />
+
     const formProps = { isSaving, formDraft }
 
     return (
