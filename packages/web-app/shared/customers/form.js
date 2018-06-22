@@ -17,32 +17,10 @@ export const FormContext = React.createContext({})
 class CustomerForm extends React.Component {
   constructor(props) {
     super(props)
-    // this.state = {
-    //   formData: props.customer,
-    // }
+
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleFormChange = this.handleFormChange.bind(this)
   }
-  // static getDerivedStateFromProps(props, state) {
-  //   const next = props.customer
-  //   const current = state.formData
-  //   const { isSaving, history, serverContext } = props
-  //   if (isSaving) return null
-  //   if (current === next) return null
-  //   if (next.id !== current.id) {
-  //     // redirects
-  //     const redirect = redirection.customer({
-  //       next,
-  //       current,
-  //       history,
-  //       serverContext,
-  //     })
-  //     if (redirect) return null
-  //     return { formData: next }
-  //   }
-  //   if (next.updatedAt === current.updatedAt) return null
-  //   return null
-  // }
 
   //----- EVENTS
 
@@ -93,11 +71,11 @@ function dispatch2props(dispatch) {
       saveOne: customers.saveOne,
       updateDraft: formDraft.updateDraft,
     },
-    dispatch
+    dispatch,
   )
 }
 
 export default connect(
   state2props,
-  dispatch2props
+  dispatch2props,
 )(CustomerForm)

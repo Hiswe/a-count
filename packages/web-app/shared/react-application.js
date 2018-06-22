@@ -3,6 +3,7 @@ import { renderRoutes } from 'react-router-config'
 import { IntlProvider } from 'react-intl'
 import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
+import { bindActionCreators } from 'redux'
 
 import config from './isomorphic-config'
 import * as locales from './locales'
@@ -20,13 +21,20 @@ class ReactApplication extends React.PureComponent {
   }
 
   // dirty check of redirection
+  // • because the router isn't connected to the Redux store
+  //   we need to redirect in a component
   static getDerivedStateFromProps(props, state) {
+    const { history, staticContext } = props
     if (!props.redirection) return null
-    const { history, serverContext } = props
+    // prevent infinite redirection if we're already on the right route
+    if (props.redirection === history.location.pathname) {
+      props.cleanRedirection()
+      return null
+    }
     // update static context for the server
-    if (serverContext) {
-      serverContext.status = 302
-      serverContext.url = props.redirection
+    if (staticContext) {
+      staticContext.status = 302
+      staticContext.url = props.redirection
     }
     history.push(props.redirection)
     return null
@@ -89,7 +97,7 @@ function state2props(state) {
   }
 }
 
-function dispatch2prop(dispatch) {
+function dispatch2props(dispatch) {
   return bindActionCreators(
     {
       cleanRedirection: formDraft.cleanRedirection,
@@ -98,4 +106,7 @@ function dispatch2prop(dispatch) {
   )
 }
 
-export default connect(state2props)(ReactApplication)
+export default connect(
+  state2props,
+  dispatch2props,
+)(ReactApplication)
