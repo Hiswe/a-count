@@ -24,19 +24,20 @@ class ReactApplication extends React.PureComponent {
   // • because the router isn't connected to the Redux store
   //   we need to redirect in a component
   static getDerivedStateFromProps(props, state) {
-    const { history, staticContext } = props
-    if (!props.redirection) return null
+    const { history, staticContext, formDraft } = props
+    const redirection = formDraft.get(`_redirection`)
+    if (!redirection) return null
     // prevent infinite redirection if we're already on the right route
-    if (props.redirection === history.location.pathname) {
+    if (history.location.pathname === redirection) {
       props.cleanRedirection()
       return null
     }
     // update static context for the server
     if (staticContext) {
       staticContext.status = 302
-      staticContext.url = props.redirection
+      staticContext.url = redirection
     }
-    history.push(props.redirection)
+    history.push(redirection)
     return null
   }
 
@@ -93,7 +94,7 @@ class ReactApplication extends React.PureComponent {
 function state2props(state) {
   return {
     lang: state.account.get(`user.lang`) || `en`,
-    redirection: state.formDraft.get(`_redirection`) || false,
+    formDraft: state.formDraft,
   }
 }
 

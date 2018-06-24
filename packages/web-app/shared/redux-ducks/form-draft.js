@@ -35,22 +35,12 @@ const initialState = LOADING.set(`_draftId`, shortid())
 // prettier-ignore
 const REDIRECTION_TEST = {
   [CUSTOMER.SAVE_ONE.SUCCESS]:  redirection.checkCustomer,
-  [QUOTATION.GET_ONE.SUCCESS]:  redirection.checkQuotation,
-  [QUOTATION.SAVE_ONE.SUCCESS]: redirection.checkQuotation,
+  [QUOTATION.GET_ONE.SUCCESS]:        redirection.checkQuotation,
+  [QUOTATION.SAVE_ONE.SUCCESS]:       redirection.checkQuotation,
+  [QUOTATION.CREATE_INVOICE.SUCCESS]: redirection.checkQuotation,
+  [QUOTATION.ARCHIVE_QUOTE.SUCCESS]:  redirection.checkQuotation,
   [INVOICE.GET_ONE.SUCCESS]:    redirection.checkInvoice,
   [INVOICE.SAVE_ONE.SUCCESS]:   redirection.checkInvoice,
-}
-
-// prettier-ignore
-const DRAFT_TYPES = {
-  [CUSTOMER.GET_ONE.SUCCESS]:   `customer`,
-  [CUSTOMER.SAVE_ONE.SUCCESS]:  `customer`,
-  [QUOTATION.GET_ONE.SUCCESS]:  `quotation`,
-  [QUOTATION.SAVE_ONE.SUCCESS]: `quotation`,
-  [INVOICE.GET_ONE.SUCCESS]:    `invoice`,
-  [INVOICE.SAVE_ONE.SUCCESS]:   `invoice`,
-  [ACCOUNT.GET_ONE.SUCCESS]:    `account`,
-  [ACCOUNT.SAVE_ONE.SUCCESS]:   `account`,
 }
 
 function getRedirectionStatus({ type, state, payload }) {
@@ -60,6 +50,10 @@ function getRedirectionStatus({ type, state, payload }) {
 
 export default function reducer(state = initialState, action) {
   const { type, payload, meta } = action
+
+  if (type === QUOTATION.CREATE_INVOICE.SUCCESS) {
+    console.log(`QUOTATION.CREATE_INVOICE.SUCCESS`)
+  }
 
   switch (type) {
     case CLEAN_DRAFT: {
@@ -76,13 +70,18 @@ export default function reducer(state = initialState, action) {
     case CUSTOMER.GET_ONE.LOADING:
     case QUOTATION.GET_ONE.LOADING:
     case INVOICE.GET_ONE.LOADING: {
-      const newState = LOADING.set(`_draftId`, shortid()).set(`_type`)
+      const newState = LOADING.set(`_draftId`, shortid()).set(
+        `_redirection`,
+        getRedirectionStatus({ type, state, payload }),
+      )
       return newState
     }
 
     case ACCOUNT.GET_ONE.SUCCESS:
     case ACCOUNT.SAVE_ONE.SUCCESS: {
-      const newState = crio(payload.user).set(`_draftId`, state.get(`_draftId`))
+      const newState = crio(payload.user)
+        .set(`_draftId`, state.get(`_draftId`))
+        .set(`_redirection`, getRedirectionStatus({ type, state, payload }))
       return newState
     }
 
@@ -99,7 +98,9 @@ export default function reducer(state = initialState, action) {
     }
 
     case QUOTATION.GET_ONE.SUCCESS:
-    case QUOTATION.SAVE_ONE.SUCCESS: {
+    case QUOTATION.SAVE_ONE.SUCCESS:
+    case QUOTATION.CREATE_INVOICE.SUCCESS:
+    case QUOTATION.ARCHIVE_QUOTE.SUCCESS: {
       const newState = computeQuotation
         .all(crio(payload))
         .set(`_draftId`, state.get(`_draftId`))
