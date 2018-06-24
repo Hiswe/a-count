@@ -18,43 +18,43 @@ const checkEmptyKeyFilled = key => ({ state, payload }) => {
 
 const checkArchivedKey = ({ state, payload }) => !isNil(payload.archivedAt)
 
-const newCustomer = {
+export const isNewCustomer = {
   check: checkEmptyKeyFilled(`id`),
   url: ({ state, payload }) => `/customers/${payload.id}`,
 }
-const newQuotation = {
+export const isNewQuotation = {
   check: checkEmptyKeyFilled(`id`),
   url: ({ state, payload }) => `/quotations/${payload.id}`,
 }
-const newInvoice = {
+export const isNewInvoice = {
   check: checkEmptyKeyFilled(`invoiceId`),
   url: ({ state, payload }) => `/invoices/${payload.invoiceId}`,
 }
-const archivedQuotation = {
+export const isArchivedQuotation = {
   check: checkArchivedKey,
   url: ({ state, payload }) => `/archives/quotations/${payload.id}`,
 }
-const archivedInvoice = {
+export const isArchivedInvoice = {
   check: checkArchivedKey,
   url: ({ state, payload }) => `/archives/invoices/${payload.id}`,
 }
 
-const getRedirection = ({ state, payload }) => (hasRedirect, redirect) => {
+const getRedirection = ({ state, payload }) => (hasRedirect, nextRedirect) => {
   if (hasRedirect) return hasRedirect
-  if (!redirect.check({ state, payload })) return false
-  return redirect.url({ state, payload })
+  if (!nextRedirect.check({ state, payload })) return false
+  return nextRedirect.url({ state, payload })
 }
 
 export const checkQuotation = ({ state, payload }) => {
-  return [newQuotation, newInvoice, archivedQuotation].reduce(
+  return [isNewQuotation, isNewInvoice, isArchivedQuotation].reduce(
     getRedirection({ state, payload }),
     false,
   )
 }
 export const checkInvoice = ({ state, payload }) => {
-  return [archivedInvoice].reduce(getRedirection({ state, payload }), false)
+  return [isArchivedInvoice].reduce(getRedirection({ state, payload }), false)
 }
 
 export const checkCustomer = ({ state, payload }) => {
-  return [newCustomer].reduce(getRedirection({ state, payload }), false)
+  return [isNewCustomer].reduce(getRedirection({ state, payload }), false)
 }

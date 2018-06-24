@@ -1,40 +1,52 @@
 import test from 'ava'
 import crio from 'crio'
 
-const empty   = {}
-const withId  = {id: `id`}
-const nullId  = {invoiceId: null}
+const empty = {}
+const withId = { id: `id` }
+const nullId = { invoiceId: null }
 
-import { isNewQuotation, isNewInvoice } from './check-redirection'
+import * as redirection from './check-redirection'
 
-test( `no id → id`, t => {
+test(`no id → id`, t => {
   const states = {
-    current: empty,
-    next:    withId,
+    state: empty,
+    payload: withId,
   }
-  t.true( isNewQuotation(states), `should redirect when new id` )
+  t.true(
+    redirection.isNewQuotation.check(states),
+    `should redirect when new id`,
+  )
 })
 
-test( `id → same id`, t => {
+test(`id → same id`, t => {
   const states = {
-    current: withId,
-    next:    withId,
+    state: withId,
+    payload: withId,
   }
-  t.false( isNewQuotation(states), `should not redirect on same id` )
+  t.false(
+    redirection.isNewQuotation.check(states),
+    `should not redirect on same id`,
+  )
 })
 
-test( `id → different id`, t => {
+test(`id → different id`, t => {
   const states = {
-    current: empty,
-    next:    {id: `other`},
+    state: empty,
+    payload: { id: `other` },
   }
-  t.true( isNewQuotation(states), `should redirect on different id` )
+  t.true(
+    redirection.isNewQuotation.check(states),
+    `should redirect on different id`,
+  )
 })
 
-test( `id → null id`, t => {
+test(`id → null id`, t => {
   const states = {
-    current: empty,
-    next:    nullId,
+    state: empty,
+    payload: nullId,
   }
-  t.false( isNewInvoice(states), `should not redirect on a null id` )
+  t.false(
+    redirection.isNewInvoice.check(states),
+    `should not redirect on a null id`,
+  )
 })
