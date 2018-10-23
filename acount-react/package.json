@@ -8,7 +8,7 @@
   },
   "scripts": {
     "browsersync": "browser-sync start --config browser-sync-config.js",
-    "build": "yarn run build:icons && yarn run build:app --env.production",
+    "build": "yarn build:icons && yarn run build:app --env.production",
     "build:icons": "gulp icons",
     "build:app": "webpack --config webpack.config.js",
     "dev": "yarn run watch",
@@ -16,7 +16,7 @@
     "proxy": "node dev-proxy.js",
     "serve": "NODE_ENV=production node application-server.js",
     "serve:dev": "nodemon application-server.js --config nodemon.json",
-    "watch": "run-p watch:*",
+    "watch": "yarn build:icons && run-p watch:*",
     "watch:dev": "nodemon application-server.js --config nodemon.json",
     "watch:webpack": "webpack --config webpack.config.js --watch --display minimal",
     "start": "node application-server.js",
