@@ -1,25 +1,26 @@
 {
-  "name": "web-app",
+  "name": "acount-react",
   "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "8.11.3"
+    "node": ">=8.12.0"
   },
   "scripts": {
     "browsersync": "browser-sync start --config browser-sync-config.js",
     "build": "yarn run build:icons && yarn run build:app --env.production",
     "build:icons": "gulp icons",
     "build:app": "webpack --config webpack.config.js",
-    "dev": "parallelshell \"yarn run serve:watch\" \"yarn run browsersync\"",
+    "dev": "yarn run watch",
     "dev:https": "acountApp_API_URL=https://localhost:4443/v1 parallelshell \"yarn run proxy\" \"yarn run serve:watch\" \"yarn run browsersync --https --proxy https://localhost:3443\"",
     "proxy": "node dev-proxy.js",
     "serve": "NODE_ENV=production node application-server.js",
     "serve:dev": "nodemon application-server.js --config nodemon.json",
-    "serve:watch": "parallelshell \"yarn run serve:dev\"  \"yarn run watch\"",
+    "watch": "run-p watch:*",
+    "watch:dev": "nodemon application-server.js --config nodemon.json",
+    "watch:webpack": "webpack --config webpack.config.js --watch --display minimal",
     "start": "node application-server.js",
-    "test": "ava --verbose",
-    "watch": "webpack --config webpack.config.js --watch --display minimal"
+    "test": "ava --verbose"
   },
   "author": "Hiswe <hiswehalya@gmail.com>",
   "license": "MIT",
@@ -107,6 +108,7 @@
     "jsdom": "^11.11.0",
     "node-sass": "4.9.0",
     "nodemon": "^1.17.5",
+    "npm-run-all": "^4.1.3",
     "parallelshell": "^3.0.2",
     "postcss-loader": "^2.1.5",
     "react-test-renderer": "^16.4.1",
