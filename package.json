@@ -20,7 +20,8 @@
   },
   "workspaces": [
     "acount-api",
-    "acount-react"
+    "acount-react",
+    "acount-nuxt"
   ],
   "dependencies": {},
   "devDependencies": {
