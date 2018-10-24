@@ -5,7 +5,6 @@ here are some of the commands to run the project locally
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [universal application flow](#universal-application-flow)
 - [requirements](#requirements)
 - [dev stack](#dev-stack)
@@ -21,6 +20,15 @@ here are some of the commands to run the project locally
 ## universal application flow
 
 the application flow is explained in this [blog post](https://hiswe.github.io/2018/08-universal-application/)
+
+⚠️ in order to function needs
+
+```json
+{
+  "react-router": "4.3.1",
+  "react-router-config": "1.0.0-beta.4"
+}
+```
 
 ## requirements
 
