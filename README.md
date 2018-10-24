@@ -2,7 +2,7 @@
 
 # a-count
 
-simple accounting universal application  
+simple accounting universal application
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -12,7 +12,6 @@ simple accounting universal application
 - [website](#website)
 - [developers](#developers)
   - [domain supported](#domain-supported)
-  - [as a React exercice](#as-a-react-exercice)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -25,33 +24,21 @@ An accounting app, where you can:
 - manage quotations/invoices lifetime
 - format quotations/invoices with markdown
 - print any quotations/invoices from the browser
-- select a currency for *presentational purpose only*
+- select a currency for _presentational purpose only_
 
 ## website
 
-[https://a-count.herokuapp.com/](https://a-count.herokuapp.com/)  
+[https://a-count.herokuapp.com/](https://a-count.herokuapp.com/)
 
-<img src="assets/screenshots/01-home.png" width="18%"></img> <img src="assets/screenshots/02-quotation.png" width="18%"></img> <img src="assets/screenshots/03-quotation-preview.png" width="18%"></img> <img src="assets/screenshots/04-invoice.png" width="18%"></img> <img src="assets/screenshots/05-customer.png" width="18%"></img> 
+<img src="assets/screenshots/01-home.png" width="18%"></img> <img src="assets/screenshots/02-quotation.png" width="18%"></img> <img src="assets/screenshots/03-quotation-preview.png" width="18%"></img> <img src="assets/screenshots/04-invoice.png" width="18%"></img> <img src="assets/screenshots/05-customer.png" width="18%"></img>
 
 ## developers
 
 see [README_DEV.md](/README_DEV.md) for building the application
 
-This project was based on [codemancer code](https://crypt.codemancers.com/posts/2017-06-03-reactjs-server-side-rendering-with-router-v4-and-redux/)
-
-Here are some of the things I wanted to experiment with:
-
-### domain supported 
+### domain supported
 
 - should work without JS activated on the client
 - clear separation of the app & the API (mono-repository)
 - authentication
 - i18n
-
-### as a React exercice
-
-- could integrate with some browser API (IntersectionObserver)
-- could use some pre-build react components
-- build some custom components
-- should stay close to JS (no typescript, no experimental JS specs)
-- shouldn't use too much external modules

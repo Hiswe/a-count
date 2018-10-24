@@ -7,12 +7,13 @@
   "author": "Hiswe <hiswehalya@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "yarn build && lerna run --parallel serve",
-    "build": "yarn workspaces run build",
+    "start": "yarn build && yarn start",
+    "build": "yarn workspaces build",
+    "server": "yarn wsrun --parallel serve",
     "dev": "yarn wsrun --parallel dev",
     "release": "lerna publish --skip-npm --force-publish=* && yarn run release:git",
     "release:git": "lerna run build --scope=web-app && parallelshell \"node bin/release-api.js\" \"node bin/release-webapp.js\"",
-    "toc": "doctoc README.md README_DEV.md universal-application-tutorials.md --github"
+    "toc": "doctoc *.md --github"
   },
   "engines": {
     "node": "10.12.0",
@@ -27,7 +28,6 @@
   "devDependencies": {
     "doctoc": "^1.3.1",
     "npm-run-all": "^4.1.3",
-    "shelljs": "^0.8.2",
     "wsrun": "^3.3.3"
   }
 }
