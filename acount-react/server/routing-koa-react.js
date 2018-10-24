@@ -1,8 +1,8 @@
-import chalk  from 'chalk'
+import chalk from 'chalk'
 import Router from 'koa-router'
-import React  from 'react'
+import React from 'react'
 import { renderToString } from 'react-dom/server'
-import { StaticRouter } from 'react-router-dom'
+import { StaticRouter } from 'react-router'
 import { renderRoutes, matchRoutes } from 'react-router-config'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
@@ -15,42 +15,46 @@ import * as render from './render'
 import routes from '../shared/routes.js'
 import reducer from '../shared/redux-ducks/combined-reducers.js'
 
-const router         = new Router()
+const router = new Router()
 
 // simple server side action logger
 // • for the creation of a custom middleware see:
 //   https://redux.js.org/api-reference/applymiddleware#example:-custom-logger-middleware
 const reduxActionLogger = ({ getState }) => {
   return next => action => {
-    log( `dispatch →`, action.type )
-    const returnValue = next( action )
+    log(`dispatch →`, action.type)
+    const returnValue = next(action)
     const hasError = returnValue.payload.error
     const color = hasError ? chalk.red : chalk.green
-    log( `dispatch ←`, color(action.type) )
+    log(`dispatch ←`, color(action.type))
     return returnValue
   }
 }
 
-router.get( '*', async (ctx, next) => {
+router.get('*', async (ctx, next) => {
   const { url } = ctx
-  const jwt     = ctx.cookies.get( config.COOKIE_NAME )
+  const jwt = ctx.cookies.get(config.COOKIE_NAME)
   // wait for every component to fetch his data
-  const store       = createStore(reducer, {}, applyMiddleware(thunk, reduxActionLogger))
-  const branch      = matchRoutes(routes, url)
+  const store = createStore(
+    reducer,
+    {},
+    applyMiddleware(thunk, reduxActionLogger),
+  )
+  const branch = matchRoutes(routes, url)
   const initFetches = branch
-    .filter( ({route}) => route.component.fetchData instanceof Function )
-    .map( ({route, match}) => {
+    .filter(({ route }) => route.component.fetchData instanceof Function)
+    .map(({ route, match }) => {
       // Pass here the JWT
       // fetch will need it to maintain authentication
       return route.component.fetchData({
         jwt,
         dispatch: store.dispatch,
-        params  : match.params,
+        params: match.params,
         // TODO: should pass the query string also
         // query:
       })
-    } )
-  await Promise.all( initFetches )
+    })
+  await Promise.all(initFetches)
 
   // serverContext is mutable & provided only on server-side rendering
   // • Because it's mutable, it will change during the React's server rendering process
@@ -62,28 +66,28 @@ router.get( '*', async (ctx, next) => {
     <Provider store={store}>
       <StaticRouter location={url} context={serverContext}>
         {/* renderRoutes will render the right components */}
-        { renderRoutes(routes) }
+        {renderRoutes(routes)}
       </StaticRouter>
-    </Provider>
+    </Provider>,
   )
   // render tags outside the app (meta, links…)
   // • https://www.npmjs.com/package/react-helmet#server-usage
   const helmet = Helmet.renderStatic()
 
   // reflect status from react-router to koa
-  if ( serverContext.status === 302 ) {
+  if (serverContext.status === 302) {
     ctx.status = 302
-    log( `redirect` )
-    return ctx.redirect( serverContext.url )
+    log(`redirect`)
+    return ctx.redirect(serverContext.url)
   }
-  if ( serverContext.status === 404 ) {
+  if (serverContext.status === 404) {
     ctx.status = 404
   }
 
   ctx.body = render.reactApp({
-    store,    // those will be used to initialize the store client side
-    content,  // the right HTML produced by react ^^
-    helmet,   // for HEAD tags
+    store, // those will be used to initialize the store client side
+    content, // the right HTML produced by react ^^
+    helmet, // for HEAD tags
   })
 })
 
