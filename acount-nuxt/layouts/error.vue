@@ -3,6 +3,7 @@ import Vue from 'vue'
 
 export default Vue.extend({
   name: `acount-error`,
+  props: [`error`],
 })
 </script>
 
