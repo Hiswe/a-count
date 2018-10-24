@@ -1,2 +1,3 @@
 .cache
+.nuxt
 dist

@@ -3,26 +3,45 @@ import Boom from 'boom'
 import consola from 'consola'
 import Koa from 'koa'
 import Router from 'koa-router'
+import * as nuxt from 'nuxt'
+import koaNuxt from '@hiswe/koa-nuxt'
 
+import nuxtConfig from '../nuxt.config.js'
+
+const { Nuxt, Builder } = nuxt
 const app = new Koa()
 const HOST: string = process.env.HOST || `0.0.0.0`
-const PORT: number = +process.env.PORT || 3000
+const PORT: number = Number(process.env.PORT) || 3000
 const appLogger = consola.withScope(`app`)
 const errorLogger = consola.withScope(`error`)
+
+nuxtConfig.dev = !(app.env === `production`)
 
 start()
 
 async function start() {
-  //----- XHR GUESSING
+  //----- INITIALIZE NUXT MIDDLEWARE
 
-  app.use(async (ctx, next) => {
-    ctx.state.isJson = ctx.is('application/json') !== null
+  // Instantiate nuxt.js
+  const nuxt = new Nuxt(nuxtConfig)
+  // create the nuxt middleWare
+  const renderNuxt = koaNuxt(nuxt)
+
+  // Build in development
+  if (nuxtConfig.dev) {
+    appLogger.warn(`SPA build for dev`)
+    const builder = new Builder(nuxt)
+    await builder.build()
+  }
+
+  //----- SERVER MIDDLEWARE
+
+  app.use(async function isJson(ctx, next) {
+    ctx.state.isJson = ctx.is(`application/json`) !== null
     await next()
   })
 
-  //----- ERROR HANDLING
-
-  app.use(async (ctx, next) => {
+  app.use(async function handleKoaErrors(ctx, next) {
     try {
       await next()
     } catch (error) {
@@ -45,32 +64,16 @@ async function start() {
   // API ROUTING
   //////
 
-  //----- API
-
   const router = new Router()
-
-  router.get(`/`, async ctx => {
-    ctx.body = `hello world`
-    // const id = shortid.generate()
-    // const notification = {
-    //   id,
-    //   message: `my flash message ${id}`,
-    //   type: `info`,
-    // }
-    // // handle XHR
-    // if (ctx.state.isJson) return (ctx.body = notification)
-    // // set the flash messages
-    // ctx.session = { notification }
-    // // persist session with `manuallyCommit`
-    // // • https://github.com/koajs/session#sessionmanuallycommit
-    // await ctx.session.manuallyCommit()
-    // ctx.redirect(`/test`)
-  })
-
-  //----- MOUNT ROUTER TO APPLICATION
 
   app.use(router.routes())
   app.use(router.allowedMethods())
+
+  //////
+  // NUXT FALLBACK
+  //////
+
+  app.use(renderNuxt)
 
   //////
   // LAUNCHING
