@@ -1,5 +1,5 @@
 {
-  "name": "a-count",
+  "name": "acount-react",
   "version": "1.0.0",
   "private": true,
   "main": "index.js",
@@ -7,21 +7,27 @@
   "author": "Hiswe <hiswehalya@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "lerna run build && lerna run --parallel serve",
-    "build": "lerna run build",
-    "dev": "lerna run --parallel dev",
+    "start": "yarn build && lerna run --parallel serve",
+    "build": "yarn workspaces run build",
+    "dev": "yarn wsrun --parallel dev",
     "release": "lerna publish --skip-npm --force-publish=* && yarn run release:git",
     "release:git": "lerna run build --scope=web-app && parallelshell \"node bin/release-api.js\" \"node bin/release-webapp.js\"",
     "toc": "doctoc README.md README_DEV.md universal-application-tutorials.md --github"
   },
   "engines": {
-    "node": "8.11.3"
+    "node": "10.12.0",
+    "yarn": "1.10.1"
   },
+  "workspaces": [
+    "acount-api",
+    "acount-react",
+    "acount-nuxt"
+  ],
   "dependencies": {},
   "devDependencies": {
     "doctoc": "^1.3.1",
-    "lerna": "^2.11.0",
-    "parallelshell": "^3.0.2",
-    "shelljs": "^0.8.2"
+    "npm-run-all": "^4.1.3",
+    "shelljs": "^0.8.2",
+    "wsrun": "^3.3.3"
   }
 }

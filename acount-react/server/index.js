@@ -58,6 +58,11 @@ app.use( async (ctx, next) => {
 
 const router  = new Router()
 
+router.get(`/favicon.ico`, async ctx => {
+  ctx.status = 404
+  ctx.body = ``
+})
+
 //-----  MOUNT NO-FETCH BACKUP
 
 router.use( apiBackupRoutes.routes() )
