@@ -77,7 +77,7 @@ class ReactApplication extends React.PureComponent {
             <link rel="icon" href="/favicon.png" type="image/png" />
           </Helmet>
           <h1 className="main-logo">{config.APP_NAME}</h1>
-          {/* <NavMain /> */}
+          <NavMain />
           <ErrorBoundary>
             {/* child routes won't render without this */}
             {/* https://www.npmjs.com/package/react-router-config#renderroutesroutes-extraprops-- */}
