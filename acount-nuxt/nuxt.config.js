@@ -2,7 +2,12 @@ export default {
   modulesDir: [`../node_modules`],
   css: [`@/assets/vuetify.styl`],
   plugins: [`@/plugins/vue-libraries.ts`],
-  modules: ['nuxt-ts-module'],
+  modules: [`nuxt-ts-module`, `@nuxtjs/axios`],
+  axios: {
+    baseURL: `http://localhost:4040/v1`,
+    // for SPA just force a relative URL
+    browserBaseURL: `http://localhost:4040/v1`,
+  },
   head: {
     meta: [
       { charset: `utf-8` },

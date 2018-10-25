@@ -3,4 +3,8 @@ export default {
     home: `home`,
     login: `login`,
   },
+  form: {
+    email: `email`,
+    password: `password`,
+  },
 }

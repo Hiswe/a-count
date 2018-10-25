@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import VueI18n from 'vue-i18n'
 
-import * as messages from '../locales'
+import * as messages from '~/locales'
 
 Vue.use(Vuetify, {
   // theme: {
