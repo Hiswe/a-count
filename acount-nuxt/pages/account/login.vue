@@ -18,5 +18,5 @@ form(id="login" action="/account/login")
     name="password"
     label="password"
   )
-  v-btn(small color="primary") send
+  v-btn(color="primary") send
 </template>

@@ -1,6 +1,7 @@
 export default {
   css: [`@/assets/vuetify.styl`],
   plugins: [`@/plugins/vue-libraries.ts`],
+  // modules: ['~/modules/typescript.js'],
   head: {
     meta: [
       { charset: `utf-8` },

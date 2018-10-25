@@ -7,6 +7,7 @@ import * as nuxt from 'nuxt'
 import koaNuxt from '@hiswe/koa-nuxt'
 
 import nuxtConfig from '../nuxt.config.js'
+import apiBackupRoutes from './routing-api-backup'
 
 const { Nuxt, Builder } = nuxt
 const app = new Koa()
@@ -65,6 +66,8 @@ async function start() {
   //////
 
   const router = new Router()
+
+  router.use(apiBackupRoutes.routes())
 
   app.use(router.routes())
   app.use(router.allowedMethods())
