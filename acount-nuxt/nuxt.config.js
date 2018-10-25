@@ -1,7 +1,8 @@
 export default {
+  modulesDir: [`../node_modules`],
   css: [`@/assets/vuetify.styl`],
   plugins: [`@/plugins/vue-libraries.ts`],
-  // modules: ['~/modules/typescript.js'],
+  modules: ['nuxt-ts-module'],
   head: {
     meta: [
       { charset: `utf-8` },
