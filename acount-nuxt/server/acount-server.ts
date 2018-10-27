@@ -25,6 +25,9 @@ async function start() {
 
   // Instantiate nuxt.js
   const nuxt = new Nuxt(nuxtConfig)
+
+  // console.log(Object.keys(nuxt))
+
   // create the nuxt middleWare
   const renderNuxt = koaNuxt(nuxt)
 
@@ -56,7 +59,7 @@ async function start() {
       ctx.status = boomError.output.statusCode
       // handle XHR
       if (ctx.state.isJson) return (ctx.body = boomError)
-      // we want to make that ANY errors will be catch here
+      // we want to make sure that ANY errors will be catch here
       ctx.body = error
     }
   })
@@ -67,7 +70,7 @@ async function start() {
 
   const router = new Router()
 
-  router.use(apiBackupRoutes.routes())
+  // router.use(apiBackupRoutes.routes())
 
   app.use(router.routes())
   app.use(router.allowedMethods())

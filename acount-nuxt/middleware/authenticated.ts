@@ -1,10 +1,10 @@
-import { AcountMeta } from '../types/types'
+import { AcountMeta, NuxtContext } from '../types/types'
 
 function flattenMeta(acc, meta) {
   return { ...acc, ...meta }
 }
 
-export default async function authMiddleware(nuxtContext) {
+export default async function authMiddleware(nuxtContext: NuxtContext) {
   const { store, redirect, route } = nuxtContext
   const meta: AcountMeta = route.meta.reduce(flattenMeta, {})
   const { authForbidden, authRequired } = meta

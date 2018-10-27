@@ -10,9 +10,6 @@ export interface AcountMeta {
 
 export interface NuxtContext {
   app: Vue
-  isClient: boolean
-  isServer: boolean
-  isStatic: boolean
   isDev: boolean
   isHMR: boolean
   route: Route
