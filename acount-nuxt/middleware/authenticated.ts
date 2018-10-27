@@ -1,11 +1,15 @@
+import { AcountMeta } from '../types/types'
+
 function flattenMeta(acc, meta) {
   return { ...acc, ...meta }
 }
 
 export default async function authMiddleware(nuxtContext) {
   const { store, redirect, route } = nuxtContext
-  console.log(`authMiddleware`)
-  const meta = route.meta.reduce(flattenMeta, {})
-  console.log(meta)
-  if (store.state.user) return
+  const meta: AcountMeta = route.meta.reduce(flattenMeta, {})
+  const { authForbidden, authRequired } = meta
+  const { user } = store.state.user
+  console.log({ authForbidden, authRequired, user })
+  if (authForbidden && user) return redirect(`/`)
+  if (authRequired && !user) return redirect(`/account/login`)
 }

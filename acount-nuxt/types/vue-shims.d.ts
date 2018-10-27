@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import { Route } from 'vue-router'
-import { Dictionary } from 'vue-router/types/router'
-import { Store } from 'vuex'
 import { MetaInfo } from 'vue-meta'
+
+import { NuxtContext, AcountMeta } from './types'
 
 // declare module 'vue/types/vue' {
 //   // Global properties can be declared
@@ -12,30 +12,6 @@ import { MetaInfo } from 'vue-meta'
 //   }
 // }
 
-interface AcountMeta {
-  authForbidden?: boolean
-  authRequired?: boolean
-}
-
-interface Context {
-  app: Vue
-  isClient: boolean
-  isServer: boolean
-  isStatic: boolean
-  isDev: boolean
-  isHMR: boolean
-  route: Route
-  store: Store<any>
-  env: Object
-  params: Dictionary<string>
-  query: Dictionary<string>
-  req: Request
-  res: Response
-  redirect: Function
-  error: Function
-  nuxtState: Object
-  beforeNuxtRender: Function
-}
 interface Transition {
   name?: string
   mode?: string
@@ -53,15 +29,15 @@ interface Transition {
 // ComponentOptions is declared in types/options.d.ts
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
-    asyncData?: (ctx: Context) => object
-    fetch?: (ctx: Context) => Promise<void> | void
+    asyncData?: (ctx: NuxtContext) => object
+    fetch?: (ctx: NuxtContext) => Promise<void> | void
     head?: MetaInfo | (() => MetaInfo)
     meta?: AcountMeta
-    layout?: string | ((ctx: Context) => string)
+    layout?: string | ((ctx: NuxtContext) => string)
     middleware?: string | string[]
     scrollToTop?: boolean
     transition?: string | Transition | ((to: Route, from: Route) => string)
-    validate?: (ctx: Context) => Promise<boolean> | boolean
+    validate?: (ctx: NuxtContext) => Promise<boolean> | boolean
     watchQuery?: boolean | string[]
   }
 }
