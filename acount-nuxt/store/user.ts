@@ -23,6 +23,7 @@ export const actions = {
       commit(SET_USER, response.user)
       console.log(response)
     } catch (error) {
+      commit(REMOVE_USER)
       console.log(error.response.data)
     }
   },

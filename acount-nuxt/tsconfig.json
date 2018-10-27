@@ -13,11 +13,14 @@
     "allowSyntheticDefaultImports": true,
     "allowJs": false,
     "baseUrl": ".",
+    "rootDir": ".",
     "sourceMap": true,
-    "typeRoots": ["../node_modules/@types/"],
+    "typeRoots": ["../node_modules/@types/", "./types/"],
     "paths": {
-      "~/*": ["./*"]
+      "~/*": ["./*"],
+      "@/*": ["./*"]
     }
   },
+  "include": ["**/*.ts", "**/*.vue"],
   "exclude": ["node_modules", "inject", "typings", "dist"]
 }

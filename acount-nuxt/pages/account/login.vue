@@ -2,6 +2,8 @@
 import Vue from 'vue'
 import { mapActions } from 'vuex'
 
+// don'e know but can't use Nuxt path sortcuts for store files…
+// import { LOGIN } from '~/store/user'
 import { LOGIN } from '../../store/user'
 
 export default Vue.extend({
@@ -13,6 +15,9 @@ export default Vue.extend({
         password: ``,
       },
     }
+  },
+  meta: {
+    authForbidden: true,
   },
   methods: {
     submit() {

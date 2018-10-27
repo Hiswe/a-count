@@ -8,6 +8,9 @@ export default {
     // for SPA just force a relative URL
     browserBaseURL: `http://localhost:4040/v1`,
   },
+  router: {
+    middleware: `authenticated`,
+  },
   head: {
     meta: [
       { charset: `utf-8` },
