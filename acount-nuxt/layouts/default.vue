@@ -12,12 +12,20 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-v-app
+main.acount-main(role="main")
   acount-navigation
-  v-content
-    v-container(fluid)
-      nuxt
+  v-app.acount-v-app
+    //- v-content
+    //-   v-container(fluid)
+    nuxt
 </template>
 
 <style lang="scss" scoped>
+.acount-main {
+  min-height: 100vh;
+  display: flex;
+}
+.acount-v-app {
+  flex: 1 0 auto;
+}
 </style>

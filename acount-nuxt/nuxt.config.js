@@ -1,6 +1,6 @@
 export default {
   modulesDir: [`../node_modules`],
-  css: [`@/assets/vuetify.styl`],
+  css: [`@/assets/vuetify.styl`, `@/assets/global.scss`],
   plugins: [`@/plugins/vue-libraries.ts`],
   modules: [`nuxt-ts-module`, `@nuxtjs/axios`],
   axios: {
