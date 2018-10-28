@@ -9,7 +9,7 @@ export default {
     browserBaseURL: `http://localhost:4040/v1`,
   },
   router: {
-    middleware: `authenticated`,
+    middleware: [`handle-server-post`, `authenticated`],
   },
   head: {
     meta: [

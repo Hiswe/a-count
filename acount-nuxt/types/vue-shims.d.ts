@@ -2,9 +2,6 @@ import Vue from 'vue'
 import { Route } from 'vue-router'
 import { MetaInfo } from 'vue-meta'
 
-// import Process = NodeJS.Process
-// import EventEmitter = NodeJS.EventEmitter
-
 import { NuxtContext, AcountMeta } from './types'
 
 // declare module 'vue/types/vue' {

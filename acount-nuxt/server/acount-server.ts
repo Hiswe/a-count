@@ -2,7 +2,7 @@ import util from 'util'
 import Boom from 'boom'
 import consola from 'consola'
 import Koa from 'koa'
-import Router from 'koa-router'
+import bodyParser from 'koa-bodyparser'
 import * as nuxt from 'nuxt'
 import koaNuxt from '@hiswe/koa-nuxt'
 
@@ -23,12 +23,7 @@ start()
 async function start() {
   //----- INITIALIZE NUXT MIDDLEWARE
 
-  // Instantiate nuxt.js
   const nuxt = new Nuxt(nuxtConfig)
-
-  // console.log(Object.keys(nuxt))
-
-  // create the nuxt middleWare
   const renderNuxt = koaNuxt(nuxt)
 
   // Build in development
@@ -64,20 +59,16 @@ async function start() {
     }
   })
 
-  //////
-  // API ROUTING
-  //////
+  // This is needed for handling POST informations in No-JS environment
+  app.use(bodyParser())
 
-  const router = new Router()
+  // prepare ctx.req for Nuxt consumption
+  app.use(async function transferKoaBodyToNodeRequest(ctx, next) {
+    ctx.req.body = ctx.request.body
+    await next()
+  })
 
-  // router.use(apiBackupRoutes.routes())
-
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-
-  //////
-  // NUXT FALLBACK
-  //////
+  //----- NUXT HANDLING
 
   app.use(renderNuxt)
 

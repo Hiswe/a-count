@@ -34,6 +34,7 @@ export default Vue.extend({
 form(
   id="login"
   action="/account/login"
+  method="post"
   @submit.prevent="submit"
 )
   v-text-field(

@@ -36,6 +36,7 @@
     "Vuetify",
     "Webpack's",
     "apidoc",
+    "bodyparser",
     "boomify",
     "crio",
     "devtool",
