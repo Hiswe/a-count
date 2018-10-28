@@ -2,15 +2,14 @@ import Vue from 'vue'
 import { Route } from 'vue-router'
 import { MetaInfo } from 'vue-meta'
 
-import { NuxtContext, AcountMeta } from './types'
+import { NuxtContext, NuxtAxios } from './nuxt'
+import { AcountMeta } from './types'
 
-// declare module 'vue/types/vue' {
-//   // Global properties can be declared
-//   // on the `VueConstructor` interface
-//   interface VueConstructor {
-//     $myGlobal: string
-//   }
-// }
+declare module 'vue/types/vue' {
+  interface Vue {
+    $axios: NuxtAxios
+  }
+}
 
 interface Transition {
   name?: string
@@ -26,7 +25,6 @@ interface Transition {
   leaveActiveClass?: string
 }
 
-// ComponentOptions is declared in types/options.d.ts
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
     asyncData?: (ctx: NuxtContext) => object

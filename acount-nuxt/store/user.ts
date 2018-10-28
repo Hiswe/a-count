@@ -21,7 +21,6 @@ export const actions = {
     try {
       const response = await this.$axios.$post(`/account/login`, payload)
       commit(SET_USER, response.user)
-      console.log(response)
     } catch (error) {
       commit(REMOVE_USER)
       console.log(error.response.data)
