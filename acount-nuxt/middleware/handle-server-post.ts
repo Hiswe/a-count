@@ -1,4 +1,5 @@
-import { AcountMeta, NuxtContext } from '../types/types'
+import { NuxtContext } from '../types/nuxt'
+import { AcountMeta } from '../types/acount'
 import { LOGIN } from '../store/user'
 
 const mappedPath2Actions = {

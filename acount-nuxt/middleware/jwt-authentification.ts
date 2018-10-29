@@ -7,7 +7,7 @@ const COOKIE_NAME = process.env.COOKIE_NAME
 const JWT_FORMAT = `Bearer`
 
 export default async function axiosJWT(nuxtContext: NuxtContext) {
-  const { app, req, store } = nuxtContext
+  const { app, store } = nuxtContext
   const { $axios, $cookies } = app
   const cookieJWT = $cookies.get(COOKIE_NAME)
   if (cookieJWT) $axios.setToken(cookieJWT, JWT_FORMAT)
@@ -21,5 +21,5 @@ export default async function axiosJWT(nuxtContext: NuxtContext) {
     $axios.setToken(access_token, JWT_FORMAT)
   })
 
-  await store.dispatch(`user/${ME}`, req.body)
+  await store.dispatch(`user/${ME}`)
 }
