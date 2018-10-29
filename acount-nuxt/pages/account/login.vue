@@ -1,10 +1,10 @@
 <script lang="ts">
 import Vue from 'vue'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 // don't know why but can't use Nuxt path sortcuts for store files…
 // import { LOGIN } from '~/store/user'
-import { LOGIN } from '../../store/user'
+import { LOGIN, IS_CONNECTED } from '../../store/user'
 
 export default Vue.extend({
   name: `page-login`,
@@ -18,6 +18,16 @@ export default Vue.extend({
   },
   meta: {
     authForbidden: true,
+  },
+  watch: {
+    isConnected(newValue, oldValue) {
+      if (newValue === true) this.$router.push(`/`)
+    },
+  },
+  computed: {
+    ...mapGetters(`user`, {
+      isConnected: IS_CONNECTED,
+    }),
   },
   methods: {
     submit() {

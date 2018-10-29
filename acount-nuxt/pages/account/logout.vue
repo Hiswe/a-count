@@ -19,7 +19,6 @@ export default Vue.extend({
     $axios.setToken(false)
     // doesn't work for now…
     // TODO: figure out why redirection isn't happening
-    console.log(Object.keys($router))
     $router.push(`/account/login`)
   },
   methods: {
