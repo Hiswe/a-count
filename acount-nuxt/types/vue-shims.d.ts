@@ -10,6 +10,10 @@ declare module 'vue/types/vue' {
     $axios: NuxtAxios
     $cookies: NuxtCookies
   }
+  // interface VueConstructor {
+  //   $axios: NuxtAxios
+  //   $cookies: NuxtCookies
+  // }
 }
 
 interface Transition {

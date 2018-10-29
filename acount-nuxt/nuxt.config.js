@@ -6,6 +6,9 @@ export default {
   router: {
     middleware: [`jwt-authentification`, `handle-server-post`, `authenticated`],
   },
+  env: {
+    COOKIE_NAME: `acount_nuxt`,
+  },
   axios: {
     baseURL: `http://localhost:4040/v1`,
     browserBaseURL: `http://localhost:4040/v1`,

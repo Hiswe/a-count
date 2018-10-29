@@ -7,4 +7,7 @@ declare namespace NodeJS {
     server: boolean
     static: boolean
   }
+  interface ProcessEnv {
+    COOKIE_NAME: string
+  }
 }

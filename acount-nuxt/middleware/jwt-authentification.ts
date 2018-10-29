@@ -2,7 +2,8 @@ import { NuxtContext } from '../types/nuxt'
 import { AcountMeta } from '../types/acount'
 import { ME } from '../store/user'
 
-const COOKIE_NAME = `acount_nuxt`
+// can't destructuring process.env
+const COOKIE_NAME = process.env.COOKIE_NAME
 const JWT_FORMAT = `Bearer`
 
 export default async function axiosJWT(nuxtContext: NuxtContext) {

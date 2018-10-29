@@ -46,6 +46,7 @@
     "keyframes",
     "middlewares",
     "minmax",
+    "nuxtjs",
     "presentational",
     "promisify",
     "proxied",
