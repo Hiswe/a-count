@@ -54,6 +54,8 @@ export interface NuxtAxios {
 // COOKIES
 //////
 
+type NuxtCookieValue = any
+
 interface NuxtCookieGetOptions {
   fromRes?: boolean
   parseJSON?: boolean
@@ -65,7 +67,7 @@ interface NuxtCookieRemoveOptions {
 
 interface NuxtCookieGetParams {
   name: string
-  value: string | Object
+  value: any
   opts?: CookieSerializeOptions
 }
 
@@ -76,8 +78,8 @@ export interface NuxtCookies {
     opts?: CookieSerializeOptions,
   ) => void
   setAll: (cookieArray: NuxtCookieGetParams[]) => void
-  get: (name: string, opts?: NuxtCookieGetOptions) => void
-  getAll: (opts?: NuxtCookieGetOptions) => void
+  get: (name: string, opts?: NuxtCookieGetOptions) => NuxtCookieValue
+  getAll: (opts?: NuxtCookieGetOptions) => NuxtCookieValue[]
   remove: (name: string, opts: NuxtCookieRemoveOptions) => void
   removeAll: () => void
 }

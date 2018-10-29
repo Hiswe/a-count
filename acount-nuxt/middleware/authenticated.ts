@@ -1,5 +1,5 @@
 import { NuxtContext } from '../types/nuxt'
-import { AcountMeta } from '../types/types'
+import { AcountMeta } from '../types/acount'
 
 function flattenMeta(acc, meta) {
   return { ...acc, ...meta }

@@ -4,11 +4,12 @@ export default {
   plugins: [`@/plugins/vue-libraries.ts`],
   modules: [`nuxt-ts-module`, `@nuxtjs/axios`, `cookie-universal-nuxt`],
   router: {
-    middleware: [`axios-jwt`, `handle-server-post`, `authenticated`],
+    middleware: [`jwt-authentification`, `handle-server-post`, `authenticated`],
   },
   axios: {
     baseURL: `http://localhost:4040/v1`,
     browserBaseURL: `http://localhost:4040/v1`,
+    credentials: true,
   },
   head: {
     meta: [
