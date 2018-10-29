@@ -3760,6 +3760,20 @@ cookie-signature@1.0.6:
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
   integrity sha1-4wOogrNCzD7oylE6eZmXNNqzriw=
 
+cookie-universal-nuxt@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/cookie-universal-nuxt/-/cookie-universal-nuxt-2.0.5.tgz#954548fcad714118400b7ad5adc1c9681933084b"
+  integrity sha1-lUVI/K1xQRhAC3rVrcHJaBkzCEs=
+  dependencies:
+    cookie-universal "^2.0.5"
+
+cookie-universal@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/cookie-universal/-/cookie-universal-2.0.5.tgz#42f109b96f9ff7e496e79914aaf77a4978ecab7e"
+  integrity sha1-QvEJuW+f9+SW55kUqvd6SXjsq34=
+  dependencies:
+    cookie "^0.3.1"
+
 cookie@0.3.1, cookie@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"

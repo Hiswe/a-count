@@ -2,12 +2,13 @@ import Vue from 'vue'
 import { Route } from 'vue-router'
 import { MetaInfo } from 'vue-meta'
 
-import { NuxtContext, NuxtAxios } from './nuxt'
-import { AcountMeta } from './types'
+import { NuxtContext, NuxtAxios, NuxtCookies } from './nuxt'
+import { AcountMeta } from './acount'
 
 declare module 'vue/types/vue' {
   interface Vue {
     $axios: NuxtAxios
+    $cookies: NuxtCookies
   }
 }
 

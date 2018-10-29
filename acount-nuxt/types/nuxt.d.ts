@@ -2,6 +2,8 @@ import Vue from 'vue'
 import { Route } from 'vue-router'
 import { Store } from 'vuex'
 import { Dictionary } from 'vue-router/types/router'
+import { CookieSerializeOptions } from 'cookie'
+
 import { AcountMeta } from './acount'
 
 export interface NuxtContext {
@@ -20,6 +22,10 @@ export interface NuxtContext {
   nuxtState: Object
   beforeNuxtRender: Function
 }
+
+//////
+// AXIOS
+//////
 
 type NuxtAxiosSetToken = (
   token?: string | boolean,
@@ -42,4 +48,36 @@ export interface NuxtAxios {
   onResponseError: NuxtAxiosErrorCallback
   onResponse: NuxtAxiosResponseCallback
   onError: NuxtAxiosErrorCallback
+}
+
+//////
+// COOKIES
+//////
+
+interface NuxtCookieGetOptions {
+  fromRes?: boolean
+  parseJSON?: boolean
+}
+
+interface NuxtCookieRemoveOptions {
+  path: string
+}
+
+interface NuxtCookieGetParams {
+  name: string
+  value: string | Object
+  opts?: CookieSerializeOptions
+}
+
+export interface NuxtCookies {
+  set: (
+    name: string,
+    value: string | Object,
+    opts?: CookieSerializeOptions,
+  ) => void
+  setAll: (cookieArray: NuxtCookieGetParams[]) => void
+  get: (name: string, opts?: NuxtCookieGetOptions) => void
+  getAll: (opts?: NuxtCookieGetOptions) => void
+  remove: (name: string, opts: NuxtCookieRemoveOptions) => void
+  removeAll: () => void
 }
