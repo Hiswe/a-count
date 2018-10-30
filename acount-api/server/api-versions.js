@@ -8,6 +8,6 @@ module.exports = {
   },
   V1_1: {
     number: V1_1,
-    prefix: `/v1-1`,
+    prefix: `/v1.1`,
   },
 }

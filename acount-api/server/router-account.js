@@ -127,7 +127,7 @@ methods[V1].register = async (ctx, next) => {
 }
 
 /**
- * @api {post} /v1-1/account/register register
+ * @api {post} /v1.1/account/register register
  * @apiVersion 1.1.0
  * @apiName Register
  * @apiDescription register an account
