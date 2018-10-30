@@ -153,7 +153,7 @@ methods[V1_1].register = async (ctx, next) => {
     include: [QuotationConfig, InvoiceConfig, ProductConfig],
   })
 
-  await user.resetPassword()
+  await user.resetPasswordTokenOnly()
   ctx.body = {
     email: user.email,
     new: true,
