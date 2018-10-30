@@ -11,8 +11,8 @@ export default {
     COOKIE_NAME: `acount_nuxt`,
   },
   axios: {
-    baseURL: `http://localhost:4040/v1`,
-    browserBaseURL: `http://localhost:4040/v1`,
+    baseURL: `http://localhost:4040/v1.1`,
+    browserBaseURL: `http://localhost:4040/v1.1`,
     credentials: true,
   },
   head: {

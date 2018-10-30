@@ -25,8 +25,6 @@ main.acount-main(role="main")
   acount-nav-connected(v-if="isConnected")
   acount-nav-public(v-else)
   v-app.acount-v-app
-    //- v-content
-    //-   v-container(fluid)
     nuxt
 </template>
 

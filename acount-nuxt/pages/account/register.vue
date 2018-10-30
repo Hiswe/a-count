@@ -2,39 +2,38 @@
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 
-// don't know why but can't use Nuxt path sortcuts for store files…
-// import { LOGIN } from '~/store/user'
-import { LOGIN, IS_CONNECTED } from '../../store/user'
+import { REGISTER } from '../../store/user'
+
+const i18n = {
+  messages: {
+    en: {
+      'register-help': `After submitting, you will receive a confirmation code by email`,
+    },
+    fr: {
+      'register-help': `Après l'envoie du formulaire, vous recevrez un code de conformation par email`,
+    },
+  },
+}
 
 export default Vue.extend({
   name: `page-register`,
+  i18n,
   data() {
     return {
       form: {
         email: ``,
-        password: ``,
       },
     }
   },
   meta: {
     authForbidden: true,
   },
-  watch: {
-    isConnected(newValue, oldValue) {
-      if (newValue === true) this.$router.push(`/`)
-    },
-  },
-  computed: {
-    ...mapGetters(`user`, {
-      isConnected: IS_CONNECTED,
-    }),
-  },
   methods: {
     submit() {
-      this.login(this.form)
+      this.register(this.form)
     },
     ...mapActions(`user`, {
-      login: LOGIN,
+      register: REGISTER,
     }),
   },
 })
@@ -48,17 +47,16 @@ form(
   @submit.prevent="submit"
 )
   h2 {{ $t(`shared.register`) }}
+  v-alert(
+    :value="true"
+    color="info"
+    icon="info"
+  ) {{ $t(`register-help` )}}
   v-text-field(
     type="email"
     name="email"
     :label="$t(`form.email`)"
     v-model="form.email"
-  )
-  v-text-field(
-    type="password"
-    name="password"
-    :label="$t(`form.password`)"
-    v-model="form.password"
   )
   v-btn(color="primary" type="submit") {{ $t(`shared.register`) }}
 </template>

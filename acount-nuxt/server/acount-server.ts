@@ -6,17 +6,17 @@ import bodyParser from 'koa-bodyparser'
 import * as nuxt from 'nuxt'
 import koaNuxt from '@hiswe/koa-nuxt'
 
+import serverConfig from './configuration'
 import nuxtConfig from '../nuxt.config.js'
-import apiBackupRoutes from './routing-api-backup'
 
 const { Nuxt, Builder } = nuxt
 const app = new Koa()
-const HOST: string = process.env.HOST || `0.0.0.0`
-const PORT: number = Number(process.env.PORT) || 3000
+const HOST = serverConfig.HOST
+const PORT = serverConfig.PORT
 const appLogger = consola.withScope(`app`)
 const errorLogger = consola.withScope(`error`)
 
-nuxtConfig.dev = !(app.env === `production`)
+nuxtConfig.dev = serverConfig.isDev
 
 start()
 
@@ -65,6 +65,7 @@ async function start() {
   // prepare ctx.req for Nuxt consumption
   app.use(async function transferKoaBodyToNodeRequest(ctx, next) {
     ctx.req.body = ctx.request.body
+    ctx.req.serverConfig = serverConfig
     await next()
   })
 

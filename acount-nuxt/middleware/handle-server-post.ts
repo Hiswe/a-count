@@ -1,9 +1,11 @@
 import { NuxtContext } from '../types/nuxt'
 import { AcountMeta } from '../types/acount'
-import { LOGIN } from '../store/user'
+import { LOGIN, REGISTER, SET_PASSWORD } from '../store/user'
 
 const mappedPath2Actions = {
   [`/account/login`]: `user/${LOGIN}`,
+  [`/account/register`]: `user/${REGISTER}`,
+  [`/account/set-password`]: `user/${SET_PASSWORD}`,
 }
 
 export default async function postMiddleware(nuxtContext: NuxtContext) {

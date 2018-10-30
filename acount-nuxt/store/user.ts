@@ -28,6 +28,7 @@ export const ME = `ME`
 export const LOGIN = `LOGIN`
 export const LOGOUT = `LOGOUT`
 export const REGISTER = `REGISTER`
+export const SET_PASSWORD = `SET_PASSWORD`
 
 export const actions = {
   async [ME]({ commit }) {
@@ -36,7 +37,6 @@ export const actions = {
       commit(SET_USER, response.user)
     } catch (error) {
       commit(REMOVE_USER)
-      // console.log(error.response.data)
     }
   },
   async [LOGIN]({ commit }, payload) {
@@ -45,7 +45,6 @@ export const actions = {
       commit(SET_USER, response.user)
     } catch (error) {
       commit(REMOVE_USER)
-      // console.log(error.response.data)
     }
   },
   async [REGISTER]({ commit }, payload) {
@@ -54,7 +53,14 @@ export const actions = {
       commit(SET_USER, response.user)
     } catch (error) {
       commit(REMOVE_USER)
-      // console.log(error.response.data)
+    }
+  },
+  async [SET_PASSWORD]({ commit }, payload) {
+    try {
+      const response = await this.$axios.$post(`/account/set-password`, payload)
+      commit(SET_USER, response.user)
+    } catch (error) {
+      commit(REMOVE_USER)
     }
   },
   async [LOGOUT]({ commit }) {

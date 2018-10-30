@@ -7,5 +7,6 @@ export default {
   form: {
     email: `email`,
     password: `mot de passe`,
+    token: `code de confirmation`,
   },
 }
