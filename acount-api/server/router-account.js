@@ -1,36 +1,61 @@
 'use strict'
 
-const merge  = require( 'lodash.merge' )
-const Router = require( 'koa-router'   )
+const merge = require('lodash.merge')
+const Router = require('koa-router')
 
-const config          = require( './config'                     )
-const addRelations    = require( './utils/db-default-relations' )
-const dbColumns       = require( './utils/db-sub-queries'       )
-const log             = require( './utils/log'                  )
-const dbGetterSetter  = require( './utils/db-getter-setter'     )
-const User            = require( './db/model-user'              )
-const QuotationConfig = require( './db/model-quotation-config'  )
-const InvoiceConfig   = require( './db/model-invoice-config'    )
-const ProductConfig   = require( './db/model-product-config'    )
-const jwtStore        = require( './jwt-store'                  )
+const config = require('./config')
+const addRelations = require('./utils/db-default-relations')
+const dbColumns = require('./utils/db-sub-queries')
+const log = require('./utils/log')
+const dbGetterSetter = require('./utils/db-getter-setter')
+const User = require('./db/model-user')
+const QuotationConfig = require('./db/model-quotation-config')
+const InvoiceConfig = require('./db/model-invoice-config')
+const ProductConfig = require('./db/model-product-config')
+const jwtStore = require('./jwt-store')
+const versions = require('./api-versions')
+const V1 = versions.V1.number
+const V1_1 = versions.V1_1.number
 
-const prefix        = `account`
-const publicRouter  = new Router({prefix: `/${prefix}`})
-const privateRouter = new Router({prefix: `/${prefix}`})
+const prefix = `account`
+
+const privateRouter = new Router({ prefix: `/${prefix}` })
+
+const routers = {
+  [V1]: {
+    public: new Router({ prefix: `/${prefix}` }),
+    private: privateRouter,
+  },
+  [V1_1]: {
+    public: new Router({ prefix: `/${prefix}` }),
+    private: privateRouter,
+  },
+}
+const methods = {
+  [V1]: {},
+  [V1_1]: {},
+}
+
 module.exports = {
-  public : publicRouter ,
-  private: privateRouter,
+  [V1]: {
+    public: routers[V1].public,
+    private: privateRouter,
+  },
+  [V1_1]: {
+    public: routers[V1_1].public,
+    private: privateRouter,
+  },
 }
 //----- UTILS
 
-async function connectUser( ctx, user ) {
+async function connectUser(ctx, user) {
   const { id } = user
   const queryParams = addRelations.user({
-    where: { id }
+    where: { id },
   })
-  user = await User.findOne( queryParams )
+  user = await User.findOne(queryParams)
 
-  const accessToken = await jwtStore.add( user )
+  const accessToken = await jwtStore.add(user)
 
   const result = {
     user,
@@ -66,7 +91,7 @@ async function connectUser( ctx, user ) {
 //////
 
 /**
- * @api {post} /account/register register
+ * @api {post} /v1/account/register register
  * @apiVersion 1.0.0
  * @apiName Register
  * @apiDescription register an account
@@ -78,31 +103,65 @@ async function connectUser( ctx, user ) {
  * @apiSuccess {string} email the user email
  * @apiSuccess {boolean} new always `true`
  */
-publicRouter
-.post( `/register`, async (ctx, next) => {
-  const { body }  = ctx.request
+
+methods[V1].register = async (ctx, next) => {
+  const { body } = ctx.request
   const { email } = body
-  const data = merge( { email }, {
-    quotationConfig: {},
-    invoiceConfig  : {},
-    productConfig  : {},
-  })
-  const user = await User.create( data, {
-    include: [
-      QuotationConfig,
-      InvoiceConfig,
-      ProductConfig,
-    ]
+  const data = merge(
+    { email },
+    {
+      quotationConfig: {},
+      invoiceConfig: {},
+      productConfig: {},
+    },
+  )
+  const user = await User.create(data, {
+    include: [QuotationConfig, InvoiceConfig, ProductConfig],
   })
 
-  await user.resetPassword( body.redirectUrl )
+  await user.resetPassword(body.redirectUrl)
   ctx.body = {
-    email:  user.email,
-    new:    true,
+    email: user.email,
+    new: true,
   }
-})
+}
+
 /**
- * @api {post} /account/login login
+ * @api {post} /v1-1/account/register register
+ * @apiVersion 1.1.0
+ * @apiName Register
+ * @apiDescription register an account
+ * @apiGroup Account
+ *
+ * @apiParam (Request body) {string} email email
+ *
+ * @apiSuccess {string} email the user email
+ * @apiSuccess {boolean} new always `true`
+ */
+methods[V1_1].register = async (ctx, next) => {
+  const { body } = ctx.request
+  const { email } = body
+  const data = merge(
+    { email },
+    {
+      quotationConfig: {},
+      invoiceConfig: {},
+      productConfig: {},
+    },
+  )
+  const user = await User.create(data, {
+    include: [QuotationConfig, InvoiceConfig, ProductConfig],
+  })
+
+  await user.resetPassword()
+  ctx.body = {
+    email: user.email,
+    new: true,
+  }
+}
+
+/**
+ * @api {post} /v1/account/login login
  * @apiVersion 1.0.0
  * @apiName login
  * @apiDescription login to an account
@@ -114,23 +173,24 @@ publicRouter
  * @apiSuccess {object} user the user
  * @apiSuccess {string} access_token the access token
  */
-.post( `/login`, async (ctx, next) => {
-  const { body }  = ctx.request
-  const user      = await User.findOne({
+async function login(ctx, next) {
+  const { body } = ctx.request
+  const user = await User.findOne({
     where: {
-      email:          dbGetterSetter.normalizeString( body.email ),
-      isDeactivated:  { $not: true },
+      email: dbGetterSetter.normalizeString(body.email),
+      isDeactivated: { $not: true },
     },
   })
-  ctx.assert( user, 404, `User not found` )
+  ctx.assert(user, 404, `User not found`)
 
-  const isPasswordValid = await user.comparePassword( body.password )
-  ctx.assert( isPasswordValid, 401, `Invalid password` )
+  const isPasswordValid = await user.comparePassword(body.password)
+  ctx.assert(isPasswordValid, 401, `Invalid password`)
 
-  await connectUser( ctx, user )
-})
+  await connectUser(ctx, user)
+}
+
 /**
- * @api {post} /account/forgot forgot
+ * @api {post} /v1/account/forgot forgot
  * @apiVersion 1.0.0
  * @apiName forgot
  * @apiDescription sent an email to reset the password
@@ -144,24 +204,25 @@ publicRouter
  * @apiSuccess {string} email the user email
  * @apiSuccess {boolean} reset always true
  */
-.post( `/forgot`, async (ctx, next) => {
-  const { body }  = ctx.request
+async function forgot(ctx, next) {
+  const { body } = ctx.request
   const user = await User.findOne({
     where: {
       email: body.email,
       isDeactivated: { $not: true },
-    }
+    },
   })
-  ctx.assert( user, 404, `Email not found` )
+  ctx.assert(user, 404, `Email not found`)
 
-  await user.resetPassword( body.redirectUrl )
+  await user.resetPassword(body.redirectUrl)
   ctx.body = {
     email: user.email,
     reset: true,
   }
-})
+}
+
 /**
- * @api {post} /account/set-password set password
+ * @api {post} /v1/account/set-password set password
  * @apiVersion 1.0.0
  * @apiName set password
  * @apiDescription set a new password
@@ -173,22 +234,23 @@ publicRouter
  * @apiSuccess {object} user the user
  * @apiSuccess {string} access_token the access token
  */
-.post( `/set-password`, async (ctx, next) => {
-  const { body }  = ctx.request
+async function setPassword(ctx, next) {
+  const { body } = ctx.request
   const user = await User.findOne({
     where: {
-      isDeactivated:  { $not: true },
-      token:          body.token,
-      tokenExpire:    { $gt: Date.now() },
-    }
+      isDeactivated: { $not: true },
+      token: body.token,
+      tokenExpire: { $gt: Date.now() },
+    },
   })
-  ctx.assert( user, 404, `link expired` )
+  ctx.assert(user, 404, `link expired`)
 
-  const updatedUser = await user.setPassword( body.password )
-  await connectUser( ctx, updatedUser )
-})
+  const updatedUser = await user.setPassword(body.password)
+  await connectUser(ctx, updatedUser)
+}
+
 /**
- * @api {post} /account/reset reset
+ * @api {post} /v1/account/reset reset
  * @apiVersion 1.0.0
  * @apiName reset
  * @apiDescription set a new password
@@ -200,28 +262,42 @@ publicRouter
  * @apiSuccess {object} user the user
  * @apiSuccess {string} access_token the access token
  */
-.post( `/reset`, async (ctx, next) => {
-  const { body }  = ctx.request
+async function reset(ctx, next) {
+  const { body } = ctx.request
   const user = await User.findOne({
     where: {
-      isDeactivated:  { $not: true },
-      token:          body.token,
-      tokenExpire:    { $gt: Date.now() },
-    }
+      isDeactivated: { $not: true },
+      token: body.token,
+      tokenExpire: { $gt: Date.now() },
+    },
   })
-  ctx.assert( user, 404, `link expired` )
+  ctx.assert(user, 404, `link expired`)
 
-  const updatedUser = await user.setPassword( body.password )
-  await jwtStore.removeAllFromUser( user.id )
-  await connectUser( ctx, updatedUser )
-})
+  const updatedUser = await user.setPassword(body.password)
+  await jwtStore.removeAllFromUser(user.id)
+  await connectUser(ctx, updatedUser)
+}
+
+routers[V1].public
+  .post(`/register`, methods[V1].register)
+  .post(`/login`, login)
+  .post(`/forgot`, forgot)
+  .post(`/set-password`, setPassword)
+  .post(`/reset`, reset)
+
+routers[V1_1].public
+  .post(`/register`, methods[V1_1].register)
+  .post(`/login`, login)
+  .post(`/forgot`, forgot)
+  .post(`/set-password`, setPassword)
+  .post(`/reset`, reset)
 
 //////
 // PRIVATE
 //////
 
 /**
- * @api {get} /account/auth user informations
+ * @api {get} /v1/account/auth user informations
  * @apiVersion 1.0.0
  * @apiPermission user
  * @apiName GetAuth
@@ -231,91 +307,95 @@ publicRouter
  * @apiUse userInformation
  */
 privateRouter
-.get( `/auth`, async (ctx, next) => {
-  ctx.assert( ctx.state && ctx.state.user, 401, `Not connected` )
-  ctx.body = { user: ctx.state.user }
-})
-/**
- * @api {get} /account/logout logout
- * @apiVersion 1.0.0
- * @apiPermission user
- * @apiName Logout
- * @apiDescription remove the access_token
- * @apiGroup Account
- *
- * @apiSuccess {string} message always `bye bye`
- * @apiSuccess {boolean} access_token always an empty string
- */
-.get( `/logout`, async (ctx, next) => {
-  const { jwtData } = ctx.state
-  await jwtStore.remove( jwtData )
-
-  ctx.state.user = null
-  ctx.response.set( `authorization`, `` )
-  ctx.body = {
-    message:      `bye bye`,
-    access_token: ``,
-  }
-})
-/**
- * @api {get} /account/statistics statistics
- * @apiVersion 1.0.0
- * @apiPermission user
- * @apiName Statistics
- * @apiDescription get an overview about the account
- * @apiGroup Account
- *
- * @apiSuccess {number} quotationsCount Total active quotations count
- * @apiSuccess {number} quotationsTotal Total active quotations sums involved
- * @apiSuccess {number} invoicesCount Total active invoice count
- * @apiSuccess {number} invoicesTotal  Total active invoices sums involved
- * @apiSuccess {number} invoicesTotalPaid Total active paid invoices sums involved
- * @apiSuccess {number} invoicesTotalLeft Total active left invoices sums involved
- */
-.get( `/statistics`, async (ctx, next) => {
-  const { userId }  = ctx.state
-  const user        = await User.findOne({
-    where: {
-      id:             userId,
-      isDeactivated:  { $not: true },
-    },
-    attributes: [
-      ...dbColumns.statistics,
-    ]
+  .get(`/auth`, async (ctx, next) => {
+    ctx.assert(ctx.state && ctx.state.user, 401, `Not connected`)
+    ctx.body = { user: ctx.state.user }
   })
-  ctx.body = user
-})
-/**
- * @api {post} /account/settings settings
- * @apiVersion 1.0.0
- * @apiPermission user
- * @apiName Settings
- * @apiDescription update user informations
- * @apiGroup Account
- *
- * @apiParam (Request body) {object} user the user form values
- *
- * @apiUse userInformation
- */
-.post( `/settings`, async (ctx, next) => {
-  const { id }      = ctx.state && ctx.state.user
-  const { body }    = ctx.request
-  const queryParams = addRelations.user({
-    where: { id }
+  /**
+   * @api {get} /v1/account/logout logout
+   * @apiVersion 1.0.0
+   * @apiPermission user
+   * @apiName Logout
+   * @apiDescription remove the access_token
+   * @apiGroup Account
+   *
+   * @apiSuccess {string} message always `bye bye`
+   * @apiSuccess {boolean} access_token always an empty string
+   */
+  .get(`/logout`, async (ctx, next) => {
+    const { jwtData } = ctx.state
+    await jwtStore.remove(jwtData)
+
+    ctx.state.user = null
+    ctx.response.set(`authorization`, ``)
+    ctx.body = {
+      message: `bye bye`,
+      access_token: ``,
+    }
   })
-  const instance    = await User.findOne( queryParams )
+  /**
+   * @api {get} /v1/account/statistics statistics
+   * @apiVersion 1.0.0
+   * @apiPermission user
+   * @apiName Statistics
+   * @apiDescription get an overview about the account
+   * @apiGroup Account
+   *
+   * @apiSuccess {number} quotationsCount Total active quotations count
+   * @apiSuccess {number} quotationsTotal Total active quotations sums involved
+   * @apiSuccess {number} invoicesCount Total active invoice count
+   * @apiSuccess {number} invoicesTotal  Total active invoices sums involved
+   * @apiSuccess {number} invoicesTotalPaid Total active paid invoices sums involved
+   * @apiSuccess {number} invoicesTotalLeft Total active left invoices sums involved
+   */
+  .get(`/statistics`, async (ctx, next) => {
+    const { userId } = ctx.state
+    const user = await User.findOne({
+      where: {
+        id: userId,
+        isDeactivated: { $not: true },
+      },
+      attributes: [...dbColumns.statistics],
+    })
+    ctx.body = user
+  })
+  /**
+   * @api {post} /v1/account/settings settings
+   * @apiVersion 1.0.0
+   * @apiPermission user
+   * @apiName Settings
+   * @apiDescription update user informations
+   * @apiGroup Account
+   *
+   * @apiParam (Request body) {object} user the user form values
+   *
+   * @apiUse userInformation
+   */
+  .post(`/settings`, async (ctx, next) => {
+    const { id } = ctx.state && ctx.state.user
+    const { body } = ctx.request
+    const queryParams = addRelations.user({
+      where: { id },
+    })
+    const instance = await User.findOne(queryParams)
 
-  ctx.assert(instance, 404, `Can't find User. The associated user isn't found`)
-  const updated   = await instance.update( body )
+    ctx.assert(
+      instance,
+      404,
+      `Can't find User. The associated user isn't found`,
+    )
+    const updated = await instance.update(body)
 
-  const relations = [`quotationConfig`, `invoiceConfig`, `productConfig`]
-  await Promise.all( relations.map( relationName => {
-    return instance[ relationName ].update( body[ relationName ] )
-  }))
+    const relations = [`quotationConfig`, `invoiceConfig`, `productConfig`]
+    await Promise.all(
+      relations.map(relationName => {
+        return instance[relationName].update(body[relationName])
+      }),
+    )
 
-  const user        = await User.findOne( queryParams )
+    const user = await User.findOne(queryParams)
 
-  const result      = { user }
-  ctx.state.user    = result
-  ctx.body          = result
-})
+    const result = { user }
+    ctx.state.user = result
+    ctx.body = result
+  })
