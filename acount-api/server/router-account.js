@@ -14,6 +14,7 @@ const InvoiceConfig = require('./db/model-invoice-config')
 const ProductConfig = require('./db/model-product-config')
 const jwtStore = require('./jwt-store')
 const versions = require('./api-versions')
+const MESSAGES = require('./utils/error-messages')
 const V1 = versions.V1.number
 const V1_1 = versions.V1_1.number
 
@@ -44,6 +45,7 @@ module.exports = {
     private: routers[V1_1].private,
   },
 }
+
 //----- UTILS
 
 async function connectUser(ctx, user) {
@@ -179,10 +181,10 @@ async function login(ctx, next) {
       isDeactivated: { $not: true },
     },
   })
-  ctx.assert(user, 404, `User not found`)
+  ctx.assert(user, 404, MESSAGES.NO_USER)
 
   const isPasswordValid = await user.comparePassword(body.password)
-  ctx.assert(isPasswordValid, 401, `Invalid password`)
+  ctx.assert(isPasswordValid, 401, MESSAGES.INVALID_PASSWORD)
 
   await connectUser(ctx, user)
 }
@@ -210,7 +212,7 @@ async function forgot(ctx, next) {
       isDeactivated: { $not: true },
     },
   })
-  ctx.assert(user, 404, `Email not found`)
+  ctx.assert(user, 404, MESSAGES.EMAIL_NOT_FOUND)
 
   await user.resetPassword(body.redirectUrl)
   ctx.body = {
@@ -241,7 +243,7 @@ async function setPassword(ctx, next) {
       tokenExpire: { $gt: Date.now() },
     },
   })
-  ctx.assert(user, 404, `link expired`)
+  ctx.assert(user, 404, MESSAGES.TOKEN_EXPIRED)
 
   const updatedUser = await user.setPassword(body.password)
   await connectUser(ctx, updatedUser)
@@ -269,7 +271,7 @@ async function reset(ctx, next) {
       tokenExpire: { $gt: Date.now() },
     },
   })
-  ctx.assert(user, 404, `link expired`)
+  ctx.assert(user, 404, MESSAGES.TOKEN_EXPIRED)
 
   const updatedUser = await user.setPassword(body.password)
   await jwtStore.removeAllFromUser(user.id)
@@ -308,7 +310,7 @@ routers[V1_1].public
  */
 
 async function auth(ctx, next) {
-  ctx.assert(ctx.state && ctx.state.user, 401, `Not connected`)
+  ctx.assert(ctx.state && ctx.state.user, 401, MESSAGES.NOT_CONNECTED)
   ctx.body = { user: ctx.state.user }
 }
 
@@ -324,7 +326,7 @@ async function auth(ctx, next) {
  */
 
 async function me(ctx, next) {
-  ctx.assert(ctx.state && ctx.state.user, 401, `Not connected`)
+  ctx.assert(ctx.state && ctx.state.user, 401, MESSAGES.NOT_CONNECTED)
   ctx.body = { user: ctx.state.user }
 }
 
@@ -399,7 +401,7 @@ async function settings(ctx, next) {
   })
   const instance = await User.findOne(queryParams)
 
-  ctx.assert(instance, 404, `Can't find User. The associated user isn't found`)
+  ctx.assert(instance, 404, MESSAGES.NO_USER)
   const updated = await instance.update(body)
 
   const relations = [`quotationConfig`, `invoiceConfig`, `productConfig`]

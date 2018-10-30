@@ -102,6 +102,7 @@ app.use(async function handleApiError(ctx, next) {
       error: true,
       status,
       message,
+      // TODO: shouldn't send stacktrace on production environment
       stacktrace: err.stacktrace || err.stack || false,
     }
     ctx.app.emit('error', err, ctx)
