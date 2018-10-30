@@ -27,6 +27,7 @@ export const getters = {
 export const ME = `ME`
 export const LOGIN = `LOGIN`
 export const LOGOUT = `LOGOUT`
+export const REGISTER = `REGISTER`
 
 export const actions = {
   async [ME]({ commit }) {
@@ -41,6 +42,15 @@ export const actions = {
   async [LOGIN]({ commit }, payload) {
     try {
       const response = await this.$axios.$post(`/account/login`, payload)
+      commit(SET_USER, response.user)
+    } catch (error) {
+      commit(REMOVE_USER)
+      // console.log(error.response.data)
+    }
+  },
+  async [REGISTER]({ commit }, payload) {
+    try {
+      const response = await this.$axios.$post(`/account/register`, payload)
       commit(SET_USER, response.user)
     } catch (error) {
       commit(REMOVE_USER)

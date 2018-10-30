@@ -5,6 +5,7 @@ export default {
   modules: [`nuxt-ts-module`, `@nuxtjs/axios`, `cookie-universal-nuxt`],
   router: {
     middleware: [`jwt-authentification`, `handle-server-post`, `authenticated`],
+    linkExactActiveClass: `is-active`,
   },
   env: {
     COOKIE_NAME: `acount_nuxt`,

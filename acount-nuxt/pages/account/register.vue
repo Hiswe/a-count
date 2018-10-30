@@ -7,7 +7,7 @@ import { mapActions, mapGetters } from 'vuex'
 import { LOGIN, IS_CONNECTED } from '../../store/user'
 
 export default Vue.extend({
-  name: `page-login`,
+  name: `page-register`,
   data() {
     return {
       form: {
@@ -43,11 +43,11 @@ export default Vue.extend({
 <template lang="pug">
 form(
   id="login"
-  action="/account/login"
+  action="/account/register"
   method="post"
   @submit.prevent="submit"
 )
-  h2 {{ $t(`shared.login`) }}
+  h2 {{ $t(`shared.register`) }}
   v-text-field(
     type="email"
     name="email"
@@ -60,5 +60,5 @@ form(
     :label="$t(`form.password`)"
     v-model="form.password"
   )
-  v-btn(color="primary" type="submit") {{ $t(`shared.login`) }}
+  v-btn(color="primary" type="submit") {{ $t(`shared.register`) }}
 </template>
