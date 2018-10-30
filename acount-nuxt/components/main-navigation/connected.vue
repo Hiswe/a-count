@@ -17,6 +17,10 @@ export default Vue.extend({
 acount-nav-wrapper
   acount-nav-link(to="/")
     | {{ $t(`shared.home` )}}
+  acount-nav-link(to="/quotations")
+    | #quotations
+  acount-nav-link(to="/invoices")
+    | #invoices
   acount-nav-link(to="/account/logout")
     | {{ $t(`shared.logout` )}}
 </template>

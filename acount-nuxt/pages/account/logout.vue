@@ -12,14 +12,8 @@ export default Vue.extend({
   meta: {
     authRequired: true,
   },
-  created() {
-    const { $axios, $cookies, $router } = this
-    this.logout()
-    $cookies.remove(COOKIE_NAME)
-    $axios.setToken(false)
-    // doesn't work for now…
-    // TODO: figure out why redirection isn't happening
-    $router.push(`/account/login`)
+  async created() {
+    await this.logout()
   },
   methods: {
     ...mapActions(`user`, {

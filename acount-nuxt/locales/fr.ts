@@ -2,6 +2,7 @@ export default {
   shared: {
     home: `accueil`,
     login: `connexion`,
+    logout: `déconnexion`,
     register: `créer un compte`,
   },
   form: {

@@ -2,6 +2,7 @@ export default {
   shared: {
     home: `home`,
     login: `login`,
+    logout: `logout`,
     register: `register`,
   },
   form: {

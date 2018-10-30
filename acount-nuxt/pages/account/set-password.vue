@@ -1,8 +1,8 @@
 <script lang="ts">
 import Vue from 'vue'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
-import { SET_PASSWORD, IS_CONNECTED } from '../../store/user'
+import { SET_PASSWORD } from '../../store/user'
 
 const i18n = {
   messages: {
@@ -19,6 +19,9 @@ const i18n = {
 
 export default Vue.extend({
   name: `page-set-password`,
+  meta: {
+    authForbidden: true,
+  },
   i18n,
   data() {
     return {
@@ -27,19 +30,7 @@ export default Vue.extend({
       },
     }
   },
-  meta: {
-    authForbidden: true,
-  },
-  watch: {
-    isConnected(newValue, oldValue) {
-      if (newValue === true) this.$router.push(`/`)
-    },
-  },
-  computed: {
-    ...mapGetters(`user`, {
-      isConnected: IS_CONNECTED,
-    }),
-  },
+
   methods: {
     submit() {
       this.setPassword(this.form)
