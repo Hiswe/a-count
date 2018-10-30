@@ -3,6 +3,7 @@ const merge = require('lodash.merge')
 
 const config = require('./config')
 const jwtStore = require('./jwt-store')
+const log = require('./utils/log')
 const addRelations = require('./utils/db-default-relations')
 const User = require('./db/model-user')
 

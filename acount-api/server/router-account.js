@@ -19,16 +19,14 @@ const V1_1 = versions.V1_1.number
 
 const prefix = `account`
 
-const privateRouter = new Router({ prefix: `/${prefix}` })
-
 const routers = {
   [V1]: {
     public: new Router({ prefix: `/${prefix}` }),
-    private: privateRouter,
+    private: new Router({ prefix: `/${prefix}` }),
   },
   [V1_1]: {
     public: new Router({ prefix: `/${prefix}` }),
-    private: privateRouter,
+    private: new Router({ prefix: `/${prefix}` }),
   },
 }
 const methods = {
@@ -39,11 +37,11 @@ const methods = {
 module.exports = {
   [V1]: {
     public: routers[V1].public,
-    private: privateRouter,
+    private: routers[V1].private,
   },
   [V1_1]: {
     public: routers[V1_1].public,
-    private: privateRouter,
+    private: routers[V1_1].private,
   },
 }
 //----- UTILS
@@ -304,98 +302,128 @@ routers[V1_1].public
  * @apiDescription The user informations
  * @apiGroup Account
  *
+ * @apiDeprecated remove in >= V1.1. Use /account/me
+ *
  * @apiUse userInformation
  */
-privateRouter
-  .get(`/auth`, async (ctx, next) => {
-    ctx.assert(ctx.state && ctx.state.user, 401, `Not connected`)
-    ctx.body = { user: ctx.state.user }
+
+async function auth(ctx, next) {
+  ctx.assert(ctx.state && ctx.state.user, 401, `Not connected`)
+  ctx.body = { user: ctx.state.user }
+}
+
+/**
+ * @api {get} /v1.1/account/me user informations
+ * @apiVersion 1.1.0
+ * @apiPermission user
+ * @apiName Me
+ * @apiDescription The user informations
+ * @apiGroup Account
+ *
+ * @apiUse userInformation
+ */
+
+async function me(ctx, next) {
+  ctx.assert(ctx.state && ctx.state.user, 401, `Not connected`)
+  ctx.body = { user: ctx.state.user }
+}
+
+/**
+ * @api {get} /v1/account/logout logout
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName Logout
+ * @apiDescription remove the access_token
+ * @apiGroup Account
+ *
+ * @apiSuccess {string} message always `bye bye`
+ * @apiSuccess {boolean} access_token always an empty string
+ */
+async function logout(ctx, next) {
+  const { jwtData } = ctx.state
+  await jwtStore.remove(jwtData)
+
+  ctx.state.user = null
+  ctx.response.set(`authorization`, ``)
+  ctx.body = {
+    message: `bye bye`,
+    access_token: ``,
+  }
+}
+/**
+ * @api {get} /v1/account/statistics statistics
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName Statistics
+ * @apiDescription get an overview about the account
+ * @apiGroup Account
+ *
+ * @apiSuccess {number} quotationsCount Total active quotations count
+ * @apiSuccess {number} quotationsTotal Total active quotations sums involved
+ * @apiSuccess {number} invoicesCount Total active invoice count
+ * @apiSuccess {number} invoicesTotal  Total active invoices sums involved
+ * @apiSuccess {number} invoicesTotalPaid Total active paid invoices sums involved
+ * @apiSuccess {number} invoicesTotalLeft Total active left invoices sums involved
+ */
+
+async function statistics(ctx, next) {
+  const { userId } = ctx.state
+  const user = await User.findOne({
+    where: {
+      id: userId,
+      isDeactivated: { $not: true },
+    },
+    attributes: [...dbColumns.statistics],
   })
-  /**
-   * @api {get} /v1/account/logout logout
-   * @apiVersion 1.0.0
-   * @apiPermission user
-   * @apiName Logout
-   * @apiDescription remove the access_token
-   * @apiGroup Account
-   *
-   * @apiSuccess {string} message always `bye bye`
-   * @apiSuccess {boolean} access_token always an empty string
-   */
-  .get(`/logout`, async (ctx, next) => {
-    const { jwtData } = ctx.state
-    await jwtStore.remove(jwtData)
+  ctx.body = user
+}
 
-    ctx.state.user = null
-    ctx.response.set(`authorization`, ``)
-    ctx.body = {
-      message: `bye bye`,
-      access_token: ``,
-    }
+/**
+ * @api {post} /v1/account/settings settings
+ * @apiVersion 1.0.0
+ * @apiPermission user
+ * @apiName Settings
+ * @apiDescription update user informations
+ * @apiGroup Account
+ *
+ * @apiParam (Request body) {object} user the user form values
+ *
+ * @apiUse userInformation
+ */
+
+async function settings(ctx, next) {
+  const { id } = ctx.state && ctx.state.user
+  const { body } = ctx.request
+  const queryParams = addRelations.user({
+    where: { id },
   })
-  /**
-   * @api {get} /v1/account/statistics statistics
-   * @apiVersion 1.0.0
-   * @apiPermission user
-   * @apiName Statistics
-   * @apiDescription get an overview about the account
-   * @apiGroup Account
-   *
-   * @apiSuccess {number} quotationsCount Total active quotations count
-   * @apiSuccess {number} quotationsTotal Total active quotations sums involved
-   * @apiSuccess {number} invoicesCount Total active invoice count
-   * @apiSuccess {number} invoicesTotal  Total active invoices sums involved
-   * @apiSuccess {number} invoicesTotalPaid Total active paid invoices sums involved
-   * @apiSuccess {number} invoicesTotalLeft Total active left invoices sums involved
-   */
-  .get(`/statistics`, async (ctx, next) => {
-    const { userId } = ctx.state
-    const user = await User.findOne({
-      where: {
-        id: userId,
-        isDeactivated: { $not: true },
-      },
-      attributes: [...dbColumns.statistics],
-    })
-    ctx.body = user
-  })
-  /**
-   * @api {post} /v1/account/settings settings
-   * @apiVersion 1.0.0
-   * @apiPermission user
-   * @apiName Settings
-   * @apiDescription update user informations
-   * @apiGroup Account
-   *
-   * @apiParam (Request body) {object} user the user form values
-   *
-   * @apiUse userInformation
-   */
-  .post(`/settings`, async (ctx, next) => {
-    const { id } = ctx.state && ctx.state.user
-    const { body } = ctx.request
-    const queryParams = addRelations.user({
-      where: { id },
-    })
-    const instance = await User.findOne(queryParams)
+  const instance = await User.findOne(queryParams)
 
-    ctx.assert(
-      instance,
-      404,
-      `Can't find User. The associated user isn't found`,
-    )
-    const updated = await instance.update(body)
+  ctx.assert(instance, 404, `Can't find User. The associated user isn't found`)
+  const updated = await instance.update(body)
 
-    const relations = [`quotationConfig`, `invoiceConfig`, `productConfig`]
-    await Promise.all(
-      relations.map(relationName => {
-        return instance[relationName].update(body[relationName])
-      }),
-    )
+  const relations = [`quotationConfig`, `invoiceConfig`, `productConfig`]
+  await Promise.all(
+    relations.map(relationName => {
+      return instance[relationName].update(body[relationName])
+    }),
+  )
 
-    const user = await User.findOne(queryParams)
+  const user = await User.findOne(queryParams)
 
-    const result = { user }
-    ctx.state.user = result
-    ctx.body = result
-  })
+  const result = { user }
+  ctx.state.user = result
+  ctx.body = result
+}
+
+routers[V1].private
+  .get(`/auth`, auth)
+  .get(`/logout`, logout)
+  .get(`/statistics`, statistics)
+  .post(`/settings`, settings)
+
+routers[V1_1].private
+  .get(`/me`, me)
+  .get(`/logout`, logout)
+  .get(`/statistics`, statistics)
+  .post(`/settings`, settings)
