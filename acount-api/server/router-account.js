@@ -295,7 +295,7 @@ routers[V1_1].public
 //////
 
 /**
- * @api {get} /v1/account/auth user informations
+ * @api {get} /v1/account/auth authenticated user
  * @apiVersion 1.0.0
  * @apiPermission user
  * @apiName GetAuth
@@ -313,7 +313,7 @@ async function auth(ctx, next) {
 }
 
 /**
- * @api {get} /v1.1/account/me user informations
+ * @api {get} /v1.1/account/me current user
  * @apiVersion 1.1.0
  * @apiPermission user
  * @apiName Me
