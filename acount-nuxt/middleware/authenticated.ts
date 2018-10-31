@@ -1,20 +1,48 @@
 import { NuxtContext } from '../types/nuxt'
 import { AcountMeta } from '../types/acount'
+import { IS_CONNECTED, ME } from '../store/user'
+
+const COOKIE_NAME = process.env.COOKIE_NAME
+const JWT_FORMAT = `Bearer`
 
 function flattenMeta(acc, meta) {
   return { ...acc, ...meta }
 }
 
 export default async function authMiddleware(nuxtContext: NuxtContext) {
-  const { store, redirect, route } = nuxtContext
+  const { app, store, redirect, route } = nuxtContext
+
+  // CONFIGURE AXIOS
+  const { $axios, $cookies } = app
+  const cookieJWT = $cookies.get(COOKIE_NAME)
+  if (cookieJWT) {
+    $axios.setToken(cookieJWT, JWT_FORMAT)
+  }
+  $axios.onResponse(response => {
+    const { data } = response
+    if (!data) return
+    const { access_token } = data
+    if (!access_token) return
+    $cookies.set(COOKIE_NAME, access_token)
+    $axios.setToken(access_token, JWT_FORMAT)
+  })
+
+  // ENSURE USER DATA
+  let hasUser = store.getters[`user/${IS_CONNECTED}`]
+  if (cookieJWT && !hasUser) {
+    // populate user if there is a connection cookie
+    await store.dispatch(`user/${ME}`)
+    hasUser = store.getters[`user/${IS_CONNECTED}`]
+  }
+
+  // CHECK AUTHORIZATIONS
   const meta: AcountMeta = route.meta.reduce(flattenMeta, {})
   const { authForbidden, authRequired } = meta
-  const { user } = store.state.user
   console.log({
     authForbidden,
     authRequired,
-    user: store.state.user.user != null,
+    user: hasUser,
   })
-  if (authForbidden && user) return redirect(`/`)
-  if (authRequired && !user) return redirect(`/account/login`)
+  if (authForbidden && hasUser) return redirect(`/`)
+  if (authRequired && !hasUser) return redirect(`/account/login`)
 }

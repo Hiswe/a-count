@@ -1,10 +1,14 @@
+// TODO: add support for <i18n> blocks
+// https://kazupon.github.io/vue-i18n/guide/sfc.html#webpack
+// https://github.com/nuxt/nuxt.js/issues/772#issuecomment-331831119
+
 export default {
   modulesDir: [`../node_modules`],
   css: [`@/assets/vuetify.styl`, `@/assets/global.scss`],
   plugins: [`@/plugins/vue-libraries.ts`],
   modules: [`nuxt-ts-module`, `@nuxtjs/axios`, `cookie-universal-nuxt`],
   router: {
-    middleware: [`jwt-authentification`, `handle-server-post`, `authenticated`],
+    middleware: [`authenticated`, `handle-server-post`],
     linkExactActiveClass: `is-active`,
   },
   env: {
