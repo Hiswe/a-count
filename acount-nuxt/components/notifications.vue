@@ -49,4 +49,3 @@ export default Vue.extend({
     :icon="notification.type"
   ) {{ $t(`notifications.${notification.message}` )}}
 </template>
-

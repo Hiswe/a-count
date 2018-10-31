@@ -43,6 +43,8 @@ type NuxtAxiosErrorCallback = (error: Object) => void
 type NuxtAxiosResponseCallback = (response: Object) => void
 
 export interface NuxtAxios {
+  $get: (url: string) => Promise<Object>
+  $post: <T>(url: string, params: Object) => Promise<T>
   setToken: NuxtAxiosSetToken
   onRequest: NuxtAxiosRequestCallback
   onRequestError: NuxtAxiosErrorCallback
@@ -81,7 +83,7 @@ export interface NuxtCookies {
   setAll: (cookieArray: NuxtCookieGetParams[]) => void
   get: (name: string, opts?: NuxtCookieGetOptions) => NuxtCookieValue
   getAll: (opts?: NuxtCookieGetOptions) => NuxtCookieValue[]
-  remove: (name: string, opts: NuxtCookieRemoveOptions) => void
+  remove: (name: string, opts?: NuxtCookieRemoveOptions) => void
   removeAll: () => void
 }
 

@@ -13,4 +13,7 @@ export default {
   notifications: {
     'user-not-found': `This account doesn't exist. Please very your email address.`,
   },
+  'form-error': {
+    'invalid-password': `password is invalid`,
+  },
 }

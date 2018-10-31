@@ -41,6 +41,7 @@
     "@types/koa-bodyparser": "^5.0.1",
     "@types/koa-router": "^7.0.32",
     "@types/node": "^10.12.1",
+    "@types/shortid": "^0.0.29",
     "@types/webpack": "^4.4.17",
     "node-sass": "^4.9.4",
     "npm-run-all": "^4.1.3",

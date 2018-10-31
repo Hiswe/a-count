@@ -1,8 +1,9 @@
 <script lang="ts">
 import Vue from 'vue'
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 import { LOGIN } from '~/store/user'
+import { FormErrorState } from '~/store/form-errors'
 
 export default Vue.extend({
   name: `page-login`,
@@ -23,6 +24,13 @@ export default Vue.extend({
     },
     ...mapActions(`user`, {
       login: LOGIN,
+    }),
+  },
+  computed: {
+    ...mapState(`form-errors`, {
+      passwordError: (state: FormErrorState) => {
+        return state.password ? state.password : []
+      },
     }),
   },
 })
@@ -48,6 +56,7 @@ form(
     name="password"
     :label="$t(`form.password`)"
     v-model="form.password"
+    :error-messages="passwordError"
   )
   v-btn(color="primary" type="submit") {{ $t(`shared.login`) }}
 </template>
