@@ -12,7 +12,7 @@ export default Vue.extend({
       notifications: [],
     }
   },
-  mounted() {
+  created() {
     this.showNotifications()
   },
   watch: {
