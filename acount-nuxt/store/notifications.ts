@@ -1,7 +1,10 @@
 import shortId from 'shortId'
+import Vue from 'vue'
 
+const ADD = `ADD`
+const FLUSH = `FLUSH`
 export const ADD_NOTIFICATION = `ADD_NOTIFICATION`
-export const RESET_NOTIFICATION = `RESET_NOTIFICATION`
+export const FLUSH_NOTIFICATIONS = `FLUSH_NOTIFICATIONS`
 
 interface Notification {
   id: string
@@ -21,11 +24,22 @@ export const state = () => {
 }
 
 export const mutations = {
-  [ADD_NOTIFICATION](state, payload: Notification): void {
+  [ADD](state, payload: Notification): void {
     payload.id = shortId.generate()
     state.list.push(payload)
   },
-  [RESET_NOTIFICATION](state): void {
+  [FLUSH](state): void {
     state.list = []
+  },
+}
+
+export const actions = {
+  [ADD_NOTIFICATION](vuexContext, payload: Notification): void {
+    const { commit } = vuexContext
+    commit(ADD, payload)
+  },
+  [FLUSH_NOTIFICATIONS](vuexContext): void {
+    const { commit } = vuexContext
+    commit(FLUSH)
   },
 }

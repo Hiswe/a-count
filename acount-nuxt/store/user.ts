@@ -49,8 +49,10 @@ export const actions = {
       commit(REMOVE_USER)
     }
   },
-  async [LOGIN]({ commit }, payload) {
+  async [LOGIN](vuexContext, payload) {
+    const { commit, dispatch } = vuexContext
     const { $axios, $router, $cookies } = this
+
     try {
       const response = await $axios.$post(`/account/login`, payload)
       commit(SET_USER, response.user)
@@ -61,7 +63,7 @@ export const actions = {
       const { data } = error.response
       // wrong email address => not-found
       if (data.status === 404) {
-        commit(
+        dispatch(
           `notifications/${ADD_NOTIFICATION}`,
           {
             type: `error`,

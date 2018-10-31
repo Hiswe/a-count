@@ -25,6 +25,7 @@
     "koa": "^2.6.1",
     "koa-bodyparser": "^4.2.1",
     "koa-session": "^5.9.0",
+    "lodash.clonedeep": "^4.5.0",
     "lodash.isnil": "^4.0.0",
     "nuxt": "^2.2.0",
     "rc": "^1.2.8",
