@@ -1,4 +1,5 @@
 import isNil from 'lodash.isnil'
+import { ADD_NOTIFICATION } from './notifications'
 
 // TODO: should type all this
 // https://github.com/HerringtonDarkholme/kilimanjaro
@@ -57,6 +58,18 @@ export const actions = {
       $axios.setToken(response.access_token, JWT_FORMAT)
       $router.push(`/`)
     } catch (error) {
+      const { data } = error.response
+      // wrong email address => not-found
+      if (data.status === 404) {
+        commit(
+          `notifications/${ADD_NOTIFICATION}`,
+          {
+            type: `error`,
+            message: data.message,
+          },
+          { root: true },
+        )
+      }
       commit(REMOVE_USER)
     }
   },

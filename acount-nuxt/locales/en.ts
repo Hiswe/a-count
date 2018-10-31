@@ -10,4 +10,7 @@ export default {
     password: `password`,
     token: `confirmation code`,
   },
+  notifications: {
+    'user-not-found': `This account doesn't exist. Please very your email address.`,
+  },
 }

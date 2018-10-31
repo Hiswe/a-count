@@ -36,6 +36,7 @@ form(
   @submit.prevent="submit"
 )
   h2 {{ $t(`shared.login`) }}
+  acount-notifications
   v-text-field(
     type="email"
     name="email"

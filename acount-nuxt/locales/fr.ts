@@ -10,4 +10,7 @@ export default {
     password: `mot de passe`,
     token: `code de confirmation`,
   },
+  notifications: {
+    'user-not-found': `Ce compte n'existe pas. Veuillez vérifier votre adresse email`,
+  },
 }

@@ -5,7 +5,10 @@
 export default {
   modulesDir: [`../node_modules`],
   css: [`@/assets/vuetify.styl`, `@/assets/global.scss`],
-  plugins: [`@/plugins/vue-libraries.ts`],
+  plugins: [
+    `@/plugins/vue-libraries.ts`,
+    `@/plugins/global-acount-components.ts`,
+  ],
   modules: [`nuxt-ts-module`, `@nuxtjs/axios`, `cookie-universal-nuxt`],
   router: {
     middleware: [`authenticated`, `handle-server-post`],
