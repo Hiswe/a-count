@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 
-import { REGISTER } from '../../store/user'
+import { REGISTER } from '~/store/user'
 
 const i18n = {
   messages: {

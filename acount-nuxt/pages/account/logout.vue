@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import { mapActions } from 'vuex'
 
-import { LOGOUT } from '../../store/user'
+import { LOGOUT } from '~/store/user'
 
 // can't destructuring process.env
 const COOKIE_NAME = process.env.COOKIE_NAME

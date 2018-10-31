@@ -2,9 +2,7 @@
 import Vue from 'vue'
 import { mapActions } from 'vuex'
 
-// don't know why but can't use Nuxt path sortcuts for store files…
-// import { LOGIN } from '~/store/user'
-import { LOGIN } from '../../store/user'
+import { LOGIN } from '~/store/user'
 
 export default Vue.extend({
   name: `page-login`,

@@ -1,0 +1,5 @@
+{
+  // multi-root support
+  // https://github.com/vuejs/vetur/issues/423#issuecomment-384255018
+  "extends": "./acount-nuxt/tsconfig.json"
+}

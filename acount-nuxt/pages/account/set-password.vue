@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import { mapActions } from 'vuex'
 
-import { SET_PASSWORD } from '../../store/user'
+import { SET_PASSWORD } from '~/store/user'
 
 const i18n = {
   messages: {

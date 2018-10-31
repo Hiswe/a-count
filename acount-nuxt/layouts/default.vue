@@ -2,9 +2,9 @@
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 
-import { IS_CONNECTED } from '../store/user'
-import AcountNavConnected from '../components/main-navigation/connected.vue'
-import AcountNavPublic from '../components/main-navigation/public.vue'
+import { IS_CONNECTED } from '~/store/user'
+import AcountNavConnected from '~/components/main-navigation/connected.vue'
+import AcountNavPublic from '~/components/main-navigation/public.vue'
 
 export default Vue.extend({
   name: `acount-layout`,
