@@ -4,6 +4,9 @@ export default {
     login: `login`,
     logout: `logout`,
     register: `register`,
+    quotations: `quotations`,
+    invoices: `invoices`,
+    customers: `customers`,
   },
   form: {
     email: `email`,

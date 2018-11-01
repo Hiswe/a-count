@@ -1,6 +1,6 @@
-import { NuxtContext } from '../types/nuxt'
-import { AcountMeta } from '../types/acount'
-import { LOGIN, REGISTER, SET_PASSWORD } from '../store/user'
+import { NuxtContext } from '~/types/nuxt'
+import { AcountMeta } from '~/types/acount'
+import { LOGIN, REGISTER, SET_PASSWORD } from '~/store/user'
 
 const mappedPath2Actions = {
   [`/account/login`]: `user/${LOGIN}`,

@@ -4,7 +4,7 @@ import Vue from 'vue'
 import { ADD_NOTIFICATION } from './notifications'
 import { ADD_ERROR } from './form-errors'
 import { AcountUser, LoginResponse } from '~/types/acount'
-import { NotificationPayload } from '~/store/notifications'
+import { NotificationPayload } from '~/types/acount-notifications'
 import { FormErrorPayload } from '~/store/form-errors'
 
 // TODO: should type all this

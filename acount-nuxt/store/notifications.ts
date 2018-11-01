@@ -1,21 +1,16 @@
 import shortId from 'shortid'
 import Vue from 'vue'
 
+import {
+  NotificationPayload,
+  Notification,
+  NotificationState,
+} from '~/types/acount-notifications'
+
 const ADD = `ADD`
 const FLUSH = `FLUSH`
 export const ADD_NOTIFICATION = `ADD_NOTIFICATION`
 export const FLUSH_NOTIFICATIONS = `FLUSH_NOTIFICATIONS`
-
-export interface NotificationPayload {
-  type: `success` | `info` | `warn` | `error`
-  message: string
-}
-interface Notification extends NotificationPayload {
-  id: string
-}
-interface NotificationState {
-  list: Notification[]
-}
 
 export const state = () => {
   const currentState: NotificationState = {

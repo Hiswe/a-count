@@ -18,9 +18,11 @@ acount-nav-wrapper
   acount-nav-link(to="/")
     | {{ $t(`shared.home` )}}
   acount-nav-link(to="/quotations")
-    | #quotations
+    | {{ $t(`shared.quotations` )}}
   acount-nav-link(to="/invoices")
-    | #invoices
+    | {{ $t(`shared.invoices` )}}
+  acount-nav-link(to="/customers")
+    | {{ $t(`shared.customers` )}}
   acount-nav-link(to="/account/logout")
     | {{ $t(`shared.logout` )}}
 </template>
@@ -34,4 +36,3 @@ acount-nav-wrapper
   }
 }
 </style>
-

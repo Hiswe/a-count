@@ -4,6 +4,9 @@ export default {
     login: `connexion`,
     logout: `déconnexion`,
     register: `créer un compte`,
+    quotations: `devis`,
+    invoices: `factures`,
+    customers: `clients`,
   },
   form: {
     email: `email`,

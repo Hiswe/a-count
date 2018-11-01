@@ -43,7 +43,7 @@ type NuxtAxiosErrorCallback = (error: Object) => void
 type NuxtAxiosResponseCallback = (response: Object) => void
 
 export interface NuxtAxios {
-  $get: (url: string) => Promise<Object>
+  $get: <T>(url: string) => Promise<T>
   $post: <T>(url: string, params: Object) => Promise<T>
   setToken: NuxtAxiosSetToken
   onRequest: NuxtAxiosRequestCallback
@@ -118,15 +118,15 @@ interface Transition {
 
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
-    asyncData?: (ctx: NuxtContext) => object
-    fetch?: (ctx: NuxtContext) => Promise<void> | void
+    asyncData?: (nuxtContext: NuxtContext) => object
+    fetch?: (nuxtContext: NuxtContext) => Promise<void> | void
     head?: MetaInfo | (() => MetaInfo)
     meta?: AcountMeta
-    layout?: string | ((ctx: NuxtContext) => string)
+    layout?: string | ((nuxtContext: NuxtContext) => string)
     middleware?: string | string[]
     scrollToTop?: boolean
     transition?: string | Transition | ((to: Route, from: Route) => string)
-    validate?: (ctx: NuxtContext) => Promise<boolean> | boolean
+    validate?: (nuxtContext: NuxtContext) => Promise<boolean> | boolean
     watchQuery?: boolean | string[]
   }
 }

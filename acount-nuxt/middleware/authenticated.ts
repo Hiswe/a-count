@@ -1,6 +1,6 @@
-import { NuxtContext } from '../types/nuxt'
-import { AcountMeta } from '../types/acount'
-import { IS_CONNECTED, ME } from '../store/user'
+import { NuxtContext } from '~/types/nuxt'
+import { AcountMeta } from '~/types/acount'
+import { IS_CONNECTED, ME } from '~/store/user'
 
 const COOKIE_NAME = process.env.COOKIE_NAME
 const JWT_FORMAT = `Bearer`
