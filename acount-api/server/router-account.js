@@ -13,8 +13,8 @@ const QuotationConfig = require('./db/model-quotation-config')
 const InvoiceConfig = require('./db/model-invoice-config')
 const ProductConfig = require('./db/model-product-config')
 const jwtStore = require('./jwt-store')
-const versions = require('./api-versions')
 const MESSAGES = require('./utils/error-messages')
+const versions = require('./api-versions')
 const V1 = versions.V1.number
 const V1_1 = versions.V1_1.number
 

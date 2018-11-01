@@ -35,6 +35,6 @@ apiRouter.use(routerCommon.getDefaultQueryParams)
 //----- MOUNT
 
 apiRouter.use(routerAccount[VERSION.number].private.routes())
-apiRouter.use(routerCustomers.routes())
+apiRouter.use(routerCustomers[VERSION.number].routes())
 apiRouter.use(routerQuotations.routes())
 apiRouter.use(routerInvoices.routes())
