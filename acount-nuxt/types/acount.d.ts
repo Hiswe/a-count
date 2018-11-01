@@ -37,8 +37,8 @@ export interface AcountUser {
   lang: `en` | `fr`
   currency: `USD` | `EUR` | `THB`
   quotationConfig: QuotationConfig
-  invoiceConfig: {}
-  productConfig: {}
+  invoiceConfig: InvoiceConfig
+  productConfig: ProductConfig
 }
 
 export interface LoginResponse {

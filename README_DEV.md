@@ -5,10 +5,12 @@ here are some of the commands to run the project locally
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [universal application flow](#universal-application-flow)
 - [requirements](#requirements)
 - [dev stack](#dev-stack)
+  - [acount-api](#acount-api)
+  - [acount-nuxt](#acount-nuxt)
+  - [acount-react](#acount-react)
 - [commands](#commands)
   - [building dependencies](#building-dependencies)
   - [production server](#production-server)
@@ -36,8 +38,6 @@ the application flow is explained in this [blog post](https://hiswe.github.io/20
 - [node](http://nodejs.org/download/) >= 8.11.3
 - [yarn](https://yarnpkg.com/lang/en/) >= 1.7.0
   - on a mac `brew install yarn --without-node`
-- [lerna](https://lernajs.io/#getting-started) >= 2.11.0
-  - `yarn global add lerna`
 - [PostgreSQL](https://www.postgresql.org/) >=9.6
   - create a clean **a-count** database
   - [postgresapp](http://postgresapp.com/) on a mac
@@ -51,7 +51,27 @@ the application flow is explained in this [blog post](https://hiswe.github.io/20
 
 ## dev stack
 
-- _views_ – [React 16.3](https://reactjs.org/)
+### acount-api
+
+- _server_ – [Koa 2](http://koajs.com/) for having a cleaner use of `async/await` in comparison to [express.js](https://expressjs.com/)
+- _database querying_
+  - [Sequelize 4](http://docs.sequelizejs.com/) for the main parts
+  - [Squel](https://hiddentao.com/squel/) for handling SQL queries creation when the sequelize API can't get it (mostly `COUNT` & `SUM` queries)
+
+### acount-nuxt
+
+⚠️ work in progress
+
+- _views_ – [Vue 2](https://vuejs.org/)
+- _router_ – [Vue router](https://router.vuejs.org/)
+- _application state_ – [Vuex](https://vuex.vuejs.org/)
+- _server_ – [Koa 2](http://koajs.com/)
+
+### acount-react
+
+⚠️ deprecated
+
+- _views_ – [React 16](https://reactjs.org/)
 - _router_
   - [React router 4](https://reacttraining.com/react-router/)
   - [react-router-config 1](https://www.npmjs.com/package/react-router-config) for the universal support
@@ -59,10 +79,7 @@ the application flow is explained in this [blog post](https://hiswe.github.io/20
   - [redux 4](https://redux.js.org/)
   - [redux thunk](https://www.npmjs.com/package/redux-thunk) for a better handling of asynchronous actions
   - [react redux](https://github.com/reactjs/react-redux) for a better integration with React
-- _server_ – [Koa 2](http://koajs.com/) for having a cleaner use of `async/await` in comparison to [express.js](https://expressjs.com/)
-- _database querying_
-  - [Sequelize 4](http://docs.sequelizejs.com/) for the main parts
-  - [Squel](https://hiddentao.com/squel/) for handling SQL queries creation when the sequelize API can't get it (mostly `COUNT` & `SUM` queries)
+- _server_ – [Koa 2](http://koajs.com/)
 - _build tools & testing_
   - [Babel 7](http://babeljs.io/) – still in beta but already working great
   - [Webpack 4](https://webpack.js.org/)
@@ -73,7 +90,7 @@ the application flow is explained in this [blog post](https://hiswe.github.io/20
 ### building dependencies
 
 ```sh
-lerna bootstrap
+yarn install
 ```
 
 ### production server
@@ -108,19 +125,29 @@ available:
 For the API:
 
 ```
-cd packages/api && yarn dev
+yarn workspace acount-api dev
 ```
 
-For the web-app:
+For the Vue web-app:
 
 ```
-cd packages/web-app && yarn dev
+yarn workspace acount-nuxt dev
+```
+
+For the React web-app:
+
+```
+yarn workspace acount-react dev
 ```
 
 ### tests
 
+all workspace implements test
+
 ```
-cd packages/web-app && yarn test
+yarn workspace acount-api test
+yarn workspace acount-nuxt test
+yarn workspace acount-react test
 ```
 
 running a single test
