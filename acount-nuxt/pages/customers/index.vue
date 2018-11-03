@@ -80,22 +80,11 @@ export default Vue.extend({
           td.text-xs-right {{ $n(props.item.quotationsTotal, `currency`) }}
           td.text-xs-right {{ props.item.invoicesCount }}
           td.text-xs-right {{ $n(props.item.invoicesTotal, `currency`) }}
-          td {{props.item.invoicesTotalPaid}}
-      //- <template slot="items" slot-scope="props">
-
-        <td>
-          <v-checkbox
-            :input-value="props.selected"
-            primary
-            hide-details
-          ></v-checkbox>
-        </td>
-        <td>{{ props.item.name }}</td>
-        <td class="text-xs-right">{{ props.item.calories }}</td>
-        <td class="text-xs-right">{{ props.item.fat }}</td>
-        <td class="text-xs-right">{{ props.item.carbs }}</td>
-        <td class="text-xs-right">{{ props.item.protein }}</td>
-        <td class="text-xs-right">{{ props.item.iron }}</td>
+          td
+            acount-progress(
+              :value="props.item.invoicesTotalPaid"
+              :max="props.item.invoicesTotal"
+            )
       </tr>
     </template>
 </template>

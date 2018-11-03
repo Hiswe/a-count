@@ -22,6 +22,16 @@ const numberFormats = {
       currency: 'USD',
     },
   },
+  en: {
+    percent: {
+      style: 'percent',
+    },
+  },
+  fr: {
+    percent: {
+      style: 'percent',
+    },
+  },
 }
 
 export default ({ app, store }) => {
