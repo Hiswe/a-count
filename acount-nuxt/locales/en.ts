@@ -19,4 +19,29 @@ export default {
   'form-error': {
     'invalid-password': `password is invalid`,
   },
+  table: {
+    header: {
+      id: `#`,
+      name: `name`,
+      customer: `customer`,
+      status: `status`,
+      tax: `tax`,
+      quotation: `quotation`,
+      'quotation-associated': `associated quotation`,
+      quotations: `quotations`,
+      invoice: `invoice`,
+      invoices: `invoices`,
+      description: `description`,
+      quantity: `quantity`,
+      'unit-price': `unit price`,
+      sent: `sent`,
+      validated: `validated`,
+      signed: `signed`,
+      'cumulative-amount': `cumulative amount`,
+    },
+    amount: {
+      paid: `paid`,
+      'left-to-pay': `left`,
+    },
+  },
 }

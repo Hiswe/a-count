@@ -1,25 +1,10 @@
 import Vue from 'vue'
 
-interface Customer {
-  id: string
-  name: string
-  address: string
-  quotationsCount: number
-  quotationsTotal: number
-  invoicesCount: number
-  invoicesTotal: number
-  invoicesTotalPaid: number
-  invoicesTotalLeft: number
-}
-
-interface CustomersState {
-  active: Customer[]
-}
-
-interface GetAllCustomers {
-  rows: Customer[]
-  meta: {}
-}
+import {
+  Customer,
+  CustomersState,
+  GetAllCustomers,
+} from '~/types/acount-customers'
 
 export const state = () => {
   const currentState: CustomersState = {

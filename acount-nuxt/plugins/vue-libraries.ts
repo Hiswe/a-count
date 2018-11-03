@@ -15,6 +15,15 @@ Vue.use(Vuetify, {
 
 Vue.use(VueI18n)
 
+const numberFormats = {
+  'en-US': {
+    currency: {
+      style: 'currency',
+      currency: 'USD',
+    },
+  },
+}
+
 export default ({ app, store }) => {
   // Set i18n instance on app
   // This way we can use it in middleware and pages asyncData/fetch
@@ -25,6 +34,7 @@ export default ({ app, store }) => {
     fallbackRoot: true,
     silentTranslationWarn: true,
     messages,
+    numberFormats,
   })
 
   // // https://vuex.vuejs.org/api/#watch

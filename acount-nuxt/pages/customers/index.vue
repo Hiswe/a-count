@@ -1,7 +1,9 @@
 <script lang="ts">
 import Vue from 'vue'
+import { mapState } from 'vuex'
 
 import { ALL_CUSTOMERS } from '~/store/customers'
+import { CustomersState } from '~/types/acount-customers'
 
 export default Vue.extend({
   name: `page-customers-list`,
@@ -12,9 +14,88 @@ export default Vue.extend({
     const { store } = nuxtContext
     await store.dispatch(`customers/${ALL_CUSTOMERS}`)
   },
+  computed: {
+    ...mapState(`customers`, {
+      items: (state: CustomersState) => state.active,
+    }),
+  },
+  data() {
+    return {
+      headers: [
+        {
+          text: this.$t(`table.header.name`),
+          value: `name`,
+          align: `left`,
+        },
+        {
+          text: this.$t(`table.header.quotations`),
+          value: `quotationsCount`,
+          align: `right`,
+          // width: `6em`,
+          sortable: false,
+        },
+        {
+          text: this.$t(`table.header.cumulative-amount`),
+          value: `quotationsTotal`,
+          align: `right`,
+          // width: `1em`,
+        },
+        {
+          text: this.$t(`table.header.invoices`),
+          value: `invoicesCount`,
+          align: `right`,
+          // align: `left`,
+        },
+        {
+          text: this.$t(`table.header.cumulative-amount`),
+          value: `invoicesTotal`,
+          align: `right`,
+          // align: `left`,
+          // width: `6em`,
+        },
+        {
+          text: this.$t('table.amount.paid'),
+          value: `invoicesTotalPaid`,
+          sortable: false,
+          // width: `1em`,
+        },
+      ],
+    }
+  },
 })
 </script>
 
 <template lang="pug">
-  h1 {{ $t(`shared.customers`) }}
+  div
+    h1 {{ $t(`shared.customers`) }}
+    v-data-table(
+      :headers="headers"
+      :items="items"
+    )
+      template(slot="items" slot-scope="props")
+        tr
+          td
+            nuxt-link(:to="`/customers/${props.item.id}`") {{props.item.name}}
+          td.text-xs-right {{ props.item.quotationsCount }}
+          td.text-xs-right {{ $n(props.item.quotationsTotal, `currency`) }}
+          td.text-xs-right {{ props.item.invoicesCount }}
+          td.text-xs-right {{ $n(props.item.invoicesTotal, `currency`) }}
+          td {{props.item.invoicesTotalPaid}}
+      //- <template slot="items" slot-scope="props">
+
+        <td>
+          <v-checkbox
+            :input-value="props.selected"
+            primary
+            hide-details
+          ></v-checkbox>
+        </td>
+        <td>{{ props.item.name }}</td>
+        <td class="text-xs-right">{{ props.item.calories }}</td>
+        <td class="text-xs-right">{{ props.item.fat }}</td>
+        <td class="text-xs-right">{{ props.item.carbs }}</td>
+        <td class="text-xs-right">{{ props.item.protein }}</td>
+        <td class="text-xs-right">{{ props.item.iron }}</td>
+      </tr>
+    </template>
 </template>
