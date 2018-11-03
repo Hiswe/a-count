@@ -8,6 +8,7 @@ export default {
   plugins: [
     `@/plugins/vue-libraries.ts`,
     `@/plugins/global-acount-components.ts`,
+    { src: `@/plugins/nuxt-client-init`, ssr: false },
   ],
   modules: [`nuxt-ts-module`, `@nuxtjs/axios`, `cookie-universal-nuxt`],
   router: {
@@ -16,6 +17,7 @@ export default {
   },
   env: {
     COOKIE_NAME: `acount_nuxt`,
+    JWT_FORMAT: `Bearer`,
   },
   axios: {
     baseURL: `http://localhost:4040/v1.1`,
@@ -26,7 +28,9 @@ export default {
     meta: [
       { charset: `utf-8` },
       { name: `viewport`, content: `width=device-width, initial-scale=1` },
+      // rel="icon" href="/favicon.png" type="image/png"
       { 'http-equiv': `X-UA-Compatible`, content: `IE=edge` },
+      { rel: `icon`, href: `/favicon.png`, type: `image/png` },
     ],
     link: [
       {

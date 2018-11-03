@@ -12,6 +12,9 @@ export default {
     email: `email`,
     password: `mot de passe`,
     token: `code de confirmation`,
+    name: `nom`,
+    address: `adresse`,
+    update: `mettre à jour`,
   },
   notifications: {
     'user-not-found': `Ce compte n'existe pas. Veuillez vérifier votre adresse email`,

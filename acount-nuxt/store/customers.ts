@@ -35,7 +35,8 @@ export const mutations: MutationTree<CustomersState> = {
   },
 }
 
-export const GET_CUSTOMER = `GET_CUSTOMER`
+export const READ_CUSTOMER = `READ_CUSTOMER`
+export const UPDATE_CUSTOMER = `UPDATE_CUSTOMER`
 export const ALL_CUSTOMERS = `ALL_CUSTOMERS`
 export const actions: ActionTree<CustomersState, RootState> = {
   async [ALL_CUSTOMERS](vuexContext) {
@@ -49,16 +50,28 @@ export const actions: ActionTree<CustomersState, RootState> = {
       // console.log(`something went wrong while disconnecting from API`)
     }
   },
-  async [GET_CUSTOMER](vuexContext, userId) {
+  async [READ_CUSTOMER](vuexContext, userId) {
     const { commit } = vuexContext
     const { $axios } = <Vue>this
     commit(FLUSH_ACTIVE)
     try {
-      // console.log(params.id)
       const response = await $axios.$get<Customer>(`/customers/${userId}`)
       commit(SET_CURRENT, response)
     } catch (error) {
-      // console.log(`something went wrong while disconnecting from API`)
+      console.error(`something went wrong while getting a user`)
+    }
+  },
+  async [UPDATE_CUSTOMER](vuexContext, payload) {
+    const { commit } = vuexContext
+    const { $axios } = <Vue>this
+    try {
+      const response = await $axios.$post<Customer>(
+        `/customers/${payload.id}`,
+        payload,
+      )
+      commit(SET_CURRENT, response)
+    } catch (error) {
+      console.error(`something went wrong while updating a customer`)
     }
   },
 }

@@ -3,14 +3,14 @@ import { AcountMeta } from '~/types/acount'
 import { IS_CONNECTED, ME } from '~/store/user'
 
 const COOKIE_NAME = process.env.COOKIE_NAME
-const JWT_FORMAT = `Bearer`
+const JWT_FORMAT = process.env.JWT_FORMAT
 
 function flattenMeta(acc, meta) {
   return { ...acc, ...meta }
 }
 
 export default async function authMiddleware(nuxtContext: NuxtContext) {
-  const { app, store, redirect, route } = nuxtContext
+  const { app, store, redirect, route, req } = nuxtContext
 
   // CONFIGURE AXIOS
   const { $axios, $cookies } = app
@@ -38,11 +38,13 @@ export default async function authMiddleware(nuxtContext: NuxtContext) {
   // CHECK AUTHORIZATIONS
   const meta: AcountMeta = route.meta.reduce(flattenMeta, {})
   const { authForbidden, authRequired } = meta
-  console.log({
-    authForbidden,
-    authRequired,
-    user: hasUser,
-  })
+  if (req && req.method === `POST`) {
+    console.log({
+      authForbidden,
+      authRequired,
+      user: hasUser,
+    })
+  }
   if (authForbidden && hasUser) return redirect(`/`)
   if (authRequired && !hasUser) return redirect(`/account/login`)
 }
