@@ -66,7 +66,7 @@ section
       :label="$t(`form.address`)"
       v-model="form.address"
     )
-    v-btn(color="primary" type="submit") {{ $t(`form.update`) }}
+    v-btn(color="accent" type="submit") {{ $t(`form.update`) }}
 
 </template>
 

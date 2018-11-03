@@ -19,12 +19,17 @@ nuxt-link.acount-navigation__item(:to="to")
   display: block;
   text-align: center;
   padding: 1rem;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--v-accent-base);
+  }
 
   &.is-active {
     // color: var(--nav-main-link-color-selected);
     pointer-events: none;
     text-decoration: none;
-    color: black;
+    color: var(--v-accent-base);
 
     &::before,
     &::after {

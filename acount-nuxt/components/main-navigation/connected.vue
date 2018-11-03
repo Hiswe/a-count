@@ -1,14 +1,33 @@
 <script lang="ts">
 import Vue from 'vue'
+import { mapState } from 'vuex'
 
+import { UserState } from '~/types/acount-user'
 import AcountNavWrapper from './wrapper.vue'
 import AcountNavLink from './link.vue'
 
+const i18n = {
+  messages: {
+    en: {
+      connected: `connected as:`,
+    },
+    fr: {
+      connected: `connecté en tant que :`,
+    },
+  },
+}
+
 export default Vue.extend({
   name: `acount-nav-connected`,
+  i18n,
   components: {
     AcountNavWrapper,
     AcountNavLink,
+  },
+  computed: {
+    ...mapState(`user`, {
+      user: (state: UserState) => state.user,
+    }),
   },
 })
 </script>
@@ -23,16 +42,20 @@ acount-nav-wrapper
     | {{ $t(`shared.invoices` )}}
   acount-nav-link(to="/customers")
     | {{ $t(`shared.customers` )}}
+
+  p.acount-navigation__user
+    | {{ $t(`connected`) }}
+    br
+    | {{ user.email }}
   acount-nav-link(to="/account/logout")
     | {{ $t(`shared.logout` )}}
 </template>
 
 <style lang="scss" scoped>
-.acount-navigation {
-  &__item {
-    display: block;
-    text-align: center;
-    padding: 1rem;
-  }
+.acount-navigation__user {
+  margin-top: auto;
+  margin-bottom: 0;
+  color: var(--v-primary-lighten3);
+  text-align: center;
 }
 </style>

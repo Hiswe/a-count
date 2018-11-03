@@ -5,12 +5,15 @@ import VueI18n from 'vue-i18n'
 import * as messages from '~/locales'
 
 Vue.use(Vuetify, {
-  // theme: {
-  //   primary: '#3f51b5',
-  //   secondary: '#b0bec5',
-  //   accent: '#8c9eff',
-  //   error: '#b71c1c',
-  // },
+  theme: {
+    primary: '#4c409a',
+    secondary: '#b0bec5',
+    accent: '#2297cc',
+    error: '#b71c1c',
+  },
+  options: {
+    customProperties: true,
+  },
 })
 
 Vue.use(VueI18n)
