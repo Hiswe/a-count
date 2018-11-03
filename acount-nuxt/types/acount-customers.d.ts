@@ -1,7 +1,10 @@
-export interface Customer {
+export interface CustomerLight {
   id: string
   name: string
   address: string
+}
+
+export interface Customer extends CustomerLight {
   quotationsCount: number
   quotationsTotal: number
   invoicesCount: number
