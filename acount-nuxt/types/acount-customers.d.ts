@@ -15,6 +15,7 @@ export interface Customer extends CustomerLight {
 
 export interface CustomersState {
   active: Customer[]
+  current: false | Customer
 }
 
 export interface GetAllCustomers {

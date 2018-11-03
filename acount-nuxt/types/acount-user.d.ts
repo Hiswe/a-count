@@ -14,6 +14,10 @@ export interface AcountUser {
   productConfig: ProductConfig
 }
 
+export interface UserState {
+  user: null | AcountUser
+}
+
 export interface LoginResponse {
   user: AcountUser
   access_token: string

@@ -35,7 +35,7 @@
     ]
   },
   "dependencies": {
-    "@sindresorhus/slugify": "^0.5.0",
+    "@sindresorhus/slugify": "^0.6.0",
     "chalk": "^2.4.1",
     "classnames": "^2.2.6",
     "crio": "^5.0.1",
@@ -115,7 +115,7 @@
     "redux-devtools-extension": "^2.13.2",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.23.1",
-    "webpack": "^4.23.1",
+    "webpack": "^4.24.0",
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.0.8",
     "webpack-node-externals": "^1.7.2",

@@ -1,6 +1,8 @@
 import shortId from 'shortid'
 import Vue from 'vue'
+import { ActionTree, MutationTree } from 'vuex'
 
+import { RootState } from '~/types/acount'
 import {
   NotificationPayload,
   Notification,
@@ -19,8 +21,8 @@ export const state = () => {
   return currentState
 }
 
-export const mutations = {
-  [ADD](state: NotificationState, payload: NotificationPayload): void {
+export const mutations: MutationTree<NotificationState> = {
+  [ADD](state, payload: NotificationPayload): void {
     const notification: Notification = {
       id: shortId.generate(),
       type: payload.type,
@@ -28,12 +30,12 @@ export const mutations = {
     }
     state.list.push(notification)
   },
-  [FLUSH](state: NotificationState): void {
+  [FLUSH](state): void {
     state.list = []
   },
 }
 
-export const actions = {
+export const actions: ActionTree<NotificationState, RootState> = {
   [ADD_NOTIFICATION](vuexContext, payload: NotificationPayload): void {
     const { commit } = vuexContext
     commit(ADD, payload)

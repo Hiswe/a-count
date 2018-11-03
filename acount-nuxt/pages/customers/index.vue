@@ -2,8 +2,8 @@
 import Vue from 'vue'
 import { mapState } from 'vuex'
 
-import { ALL_CUSTOMERS } from '~/store/customers'
 import { CustomersState } from '~/types/acount-customers'
+import { ALL_CUSTOMERS } from '~/store/customers'
 
 export default Vue.extend({
   name: `page-customers-list`,

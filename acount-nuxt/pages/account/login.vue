@@ -2,8 +2,8 @@
 import Vue from 'vue'
 import { mapState, mapActions } from 'vuex'
 
+import { FormErrorState } from '~/types/acount-form-error'
 import { LOGIN } from '~/store/user'
-import { FormErrorState } from '~/store/form-errors'
 
 export default Vue.extend({
   name: `page-login`,

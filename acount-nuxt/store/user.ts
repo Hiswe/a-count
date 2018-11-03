@@ -1,13 +1,18 @@
 import isNil from 'lodash.isnil'
 import Vue from 'vue'
+import { ActionTree, MutationTree } from 'vuex'
+
+import { RootState } from '~/types/acount'
+import { AcountUser, LoginResponse } from '~/types/acount-user'
+import { NotificationPayload } from '~/types/acount-notifications'
+import { FormErrorPayload } from '~/types/acount-form-error'
 
 import { ADD_NOTIFICATION } from './notifications'
 import { ADD_ERROR } from './form-errors'
-import { AcountUser, LoginResponse } from '~/types/acount-user'
-import { NotificationPayload } from '~/types/acount-notifications'
-import { FormErrorPayload } from '~/store/form-errors'
+import { UserState } from '~/types/acount-user'
 
 // TODO: should type all this
+// https://codeburst.io/vuex-and-typescript-3427ba78cfa8
 // https://frontendsociety.com/writing-vuex-stores-in-typescript-b570ca34c2a
 // https://github.com/mrcrowl/vuex-typex
 // https://github.com/mrcrowl/vuex-typex/issues/8
@@ -23,10 +28,6 @@ const IS_ROOT = Object.freeze({ root: true })
 const SET_USER = `SET_USER`
 const REMOVE_USER = `REMOVE_USER`
 
-interface UserState {
-  user: null | AcountUser
-}
-
 export const state = () => {
   const defaultState: UserState = {
     user: null,
@@ -34,11 +35,11 @@ export const state = () => {
   return defaultState
 }
 
-export const mutations = {
-  [SET_USER](state: UserState, payload: AcountUser) {
+export const mutations: MutationTree<UserState> = {
+  [SET_USER](state, payload: AcountUser) {
     state.user = payload
   },
-  [REMOVE_USER](state: UserState) {
+  [REMOVE_USER](state) {
     state.user = null
   },
 }
@@ -57,7 +58,7 @@ export const LOGOUT = `LOGOUT`
 export const REGISTER = `REGISTER`
 export const SET_PASSWORD = `SET_PASSWORD`
 
-export const actions = {
+export const actions: ActionTree<UserState, RootState> = {
   async [ME](vuexContext) {
     const { commit } = vuexContext
     try {
