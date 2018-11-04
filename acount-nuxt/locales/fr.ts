@@ -7,6 +7,7 @@ export default {
     quotations: `devis`,
     invoices: `factures`,
     customers: `clients`,
+    settings: `configuration`,
   },
   form: {
     email: `email`,

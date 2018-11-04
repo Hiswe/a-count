@@ -42,7 +42,8 @@ acount-nav-wrapper
     | {{ $t(`shared.invoices` )}}
   acount-nav-link(to="/customers")
     | {{ $t(`shared.customers` )}}
-
+  acount-nav-link(to="/account/settings")
+    | {{ $t(`shared.settings` )}}
   p.acount-navigation__user
     | {{ $t(`connected`) }}
     br
