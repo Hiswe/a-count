@@ -1,9 +1,9 @@
 import isNil from 'lodash.isnil'
 import Vue from 'vue'
 import { ActionTree, MutationTree } from 'vuex'
+import { AcountUser, LoginResponse } from '@acount/types'
 
 import { RootState } from '~/types/acount'
-import { AcountUser, LoginResponse } from '~/types/acount-user'
 import { NotificationPayload } from '~/types/acount-notifications'
 import { FormErrorPayload } from '~/types/acount-form-error'
 

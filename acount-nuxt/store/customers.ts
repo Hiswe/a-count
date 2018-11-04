@@ -1,12 +1,9 @@
 import Vue from 'vue'
 import { ActionTree, MutationTree } from 'vuex'
+import { Customer, GetAllCustomers } from '@acount/types'
 
 import { RootState } from '~/types/acount'
-import {
-  Customer,
-  CustomersState,
-  GetAllCustomers,
-} from '~/types/acount-customers'
+import { CustomersState } from '~/types/acount-customers'
 
 export const state = () => {
   const currentState: CustomersState = {

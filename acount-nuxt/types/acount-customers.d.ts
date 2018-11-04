@@ -1,24 +1,6 @@
-export interface CustomerLight {
-  id: string
-  name: string
-  address: string
-}
-
-export interface Customer extends CustomerLight {
-  quotationsCount: number
-  quotationsTotal: number
-  invoicesCount: number
-  invoicesTotal: number
-  invoicesTotalPaid: number
-  invoicesTotalLeft: number
-}
+import { Customer } from '@acount/types'
 
 export interface CustomersState {
   active: Customer[]
   current: false | Customer
-}
-
-export interface GetAllCustomers {
-  rows: Customer[]
-  meta: {}
 }

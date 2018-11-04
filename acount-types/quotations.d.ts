@@ -1,6 +1,6 @@
-import { CustomerLight } from './acount-customers'
-import { QuotationConfig } from './acount-quotations'
-import { Product, ProductConfig } from './acount-products'
+import { CustomerLight } from './customers'
+import { QuotationConfig } from './quotations'
+import { Product, ProductConfig } from './products'
 
 export interface QuotationConfig {
   creationCount: number
