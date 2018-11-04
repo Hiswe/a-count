@@ -86,6 +86,22 @@ async function connectUser(ctx, user) {
  * @apiSuccess {number} productConfig.price the user default products price
  */
 
+/**
+ * @apiDefine userNotFound user not found
+ *  the user is not found
+ * @apiError (Error 404) {boolean} error <code>true</code>
+ * @apiError (Error 404) {number} status 404
+ * @apiError (Error 404) {string} message user-not-found
+ */
+
+/**
+ * @apiDefine invalidPassword invalid password
+ *  the password is invalid
+ * @apiError (Error 400) {boolean} error <code>true</code>
+ * @apiError (Error 400) {number} status 400
+ * @apiError (Error 400) {string} message invalid-password
+ */
+
 //////
 // PUBLIC
 //////
@@ -172,8 +188,13 @@ methods[V1_1].register = async (ctx, next) => {
  *
  * @apiSuccess {object} user the user
  * @apiSuccess {string} access_token the access token
+ *
+ * @apiUse userNotFound
+ *
+ * @apiUse invalidPassword
+ *
  */
-async function login(ctx, next) {
+methods[V1].login = async (ctx, next) => {
   const { body } = ctx.request
   const user = await User.findOne({
     where: {
@@ -185,6 +206,40 @@ async function login(ctx, next) {
 
   const isPasswordValid = await user.comparePassword(body.password)
   ctx.assert(isPasswordValid, 401, MESSAGES.INVALID_PASSWORD)
+
+  await connectUser(ctx, user)
+}
+
+/**
+ * @api {post} /v1.1/account/login login
+ * @apiVersion 1.1.0
+ * @apiName login
+ * @apiDescription login to an account
+ * @apiGroup Account
+ *
+ * @apiParam (Request body) {string} email email
+ * @apiParam (Request body) {string} password password
+ *
+ * @apiSuccess {object} user the user
+ * @apiSuccess {string} access_token the access token
+ *
+ * @apiUse userNotFound
+ *
+ * @apiUse invalidPassword
+ *
+ */
+methods[V1_1].login = async (ctx, next) => {
+  const { body } = ctx.request
+  const user = await User.findOne({
+    where: {
+      email: dbGetterSetter.normalizeString(body.email),
+      isDeactivated: { $not: true },
+    },
+  })
+  ctx.assert(user, 404, MESSAGES.NO_USER)
+
+  const isPasswordValid = await user.comparePassword(body.password)
+  ctx.assert(isPasswordValid, 400, MESSAGES.INVALID_PASSWORD)
 
   await connectUser(ctx, user)
 }
@@ -280,14 +335,14 @@ async function reset(ctx, next) {
 
 routers[V1].public
   .post(`/register`, methods[V1].register)
-  .post(`/login`, login)
+  .post(`/login`, methods[V1].login)
   .post(`/forgot`, forgot)
   .post(`/set-password`, setPassword)
   .post(`/reset`, reset)
 
 routers[V1_1].public
   .post(`/register`, methods[V1_1].register)
-  .post(`/login`, login)
+  .post(`/login`, methods[V1_1].login)
   .post(`/forgot`, forgot)
   .post(`/set-password`, setPassword)
   .post(`/reset`, reset)
@@ -391,6 +446,7 @@ async function statistics(ctx, next) {
  * @apiParam (Request body) {object} user the user form values
  *
  * @apiUse userInformation
+ * @apiUse userNotFound
  */
 
 async function settings(ctx, next) {
