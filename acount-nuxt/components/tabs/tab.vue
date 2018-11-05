@@ -9,16 +9,10 @@ export default Vue.extend({
       required: true,
     },
   },
-  computed: {
-    _isTab() {
-      // For parent sniffing of child
-      return true
-    },
-  },
 })
 </script>
 
 <template lang="pug">
-section.acount-tabs__panel
+.acount-tabs__panel-in
   slot
 </template>

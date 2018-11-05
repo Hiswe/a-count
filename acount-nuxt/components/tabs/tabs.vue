@@ -9,32 +9,21 @@ export default {
   data() {
     return {
       tabs: [],
+      panels: [],
     }
   },
   methods: {
     updateTabs() {
-      // Probe tabs
-      // console.log(
-      //   this.$slots.default.filter(child => child.componentInstance._isTab),
-      // )
-      // console.log(this.$slots.default)
-      // this.$slots.default.filter(child => {
-      //   console.log(child.componentInstance)
-      //   // child.componentInstance._isTab
-      // })
-      this.tabs = this.$children.filter(child => child._isTab)
+      if (!this.$slots.default) return
+      for (let panel of this.$slots.default) {
+        const { tag, propsData } = panel.componentOptions
+        if (tag !== `acount-tab`) return
+        this.tabs.push(propsData)
+        this.panels.push(panel)
+      }
     },
   },
   render(h) {
-    // if (this.$slots.default) {
-    //   // May want to check here if the node is a myCp2,
-    //   // otherwise, grab the data
-    //   for (let node of this.$slots.default) {
-    //     console.log(node)
-    //     // workingList.push(node.componentOptions.propsData.myData)
-    //   }
-    // }
-
     return (
       <div class="acount-tabs">
         {this.tabs.map((tab, index) => (
@@ -54,22 +43,14 @@ export default {
             </label>
           ))}
         </header>
-        {
-          // this.tabs.map((tab, index) => tab.render())
-        }
-        {this.$slots.default}
+        {this.panels.map(panel => (
+          <section class="acount-tabs__panel">{panel}</section>
+        ))}
       </div>
     )
   },
-  // beforeMount() {
-  //   this.updateTabs()
-  //   // console.log(this.$slots.default)
-  //   // console.log(this.tabs)
-  // },
-  mounted() {
+  created() {
     this.updateTabs()
-    // console.log(this.$slots.default)
-    // console.log(this.tabs)
   },
 }
 </script>
