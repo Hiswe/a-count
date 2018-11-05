@@ -16,7 +16,7 @@ export default Vue.extend({
 
 <template lang="pug">
 div
-  acount-tabs
+  //- acount-tabs
   v-tabs(
       v-model="active"
       color="cyan"
