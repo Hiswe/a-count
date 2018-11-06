@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import { mapState, mapActions } from 'vuex'
 
-import { FormErrorState } from '~/types/acount-form-error'
+import { FormErrorState } from '~/types/acount-store'
 import { LOGIN } from '~/store/user'
 
 export default Vue.extend({
@@ -27,8 +27,8 @@ export default Vue.extend({
     }),
   },
   computed: {
-    ...mapState(`form-errors`, {
-      passwordError: (state: FormErrorState) => {
+    ...mapState<FormErrorState>(`form-errors`, {
+      passwordError: state => {
         return state.password ? state.password : []
       },
     }),

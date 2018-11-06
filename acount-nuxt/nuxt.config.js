@@ -10,7 +10,12 @@ export default {
     `@/plugins/global-acount-components.ts`,
     { src: `@/plugins/nuxt-client-init`, ssr: false },
   ],
-  modules: [`nuxt-ts-module`, `@nuxtjs/axios`, `cookie-universal-nuxt`],
+  modules: [
+    `nuxt-ts-module`,
+    `@nuxtjs/axios`,
+    `cookie-universal-nuxt`,
+    [`nuxt-sass-resources-loader`, [`@/assets/media-queries.scss`]],
+  ],
   router: {
     middleware: [`authenticated`, `handle-server-post`],
     linkExactActiveClass: `is-active`,

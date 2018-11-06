@@ -3,13 +3,14 @@ import Vue from 'vue'
 import { ActionTree, MutationTree } from 'vuex'
 import { AcountUser, LoginResponse } from '@acount/types'
 
-import { RootState } from '~/types/acount'
-import { NotificationPayload } from '~/types/acount-notifications'
-import { FormErrorPayload } from '~/types/acount-form-error'
-
+import {
+  RootState,
+  UserState,
+  NotificationPayload,
+  FormErrorPayload,
+} from '~/types/acount-store'
 import { ADD_NOTIFICATION } from './notifications'
 import { ADD_ERROR } from './form-errors'
-import { UserState } from '~/types/acount-user'
 
 // TODO: should type all this
 // https://codeburst.io/vuex-and-typescript-3427ba78cfa8

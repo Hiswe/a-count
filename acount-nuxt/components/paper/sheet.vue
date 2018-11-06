@@ -1,0 +1,403 @@
+<script lang="ts">
+import Vue from 'vue'
+
+// top,
+// top-left,
+// top-right,
+// center,
+// bottom
+//
+
+// https://frontendsociety.com/using-a-typescript-interfaces-and-types-as-a-prop-type-in-vuejs-508ab3f83480
+
+export default Vue.extend({
+  name: `acount-paper`,
+  props: {
+    part: {
+      type: String,
+      default: ``,
+    },
+    preview: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    classes() {
+      return {
+        [`acount-paper--part-${this.part}`]: this.part,
+        [`acount-paper--preview-mode`]: this.preview,
+      }
+    },
+  },
+})
+</script>
+
+<template lang="pug">
+.acount-paper-size-wrapper
+  .acount-paper(:class="classes")
+    slot
+</template>
+
+<style lang="scss" scoped>
+.acount-paper {
+  $root: &;
+  $party: '#{$root}__party';
+  $party-empty-name: '#{$party}-name--empty';
+  $party-empty-address: '#{$party}-address--empty';
+  // css custom properties doesn't seems to work with background size
+  $shred-size: 20px;
+  padding: var(--s-gutter);
+  border-radius: var(--sheet-border-radius);
+  position: relative;
+
+  background: white;
+  border: 1px solid var(--sheet-border-color);
+
+  // paper-sheet shadow
+  &::before,
+  &::after {
+    z-index: -1;
+    position: absolute;
+    content: '';
+    display: block;
+    bottom: 10px;
+    left: 10px;
+    width: 50%;
+    top: 80%;
+    max-width: 400px;
+    background: var(--sheet-shadow-color);
+    box-shadow: 0 15px 10px var(--sheet-shadow-color);
+    border-radius: var(--sheet-border-radius);
+    transform: rotate(-3deg);
+
+    @media #{$mq-print} {
+      display: none;
+    }
+  }
+  &::after {
+    transform: rotate(3deg);
+    right: 10px;
+    left: auto;
+  }
+
+  @media #{$mq-print} {
+    background: none;
+    border: none;
+  }
+
+  &__reference,
+  &__between,
+  &__subject,
+  & .table,
+  &__mentions {
+    flex: 0 0 auto;
+  }
+
+  &__reference {
+    text-align: right;
+    margin-top: 0;
+
+    &-type,
+    &-id,
+    &-date {
+      margin: 0;
+      text-transform: capitalize;
+    }
+    &-type {
+      font-size: var(--sheet-big-font-size);
+    }
+    &-id {
+      font-weight: normal;
+      font-size: var(--sheet-big-font-size);
+      padding-top: 0.5em;
+    }
+    &-date {
+      font-size: 1rem;
+      padding-top: 0.5em;
+      font-weight: 400;
+    }
+  }
+
+  &__between {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: var(--s-gutter);
+    padding-top: calc(var(--s-gutter) * 1.25);
+    padding-bottom: calc(var(--s-gutter) * 2);
+  }
+
+  &__party {
+    & + & {
+      text-align: right;
+    }
+
+    &-title {
+      margin: 0 0 0.25em;
+      font-style: italic;
+
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+    &-name {
+      margin: 0 0 var(--s-quarter-gutter);
+      font-size: var(--sheet-big-font-size);
+      font-weight: 700;
+
+      &--empty {
+        margin: 0;
+        color: var(--c-text-lighter);
+        font-style: italic;
+        font-size: 1rem;
+        text-transform: initial;
+
+        @media #{$mq-print} {
+          display: none;
+        }
+      }
+    }
+    // facing blocks description
+    &-address {
+      &--empty {
+        color: var(--c-text-lighter);
+        font-style: italic;
+
+        @media #{$mq-print} {
+          display: none;
+        }
+      }
+      > * {
+        margin: 0;
+      }
+    }
+  }
+
+  &__subject {
+    display: flex;
+    flex-shrink: 0;
+    padding-bottom: var(--s-half-gutter);
+
+    &-title {
+      font-weight: bold;
+      padding-right: 0.25em;
+    }
+  }
+
+  &__mentions {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: var(--s-gutter);
+    padding-top: var(--s-gutter);
+    min-height: calc(var(--s-gutter) * 4);
+
+    &::after {
+      content: '';
+      border: 2px solid var(--c-text-lighter);
+      height: calc(var(--s-gutter) * 4);
+      align-self: end;
+    }
+
+    @media #{$mq-print} {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    &--invoice {
+      display: block;
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  &__signature {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: var(--s-gutter);
+    padding-top: var(--s-gutter);
+
+    &::after {
+      content: '';
+      border: 2px solid var(--c-text-lighter);
+    }
+
+    p {
+      font-weight: bold;
+    }
+    p,
+    ul {
+      margin: 0;
+    }
+  }
+
+  &--preview-mode {
+    width: 210mm;
+    min-height: 296mm;
+    margin: 0 auto;
+    // need a 0 padding bottom to mesure how many pages
+    // • can't figure out why :(
+    padding: 10mm 10mm 0mm 10mm;
+    border: 0;
+    background-size: 210mm 297mm;
+    background-image: linear-gradient(
+      to bottom,
+      white calc(297mm - 1px),
+      red calc(297mm - 2px)
+    );
+    background-repeat: repeat-y;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+
+    #{ $root }__between {
+      padding-top: var(--s-gutter);
+      padding-bottom: 0;
+    }
+
+    #{ $root }__mentions {
+      padding-top: 0;
+    }
+
+    // this is done only for print purpose
+    // • Chrome doesn't handle well `break-inside` with `flexbox`
+    // • But we need flexbox to have a nice presentation if there is a single page
+    &-single-page {
+      display: flex;
+      flex-direction: column;
+
+      #{ $root }__subject {
+        margin-top: auto;
+      }
+      .table--product {
+        margin-bottom: auto;
+      }
+      // don't understand why but:
+      // • setting a padding-bottom will make an undesired overflow to the flex layout
+      // • so fake a margin to make it look nice
+      #{$root}__mentions {
+        transform: translateY(-10mm);
+
+        @media #{$mq-print} {
+          transform: none;
+        }
+      }
+
+      @media #{$mq-print} {
+        height: 296mm;
+        overflow: hidden;
+      }
+    }
+
+    // because there is already an overflow
+    // • just put a padding bottom to render nicer before printing
+    &-multiple-pages {
+      padding-bottom: 10mm;
+
+      #{ $root }__between {
+        padding-bottom: calc(var(--s-gutter) * 1.5);
+      }
+    }
+
+    @media #{$mq-print} {
+      padding: 0;
+    }
+  }
+
+  // here for overriding preview mode
+  &--page-invoice-preview {
+    background: white;
+    border: 1px solid var(--sheet-border-color);
+
+    // paper-sheet shadow
+    &::before,
+    &::after {
+      z-index: -1;
+      position: absolute;
+      content: '';
+      display: block;
+      bottom: 10px;
+      left: 10px;
+      width: 50%;
+      top: 80%;
+      max-width: 400px;
+      background: var(--sheet-shadow-color);
+      box-shadow: 0 15px 10px var(--sheet-shadow-color);
+      border-radius: var(--sheet-border-radius);
+      transform: rotate(-3deg);
+
+      @media #{$mq-print} {
+        display: none;
+      }
+    }
+    &::after {
+      transform: rotate(3deg);
+      right: 10px;
+      left: auto;
+    }
+  }
+}
+
+// PAPER PART
+
+.acount-paper {
+  &--part-top,
+  &--part-top-left,
+  &--part-top-right,
+  &--part-center,
+  &--part-bottom {
+    border-radius: 0;
+    background: none;
+    border-image-slice: 9 fill;
+    border-image-width: 12px;
+    border-image-outset: 0;
+    border-image-repeat: round round;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+  &--part-top-left {
+    border-image-source: url('~assets/paper/top-left.svg');
+  }
+  &--part-top {
+    border-image-source: url('~assets/paper/top.svg');
+  }
+  &--part-top-right {
+    border-image-source: url('~assets/paper/top-right.svg');
+  }
+  &--part-center {
+    border-image-source: url('~assets/paper/middle.svg');
+  }
+  &--part-bottom {
+    border-image-source: url('~assets/paper/bottom.svg');
+  }
+}
+
+.print-pagination {
+  display: none;
+
+  @media #{$mq-print} {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+
+    &__page {
+      height: 297mm;
+      padding-top: 297mm;
+      text-align: right;
+      // need that transform to align nicely the pagination
+      transform: translateY(1em);
+    }
+  }
+}
+</style>
+

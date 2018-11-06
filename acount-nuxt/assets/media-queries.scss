@@ -1,0 +1,8 @@
+$max-width: 1100px;
+
+//----- MEDIA QUERIES
+
+// register a print query here
+// • better for testing: just change to 'screen' ^^
+$mq-print: 'print';
+$mq-big: '(min-width: #{$max-width})';

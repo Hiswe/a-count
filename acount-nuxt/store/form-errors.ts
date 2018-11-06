@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import { ActionTree, MutationTree } from 'vuex'
 
-import { RootState } from '~/types/acount'
 import {
+  RootState,
   FormErrorState,
   FormError,
   FormErrorKey,
   FormErrorPayload,
-} from '~/types/acount-form-error'
+} from '~/types/acount-store'
 
 const ADD = `ADD`
 const REMOVE = `REMOVE`

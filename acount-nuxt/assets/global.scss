@@ -1,5 +1,16 @@
 :root {
   --v-primary-lighten6: hsl(248, 41%, 90%);
+
+  --s-gutter: 32px;
+  --s-two-gutter: calc(var(--s-gutter) * 2);
+  --s-half-gutter: calc(var(--s-gutter) / 2);
+  --s-quarter-gutter: calc(var(--s-gutter) / 4);
+
+  // PAPER SHEET
+  --sheet-border-radius: var(--s-quarter-gutter);
+  --sheet-border-color: var(--v-primary-lighten6);
+  --sheet-shadow-color: rgba(0, 0, 0, 0.25);
+  --sheet-big-font-size: 1.5rem;
 }
 
 html {

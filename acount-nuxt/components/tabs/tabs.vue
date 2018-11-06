@@ -1,7 +1,8 @@
 <script>
 // don't use typescript with JSX
 //  • can't find a way to easily make it work with single file components
-//  • may see
+//    https://stackoverflow.com/a/50894195
+//  • maybe see
 //    https://www.npmjs.com/package/@hexeo/vue-typescript-jsx
 
 export default {
@@ -37,6 +38,9 @@ export default {
           />
         ))}
         <header class="acount-tabs__header">
+          {this.$slots.header && (
+            <div class="acount-tabs__header-content">{this.$slots.header}</div>
+          )}
           {this.tabs.map((tab, index) => (
             <label class="acount-tabs__tab" for={`tabs-${index}`}>
               <span>{tab.title}</span>
@@ -78,7 +82,6 @@ export default {
         pointer-events: none;
       }
       &:checked ~ #{$root}__header label:nth-of-type(#{$i}) {
-        color: var(--v-primary-base);
         background: var(--tab-selected-bg);
         border-radius: var(--tab-selected-border-radius)
           var(--tab-selected-border-radius)
@@ -102,12 +105,15 @@ export default {
     border-radius: var(--tab-selected-border-radius) 0 0
       var(--tab-selected-border-radius);
   }
+  &__header-content {
+    width: 100%;
+  }
 
   &__tab {
     flex: 1 1;
     text-align: center;
     padding: 0.5rem 0;
-    color: var(--c-primary);
+    color: var(--v-primary-base);
     position: relative;
 
     &::before,

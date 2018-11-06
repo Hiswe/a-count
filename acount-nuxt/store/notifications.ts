@@ -2,12 +2,12 @@ import shortId from 'shortid'
 import Vue from 'vue'
 import { ActionTree, MutationTree } from 'vuex'
 
-import { RootState } from '~/types/acount'
 import {
+  RootState,
   NotificationPayload,
   Notification,
   NotificationState,
-} from '~/types/acount-notifications'
+} from '~/types/acount-store'
 
 const ADD = `ADD`
 const FLUSH = `FLUSH`
