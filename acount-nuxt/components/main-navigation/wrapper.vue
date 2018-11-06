@@ -19,6 +19,7 @@ nav.acount-navigation
   width: var(--nav-width);
   display: flex;
   flex-direction: column;
+  flex: 0 0 auto;
 
   &__title {
     text-align: center;

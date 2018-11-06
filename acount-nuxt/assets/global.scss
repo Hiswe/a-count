@@ -6,6 +6,8 @@
   --s-half-gutter: calc(var(--s-gutter) / 2);
   --s-quarter-gutter: calc(var(--s-gutter) / 4);
 
+  --s-max-width: #{$max-width};
+
   // PAPER SHEET
   --sheet-border-radius: var(--s-quarter-gutter);
   --sheet-border-color: var(--v-primary-lighten6);

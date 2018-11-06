@@ -8,6 +8,8 @@ import Vue from 'vue'
 // bottom
 //
 
+const PARTS_NAMES = [`top`, `top-left`, `top-right`, `center`, `bottom`]
+
 // https://frontendsociety.com/using-a-typescript-interfaces-and-types-as-a-prop-type-in-vuejs-508ab3f83480
 
 export default Vue.extend({
@@ -16,6 +18,10 @@ export default Vue.extend({
     part: {
       type: String,
       default: ``,
+      validator(value?: string): boolean {
+        if (!value) return true
+        return PARTS_NAMES.indexOf(value) !== -1
+      },
     },
     preview: {
       type: Boolean,
@@ -127,52 +133,6 @@ export default Vue.extend({
     padding-bottom: calc(var(--s-gutter) * 2);
   }
 
-  &__party {
-    & + & {
-      text-align: right;
-    }
-
-    &-title {
-      margin: 0 0 0.25em;
-      font-style: italic;
-
-      &::first-letter {
-        text-transform: uppercase;
-      }
-    }
-    &-name {
-      margin: 0 0 var(--s-quarter-gutter);
-      font-size: var(--sheet-big-font-size);
-      font-weight: 700;
-
-      &--empty {
-        margin: 0;
-        color: var(--c-text-lighter);
-        font-style: italic;
-        font-size: 1rem;
-        text-transform: initial;
-
-        @media #{$mq-print} {
-          display: none;
-        }
-      }
-    }
-    // facing blocks description
-    &-address {
-      &--empty {
-        color: var(--c-text-lighter);
-        font-style: italic;
-
-        @media #{$mq-print} {
-          display: none;
-        }
-      }
-      > * {
-        margin: 0;
-      }
-    }
-  }
-
   &__subject {
     display: flex;
     flex-shrink: 0;
@@ -181,34 +141,6 @@ export default Vue.extend({
     &-title {
       font-weight: bold;
       padding-right: 0.25em;
-    }
-  }
-
-  &__mentions {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-gap: var(--s-gutter);
-    padding-top: var(--s-gutter);
-    min-height: calc(var(--s-gutter) * 4);
-
-    &::after {
-      content: '';
-      border: 2px solid var(--c-text-lighter);
-      height: calc(var(--s-gutter) * 4);
-      align-self: end;
-    }
-
-    @media #{$mq-print} {
-      page-break-inside: avoid;
-      break-inside: avoid;
-    }
-
-    &--invoice {
-      display: block;
-
-      &::after {
-        display: none;
-      }
     }
   }
 

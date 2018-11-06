@@ -38,14 +38,18 @@ export default {
           />
         ))}
         <header class="acount-tabs__header">
-          {this.$slots.header && (
-            <div class="acount-tabs__header-content">{this.$slots.header}</div>
-          )}
-          {this.tabs.map((tab, index) => (
-            <label class="acount-tabs__tab" for={`tabs-${index}`}>
-              <span>{tab.title}</span>
-            </label>
-          ))}
+          <div class="acount-tabs__header-in">
+            {this.$slots.header && (
+              <div class="acount-tabs__header-content">
+                {this.$slots.header}
+              </div>
+            )}
+            {this.tabs.map((tab, index) => (
+              <label class="acount-tabs__tab" for={`tabs-${index}`}>
+                <span>{tab.title}</span>
+              </label>
+            ))}
+          </div>
         </header>
         {this.panels.map(panel => (
           <section class="acount-tabs__panel">{panel}</section>
@@ -95,20 +99,26 @@ export default {
       }
     }
   }
+  &__input {
+    display: none;
+  }
   &__header {
-    margin: 0;
-    padding: 1rem 1rem 0;
+    margin: 0 0 var(--s-gutter);
+    padding: var(--s-gutter) var(--s-gutter) 0;
     list-style: none;
-    display: flex;
-    flex-wrap: wrap;
     background: var(--tab-header-bg);
     border-radius: var(--tab-selected-border-radius) 0 0
       var(--tab-selected-border-radius);
   }
+  &__header-in {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: var(--s-max-width);
+    margin: 0 auto;
+  }
   &__header-content {
     width: 100%;
   }
-
   &__tab {
     flex: 1 1;
     text-align: center;
@@ -140,9 +150,10 @@ export default {
       );
     }
   }
-
-  &__input {
-    display: none;
+  &__panel {
+    max-width: calc(var(--s-max-width) + var(--s-gutter) * 2);
+    padding: 0 var(--s-gutter);
+    margin: 0 auto;
   }
 }
 </style>
