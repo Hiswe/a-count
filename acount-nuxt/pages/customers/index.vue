@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import { mapState } from 'vuex'
 
-import { CustomersState } from '~/types/acount-customers'
+import { CustomersState } from '~/types/acount-store'
 import { ALL_CUSTOMERS } from '~/store/customers'
 
 export default Vue.extend({
@@ -66,8 +66,8 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-  div
-    h1 {{ $t(`shared.customers`) }}
+acount-main-content(:title="$t( `shared.customers` )")
+  template(slot="centered")
     v-data-table(
       :headers="headers"
       :items="items"
@@ -85,6 +85,4 @@ export default Vue.extend({
               :value="props.item.invoicesTotalPaid"
               :max="props.item.invoicesTotal"
             )
-      </tr>
-    </template>
 </template>

@@ -68,7 +68,7 @@ export default {
   $root: &;
   // --gutter: minmax(var(--s-gutter), calc(50% - var(--s-max-width) / 2));
   // --tab-selected-border-radius: var(--s-quarter-gutter);
-  --tab-selected-border-radius: 0.25rem;
+  --tab-selected-border-radius: var(--s-quarter-gutter);
   --tab-selected-bg: white;
 
   --tab-header-bg: var(--v-primary-lighten6);

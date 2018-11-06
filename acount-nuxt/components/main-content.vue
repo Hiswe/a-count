@@ -17,6 +17,8 @@ export default Vue.extend({
       slot(name="actions")
   .acount-main-content__body
     slot
+  .acount-main-content__body--centered(v-if="$slots.centered")
+    slot(name="centered")
 </template>
 
 <style lang="scss" scoped>
@@ -26,6 +28,13 @@ export default Vue.extend({
     display: flex;
     align-items: center;
     margin-left: auto;
+  }
+  &__body {
+    &--centered {
+      max-width: calc(var(--s-max-width) + var(--s-gutter) * 2);
+      padding: 0 var(--s-gutter);
+      margin: 0 auto;
+    }
   }
 }
 </style>
