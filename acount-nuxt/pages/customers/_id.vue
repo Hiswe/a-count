@@ -84,34 +84,37 @@ acount-main-content(title="#edit customer")
           | {{$n( form.invoicesTotalLeft, `currency` )}}
         acount-key-presentation-item(:title="$t( `payment-progress` )")
           acount-progress(
-              :value="10"
-              :max="20"
-            )
+            :value="form.invoicesTotalPaid"
+            :max="form.invoicesTotal"
+          )
     acount-tab(title="#quotations")
       | #headers
     acount-tab(title="#invoices")
       | #invoices
     acount-tab(title="#header")
-      form(
-        :action="`/customers/${id}`"
-        method="post"
-        @submit.prevent="submit"
-      )
-        input(
-          name="id"
-          type="hidden"
-          v-model="form.id"
+      acount-grid
+        form(
+          :action="`/customers/${id}`"
+          method="post"
+          @submit.prevent="submit"
         )
-        v-text-field(
-          name="name"
-          :label="$t(`form.name`)"
-          v-model="form.name"
-        )
-        v-textarea(
-          name="address"
-          :label="$t(`form.address`)"
-          v-model="form.address"
-        )
-        v-btn(color="accent" type="submit") {{ $t(`form.update`) }}
+          input(
+            name="id"
+            type="hidden"
+            v-model="form.id"
+          )
+          v-text-field(
+            name="name"
+            :label="$t(`form.name`)"
+            v-model="form.name"
+          )
+          v-textarea(
+            name="address"
+            :label="$t(`form.address`)"
+            v-model="form.address"
+          )
+          v-btn(color="accent" type="submit") {{ $t(`form.update`) }}
+        acount-paper(part="top-right")
+          acount-party(title="to" :people="form" )
 </template>
 

@@ -5,7 +5,6 @@ import clonedeep from 'lodash.clonedeep'
 
 import numberFormats from '~/locales/number-formats'
 import { UserState } from '~/types/acount-store'
-import { AcountParty } from '~/components/paper'
 
 const i18n = {
   numberFormats,
@@ -43,9 +42,6 @@ const languages = [
 export default Vue.extend({
   name: `page-settings`,
   i18n,
-  components: {
-    AcountParty,
-  },
   meta: {
     authRequired: true,
   },
