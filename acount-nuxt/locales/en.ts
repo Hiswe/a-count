@@ -8,13 +8,13 @@ export default {
     invoices: `invoices`,
     customers: `customers`,
     settings: `settings`,
+    address: `address`,
   },
   form: {
     email: `email`,
     password: `password`,
     token: `confirmation code`,
     name: `name`,
-    address: `address`,
     update: `update`,
   },
   notifications: {

@@ -8,13 +8,14 @@ export default {
     invoices: `factures`,
     customers: `clients`,
     settings: `configuration`,
+    address: `adresse`,
   },
   form: {
     email: `email`,
     password: `mot de passe`,
     token: `code de confirmation`,
     name: `nom`,
-    address: `adresse`,
+
     update: `mettre à jour`,
   },
   notifications: {

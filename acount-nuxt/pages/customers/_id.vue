@@ -87,11 +87,11 @@ acount-main-content(title="#edit customer")
             :value="form.invoicesTotalPaid"
             :max="form.invoicesTotal"
           )
-    acount-tab(title="#quotations")
+    acount-tab(:title="$t( `shared.quotations` )")
       | #headers
-    acount-tab(title="#invoices")
+    acount-tab(:title="$t( `shared.invoices` )")
       | #invoices
-    acount-tab(title="#header")
+    acount-tab(:title="$t( `shared.address` )")
       acount-grid
         form(
           :action="`/customers/${id}`"
@@ -110,7 +110,7 @@ acount-main-content(title="#edit customer")
           )
           v-textarea(
             name="address"
-            :label="$t(`form.address`)"
+            :label="$t(`shared.address`)"
             v-model="form.address"
           )
           v-btn(color="accent" type="submit") {{ $t(`form.update`) }}
