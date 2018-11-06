@@ -24,15 +24,6 @@ here are some of the commands to run the project locally
 
 the application flow is explained in this [blog post](https://hiswe.github.io/2018/08-universal-application/)
 
-⚠️ in order to function needs
-
-```json
-{
-  "react-router": "4.3.1",
-  "react-router-config": "1.0.0-beta.4"
-}
-```
-
 ## requirements
 
 - [node](http://nodejs.org/download/) >= 8.11.3
@@ -70,6 +61,15 @@ the application flow is explained in this [blog post](https://hiswe.github.io/20
 ### acount-react
 
 ⚠️ deprecated
+
+⚠️ in order to function needs
+
+```json
+{
+  "react-router": "4.3.1",
+  "react-router-config": "1.0.0-beta.4"
+}
+```
 
 - _views_ – [React 16](https://reactjs.org/)
 - _router_

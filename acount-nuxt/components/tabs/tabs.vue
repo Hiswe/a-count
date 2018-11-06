@@ -51,7 +51,11 @@ export default {
             ))}
           </div>
         </header>
-        {this.panels.map(panel => (
+        {// this loose informations somehow…
+        // this.panels.map(panel => (
+        //   <section class="acount-tabs__panel">{panel}</section>
+        // ))
+        this.$slots.default.map(panel => (
           <section class="acount-tabs__panel">{panel}</section>
         ))}
       </div>
@@ -66,15 +70,9 @@ export default {
 <style lang="scss" scoped>
 .acount-tabs {
   $root: &;
-  // --gutter: minmax(var(--s-gutter), calc(50% - var(--s-max-width) / 2));
-  // --tab-selected-border-radius: var(--s-quarter-gutter);
   --tab-selected-border-radius: var(--s-quarter-gutter);
   --tab-selected-bg: white;
-
   --tab-header-bg: var(--v-primary-lighten6);
-
-  // display: grid;
-  // grid-template-rows: auto;
 
   @for $i from 1 through 10 {
     input:nth-of-type(#{$i}) {
@@ -118,6 +116,7 @@ export default {
   }
   &__header-content {
     width: 100%;
+    padding-bottom: var(--s-gutter);
   }
   &__tab {
     flex: 1 1;

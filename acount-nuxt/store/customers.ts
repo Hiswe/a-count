@@ -49,7 +49,7 @@ export const actions: ActionTree<CustomersState, RootState> = {
   async [READ_CUSTOMER](vuexContext, userId) {
     const { commit } = vuexContext
     const { $axios } = <Vue>this
-    commit(FLUSH_ACTIVE)
+    commit(FLUSH_CURRENT)
     try {
       const response = await $axios.$get<Customer>(`/customers/${userId}`)
       commit(SET_CURRENT, response)
