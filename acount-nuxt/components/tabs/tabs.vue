@@ -5,6 +5,10 @@
 //  • maybe see
 //    https://www.npmjs.com/package/@hexeo/vue-typescript-jsx
 
+import filterVueComponents from '~/helpers/filter-vue-components'
+
+const filterNodes = filterVueComponents(`acount-tab`)
+
 export default {
   name: `acount-tabs`,
   data() {
@@ -16,12 +20,9 @@ export default {
   methods: {
     updateTabs() {
       if (!this.$slots.default) return
-      for (let panel of this.$slots.default) {
-        const { tag, propsData } = panel.componentOptions
-        if (tag !== `acount-tab`) return
-        this.tabs.push(propsData)
-        this.panels.push(panel)
-      }
+      this.tabs = filterNodes(this.$slots.default).map(
+        panel => panel.componentOptions.propsData,
+      )
     },
   },
   render(h) {
@@ -51,11 +52,7 @@ export default {
             ))}
           </div>
         </header>
-        {// this loose informations somehow…
-        // this.panels.map(panel => (
-        //   <section class="acount-tabs__panel">{panel}</section>
-        // ))
-        this.$slots.default.map(panel => (
+        {filterNodes(this.$slots.default).map(panel => (
           <section class="acount-tabs__panel">{panel}</section>
         ))}
       </div>

@@ -12,7 +12,6 @@ import {
 } from '~/components/key-presentation'
 
 const i18n = {
-  // https://github.com/kazupon/vue-i18n/issues/168
   numberFormats,
   messages: {
     en: {

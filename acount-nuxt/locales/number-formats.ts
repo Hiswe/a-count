@@ -1,3 +1,5 @@
+// export numberFormats to be easily reused in components
+// https://github.com/kazupon/vue-i18n/issues/168
 export default {
   'en-US': {
     percent: {

@@ -3,10 +3,12 @@ import Vue from 'vue'
 import { mapState } from 'vuex'
 import clonedeep from 'lodash.clonedeep'
 
+import numberFormats from '~/locales/number-formats'
 import { UserState } from '~/types/acount-store'
 import { AcountParty } from '~/components/paper'
 
 const i18n = {
+  numberFormats,
   messages: {
     en: {
       from: `from`,
