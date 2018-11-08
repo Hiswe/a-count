@@ -14,7 +14,10 @@ export interface AcountUser {
   productConfig: ProductConfig
 }
 
-export interface LoginResponse {
+export interface UserResponse {
   user: AcountUser
+}
+
+export interface LoginResponse extends UserResponse {
   access_token: string
 }
