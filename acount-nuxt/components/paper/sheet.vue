@@ -1,13 +1,6 @@
 <script lang="ts">
 import Vue from 'vue'
 
-// top,
-// top-left,
-// top-right,
-// center,
-// bottom
-//
-
 const PARTS_NAMES = [`top`, `top-left`, `top-right`, `center`, `bottom`]
 
 // https://frontendsociety.com/using-a-typescript-interfaces-and-types-as-a-prop-type-in-vuejs-508ab3f83480

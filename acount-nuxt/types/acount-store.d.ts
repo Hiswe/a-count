@@ -3,7 +3,7 @@ import { AcountUser, Customer } from '@acount/types'
 //----- NOTIFICATIONS
 
 export interface NotificationPayload {
-  type: `success` | `info` | `warn` | `error`
+  type: `success` | `info` | `warning` | `error`
   message: string
 }
 export interface Notification extends NotificationPayload {

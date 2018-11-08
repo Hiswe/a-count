@@ -4,6 +4,7 @@ import VueI18n from 'vue-i18n'
 
 import * as messages from '~/locales'
 import numberFormats from '~/locales/number-formats'
+import dateTimeFormats from '~/locales/date-time-formats'
 
 Vue.use(Vuetify, {
   theme: {
@@ -30,6 +31,7 @@ export default ({ app, store }) => {
     silentTranslationWarn: true,
     messages,
     numberFormats,
+    dateTimeFormats,
   })
 
   // // https://vuex.vuejs.org/api/#watch
