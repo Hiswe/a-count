@@ -1,10 +1,11 @@
 <script lang="ts">
 import Vue from 'vue'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import clonedeep from 'lodash.clonedeep'
 
 import numberFormats from '~/locales/number-formats'
 import { UserState } from '~/types/acount-store'
+import { UPDATE_USER } from '~/store/user'
 
 const i18n = {
   numberFormats,
@@ -54,7 +55,19 @@ export default Vue.extend({
     }),
   },
   created() {
-    this.form = clonedeep(this.user)
+    this.updateForm()
+  },
+  methods: {
+    async submit() {
+      await this.updateUser(this.form)
+      this.updateForm()
+    },
+    updateForm() {
+      this.form = clonedeep(this.user)
+    },
+    ...mapActions(`user`, {
+      updateUser: UPDATE_USER,
+    }),
   },
 })
 </script>
@@ -70,6 +83,23 @@ acount-main-content(title="#settings")
       acount-grid
         acount-paper(part="top-left")
           acount-party(title="from" :people="form" )
+        form(
+          id="login"
+          action="/account/settings"
+          method="post"
+          @submit.prevent="submit"
+        )
+          v-text-field(
+            name="name"
+            :label="$t(`form.name`)"
+            v-model="form.name"
+          )
+          v-textarea(
+            name="address"
+            :label="$t(`shared.address`)"
+            v-model="form.address"
+          )
+          v-btn(color="accent" type="submit") {{ $t(`form.update`) }}
     acount-tab(:title="$t(`default-product`)")
       | {{$t(`default-product`)}}
     acount-tab(:title="$t(`mentions`)")

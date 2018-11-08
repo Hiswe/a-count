@@ -1,7 +1,7 @@
 import isNil from 'lodash.isnil'
 import Vue from 'vue'
 import { ActionTree, MutationTree } from 'vuex'
-import { AcountUser, LoginResponse } from '@acount/types'
+import { AcountUser, UserResponse, LoginResponse } from '@acount/types'
 
 import {
   RootState,
@@ -28,6 +28,7 @@ const IS_ROOT = Object.freeze({ root: true })
 
 const SET_USER = `SET_USER`
 const REMOVE_USER = `REMOVE_USER`
+const UPDATE_SETTINGS = `UPDATE_SETTINGS`
 
 export const state = () => {
   const defaultState: UserState = {
@@ -42,6 +43,9 @@ export const mutations: MutationTree<UserState> = {
   },
   [REMOVE_USER](state) {
     state.user = null
+  },
+  [UPDATE_SETTINGS](state, payload: AcountUser) {
+    state.user = payload
   },
 }
 
@@ -58,6 +62,7 @@ export const LOGIN = `LOGIN`
 export const LOGOUT = `LOGOUT`
 export const REGISTER = `REGISTER`
 export const SET_PASSWORD = `SET_PASSWORD`
+export const UPDATE_USER = `UPDATE_USER`
 
 export const actions: ActionTree<UserState, RootState> = {
   async [ME](vuexContext) {
@@ -136,5 +141,18 @@ export const actions: ActionTree<UserState, RootState> = {
     $axios.setToken(false)
     commit(REMOVE_USER)
     this.$router.push(`/account/login`)
+  },
+  async [UPDATE_USER](vuexContext, payload) {
+    const { commit } = vuexContext
+    const { $axios } = <Vue>this
+    try {
+      const update = await $axios.$post<UserResponse>(
+        `/account/settings`,
+        payload,
+      )
+      commit(UPDATE_SETTINGS, update.user)
+    } catch (error) {
+      console.log(`something went wrong while updating the user`)
+    }
   },
 }

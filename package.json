@@ -9,6 +9,7 @@
   "scripts": {
     "start": "yarn build && yarn start",
     "build": "yarn workspaces build",
+    "build:api:doc": "yarn workspace @acount/api build:api-doc",
     "server": "yarn wsrun --parallel serve",
     "dev": "yarn wsrun --parallel dev",
     "dev:api": "yarn workspace @acount/api dev",
