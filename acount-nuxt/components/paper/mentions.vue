@@ -43,7 +43,7 @@ footer.acount-paper-mentions(:class="additionalClasses")
 
     &::after {
       content: '';
-      border: 2px solid var(--c-text-lighter);
+      border: 2px solid var(--v-secondary-base);
       height: calc(var(--s-gutter) * 4);
       align-self: end;
     }

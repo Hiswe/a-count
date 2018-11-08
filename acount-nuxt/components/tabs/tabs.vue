@@ -14,10 +14,14 @@ export default {
   data() {
     return {
       tabs: [],
-      panels: [],
+      index: 0,
+      activated: false,
     }
   },
   methods: {
+    onClick(index) {
+      this.index = index
+    },
     updateTabs() {
       if (!this.$slots.default) return
       this.tabs = filterNodes(this.$slots.default).map(
@@ -35,7 +39,8 @@ export default {
             name="tabs"
             value={index}
             id={`tabs-${index}`}
-            checked={index === 0}
+            checked={index === this.index}
+            disabled={this.activated}
           />
         ))}
         <header class="acount-tabs__header">
@@ -46,7 +51,11 @@ export default {
               </div>
             )}
             {this.tabs.map((tab, index) => (
-              <label class="acount-tabs__tab" for={`tabs-${index}`}>
+              <label
+                class="acount-tabs__tab"
+                for={`tabs-${index}`}
+                onClick={() => this.onClick(index)}
+              >
                 <span>{tab.title}</span>
               </label>
             ))}
@@ -60,6 +69,9 @@ export default {
   },
   created() {
     this.updateTabs()
+  },
+  mounted() {
+    this.activated = true
   },
 }
 </script>

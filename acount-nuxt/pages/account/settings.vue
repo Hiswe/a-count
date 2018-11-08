@@ -13,13 +13,15 @@ const i18n = {
     en: {
       from: `from`,
       'default-product': `Default product`,
-      mentions: `Footer mentions`,
+      'mention-quotation': `Footer quotations`,
+      'mention-invoice': `Footer invoices`,
       reference: `Reference number`,
     },
     fr: {
       from: `Coordonnées`,
       'default-product': `Produit par défaut`,
-      mentions: `Bas de page`,
+      'mention-quotation': `Mentions des devis`,
+      'mention-invoice': `Mentions des factures`,
       reference: `Nº de référence`,
     },
   },
@@ -74,36 +76,51 @@ export default Vue.extend({
 
 <template lang="pug">
 acount-main-content(title="#settings")
-  acount-tabs
-    template(slot="header")
-      | {{ user.lang }}
-      |
-      | {{ user.currency }}
-    acount-tab(:title="$t(`from`)")
-      acount-grid
-        acount-paper(part="top-left")
-          acount-party(title="from" :people="form" )
-        form(
-          id="login"
-          action="/account/settings"
-          method="post"
-          @submit.prevent="submit"
+  form(
+    id="login"
+    action="/account/settings"
+    method="post"
+    @submit.prevent="submit"
+  )
+    acount-tabs
+      template(slot="header")
+        | {{ user.lang }}
+        |
+        | {{ user.currency }}
+      acount-tab(:title="$t(`from`)")
+        acount-grid
+          acount-paper(part="top-left")
+            acount-party(title="from" :people="form" )
+          div
+            v-text-field(
+              name="name"
+              :label="$t(`form.name`)"
+              v-model="form.name"
+            )
+            v-textarea(
+              name="address"
+              :label="$t(`shared.address`)"
+              v-model="form.address"
+            )
+            v-btn(color="accent" type="submit") {{ $t(`form.update`) }}
+      acount-tab(:title="$t(`default-product`)")
+        | {{$t(`default-product`)}}
+      acount-tab(:title="$t(`mention-quotation`)")
+        v-textarea(
+          name="quotationConfig[mentions]"
+          :label="$t(`mention-quotation`)"
+          v-model="form.quotationConfig.mentions"
         )
-          v-text-field(
-            name="name"
-            :label="$t(`form.name`)"
-            v-model="form.name"
-          )
-          v-textarea(
-            name="address"
-            :label="$t(`shared.address`)"
-            v-model="form.address"
-          )
-          v-btn(color="accent" type="submit") {{ $t(`form.update`) }}
-    acount-tab(:title="$t(`default-product`)")
-      | {{$t(`default-product`)}}
-    acount-tab(:title="$t(`mentions`)")
-      | {{$t(`footer-mentions`)}}
-    acount-tab(:title="$t(`reference`)")
-      | {{$t(`reference`)}}
+        acount-paper(part="bottom")
+          acount-mentions(:content="form.quotationConfig.mentions" signature)
+      acount-tab(:title="$t(`mention-invoice`)")
+        v-textarea(
+          name="invoiceConfig[mentions]"
+          :label="$t(`mention-invoice`)"
+          v-model="form.invoiceConfig.mentions"
+        )
+        acount-paper(part="bottom")
+          acount-mentions(:content="form.invoiceConfig.mentions")
+      acount-tab(:title="$t(`reference`)")
+        | {{$t(`reference`)}}
 </template>

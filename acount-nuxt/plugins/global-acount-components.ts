@@ -6,7 +6,7 @@ import AcountProgress from '~/components/ui/progress.vue'
 import AcountMarkdown from '~/components/markdown.vue'
 import AcountGrid from '~/components/grid.vue'
 import { AcountTabs, AcountTab } from '~/components/tabs'
-import { AcountSheet, AcountParty } from '~/components/paper'
+import { AcountSheet, AcountParty, AcountMentions } from '~/components/paper'
 
 Vue.component(`acount-notifications`, AcountNotifications)
 Vue.component(`acount-main-content`, AcountMainContent)
@@ -17,3 +17,4 @@ Vue.component(`acount-tabs`, AcountTabs)
 Vue.component(`acount-tab`, AcountTab)
 Vue.component(`acount-paper`, AcountSheet)
 Vue.component(`acount-party`, AcountParty)
+Vue.component(`acount-mentions`, AcountMentions)
