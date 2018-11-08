@@ -13,6 +13,16 @@
   --sheet-border-color: var(--v-primary-lighten6);
   --sheet-shadow-color: rgba(0, 0, 0, 0.25);
   --sheet-big-font-size: 1.5rem;
+
+  // NAV CONFIG
+  --nav-main-width: 230px;
+  --nav-main-item-height: 50px;
+  --nav-main-link-color: var(--c-primary);
+  --nav-main-link-color-selected: var(--c-accent);
+  --nav-secondary-bg: white;
+  --nav-secondary-height: 70px;
+  --nav-secondary-color: var(--c-primary-darkest);
+  --nav-secondary-shadow: rgba(0, 0, 0, 0.15);
 }
 
 html {

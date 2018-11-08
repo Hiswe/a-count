@@ -14,9 +14,8 @@ nav.acount-navigation
 
 <style lang="scss" scoped>
 .acount-navigation {
-  --nav-width: 230px;
   max-height: 100vh;
-  width: var(--nav-width);
+  width: var(--nav-main-width);
   display: flex;
   flex-direction: column;
   flex: 0 0 auto;

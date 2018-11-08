@@ -42,11 +42,11 @@
     "ms": "^2.1.1",
     "nodemailer": "^4.6.7",
     "nodemailer-wellknown": "^0.2.3",
-    "pg": "^7.6.0",
+    "pg": "^7.6.1",
     "rand-token": "^0.4.0",
     "rc": "^1.2.8",
     "redis": "^2.8.0",
-    "sequelize": "^4.37.10",
+    "sequelize": "^4.41.1",
     "squel": "^5.12.1",
     "url-join": "^4.0.0"
   },

@@ -71,6 +71,8 @@ export default {
     this.updateTabs()
   },
   mounted() {
+    // handle tab changing with JS
+    //  • getting natural handling make switch tabs while filling an inner field
     this.activated = true
   },
 }

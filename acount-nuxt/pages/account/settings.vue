@@ -75,9 +75,12 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-acount-main-content(title="#settings")
+acount-main-content(:title="$t( `shared.settings` )")
+  template(slot="actions")
+    v-btn(fab dark color="accent" type="submit" form="settings")
+      v-icon(dark medium) save
   form(
-    id="login"
+    id="settings"
     action="/account/settings"
     method="post"
     @submit.prevent="submit"
@@ -102,7 +105,6 @@ acount-main-content(title="#settings")
               :label="$t(`shared.address`)"
               v-model="form.address"
             )
-            v-btn(color="accent" type="submit") {{ $t(`form.update`) }}
       acount-tab(:title="$t(`default-product`)")
         | {{$t(`default-product`)}}
       acount-tab(:title="$t(`mention-quotation`)")
