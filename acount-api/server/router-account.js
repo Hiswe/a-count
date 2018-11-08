@@ -66,24 +66,25 @@ async function connectUser(ctx, user) {
 
 /**
  * @apiDefine userInformation
- * @apiSuccess {string} id the user id
- * @apiSuccess {string} email the user email
- * @apiSuccess {string} name the user name
- * @apiSuccess {string} address the user address
- * @apiSuccess {string} lang the user language, either `en` or `fr`
- * @apiSuccess {string} currency the user currency, either `USD` or `EUR`
- * @apiSuccess {object} quotationConfig the user quotations' configuration
- * @apiSuccess {number} quotationConfig.creationCount the user number of quotations
- * @apiSuccess {string} quotationConfig.prefix the user default quotation reference prefix
- * @apiSuccess {number} quotationConfig.tax the user default tax rate
- * @apiSuccess {string} quotationConfig.mentions the user default quotation mentions
- * @apiSuccess {object} invoiceConfig the user invoices' configuration
- * @apiSuccess {number} invoiceConfig.creationCount the user number of invoices
- * @apiSuccess {string} invoiceConfig.prefix the user default invoice reference prefix
- * @apiSuccess {string} invoiceConfig.mentions the user default invoices mentions
- * @apiSuccess {object} productConfig the user product's configuration
- * @apiSuccess {number} productConfig.quantity the user default products quantity
- * @apiSuccess {number} productConfig.price the user default products price
+ * @apiSuccess {object} user the user
+ * @apiSuccess {string} user.id the user id
+ * @apiSuccess {string} user.email the user email
+ * @apiSuccess {string} user.name the user name
+ * @apiSuccess {string} user.address the user address
+ * @apiSuccess {string} user.lang the user language, either `en` or `fr`
+ * @apiSuccess {string} user.currency the user currency, either `USD` or `EUR`
+ * @apiSuccess {object} user.quotationConfig the user quotations' configuration
+ * @apiSuccess {number} user.quotationConfig.creationCount the user number of quotations
+ * @apiSuccess {string} user.quotationConfig.prefix the user default quotation reference prefix
+ * @apiSuccess {number} user.quotationConfig.tax the user default tax rate
+ * @apiSuccess {string} user.quotationConfig.mentions the user default quotation mentions
+ * @apiSuccess {object} user.invoiceConfig the user invoices' configuration
+ * @apiSuccess {number} user.invoiceConfig.creationCount the user number of invoices
+ * @apiSuccess {string} user.invoiceConfig.prefix the user default invoice reference prefix
+ * @apiSuccess {string} user.invoiceConfig.mentions the user default invoices mentions
+ * @apiSuccess {object} user.productConfig the user product's configuration
+ * @apiSuccess {number} user.productConfig.quantity the user default products quantity
+ * @apiSuccess {number} user.productConfig.price the user default products price
  */
 
 /**
@@ -220,7 +221,7 @@ methods[V1].login = async (ctx, next) => {
  * @apiParam (Request body) {string} email email
  * @apiParam (Request body) {string} password password
  *
- * @apiSuccess {object} user the user
+ * @apiUse userInformation
  * @apiSuccess {string} access_token the access token
  *
  * @apiUse userNotFound
@@ -314,7 +315,7 @@ async function setPassword(ctx, next) {
  * @apiParam (Request body) {string} token the token contained in the reset link
  * @apiParam (Request body) {string} password the new password
  *
- * @apiSuccess {object} user the user
+ * @apiUse userInformation
  * @apiSuccess {string} access_token the access token
  */
 async function reset(ctx, next) {
