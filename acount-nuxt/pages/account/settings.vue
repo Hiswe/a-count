@@ -146,7 +146,7 @@ acount-main-content(:title="$t( `shared.settings` )")
           acount-paper(part="top-left")
             acount-party(title="from" :people="form" )
           div
-            v-text-field(
+            acount-input(
               name="name"
               :label="$t(`form.name`)"
               v-model="form.name"
@@ -158,19 +158,19 @@ acount-main-content(:title="$t( `shared.settings` )")
             )
       acount-tab(:title="$t(`default-product`)")
         .default-product
-          v-text-field(
+          acount-input(
             name="productConfig[quantity]"
             :label="$t( `quantity` )"
             type="number"
             v-model="form.productConfig.quantity"
           )
-          v-text-field(
+          acount-input(
             name="productConfig[price]"
             :label="$t( `default-price` )"
             type="number"
             v-model="form.productConfig.price"
           )
-          v-text-field(
+          acount-input(
             name="quotationConfig[tax]"
             :label="$t( `tax` )"
             type="number"
@@ -205,12 +205,12 @@ acount-main-content(:title="$t( `shared.settings` )")
           dl.reference
             dt.reference__title(v-text="$t( `shared.quotations` )")
             dd.reference__form
-              v-text-field(
+              acount-input(
                 name="quotationConfig[prefix]"
                 :label="$t(`prefix`)"
                 v-model="form.quotationConfig.prefix"
               )
-              v-text-field(
+              acount-input(
                 name="quotationConfig[startAt]"
                 type="number"
                 :label="$t(`start-at`)"
@@ -225,12 +225,12 @@ acount-main-content(:title="$t( `shared.settings` )")
           dl.reference
             dt.reference__title(v-text="$t( `shared.invoices` )")
             dd.reference__form
-              v-text-field(
+              acount-input(
                 name="invoiceConfig[prefix]"
                 :label="$t(`prefix`)"
                 v-model="form.invoiceConfig.prefix"
               )
-              v-text-field(
+              acount-input(
                 name="invoiceConfig[startAt]"
                 type="number"
                 :label="$t(`start-at`)"

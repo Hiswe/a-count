@@ -1,0 +1,64 @@
+@mixin input-base() {
+  padding-top: 0.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1.5rem;
+  // needed for border & floating-label
+  position: relative;
+
+  &__input {
+    width: 100%;
+    display: block;
+    max-width: none;
+    padding: 0.25rem 0;
+    line-height: initial;
+  }
+}
+
+@mixin input-bottom-border() {
+  $root: &;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border-bottom: 2px solid var(--v-primary-base);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+    transform: scaleX(0);
+  }
+  &--focus {
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+  &__input {
+    text-align: inherit;
+    display: block;
+    border: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+    transition: border 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+
+    &:hover {
+      border-bottom-color: currentColor;
+    }
+  }
+}
+
+@mixin input-floating-label() {
+  $root: &;
+
+  &__label {
+    left: 0px;
+    position: absolute;
+    color: rgba(0, 0, 0, 0.54);
+    transform-origin: top left;
+    transform: translateY(-1.1rem) scale(0.75);
+    transition: color 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  }
+  &--focus {
+    #{$root}__label {
+      color: var(--v-primary-base);
+    }
+  }
+}

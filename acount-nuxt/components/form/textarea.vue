@@ -42,7 +42,7 @@ export default Vue.extend({
         'acount-textarea--focus': this.isFocus,
       }
     },
-    for() {
+    htmlFor() {
       return this.id || this.name
     },
   },
@@ -75,11 +75,11 @@ export default Vue.extend({
 
 <template lang="pug">
 .acount-textarea(:class="wrapperClasses")
-  label.acount-textarea__label(:for="this.for" v-if="label") {{ label }}
+  label.acount-textarea__label(:for="htmlFor" v-if="label") {{ label }}
   textarea.acount-textarea__input(
     ref="input"
     :value="value"
-    :id="id"
+    :id="htmlFor"
     :name="name"
     :class="inputClasses"
     @input="onInput"
@@ -89,53 +89,15 @@ export default Vue.extend({
 </template>
 
 <style lang="scss" scoped>
-.acount-textarea {
-  $root: &;
-  position: relative;
-  padding-top: 0.5rem;
-  margin-top: 0.25rem;
+@import './form-mixins';
 
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    border-bottom: 2px solid var(--v-primary-base);
-    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-    transform: scaleX(0);
-  }
-  &--focus {
-    &::after {
-      transform: scaleX(1);
-    }
-    #{$root}__label {
-      color: var(--v-primary-base);
-    }
-  }
-  &__label {
-    left: 0px;
-    position: absolute;
-    color: rgba(0, 0, 0, 0.54);
-    transform-origin: top left;
-    transform: translateY(-1.1rem) scale(0.75);
-    transition: color 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-  }
-  &__input {
-    width: 100%;
-    display: block;
-    max-width: none;
-    padding: 0.25rem 0;
-    border: 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.42);
-    line-height: initial;
-    transition: border 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-    &:hover {
-      border-bottom-color: currentColor;
-    }
-    &--autoresize {
-      resize: none;
-    }
+.acount-textarea {
+  @include input-base();
+  @include input-bottom-border();
+  @include input-floating-label();
+
+  &__input--autoresize {
+    resize: none;
   }
 }
 </style>
