@@ -18,6 +18,7 @@
     "dev:nodemon": "nodemon dist/acount-server.js"
   },
   "dependencies": {
+    "@acount/helpers": "^1.1.0",
     "@acount/types": "^1.0.0",
     "@hiswe/focus-ring": "^1.0.4",
     "@hiswe/koa-nuxt": "^1.0.0",

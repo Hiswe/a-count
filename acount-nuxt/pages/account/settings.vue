@@ -86,6 +86,26 @@ export default Vue.extend({
         reference: `${invoiceConfig.prefix}${invoiceConfig.startAt}`,
       }
     },
+    fakeDocument() {
+      const { productConfig, quotationConfig } = this.form
+      return {
+        products: [
+          {
+            _id: `fake-product-1`,
+            checked: true,
+            description: `a __product__ example`,
+            quantity: 2,
+            price: productConfig.price,
+          },
+          {
+            _id: `fake-product-2`,
+            checked: true,
+            ...productConfig,
+          },
+        ],
+        tax: quotationConfig.tax,
+      }
+    },
   },
   created() {
     this.updateForm()
@@ -156,6 +176,9 @@ acount-main-content(:title="$t( `shared.settings` )")
             type="number"
             v-model="form.quotationConfig.tax"
           )
+        acount-table-products(
+          :document="fakeDocument"
+        )
       acount-tab(:title="$t(`mention-quotation`)")
         acount-textarea(
           name="quotationConfig[mentions]"

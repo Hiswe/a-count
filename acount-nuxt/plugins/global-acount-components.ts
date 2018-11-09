@@ -13,6 +13,7 @@ import {
   AcountMentions,
   AcountReference,
 } from '~/components/paper'
+import { AcountTableProducts } from '~/components/table'
 
 Vue.component(`acount-notifications`, AcountNotifications)
 Vue.component(`acount-main-content`, AcountMainContent)
@@ -27,3 +28,4 @@ Vue.component(`acount-paper`, AcountSheet)
 Vue.component(`acount-party`, AcountParty)
 Vue.component(`acount-mentions`, AcountMentions)
 Vue.component(`acount-reference`, AcountReference)
+Vue.component(`acount-table-products`, AcountTableProducts)
