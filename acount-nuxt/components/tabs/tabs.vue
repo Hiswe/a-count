@@ -135,6 +135,7 @@ export default {
     padding: 0.5rem 0;
     color: var(--v-primary-base);
     position: relative;
+    text-transform: lowercase;
 
     &::before,
     &::after {

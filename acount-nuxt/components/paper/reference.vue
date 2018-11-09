@@ -56,27 +56,6 @@ header.acount-paper-reference
     | {{ this.reference }}
   p.acount-paper-reference__date
     | {{ $t(`date`) }}{{ $d(this.date, `short`) }}
-//- export function Reference(props) {
-//-   const { type, product } = props
-//-   const date = product.sendAt || product.createdAt
-//-   const REF_CLASS = `${BASE_CLASS}__reference`
-//-   return (
-//-     <header className={REF_CLASS}>
-//-       <h3 className={`${REF_CLASS}-type`}>
-//-         <FormattedMessage id={`paper-sheet.reference.${type}`} />
-//-       </h3>
-//-       <h4 className={`${REF_CLASS}-id`}>Ref. {product.reference}</h4>
-//-       <p className={`${REF_CLASS}-date`}>
-//-         {date && (
-//-           <>
-//-             <FormattedMessage id={`paper-sheet.reference.date`} />
-//-             <Day value={date} />
-//-           </>
-//-         )}
-//-       </p>
-//-     </header>
-//-   )
-
 </template>
 
 <style lang="scss" scoped>

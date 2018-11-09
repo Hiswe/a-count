@@ -21,6 +21,9 @@ const i18n = {
         Be cautious!`,
       prefix: `prefix`,
       'start-at': `start at`,
+      quantity: `quantity`,
+      'default-price': `default price`,
+      tax: `tax`,
     },
     fr: {
       from: `Coordonnées`,
@@ -33,6 +36,9 @@ const i18n = {
         Soyez prudent !`,
       prefix: `préfixe`,
       'start-at': `commence à`,
+      quantity: `quantité`,
+      'default-price': `prix par défaut`,
+      tax: `taxe`,
     },
   },
 }
@@ -125,15 +131,33 @@ acount-main-content(:title="$t( `shared.settings` )")
               :label="$t(`form.name`)"
               v-model="form.name"
             )
-            v-textarea(
+            acount-textarea(
               name="address"
               :label="$t(`shared.address`)"
               v-model="form.address"
             )
       acount-tab(:title="$t(`default-product`)")
-        | {{$t(`default-product`)}}
+        .default-product
+          v-text-field(
+            name="productConfig[quantity]"
+            :label="$t( `quantity` )"
+            type="number"
+            v-model="form.productConfig.quantity"
+          )
+          v-text-field(
+            name="productConfig[price]"
+            :label="$t( `default-price` )"
+            type="number"
+            v-model="form.productConfig.price"
+          )
+          v-text-field(
+            name="quotationConfig[tax]"
+            :label="$t( `tax` )"
+            type="number"
+            v-model="form.quotationConfig.tax"
+          )
       acount-tab(:title="$t(`mention-quotation`)")
-        v-textarea(
+        acount-textarea(
           name="quotationConfig[mentions]"
           :label="$t(`mention-quotation`)"
           v-model="form.quotationConfig.mentions"
@@ -141,7 +165,7 @@ acount-main-content(:title="$t( `shared.settings` )")
         acount-paper(part="bottom")
           acount-mentions(:content="form.quotationConfig.mentions" signature)
       acount-tab(:title="$t(`mention-invoice`)")
-        v-textarea(
+        acount-textarea(
           name="invoiceConfig[mentions]"
           :label="$t(`mention-invoice`)"
           v-model="form.invoiceConfig.mentions"
@@ -208,5 +232,12 @@ acount-main-content(:title="$t( `shared.settings` )")
     grid-template-columns: 1fr 1fr;
     grid-gap: var(--s-gutter);
   }
+}
+.default-product {
+  display: grid;
+  max-width: 400px;
+  margin: 0 auto;
+  grid-template-columns: 5rem 1fr 5rem;
+  grid-gap: var(--s-gutter);
 }
 </style>

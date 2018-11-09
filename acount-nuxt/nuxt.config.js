@@ -9,6 +9,7 @@ export default {
     `@/plugins/vue-libraries.ts`,
     `@/plugins/global-acount-components.ts`,
     { src: `@/plugins/nuxt-client-init`, ssr: false },
+    { src: `@/plugins/dom-libraries`, ssr: false },
   ],
   modules: [
     `nuxt-ts-module`,
