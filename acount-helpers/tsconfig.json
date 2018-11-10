@@ -2,7 +2,9 @@
   "compilerOptions": {
     "outDir": "./lib",
     "lib": ["es5", "es2015.promise", "es2015.iterable"],
-    "module": "commonjs",
+    "target": "es5",
+    "module": "es6",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "esModuleInterop": true
   },

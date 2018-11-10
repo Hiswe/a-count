@@ -1,16 +1,12 @@
-"use strict";
-exports.__esModule = true;
-function roundToNearestQuarter(number) {
+export function roundToNearestQuarter(number) {
     var rounded = Math.round(number * 4) / 4;
     return parseFloat(rounded.toFixed(2));
 }
-exports.roundToNearestQuarter = roundToNearestQuarter;
-function enforceNumber(number) {
+export function enforceNumber(number) {
     number = typeof number !== "number" ? parseFloat(number) : number;
     return isNaN(number) ? 0 : number;
 }
-exports.enforceNumber = enforceNumber;
-function productTotal(product) {
+export function productTotal(product) {
     if (!product.checked)
         return 0;
     // don't mutate product
@@ -21,8 +17,7 @@ function productTotal(product) {
     var quantity = cleanedProduct.quantity, price = cleanedProduct.price;
     return roundToNearestQuarter(quantity * price);
 }
-exports.productTotal = productTotal;
-function totals(document) {
+export function totals(document) {
     var products = document.products, _a = document.tax, tax = _a === void 0 ? 0 : _a;
     if (!Array.isArray(products))
         return document;
@@ -33,7 +28,6 @@ function totals(document) {
     return {
         totalNet: totalNet,
         totalTax: totalTax,
-        total: total
+        total: total,
     };
 }
-exports.totals = totals;

@@ -42,20 +42,14 @@ const i18n = {
     },
   },
 }
-const customerExample = {
-  name: `Customer name`,
-  address: `123 6th St.
-__Melbourne, FL 32904__
-AUSTRALIA`,
-}
-const currencies = [
-  { value: `USD`, label: `US Dollars` },
-  { value: `EUR`, label: `Euros` },
-  { value: `THB`, label: `Thai Bahts` },
-]
 const languages = [
-  { value: `fr`, label: `français` },
-  { value: `en`, label: `english` },
+  { value: `fr`, text: `français` },
+  { value: `en`, text: `english` },
+]
+const currencies = [
+  { value: `USD`, text: `US Dollars` },
+  { value: `EUR`, text: `Euros` },
+  { value: `THB`, text: `Thai Bahts` },
 ]
 const now = new Date().toUTCString()
 
@@ -66,7 +60,7 @@ export default Vue.extend({
     authRequired: true,
   },
   data() {
-    return { form: {} }
+    return { form: {}, currencies, languages }
   },
   computed: {
     ...mapState<UserState>(`user`, {
@@ -138,6 +132,9 @@ acount-main-content(:title="$t( `shared.settings` )")
   )
     acount-tabs
       template(slot="header")
+        acount-grid
+          v-select(:item="languages")
+          v-select(:item="currencies")
         | {{ user.lang }}
         |
         | {{ user.currency }}
