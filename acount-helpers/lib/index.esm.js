@@ -1,7 +1,3 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
 function roundToNearestQuarter(number) {
     var rounded = Math.round(number * 4) / 4;
     return parseFloat(rounded.toFixed(2));
@@ -36,6 +32,4 @@ function totals(document) {
     };
 }
 
-exports.computeTotals = totals;
-exports.computeProductTotal = productTotal;
-exports.enforceNumber = enforceNumber;
+export { totals as computeTotals, productTotal as computeProductTotal, enforceNumber };

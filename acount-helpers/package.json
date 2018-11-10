@@ -2,13 +2,14 @@
   "name": "@acount/helpers",
   "version": "1.1.0",
   "description": "",
-  "main": "./lib/index.js",
-  "types": "./lib.index.d.ts",
+  "main": "lib/index.js",
+  "module": "lib/index.esm.js",
+  "types": "lib/index.d.ts",
   "engines": {
     "node": ">=10.12.0"
   },
   "scripts": {
-    "build": "tsc --declaration"
+    "build": "rollup --config"
   },
   "author": "Hiswe <hiswehalya@gmail.com>",
   "license": "MIT",
@@ -16,6 +17,8 @@
     "@acount/types": "^1.0.0"
   },
   "devDependencies": {
+    "rollup": "^0.67.0",
+    "rollup-plugin-typescript2": "^0.17.2",
     "typescript": "^3.1.6"
   }
 }
