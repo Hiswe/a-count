@@ -4,7 +4,7 @@ import {
   computeProductTotal,
   computeTotals,
   enforceNumber,
-} from '@acount/helpers/index'
+} from '@acount/helpers'
 
 import numberFormats from '~/locales/number-formats'
 
