@@ -24,6 +24,8 @@ const i18n = {
       quantity: `quantity`,
       'default-price': `default price`,
       tax: `tax`,
+      language: `language`,
+      currency: `currency`,
     },
     fr: {
       from: `Coordonnées`,
@@ -39,6 +41,8 @@ const i18n = {
       quantity: `quantité`,
       'default-price': `prix par défaut`,
       tax: `taxe`,
+      language: `langue`,
+      currency: `devise`,
     },
   },
 }
@@ -133,11 +137,16 @@ acount-main-content(:title="$t( `shared.settings` )")
     acount-tabs
       template(slot="header")
         acount-grid
-          v-select(:item="languages")
-          v-select(:item="currencies")
-        | {{ user.lang }}
-        |
-        | {{ user.currency }}
+          v-select(
+            v-model="form.lang"
+            :items="languages"
+            :label="$t( `language` )"
+          )
+          v-select(
+            v-model="form.currency"
+            :items="currencies"
+            :label="$t( `currency` )"
+          )
       acount-tab(:title="$t(`from`)")
         acount-grid
           acount-paper(part="top-left")
