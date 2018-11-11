@@ -103,12 +103,12 @@ acount-main-content(title="#edit customer")
             type="hidden"
             v-model="form.id"
           )
-          v-text-field(
+          acount-input(
             name="name"
             :label="$t(`form.name`)"
             v-model="form.name"
           )
-          v-textarea(
+          acount-textarea(
             name="address"
             :label="$t(`shared.address`)"
             v-model="form.address"

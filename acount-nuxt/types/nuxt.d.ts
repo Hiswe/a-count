@@ -4,6 +4,7 @@ import { MetaInfo } from 'vue-meta'
 import { Store } from 'vuex'
 import { Dictionary } from 'vue-router/types/router'
 import { CookieSerializeOptions } from 'cookie'
+import VueI18n from 'vue-i18n'
 
 import { AcountMeta } from './acount'
 
@@ -95,6 +96,7 @@ declare module 'vue/types/vue' {
   interface Vue {
     $axios: NuxtAxios
     $cookies: NuxtCookies
+    i18n: VueI18n
   }
   // interface VueConstructor {
   //   $axios: NuxtAxios

@@ -1,6 +1,6 @@
 import isNil from 'lodash.isnil'
 import Vue from 'vue'
-import { ActionTree, MutationTree } from 'vuex'
+import { ActionTree, MutationTree, GetterTree } from 'vuex'
 import { AcountUser, UserResponse, LoginResponse } from '@acount/types'
 
 import {
@@ -50,10 +50,15 @@ export const mutations: MutationTree<UserState> = {
 }
 
 export const IS_CONNECTED = `IS_CONNECTED`
+export const LOCALE = `LOCALE`
 
-export const getters = {
-  [IS_CONNECTED](state: UserState) {
+export const getters: GetterTree<UserState, RootState> = {
+  [IS_CONNECTED](state) {
     return !isNil(state.user)
+  },
+  [LOCALE](state) {
+    if (isNil(state.user)) return `en`
+    return state.user.lang
   },
 }
 

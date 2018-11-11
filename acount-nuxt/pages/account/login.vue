@@ -7,6 +7,9 @@ import { LOGIN } from '~/store/user'
 
 export default Vue.extend({
   name: `page-login`,
+  meta: {
+    authForbidden: true,
+  },
   data() {
     return {
       form: {
@@ -14,9 +17,6 @@ export default Vue.extend({
         password: ``,
       },
     }
-  },
-  meta: {
-    authForbidden: true,
   },
   methods: {
     submit() {

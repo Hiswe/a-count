@@ -1,6 +1,6 @@
 import { NuxtContext } from '~/types/nuxt'
 import { AcountMeta } from '~/types/acount'
-import { IS_CONNECTED, ME } from '~/store/user'
+import { IS_CONNECTED, LOCALE, ME } from '~/store/user'
 import setAxiosTokenFromCookie from '~/helpers/set-axios-token-from-cookie'
 
 const COOKIE_NAME = process.env.COOKIE_NAME
@@ -30,6 +30,7 @@ export default async function authMiddleware(nuxtContext: NuxtContext) {
     // populate user if there is a connection cookie
     await store.dispatch(`user/${ME}`)
     hasUser = store.getters[`user/${IS_CONNECTED}`]
+    app.i18n.locale = store.getters[`user/${LOCALE}`]
   }
 
   // CHECK AUTHORIZATIONS

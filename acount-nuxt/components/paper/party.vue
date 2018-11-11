@@ -30,7 +30,7 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-aside.acount-paper-party
+aside.acount-paper-party(:class="`acount-paper-party--${title}`")
   p.acount-paper-party__title {{ title }}
   h4.acount-paper-party__name(:class="partyNameClass")
     span(v-if="people.name") {{people.name}}
@@ -45,10 +45,9 @@ aside.acount-paper-party
 
 <style lang="scss" scoped>
 .acount-paper-party {
-  & + & {
+  &--to {
     text-align: right;
   }
-
   &__title {
     margin: 0 0 0.25em;
     font-style: italic;
