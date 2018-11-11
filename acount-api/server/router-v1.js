@@ -1,6 +1,7 @@
 'use strict'
 
 const Router = require('koa-router')
+const cloneDeep = require('lodash.clonedeep')
 
 const routerAccount = require('./router-account')
 const routerCustomers = require('./router-customers')
@@ -36,5 +37,6 @@ apiRouter.use(routerCommon.getDefaultQueryParams)
 
 apiRouter.use(routerAccount[VERSION.number].private.routes())
 apiRouter.use(routerCustomers[VERSION.number].routes())
-apiRouter.use(routerQuotations.routes())
-apiRouter.use(routerInvoices.routes())
+// https://github.com/alexmingoia/koa-router/issues/244#issuecomment-334874813
+apiRouter.use(cloneDeep(routerQuotations).routes())
+apiRouter.use(cloneDeep(routerInvoices).routes())
