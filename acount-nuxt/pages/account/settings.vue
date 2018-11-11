@@ -137,13 +137,21 @@ acount-main-content(:title="$t( `shared.settings` )")
     acount-tabs
       template(slot="header")
         acount-grid
-          v-select(
+          acount-select(
             v-model="form.lang"
+            name="lang"
             :items="languages"
             :label="$t( `language` )"
           )
+          acount-select(
+            v-model="form.currency"
+            name="currency"
+            :items="currencies"
+            :label="$t( `currency` )"
+          )
           v-select(
             v-model="form.currency"
+            name="currency"
             :items="currencies"
             :label="$t( `currency` )"
           )

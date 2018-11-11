@@ -45,13 +45,13 @@ form(
 )
   h2 {{ $t(`shared.login`) }}
   acount-notifications
-  v-text-field(
+  acount-input(
     type="email"
     name="email"
     :label="$t(`form.email`)"
     v-model="form.email"
   )
-  v-text-field(
+  acount-input(
     type="password"
     name="password"
     :label="$t(`form.password`)"
