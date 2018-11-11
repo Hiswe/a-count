@@ -149,12 +149,6 @@ acount-main-content(:title="$t( `shared.settings` )")
             :items="currencies"
             :label="$t( `currency` )"
           )
-          v-select(
-            v-model="form.currency"
-            name="currency"
-            :items="currencies"
-            :label="$t( `currency` )"
-          )
       acount-tab(:title="$t(`from`)")
         acount-grid
           acount-paper(part="top-left")

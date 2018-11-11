@@ -1,6 +1,5 @@
 <script lang="ts">
 import Vue from 'vue'
-
 import { enforceNumber } from '@acount/helpers'
 
 const INPUT_TYPES = [`text`, `number`]
