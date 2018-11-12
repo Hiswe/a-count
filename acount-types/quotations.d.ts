@@ -1,6 +1,7 @@
 import { CustomerLight } from './customers'
 import { QuotationConfig } from './quotations'
 import { Product, ProductConfig } from './products'
+import { ListMeta } from './list'
 
 export interface QuotationConfig {
   creationCount: number
@@ -32,4 +33,9 @@ export interface Quotation {
   quotationConfig: QuotationConfig
   productConfig: ProductConfig
   customer: CustomerLight
+}
+
+export interface GetAllQuotations {
+  rows: Quotation[]
+  meta: ListMeta
 }

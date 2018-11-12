@@ -1,3 +1,5 @@
+import { ListMeta } from './list'
+
 export interface CustomerLight {
   id: string
   name: string
@@ -15,5 +17,5 @@ export interface Customer extends CustomerLight {
 
 export interface GetAllCustomers {
   rows: Customer[]
-  meta: {}
+  meta: ListMeta
 }

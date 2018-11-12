@@ -9,5 +9,5 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-  h1 invoices
+acount-main-content(:title="$t( `shared.invoices` )")
 </template>

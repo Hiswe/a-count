@@ -10,7 +10,6 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-div
-  h1 hello nuxt world
+acount-main-content(:title="$t( `shared.home` )")
 </template>
 

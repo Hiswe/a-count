@@ -1,4 +1,4 @@
-import { AcountUser, Customer } from '@acount/types'
+import { AcountUser, Customer, Quotation } from '@acount/types'
 
 //----- NOTIFICATIONS
 
@@ -40,11 +40,20 @@ export interface CustomersState {
   current: false | Customer
 }
 
+//----- QUOTATIONS
+
+export interface QuotationsState {
+  active: Quotation[]
+  current: false | Quotation
+  // archived: Quotation[]
+}
+
 //----- ROOT STATE
 
 export interface RootState {
   notifications: NotificationState
   user: UserState
   customers: CustomersState
+  quotations: QuotationsState
   formErrors: FormErrorState
 }
