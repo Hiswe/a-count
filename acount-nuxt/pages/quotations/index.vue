@@ -18,48 +18,40 @@ export default Vue.extend({
     return {
       headers: [
         {
+          text: `#`,
+          value: `reference`,
+        },
+        {
           text: this.$t(`table.header.name`),
           value: `name`,
-          align: `left`,
         },
         {
-          text: this.$t(`table.header.quotations`),
-          value: `quotationsCount`,
+          text: this.$t(`table.header.customer`),
+          value: `customer.name`,
+        },
+        {
+          text: this.$t(`table.header.sent`),
+          value: `sendAt`,
           align: `right`,
-          // width: `6em`,
-          sortable: false,
         },
         {
-          text: this.$t(`table.header.cumulative-amount`),
-          value: `quotationsTotal`,
-          align: `right`,
-          // width: `1em`,
+          text: this.$t('table.header.validated'),
+          value: `validatedAt`,
         },
         {
-          text: this.$t(`table.header.invoices`),
-          value: `invoicesCount`,
-          align: `right`,
-          // align: `left`,
+          text: this.$t('table.amount.total'),
+          value: `total`,
         },
         {
-          text: this.$t(`table.header.cumulative-amount`),
-          value: `invoicesTotal`,
-          align: `right`,
-          // align: `left`,
-          // width: `6em`,
-        },
-        {
-          text: this.$t('table.amount.paid'),
-          value: `invoicesTotalPaid`,
-          sortable: false,
-          // width: `1em`,
+          text: ``,
+          value: `id`,
         },
       ],
     }
   },
   computed: {
-    ...mapState(`quotations`, {
-      items: (state: QuotationsState) => state.active,
+    ...mapState<QuotationsState>(`quotations`, {
+      items: state => state.active,
     }),
   },
 })
@@ -67,5 +59,20 @@ export default Vue.extend({
 
 <template lang="pug">
 acount-main-content(:title="$t( `shared.quotations` )")
-
+  v-data-table(
+      :headers="headers"
+      :items="items"
+    )
+      template(slot="items" slot-scope="props")
+        tr
+          td
+            nuxt-link(:to="`/quotations/${props.item.id}`") {{props.item.reference}}
+          td
+            nuxt-link(:to="`/quotations/${props.item.id}`") {{ props.item.name }}
+          td
+            nuxt-link(:to="`/customers/${props.item.customerId}`") {{ props.item.customer.name }}
+          td {{ props.item.sendAt }}
+          td {{ props.item.validatedAt }}
+          td.text-xs-right {{ $n(props.item.total, `currency`) }}
+          td remove
 </template>

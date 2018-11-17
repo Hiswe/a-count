@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import { enforceNumber } from '@acount/helpers'
 
-const INPUT_TYPES = [`text`, `number`]
+const INPUT_TYPES = [`text`, `number`, `email`]
 
 export default Vue.extend({
   name: `acount-input`,
