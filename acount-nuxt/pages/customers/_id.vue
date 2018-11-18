@@ -4,12 +4,15 @@ import { mapState, mapActions } from 'vuex'
 import cloneDeep from 'lodash.clonedeep'
 
 import numberFormats from '~/locales/number-formats'
-import { CustomersState } from '~/types/acount-store'
+import { CustomersState, QuotationsState } from '~/types/acount-store'
+import {} from '~/store/quotations'
+import { CUSTOMER_QUOTATIONS } from '~/store/quotations'
 import { READ_CUSTOMER, UPDATE_CUSTOMER } from '~/store/customers'
 import {
   AcountKeyPresentation,
   AcountKeyPresentationItem,
 } from '~/components/key-presentation'
+import { AcountCustomerQuotations } from '~/components/customers'
 
 const i18n = {
   numberFormats,
@@ -35,6 +38,7 @@ export default Vue.extend({
   components: {
     AcountKeyPresentation,
     AcountKeyPresentationItem,
+    AcountCustomerQuotations,
   },
   meta: {
     authRequired: true,
@@ -42,7 +46,10 @@ export default Vue.extend({
   async fetch(nuxtContext) {
     const { store, route } = nuxtContext
     const { id } = route.params
-    await store.dispatch(`customers/${READ_CUSTOMER}`, id)
+    await Promise.all([
+      store.dispatch(`customers/${READ_CUSTOMER}`, id),
+      store.dispatch(`quotations/${CUSTOMER_QUOTATIONS}`, id),
+    ])
   },
   created() {
     this.form = cloneDeep(this.customer)
@@ -50,6 +57,37 @@ export default Vue.extend({
   data() {
     return {
       form: {},
+      quotationHeaders: [
+        {
+          text: `#`,
+          value: `reference`,
+        },
+        {
+          text: this.$t(`table.header.name`),
+          value: `name`,
+        },
+        {
+          text: this.$t(`table.header.customer`),
+          value: `customer.name`,
+        },
+        {
+          text: this.$t(`table.header.sent`),
+          value: `sendAt`,
+          align: `right`,
+        },
+        {
+          text: this.$t('table.header.validated'),
+          value: `validatedAt`,
+        },
+        {
+          text: this.$t('table.amount.total'),
+          value: `total`,
+        },
+        {
+          text: ``,
+          value: `id`,
+        },
+      ],
     }
   },
   computed: {
@@ -58,6 +96,9 @@ export default Vue.extend({
     },
     ...mapState<CustomersState>(`customers`, {
       customer: state => state.current,
+    }),
+    ...mapState<QuotationsState>(`quotations`, {
+      quotations: state => state.active,
     }),
   },
   methods: {
@@ -88,7 +129,7 @@ acount-main-content(title="#edit customer")
             :max="form.invoicesTotal"
           )
     acount-tab(:title="$t( `shared.quotations` )")
-      | #headers
+      AcountCustomerQuotations(:items="quotations")
     acount-tab(:title="$t( `shared.invoices` )")
       | #invoices
     acount-tab(:title="$t( `shared.address` )")

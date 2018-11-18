@@ -48,6 +48,7 @@ export default {
     amount: {
       paid: `payé`,
       'left-to-pay': `reste`,
+      total: `total`,
     },
   },
 }
