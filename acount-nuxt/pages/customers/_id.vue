@@ -57,37 +57,6 @@ export default Vue.extend({
   data() {
     return {
       form: {},
-      quotationHeaders: [
-        {
-          text: `#`,
-          value: `reference`,
-        },
-        {
-          text: this.$t(`table.header.name`),
-          value: `name`,
-        },
-        {
-          text: this.$t(`table.header.customer`),
-          value: `customer.name`,
-        },
-        {
-          text: this.$t(`table.header.sent`),
-          value: `sendAt`,
-          align: `right`,
-        },
-        {
-          text: this.$t('table.header.validated'),
-          value: `validatedAt`,
-        },
-        {
-          text: this.$t('table.amount.total'),
-          value: `total`,
-        },
-        {
-          text: ``,
-          value: `id`,
-        },
-      ],
     }
   },
   computed: {

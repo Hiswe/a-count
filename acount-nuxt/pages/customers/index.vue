@@ -2,11 +2,25 @@
 import Vue from 'vue'
 import { mapState } from 'vuex'
 
+import numberFormats from '~/locales/number-formats'
 import { CustomersState } from '~/types/acount-store'
 import { ALL_CUSTOMERS } from '~/store/customers'
 
+const i18n = {
+  numberFormats,
+  messages: {
+    en: {
+      'new-customer': `new customer`,
+    },
+    fr: {
+      'new-customer': `nouveau client`,
+    },
+  },
+}
+
 export default Vue.extend({
   name: `page-customers-list`,
+  i18n,
   meta: {
     authRequired: true,
   },
@@ -67,6 +81,10 @@ export default Vue.extend({
 
 <template lang="pug">
 acount-main-content(:title="$t( `shared.customers` )")
+  template(slot="actions")
+    v-btn(to="/customers/new" color="accent") {{$t( `new-customer` )}}
+    //- v-btn(fab dark color="accent" type="submit" form="settings")
+    //-   v-icon(dark medium) save
   template(slot="centered")
     v-data-table(
       :headers="headers"

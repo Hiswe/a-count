@@ -2,6 +2,9 @@
 import Vue from 'vue'
 export default Vue.extend({
   name: `page-edit-quotation`,
+  meta: {
+    authRequired: true,
+  },
 })
 </script>
 

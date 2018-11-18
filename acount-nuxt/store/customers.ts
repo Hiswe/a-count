@@ -32,6 +32,7 @@ export const mutations: MutationTree<CustomersState> = {
 }
 
 export const READ_CUSTOMER = `READ_CUSTOMER`
+export const NEW_CUSTOMER = `NEW_CUSTOMER`
 export const UPDATE_CUSTOMER = `UPDATE_CUSTOMER`
 export const ALL_CUSTOMERS = `ALL_CUSTOMERS`
 export const actions: ActionTree<CustomersState, RootState> = {
@@ -55,6 +56,17 @@ export const actions: ActionTree<CustomersState, RootState> = {
       commit(SET_CURRENT, response)
     } catch (error) {
       console.error(`something went wrong while getting a user`)
+    }
+  },
+  async [NEW_CUSTOMER](vuexContext) {
+    const { commit } = vuexContext
+    const { $axios } = <Vue>this
+    commit(FLUSH_CURRENT)
+    try {
+      const response = await $axios.$get<Customer>(`/customers/new`)
+      commit(SET_CURRENT, response)
+    } catch (error) {
+      console.error(`something went wrong while getting a user template`)
     }
   },
   async [UPDATE_CUSTOMER](vuexContext, payload) {
