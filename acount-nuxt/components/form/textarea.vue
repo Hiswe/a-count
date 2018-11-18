@@ -1,6 +1,8 @@
 <script lang="ts">
 import Vue from 'vue'
 
+import EventBus from '~/helpers/event-bus'
+
 // change textarea size if too much content
 // • https://maximilianhoffmann.com/posts/autoresizing-textareas
 export default Vue.extend({
@@ -54,6 +56,7 @@ export default Vue.extend({
     },
     onFocus() {
       this.isFocus = true
+      EventBus.$emit(`close`)
     },
     onBlur() {
       this.isFocus = false

@@ -7,9 +7,11 @@ export default {
     quotations: `quotations`,
     quotation: `quotation`,
     invoices: `invoices`,
+    customer: `customer`,
     customers: `customers`,
     settings: `settings`,
     address: `address`,
+    tax: `tax rate`,
   },
   form: {
     email: `email`,

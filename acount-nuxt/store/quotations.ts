@@ -1,13 +1,8 @@
 import Vue from 'vue'
 import { ActionTree, MutationTree } from 'vuex'
-import { GetAllQuotations } from '@acount/types'
+import { GetAllQuotations, Quotation } from '@acount/types'
 
 import { RootState, QuotationsState } from '~/types/acount-store'
-
-const SET_ACTIVE = `SET_ACTIVE`
-const FLUSH_ACTIVE = `FLUSH_ACTIVE`
-const SET_CURRENT = `SET_CURRENT`
-const FLUSH_CURRENT = `FLUSH_CURRENT`
 
 export const state = () => {
   const currentState: QuotationsState = {
@@ -17,6 +12,10 @@ export const state = () => {
   return currentState
 }
 
+const SET_ACTIVE = `SET_ACTIVE`
+const FLUSH_ACTIVE = `FLUSH_ACTIVE`
+const SET_CURRENT = `SET_CURRENT`
+const FLUSH_CURRENT = `FLUSH_CURRENT`
 export const mutations: MutationTree<QuotationsState> = {
   [SET_ACTIVE](state, payload) {
     state.active = payload
@@ -31,9 +30,24 @@ export const mutations: MutationTree<QuotationsState> = {
     state.current = false
   },
 }
+
+export const READ_QUOTATION = `READ_QUOTATION`
 export const ALL_QUOTATIONS = `ALL_QUOTATIONS`
 export const CUSTOMER_QUOTATIONS = `CUSTOMER_QUOTATIONS`
 export const actions: ActionTree<QuotationsState, RootState> = {
+  async [READ_QUOTATION](vuexContext, quotationId) {
+    const { commit } = vuexContext
+    const { $axios } = <Vue>this
+    commit(FLUSH_CURRENT)
+    try {
+      const response = await $axios.$get<Quotation>(
+        `/quotations/${quotationId}`,
+      )
+      commit(SET_CURRENT, response)
+    } catch (error) {
+      console.log(`can't retrieve quotation`)
+    }
+  },
   async [ALL_QUOTATIONS](vuexContext) {
     const { commit } = vuexContext
     const { $axios } = <Vue>this

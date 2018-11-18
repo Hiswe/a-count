@@ -5,7 +5,6 @@ import cloneDeep from 'lodash.clonedeep'
 
 import numberFormats from '~/locales/number-formats'
 import { CustomersState, QuotationsState } from '~/types/acount-store'
-import {} from '~/store/quotations'
 import { CUSTOMER_QUOTATIONS } from '~/store/quotations'
 import { READ_CUSTOMER, UPDATE_CUSTOMER } from '~/store/customers'
 import {

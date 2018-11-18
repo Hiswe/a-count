@@ -2,6 +2,8 @@
 import Vue from 'vue'
 import { enforceNumber } from '@acount/helpers'
 
+import EventBus from '~/helpers/event-bus'
+
 const INPUT_TYPES = [`text`, `number`, `email`]
 
 export default Vue.extend({
@@ -61,6 +63,7 @@ export default Vue.extend({
   methods: {
     onFocus() {
       this.isFocus = true
+      EventBus.$emit(`close`)
     },
     onBlur() {
       this.isFocus = false

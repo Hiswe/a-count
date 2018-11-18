@@ -2,7 +2,7 @@
 import Vue from 'vue'
 
 // needed to close all already opened select
-const EventBus = new Vue()
+import EventBus from '~/helpers/event-bus'
 
 export default Vue.extend({
   name: `acount-select`,
