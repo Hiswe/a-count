@@ -57,7 +57,7 @@ form(
     v-model="form.password"
   )
   v-text-field(
-    type="token"
+    type="text"
     name="token"
     :label="$t(`form.token`)"
     v-model="form.token"

@@ -83,8 +83,6 @@ export default Vue.extend({
 acount-main-content(:title="$t( `shared.customers` )")
   template(slot="actions")
     v-btn(to="/customers/new" color="accent") {{$t( `new-customer` )}}
-    //- v-btn(fab dark color="accent" type="submit" form="settings")
-    //-   v-icon(dark medium) save
   template(slot="centered")
     v-data-table(
       :headers="headers"

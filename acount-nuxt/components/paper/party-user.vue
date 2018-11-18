@@ -6,20 +6,18 @@ import { UserState } from '~/types/acount-store'
 import AcountParty from './party.vue'
 
 export default Vue.extend({
-  name: `acount-paper-party-user`,
+  name: `acount-party-user`,
   components: {
     AcountParty,
   },
   computed: {
     ...mapState<UserState>(`user`, {
-      user(state) {
-        return state.user
-      },
+      user: state => state.user,
     }),
   },
 })
 </script>
 
 <template lang="pug">
-acount-party(title="from" :people="people")
+acount-party(title="from" :people="user")
 </template>

@@ -10,6 +10,7 @@ import { AcountTabs, AcountTab } from '~/components/tabs'
 import {
   AcountSheet,
   AcountParty,
+  AcountPartyUser,
   AcountMentions,
   AcountReference,
 } from '~/components/paper'
@@ -28,6 +29,7 @@ Vue.component(`acount-tabs`, AcountTabs)
 Vue.component(`acount-tab`, AcountTab)
 Vue.component(`acount-paper`, AcountSheet)
 Vue.component(`acount-party`, AcountParty)
+Vue.component(`acount-party-user`, AcountPartyUser)
 Vue.component(`acount-mentions`, AcountMentions)
 Vue.component(`acount-reference`, AcountReference)
 Vue.component(`acount-table-products`, AcountTableProducts)

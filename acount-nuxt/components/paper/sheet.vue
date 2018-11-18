@@ -291,6 +291,9 @@ export default Vue.extend({
   }
   &--part-top {
     border-image-source: url('~assets/paper/top.svg');
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: var(--s-two-gutter);
   }
   &--part-top-right {
     border-image-source: url('~assets/paper/top-right.svg');

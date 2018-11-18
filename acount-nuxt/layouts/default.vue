@@ -34,7 +34,7 @@ main.acount-main(role="main")
   display: flex;
 }
 .acount-v-app {
-  flex: 1 0 auto;
+  flex-grow: 1;
   background: white;
 }
 </style>

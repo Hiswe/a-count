@@ -32,7 +32,8 @@ export const mutations: MutationTree<CustomersState> = {
 }
 
 export const READ_CUSTOMER = `READ_CUSTOMER`
-export const NEW_CUSTOMER = `NEW_CUSTOMER`
+export const BLANK_CUSTOMER = `BLANK_CUSTOMER`
+export const CREATE_CUSTOMER = `CREATE_CUSTOMER`
 export const UPDATE_CUSTOMER = `UPDATE_CUSTOMER`
 export const ALL_CUSTOMERS = `ALL_CUSTOMERS`
 export const actions: ActionTree<CustomersState, RootState> = {
@@ -58,7 +59,7 @@ export const actions: ActionTree<CustomersState, RootState> = {
       console.error(`something went wrong while getting a user`)
     }
   },
-  async [NEW_CUSTOMER](vuexContext) {
+  async [BLANK_CUSTOMER](vuexContext) {
     const { commit } = vuexContext
     const { $axios } = <Vue>this
     commit(FLUSH_CURRENT)
@@ -78,6 +79,17 @@ export const actions: ActionTree<CustomersState, RootState> = {
         payload,
       )
       commit(SET_CURRENT, response)
+    } catch (error) {
+      console.error(`something went wrong while updating a customer`)
+    }
+  },
+  async [CREATE_CUSTOMER](vuexContext, payload) {
+    const { commit } = vuexContext
+    const { $axios, $router } = <Vue>this
+    try {
+      const response = await $axios.$post<Customer>(`/customers/new`, payload)
+      commit(SET_CURRENT, response)
+      $router.push(`/customers/${response.id}`)
     } catch (error) {
       console.error(`something went wrong while updating a customer`)
     }
