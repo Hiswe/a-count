@@ -10,7 +10,7 @@ export default Vue.extend({
   },
   computed: {
     date() {
-      return this.value ? this.$d(new Date(this.value), `short`) : ``
+      return this.value ? this.$d(new Date(this.value), `short`) : `–`
     },
   },
 })

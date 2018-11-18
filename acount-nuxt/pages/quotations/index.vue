@@ -32,15 +32,17 @@ export default Vue.extend({
         {
           text: this.$t(`table.header.sent`),
           value: `sendAt`,
-          align: `right`,
+          align: `center`,
         },
         {
           text: this.$t('table.header.validated'),
           value: `validatedAt`,
+          align: `center`,
         },
         {
           text: this.$t('table.amount.total'),
           value: `total`,
+          align: `right`,
         },
         {
           text: ``,
@@ -66,14 +68,16 @@ acount-main-content(:title="$t( `shared.quotations` )")
       )
         template(slot="items" slot-scope="props")
           tr
-            td
+            td.text-no-wrap
               nuxt-link(:to="`/quotations/${props.item.id}`") {{props.item.reference}}
             td
               nuxt-link(:to="`/quotations/${props.item.id}`") {{ props.item.name }}
             td
               nuxt-link(:to="`/customers/${props.item.customerId}`") {{ props.item.customer.name }}
-            td {{ props.item.sendAt }}
-            td {{ props.item.validatedAt }}
+            td.text-xs-center
+              acount-date(:value="props.item.sendAt")
+            td.text-xs-center
+              acount-date(:value="props.item.validatedAt")
             td.text-xs-right {{ $n(props.item.total, `currency`) }}
             td remove
 </template>
