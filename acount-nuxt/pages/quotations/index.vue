@@ -59,20 +59,21 @@ export default Vue.extend({
 
 <template lang="pug">
 acount-main-content(:title="$t( `shared.quotations` )")
-  v-data-table(
-      :headers="headers"
-      :items="items"
-    )
-      template(slot="items" slot-scope="props")
-        tr
-          td
-            nuxt-link(:to="`/quotations/${props.item.id}`") {{props.item.reference}}
-          td
-            nuxt-link(:to="`/quotations/${props.item.id}`") {{ props.item.name }}
-          td
-            nuxt-link(:to="`/customers/${props.item.customerId}`") {{ props.item.customer.name }}
-          td {{ props.item.sendAt }}
-          td {{ props.item.validatedAt }}
-          td.text-xs-right {{ $n(props.item.total, `currency`) }}
-          td remove
+  template(slot="centered")
+    v-data-table(
+        :headers="headers"
+        :items="items"
+      )
+        template(slot="items" slot-scope="props")
+          tr
+            td
+              nuxt-link(:to="`/quotations/${props.item.id}`") {{props.item.reference}}
+            td
+              nuxt-link(:to="`/quotations/${props.item.id}`") {{ props.item.name }}
+            td
+              nuxt-link(:to="`/customers/${props.item.customerId}`") {{ props.item.customer.name }}
+            td {{ props.item.sendAt }}
+            td {{ props.item.validatedAt }}
+            td.text-xs-right {{ $n(props.item.total, `currency`) }}
+            td remove
 </template>

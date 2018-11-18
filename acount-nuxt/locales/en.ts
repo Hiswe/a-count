@@ -5,6 +5,7 @@ export default {
     logout: `logout`,
     register: `register`,
     quotations: `quotations`,
+    quotation: `quotation`,
     invoices: `invoices`,
     customers: `customers`,
     settings: `settings`,

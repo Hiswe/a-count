@@ -5,6 +5,7 @@ export default {
     logout: `déconnexion`,
     register: `créer un compte`,
     quotations: `devis`,
+    quotation: `devis`,
     invoices: `factures`,
     customers: `clients`,
     settings: `configuration`,
