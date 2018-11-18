@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import AcountNotifications from '~/components/notifications.vue'
 import AcountMainContent from '~/components/main-content.vue'
+import AcountHeader from '~/components/header.vue'
 import AcountProgress from '~/components/ui/progress.vue'
 import AcountMarkdown from '~/components/markdown.vue'
 import AcountGrid from '~/components/grid.vue'
@@ -19,6 +20,7 @@ import { AcountDate } from '~/components/format'
 
 Vue.component(`acount-notifications`, AcountNotifications)
 Vue.component(`acount-main-content`, AcountMainContent)
+Vue.component(`acount-header`, AcountHeader)
 Vue.component(`acount-progress`, AcountProgress)
 Vue.component(`acount-markdown`, AcountMarkdown)
 Vue.component(`acount-grid`, AcountGrid)

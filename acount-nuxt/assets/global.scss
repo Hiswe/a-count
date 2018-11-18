@@ -25,6 +25,10 @@
   --nav-secondary-height: 70px;
   --nav-secondary-color: var(--c-primary-darkest);
   --nav-secondary-shadow: rgba(0, 0, 0, 0.15);
+
+  // HEADER
+  --header-border-radius: var(--s-quarter-gutter);
+  --header-bg: var(--v-primary-lighten6);
 }
 
 html {

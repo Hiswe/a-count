@@ -58,23 +58,25 @@ acount-main-content(:title="$t( `title` )")
   template(slot="actions")
     v-btn(fab dark color="accent" type="submit" form="new-customer")
       v-icon(dark medium) save
-  form(
-    id="new-customer"
-    action="/customers/new"
-    method="post"
-    @submit.prevent="submit"
-  )
-    acount-input(
-      name="name"
-      :label="$t(`form.name`)"
-      v-model="form.name"
+  acount-header
+    form(
+      id="new-customer"
+      action="/customers/new"
+      method="post"
+      @submit.prevent="submit"
     )
-    acount-textarea(
-      name="address"
-      :label="$t(`shared.address`)"
-      v-model="form.address"
-    )
-  acount-paper(part="top")
-    acount-party-user
-    acount-party(title="to" :people="form" )
+      acount-input(
+        name="name"
+        :label="$t(`form.name`)"
+        v-model="form.name"
+      )
+      acount-textarea(
+        name="address"
+        :label="$t(`shared.address`)"
+        v-model="form.address"
+      )
+  template(slot="centered")
+    acount-paper(part="top")
+      acount-party-user
+      acount-party(title="to" :people="form" )
 </template>
