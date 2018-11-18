@@ -6,11 +6,11 @@ export default Vue.extend({
   props: {
     value: {
       type: Number,
-      required: true,
+      default: 0,
     },
     max: {
       type: Number,
-      required: true,
+      defalut: 1,
     },
   },
   computed: {

@@ -18,12 +18,14 @@ const i18n = {
   numberFormats,
   messages: {
     en: {
+      title: `customer: {name}`,
       'total-quotations': `quotations total`,
       'total-invoices': `invoices total`,
       'to-be-paid': `to be paid`,
       'payment-progress': `payment progress`,
     },
     fr: {
+      title: `client : {name}`,
       'total-quotations': `total devis`,
       'total-invoices': `total factures`,
       'to-be-paid': `à payer`,
@@ -82,7 +84,7 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-acount-main-content(title="#edit customer")
+acount-main-content(:title="$t( `title`, {name: form.name} )")
   acount-tabs
     template(slot="header")
       acount-key-presentation
