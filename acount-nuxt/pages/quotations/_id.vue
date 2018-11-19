@@ -57,6 +57,22 @@ export default Vue.extend({
 acount-main-content(:title="$t( `title`, {reference: form.reference} )")
   form
     acount-header
+      .quotation-dates
+        acount-datepicker(
+          name="sendAt"
+          label="sendAt"
+          v-model="form.sendAt"
+        )
+        acount-datepicker(
+          name="validatedAt"
+          label="validatedAt"
+          v-model="form.validatedAt"
+        )
+        acount-datepicker(
+          name="signedAt"
+          label="signedAt"
+          v-model="form.signedAt"
+        )
       .quotation-meta
         acount-select(
           v-model="form.customerId"
@@ -75,6 +91,12 @@ acount-main-content(:title="$t( `title`, {reference: form.reference} )")
 </template>
 
 <style lang="scss" scoped>
+.quotation-dates {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: var(--s-gutter);
+  padding-bottom: var(--s-gutter);
+}
 .quotation-meta {
   display: grid;
   grid-template-columns: 1fr 150px;

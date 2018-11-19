@@ -4,7 +4,7 @@ import { enforceNumber } from '@acount/helpers'
 
 import EventBus from '~/helpers/event-bus'
 
-const INPUT_TYPES = [`text`, `number`, `email`]
+const INPUT_TYPES = [`text`, `number`, `email`, `password`]
 
 export default Vue.extend({
   name: `acount-input`,

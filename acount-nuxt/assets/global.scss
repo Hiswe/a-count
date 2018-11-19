@@ -1,7 +1,27 @@
 @import '~@hiswe/focus-ring/dist/focus-ring.scss';
 
 :root {
+  // COLORS
+  // TODO: should not rely on vuetify colors
+  $c-accent: hsl(199, 71%, 47%);
+  $c-accent-h: hue($c-accent) / 1deg;
+  $c-accent-s: saturation($c-accent);
+  $c-accent-l: lightness($c-accent);
+
+  --c-accent-h: #{$c-accent-h};
+  --c-accent-s: #{$c-accent-s};
+  --c-accent-l: #{$c-accent-l};
+
+  // Keep `hsl` in Uppercase
+  // https://github.com/sass/node-sass/issues/2251#issuecomment-365861645
+  --c-accent: HSL(var(--c-accent-h), var(--c-accent-s), var(--c-accent-l));
+  --c-accent-lighter: HSL(var(--c-accent-h), var(--c-accent-s), 60%);
+  --c-accent-lightest: HSL(var(--c-accent-h), var(--c-accent-s), 90%);
+
   --v-primary-lighten6: hsl(248, 41%, 90%);
+
+  // --c-accent-lighter:   HSL(var(--c-accent-h), var(--c-accent-s), 60%);
+  // --c-accent-lightest:  HSL(var(--c-accent-h), var(--c-accent-s), 90%);
 
   --s-gutter: 32px;
   --s-two-gutter: calc(var(--s-gutter) * 2);

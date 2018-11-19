@@ -4,6 +4,9 @@
 
 export default {
   modulesDir: [`../node_modules`],
+  build: {
+    transpile: ['vuejs-datepicker'],
+  },
   css: [`@/assets/vuetify.styl`, `@/assets/global.scss`],
   plugins: [
     `@/plugins/vue-libraries.ts`,
