@@ -19,6 +19,7 @@ export default {
     token: `confirmation code`,
     name: `name`,
     update: `update`,
+    subject: `subject`,
   },
   notifications: {
     'user-not-found': `This account doesn't exist. Please very your email address.`,

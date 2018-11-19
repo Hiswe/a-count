@@ -80,49 +80,10 @@ table.acount-table-product
 </template>
 
 <style lang="scss" scoped>
+@import './table-mixins';
+
 .acount-table-product {
-  border-collapse: collapse;
-  width: 100%;
-
-  th,
-  td {
-    padding: 0.5em 0.75em;
-  }
-  th {
-    font: inherit;
-    font-weight: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-transform: uppercase;
-    font-size: 12px;
-    padding: 1em 1.3em;
-    background: black;
-    color: white;
-
-    @media #{$mq-print} {
-      // box-shadow act as a background for print
-      box-shadow: inset black 0 0 0 100px;
-    }
-  }
-  .number {
-    text-align: right;
-  }
-  tbody td {
-    border: solid black;
-    border-width: 0 1px 1px;
-  }
-  tfoot {
-    font-weight: 700;
-    td {
-      padding-bottom: 0;
-    }
-    tr:not(:first-child) td {
-      padding-top: 0;
-    }
-  }
-  /deep/ p {
-    margin: 0;
-  }
+  @include products-base();
 }
 </style>
 

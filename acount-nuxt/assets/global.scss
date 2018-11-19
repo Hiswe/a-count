@@ -12,6 +12,9 @@
   --c-accent-s: #{$c-accent-s};
   --c-accent-l: #{$c-accent-l};
 
+  --c-primary: var(--v-primary-base);
+  --c-primary-darker: var(--v-primary-darken2);
+
   // Keep `hsl` in Uppercase
   // https://github.com/sass/node-sass/issues/2251#issuecomment-365861645
   --c-accent: HSL(var(--c-accent-h), var(--c-accent-s), var(--c-accent-l));

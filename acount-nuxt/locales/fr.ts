@@ -18,8 +18,8 @@ export default {
     password: `mot de passe`,
     token: `code de confirmation`,
     name: `nom`,
-
     update: `mettre à jour`,
+    subject: `objet`,
   },
   notifications: {
     'user-not-found': `Ce compte n'existe pas. Veuillez vérifier votre adresse email`,

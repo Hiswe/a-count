@@ -7,7 +7,10 @@ import AcountProgress from '~/components/ui/progress.vue'
 import AcountMarkdown from '~/components/markdown.vue'
 import AcountGrid from '~/components/grid.vue'
 import { AcountTabs, AcountTab } from '~/components/tabs'
-import { AcountTableProducts } from '~/components/table'
+import {
+  AcountTableProducts,
+  AcountTableEditProducts,
+} from '~/components/table'
 import { AcountDate } from '~/components/format'
 import {
   AcountInput,
@@ -41,4 +44,5 @@ Vue.component(`acount-party-user`, AcountPartyUser)
 Vue.component(`acount-mentions`, AcountMentions)
 Vue.component(`acount-reference`, AcountReference)
 Vue.component(`acount-table-products`, AcountTableProducts)
+Vue.component(`acount-table-edit-products`, AcountTableEditProducts)
 Vue.component(`acount-date`, AcountDate)

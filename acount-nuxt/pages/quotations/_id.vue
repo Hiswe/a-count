@@ -54,23 +54,23 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-acount-main-content(:title="$t( `title`, {reference: form.reference} )")
-  form
+form
+  acount-main-content(:title="$t( `title`, {reference: form.reference} )")
     acount-header
       .quotation-dates
         acount-datepicker(
           name="sendAt"
-          label="sendAt"
+          label="#sendAt"
           v-model="form.sendAt"
         )
         acount-datepicker(
           name="validatedAt"
-          label="validatedAt"
+          label="#validatedAt"
           v-model="form.validatedAt"
         )
         acount-datepicker(
           name="signedAt"
-          label="signedAt"
+          label="#signedAt"
           v-model="form.signedAt"
         )
       .quotation-meta
@@ -88,6 +88,15 @@ acount-main-content(:title="$t( `title`, {reference: form.reference} )")
           type="number"
           :label="$t( `shared.tax` )"
         )
+    template(slot="centered")
+      acount-paper
+        acount-input(
+          v-model="form.name"
+          name="name"
+          :label="$t( `form.subject` )"
+        )
+        acount-table-edit-products
+
 </template>
 
 <style lang="scss" scoped>
