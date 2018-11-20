@@ -16,23 +16,29 @@ export default Vue.extend({
   },
   computed: {
     products() {
-      return this.document.products.map(product => ({
+      return this.document.products.map((product, index) => ({
         ...product,
         total: computeProductTotal(product),
+        path: `products[${index}]`,
       }))
     },
     totals() {
-      return computeTotals(this.document)
+      return computeTotals(this.products)
     },
     tax() {
       return enforceNumber(this.document.tax)
+    },
+  },
+  methods: {
+    onInput(event) {
+      console.log(event)
     },
   },
 })
 </script>
 
 <template lang="pug">
-table.acount-table-edit-products
+table.acount-table-edit-products(@input="onInput")
   thead
     tr.acount-table-edit-products__header
       th
@@ -46,12 +52,37 @@ table.acount-table-edit-products
       v-for="(product, index) in products"
       :key="product._id"
     )
-      td
-      td {{ product.description }}
-      td.number {{ product.quantity }}
-      td.number {{ product.price }}
-      td.number {{ $n(product.total, `currency` ) }}
-      td
+      td.acount-table-cell
+        input(
+          type="hidden"
+          :name="`${product.path}[_id]`"
+          :value="product.id"
+        )
+      td.acount-table-cell.acount-table-cell--description
+        acount-textarea(
+          :name="`${product.path}[description]`"
+          v-model="product.description"
+          rows="1"
+        )
+      td.acount-table-cell.acount-table-cell--quantity.number
+        input(
+          v-model.number="product.quantity"
+          :name="`${product.path}[quantity]`"
+          type="number"
+          min="0"
+          step="0.25"
+        )
+      td.acount-table-cell.acount-table-cell--price.number
+        input(
+          v-model.number="product.price"
+          :name="`${product.path}[price]`"
+          type="number"
+          min="0"
+          step="0.5"
+        )
+      td.acount-table-edit-products__cell.acount-table-cell--total
+        | {{ $n(product.total, `currency` ) }}
+      td.acount-table-edit-products__cell
   tfoot.acount-table-edit-products__footer
     tr(v-if="tax")
       td.number(colspan="4") {{$t( `amount.ht` )}}
@@ -71,6 +102,35 @@ table.acount-table-edit-products
   @include products-base();
   --products-header: var(--c-primary-darker);
   --products-border: var(--c-primary-lighter);
+
+  .acount-table-cell {
+    vertical-align: top;
+
+    &--description,
+    &--quantity,
+    &--price {
+      padding: 0;
+    }
+    &--description {
+    }
+    &--quantity {
+      width: 3em;
+    }
+    &--price {
+      width: 5em;
+    }
+    &--total {
+      width: 7em;
+      text-align: right;
+    }
+  }
+
+  input {
+    text-align: right;
+    width: 100%;
+    display: block;
+    padding: 0.5em 0.75em;
+  }
 
   &__footer {
     background: var(--c-primary-lightest);

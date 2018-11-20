@@ -22,6 +22,10 @@ export default Vue.extend({
     id: {
       type: String,
     },
+    rows: {
+      type: String,
+      default: ``,
+    },
   },
   data() {
     return {
@@ -42,6 +46,7 @@ export default Vue.extend({
     wrapperClasses() {
       return {
         'acount-textarea--focus': this.isFocus,
+        'acount-textarea--no-label': !this.label,
       }
     },
     htmlFor() {
@@ -85,6 +90,7 @@ export default Vue.extend({
     :id="htmlFor"
     :name="name"
     :class="inputClasses"
+    :rows="rows"
     @input="onInput"
     @focus="onFocus"
     @blur="onBlur"
@@ -98,6 +104,21 @@ export default Vue.extend({
   @include input-base();
   @include input-bottom-border();
   @include input-floating-label();
+  $root: &;
+
+  // use case: in a table
+  &--no-label {
+    margin: 0;
+    padding: 0;
+
+    &::after {
+      display: none;
+    }
+    #{$root}__input {
+      border: 0;
+      padding: 0.5rem 0.75rem;
+    }
+  }
 
   &__input--autoresize {
     resize: none;
