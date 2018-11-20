@@ -9,29 +9,29 @@ import {
 export default Vue.extend({
   name: `acount-edit-products`,
   props: {
-    document: {
+    value: {
       type: Object,
       default: {},
     },
   },
   computed: {
     products() {
-      return this.document.products.map((product, index) => ({
+      return this.value.products.map((product, index) => ({
         ...product,
         total: computeProductTotal(product),
         path: `products[${index}]`,
       }))
     },
     totals() {
-      return computeTotals(this.products)
+      return computeTotals(this.value)
     },
     tax() {
-      return enforceNumber(this.document.tax)
+      return enforceNumber(this.value.tax)
     },
   },
   methods: {
     onInput(event) {
-      console.log(event)
+      this.$emit(`input`, { ...this.value, products: this.products })
     },
   },
 })
@@ -124,14 +124,12 @@ table.acount-table-edit-products(@input="onInput")
       text-align: right;
     }
   }
-
   input {
     text-align: right;
     width: 100%;
     display: block;
     padding: 0.5em 0.75em;
   }
-
   &__footer {
     background: var(--c-primary-lightest);
     border: 1px solid var(--products-border);

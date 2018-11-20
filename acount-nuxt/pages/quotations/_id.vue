@@ -96,7 +96,7 @@ form
           :label="$t( `form.subject` )"
         )
         acount-table-edit-products(
-          :document="form"
+          v-model="form"
         )
 
 </template>
