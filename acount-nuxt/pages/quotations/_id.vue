@@ -95,7 +95,9 @@ form
           name="name"
           :label="$t( `form.subject` )"
         )
-        acount-table-edit-products
+        acount-table-edit-products(
+          :document="form"
+        )
 
 </template>
 

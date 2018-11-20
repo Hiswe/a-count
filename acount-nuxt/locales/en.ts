@@ -47,10 +47,12 @@ export default {
       signed: `signed`,
       'cumulative-amount': `cumulative amount`,
     },
-    amount: {
-      paid: `paid`,
-      'left-to-pay': `left`,
-      total: `total`,
-    },
+  },
+  amount: {
+    paid: `paid`,
+    'left-to-pay': `left`,
+    total: `total`,
+    ht: `pre-tax amount`,
+    tax: `taxes`,
   },
 }

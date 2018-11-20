@@ -3,20 +3,36 @@
 :root {
   // COLORS
   // TODO: should not rely on vuetify colors
+
+  $c-primary: hsl(248, 41%, 43%);
+  // need a value without deg to work in Chrome/Safari
+  // https://stackoverflow.com/questions/7169625/using-sass-how-to-convert-a-percentage-to-a-decimal/7180653
+  $c-primary-h: hue($c-primary) / 1deg;
+  $c-primary-s: saturation($c-primary);
+  $c-primary-l: lightness($c-primary);
+
   $c-accent: hsl(199, 71%, 47%);
   $c-accent-h: hue($c-accent) / 1deg;
   $c-accent-s: saturation($c-accent);
   $c-accent-l: lightness($c-accent);
 
+  --c-primary-h: #{$c-primary-h};
+  --c-primary-s: #{$c-primary-s};
+  --c-primary-l: #{$c-primary-l};
+
   --c-accent-h: #{$c-accent-h};
   --c-accent-s: #{$c-accent-s};
   --c-accent-l: #{$c-accent-l};
 
-  --c-primary: var(--v-primary-base);
-  --c-primary-darker: var(--v-primary-darken2);
-
   // Keep `hsl` in Uppercase
   // https://github.com/sass/node-sass/issues/2251#issuecomment-365861645
+
+  --c-primary: var(--v-primary-base);
+  --c-primary-darker: var(--v-primary-darken2);
+  --c-primary-lighter: HSL(var(--c-primary-h), var(--c-primary-s), 65%);
+  --c-primary-lightest: HSL(var(--c-primary-h), var(--c-primary-s), 90%);
+  --c-primary-white: HSL(var(--c-primary-h), var(--c-primary-s), 97%);
+
   --c-accent: HSL(var(--c-accent-h), var(--c-accent-s), var(--c-accent-l));
   --c-accent-lighter: HSL(var(--c-accent-h), var(--c-accent-s), 60%);
   --c-accent-lightest: HSL(var(--c-accent-h), var(--c-accent-s), 90%);
@@ -51,7 +67,7 @@
 
   // HEADER
   --header-border-radius: var(--s-quarter-gutter);
-  --header-bg: var(--v-primary-lighten6);
+  --header-bg: var(--c-primary-lightest);
 }
 
 html {

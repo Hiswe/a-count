@@ -8,25 +8,8 @@ import {
 
 import numberFormats from '~/locales/number-formats'
 
-const i18n = {
-  numberFormats,
-  messages: {
-    en: {
-      'amount-ht': `pre-tax amount`,
-      'amount-tax': `taxes`,
-      'amount-total': `amount`,
-    },
-    fr: {
-      'amount-ht': `montant HT`,
-      'amount-tax': `taxes`,
-      'amount-total': `total`,
-    },
-  },
-}
-
 export default Vue.extend({
   name: `acount-table-product`,
-  i18n,
   props: {
     document: {
       type: Object,
@@ -67,15 +50,15 @@ table.acount-table-product
       td.number {{ product.quantity }}
       td.number {{ $n(product.price, `currency`) }}
       td.number {{ $n(product.total, `currency` ) }}
-  tfoot
+  tfoot.acount-table-product__footer
     tr(v-if="tax")
-      td.number(colspan="3") {{$t( `amount-ht` )}}
+      td.number(colspan="3") {{$t( `amount.ht` )}}
       td.number {{$n( totals.totalNet, `currency` )}}
     tr(v-if="tax")
-      td.number(colspan="3") {{$t( `amount-tax` )}}
+      td.number(colspan="3") {{$t( `amount.tax` )}}
       td.number {{$n( totals.totalTax, `currency` )}}
     tr(v-if="")
-      td.number(colspan="3") {{$t( `amount-total` )}}
+      td.number(colspan="3") {{$t( `amount.total` )}}
       td.number {{$n( totals.total, `currency` )}}
 </template>
 
@@ -84,6 +67,15 @@ table.acount-table-product
 
 .acount-table-product {
   @include products-base();
+
+  &__footer {
+    td {
+      padding-bottom: 0;
+    }
+    tr:not(:first-child) td {
+      padding-top: 0;
+    }
+  }
 }
 </style>
 
