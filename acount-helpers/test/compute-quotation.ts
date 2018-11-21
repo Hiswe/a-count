@@ -1,31 +1,33 @@
 import test from 'ava'
-import crio from 'crio'
 
-import * as computeQuotation from './compute-quotation'
+import * as computeQuotation from '../src/compute-quotation'
 
-const emptyData = crio({})
+const emptyData = {}
 
 const { removeDefaultProducts } = computeQuotation
-test(`PRODUCTS – removeDefaultProducts`, t => {
+test(`remove default products`, t => {
   t.is(
+    // @ts-ignore
     removeDefaultProducts(emptyData),
     emptyData,
-    `return the same object of no necessary datas`,
+    `return the same object if no necessary datas`,
   )
 })
 
 const { recomputeTotals } = computeQuotation
-test(`PRODUCTS – recomputeTotals`, t => {
+test(`recompute totals`, t => {
   t.is(
+    // @ts-ignore
     recomputeTotals(emptyData),
     emptyData,
-    `return the same object of no necessary datas`,
+    `return the same object if no necessary datas`,
   )
 })
 
 const { addEmptyLine } = computeQuotation
-test(`PRODUCTS – addEmptyLine`, t => {
+test(`add empty line`, t => {
   t.is(
+    // @ts-ignore
     addEmptyLine(emptyData),
     emptyData,
     `return the same object of no necessary datas`,
@@ -33,10 +35,11 @@ test(`PRODUCTS – addEmptyLine`, t => {
 })
 
 const { ensureProductId } = computeQuotation
-test(`PRODUCTS – ensureProductId`, t => {
+test(`ensure product id`, t => {
   t.is(
+    // @ts-ignore
     ensureProductId(emptyData),
     emptyData,
-    `return the same object of no necessary datas`,
+    `return the same object if no necessary datas`,
   )
 })
