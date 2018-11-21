@@ -8,15 +8,15 @@ import { Quotation, ProductConfig, Product } from '@acount/types'
 import * as compute from './compute-total'
 import { filterArrayWithObject } from './filter-array-with-object'
 
-interface Step {
+export interface Step {
   key: string
   label: string
   value?: any
 }
 
-type Steps = Step[]
+export type Steps = Step[]
 
-interface DisplayQuotation extends Quotation {
+export interface DisplayQuotation extends Quotation {
   steps: Steps
 }
 
@@ -45,7 +45,7 @@ export function steps(quotation: Quotation): DisplayQuotation {
 }
 
 // • de-dupe defaultProduct lines
-// • check _id for React
+// • check _id
 export function removeDefaultProducts(quotation: Quotation): Quotation {
   const defaultProduct = quotation.productConfig
   const products = quotation.products
@@ -87,19 +87,38 @@ export function ensureProductId(quotation: Quotation): Quotation {
   return quotation
 }
 
-export const products = flow(
-  cloneQuotation,
+export function computeProductsTotal(quotation: Quotation): Quotation {
+  quotation.products = quotation.products.map(product => ({
+    ...product,
+    total: compute.productTotal(product),
+  }))
+  return quotation
+}
+
+export function setProductsFormPath(quotation: Quotation): Quotation {
+  quotation.products = quotation.products.map((product, index) => ({
+    ...product,
+    path: `products[${index}]`,
+  }))
+  return quotation
+}
+
+const computeProducts = flow(
   removeDefaultProducts,
   recomputeTotals,
   addEmptyLine,
   ensureProductId,
+  computeProductsTotal,
+  setProductsFormPath,
+)
+
+export const products = flow(
+  cloneQuotation,
+  computeProducts,
 )
 
 export const all = flow(
   cloneQuotation,
   steps,
-  removeDefaultProducts,
-  recomputeTotals,
-  addEmptyLine,
-  ensureProductId,
+  computeProducts,
 )
