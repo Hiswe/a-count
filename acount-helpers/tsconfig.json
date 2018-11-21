@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "lib": ["es5", "dom"]
+    "allowSyntheticDefaultImports": true,
+    "lib": ["es2017", "dom"]
   },
-  "include": ["index.ts", "src/*.ts"]
+  "include": ["index.ts", "src/*.ts", "test/*.ts"]
 }

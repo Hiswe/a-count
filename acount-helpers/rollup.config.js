@@ -10,11 +10,19 @@ const config = {
       file: `lib/${NAME}.js`,
     },
     {
+      format: `esm`,
       file: `lib/${NAME}.esm.js`,
-      format: 'esm',
     },
   ],
   plugins: [typescript()],
+  // https://rollupjs.org/guide/en#warning-treating-module-as-external-dependency
+  external: [
+    `shortid`,
+    `lodash.merge`,
+    `lodash.isobject`,
+    `lodash.flow`,
+    `lodash.clonedeep`,
+  ],
 }
 
 export default [config]

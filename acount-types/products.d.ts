@@ -1,6 +1,7 @@
 export interface ProductConfig {
   quantity: number
   price: number
+  checked: boolean
 }
 
 export interface Product {
