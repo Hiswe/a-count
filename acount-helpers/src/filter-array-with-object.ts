@@ -16,7 +16,7 @@ export function filterArrayWithObject<T, K>({
   const defaultEntries = Object.entries(defaultObject)
   const result = array
     // make sure that the object has the same keys as the comparison
-    .map(entry => merge(defaultObject, entry))
+    .map(entry => merge({}, defaultObject, entry))
     // To achieve equal comparisons, cast to the same type
     .map(entry => {
       defaultEntries.forEach(([refKey, refValue]) => {

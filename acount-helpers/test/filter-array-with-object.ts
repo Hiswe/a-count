@@ -20,23 +20,8 @@ test(`no array`, t => {
   const defaultObject = { foo: `bar` }
   // @ts-ignore
   const result = filter({ defaultObject })
-  t.true(Array.isArray(result), `return a crio array`)
-  t.is(result.length, 0, `return an empty array`)
-})
-
-test(`no crio array`, t => {
-  const defaultObject = { foo: `bar` }
-  const array = [{ foo: `bar` }]
-  const result = filter({ defaultObject, array })
-  t.true(Array.isArray(result), `return a crio array`)
-  t.is(result.length, 0, `return an empty array`)
-})
-
-test(`no crio default Object`, t => {
-  const defaultObject = { foo: `bar` }
-  const array = [{ foo: `bar` }]
-  const result = filter({ defaultObject, array })
-  t.deepEqual(result, array, `return original array`)
+  t.true(Array.isArray(result), `return an array`)
+  t.is(result.length, 0, `array is empty`)
 })
 
 test(`regular case`, t => {
