@@ -135,7 +135,7 @@ function removeDefaultProducts(quotation) {
         defaultObject: defaultProduct,
         array: products,
     });
-    quotation = merge(quotation, { products: cleanedProducts });
+    quotation.products = cleanedProducts;
     return quotation;
 }
 function recomputeTotals(quotation) {
@@ -153,7 +153,10 @@ function addEmptyLine(quotation) {
         return quotation;
     if (!isObject(defaultProduct))
         return quotation;
-    var emptyProduct = merge(defaultProduct, { checked: true, description: "" });
+    var emptyProduct = merge({}, defaultProduct, {
+        checked: true,
+        description: "",
+    });
     quotation.products.push(emptyProduct);
     return quotation;
 }

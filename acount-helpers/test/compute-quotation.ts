@@ -1,45 +1,41 @@
 import test from 'ava'
 
-import * as computeQuotation from '../src/compute-quotation'
+import {
+  removeDefaultProducts,
+  recomputeTotals,
+  addEmptyLine,
+  ensureProductId,
+  all,
+} from '../src/compute-quotation'
+import quotation from './_quotation'
 
 const emptyData = {}
 
-const { removeDefaultProducts } = computeQuotation
-test(`remove default products`, t => {
-  t.is(
-    // @ts-ignore
-    removeDefaultProducts(emptyData),
-    emptyData,
-    `return the same object if no necessary datas`,
-  )
+test(`return same object if not a valid quotation`, t => {
+  // @ts-ignore
+  t.is(removeDefaultProducts(emptyData), emptyData, `remove default products`)
+  // @ts-ignore
+  t.is(recomputeTotals(emptyData), emptyData, `recompute totals`)
+  // @ts-ignore
+  t.is(addEmptyLine(emptyData), emptyData, `add empty line`)
+  // @ts-ignore
+  t.is(ensureProductId(emptyData), emptyData, `ensure product id`)
 })
 
-const { recomputeTotals } = computeQuotation
-test(`recompute totals`, t => {
-  t.is(
-    // @ts-ignore
-    recomputeTotals(emptyData),
-    emptyData,
-    `return the same object if no necessary datas`,
+test(`check compute all`, t => {
+  const computed = all(quotation)
+  const { productConfig } = computed
+  t.is(computed.products.length, 4, `one default product has been removed`)
+  // @ts-ignore
+  const { _id, path, total, ...lastProduct } = computed.products[3]
+  t.deepEqual(
+    lastProduct,
+    productConfig,
+    `last element is an empty default product`,
   )
-})
-
-const { addEmptyLine } = computeQuotation
-test(`add empty line`, t => {
-  t.is(
-    // @ts-ignore
-    addEmptyLine(emptyData),
-    emptyData,
-    `return the same object of no necessary datas`,
-  )
-})
-
-const { ensureProductId } = computeQuotation
-test(`ensure product id`, t => {
-  t.is(
-    // @ts-ignore
-    ensureProductId(emptyData),
-    emptyData,
-    `return the same object if no necessary datas`,
+  t.deepEqual(
+    quotation.productConfig,
+    productConfig,
+    `product configuration isn't mutated`,
   )
 })

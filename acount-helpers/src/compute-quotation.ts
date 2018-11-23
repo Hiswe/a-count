@@ -55,7 +55,7 @@ export function removeDefaultProducts(quotation: Quotation): Quotation {
     defaultObject: defaultProduct,
     array: products,
   })
-  quotation = merge(quotation, { products: cleanedProducts })
+  quotation.products = cleanedProducts
   return quotation
 }
 
@@ -72,7 +72,10 @@ export function addEmptyLine(quotation: Quotation): Quotation {
   const { products } = quotation
   if (!Array.isArray(products)) return quotation
   if (!isObject(defaultProduct)) return quotation
-  const emptyProduct = merge(defaultProduct, { checked: true, description: `` })
+  const emptyProduct = merge({}, defaultProduct, {
+    checked: true,
+    description: ``,
+  })
   quotation.products.push(emptyProduct)
   return quotation
 }

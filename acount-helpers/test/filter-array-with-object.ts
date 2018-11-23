@@ -28,9 +28,24 @@ test(`regular case`, t => {
   const defaultObject = { foo: `bar` }
   const array = [{ foo: `bar` }, { foo: `baz` }]
   const result = filter({ defaultObject, array })
-  t.true(Array.isArray(result), `return a crio array`)
+  t.true(Array.isArray(result), `return an array`)
   t.is(result.length, 1, `array has been filtered`)
   t.is(result[0].foo, `baz`, `the right elements have been filtered`)
+})
+
+test.only(`doesn't mutate default object`, t => {
+  const defaultObject = { foo: `bar`, ok: true }
+  const initialDefaultObject = { ...defaultObject }
+  const array = [{ foo: `bar`, _id: `1` }, { foo: `baz`, _id: 2 }]
+  const result = filter({ defaultObject, array })
+  t.true(Array.isArray(result), `return an array`)
+  t.is(result.length, 1, `array has been filtered`)
+  t.is(result[0].foo, `baz`, `the right elements have been filtered`)
+  t.deepEqual(
+    initialDefaultObject,
+    defaultObject,
+    `keep the same default object`,
+  )
 })
 
 test(`coerce type`, t => {
