@@ -8,12 +8,13 @@ export interface QuotationConfig {
   prefix: string
   mentions: string
   tax: number
+  startAt: number
 }
 
 export interface Quotation {
   id: string
   reference: string
-  count: number
+
   name: string
   mentions: string
   tax: number
@@ -21,10 +22,6 @@ export interface Quotation {
   totalNet: number
   totalTax: number
   total: number
-  // sendAt:
-  // validatedAt:
-  // signedAt:
-  // archivedAt:
   userId: string
   customerId: string
   productConfigId: string
@@ -33,6 +30,22 @@ export interface Quotation {
   quotationConfig: QuotationConfig
   productConfig: ProductConfig
   customer: CustomerLight
+  // sequelize dates
+  createdAt: string
+  updatedAt: string
+  // status dates
+  sendAt: string
+  validatedAt: string
+  signedAt: string
+  archivedAt: string
+  // sequelize computed
+  _hasInvoice: boolean
+  _canBeArchived: boolean
+  _canCreateInvoice: boolean
+  // used to compute reference
+  index: number
+  // TODO: what is count?
+  // count: number
 }
 
 export interface GetAllQuotations {
