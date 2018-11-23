@@ -3,6 +3,7 @@ import Vue from 'vue'
 import {
   computeProductTotal,
   computeTotals,
+  computeQuotation,
   enforceNumber,
 } from '@acount/helpers'
 
@@ -15,12 +16,8 @@ export default Vue.extend({
     },
   },
   computed: {
-    products() {
-      return this.value.products.map((product, index) => ({
-        ...product,
-        total: computeProductTotal(product),
-        path: `products[${index}]`,
-      }))
+    quotation() {
+      return computeQuotation(this.value)
     },
     totals() {
       return computeTotals(this.value)
@@ -31,7 +28,7 @@ export default Vue.extend({
   },
   methods: {
     onInput(event) {
-      this.$emit(`input`, { ...this.value, products: this.products })
+      this.$emit(`input`, this.quotation)
     },
   },
 })
@@ -49,7 +46,7 @@ table.acount-table-edit-products(@input="onInput")
       th
   tbody
     tr(
-      v-for="(product, index) in products"
+      v-for="(product, index) in quotation.products"
       :key="product._id"
     )
       td.acount-table-cell
