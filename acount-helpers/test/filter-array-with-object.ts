@@ -33,7 +33,7 @@ test(`regular case`, t => {
   t.is(result[0].foo, `baz`, `the right elements have been filtered`)
 })
 
-test.only(`doesn't mutate default object`, t => {
+test(`doesn't mutate default object`, t => {
   const defaultObject = { foo: `bar`, ok: true }
   const initialDefaultObject = { ...defaultObject }
   const array = [{ foo: `bar`, _id: `1` }, { foo: `baz`, _id: 2 }]
