@@ -36,7 +36,7 @@ const MESSAGES = Object.freeze({
  * @apiDefine quotation
  * @apiSuccess {string} id the quotation id
  * @apiSuccess {string} reference the quotation reference
- * @apiSuccess {number} count the quotation number
+ * @apiSuccess {number} index the quotation number
  * @apiSuccess {string} name name of the quotation
  * @apiSuccess {string} mentions the quotation own mentions
  * @apiSuccess {number} tax the tax rate
