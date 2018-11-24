@@ -38,4 +38,8 @@ test(`check compute all`, t => {
     productConfig,
     `product configuration isn't mutated`,
   )
+  t.is(computed.products[0].total, 100, `total has been computed for products`)
+  t.is(computed.totalNet, 200, `total net has been computed`)
+  t.is(computed.totalTax, 20, `taxes has been computed`)
+  t.is(computed.total, 220, `total has been computed`)
 })

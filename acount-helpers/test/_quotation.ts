@@ -1,6 +1,6 @@
 export default {
   reference: 'QUOT-404',
-  tax: 0,
+  tax: 10,
   _hasInvoice: false,
   _canBeArchived: true,
   _canCreateInvoice: false,
@@ -10,15 +10,15 @@ export default {
   products: [
     {
       description: 'Fraises',
-      quantity: 25,
+      quantity: 10,
       price: 10,
       checked: true,
       _id: 'HyehXVyjhM',
     },
     {
       description: 'Mangues',
-      quantity: 5,
-      price: 15,
+      quantity: 20,
+      price: 5,
       checked: true,
       _id: 'ryx2NNJo2G',
     },

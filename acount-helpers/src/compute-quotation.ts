@@ -13,13 +13,14 @@ export interface Step {
   label: string
   value?: any
 }
-
 export type Steps = Step[]
-
+export interface DisplayProduct extends Product {
+  total?: number
+}
 export interface DisplayQuotation extends Quotation {
   steps: Steps
+  products: DisplayProduct[]
 }
-
 // const STEPS: Steps = Object.freeze([
 const STEPS: Steps = [
   { key: `sendAt`, label: `stepper.sent` },
@@ -46,7 +47,9 @@ export function steps(quotation: Quotation): DisplayQuotation {
 
 // • de-dupe defaultProduct lines
 // • check _id
-export function removeDefaultProducts(quotation: Quotation): Quotation {
+export function removeDefaultProducts(
+  quotation: DisplayQuotation,
+): DisplayQuotation {
   const defaultProduct = quotation.productConfig
   const products = quotation.products
   if (!Array.isArray(products)) return quotation
@@ -59,7 +62,7 @@ export function removeDefaultProducts(quotation: Quotation): Quotation {
   return quotation
 }
 
-export function recomputeTotals(quotation: Quotation): Quotation {
+export function recomputeTotals(quotation: DisplayQuotation): DisplayQuotation {
   if (!Array.isArray(quotation.products)) return quotation
   const totals = compute.totals(quotation)
   return merge(quotation, totals)
@@ -67,7 +70,7 @@ export function recomputeTotals(quotation: Quotation): Quotation {
 
 // • add an empty line a the end…
 //   …in case a user just type something on the blank one
-export function addEmptyLine(quotation: Quotation): Quotation {
+export function addEmptyLine(quotation: DisplayQuotation): DisplayQuotation {
   const defaultProduct = quotation.productConfig
   const { products } = quotation
   if (!Array.isArray(products)) return quotation
@@ -80,7 +83,7 @@ export function addEmptyLine(quotation: Quotation): Quotation {
   return quotation
 }
 
-export function ensureProductId(quotation: Quotation): Quotation {
+export function ensureProductId(quotation: DisplayQuotation): DisplayQuotation {
   const { products } = quotation
   if (!Array.isArray(products)) return quotation
   quotation.products = products.map(product => {
@@ -90,7 +93,9 @@ export function ensureProductId(quotation: Quotation): Quotation {
   return quotation
 }
 
-export function computeProductsTotal(quotation: Quotation): Quotation {
+export function computeProductsTotal(
+  quotation: DisplayQuotation,
+): DisplayQuotation {
   quotation.products = quotation.products.map(product => ({
     ...product,
     total: compute.productTotal(product),
@@ -98,7 +103,9 @@ export function computeProductsTotal(quotation: Quotation): Quotation {
   return quotation
 }
 
-export function setProductsFormPath(quotation: Quotation): Quotation {
+export function setProductsFormPath(
+  quotation: DisplayQuotation,
+): DisplayQuotation {
   quotation.products = quotation.products.map((product, index) => ({
     ...product,
     path: `products[${index}]`,
