@@ -2,10 +2,11 @@
 import Vue from 'vue'
 import { mapState, mapActions } from 'vuex'
 import cloneDeep from 'lodash.clonedeep'
+import { computeQuotation } from '@acount/helpers'
 
 import numberFormats from '~/locales/number-formats'
 import { QuotationsState, CustomersState } from '~/types/acount-store'
-import { READ_QUOTATION } from '~/store/quotations'
+import { READ_QUOTATION, UPDATE_QUOTATION } from '~/store/quotations'
 import { ALL_CUSTOMERS } from '~/store/customers'
 
 const i18n = {
@@ -35,7 +36,7 @@ export default Vue.extend({
     ])
   },
   created() {
-    this.form = cloneDeep(this.quotation)
+    this.form = computeQuotation(this.quotation)
   },
   data() {
     return {
@@ -50,12 +51,26 @@ export default Vue.extend({
       customers: state => state.active,
     }),
   },
+  methods: {
+    onSubmit() {
+      this.updateQuotation(this.form)
+    },
+    ...mapActions(`quotations`, {
+      updateQuotation: UPDATE_QUOTATION,
+    }),
+  },
 })
 </script>
 
 <template lang="pug">
-form
+form(
+  id="update-quotation"
+  @submit.prevent="onSubmit"
+)
   acount-main-content(:title="$t( `title`, {reference: form.reference} )")
+    template(slot="actions")
+      v-btn(fab dark color="accent" type="submit" form="update-quotation")
+        v-icon(dark medium) save
     acount-header
       .quotation-dates
         acount-datepicker(

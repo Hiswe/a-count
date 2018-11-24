@@ -32,6 +32,7 @@ export const mutations: MutationTree<QuotationsState> = {
 }
 
 export const READ_QUOTATION = `READ_QUOTATION`
+export const UPDATE_QUOTATION = `UPDATE_QUOTATION`
 export const ALL_QUOTATIONS = `ALL_QUOTATIONS`
 export const CUSTOMER_QUOTATIONS = `CUSTOMER_QUOTATIONS`
 export const actions: ActionTree<QuotationsState, RootState> = {
@@ -46,6 +47,19 @@ export const actions: ActionTree<QuotationsState, RootState> = {
       commit(SET_CURRENT, response)
     } catch (error) {
       console.log(`can't retrieve quotation`)
+    }
+  },
+  async [UPDATE_QUOTATION](vuexContext, payload) {
+    const { commit } = vuexContext
+    const { $axios } = <Vue>this
+    try {
+      const response = await $axios.$post<Quotation>(
+        `/quotations/${payload.id}`,
+        payload,
+      )
+      commit(SET_CURRENT, response)
+    } catch (error) {
+      console.error(`something went wrong while updating the quotation`)
     }
   },
   async [ALL_QUOTATIONS](vuexContext) {
