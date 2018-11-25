@@ -94,7 +94,7 @@ export default Vue.extend({
     @input="onInput"
     @focus="onFocus"
     @blur="onBlur"
-  )
+  ) {{ value }}
 </template>
 
 <style lang="scss" scoped>
