@@ -1,6 +1,6 @@
+import cloneDeep from 'lodash.clonedeep';
 import flow from 'lodash.flow';
 import isObject from 'lodash.isobject';
-import cloneDeep from 'lodash.clonedeep';
 import merge from 'lodash.merge';
 import shortid from 'shortid';
 
@@ -75,31 +75,50 @@ function filterArrayWithObject(_a) {
     return result;
 }
 
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
-
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
-
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
-***************************************************************************** */
-
-var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
+var EMPTY_PRODUCT_ID = shortid();
+function computeDisplayProducts(quotation) {
+    var defaultProduct = quotation.productConfig;
+    var products = quotation.products;
+    if (!Array.isArray(products))
+        return quotation;
+    if (!isObject(defaultProduct))
+        return quotation;
+    var cleanedProducts = filterArrayWithObject({
+        defaultObject: defaultProduct,
+        array: products,
+    });
+    quotation.products = cleanedProducts.map(function (product, index) {
+        return setFormPath(computeDisplayProduct(product), index);
+    });
+    // • add an empty line a the end…
+    //   …in case a user just type something on the blank one
+    var emptyProduct = merge({}, defaultProduct, {
+        _id: EMPTY_PRODUCT_ID,
+        checked: true,
+        description: "",
+        isEmptyLine: true,
+    });
+    quotation.products.push(emptyProduct);
+    return quotation;
+}
+function addEmptyLineInformation(product) {
+    product.isEmptyLine = false;
+    return product;
+}
+function ensureId(product) {
+    if (!product._id)
+        product._id = shortid();
+    return product;
+}
+function addTotal(product) {
+    product.total = productTotal(product);
+    return product;
+}
+var computeDisplayProduct = flow(addEmptyLineInformation, ensureId, addTotal);
+function setFormPath(product, index) {
+    product.path = "products[" + index + "]";
+    return product;
+}
 
 // const STEPS: Steps = Object.freeze([
 var STEPS = [
@@ -122,69 +141,13 @@ function steps(quotation) {
     var displayQuotation = merge(quotation, { steps: steps });
     return displayQuotation;
 }
-// • de-dupe defaultProduct lines
-// • check _id
-function removeDefaultProducts(quotation) {
-    var defaultProduct = quotation.productConfig;
-    var products = quotation.products;
-    if (!Array.isArray(products))
-        return quotation;
-    if (!isObject(defaultProduct))
-        return quotation;
-    var cleanedProducts = filterArrayWithObject({
-        defaultObject: defaultProduct,
-        array: products,
-    }).map(function (product) {
-        product.isEmptyLine = false;
-        return product;
-    });
-    quotation.products = cleanedProducts;
-    return quotation;
-}
 function recomputeTotals(quotation) {
     if (!Array.isArray(quotation.products))
         return quotation;
     var totals$$1 = totals(quotation);
     return merge(quotation, totals$$1);
 }
-// • add an empty line a the end…
-//   …in case a user just type something on the blank one
-function addEmptyLine(quotation) {
-    var defaultProduct = quotation.productConfig;
-    var products = quotation.products;
-    if (!Array.isArray(products))
-        return quotation;
-    if (!isObject(defaultProduct))
-        return quotation;
-    var emptyProduct = merge({}, defaultProduct, {
-        checked: true,
-        description: "",
-        isEmptyLine: true,
-    });
-    quotation.products.push(emptyProduct);
-    return quotation;
-}
-function ensureProductId(quotation) {
-    var products = quotation.products;
-    if (!Array.isArray(products))
-        return quotation;
-    quotation.products = products.map(function (product) {
-        if (!product._id)
-            product._id = shortid();
-        return product;
-    });
-    return quotation;
-}
-function computeProductsTotal(quotation) {
-    quotation.products = quotation.products.map(function (product) { return (__assign({}, product, { total: productTotal(product) })); });
-    return quotation;
-}
-function setProductsFormPath(quotation) {
-    quotation.products = quotation.products.map(function (product, index) { return (__assign({}, product, { path: "products[" + index + "]" })); });
-    return quotation;
-}
-var computeProducts = flow(removeDefaultProducts, recomputeTotals, addEmptyLine, ensureProductId, computeProductsTotal, setProductsFormPath);
-var products = flow(cloneQuotation, computeProducts);
-var all = flow(cloneQuotation, steps, computeProducts);
+var products = flow(cloneQuotation, computeDisplayProducts, recomputeTotals);
+var all = flow(cloneQuotation, steps, computeDisplayProducts, recomputeTotals);
 
 export { totals as computeTotals, productTotal as computeProductTotal, enforceNumber, filterArrayWithObject, products as computeQuotationProducts, all as computeQuotation };

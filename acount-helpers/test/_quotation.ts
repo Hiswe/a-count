@@ -13,6 +13,7 @@ export default {
       quantity: 10,
       price: 10,
       checked: true,
+      // @ts-ignore
       total: 0,
       _id: 'HyehXVyjhM',
     },
