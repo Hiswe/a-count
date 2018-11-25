@@ -18,7 +18,8 @@ function cleanProducts(params) {
     defaultObject: defaultProduct,
   }).map(product => {
     // handle checkbox result
-    product.checked = product.checked === `true`
+    // might be boolean or string (no-JS environment)
+    product.checked = `${product.checked}` === `true`
     return product
   })
 
