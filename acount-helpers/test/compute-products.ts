@@ -27,3 +27,27 @@ test(`compute display products`, t => {
   t.false(computed.products[2].isEmptyLine, `3rd product isn't an empty line`)
   t.true(computed.products[3].isEmptyLine, `last product is an empty line`)
 })
+
+test(`test with no empty products`, t => {
+  const quot = {
+    products: [
+      {
+        description: 'Fraises',
+        quantity: 10,
+        price: 10,
+        checked: true,
+      },
+    ],
+    productConfig: {
+      description: '',
+      quantity: 0,
+      price: 350,
+      checked: true,
+    },
+  }
+  // @ts-ignore
+  const computed = computeDisplayProducts(quot)
+  t.is(computed.products.length, 2, `has the right number of products`)
+  t.false(computed.products[0].isEmptyLine, `1st product isn't an empty line`)
+  t.true(computed.products[1].isEmptyLine, `last product is an empty line`)
+})
