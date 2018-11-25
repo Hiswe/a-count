@@ -49,11 +49,15 @@ table.acount-table-edit-products(@input="onInput")
       v-for="(product, index) in quotation.products"
       :key="product._id"
     )
-      td.acount-table-cell
+      td.acount-table-cell.acount-table-cell--checkbox
         input(
           type="hidden"
           :name="`${product.path}[_id]`"
           :value="product.id"
+        )
+        acount-checkbox(
+          :name="`${product.path}[checked]`"
+          v-model="product.checked"
         )
       td.acount-table-cell.acount-table-cell--description
         acount-textarea(
@@ -108,7 +112,8 @@ table.acount-table-edit-products(@input="onInput")
     &--price {
       padding: 0;
     }
-    &--description {
+    &--checkbox {
+      width: 2.5em;
     }
     &--quantity {
       width: 3em;

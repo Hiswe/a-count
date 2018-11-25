@@ -36,7 +36,7 @@ export default Vue.extend({
     ])
   },
   created() {
-    this.form = computeQuotation(this.quotation)
+    this.form = cloneDeep(this.quotation)
   },
   data() {
     return {

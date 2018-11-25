@@ -17,6 +17,7 @@ import {
   AcountTextarea,
   AcountSelect,
   AcountDatepicker,
+  AcountCheckbox,
 } from '~/components/form'
 import {
   AcountSheet,
@@ -36,6 +37,7 @@ Vue.component(`acount-input`, AcountInput)
 Vue.component(`acount-textarea`, AcountTextarea)
 Vue.component(`acount-select`, AcountSelect)
 Vue.component(`acount-datepicker`, AcountDatepicker)
+Vue.component(`acount-checkbox`, AcountCheckbox)
 Vue.component(`acount-tabs`, AcountTabs)
 Vue.component(`acount-tab`, AcountTab)
 Vue.component(`acount-paper`, AcountSheet)
