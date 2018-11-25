@@ -50,15 +50,16 @@ table.acount-table-edit-products(@input="onInput")
       :key="product._id"
     )
       td.acount-table-cell.acount-table-cell--checkbox
-        input(
-          type="hidden"
-          :name="`${product.path}[_id]`"
-          :value="product.id"
-        )
-        acount-checkbox(
-          :name="`${product.path}[checked]`"
-          v-model="product.checked"
-        )
+        template(v-if="!product.isEmptyLine")
+          input(
+            type="hidden"
+            :name="`${product.path}[_id]`"
+            :value="product.id"
+          )
+          acount-checkbox(
+            :name="`${product.path}[checked]`"
+            v-model="product.checked"
+          )
       td.acount-table-cell.acount-table-cell--description
         acount-textarea(
           :name="`${product.path}[description]`"

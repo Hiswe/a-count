@@ -140,6 +140,9 @@ function removeDefaultProducts(quotation) {
     var cleanedProducts = filterArrayWithObject({
         defaultObject: defaultProduct,
         array: products,
+    }).map(function (product) {
+        product.isEmptyLine = false;
+        return product;
     });
     quotation.products = cleanedProducts;
     return quotation;
@@ -162,6 +165,7 @@ function addEmptyLine(quotation) {
     var emptyProduct = merge({}, defaultProduct, {
         checked: true,
         description: "",
+        isEmptyLine: true,
     });
     quotation.products.push(emptyProduct);
     return quotation;

@@ -16,6 +16,7 @@ export interface Step {
 export type Steps = Step[]
 export interface DisplayProduct extends Product {
   total?: number
+  isEmptyLine?: boolean
 }
 export interface DisplayQuotation extends Quotation {
   steps: Steps
@@ -54,9 +55,12 @@ export function removeDefaultProducts(
   const products = quotation.products
   if (!Array.isArray(products)) return quotation
   if (!isObject(defaultProduct)) return quotation
-  const cleanedProducts = filterArrayWithObject<ProductConfig, Product>({
+  const cleanedProducts = filterArrayWithObject<ProductConfig, DisplayProduct>({
     defaultObject: defaultProduct,
     array: products,
+  }).map(product => {
+    product.isEmptyLine = false
+    return product
   })
   quotation.products = cleanedProducts
   return quotation
@@ -78,6 +82,7 @@ export function addEmptyLine(quotation: DisplayQuotation): DisplayQuotation {
   const emptyProduct = merge({}, defaultProduct, {
     checked: true,
     description: ``,
+    isEmptyLine: true,
   })
   quotation.products.push(emptyProduct)
   return quotation

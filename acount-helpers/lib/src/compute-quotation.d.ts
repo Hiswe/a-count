@@ -7,6 +7,7 @@ export interface Step {
 export declare type Steps = Step[];
 export interface DisplayProduct extends Product {
     total?: number;
+    isEmptyLine?: boolean;
 }
 export interface DisplayQuotation extends Quotation {
     steps: Steps;

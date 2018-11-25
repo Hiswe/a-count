@@ -12,12 +12,21 @@ declare const _default: {
         quantity: number;
         price: number;
         checked: boolean;
+        total: number;
         _id: string;
     } | {
         description: string;
         quantity: number;
         price: number;
         checked: boolean;
+        _id: string;
+        total?: undefined;
+    } | {
+        description: string;
+        quantity: number;
+        price: number;
+        checked: boolean;
+        total?: undefined;
         _id?: undefined;
     })[];
     totalNet: number;
