@@ -72,22 +72,22 @@ form(
       v-btn(fab dark color="accent" type="submit" form="update-quotation")
         v-icon(dark medium) save
     acount-header
-      .quotation-dates
-        acount-datepicker(
-          name="sendAt"
-          label="#sendAt"
-          v-model="form.sendAt"
-        )
-        acount-datepicker(
+      acount-stepper
+        acount-step(label="#send at" :value="form.sendAt")
+          acount-datepicker(
+            name="sendAt"
+            v-model="form.sendAt"
+          )
+        acount-step(label="#validated at" :value="form.validatedAt")
+          acount-datepicker(
           name="validatedAt"
-          label="#validatedAt"
           v-model="form.validatedAt"
         )
-        acount-datepicker(
-          name="signedAt"
-          label="#signedAt"
-          v-model="form.signedAt"
-        )
+        acount-step(label="#signed at" :value="form.signedAt")
+          acount-datepicker(
+            name="signedAt"
+            v-model="form.signedAt"
+          )
       .quotation-meta
         acount-select(
           v-model="form.customerId"

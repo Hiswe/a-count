@@ -26,6 +26,7 @@ import {
   AcountMentions,
   AcountReference,
 } from '~/components/paper'
+import { AcountStepper, AcountStep } from '~/components/stepper'
 
 Vue.component(`acount-notifications`, AcountNotifications)
 Vue.component(`acount-main-content`, AcountMainContent)
@@ -48,3 +49,5 @@ Vue.component(`acount-reference`, AcountReference)
 Vue.component(`acount-table-products`, AcountTableProducts)
 Vue.component(`acount-table-edit-products`, AcountTableEditProducts)
 Vue.component(`acount-date`, AcountDate)
+Vue.component(`acount-stepper`, AcountStepper)
+Vue.component(`acount-step`, AcountStep)
