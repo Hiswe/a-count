@@ -21,11 +21,16 @@ test(`compute display products`, t => {
     productConfig,
     `product configuration isn't mutated`,
   )
-  t.is(computed.products[0].total, 100, `total has been computed for products`)
-  t.false(computed.products[1].isEmptyLine, `1st product isn't an empty line`)
-  t.false(computed.products[0].isEmptyLine, `2nd product isn't an empty line`)
-  t.false(computed.products[2].isEmptyLine, `3rd product isn't an empty line`)
-  t.true(computed.products[3].isEmptyLine, `last product is an empty line`)
+  t.is(
+    computed.products[0].total,
+    100,
+    `total has been computed for 1st products`,
+  )
+  t.is(
+    computed.products[3].total,
+    0,
+    `total has been computed for empty products`,
+  )
 })
 
 test(`test with no empty products`, t => {

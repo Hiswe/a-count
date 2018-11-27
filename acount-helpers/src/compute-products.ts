@@ -32,6 +32,7 @@ export function computeDisplayProducts(
     checked: true,
     description: ``,
     isEmptyLine: true,
+    total: compute.productTotal(defaultProduct),
   })
   quotation.products.push(emptyProduct)
   return quotation
