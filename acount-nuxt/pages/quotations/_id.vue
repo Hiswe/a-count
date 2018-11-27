@@ -73,17 +73,17 @@ form(
         v-icon(dark medium) save
     acount-header
       acount-stepper
-        acount-step(label="#send at" :value="form.sendAt")
+        acount-step(:label="$t( `form.sendAt` )" :value="form.sendAt")
           acount-datepicker(
             name="sendAt"
             v-model="form.sendAt"
           )
-        acount-step(label="#validated at" :value="form.validatedAt")
+        acount-step(:label="$t( `form.validatedAt` )" :value="form.validatedAt")
           acount-datepicker(
           name="validatedAt"
           v-model="form.validatedAt"
         )
-        acount-step(label="#signed at" :value="form.signedAt")
+        acount-step(:label="$t( `form.signedAt` )" :value="form.signedAt")
           acount-datepicker(
             name="signedAt"
             v-model="form.signedAt"
@@ -117,12 +117,6 @@ form(
 </template>
 
 <style lang="scss" scoped>
-.quotation-dates {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: var(--s-gutter);
-  padding-bottom: var(--s-gutter);
-}
 .quotation-meta {
   display: grid;
   grid-template-columns: 1fr 150px;

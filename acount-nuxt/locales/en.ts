@@ -20,6 +20,9 @@ export default {
     name: `name`,
     update: `update`,
     subject: `subject`,
+    sendAt: `sent at`,
+    validatedAt: `validated at`,
+    signedAt: `signed at`,
   },
   notifications: {
     'user-not-found': `This account doesn't exist. Please very your email address.`,

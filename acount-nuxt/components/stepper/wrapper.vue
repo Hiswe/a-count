@@ -11,6 +11,7 @@ export default {
   data() {
     return {
       id: shortid(),
+      selected: 0,
     }
   },
   methods: {
@@ -18,19 +19,21 @@ export default {
       let index = 0
       const hasOneMissingStep = vNodes.some((vNode, i) => {
         const { propsData } = vNode.componentOptions
-        console.log(i, propsData.value)
         const hasNoValue = propsData.value == null || propsData.value === ``
         if (hasNoValue) index = i
         return hasNoValue
       })
-      return hasOneMissingStep ? index : vNodes.length
+      index = hasOneMissingStep ? index : vNodes.length
+      return Math.max(this.selected, index)
+    },
+    onSelect(index) {
+      this.selected = index
     },
   },
   render(h) {
     // have to be done in render to avoid loosing ctx
     const steps = filterNodes(this.$slots.default)
     const selectedIndex = this.getSelectedIndex(steps)
-    console.log({ selectedIndex })
     return (
       <div class="acount-stepper">
         {steps.map((vNode, index) => {
@@ -44,7 +47,11 @@ export default {
               id={id}
             />,
             <div class="acount-stepper__step">
-              <label class="acount-stepper__button" for={id}>
+              <label
+                class="acount-stepper__button"
+                for={id}
+                onClick={() => this.onSelect(index)}
+              >
                 {vNode.componentOptions.propsData.label}
               </label>
               <div class="acount-stepper__content">{vNode}</div>
@@ -88,18 +95,10 @@ export default {
   position: relative;
   // this to make the date picker show ok
   z-index: 2;
-  // TODO: remove dev styles
-  // background: yellow;
-  // min-height: 3rem;
-  margin-bottom: 1rem;
 
   &__input {
     counter-increment: steps;
-    // display: none;
-    // TODO: remove dev styles
-    position: absolute;
-    pointer-events: none;
-    top: -1rem;
+    display: none;
 
     &:nth-of-type(2) {
       left: 1rem;

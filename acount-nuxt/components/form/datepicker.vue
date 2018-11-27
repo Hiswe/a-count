@@ -63,6 +63,9 @@ export default Vue.extend({
     language() {
       return datepickerLocales[this.locale]
     },
+    wrapperClasses() {
+      return { 'acount-datepicker--no-label': !this.label }
+    },
     ...mapGetters(`user`, {
       locale: LOCALE,
     }),
@@ -79,8 +82,9 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-.acount-datepicker
+.acount-datepicker(:class="wrapperClasses")
   label.acount-datepicker__label(
+    v-if="label"
     :for="htmlFor"
   ) {{ label }}
   vuejs-datepicker.acount-datepicker__input(

@@ -9,7 +9,7 @@ export default Vue.extend({
       required: true,
     },
     value: {
-      // amy value is possible
+      // any value is possible
       validator() {
         return true
       },

@@ -45,6 +45,20 @@ $input-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
       border-bottom-color: currentColor;
     }
   }
+
+  // use case: in a table
+  &--no-label {
+    margin: 0;
+    padding: 0;
+
+    &::after {
+      display: none;
+    }
+    #{$root}__input {
+      border: 0;
+      padding: 0.5rem 0.75rem;
+    }
+  }
 }
 
 @mixin input-floating-label() {

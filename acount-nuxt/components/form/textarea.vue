@@ -106,20 +106,6 @@ export default Vue.extend({
   @include input-floating-label();
   $root: &;
 
-  // use case: in a table
-  &--no-label {
-    margin: 0;
-    padding: 0;
-
-    &::after {
-      display: none;
-    }
-    #{$root}__input {
-      border: 0;
-      padding: 0.5rem 0.75rem;
-    }
-  }
-
   &__input--autoresize {
     resize: none;
   }
