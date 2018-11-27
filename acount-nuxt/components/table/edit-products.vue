@@ -1,11 +1,6 @@
 <script lang="ts">
 import Vue from 'vue'
-import {
-  computeProductTotal,
-  computeTotals,
-  computeQuotation,
-  enforceNumber,
-} from '@acount/helpers'
+import { computeTotals, computeQuotation, enforceNumber } from '@acount/helpers'
 
 export default Vue.extend({
   name: `acount-edit-products`,
@@ -28,6 +23,13 @@ export default Vue.extend({
   },
   methods: {
     onInput(event) {
+      this.emitQuotation()
+    },
+    onRemove(index) {
+      this.quotation.products.splice(index, 1)
+      this.emitQuotation()
+    },
+    emitQuotation() {
       this.$emit(`input`, this.quotation)
     },
   },
@@ -84,7 +86,11 @@ table.acount-table-edit-products(@input="onInput")
         )
       td.acount-table-edit-products__cell.acount-table-cell--total
         | {{ $n(product.total, `currency` ) }}
-      td.acount-table-edit-products__cell
+      td.acount-table-edit-products__cell.acount-table-cell--remove
+        v-icon.acount-table-edit-products__icon-remove(
+          v-if="!product.isEmptyLine"
+          @click.prevent="onRemove(index)"
+        ) delete_forever
   tfoot.acount-table-edit-products__footer
     tr(v-if="tax")
       td.number(colspan="4") {{$t( `amount.ht` )}}
@@ -113,7 +119,8 @@ table.acount-table-edit-products(@input="onInput")
     &--price {
       padding: 0;
     }
-    &--checkbox {
+    &--checkbox,
+    &--remove {
       width: 2.5em;
     }
     &--quantity {
@@ -132,6 +139,9 @@ table.acount-table-edit-products(@input="onInput")
     width: 100%;
     display: block;
     padding: 0.5em 0.75em;
+  }
+  &__icon-remove {
+    color: var(--c-accent);
   }
   &__footer {
     background: var(--c-primary-lightest);

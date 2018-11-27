@@ -29,12 +29,6 @@ export default Vue.extend({
         'acount-checkbox__input--has-js': this.hasJS,
       }
     },
-    showIconEmpty() {
-      return this.hasJS && !this.value
-    },
-    showIconChecked() {
-      return this.hasJS && this.value
-    },
   },
   mounted() {
     this.hasJS = true
@@ -60,24 +54,30 @@ label.acount-checkbox(
     type="checkbox"
     @change="onChange"
   )
-  v-icon(v-if="showIconChecked").acount-checkbox__icon--checked check_box
-  v-icon(v-if="showIconEmpty") check_box_outline_blank
+  v-icon.acount-checkbox__icon.acount-checkbox__icon--checked
+    | check_box
+  v-icon.acount-checkbox__icon.acount-checkbox__icon--blank
+    | check_box_outline_blank
 </template>
 
 <style lang="scss" scoped>
 .acount-checkbox {
   display: inline-block;
+  $root: &;
 
   &__input {
-    &--has-js {
-      border: 0 !important;
-      clip: rect(0 0 0 0) !important;
-      height: 1px !important;
-      margin: -1px !important;
-      overflow: hidden !important;
-      padding: 0 !important;
-      position: absolute !important;
-      width: 1px !important;
+    border: 0 !important;
+    clip: rect(0 0 0 0) !important;
+    height: 1px !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    width: 1px !important;
+
+    &:checked ~ #{$root}__icon--blank,
+    &:not(:checked) ~ #{$root}__icon--checked {
+      display: none;
     }
   }
   &__icon {
