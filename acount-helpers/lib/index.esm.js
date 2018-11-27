@@ -97,6 +97,7 @@ function computeDisplayProducts(quotation) {
         checked: true,
         description: "",
         isEmptyLine: true,
+        total: productTotal(defaultProduct),
     });
     quotation.products.push(emptyProduct);
     return quotation;
