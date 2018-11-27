@@ -6,8 +6,6 @@ import {
   enforceNumber,
 } from '@acount/helpers'
 
-import numberFormats from '~/locales/number-formats'
-
 export default Vue.extend({
   name: `acount-table-product`,
   props: {
@@ -37,10 +35,10 @@ export default Vue.extend({
 table.acount-table-product
   thead
     tr.acount-table-product__header
-      th #description
-      th #quantity
-      th #unit-price
-      th #amount
+      th {{ $t(`table.header.description`) }}
+      th {{ $t(`table.header.quantity`) }}
+      th {{ $t(`table.header.unit-price`) }}
+      th {{ $t(`amount.total`) }}
   tbody
     tr(
       v-for="(product, index) in products"

@@ -19,6 +19,7 @@
     padding: 1em 1.3em;
     background: var(--products-header);
     color: white;
+    white-space: nowrap;
 
     @media #{$mq-print} {
       // box-shadow act as a background for print

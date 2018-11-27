@@ -41,10 +41,10 @@ table.acount-table-edit-products(@input="onInput")
   thead
     tr.acount-table-edit-products__header
       th
-      th #description
-      th #quantity
-      th #unit-price
-      th #amount
+      th {{ $t(`table.header.description`) }}
+      th {{ $t(`table.header.quantity`) }}
+      th {{ $t(`table.header.unit-price`) }}
+      th {{ $t(`amount.total`) }}
       th
   tbody
     tr(
