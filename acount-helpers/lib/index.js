@@ -4,10 +4,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var cloneDeep = _interopDefault(require('lodash.clonedeep'));
-var flow = _interopDefault(require('lodash.flow'));
-var isObject = _interopDefault(require('lodash.isobject'));
 var merge = _interopDefault(require('lodash.merge'));
+var isObject = _interopDefault(require('lodash.isobject'));
+var flow = _interopDefault(require('lodash.flow'));
+var cloneDeep = _interopDefault(require('lodash.clonedeep'));
 var shortid = _interopDefault(require('shortid'));
 
 function roundToNearestQuarter(number) {
@@ -151,8 +151,8 @@ function steps(quotation) {
 function recomputeTotals(quotation) {
     if (!Array.isArray(quotation.products))
         return quotation;
-    var totals$$1 = totals(quotation);
-    return merge(quotation, totals$$1);
+    var totals$1 = totals(quotation);
+    return merge(quotation, totals$1);
 }
 var products = flow(cloneQuotation, computeDisplayProducts, recomputeTotals);
 var all = flow(cloneQuotation, steps, computeDisplayProducts, recomputeTotals);

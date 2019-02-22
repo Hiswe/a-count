@@ -1,7 +1,7 @@
-import cloneDeep from 'lodash.clonedeep';
-import flow from 'lodash.flow';
-import isObject from 'lodash.isobject';
 import merge from 'lodash.merge';
+import isObject from 'lodash.isobject';
+import flow from 'lodash.flow';
+import cloneDeep from 'lodash.clonedeep';
 import shortid from 'shortid';
 
 function roundToNearestQuarter(number) {
@@ -145,8 +145,8 @@ function steps(quotation) {
 function recomputeTotals(quotation) {
     if (!Array.isArray(quotation.products))
         return quotation;
-    var totals$$1 = totals(quotation);
-    return merge(quotation, totals$$1);
+    var totals$1 = totals(quotation);
+    return merge(quotation, totals$1);
 }
 var products = flow(cloneQuotation, computeDisplayProducts, recomputeTotals);
 var all = flow(cloneQuotation, steps, computeDisplayProducts, recomputeTotals);

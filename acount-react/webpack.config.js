@@ -1,4 +1,4 @@
-`use strict`
+'use strict'
 
 const path = require(`path`)
 const chalk = require(`chalk`)
@@ -63,9 +63,9 @@ const server = {
   externals: [
     nodeExternals(),
     nodeExternals({
-      modulesDir: path.resolve(__dirname, '../node_modules')
+      modulesDir: path.resolve(__dirname, '../node_modules'),
     }),
-],
+  ],
   devtool: `inline-source-map`,
   module: {
     rules: [
@@ -166,7 +166,6 @@ const client = {
               options: {
                 sourceMap: isDev,
                 url: false,
-                minimize: isProd,
               },
             },
             {
