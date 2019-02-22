@@ -8,7 +8,6 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/acount-server.js",
-    "build": "echo nuxt build skipped for root build",
     "build:nuxt": "nuxt build",
     "build:server": "parcel build server/acount-server.ts --target node",
     "dev": "run-p dev:*",

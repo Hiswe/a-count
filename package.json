@@ -7,16 +7,16 @@
   "author": "Hiswe <hiswehalya@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "yarn build && yarn start",
-    "build": "yarn workspaces run build",
+    "start": "yarn build && yarn serve",
+    "build": "yarn wsrun --parallel --exclude-missing build",
     "build:helpers": "yarn workspace @acount/helpers build",
     "build:api:doc": "yarn workspace @acount/api build:api-doc",
-    "server": "yarn wsrun --parallel serve",
-    "dev": "yarn wsrun --parallel dev",
+    "dev": "yarn wsrun --parallel --exclude-missing dev",
     "dev:api": "yarn workspace @acount/api dev",
     "dev:nuxt": "yarn workspace @acount/nuxt dev",
     "release": "lerna publish --skip-npm --force-publish=* && yarn run release:git",
     "release:git": "lerna run build --scope=web-app && parallelshell \"node bin/release-api.js\" \"node bin/release-webapp.js\"",
+    "serve": "yarn wsrun --parallel --exclude-missing serve",
     "toc": "doctoc *.md --github"
   },
   "engines": {
