@@ -35,7 +35,7 @@
     ]
   },
   "dependencies": {
-    "@sindresorhus/slugify": "^0.6.0",
+    "@sindresorhus/slugify": "^0.8.0",
     "chalk": "^2.4.1",
     "classnames": "^2.2.6",
     "crio": "^5.0.1",
@@ -51,13 +51,13 @@
     "koa-json": "^2.0.2",
     "koa-logger": "^3.2.0",
     "koa-router": "^7.4.0",
-    "koa-sslify": "^2.1.2",
+    "koa-sslify": "^4.0.3",
     "koa-static": "^5.0.0",
     "lodash.flow": "^3.5.0",
     "lodash.isnil": "^4.0.0",
     "lodash.merge": "^4.6.1",
     "lodash.round": "^4.0.4",
-    "marked": "^0.5.2",
+    "marked": "^0.6.1",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
     "query-string": "^6.1.0",
@@ -89,11 +89,11 @@
     "@babel/register": "^7.0.0-beta.51",
     "@babel/runtime": "^7.1.5",
     "autoprefixer": "^9.3.1",
-    "ava": "1.0.0-beta.3",
-    "babel-loader": "8.0.4",
+    "ava": "1.2.1",
+    "babel-loader": "8.0.5",
     "babel-plugin-transform-require-ignore": "^0.1.1",
     "browser-sync": "^2.24.4",
-    "css-loader": "^1.0.1",
+    "css-loader": "^2.1.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
@@ -105,7 +105,7 @@
     "gulp-sloc2": "^1.0.1",
     "gulp-svg-symbols": "^3.2.3",
     "jsdom": "^13.0.0",
-    "node-sass": "4.10.0",
+    "node-sass": "4.11.0",
     "nodemon": "^1.18.6",
     "npm-run-all": "^4.1.5",
     "parallelshell": "^3.0.2",
@@ -119,6 +119,6 @@
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.0.8",
     "webpack-node-externals": "^1.7.2",
-    "yargs": "^12.0.5"
+    "yargs": "^13.2.1"
   }
 }
